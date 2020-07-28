@@ -14,6 +14,8 @@ public class HpMemberVO {
 	private int status;
 	// 상세정보 등록 상태
 	private int infoStatus;
+	private HpInfoVO hpinfo;
+	
 	
 	public HpMemberVO() {}
 
