@@ -17,10 +17,10 @@
 	<link rel="stylesheet" href="<%=ctxPath%>/resources/css/pignose.calendar.min.css">
 	<link rel="stylesheet" href="<%=ctxPath%>/resources/css/pignose.calendar.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
-	<script src="<%=ctxPath%>/resources/js/pignose.calendar.min.js"></script>
-	<script src="<%=ctxPath%>/resources/js/pignose.calendar.full.min.js"></script>
-	<script src="<%=ctxPath%>/resources/js/pignose.calendar.full.js"></script>
-	<script src="<%=ctxPath%>/resources/js/pignose.calendar.js"></script>
+	<script src="<%=ctxPath%>/resources/js/pg-calendar/dist/js/pignose.calendar.full.js"></script>
+	<script src="<%=ctxPath%>/resources/js/pg-calendar/dist/js/pignose.calendar.min.js"></script>
+	<script src="<%=ctxPath%>/resources/js/pg-calendar/dist/js/pignose.calendar.full.min.js"></script>
+	<script src="<%=ctxPath%>/resources/js/pg-calendar/dist/js/pignose.calendar.js"></script>
 	<script type="text/javascript">
 $(document).ready(function(){
 		
