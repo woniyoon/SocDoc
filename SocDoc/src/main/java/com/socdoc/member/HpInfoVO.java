@@ -10,13 +10,19 @@ public class HpInfoVO {
 	private String info;
 	private double latitude;
 	private double longitude;
+	private int open;
+	private int close;
+	private String mainImg;
+	private String subImg1;
+	private String subImg2;
+	
 	
 	public HpInfoVO() {
 		
-	}
-
+	}	
+	
 	public HpInfoVO(String dept, String hpName, String address, String addressDetail, String tel, String info,
-			double latitude, double longitude) {
+			double latitude, double longitude, int open, int close, String mainImg, String subImg1, String subImg2) {
 		super();
 		this.dept = dept;
 		this.hpName = hpName;
@@ -26,6 +32,11 @@ public class HpInfoVO {
 		this.info = info;
 		this.latitude = latitude;
 		this.longitude = longitude;
+		this.open = open;
+		this.close = close;
+		this.mainImg = mainImg;
+		this.subImg1 = subImg1;
+		this.subImg2 = subImg2;
 	}
 
 	public String getDept() {
