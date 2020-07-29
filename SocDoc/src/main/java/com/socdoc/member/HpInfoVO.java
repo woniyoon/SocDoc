@@ -102,6 +102,46 @@ public class HpInfoVO {
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
+
+	public int getOpen() {
+		return open;
+	}
+
+	public void setOpen(int open) {
+		this.open = open;
+	}
+
+	public int getClose() {
+		return close;
+	}
+
+	public void setClose(int close) {
+		this.close = close;
+	}
+
+	public String getMainImg() {
+		return mainImg;
+	}
+                                                                                                                                                                                                                
+	public void setMainImg(String mainImg) {
+		this.mainImg = mainImg;
+	}
+
+	public String getSubImg1() {
+		return subImg1;
+	}
+
+	public void setSubImg1(String subImg1) {
+		this.subImg1 = subImg1;
+	}
+
+	public String getSubImg2() {
+		return subImg2;
+	}
+
+	public void setSubImg2(String subImg2) {
+		this.subImg2 = subImg2;
+	}
 	
 	
 }
