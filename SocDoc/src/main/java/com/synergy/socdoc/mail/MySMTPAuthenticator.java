@@ -1,4 +1,4 @@
-package com.socdoc.mail;
+package com.synergy.socdoc.mail;
 
 import javax.mail.*;
 

@@ -1,4 +1,4 @@
-package com.socdoc.common;
+package com.synergy.socdoc.common;
 
 import java.security.MessageDigest;
 

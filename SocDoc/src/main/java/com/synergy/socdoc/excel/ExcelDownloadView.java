@@ -1,4 +1,4 @@
-package com.socdoc.excel;
+package com.synergy.socdoc.excel;
 
 import java.io.OutputStream;
 import java.net.URLEncoder;

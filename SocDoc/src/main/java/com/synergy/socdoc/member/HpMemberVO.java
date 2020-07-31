@@ -1,4 +1,4 @@
-package com.socdoc.member;
+package com.synergy.socdoc.member;
 
 public class HpMemberVO {
 	

@@ -1,4 +1,4 @@
-package com.socdoc.common;
+package com.synergy.socdoc.common;
 
 import java.awt.image.*;
 import java.awt.image.renderable.ParameterBlock;
