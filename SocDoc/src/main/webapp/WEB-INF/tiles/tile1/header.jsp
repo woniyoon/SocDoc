@@ -28,7 +28,17 @@
 	//System.out.println("serverName : " + serverName);
 	//serverName : http://192.168.50.65:9090 
 %>
-<div align="center">
+<header>
+        <img id="logo" src="https://image.flaticon.com/icons/svg/3017/3017701.svg" width=80px height=80px />
+        <ul class="headerMenu">
+            <li><a>찾기</a></li>
+            <li><a>예약</a></li>
+            <li><a>후기</a></li>
+            <li><a>알림소식</a></li>
+        </ul>
+    </header>
+
+<%-- <div align="center">
 	<ul class="nav nav-tabs mynav">
 		<li class="dropdown"><a class="dropdown-toggle"
 			data-toggle="dropdown" href="#">Home <span class="caret"></span></a>
@@ -41,9 +51,9 @@
 			data-toggle="dropdown" href="#">게시판 <span class="caret"></span></a>
 			<ul class="dropdown-menu">
 				<li><a href="<%=ctxPath%>/list.action">목록보기</a></li>
-			<%-- 	<c:if test="${not empty sessionScope.loginuser}"> --%>
+				<c:if test="${not empty sessionScope.loginuser}">
 					<li><a href="<%=ctxPath%>/add.action">글쓰기</a></li>
-			<%-- 	</c:if> --%>
+				</c:if>
 				<li><a href="#">Submenu 1-3</a></li>
 			</ul></li>
 		<li class="dropdown"><a class="dropdown-toggle"
@@ -92,7 +102,7 @@
 	</c:if>
 	
 	</ul>
-</div>    
+</div>     --%>
     
     
     
