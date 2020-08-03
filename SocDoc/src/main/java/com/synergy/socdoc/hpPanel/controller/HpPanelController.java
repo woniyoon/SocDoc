@@ -16,7 +16,7 @@ public class HpPanelController {
 		
 		request.setAttribute("content", "Controller에서 넘어온 문구입니다.");
 		
-		return "hpPanel/main.tiles1";
+		return "hpPanel/main.tiles4";
 	}
 
 //	@RequestMapping(value = "/hpPanel.action", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
