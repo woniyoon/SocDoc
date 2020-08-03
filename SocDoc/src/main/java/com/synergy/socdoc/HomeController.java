@@ -33,7 +33,7 @@ public class HomeController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = "/index", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value = "/index.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	public String home(HttpServletRequest request) {
 //		logger.info("Welcome home! The client locale is {}.", locale);
 //		
