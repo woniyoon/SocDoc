@@ -28,9 +28,16 @@ header {
 	padding: 0;
 }
 
-/*  header 끝  */
 ul {
 	list-style-type: none;
+}
+
+/*  header 끝  */
+
+#sideMenuList {
+	list-style-type: disc;
+	padding-inline-start: 20px;
+	margin: 10px 0 0 0;
 }
 
 main {
@@ -45,6 +52,14 @@ main {
 #sideMenu {
 	flex: 1;
 	border: 1px solid navy;
+	padding: 40px 0 0 40px;
+	font-size: 1.2em;
+}
+
+#contents {
+	flex: 6;
+	height: auto;
+	margin: auto;
 }
 
 /*  sideMenu 끝  */

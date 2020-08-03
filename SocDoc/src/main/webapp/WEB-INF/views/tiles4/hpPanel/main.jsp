@@ -1,24 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<style>
-	#contents {
-		flex: 4;
-		height: auto;
-		margin: auto;
-	}
-	
+<style>	
 	#scheduleTbl, thead, tbody, td {
-		width: 50vw;
+		width: 40vw;
 		border: 2px solid grey;
 		border-collapse: collapse;
 	}
 	
 	#reviewBoard, thead, tfoot {
-		width: 50vw;
+		width: 40vw;
 		border: 2px solid grey;
 		border-collapse: collapse;
 	}
+	
+	td {
+		padding: 10px 20px;
+	}
+	
+	th {
+		padding: 10px;
+	}
+	
+	#scheduleTbl td {
+		line-height: 2;
+	}
+	
 </style>
 
 <div id="contents" align="center">
@@ -69,22 +76,25 @@
 		<tbody>
 			<!-- 동적으로 생성되는 부분 ⬇️-->
 			<tr>
-				<td>woniyoon</td>
-				<td>☆☆☆☆☆</td>
-				<td>좋아요~~~</td>
-				<td>2020-07-24</td>
+				<td colspan="4">
+					<span>
+						woniyoon   ☆☆☆☆☆    좋아요 ~~~   2020-07-24
+					</span>
+				</td>
 			</tr>
 			<tr>
-				<td>woniyoon</td>
-				<td>☆☆☆☆☆</td>
-				<td>좋아요~~~</td>
-				<td>2020-07-24</td>
+				<td colspan="4">
+					<span>
+						woniyoon   ☆☆☆☆☆    좋아요 ~~~   2020-07-24
+					</span>
+				</td>
 			</tr>
 			<tr>
-				<td>woniyoon</td>
-				<td>☆☆☆☆☆</td>
-				<td>좋아요~~~</td>
-				<td>2020-07-24</td>
+				<td colspan="4">
+					<span>
+						woniyoon   ☆☆☆☆☆    좋아요 ~~~   2020-07-24
+					</span>
+				</td>
 			</tr>
 			<!-- 동적으로 생성되는 부분 ⬆️-->
 		</tbody>
