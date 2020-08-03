@@ -9,4 +9,5 @@
 	<select id="getContent" resultType="String">
 		select content from tblboard where seq = 2
 	</select>
+	
 </mapper>
