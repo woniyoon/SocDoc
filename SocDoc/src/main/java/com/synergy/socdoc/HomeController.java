@@ -44,12 +44,12 @@ public class HomeController {
 //		
 //		model.addAttribute("serverTime", formattedDate );
 		
-		String content = service.getContent();
-		System.out.println(content);
+//		String content = service.getContent();
+//		System.out.println(content);
 		
-		request.setAttribute("content", content);
-		
-		return "home";
+//		request.setAttribute("content", content);
+
+		return "main/home.tiles1";
 	}
 	
 }
