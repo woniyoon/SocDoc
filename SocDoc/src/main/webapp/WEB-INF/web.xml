@@ -31,7 +31,7 @@
 
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
-		<url-pattern>/</url-pattern>
+		<url-pattern>*.sd</url-pattern>
 	</servlet-mapping>
 
 	<!-- === #14. POST 방식으로 요청시 데이터 인코딩처리(UTF-8)를 위한 필터추가 -->
