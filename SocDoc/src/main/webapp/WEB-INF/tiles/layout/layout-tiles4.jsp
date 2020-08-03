@@ -23,7 +23,9 @@
 	<tiles:insertAttribute name="header" />
 	<main>
 		<tiles:insertAttribute name="sideinfo" />
-		<tiles:insertAttribute name="content" />
+		<div id="contents" align="center">
+			<tiles:insertAttribute name="content" />
+		</div>
 	</main>
 
 	<tiles:insertAttribute name="footer" />
