@@ -14,8 +14,8 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-	<link rel="stylesheet" href="<%=ctxPath%>/resources/css/pignose.calendar.min.css">
-	<link rel="stylesheet" href="<%=ctxPath%>/resources/css/pignose.calendar.css">
+	<link rel="stylesheet" href="<%=ctxPath%>/resources/pg-calendar/dist/css/pignose.calendar.min.css">
+	<link rel="stylesheet" href="<%=ctxPath%>/resources/pg-calendar/dist/css/pignose.calendar.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
 	<script src="<%=ctxPath%>/resources/pg-calendar/dist/js/pignose.calendar.full.js"></script>
 	<script src="<%=ctxPath%>/resources/pg-calendar/dist/js/pignose.calendar.min.js"></script>
