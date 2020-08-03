@@ -28,8 +28,6 @@
 	
 </style>
 
-<div id="contents" align="center">
-	<!-- 스케줄 패널 -->
 	<table id="scheduleTbl">
 		<thead>
 			<tr>
@@ -104,4 +102,3 @@
 			</tr>
 		</tfoot>
 	</table>
-</div>
