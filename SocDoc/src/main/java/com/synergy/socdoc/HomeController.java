@@ -32,8 +32,10 @@ public class HomeController {
 	@Autowired
 	private InterService service;
 	
-	
-	@RequestMapping(value = "/index", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+	/**
+	 * Simply selects the home view to render by returning its name.
+	 */
+	@RequestMapping(value = "/index.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	public String home(HttpServletRequest request) {
 //		logger.info("Welcome home! The client locale is {}.", locale);
 //		
@@ -44,12 +46,12 @@ public class HomeController {
 //		
 //		model.addAttribute("serverTime", formattedDate );
 		
-		String content = service.getContent();
-		System.out.println(content);
+//		String content = service.getContent();
+//		System.out.println(content);
 		
-		request.setAttribute("content", content);
-		
-		return "home";
+//		request.setAttribute("content", content);
+
+		return "main/home.tiles1";
 	}
 	
 	
