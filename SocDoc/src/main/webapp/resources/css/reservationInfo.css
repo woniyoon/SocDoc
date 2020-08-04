@@ -1,0 +1,142 @@
+.container {
+	width: 35vw;
+	margin: 40px;
+}
+
+h2 {
+    margin: 0 0 20px 0;
+}
+
+/* 달력 파트 */
+
+.schedulePanel {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid red;
+}
+
+.calendarContainer {
+    flex: 3;
+    border: 1px solid blue;
+}
+
+.timetableContainer {
+    flex: 1;
+    border: 1px solid green;
+}
+
+/* 오늘의 방문예정자 파트 */
+
+.reservationPanel {
+	width: 100%;
+}
+
+#visitorTbl {
+    width: 100%;
+}
+
+#visitorTbl,
+thead,
+tbodyd {
+    border: 1px solid grey;
+    border-collapse: collapse;
+}
+
+/* 모달창 만들기 */
+
+.hidden {
+    display: none;
+}
+
+.modalContainer {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;	/* 달력의 화살표가 튀어나오지 않게 방지 */
+}
+
+.modalOverlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.modalContent {
+    background-color: white;
+    width: 30%;
+    height: 50%;
+    position: relative;
+    padding: 20px;
+    border: 1px solid rgb(230, 230, 230);
+}
+
+.modalContentHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+/* 캘린더 라이브러리 사이즈 수정 */
+
+.pignose-calendar {
+    width: 100% !important;
+    max-width: 320px;
+}
+
+.pignose-calendar .pignose-calendar-unit {
+    height: 3em;
+}
+
+.pignose-calendar-top {
+    padding: 2em 0.5em !important;
+}
+
+.pignose-calendar .pignose-calendar-top-date {
+    padding: 1em 0 0 0 !important;
+    top: 0;
+}
+
+.pignose-calendar-top-month {
+    margin-bottom: 0;
+}
+
+.pignose-calendar .pignose-calendar-header {
+    margin-top: 0.5em;
+}
+
+.pignose-calendar .pignose-calendar-body {
+    padding: 0.8em;
+}
+
+.pignose-calendar .pignose-calendar-unit {
+    line-height: 2em;
+    height: 2.5em;
+}
+
+.pignose-calendar .pignose-calendar-unit a {
+    width: 2em;
+    height: 2em;
+    line-height: 2em;
+}
+
+/* 브라우저 사이즈 축소시, calendarContainer와 timetableContainer를 상하로 배치 */
+
+@media (max-width:1000px) {
+    main {
+        width: 60vw;
+    }
+
+    .calendarContainer {
+        background-color: red;
+    }
+
+    .schedulePanel {
+        flex-direction: column;
+    }
+}
