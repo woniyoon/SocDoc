@@ -12,6 +12,7 @@ h2 {
 .schedulePanel {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     border: 1px solid red;
 }
 
@@ -21,7 +22,7 @@ h2 {
 }
 
 .timetableContainer {
-    flex: 1;
+    width: 40%;
     border: 1px solid green;
 }
 
@@ -84,13 +85,19 @@ tbodyd {
 
 /* 캘린더 라이브러리 사이즈 수정 */
 
-.pignose-calendar {
-    width: 100% !important;
-    max-width: 320px;
+.calendar {
+	width: 55%;
 }
 
-.pignose-calendar .pignose-calendar-unit {
+.pignose-calendar {
+    width: 100% !important;
+    max-width: 300px;
+  	background-color: grey;
+}
+
+.pignose-calendar .pignose-calendar-unit {	/* 달력 일수 칸  */
     height: 3em;
+    
 }
 
 .pignose-calendar-top {
@@ -129,7 +136,7 @@ tbodyd {
 
 @media (max-width:1000px) {
     main {
-        width: 60vw;
+        width: 80vw;
     }
 
     .calendarContainer {
@@ -138,5 +145,9 @@ tbodyd {
 
     .schedulePanel {
         flex-direction: column;
+    }
+    
+    .calendar {
+    	width: 100%;
     }
 }
