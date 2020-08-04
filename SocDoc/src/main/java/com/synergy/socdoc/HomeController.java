@@ -46,8 +46,8 @@ public class HomeController {
 //		
 //		model.addAttribute("serverTime", formattedDate );
 		
-//		String content = service.getContent();
-//		System.out.println(content);
+		String content = service.getContent();
+		System.out.println("DB에서 가져온 이메일 주소 : " + content);
 		
 //		request.setAttribute("content", content);
 
