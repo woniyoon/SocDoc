@@ -71,9 +71,11 @@ tbodyd {
 .modalContent {
     background-color: white;
     width: 30%;
-    height: 50%;
+    height: auto;
+    min-height: 40%;
+    max-height: 60%;
     position: relative;
-    padding: 20px;
+    padding: 30px;
     border: 1px solid rgb(230, 230, 230);
 }
 
@@ -81,6 +83,18 @@ tbodyd {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.visitorDetail {
+	width: 90%;
+	margin: 20px 0 0 0;	
+}
+
+.visitorDetail tr, .visitorDetail td {
+	border-top: 1px solid grey;
+	border-bottom: 1px solid grey;
+	border-collapse: collapse;
+	padding: 10px 0;	
 }
 
 /* 캘린더 라이브러리 사이즈 수정 */

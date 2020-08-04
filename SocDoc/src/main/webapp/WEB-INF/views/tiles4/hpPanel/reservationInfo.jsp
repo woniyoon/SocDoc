@@ -178,18 +178,31 @@
 						onclick="closeModal()">X</span>
 				</div>
 				<!-- ajax를 이용해, 동적으로 생성 ⬇️-->
-				<table>
-					<tr>
+				<table class="visitorDetail" >
+					<tr align="center">
 						<td>성명</td>
 						<td>김나나</td>
 					</tr>
-					<tr>
+					<tr align="center">
 						<td>생년월일</td>
 						<td>1999.02.02</td>
 					</tr>
-					<tr>
+					<tr align="center">
 						<td>나이</td>
 						<td>만 20세</td>
+					</tr>
+					<tr align="center">
+						<td>성별</td>
+						<td>여자</td>
+					</tr>
+					<tr align="center">
+						<td>연락처</td>
+						<td>010-4012-3123</td>
+					</tr>
+					<tr align="center">
+						<td>방문이력</td>
+						<td>^^)7
+						</td>
 					</tr>
 				</table>
 				<!-- 동적으로 생성되는 부분 ⬆️-->
