@@ -124,7 +124,7 @@
 	</div>
 	<div class="reservationPanel">
 		<h3>오늘의 방문예정자</h3>
-		<table id="visitorTbl" align="center">
+		<table class="customTable" id="visitorTbl" align="center">
 			<thead>
 				<tr>
 					<th>번호</th>
@@ -178,7 +178,7 @@
 						onclick="closeModal()">X</span>
 				</div>
 				<!-- ajax를 이용해, 동적으로 생성 ⬇️-->
-				<table class="visitorDetail" >
+				<table class="visitorDetail customTable" >
 					<tr align="center">
 						<td>성명</td>
 						<td>김나나</td>

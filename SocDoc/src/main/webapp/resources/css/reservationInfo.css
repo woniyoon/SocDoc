@@ -30,17 +30,15 @@ h2 {
 
 .reservationPanel {
 	width: 100%;
+	margin: 10px;
+}
+
+h3 {
+	margin: 30px;
 }
 
 #visitorTbl {
     width: 100%;
-}
-
-#visitorTbl,
-thead,
-tbodyd {
-    border: 1px solid grey;
-    border-collapse: collapse;
 }
 
 /* 모달창 만들기 */
@@ -72,7 +70,7 @@ tbodyd {
     background-color: white;
     width: 30%;
     height: auto;
-    min-height: 40%;
+    min-height: 50%;
     max-height: 60%;
     position: relative;
     padding: 30px;
@@ -87,12 +85,11 @@ tbodyd {
 
 .visitorDetail {
 	width: 90%;
-	margin: 20px 0 0 0;	
+	margin: 40px 0 0 0;	
 }
 
 .visitorDetail tr, .visitorDetail td {
-	border-top: 1px solid grey;
-	border-bottom: 1px solid grey;
+	border-top: 1px solid #dddddd;
 	border-collapse: collapse;
 	padding: 10px 0;	
 }
