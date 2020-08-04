@@ -2,20 +2,21 @@ package com.synergy.socdoc.hpPanel.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.synergy.service.InterService;
+
 @Component
 @Controller
 public class HpPanelController {
-
+	
 	@RequestMapping(value = "/hpPanel/main.sd", method = RequestMethod.GET)
 	public String main(HttpServletRequest request) {
-		
-		request.setAttribute("content", "Controller에서 넘어온 문구입니다.");
-		
+
 		return "hpPanel/main.tiles4";
 	}
 
@@ -23,6 +24,12 @@ public class HpPanelController {
 	public String hpInfo(HttpServletRequest request) {
 		
 		return "hpPanel/hpInfo.tiles4";
+	}
+
+	@RequestMapping(value = "/hpPanel/reservationInfo.sd", method = RequestMethod.GET)
+	public String reservationInfo(HttpServletRequest request) {
+		
+		return "hpPanel/reservationInfo.tiles4";
 	}
 
 }
