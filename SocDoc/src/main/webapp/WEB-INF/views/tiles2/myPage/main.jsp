@@ -56,7 +56,7 @@
 
     #sideMenu {
         flex: 1;
-        border: 1px solid navy;
+        /* border: 1px solid navy; */
     }
 
     #contents {
@@ -112,7 +112,7 @@
 </style>
 </head>
 <body>
-    <header>
+   <!--  <header>
         <img id="logo" src="/JqueryStudy/logo.jpg" width=80px height=80px />
         <ul class="headerMenu">
             <li><a>찾기</a></li>
@@ -120,19 +120,19 @@
             <li><a>후기</a></li>
             <li><a>알림소식</a></li>
         </ul>
-    </header>
+    </header> -->
     <main>
         <div id="sideMenu">
-            <ul>
+            <ul style="margin-left: 50px;">
             	<li><h3>관련 콘텐츠</h3></li>
-                <li><a href="<%= request.getContextPath()%>/infoEdit">· 회원정보수정</a></li>
-                <li><a href="<%= request.getContextPath()%>/askList">· 문의내역</a></li>
-                <li><a href="<%= request.getContextPath()%>/myHealth">· 내 건강</a></li>
-                <li><a href="<%= request.getContextPath()%>/bookMark">· 병원 즐겨찾기</a></li>
-                <li><a href="<%= request.getContextPath()%>/reservation">· 예약확인</a></li>
-                <li><a href="<%= request.getContextPath()%>/viewHistory">· 최근 진료이력조회</a></li>
+                <li><a href="<%= request.getContextPath()%>/infoEdit.sd">· 회원정보수정</a></li>
+                <li><a href="<%= request.getContextPath()%>/askList.sd">· 문의내역</a></li>
+                <li><a href="<%= request.getContextPath()%>/myHealth.sd">· 내 건강</a></li>
+                <li><a href="<%= request.getContextPath()%>/bookMark.sd">· 병원 즐겨찾기</a></li>
+                <li><a href="<%= request.getContextPath()%>/reservation.sd">· 예약확인</a></li>
+                <li><a href="<%= request.getContextPath()%>/viewHistory.sd">· 최근 진료이력조회</a></li>
             </ul>
-            <ul style="display:inline-block; margin-top: 20px;">
+            <ul style="display:inline-block; margin-top: 20px; margin-left: 50px;">
             	<li><h3>자주 찾는 서비스</h3></li>
                 <li><a>FAQ</a>&nbsp;&nbsp;&nbsp;<a>병원찾기</a></li>
                 <li><a>내 건강</a></li>

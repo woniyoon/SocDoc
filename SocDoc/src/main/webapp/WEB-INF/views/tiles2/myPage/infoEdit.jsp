@@ -64,7 +64,7 @@
 
     #sideMenu {
         flex: 1;
-        border: 1px solid navy;
+        /* border: 1px solid navy; */
     }
 
     #contents {
@@ -75,7 +75,7 @@
         justify-content: space-around;
     }
 
-    #scheduleTbl, thead, tbody, td {
+   /*  #scheduleTbl, thead, tbody, td {
         width: 50vw;
         border: 2px solid grey;
         border-collapse: collapse;
@@ -85,7 +85,7 @@
         width: 50vw;
         border: 2px solid grey;
         border-collapse: collapse;
-    }
+    } */
     
     /*  main 끝  */
     footer {
@@ -97,7 +97,8 @@
       
     /* 첫번째줄 셋팅- 예약확인 */
 	div#box1 {
-		width: 95.6%;
+		/* width: 95.6%; */
+		width: 75%;
 		height: 200px;
 		margin-top: 20px;
 		padding-top: 20px;
@@ -107,8 +108,8 @@
 	
 	/* 두번째줄 셋팅 */
 	div#box2 {
-		width: 75%;
-		margin: 0 auto;
+		width: 45%;
+		margin-left: 210px;
 		height: 150px;
 		border: 2px solid gray; 
 		text-align: center;
@@ -118,7 +119,7 @@
 </style>
 </head>
 <body>
-    <header>
+   <%--  <header>
         <img id="logo" src="<%= ctxPath%>/resources/images/logo.jpg" width=80px height=80px />
         <ul class="headerMenu">
             <li><a>찾기</a></li>
@@ -126,19 +127,19 @@
             <li><a>후기</a></li>
             <li><a>알림소식</a></li>
         </ul>
-    </header>
+    </header> --%>
     <main>
         <div id="sideMenu">
-            <ul>
+            <ul style="margin-left: 50px;">
             	<li><h3>관련 콘텐츠</h3></li>
-                <li><a>· 회원정보수정</a></li>
-                <li><a>· 문의내역</a></li>
-                <li><a>· 내 건강</a></li>
-                <li><a>· 병원 즐겨찾기</a></li>
-                <li><a>· 예약확인</a></li>
-                <li><a>· 최근 진료이력조회</a></li>
+                <li><a href="<%= request.getContextPath()%>/infoEdit.sd">· 회원정보수정</a></li>
+                <li><a href="<%= request.getContextPath()%>/askList.sd">· 문의내역</a></li>
+                <li><a href="<%= request.getContextPath()%>/myHealth.sd">· 내 건강</a></li>
+                <li><a href="<%= request.getContextPath()%>/bookMark.sd">· 병원 즐겨찾기</a></li>
+                <li><a href="<%= request.getContextPath()%>/reservation.sd">· 예약확인</a></li>
+                <li><a href="<%= request.getContextPath()%>/viewHistory.sd">· 최근 진료이력조회</a></li>
             </ul>
-            <ul style="display:inline-block; margin-top: 20px;">
+            <ul style="display:inline-block; margin-top: 20px; margin-left: 50px;">
             	<li><h3>자주 찾는 서비스</h3></li>
                 <li><a>FAQ</a>&nbsp;&nbsp;&nbsp;<a>병원찾기</a></li>
                 <li><a>내 건강</a></li>
@@ -154,7 +155,7 @@
 		<div id="box2" style="margin-top:10px;  border-left: none; border-right: none;">
 			<span style="font-size: 15pt;">비밀번호<input type="password" style="margin-left: 30px; margin-top: 50px; width: 300px; height: 40px;"/></span>
 		</div>
-		<div style="text-align: center; margin-top: 30px;"><button type="button" onclick="javascript:location.href='<%= request.getContextPath()%>/infoEdit2'" style="background-color: skyblue; color:white; width: 150px; height: 50px; border-radius: 4px; border: none; font-size: 14pt;">확인</button></div>
+		<div style="text-align: center; margin-top: 30px;"><button type="button" onclick="javascript:location.href='<%= request.getContextPath()%>/infoEdit2.sd'" style="background-color: skyblue; color:white; width: 150px; height: 50px; margin-right:350px; border-radius: 4px; border: none; font-size: 14pt;">확인</button></div>
         </div>
     </main>
     <footer>

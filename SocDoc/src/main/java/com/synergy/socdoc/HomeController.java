@@ -55,25 +55,6 @@ public class HomeController {
 	}
 	
 	
-	// === 마이페이지 메인 페이지 요청 === // 
-	@RequestMapping(value="/mypage")
-	public String mypage() {
 	
-		return "myPage/main.tiles2";
-	}
-	
-	// === 회원정보 수정 페이지 === // 
-	@RequestMapping(value="/infoEdit")
-	public String infoEdit() {
-	
-		return "myPage/infoEdit.tiles2";
-	}
-	
-	// === 회원정보 수정 페이지2 - 기본정보변경 & 비밀번호 변경 페이지 === // 
-	@RequestMapping(value="/infoEdit2")
-	public String infoEdit2() {
-	
-		return "myPage/infoEdit2.tiles2";
-	}
 	
 }
