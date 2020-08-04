@@ -18,12 +18,13 @@
 
 	.container{
 		width:1080px;
-		margin: 10px auto;
+		margin: 100px auto;
 	}
 	
 	.content{
 		width:80%;
 		margin:0px auto;
+		min-width: 864px;
 	}
 		
 	.select{
@@ -94,20 +95,45 @@
 	
 	.tabMap{
 		padding-top: 15px;
+		border:1px solid red;
+	}
+	
+	.mapSelect{
+		display:inline-block; 
+		width:63%; 
+		height:40px;
+	}
+	
+	.mapSearch{
+		display:inline-block; 
+		width:35%; 
+		height:40px;
+		float:right;
+		text-align:right;
 	}
 	
 	.mapContent{
+		float:clear;
 		width:100%;
 		height:800px;
 		border:1px solid blue;		
 	}
 	
+	.map{
+		display:inline-block;
+		width:63%;
+		height:100%;
+		border:1px solid orange;
+		margin-right: 10px;
+	}
+	
 	.mapList{
+		display:inline-block;
 		background-color: #efefef; 
+		float:right;
 		width:35%;		
 		height:100%;
-		float:right;
-		padding: 10px 15px;
+		padding: 10px 20px;
 	}		
 	
 	.hospitalList{
@@ -115,10 +141,22 @@
 		padding: 10px 25px 20px 25px;
 	}
 	
+	.mabListTable{
+		width:100%;
+		font-size: 10pt;
+	}
+	
 	.mabListTable td{
 		border-bottom: 1px solid #999999;	
-		width:100%;
-		
+		width:100%;	
+		padding: 20px 0;	
+	}
+	
+	.mHospitalName{
+		font-size : 11pt;
+		color:#0080ff; 
+		font-weight: bolder;
+		margin-bottom: 5px;
 	}
 	
 	.hospitalName{
@@ -166,6 +204,8 @@
 		
 		
 		
+		//지도
+		/* 
 		var usesOwnLocation = confirm("현재 위치를 이용하겠습니까?");
 	    
 	    var coordinates = { // 디폴트 위치
@@ -198,9 +238,7 @@
 				            
 				            var lat = position.coords.latitude, // 위도
 				                lon = position.coords.longitude; // 경도
-				            
-				            console.log(lat, lon);
-				
+				            				
 				            var position = new kakao.maps.LatLng(lat, lon);
 				
 						    map.setCenter(position);					
@@ -243,7 +281,7 @@
 	 // 인포윈도우를 가지고 있는 객체 배열의 용도 
 		var infowindowArr = new Array(); 
 		
-		var imageSrc = "/StarbucksWeb/images/j1/location_pin.png";       
+		var imageSrc = "/SocDoc/resource/images/location_pin.png";       
 	    var imageSize = new kakao.maps.Size(38, 60);   
 	    var imageOption = {offset: new kakao.maps.Point(15, 39)};         
 	    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
@@ -280,7 +318,7 @@
 		    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow, infowindowArr));
 
 		}
-
+ */
 		
 	
 	})
@@ -326,7 +364,7 @@
 			<!-- 지도 -->
 			<div id="tab-1" class="tab-content current">
 				  <div class="tabMap">
-				      <div style="display:inline-block; width:63%; height:40px;">
+				      <div class="mapSelect">
 				         <select id="city" name="city" class="selectMap">
 				            <option value="0">시</option>                                 
 				         </select>
@@ -338,19 +376,26 @@
 				         </select>            
 				      </div>
 				      
-				      <div style="display:inline-block; width:35%; float:right; text-align: right;">
-				         <input type="text" id="search" name="search" class="select">
+				      <div class="mapSearch">
+				         <input type="text" id="search" name="search" class="select" style="width:60%;">
 				         <button type="button" class="btnSearch" onclick="goSearch();" >검색</button>
 				      </div>
 				 </div>
 				   
 				 <div class="mapContent">
-				      <div style="display:inline-block;" id="map">지도영역</div>
-				      <div style="display:inline-block;" class="mapList">
+				      <div id="map" class="map">지도영역</div>
+				      <div class="mapList">
 				      		<table class="mabListTable">
 				      			<tr>
 				      				<td>
-				      					<div id="mHospitalName">어쩌고 병원</div>
+				      					<div id="mHospitalName" class="mHospitalName">어쩌고 병원</div>
+				      					<div id="mHospitalTel">02-123-4567</div>
+				      					<div id="mHospitalAddress">서울특별시 강남구 강남로123-1</div>
+				      				</td>
+				      			<tr>
+				      			<tr>
+				      				<td>
+				      					<div id="mHospitalName" class="mHospitalName">어쩌고 병원</div>
 				      					<div id="mHospitalTel">02-123-4567</div>
 				      					<div id="mHospitalAddress">서울특별시 강남구 강남로123-1</div>
 				      				</td>

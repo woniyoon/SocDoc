@@ -7,17 +7,17 @@
 
 <style>
 
-	div{
+	/* div{
 		margin-bottom: 5px;
-	}
+	} */
 
 	.container{
 		width:1080px;
-		margin: 10px auto;
+		margin: 100px auto;
 	}
 	
 	.content{
-		width:80%;
+		width:90%;
 		margin:0px auto;
 	}
 	
@@ -58,13 +58,19 @@
 		display:inline-block;
 		width:55%;
 		height:450px;
-		padding-right:10px;
+		padding-right:10px;		
 	}
 	
 	.two{
 		float:right;
 		width:45%;
 		height:450px;
+	}
+	
+	.slide{
+		width:100%;
+		height:70%;
+		border:1px solid red;
 	}
 	
 	.guide{
@@ -77,6 +83,7 @@
 	}
 	
 	.infoTable{
+		width:100%;
 		font-size: 10pt;
  		height:100%;
 	}
@@ -132,6 +139,10 @@
 		resize: none;
 	}
 	
+	.reviewContents{
+		margin: 10px 0;
+	}
+	
 	textarea:focus{
 		outline: none; 
 	}
@@ -164,16 +175,28 @@
 		font-size: 9pt;
 		margin:2px 0;
 	}
+	
+	
+	.stars{
+		background: url('/socdoc/resources/images/icoReview.png') no-repeat right 0;
+		background-size: auto 100%;
+		width: 15px;
+		height: 15px;
+		display: inline-block;
+		text-indent: -9999px;
+		cursor: pointer;
+		margin-bottom: 10px;
+	}
+	
+	.stars.on{
+		background-position:0 0;
+	}
 			
 		
 
 </style>
 
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/SocDoc/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="/SocDoc/util/myutil.js"></script>
 <script type="text/javascript">
 
@@ -194,6 +217,34 @@ $(document).ready(function(){
 		}
 		
 	});
+	
+	//이미지 슬라이드
+	$(".bxslider").bxSlider({
+		
+		auto:true,
+		speed:500,
+		pause:5000,
+		mode:'horizontal',
+		autoControls:false,
+		pager:true
+		
+		
+	});
+	
+	
+	
+	
+	//별점
+	$('.stars').click(function(){
+		  $(this).parent().children("span").removeClass("on");
+		  $(this).addClass("on").prevAll("span").addClass("on");
+		  
+		  starsNum = $(".stars.on").length;
+		  $(".starsNum").text(starsNum);
+		  
+		  return false;
+	});
+	
 	
 })
 
@@ -216,13 +267,21 @@ $(function() {
 			<span class="hospitalName">닥터손유나의원/피부과</span>
 			<div class="heart"></div>
 			<span class="btns">
-				<button type="button" class="btnTop" onClick="addFavorite();">즐겨찾기</button>
 				<button type="button" class="btnTop" onClick="goReservation();">예약하기</button>
 			</span>
 		</div>
 		<div class="info">
 			<div class="one">
-				<img width="100%;" height="70%"/>			
+			
+				<div class="slide">					
+				    <ul class="bxslider">
+				      <li><img width="100%;" src="<%= ctxPath%>/resources/images/slide1.jpg"></li>
+				      <li><img width="100%;" src="<%= ctxPath%>/resources/images/slide2.jpg"></li>
+				      <li><img width="100%;" src="<%= ctxPath%>/resources/images/slide3.jpg"></li>
+				    </ul>				   
+  				</div>
+				
+							
 				<div style="border:1px solid blue; height:40px;">★★★★★</div>			
 				<div class="guide">
 					<p><strong>법정공휴일</strong> : 신정, 설, 삼일절, 어린이날, 석가탄신일, 현충일, 광복절, 추석, 개천절, 한글날, 크리스마스</p>
@@ -271,11 +330,12 @@ $(function() {
 			<tr>
 				<td style="background-color: #efefef;">
 					<div style="display:inline-block; width:90%;">
-						<div class="">★★★★★</div>
+						<div class="starRating">★★★★★
+						</div>
 						<div class="reviewContents">최고의 병원 추천합니다.</div>
 						<span class="name">nana</span><span class="registerDate">2020.07.19</span>
 					</div>
-					<div style="display:inline-block; width:8%; float:right; text-align: center;">
+					<div style="display:inline-block; width:8%; float:right;">
 						<button type="button" id="modify" class="reviewBtn">수정</button>
 						<button type="button" id="delete" class="reviewBtn">삭제</button>
 					</div>
@@ -292,6 +352,14 @@ $(function() {
 		
 		
 		<div>
+			<div> 
+				<span class="stars on">별1</span>
+				<span class="stars">별2</span>
+				<span class="stars">별3</span>
+				<span class="stars">별4</span>
+				<span class="stars">별5</span>
+				<span class="starsNum" style="margin-left: 5px;">0</span><span>.0</span>
+			</div>
 			<textarea id="review" name="review" class="review" maxlength="199" placeholder="관련없는 내용이나 악의적인 후기는 삭제될 수 있습니다."></textarea>
 			<div>
 				<span id="bytesReview">0</span>자 / 200자
