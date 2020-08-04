@@ -1,32 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+	String ctxPath = request.getContextPath();
+%>
 
-<style>	
-	#scheduleTbl, thead, tbody, td {
-		width: 40vw;
-		border: 2px solid grey;
-		border-collapse: collapse;
-	}
-	
-	#reviewBoard, thead, tfoot {
-		width: 40vw;
-		border: 2px solid grey;
-		border-collapse: collapse;
-	}
-	
-	td {
-		padding: 10px 20px;
-	}
-	
-	th {
-		padding: 10px;
-	}
-	
-	#scheduleTbl td {
-		line-height: 2;
-	}
-	
-</style>
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hpMain.css" />
 
 	<table id="scheduleTbl">
 		<thead>

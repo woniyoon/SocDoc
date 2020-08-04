@@ -1,4 +1,4 @@
-body {
+/* body {
 	height: auto;
 	margin: 0 auto;
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -30,11 +30,11 @@ header {
 
 ul {
 	list-style-type: none;
-}
+} */
 
 /*  header 끝  */
 
-#sideMenuList {
+/* #sideMenuList {
 	list-style-type: disc;
 	padding-inline-start: 20px;
 	margin: 10px 0 0 0;
@@ -60,10 +60,10 @@ main {
 	flex: 6;
 	height: auto;
 	margin: auto;
-}
+} */
 
-/*  sideMenu 끝  */
-
+/* sideMenu 끝  */
+/* 
 footer {
 	position: absolute;
 	height: 15%;
@@ -71,4 +71,29 @@ footer {
 	background-color: rgb(241, 241, 241);
 	color: #999999; 
 	padding: 7px;
+} */
+
+
+#scheduleTbl, thead, tbody, td {
+	width: 40vw;
+	border: 2px solid grey;
+	border-collapse: collapse;
+}
+
+#reviewBoard, thead, tfoot {
+	width: 40vw;
+	border: 2px solid grey;
+	border-collapse: collapse;
+}
+
+td {
+	padding: 10px 20px;
+}
+
+th {
+	padding: 10px;
+}
+
+#scheduleTbl td {
+	line-height: 2;
 }
