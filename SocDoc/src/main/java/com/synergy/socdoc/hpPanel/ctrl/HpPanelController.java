@@ -37,5 +37,11 @@ public class HpPanelController {
 		
 		return "hpPanel/visitorsMng.tiles4";
 	}
+	
+	@RequestMapping(value = "/hpPanel/hpReviews.sd", method = RequestMethod.GET)
+	public String hpReviews(HttpServletRequest request) {
+		
+		return "hpPanel/hpReviews.tiles4";
+	}
 
 }
