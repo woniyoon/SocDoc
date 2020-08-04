@@ -58,13 +58,13 @@
 	
 	}
 	
-	#memberList {
+	#hospitalInfoList {
 		width: 1000px;
 		margin-left: auto;
 		margin-right: auto;
 	}
 	
-	#memberList:after {
+	#hospitalInfoList:after {
 		content: '';
 		clear: both;
 		display: block;
@@ -73,62 +73,69 @@
 	th {
 		text-align: center;
 	}
+	
+    #updateBtn {
+		float: right;
+		margin-top: 30px;
+     	margin-right: 10px;
+	}
+	
+	#deleteBtn {
+		float: right;
+		margin-top: 30px;
+	}
 
 </style>
 
 
 	<div id="container" style="min-height: 70vh;">
 		
-		<div id="memberList">
-			<h2>회원관리</h2>
+		<div id="hospitalInfoList">
+			<h2>병원등록</h2>
 			 
             <button class="searchBtn">검색</button>
             <input type="text" class="searchWord" placeholder="검색어를 입력하세요">
             <select>
                 <option selected="selected">아이디</option>
-                <option>이름</option>
-                <option>이메일</option>
-                <option>전화번호</option>
+                <option>사업자번호</option>
+                <option>병원명</option>
             </select>
             
-            <p>전체 회원 수 : 2981명</p>		
+            <p>전체 등록 수 : 2981명</p>		
 			
-			<table class="table" style="text-align: center;">
+			<table class="table table-hover" style="text-align: center;">
 				<tr>
 					<th>선택</th>
 					<th>아이디</th>
-					<th>이름</th>
-					<th>생년월일</th>
-					<th>이메일</th>
-					<th>전화번호</th>
-					<th>가입일자</th>
+					<th>사업자번호</th>
+					<th>담당자</th>
+					<th>병원명</th>
 					<th>상태</th>
 				</tr>
 				
 				<tr>
-					<td><input type="checkbox" /></td>		
-					<td>hongs</td>			
-					<td>홍길동</td>			
-					<td>2020-08-01</td>
-					<td>hong@naver.com</td>			
-				    <td>010-2838-0212</td>
-				    <td>2020-08-01</td>	
-					<td style="font-weight:bold;">회원</td>	
+                    <td><input type="checkbox"/></td>	
+					<td>hospital1</td>			
+					<td>123456-78910</td>			
+					<td>김관리</td>			
+					<td>강남병원</td>	
+					<td style="color:red; font-weight:bold;">대기</td>			
 				</tr>
-                
+
                 <tr>
-					<td><input type="checkbox" /></td>		
-					<td>nana</td>			
-					<td>김나나</td>			
-					<td>2020-07-31</td>
-					<td>nana@naver.com</td>			
-				    <td>010-1133-2566</td>
-				    <td>2020-07-31</td>	
-					<td style="color: red; font-weight:bold;">탈퇴</td>	
+                    <td><input type="checkbox"/></td>	
+					<td>hospital4</td>			
+					<td>123456-78910</td>			
+					<td>최관리</td>			
+					<td>강남병원</td>	
+					<td style="color:blue; font-weight:bold;">수정</td>			
 				</tr>
-				
+               
 			</table>
 			
+			<button id="deleteBtn">반려</button>
+            <button id="updateBtn" data-toggle="modal" data-target="#myModal">승인</button> 
+            
 		</div>
 		
 	</div>

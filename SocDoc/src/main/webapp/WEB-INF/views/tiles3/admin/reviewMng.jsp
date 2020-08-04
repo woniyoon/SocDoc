@@ -57,78 +57,75 @@
 	    line-height: 1.8;
 	
 	}
+
+	th {
+		text-align: center;
+	}
 	
-	#memberList {
+	#reviewList {
 		width: 1000px;
 		margin-left: auto;
 		margin-right: auto;
 	}
 	
-	#memberList:after {
+	#reviewList:after {
 		content: '';
 		clear: both;
 		display: block;
 	}
-
-	th {
-		text-align: center;
-	}
+	
+    #ckAll {
+        float: left;
+		margin-top: 30px;
+    }
+	
+	#deleteBtn {
+		float: right;
+		margin-top: 30px;
+	}	
 
 </style>
 
-
 	<div id="container" style="min-height: 70vh;">
 		
-		<div id="memberList">
-			<h2>회원관리</h2>
-			 
-            <button class="searchBtn">검색</button>
+		<div id="reviewList">
+			<h2>후기관리</h2>
+				
+           <button class="searchBtn">검색</button>
             <input type="text" class="searchWord" placeholder="검색어를 입력하세요">
             <select>
-                <option selected="selected">아이디</option>
-                <option>이름</option>
-                <option>이메일</option>
-                <option>전화번호</option>
+                <option selected="selected">기관명</option>
+                <option>작성자</option>
             </select>
+            <p>전체 회원 수 : 2981명</p>
+			
+			<table class="table table-hover" style="text-align: center;">
+                <thead>
+                     <tr>
+                        <th>선택</th>
+                        <th>기관명</th>
+                        <th>내용</th>
+                        <th>작성자</th>
+                        <th>작성일</th>
+                     </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>어쩌고병원</td>
+                        <td>최고의 병원 추천합니다.</td>
+                        <td>김나나</td>
+                        <td>2020.08.04</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
             
-            <p>전체 회원 수 : 2981명</p>		
-			
-			<table class="table" style="text-align: center;">
-				<tr>
-					<th>선택</th>
-					<th>아이디</th>
-					<th>이름</th>
-					<th>생년월일</th>
-					<th>이메일</th>
-					<th>전화번호</th>
-					<th>가입일자</th>
-					<th>상태</th>
-				</tr>
-				
-				<tr>
-					<td><input type="checkbox" /></td>		
-					<td>hongs</td>			
-					<td>홍길동</td>			
-					<td>2020-08-01</td>
-					<td>hong@naver.com</td>			
-				    <td>010-2838-0212</td>
-				    <td>2020-08-01</td>	
-					<td style="font-weight:bold;">회원</td>	
-				</tr>
-                
-                <tr>
-					<td><input type="checkbox" /></td>		
-					<td>nana</td>			
-					<td>김나나</td>			
-					<td>2020-07-31</td>
-					<td>nana@naver.com</td>			
-				    <td>010-1133-2566</td>
-				    <td>2020-07-31</td>	
-					<td style="color: red; font-weight:bold;">탈퇴</td>	
-				</tr>
-				
-			</table>
-			
+            <button id="ckAll">전체선택</button>
+            <button id="deleteBtn">삭제</button>
+            
 		</div>
-		
+	
 	</div>

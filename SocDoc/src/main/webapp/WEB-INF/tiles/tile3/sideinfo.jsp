@@ -12,7 +12,7 @@
 	  font-size: 12pt;
 	  position: fixed;
 	  z-index: 1;
-	  top: 150px;
+	  top: 200px;
 	  left: 10px;
 	  background: #eee;
 	  overflow-x: hidden;

@@ -7,10 +7,35 @@
 		font-weight: bold;
 		padding-top: 30px;
 	}
+	
+    .searchWord {
+        font-size: 12px;
+        width: 150px;
+        height: 10px;
+        padding: 10px;
+        border: solid 1.3px #1b5ac2;
+        float: right;
+        margin-left: 5px;
+    }
+
+    .searchBtn {
+        width: 40px;
+        height: 23px;
+        border: 0px;
+        float: right;
+        color: #ffffff;
+        background-color: #1b5ac2;
+    }
+	
+    select {
+        float: right;
+		margin: 15px 10px 20px 0px;
+	}
     
     table {
 		width: 100%;
 		border-collapse: collapse;
+		margin-top: 25px;
 	}
 	
     th {
@@ -32,20 +57,24 @@
 	    line-height: 1.8;
 	
 	}
-    
-    #noticeList {
+	
+	#healthInfoList {
 		width: 1000px;
 		margin-left: auto;
 		margin-right: auto;
 	}
 	
-	#noticeList:after {
+	#healthInfoList:after {
 		content: '';
 		clear: both;
 		display: block;
-	}    
-    
-    #ckAll {
+	}
+
+	th {
+		text-align: center;
+	}
+	
+	#ckAll {
         float: left;
 		margin-top: 30px;
     }
@@ -61,17 +90,18 @@
 		margin-top: 30px;
 	}
 	
+
 </style>
 
-	<div id="container" style="min-height: 70vh;">
 
-        <div id="noticeList">
+	<div id="container" style="min-height: 70vh;">
+		
+		<div id="healthInfoList">
+			<h2>건강정보관리</h2>
+			 
+            <p>전체 글 : 12개</p>
            
-            <h2>공지사항관리</h2>
-            
-            <p style="margin: 20px 0 20px 0;">전체 글 : 12개</p>
-           
-            <table class="table" style="text-align: center;">
+            <table class="table table-hover" style="text-align: center;">
                 <thead>
                      <tr>
                         <th>선택</th>
@@ -86,8 +116,8 @@
                     <tr>
                         <td><input type="checkbox" /></td>
                         <td>1</td>
-                        <td>시스템 점검 공지</td>
-                        <td>2020.08.01</td>
+                        <td>손은 언제 씻어야 할까?</td>
+                        <td>2020.08.04</td>
                         <td>124</td>
                     </tr>
                 </tbody>
@@ -97,36 +127,9 @@
             <button id="deleteBtn">삭제</button>
             <button id="writeBtn">글쓰기</button>
             
-        </div>		
-	
+        </div>
+            
+			
+		</div>
+		
 	</div>
-
-
-
-<script type="text/javascript">
-
-	function myAccFunc() {
-	  var x = document.getElementById("demoAcc");
-	  if (x.className.indexOf("w3-show") == -1) {
-	    x.className += " w3-show";
-	    x.previousElementSibling.className += " w3-blue";
-	  } else { 
-	    x.className = x.className.replace(" w3-show", "");
-	    x.previousElementSibling.className = 
-	    x.previousElementSibling.className.replace(" w3-blue", "");
-	  }
-	}
-	
-	function myDropFunc() {
-	  var x = document.getElementById("demoDrop");
-	  if (x.className.indexOf("w3-show") == -1) {
-	    x.className += " w3-show";
-	    x.previousElementSibling.className += " w3-blue";
-	  } else { 
-	    x.className = x.className.replace(" w3-show", "");
-	    x.previousElementSibling.className = 
-	    x.previousElementSibling.className.replace(" w3-blue", "");
-	  }
-	}
-	
-</script>    
