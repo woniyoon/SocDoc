@@ -9,19 +9,20 @@
 
 <style type="text/css">
 
-	body {
+/* 	body {
 		font-family: Arial, "MS Trebuchet", sans-serif;
 		width: 1100px;
 		margin: 0 auto;
-	}
+	} */
    
 	form {
 		width: 100%;
 	}
 
 	.container { 
-		width: 60%;
-		margin: auto;
+		width: 35%;
+		height: 500px;
+		margin: 100px auto 200px auto;
 		padding: 0;
 		border: solid 1px red;
 	}
@@ -30,7 +31,7 @@
 		width: 60%;
 		margin: 50px auto;
 		padding: 0;
-		//border: solid 1px blue;
+		border: solid 1px blue;
 	}
    
 	/* 탭(개인회원/병원회원) */
@@ -92,7 +93,7 @@
 		display: inline-block;
 		padding-right: 10px;
 	}
-    
+	
 	a {
 		text-decoration: none;
 	}
