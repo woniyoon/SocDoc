@@ -8,6 +8,35 @@
 %>
 <%-- ======= #28. tile2 중 sideinfo 페이지 만들기  ======= --%>
 
+<style type="text/css">
+	ul#sideMenuList {
+		list-style-type: disc !important;
+		padding-inline-start: 20px !important;
+		margin: 10px 0 0 0;
+	}
+	
+	main {
+		padding: 30px auto;
+		width: 100vw;
+		min-height: 75vh;
+		height: auto;
+		display: flex;
+		flex-direction: row;
+	}
+	
+	#sideMenu {
+		flex: 1;
+		border: 1px solid navy;
+		padding: 40px 0 0 40px;
+		font-size: 1.2em;
+	}
+	
+	#contents {
+		flex: 6;
+		height: auto;
+		margin: auto;
+	}	
+</style>
 
 <div id="sideMenu">
 	<span style="font-size: 1.4em;"><b>Menu</b></span>
