@@ -17,6 +17,35 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
+<style type="text/css">
+	#sideMenuList {
+		list-style-type: disc;
+		padding-inline-start: 20px;
+		margin: 10px 0 0 0;
+	}
+	
+	main {
+		padding: 30px auto;
+		width: 100vw;
+		min-height: 75vh;
+		height: auto;
+		display: flex;
+		flex-direction: row;
+	}
+	
+	#sideMenu {
+		flex: 1;
+		border: 1px solid navy;
+		padding: 40px 0 0 40px;
+		font-size: 1.2em;
+	}
+	
+	#contents {
+		flex: 6;
+		height: auto;
+		margin: auto;
+	}
+</style>
 
 <body>
 	<tiles:insertAttribute name="header" />
