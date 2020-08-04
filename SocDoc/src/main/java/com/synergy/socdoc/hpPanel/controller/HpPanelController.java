@@ -32,4 +32,10 @@ public class HpPanelController {
 		return "hpPanel/reservationInfo.tiles4";
 	}
 
+	@RequestMapping(value = "/hpPanel/visitorsMng.sd", method = RequestMethod.GET)
+	public String visitorsMng(HttpServletRequest request) {
+		
+		return "hpPanel/visitorsMng.tiles4";
+	}
+
 }
