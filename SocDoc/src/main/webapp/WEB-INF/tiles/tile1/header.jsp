@@ -187,7 +187,7 @@
 
     <div class="navbar">
       <div class="subnav">
-        <button class="subnavbtn">찾기<i class="fa fa-caret-down"></i></button>
+        <button class="subnavbtn">찾기</button>
         <div class="subnav-content">
           <a href="#"><img src="<%= ctxPath%>/resources/images/hospital.png"/>병원찾기</a>
           <a href="#"><img src="<%= ctxPath%>/resources/images/pharmacy.png"/>약국찾기</a>
@@ -195,14 +195,14 @@
       </div> 
 
       <div class="subnav">
-        <button class="subnavbtn">예약<i class="fa fa-caret-down"></i></button>
+        <button class="subnavbtn">예약</button>
         <div class="subnav-content">
           <a href="#"><img src="<%= ctxPath%>/resources/images/reservation.png"/>병원예약</a>
         </div>
       </div> 
 
       <div class="subnav">
-        <button class="subnavbtn">후기<i class="fa fa-caret-down"></i></button>
+        <button class="subnavbtn">후기</button>
         <div class="subnav-content">
           <a href="#"><img src="<%= ctxPath%>/resources/images/review.png"/>병원후기</a>
           <a href="#"><img src="<%= ctxPath%>/resources/images/review2.png"/>약국후기</a>
@@ -210,7 +210,7 @@
       </div> 
 
       <div class="subnav">
-        <button class="subnavbtn">알림·소식<i class="fa fa-caret-down"></i></button>
+        <button class="subnavbtn">알림·소식</button>
         <div class="subnav-content">
           <a href="#"><img src="<%= ctxPath%>/resources/images/notice.png"/>공지사항</a>
           <a href="#"><img src="<%= ctxPath%>/resources/images/health.png"/>건강정보</a>
