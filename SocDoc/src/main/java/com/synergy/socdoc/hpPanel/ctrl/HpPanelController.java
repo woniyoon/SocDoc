@@ -1,4 +1,4 @@
-package com.synergy.socdoc.hpPanel.controller;
+package com.synergy.socdoc.hpPanel.ctrl;
 
 import javax.servlet.http.HttpServletRequest;
 
