@@ -27,7 +27,7 @@
 	main {
 		padding: 30px auto;
 		width: 100vw;
-		min-height: 75vh;
+		min-height: 65vh;
 		height: auto;
 		display: flex;
 		flex-direction: row;
@@ -43,7 +43,7 @@
 	#contents {
 		flex: 6;
 		height: auto;
-		margin: auto;
+		margin: 30px auto;
 	}
 </style>
 

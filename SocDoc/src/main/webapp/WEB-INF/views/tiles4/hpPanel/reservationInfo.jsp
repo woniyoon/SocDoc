@@ -96,7 +96,7 @@
 </script>
 
 <div class="container" align="center">
-	<h2 align="left">예약관리</h2>
+	<h3 align="left">예약관리</h3>
 	<div class="schedulePanel">
 <!-- 		<div class="calendarContainer"> -->
 			<div class="calendar"></div>
