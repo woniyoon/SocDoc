@@ -115,19 +115,57 @@
 		text-align: center;
 	}
 	
+	/* 세번째줄 셋팅 */
+	div#box3 {
+		width: 50%;
+		margin-left: 180px; 
+		height: 100px;
+		border: 2px solid gray; 
+		text-align: center;
+	}
 	
 </style>
+
+<script type="text/javascript">
+ 
+     $(document).ready(function(){
+    	 
+    	 $("#ok").click(function() {
+    		 func_Login();
+    	 }); // end of $("#btnLOGIN").click();-----------------------
+    	 
+    	 $("#pwd").keydown(function(event){
+  			
+  			if(event.keyCode == 13) { // 엔터를 했을 경우
+  				func_Login();
+  			}
+    	 }); // end of $("#pwd").keydown();-----------------------	
+    	 
+    }); // end of $(document).ready()---------------------------	 
+
+    
+    function func_Login() {
+    		 
+		 var pwd = $("#pwd").val(); 
+		
+		 if(pwd.trim()=="") {
+			 alert("비밀번호를 입력하세요!!");
+			 $("#pwd").val(""); 
+			 $("#pwd").focus();
+			 return;
+		 }
+
+		 var frm = document.infoLoginFrm;
+		 
+		 frm.action = "<%=ctxPath%>/infoEdit2.sd";
+		 frm.method = "POST";
+		 frm.submit();
+		 
+    } // end of function func_Login(event)-----------------------------
+     
+</script>
 </head>
 <body>
-   <%--  <header>
-        <img id="logo" src="<%= ctxPath%>/resources/images/logo.jpg" width=80px height=80px />
-        <ul class="headerMenu">
-            <li><a>찾기</a></li>
-            <li><a>예약</a></li>
-            <li><a>후기</a></li>
-            <li><a>알림소식</a></li>
-        </ul>
-    </header> --%>
     <main>
         <div id="sideMenu">
             <ul style="margin-left: 50px;">
@@ -138,6 +176,7 @@
                 <li><a href="<%= request.getContextPath()%>/bookMark.sd">· 병원 즐겨찾기</a></li>
                 <li><a href="<%= request.getContextPath()%>/reservation.sd">· 예약확인</a></li>
                 <li><a href="<%= request.getContextPath()%>/viewHistory.sd">· 최근 진료이력조회</a></li>
+           		<li><a href="<%= request.getContextPath()%>/review.sd">· 내 후기</a></li>
             </ul>
             <ul style="display:inline-block; margin-top: 20px; margin-left: 50px;">
             	<li><h3>자주 찾는 서비스</h3></li>
@@ -152,10 +191,15 @@
 			<h2>회원정보를 수정하시려면 비밀번호를 입력해 주세요.</h2>
 			 <div><span style="color: skyblue;">주혜정</span> 회원님의 소중한 개인정보의 보호를 위하여 비밀번호를 한번 더 입력하여 주시기 바랍니다.</div>
 		</div>
-		<div id="box2" style="margin-top:10px;  border-left: none; border-right: none;">
+		<!-- <div id="box2" style="margin-top:10px;  border-left: none; border-right: none;">
 			<span style="font-size: 15pt;">비밀번호<input type="password" style="margin-left: 30px; margin-top: 50px; width: 300px; height: 40px;"/></span>
+		</div> -->
+		<form name="infoLoginFrm">
+		<div id="box3" style="margin-top:35px;  border-left: none; border-right: none;">
+			<span style="font-size: 15pt;">비밀번호<input id="pwd" type="password" style="margin-left: 30px; margin-top: 25px; width: 300px; height: 40px;"/></span><br/>
 		</div>
-		<div style="text-align: center; margin-top: 30px;"><button type="button" onclick="javascript:location.href='<%= request.getContextPath()%>/infoEdit2.sd'" style="background-color: skyblue; color:white; width: 150px; height: 50px; margin-right:350px; border-radius: 4px; border: none; font-size: 14pt;">확인</button></div>
+		</form>
+		<div style="text-align: center; margin-top: 30px;"><button type="button" id="ok" style="background-color: skyblue; color:white; width: 150px; height: 50px; margin-right:350px; border-radius: 4px; border: none; font-size: 14pt;">확인</button></div>
         </div>
     </main>
     <footer>

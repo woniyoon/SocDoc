@@ -21,13 +21,13 @@ public class MypageController {
 		return "myPage/main.tiles2";
 	}
 	
-	// === 회원정보 수정 페이지 === // 
+	// === 회원정보 수정 페이지 - 비밀번호 입력 페이지 === // 
 	@RequestMapping(value="/infoEdit.sd")
 	public String infoEdit() {
 	
 		return "myPage/infoEdit.tiles2";
 	}
-	
+
 	// === 회원정보 수정 페이지2 - 기본정보변경 & 비밀번호 변경 페이지 === // 
 	@RequestMapping(value="/infoEdit2.sd")
 	public String infoEdit2() {
@@ -40,6 +40,13 @@ public class MypageController {
 	public String askList() {
 	
 		return "myPage/askList.tiles2";
+	}
+	
+	// === 문의하기 페이지 === // 
+	@RequestMapping(value="/ask.sd")
+	public String ask() {
+	
+		return "myPage/ask.tiles2";
 	}
 	
 	// === 내 건강 페이지 === // 
@@ -63,10 +70,29 @@ public class MypageController {
 		return "myPage/reservation.tiles2";
 	}
 	
-	// === 예약확인 페이지 === // 
+	
+	// === 예약확인-팝업 페이지 === // 
+	@RequestMapping(value="/hospitalNamePopup.sd")
+	public String hospitalNamePopup() {
+	
+		return "/hospitalNamePopup";
+	}
+	
+	// === 최근 진료이력조회 페이지 === // 
 	@RequestMapping(value="/viewHistory.sd")
 	public String viewHistory() {
 	
 		return "myPage/viewHistory.tiles2";
 	}
+	
+	
+	// === 최근 진료이력조회 페이지 === // 
+	@RequestMapping(value="/review.sd")
+	public String review() {
+	
+		return "myPage/review.tiles2";
+	}
+	
+	
+	
 }

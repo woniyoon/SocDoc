@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+	String ctxPath = request.getContextPath();
+	// 	   /board
+%>
+
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -67,17 +75,6 @@
         justify-content: space-around;
     }
 
-    #scheduleTbl, thead, tbody, td {
-        width: 50vw;
-        border: 2px solid grey;
-        border-collapse: collapse;
-    }
-
-    #reviewBoard, thead, tfoot {
-        width: 50vw;
-        border: 2px solid grey;
-        border-collapse: collapse;
-    }
     
     /*  main 끝  */
     footer {
@@ -91,8 +88,9 @@
 	div#box1 {
 		width: 95.6%;
 		margin-top: 20px;
-		height: 150px;
+		height: 200px;
 		border: 1px solid gray;
+		padding: 0 15px 15px 15px;
 	}
 	
 	/* 두번째줄 셋팅 */
@@ -108,6 +106,76 @@
 		width: 31%;
 		height: 300px;
 		border: 1px solid gray;
+		padding: 0 15px 15px 15px;
+	}
+	
+	/* 예약확인  */
+	table {
+		width: 95%;
+		margin: 0 auto;
+		border-collapse: collapse;
+	}
+	
+	 th {
+		font-size: 14px;
+	    font-weight: bold;
+	    color: #222222;
+	    text-align: center;
+	    padding: 12px 2px;
+	    border-top: 1px solid #333333;
+	    border-bottom: 1px solid #333333;
+	}
+	
+	td {
+		font-size: 14px;
+	    color: #666666;
+	    text-align: center;
+	    padding: 17px 0;
+	    border-bottom: 1px solid #dddddd;
+	    line-height: 1.3;
+	
+	}
+	
+	div#notice_button_wrap{
+		display: inline-block;
+		width: 100%;	
+	}
+	
+	p#notice_button {
+		display: inline-block;
+		border-radius: 3px;
+	    height: 45px;
+	    width: 84px;
+	    background: #666666;
+		color: white;
+		float: right;
+		margin: 30px 20px 50px 0px;
+	}
+	
+	a.notice_list {
+		display: inline-block;
+	    font-size: 14px;
+	    color: #fff;
+	    font-weight: bold;
+	    text-align: center;
+	    height: 35px;
+	    line-height: 45px;
+	    width: 100%;
+	    text-decoration: none;
+		cursor: pointer;
+	}
+	
+	/* td.noticeTitle:hover {
+		cursor: pointer;
+	} */
+	
+	#notice {
+		/* border: solid 1px red; */
+		width: 80%;
+		height: 160px;
+		padding:15px;
+		background-color: #E3E3E3;
+		border-radius: 4px;
 	}
 </style>
 </head>
@@ -131,6 +199,7 @@
                 <li><a href="<%= request.getContextPath()%>/bookMark.sd">· 병원 즐겨찾기</a></li>
                 <li><a href="<%= request.getContextPath()%>/reservation.sd">· 예약확인</a></li>
                 <li><a href="<%= request.getContextPath()%>/viewHistory.sd">· 최근 진료이력조회</a></li>
+                <li><a href="<%= request.getContextPath()%>/review.sd">· 내 후기</a></li>
             </ul>
             <ul style="display:inline-block; margin-top: 20px; margin-left: 50px;">
             	<li><h3>자주 찾는 서비스</h3></li>
@@ -141,40 +210,150 @@
         <div id="contents">
 		<h1 style="text-align: left;"><strong>마이페이지</strong></h1>
 	<div id="box1">
-		<h3>예약확인</h3>
-		<div style="height:80%; text-align: center; margin-top: 25px;">
-			조회 가능한 진료예약이 없습니다.
+		<h3 style="margin-bottom: 0;">예약확인</h3>
+		<!-- 더보기 -->
+		<div id="more" style="text-align: right; margin-right: 30px;">
+				<a href="<%= request.getContextPath()%>/reservation.sd" style="font-size: 9pt;">더보기></a>
+		</div>
+		<!-- 더보기 -->	
+		<div style="height:80%; text-align: center; margin-top: 10px;">
+			<!-- 테이블 -->
+			<form name="noticeListFrm">
+			<table>
+				<thead>
+					 <tr>
+					 	<th>병원이름</th>
+					 	<th>방문예정일</th>
+					 	<th>방문예정시간</th>
+					 </tr>
+				</thead>
+				
+				<tbody>
+					<tr>
+						<td id="hospitalName" class="noticeTitle">똑닥병원</td>
+						<td>2020-07-30</td>
+						<td>14:00</td>
+					</tr>
+				</tbody>	
+			</table>
+			</form>
+			<!-- 테이블 -->
 		</div>
 	</div>
 	<div id="box2">
 		<div id="box2-1" style="float: left;">
 			<h3>최근 진료이력조회</h3>
+			<!-- 더보기 -->
+			<div id="more" style="text-align: right; margin-right: 15px;">
+					<a href="<%= request.getContextPath()%>/reservation.sd" style="font-size: 9pt;">더보기></a>
+			</div>
+			<!-- 더보기 -->
 			<div style="height:80%; text-align: center; margin-top: 25px;">
-				최근 1년간 수진이력이 존재하지 않습니다.
+				<!-- 테이블 -->
+				<form name="noticeListFrm">
+				<table style="width: 90%;">
+					<thead>
+						 <tr>
+						 	<th style="padding: 10px 0;">병원이름</th>
+						 	<th style="padding: 10px 0;">방문일</th>
+						 </tr>
+					</thead>
+					
+					<tbody>
+						<tr>
+							<td id="hospitalName" class="noticeTitle" style="padding: 10px 0;">똑닥병원</td>
+							<td style="padding: 10px 0;">2020-07-30</td>
+						</tr>
+						<tr>
+							<td id="hospitalName" class="noticeTitle" style="padding: 10px 0;">kh병원</td>
+							<td style="padding: 10px 0;">2020-07-25</td>
+						</tr>
+						<tr>
+							<td id="hospitalName" class="noticeTitle" style="padding: 10px 0;">영학병원</td>
+							<td style="padding: 10px 0;">2020-07-20</td>
+						</tr>
+					</tbody>	
+				</table>
+				</form>
+				<!-- 테이블 -->
 			</div>
 		</div>
 		<div id="box2-2" style="float: left; margin-left: 18px;">
 			<h3>내 건강</h3>
-			<div style="height:80%; text-align: center; margin-top: 25px;">
-				조회 가능한 내 건강이 없습니다.
-			</div>
+			<div style="width:100%; height:100%; margin-top: 25px;">
+			<!-- 테이블 -->
+				<form name="noticeListFrm">
+				<table style="width: 100%;">
+					<thead>
+						 <tr>
+						 	<th style="padding: 25px 0; border: none; font-weight: normal;">
+						 		<img id="findPW" src="<%= ctxPath%>/resources/images/profile.png" width="130" height="130"/>
+							</th>
+						 	<th style="padding: 25px 0; border: none; font-weight: normal; text-align: left;">
+						 		키<br/>
+								몸무게<br/>
+								혈액형<br/>
+								병력사항<br/>
+								복욕약<br/>
+								알레르기<br/>
+						 	</th>
+						 	<th style="padding: 25px 0; border: none; font-weight: bolder; text-align: left;">
+						 		164cm<br/>
+								55kg<br/>
+								O형<br/>
+								없음<br/>
+								없음<br/>
+								땅콩알레르기<br/>
+						 	</th>
+						 </tr>
+					</thead>
+				</table>
+				</form>
+				<!-- 테이블 -->
+				</div>
 		</div>
 		<div id="box2-3" style="float:left; margin-left: 18px;">
-			<h3>병원 즐겨찾기</h3>
-			<div style="height:80%; text-align: center; margin-top: 25px;">
-				즐겨찾기로 추가된 병원이 없습니다.
+			<h3>회원정보수정</h3>
+			<div style="height:80%; text-align: center; margin-top: 40px;">
+				<strong>기본정보 변경</strong>을 원하시거나 <strong>비밀번호 변경</strong>을 원하실 경우<br/> 아래의 버튼을 클릭 해주세요.
+				<div id="infoBnt" style="margin-top: 50px;">
+					<!-- <button type="button" style="width:45%; height:40px; border-radius: 4px; background-color: gray; color: white;" onclick="">기본정보 변경</button>
+					<button type="button" style="width:45%; height:40px; border-radius: 4px; background-color: gray; color: white;" >비밀번호 변경</button> -->
+					<button type="button" style="width:45%; height:40px; border-radius: 4px; background-color: gray; color: white;" onclick="javascript:location.href='<%= request.getContextPath()%>/infoEdit.sd'">회원정보 수정</button>
+				</div>
 			</div>
 		</div>
 	</div>
 	<div id="box2">
 		<div id="box2-1" style="float: left;">
-			<h3>회원정보수정</h3>
-			<div style="height:80%; text-align: center; margin-top: 40px;">
-				회원정보 수정을 원하시거나 비밀번호 변경을 원하실 경우 아래의 버튼을 클릭 해주세요.
-				<div id="infoBnt" style="margin-top: 50px;">
-					<button type="button" style="width:45%; height:40px; border-radius: 4px; background-color: gray; color: white;" >회원정보 수정</button>
-					<button type="button" style="width:45%; height:40px; border-radius: 4px; background-color: gray; color: white;" >비밀번호 변경</button>
+			<h3>병원 즐겨찾기</h3>
+			<div style="height:80%; margin-top: 16px;">
+				<!-- 테이블 -->
+				<form name="noticeListFrm">
+				<table style="width: 100%; margin-left: 10px;">
+					<thead>
+						 <tr>
+						 	<th style="width: 40%; padding: 10px 0; border: none; font-weight: normal;  text-align: left;  ">
+						 		<img id="findPW" src="<%= ctxPath%>/resources/images/hsim.jpg" width="150" height="180"/>
+							</th>
+						 	<th style="width: 60%; padding: 10px 0; border: none; font-weight: normal; text-align: left; vertical-align: text-top;">
+						 		<strong style="font-size: 14pt; font-weight: bold;">똑닥병원</strong><br/>
+						 		<br/>
+						 		<br/>
+						 		내과전문<br/>
+								위치 : 종각역 2번출구에서 200m이내<br/>
+								전화: 02) 555-1234<br/>
+						 	</th>
+						 </tr>
+					</thead>
+				</table>
+				</form>
+				<!-- 테이블 -->
+				<!-- 더보기 -->
+				<div id="more" style="text-align: right; margin-right: 15px;">
+						<a href="<%= request.getContextPath()%>/reservation.sd" style="font-size: 9pt;">더보기></a>
 				</div>
+				<!-- 더보기 -->
 			</div>
 		</div>
 		<div id="box2-2" style="float: left; margin-left: 18px;">
@@ -182,16 +361,45 @@
 			<div style="height:80%; text-align: center; margin-top: 40px;">
 				홈페이지 이용시 의견이 있으시면 문의해주세요.
 				<div id="infoBnt" style="margin-top: 50px;">
-					<button type="button" style="width:90%; height:40px; border-radius: 4px; background-color: gray; color: white;" >문의내역</button>
+					<button type="button" style="width:90%; height:40px; border-radius: 4px; background-color: gray; color: white;" onclick="javascript:location.href='<%= request.getContextPath()%>/askList.sd'" >문의내역</button>
 					<button type="button" style="width:90%; height:40px; margin-top:10px; border-radius: 4px; background-color: gray; color: white;" >의견접수</button>
 				</div>
 			</div>
 		</div>
 		<div id="box2-3" style="float:left; margin-left: 18px;">
 			<h3>후기</h3>
-			<div style="height:80%; text-align: center; margin-top: 25px;">
-				등록된 후기가 없습니다.
+			<!-- 더보기 -->
+			<div id="more" style="text-align: right; margin-right: 15px;">
+				<a href="<%= request.getContextPath()%>/review.sd" style="font-size: 9pt;">더보기></a>
 			</div>
+			<!-- 더보기 -->
+			<div style="height:80%; text-align: center; margin-top: 25px;">
+				<!-- 테이블 -->
+				<form name="noticeListFrm">
+				<table style="width: 90%;">
+					<thead>
+						 <tr>
+						 	<th style="padding: 10px 0; font-size: 8pt;">별점</th>
+						 	<th style="padding: 10px 0; font-size: 8pt;">병원</th>
+						 	<th style="padding: 10px 0; font-size: 8pt;">내용</th>
+						 </tr>
+					</thead>
+					
+					<tbody>
+						<tr>
+							<td style="padding: 10px 0; font-size: 8pt;">★★★★</td>
+							<td id="hospitalName" class="noticeTitle" style="padding: 10px 0; font-size: 8pt;">똑닥병원</td>
+							<td style="padding: 10px 0; font-size: 8pt;">친절하고 과잉진료 없어요^^</td>
+						</tr>
+						<tr>
+							<td style="padding: 10px 0; font-size: 8pt;">★</td>
+							<td id="hospitalName" class="noticeTitle" style="padding: 10px 0; font-size: 8pt;">kh병원</td>
+							<td style="padding: 10px 0; font-size: 8pt;">관리자에 의해 규제된 게시물입니다.</td>
+						</tr>
+					</tbody>	
+				</table>
+				</form>
+				<!-- 테이블 -->
 		</div>
 	</div>
         </div>

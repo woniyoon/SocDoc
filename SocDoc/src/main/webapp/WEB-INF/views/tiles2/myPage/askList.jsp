@@ -62,7 +62,7 @@
 	
 	div#search_bar_right {
 		float: right;
-		margin-right: 5%;
+		margin-right: 6%;
 	}
 
 	
@@ -206,6 +206,8 @@
 		text-align: center;
 		
 	}
+	
+	
 
 </style>
 </head>
@@ -220,6 +222,7 @@
                 <li><a href="<%= request.getContextPath()%>/bookMark.sd">· 병원 즐겨찾기</a></li>
                 <li><a href="<%= request.getContextPath()%>/reservation.sd">· 예약확인</a></li>
                 <li><a href="<%= request.getContextPath()%>/viewHistory.sd">· 최근 진료이력조회</a></li>
+            	<li><a href="<%= request.getContextPath()%>/review.sd">· 내 후기</a></li>
             </ul>
             <ul style="display:inline-block; margin-top: 20px; margin-left: 50px;">
             	<li><h3>자주 찾는 서비스</h3></li>
@@ -248,6 +251,7 @@
 			<table style="margin-top: 30px;">
 				<thead>
 					 <tr>
+					 	<th><input type="checkbox" /></th>
 					 	<th>글번호</th>
 					 	<th>제목</th>
 					 	<th>등록일</th>
@@ -257,33 +261,27 @@
 				
 				<tbody>
 					<tr>
+						<td><input type="checkbox" /></td>
 					    <td class="notice_seq">1</td>
-						<td class="noticeTitle">문의합니다</td>
+						<td class="noticeTitle"><a href="<%= request.getContextPath()%>/ask.sd">문의합니다</a></td>
 						<td>2020-07-29</td>
 						<td style="color: skyblue;">답변완료</td>
 					</tr>
 				</tbody>	
 						
 
-				<!--  
-				<tbody>
-					<c:forEach var="feedback" items="${feedbackList}" >
-					<tr>
-					    <td>${feedback.rno}</td>
-						<td>${feedback.status}</td>
-						<td class="notice_seq">${feedback.feedback_board_seq}</td>
-						<td class="noticeTitle">${feedback.title}</td>
-						<a href="/notice/noticeView.sb?notice_seq=${notice.notice_seq}">
-						<td>${feedback.username}</td>
-						<td>${feedback.write_day}</td>
-						<td>${feedback.hit}</td>
-					</tr>
-					</c:forEach>
-				</tbody>
-				-->
 			</table>
 			</form>
 			</br></br>
+			
+			
+			
+			<div id="btn" style="width:80%; text-align: right;">
+				<%-- <button id="printBtn" style="background-color: skyblue; color:white; width: 80px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" onclick="javascript:location.href='<%= request.getContextPath()%>/ask.sd'">문의하기</button>
+				<button id="printBtn" style="background-color: white; color:skyblue; width: 50px; height: 30px; border-radius: 4px; border: solid 1px skyblue; font-size: 10pt;">삭제</button>
+			 --%>
+			 	<button id="printBtn" style="background-color: skyblue; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" >삭제</button>
+			</div>
 			
 			<!-- 페이지바 -->
 			<div id="center" style="width: 70%; border: solid 0px gray; margin: 20px auto;">
@@ -293,13 +291,8 @@
 			</div>
 			</br></br>
 			
-			<!--  
-			<div id="notice_button_wrap">
-				<p id="notice_button">
-					<a class="write notice_list" href="feedbackWrite.sb" >글쓰기</a>
-				</p>
-			</div>
-			-->
+			
+			
 		</section>
 		</div>
 		

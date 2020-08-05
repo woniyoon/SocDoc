@@ -160,6 +160,40 @@
 		background-color: #E3E3E3;
 		border-radius: 4px;
 	}
+	
+	/* 기본정보 변경 form */
+	table.type05 {
+		width: 100%;
+	    border-collapse: separate;
+	    border-spacing: 1px;
+	    text-align: left;
+	    line-height: 1.5;
+	    /* border-top: 1px solid #ccc; */
+	}
+	
+	table.type05 th {
+	    width: 20%;
+	    padding: 10px;
+	    font-weight: bold;
+	    vertical-align: middle;
+	    border-bottom: 1px solid #ccc;
+	    background: #f2f2f2;
+	}
+	
+	table.type05 td {
+	    width: 80%;
+	    padding: 10px;
+	    vertical-align: top;
+	    border-bottom: 1px solid #ccc;
+	}
+	
+	.form-control-tel {
+		width: 70px;
+	}
+	
+	#infoChange {
+		width: 100%;
+	}
 
 </style>
 
@@ -177,7 +211,7 @@
 	function hospitalName(){
 		
 		// 팝업창 띄우기
-		var url = "/JqueryStudy/Final/hospitalNamePopup.html";
+		var url = "<%= request.getContextPath()%>/hospitalNamePopup.sd";
 		
 		window.open(url, "hospitalNamePopup",
 					"left=350px, top=100px, width=350px, height=250px, resizable = no, scrollbars = no"); // 팝업창 띄움(view단주소, 팝업창이름, 위치) --%>
@@ -198,6 +232,7 @@
                 <li><a href="<%= request.getContextPath()%>/bookMark.sd">· 병원 즐겨찾기</a></li>
                 <li><a href="<%= request.getContextPath()%>/reservation.sd">· 예약확인</a></li>
                 <li><a href="<%= request.getContextPath()%>/viewHistory.sd">· 최근 진료이력조회</a></li>
+           		<li><a href="<%= request.getContextPath()%>/review.sd">· 내 후기</a></li>
             </ul>
             <ul style="display:inline-block; margin-top: 20px; margin-left: 50px;">
             	<li><h3>자주 찾는 서비스</h3></li>
@@ -230,7 +265,7 @@
 				<tbody>
 					<tr>
 					    <td class="notice_seq">1</td>
-						<td id="hospitalName" class="noticeTitle" onclick="hospitalName();">똑닥병원</td>
+						<td id="hospitalName" class="noticeTitle"><a style="cursor: pointer;" class="btn" data-toggle="modal" data-target="#myModal">똑닥병원</a></td>
 						<td>2020-07-30</td>
 						<td>14:00</td>
 					</tr>
@@ -265,6 +300,76 @@
 			-->
 		</section>
 		</div>
+		
+		<!-- 모달 영역 -->
+   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-ladelledby="myModalLabel">
+   <div class="modal-dialog" role="document">
+   <div class="modal-content">
+      <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+      <h4 class="modal-title" id="myModalLabel" style="font-size: 18pt; font-weight: bold;">예약확인</h4>
+      </div>
+      
+      <!-- 내용 -->
+      <div class="modal-body">
+      <div id="container" style="text-align: center; margin-top: 30px; width: 100%; margin: 0 auto;">
+		<!-- 기본정보 변경 form시작 -->
+	    <div id="infoChange">
+		<form name="writeFrm" >
+			<table class="type05" style="border-top: solid 1px black; margin: 0 auto;">
+				<tbody>
+				<tr>
+			        <th scope="row" style="border: none;">병원명 </th>
+			        <td>
+					    똑딱병원
+					</td>
+			    </tr>
+			    <tr>
+			        <th scope="row" style="border: none;">진료과목 </th>
+			        <td>
+					      이비인후과
+					</td>
+			    </tr>
+			    <tr>
+			        <th scope="row" style="border: none;">방문예정일 </th>
+			        <td>
+					2020.0.18
+					</td>
+		        </tr>
+		        <tr>
+			        <th scope="row" style="border: none;">방문예정시간 </th>
+			        <td>
+			        	14:00
+					</td>
+				</tr>	
+				<tr>
+					<th scope="row" style="border: none;">전화번호</th> 
+					<td>
+					02-123-5567
+					</td>
+				</tr>			
+			    <tr>
+			        <th scope="row" style="border: none;">주소</th>
+			        <td>
+			        	서울특별시 중구 을지로 255, 기승빌딩 4층 (을지로6가)
+					</td>
+			    </tr>
+			    </tbody>
+			</table>
+		  
+	  </form>
+	  </div>
+   <!-- 기본정보 변경 form끝 -->
+      </div>
+      </div>
+      
+      <div class="modal_footer" style="text-align: center; margin-bottom: 30px;">
+      <button type="button" class="btn btn-primary">예약변경</button>
+      <button type="button" class="btn btn-default myclose" data-dismiss="modal">예약취소</button>
+      </div>
+   </div>
+   </div>
+   </div>
 		
     </main>
     <footer>
