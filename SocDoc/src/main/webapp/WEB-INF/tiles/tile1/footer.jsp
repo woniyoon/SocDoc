@@ -5,6 +5,7 @@
 	footer {
             height: 150px;
             background-color: #ddd;
+            clear: both;
         }
 </style>
 
