@@ -50,7 +50,8 @@
 					<tr>
 						<th>주소</th>
 						<td>
-							${hpInfo.address }<button type="button">주소찾기</button>
+							<div>${hpInfo.address }</div>
+							<div align="right"><button type="button">주소찾기</button></div>
 						</td>
 					</tr>
 					<tr>
