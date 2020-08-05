@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
   
 <%
 	String ctxPath = request.getContextPath();
 %>
 
 <link rel="stylesheet" type="text/css" media="screen" href="<%=ctxPath %>/resources/css/hpInfo.css" />
+
 
 	<div class="hpInfoContainer">
 		<h3 align="left">병원 정보 관리</h3>
@@ -48,23 +50,30 @@
 					<tr>
 						<th>주소</th>
 						<td>
-							<button type="button">주소찾기</button>
+							${hpInfo.address }<button type="button">주소찾기</button>
 						</td>
 					</tr>
 					<tr>
 						<th>대표전화</th>
-						<td><input type="text" value="00-000-0000" /></td>
+						<td><input type="text" value="${hpInfo.phone }" /></td>
 					</tr>
 					<tr>
 						<th>진료과목</th>
-						<td><span id="dept">피부과</span></td>
+						<td><span id="dept">${hpInfo.dept}</span></td>
 					</tr>
 					<tr>
 						<th>소개</th>
 						<td>
-							<textarea placeholder="200자 내외로 작성해주세요!"></textarea>
+							<textarea placeholder="200자 내외로 작성해주세요!">${hpInfo.info }</textarea>
 							<br>
-							<span>0</span>/200자
+							<span>
+							<c:if test="${not empty hpInfo}">
+								140
+							</c:if>
+							<c:if test="${empty hpInfo }">
+								0
+							</c:if>
+							</span>/200자
 						</td>
 					</tr>
 				</table>
