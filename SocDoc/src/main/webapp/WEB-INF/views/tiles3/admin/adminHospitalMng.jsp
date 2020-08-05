@@ -74,6 +74,60 @@
 		text-align: center;
 	}
 
+
+	/* 모달창 만들기 */
+
+.hidden {
+    display: none;
+}
+
+.modalContainer {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;	/* 달력의 화살표가 튀어나오지 않게 방지 */
+}
+
+.modalOverlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.modalContent {
+    background-color: white;
+    width: 30%;
+    height: auto;
+    min-height: 50%;
+    max-height: 60%;
+    position: relative;
+    padding: 30px;
+    border: 1px solid rgb(230, 230, 230);
+}
+
+.modalContentHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.hospitalDetail {
+	width: 90%;
+	margin: 40px 0 0 0;	
+}
+
+.hospitalDetail tr, .hospitalDetail td {
+	border-top: 1px solid #dddddd;
+	border-collapse: collapse;
+	padding: 10px 0;	
+}
+	
 </style>
 
 
@@ -104,7 +158,7 @@
 					<th>등록</th>
 				</tr>
 				
-				<tr>
+				<tr class="detailRow">
 					<td>hospital1</td>			
 					<td>123456-78910</td>			
 					<td>김관리</td>			
@@ -114,7 +168,7 @@
 					<td style="color:blue; font-weight:bold;">Y</td>			
 				</tr>
                
-                <tr>
+                <tr class="detailRow">
 					<td>hospital2</td>			
 					<td>123456-78910</td>			
 					<td>나관리</td>			
@@ -128,4 +182,43 @@
 			
 		</div>
 		
+		
+		<div class="modalContainer hidden">
+		<div class="modalOverlay">
+			<div class="modalContent" align="center">
+				<div class="modalContentHeader">
+					<h4 align="left">환자정보</h4>
+					<span style="font-size: 1.2em; cursor: pointer;"
+						onclick="closeModal()">X</span>
+				</div>
+				<table class="hospitalDetail customTable" >
+					병원상세정보
+				</table>
+				</div>
+			</div>
+		</div>
+			
 	</div>
+	
+	
+	
+<script>
+$(document).ready(function() {
+	$(".detailRow").each(function() {
+		$(this).click(function(e) {
+			// 체크박스 클릭시, 이벤트를 취소
+			if (e.target.type == "checkbox") {
+				e.stopPropagation();
+				console.log("event canceled!!");
+			} else {
+				$(".modalContainer").removeClass("hidden");
+				console.log("event going on");
+			}
+		});
+	});
+});
+
+function closeModal() {
+	$(".modalContainer").addClass("hidden");
+}
+</script> 	

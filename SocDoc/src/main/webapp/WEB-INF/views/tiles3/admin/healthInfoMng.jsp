@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%
+	String ctxPath = request.getContextPath();
+%>
 
 <style type="text/css">
 
@@ -56,6 +60,10 @@
 	    border-bottom: 1px solid #dddddd;
 	    line-height: 1.8;
 	
+	}
+	
+	td.healthTitle:hover {
+		cursor: pointer;
 	}
 	
 	#healthInfoList {
@@ -116,7 +124,7 @@
                     <tr>
                         <td><input type="checkbox" /></td>
                         <td>1</td>
-                        <td>손은 언제 씻어야 할까?</td>
+                        <td class="healthTitle">손은 언제 씻어야 할까?</td>
                         <td>2020.08.04</td>
                         <td>124</td>
                     </tr>
@@ -125,11 +133,21 @@
             </table>
             <button id="ckAll">전체선택</button>
             <button id="deleteBtn">삭제</button>
-            <button id="writeBtn">글쓰기</button>
+            <button id="writeBtn" onclick="location.href='<%= ctxPath%>/healthWrite.sd'">글쓰기</button>
             
         </div>
             
-			
 		</div>
+
 		
-	</div>
+
+
+<script type="text/javascript">
+	
+	$(".healthTitle").click(function(){ 
+		
+	    location.href='<%= ctxPath%>/healthView.sd';
+	    
+	});
+	
+</script>   		

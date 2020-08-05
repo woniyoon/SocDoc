@@ -67,6 +67,7 @@
 		    <a href="<%= ctxPath%>/healthInfoMng.sd" class="w3-bar-item w3-button">건강정보관리</a>
 		    <a href="<%= ctxPath%>/reviewMng.sd" class="w3-bar-item w3-button">후기관리</a>
 		    <a href="<%= ctxPath%>/qnaMng.sd" class="w3-bar-item w3-button">문의관리</a>
+		    <a href="<%= ctxPath%>/faqMng.sd" class="w3-bar-item w3-button">FAQ관리</a>
 		  </div>
     </div>
 		

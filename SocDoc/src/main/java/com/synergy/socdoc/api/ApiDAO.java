@@ -24,8 +24,8 @@ public class ApiDAO implements InterApiDAO {
 	        
 			urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /* 페이지번호 */
 			urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /* 한 페이지 결과 수 */
-			urlBuilder.append("&" + URLEncoder.encode("startCreateDt", "UTF-8") + "=" + URLEncoder.encode("20200710", "UTF-8")); /* 검색할 생성일 범위의 시작 */
-			urlBuilder.append("&" + URLEncoder.encode("endCreateDt", "UTF-8") + "=" + URLEncoder.encode("20200716", "UTF-8")); /* 검색할 생성일 범위의 종료 */
+			urlBuilder.append("&" + URLEncoder.encode("startCreateDt", "UTF-8") + "=" + URLEncoder.encode("20200729", "UTF-8")); /* 검색할 생성일 범위의 시작 */
+			urlBuilder.append("&" + URLEncoder.encode("endCreateDt", "UTF-8") + "=" + URLEncoder.encode("20200805", "UTF-8")); /* 검색할 생성일 범위의 종료 */
 			URL url = new URL(urlBuilder.toString());
 			
 			System.out.println("URL : " + url);

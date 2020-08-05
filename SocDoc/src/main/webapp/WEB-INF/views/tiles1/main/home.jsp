@@ -8,6 +8,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="false" %>
 
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
 	<style>
         
@@ -261,20 +265,49 @@
           opacity: 1;
         }
         
-        .chart {
+        #chart {
             width: 960px;
-            height: 200px;
+            height: 300px;
             margin-top: 30px;
             margin-bottom: 30px;
             margin-right: auto;
             margin-left: auto;
-            border: solid 1px black;
+            border: solid 1px #ddd;
         }
         
-        footer {
-            height: 150px;
-            background-color: #ddd;
-        }
+		.highcharts-figure, .highcharts-data-table table {
+		    min-width: 310px; 
+		    max-width: 800px;
+		    margin: 1em auto;
+		}
+		
+		.highcharts-data-table table {
+		    font-family: Verdana, sans-serif;
+		    border-collapse: collapse;
+		    border: 1px solid #EBEBEB;
+		    margin: 10px auto;
+		    text-align: center;
+		    width: 100%;
+		    max-width: 500px;
+		}
+		.highcharts-data-table caption {
+		    padding: 1em 0;
+		    font-size: 1.2em;
+		    color: #555;
+		}
+		.highcharts-data-table th {
+			font-weight: 600;
+		    padding: 0.5em;
+		}
+		.highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+		    padding: 0.5em;
+		}
+		.highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+		    background: #f8f8f8;
+		}
+		.highcharts-data-table tr:hover {
+		    background: #f1f7ff;
+		}
         
     </style>
 
@@ -389,10 +422,16 @@
     
         <br>
        
-        <div class="chart"></div>
+        <div id="chart"></div>
 
 
 <script>
+$(document).ready(function(){
+	
+	coronaList();	
+
+});
+
 new Swiper('.swiper-container', {
 
 	slidesPerView : 3, // 동시에 보여줄 슬라이드 갯수
@@ -420,5 +459,97 @@ $(".hover").mouseleave(
   function () {
     $(this).removeClass("hover");
   }
-);    
+); 
+
+
+/* corona19 chart */
+function coronaList() {
+	
+	$.ajax({
+		
+		url:"<%= ctxPath%>/api/covidStats.sd",
+		dataType: "JSON",
+		success:function(json) {
+			
+		/* 			
+			var resultArr = [];
+			
+			console.log(json);
+			
+			var realResult = test.response.body.items.item;
+			console.log(realResult);
+			for(var i=0;i<result.length;i++){
+			    
+				console.log(result[i].deathCnt);
+
+			}
+		 */
+		 
+			Highcharts.chart('chart', {
+			    chart: {
+			        type: 'areaspline'
+			    },
+			    title: {
+			        text: '일자별 전국 신규 확진자'
+			    },
+			    legend: {
+			        layout: 'vertical',
+			        align: 'left',
+			        verticalAlign: 'top',
+			        x: 150,
+			        y: 100,
+			        floating: true,
+			        borderWidth: 1,
+			        backgroundColor:
+			            Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF'
+			    },
+			    xAxis: {
+			        categories: [
+			            'Monday',
+			            'Tuesday',
+			            'Wednesday',
+			            'Thursday',
+			            'Friday',
+			            'Saturday',
+			            'Sunday'
+			        ],
+			        plotBands: [{ // visualize the weekend
+			            from: 4.5,
+			            to: 6.5,
+			            color: 'rgba(68, 170, 213, .2)'
+			        }]
+			    },
+			    yAxis: {
+			        title: {
+			            text: ''
+			        }
+			    },
+			    tooltip: {
+			        shared: true,
+			        valueSuffix: ' people'
+			    },
+			    credits: {
+			        enabled: false
+			    },
+			    plotOptions: {
+			        areaspline: {
+			            fillOpacity: 0.5
+			        }
+			    },
+			    series: [{
+			        name: 'COVID 19',
+			        data: [21, 11, 23, 2, 1, 0, 1]
+			    }]
+			    
+				});
+		   
+			},
+		 	error: function(request, status, error) {
+	    	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	    }
+	});
+}
+
+
+
 </script>

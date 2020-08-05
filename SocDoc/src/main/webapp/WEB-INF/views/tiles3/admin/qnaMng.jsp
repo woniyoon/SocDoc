@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%
+	String ctxPath = request.getContextPath();
+%>    
 
 <style type="text/css">
 
@@ -58,6 +62,10 @@
 	
 	}
 	
+	td.qnaTitle:hover {
+		cursor: pointer;
+	}
+	
 	th {
 		text-align: center;
 	}
@@ -107,7 +115,7 @@
                 <tbody>
                     <tr>
                         <td><input type="checkbox" /></td>
-                        <td>예약 어케함;</td>
+                        <td class="qnaTitle">예약 어케함;</td>
                         <td>김나나</td>
                         <td>2020.08.04</td>
                         <td style="color: limegreen; font-weight: bold;">답변완료</td>
@@ -131,3 +139,14 @@
 
 	
 	</div>
+	
+
+<script type="text/javascript">
+	
+	$(".qnaTitle").click(function(){ 
+		
+	    location.href='<%= ctxPath%>/qnaAnswer.sd';
+	    
+	});
+	
+</script>   	
