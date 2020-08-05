@@ -76,7 +76,7 @@
 			</tbody>
 			<tfoot>
 				<tr>
-					<td colspan="4" align="right"><span>더보기</span></td>
+					<td colspan="4" align="right"><span style="cursor: pointer" onclick="location.href='<%=ctxPath %>/hpPanel/reservationInfo.sd'">더보기</span></td>
 				</tr>
 			</tfoot>
 		</table>
