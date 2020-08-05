@@ -170,7 +170,7 @@
 		</table>
 	</div>
 	<div class="modalContainer hidden">
-		<div class="modalOverlay" onclick="closeModal()">
+		<div class="modalOverlay">
 			<div class="modalContent" align="center">
 				<div class="modalContentHeader">
 					<h4 align="left">환자정보</h4>
