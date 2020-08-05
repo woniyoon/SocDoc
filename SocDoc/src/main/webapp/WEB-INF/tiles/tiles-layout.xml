@@ -41,6 +41,24 @@
    <definition name="*/*/*.tiles2" extends="layout-tiles2">
       <put-attribute name="content" value="/WEB-INF/views/tiles2/{1}/{2}/{3}.jsp"/>
    </definition>
+   
+   <!-- ==== tiles5 를 사용하는 레이아웃 설정 시작 ==== -->
+   <definition name="layout-tiles5" template="/WEB-INF/tiles/layout/layout-tiles5.jsp"> 
+      <put-attribute name="header" value="/WEB-INF/tiles/tile1/header.jsp" />
+      <put-attribute name="content" value="" />
+      <put-attribute name="sideinfo" value="/WEB-INF/tiles/tile5/sideinfo.jsp" />
+      <put-attribute name="footer" value="/WEB-INF/tiles/tile1/footer.jsp" />
+   </definition>
+   
+   <definition name="*.tiles5" extends="layout-tiles5">
+      <put-attribute name="content" value="/WEB-INF/views/tiles5/{1}.jsp"/>
+   </definition>
+   <definition name="*/*.tiles5" extends="layout-tiles5">
+      <put-attribute name="content" value="/WEB-INF/views/tiles5/{1}/{2}.jsp"/>
+   </definition>
+   <definition name="*/*/*.tiles5" extends="layout-tiles5">
+      <put-attribute name="content" value="/WEB-INF/views/tiles5/{1}/{2}/{3}.jsp"/>
+   </definition>
    <!-- ==== tiles 를 사용하는 레이아웃 설정 끝 ==== -->
    
    

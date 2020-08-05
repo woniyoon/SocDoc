@@ -22,7 +22,7 @@
 	}
 	
 	.content{
-		width:80%;
+		width:90%;
 		margin:0px auto;
 		min-width: 864px;
 	}
@@ -95,7 +95,6 @@
 	
 	.tabMap{
 		padding-top: 15px;
-		border:1px solid red;
 	}
 	
 	.mapSelect{
@@ -116,7 +115,6 @@
 		float:clear;
 		width:100%;
 		height:800px;
-		border:1px solid blue;		
 	}
 	
 	.map{
@@ -136,7 +134,7 @@
 		padding: 10px 20px;
 	}		
 	
-	.hospitalList{
+	.pharmacyList{
 		border-bottom : 1px solid #999999;
 		padding: 10px 25px 20px 25px;
 	}
@@ -152,14 +150,14 @@
 		padding: 20px 0;	
 	}
 	
-	.mHospitalName{
+	.mpharmacyName{
 		font-size : 11pt;
 		color:#0080ff; 
 		font-weight: bolder;
 		margin-bottom: 5px;
 	}
 	
-	.hospitalName{
+	.pharmacyName{
 		font-weight: 900;
 		font-size: 13pt;
 		margin:0 10px 10px 0;
@@ -179,10 +177,6 @@
 	   
 </style>
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/SocDoc/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="/SocDoc/util/myutil.js"></script>
 <script type="text/javascript">
 
@@ -388,16 +382,16 @@
 				      		<table class="mabListTable">
 				      			<tr>
 				      				<td>
-				      					<div id="mHospitalName" class="mHospitalName">어쩌고 병원</div>
-				      					<div id="mHospitalTel">02-123-4567</div>
-				      					<div id="mHospitalAddress">서울특별시 강남구 강남로123-1</div>
+				      					<div id="mpharmacyName" class="mpharmacyName">어쩌고 병원</div>
+				      					<div id="mpharmacyTel">02-123-4567</div>
+				      					<div id="mpharmacyAddress">서울특별시 강남구 강남로123-1</div>
 				      				</td>
 				      			<tr>
 				      			<tr>
 				      				<td>
-				      					<div id="mHospitalName" class="mHospitalName">어쩌고 병원</div>
-				      					<div id="mHospitalTel">02-123-4567</div>
-				      					<div id="mHospitalAddress">서울특별시 강남구 강남로123-1</div>
+				      					<div id="mpharmacyName" class="mpharmacyName">어쩌고 병원</div>
+				      					<div id="mpharmacyTel">02-123-4567</div>
+				      					<div id="mpharmacyAddress">서울특별시 강남구 강남로123-1</div>
 				      				</td>
 				      			<tr>
 				      		</table>				      
@@ -407,33 +401,27 @@
 			
 			<!-- 일반 -->			
 			<div id="tab-2" class="tab-content">
-				<div class="tabGeneral">
-					<div>
-						<select id="city" name="city" class="select">
-							<option value="city">시</option>
-						</select>
-						<select id="county" name="county" class="select">
-							<option value="county">군</option>
-						</select>
-						<select id="district" name="district" class="select">
-							<option value="district">구</option>
-						</select>
-					</div>
-					<div>
-						<select id="category" name="category" class="select">
-							<option value="category">진료과목</option>
-						</select>
-						<input type="text" id ="searchWord" name="searchWord" class="select"/>	
-						<button type="button" class="btnSearch" onclick="goSearch();">검색</button>
-					</div>					
-					
+				<div class="tabGeneral">					
+			          <select id="city" name="city" class="selectMap">
+			             <option value="0">시</option>                                 
+			          </select>
+			          <select id="city2" name="city" class="selectMap">
+			             <option value="0">군</option>                                 
+			          </select>      
+			          <select id="city3" name="city" class="selectMap">
+			             <option value="0">구</option>                                 
+			          </select>            
+			      
+				      <div class="mapSearch">
+				         <input type="text" id="search" name="search" class="select" style="width:60%;">
+				         <button type="button" class="btnSearch" onclick="goSearch();" >검색</button>
+				      </div>	
 				</div>
 				
 				<hr style="width:100%; border:solid 1px #999999; margin: 20px 0;">
 				
-				<div class="hospitalList">
-					<span class="hospitalName">어쩌고 병원</span><button type="button" class="btnDetail" onClick="goDetail();">상세보기</button>
-					<p class="info">내과</p>
+				<div class="pharmacyList">
+					<span class="pharmacyName">어쩌고 약국</span><button type="button" class="btnDetail" onClick="goDetail();">상세보기</button>
 					<p class="info">02-1234-5678</p>
 					<p class="info">서울특별시 강남구 어쩌고로 저쩌고 1층</p>				
 				</div>
