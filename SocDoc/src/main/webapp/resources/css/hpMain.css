@@ -1,13 +1,17 @@
+.hpMainSection {
+	margin: 20px auto;
+	width: 50vw;
+}
 
-#scheduleTbl, thead, tbody, td {
+.scheduleTbl, thead, tbody, td {
 	width: 40vw;
-	border: 2px solid grey;
+	border: 2px solid #c0c0c0;
 	border-collapse: collapse;
 }
 
-#reviewBoard, thead, tfoot {
+.reviewBoard, thead, tfoot {
 	width: 40vw;
-	border: 2px solid grey;
+	border: 2px solid #c0c0c0;
 	border-collapse: collapse;
 }
 
@@ -19,6 +23,6 @@ th {
 	padding: 10px;
 }
 
-#scheduleTbl td {
+.scheduleTbl td {
 	line-height: 2;
 }

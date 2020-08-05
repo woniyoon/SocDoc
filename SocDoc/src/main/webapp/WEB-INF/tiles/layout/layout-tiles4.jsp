@@ -25,12 +25,12 @@
 	}
 	
 	main {
-		padding: 30px auto;
-		width: 100vw;
-		min-height: 65vh;
-		height: auto;
-		display: flex;
-		flex-direction: row;
+		margin: 30px auto;
+	    width: 70vw;
+	    min-height: 65vh;
+	    height: auto;
+	    flex-direction: row;
+	    display: flex;
 	}
 	
 	#sideMenu {
@@ -41,9 +41,13 @@
 	}
 	
 	#contents {
-		flex: 6;
+		flex: 5;
 		height: auto;
-		margin: 30px auto;
+		margin: 0 auto;
+	}
+	
+	#contents h3 {
+		margin: 20px 0;
 	}
 </style>
 

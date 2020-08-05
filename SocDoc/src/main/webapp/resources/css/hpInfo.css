@@ -1,6 +1,5 @@
 .hpInfoContainer {
 	width: 40vw;
-	margin: 40px;
 }
 
 #infoContainer {
@@ -51,31 +50,30 @@
 }
 
 
-   #hpTextInfo {
-       width: 100%;
-   }
+#hpTextInfo {
+    width: 100%;
+}
 
-   #hpTextInfo td {
-       height: 2.5em;
-       padding: 10px;
-   }
+#hpTextInfo td {
+    height: 2.5em;
+    padding: 10px;
+}
 
-   #hpTextInfo th, #settingSection th {
-       background-color: rgb(212, 212, 212);
-       padding: 0 10px;
-       
-   }
+#hpTextInfo th, #settingSection th {
+    background-color: rgb(212, 212, 212);
+    padding: 0 10px;
+}
 
-   #hpTextInfo, #hpTextInfo tr, #settingSection tr {
-       border-top: 1px solid lightgray;
-       border-bottom: 1px solid lightgray;
-       border-collapse: collapse;
-       padding: 10px;
-       box-sizing: border-box;
-   }​
+#hpTextInfo, #hpTextInfo tr, #settingSection tr {
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    border-collapse: collapse;
+    padding: 10px;
+    box-sizing: border-box;
+}​
 
-   textInfo {
-       /* width: 100%; */
+textInfo {
+    /* width: 100%; */
     height: 40px;
     width: inherit;
 }
@@ -86,11 +84,7 @@ textarea {
     height: 10vh;
 }
 
-.timeSetter {
-    display: flex;
-    flex-direction: column; 
-    width: 15px;
-}
+/* 병원 정보 관리의 밑부분(진료과목/진료시간 설정부분) */
 
 #settingSection {
 	width: 100%;
@@ -102,7 +96,7 @@ textarea {
 	padding: 10px;
 }
 
-/* Image Slider css */
+/* W3School 이미지 슬라이더 */
 
 * {
     box-sizing: content-box;
@@ -219,6 +213,7 @@ textarea {
     }
 } */
 
+
 /* 커스텀 파일 업로드 스타일 */
 
 .where {
@@ -278,8 +273,3 @@ textarea {
 	background-color: #337ab7;
 	border-color: #2e6da4;
 }
-
-/* table, tr, td {
-    border: 1px solid grey;
-    border-collapse: collapse;
-} */
