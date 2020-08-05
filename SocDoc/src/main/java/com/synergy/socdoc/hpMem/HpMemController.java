@@ -1,4 +1,4 @@
-package com.synergy.socdoc.hpPanel.ctrl;
+package com.synergy.socdoc.hpMem;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,7 +12,7 @@ import com.synergy.service.InterService;
 
 @Component
 @Controller
-public class HpPanelController {
+public class HpMemController {
 	
 	// 병원회원 페이지 
 	// 홈
