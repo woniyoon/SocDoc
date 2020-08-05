@@ -9,6 +9,7 @@ public class HpInfoVO {
 	private String info;
 	private double latitude;
 	private double longitude;
+	// 필요한지 모르겠음; 
 	private int open;
 	private int close;
 	private String mainImg;

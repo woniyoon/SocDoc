@@ -7,10 +7,6 @@
 <!-- ==== #29. 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체내에서 유일해야 한다.) ==== -->
 <mapper namespace="hpMem">
 	<select id="getHpInvo" parameterType="String" resultType="com.synergy.socdoc.member.HpInfoVO">
-		select v.hpSeq, v.hpname, v.dept, v.address, v.phone, v.info, v.latitude, v.longitude
-			  ,nvl(sche.open, -1), nvl(sche.close, -1)
-		from 
-		(select hpSeq, hpname, dept, address, phone, info, latitude, longitude from hospitalInfo where hpSeq = #{hpSeq}) v left join schedule sche
-		on v.hpSeq = sche.hpSeq
+		select hpname, dept, address, phone, info, latitude, longitude from hospitalInfo where hpSeq = #{hpSeq}
 	</select>
 </mapper>
