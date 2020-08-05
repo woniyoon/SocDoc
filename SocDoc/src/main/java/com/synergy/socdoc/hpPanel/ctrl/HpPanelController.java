@@ -44,4 +44,10 @@ public class HpPanelController {
 		return "hpPanel/hpReviews.tiles4";
 	}
 
+	@RequestMapping(value = "/hpPanel/hpStats.sd", method = RequestMethod.GET)
+	public String getHpStats(HttpServletRequest request) {
+		
+		return "hpPanel/hpStats.tiles4";
+	}
+
 }
