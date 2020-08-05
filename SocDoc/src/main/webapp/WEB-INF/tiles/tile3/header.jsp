@@ -196,6 +196,7 @@
         <div class="subnav-content">
           <a href="#"><img src="<%= ctxPath%>/resources/images/hospital.png"/>병원찾기</a>
           <a href="#"><img src="<%= ctxPath%>/resources/images/pharmacy.png"/>약국찾기</a>
+          <a href="#"><img src="<%= ctxPath%>/resources/images/ambulance.png"/>민간구급차찾기</a>
         </div>
       </div> 
 
