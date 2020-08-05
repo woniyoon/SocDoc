@@ -77,9 +77,9 @@
 </style>
 
 
-	<div id="container" style="min-height: 70vh;">
+	<div id="container">
 		
-		<div id="hospitalList">
+		<div id="hospitalList" style="min-height: 70vh;">
 			<h2>병원회원관리</h2>
 			 
             <button class="searchBtn">검색</button>

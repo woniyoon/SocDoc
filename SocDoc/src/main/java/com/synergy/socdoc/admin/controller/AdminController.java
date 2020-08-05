@@ -15,17 +15,17 @@ public class AdminController {
 	@Autowired
 	private InterService service;
 	
-	@RequestMapping(value = "/adminMemberList.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
-	public String adminMemberList(HttpServletRequest request) {
+	@RequestMapping(value = "/adminMemberMng.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+	public String adminMemberMng(HttpServletRequest request) {
 		
-		return "admin/adminMemberList.tiles3";
+		return "admin/adminMemberMng.tiles3";
 	}
 
 		
-	@RequestMapping(value = "/adminHospitalList.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
-	public String adminHospitalList(HttpServletRequest request) {
+	@RequestMapping(value = "/adminHospitalMng.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+	public String adminHospitalMng(HttpServletRequest request) {
 		
-		return "admin/adminHospitalList.tiles3";
+		return "admin/adminHospitalMng.tiles3";
 	}
 	
 	@RequestMapping(value = "/hospitalInfo.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
@@ -34,10 +34,10 @@ public class AdminController {
 		return "admin/hospitalInfo.tiles3";
 	}
 	
-	@RequestMapping(value = "/adminNotice.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
-	public String adminNotice(HttpServletRequest request) {
+	@RequestMapping(value = "/adminNoticeMng.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+	public String adminNoticeMng(HttpServletRequest request) {
 		
-		return "admin/adminNotice.tiles3";
+		return "admin/adminNoticeMng.tiles3";
 	}
 	
 	@RequestMapping(value = "/noticeView.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
@@ -52,10 +52,10 @@ public class AdminController {
 		return "admin/noticeWrite.tiles3";
 	}
 	
-	@RequestMapping(value = "/healthInfo.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
-	public String healthInfo(HttpServletRequest request) {
+	@RequestMapping(value = "/healthInfoMng.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+	public String healthInfoMng(HttpServletRequest request) {
 		
-		return "admin/healthInfo.tiles3";
+		return "admin/healthInfoMng.tiles3";
 	}
 
 	@RequestMapping(value = "/healthView.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")

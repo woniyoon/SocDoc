@@ -297,7 +297,7 @@
         </div>
 
         <div class="con2">
-            <div class="searchAmbulance"><p class="miniTitle">민간구급차검색<br/><br/><img src="<%= ctxPath%>/resources/images/ambulance.png" class="icon3" /></p></div>
+            <div class="searchAmbulance"><p class="miniTitle">민간구급차검색<br/><br/><img src="<%= ctxPath%>/resources/images/ambulance2.png" class="icon3" /></p></div>
             
             <div class="notice">            
                 <table>
