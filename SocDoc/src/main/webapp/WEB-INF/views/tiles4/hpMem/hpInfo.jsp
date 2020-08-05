@@ -37,13 +37,13 @@
 			<div id="hpDetail">
 				<ul id="hpDetailList">
 					<li><input type="text" id="mainImg" readonly value="상세이미지1" />
-						<button class="findFile" type="button" id="mainImg">찾기</button> <input
+						<button class="deleteBtn findFile" type="button" id="mainImg">찾기</button> <input
 						type="file" id="mainImgFile" /></li>
 					<li><input type="text" id="subImg1" readonly value="상세이미지1" />
-						<button class="findFile" type="button" id="subImg1">찾기</button> <input
+						<button class="deleteBtn findFile" type="button" id="subImg1">찾기</button> <input
 						type="file" id="subImg1File" /></li>
 					<li><input type="text" id="subImg2" readonly value="상세이미지2" />
-						<button class="findFile" type="button" id="subImg2">찾기</button> <input
+						<button class="deleteBtn findFile" type="button" id="subImg2">찾기</button> <input
 						type="file" id="subImg2File" /></li>
 				</ul>
 				<table id="hpTextInfo">
@@ -51,7 +51,7 @@
 						<th>주소</th>
 						<td>
 							<div>${hpInfo.address }</div>
-							<div align="right"><button type="button">주소찾기</button></div>
+							<div align="right"><button class="addBtn" type="button">주소찾기</button></div>
 						</td>
 					</tr>
 					<tr>
@@ -102,50 +102,50 @@
 			</tr>
 			<tr>
 				<th rowspan="7">진료시간</th>
-				<td colspan="6"><label>월요일</label> <input type="number" min="0"
+				<td colspan="6"><label>월요일</label> <input type="number" min="9"
 					max="23" step="1"> : <input type="number" min="0" max="30"
-					step="30"> <span>부터</span> <input type="number" min="0"
-					max="23" step="1"> : <input type="number" min="0" max="30"
-					step="30"> <span>까지</span></td>
-			</tr>
-			<tr>
-				<td colspan="6"><label>화요일</label> <input type="number" min="0"
-					max="23" step="1"> : <input type="number" min="0" max="30"
-					step="30"> <span>부터</span> <input type="number" min="0"
+					step="30"> <span>부터</span> <input type="number" min="10"
 					max="23" step="1"> : <input type="number" min="0" max="30"
 					step="30"> <span>까지</span></td>
 			</tr>
 			<tr>
-				<td colspan="6"><label>수요일</label> <input type="number" min="0"
+				<td colspan="6"><label>화요일</label> <input type="number" min="9"
 					max="23" step="1"> : <input type="number" min="0" max="30"
-					step="30"> <span>부터</span> <input type="number" min="0"
-					max="23" step="1"> : <input type="number" min="0" max="30"
-					step="30"> <span>까지</span></td>
-			</tr>
-			<tr>
-				<td colspan="6"><label>목요일</label> <input type="number" min="0"
-					max="23" step="1"> : <input type="number" min="0" max="30"
-					step="30"> <span>부터</span> <input type="number" min="0"
+					step="30"> <span>부터</span> <input type="number" min="10"
 					max="23" step="1"> : <input type="number" min="0" max="30"
 					step="30"> <span>까지</span></td>
 			</tr>
 			<tr>
-				<td colspan="6"><label>금요일</label> <input type="number" min="0"
+				<td colspan="6"><label>수요일</label> <input type="number" min="9"
 					max="23" step="1"> : <input type="number" min="0" max="30"
-					step="30"> <span>부터</span> <input type="number" min="0"
+					step="30"> <span>부터</span> <input type="number" min="10"
 					max="23" step="1"> : <input type="number" min="0" max="30"
 					step="30"> <span>까지</span></td>
 			</tr>
 			<tr>
-				<td colspan="6"><label>토요일</label> <input type="number" min="0"
+				<td colspan="6"><label>목요일</label> <input type="number" min="9"
 					max="23" step="1"> : <input type="number" min="0" max="30"
-					step="30"> <span>부터</span> <input type="number" min="0"
+					step="30"> <span>부터</span> <input type="number" min="10"
+					max="23" step="1"> : <input type="number" min="0" max="30"
+					step="30"> <span>까지</span></td>
+			</tr>
+			<tr>
+				<td colspan="6"><label>금요일</label> <input type="number" min="9"
+					max="23" step="1"> : <input type="number" min="0" max="30"
+					step="30"> <span>부터</span> <input type="number" min="10"
+					max="23" step="1"> : <input type="number" min="0" max="30"
+					step="30"> <span>까지</span></td>
+			</tr>
+			<tr>
+				<td colspan="6"><label>토요일</label> <input type="number" min="9"
+					max="23" step="1"> : <input type="number" min="0" max="30"
+					step="30"> <span>부터</span> <input type="number" min="10"
 					max="23" step="1"> : <input type="number" min="0" max="30"
 					step="30"> <span>까지</span></td>
 			</tr>
 		</table>
-		<div align="right">
-			<button>승인 신청</button>
+		<div style="margin: 10px 0;" align="right">
+			<button class="deleteBtn">승인 신청</button>
 		</div>
 	</div>
 
