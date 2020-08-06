@@ -10,4 +10,6 @@ public interface InterHpMemDAO {
 
 	public List<HpInfoVO> getInfoUpdateList(String hpSeq);
 
+	public HpInfoVO getHpInfoDetail(String submitId);
+
 }

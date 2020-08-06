@@ -26,4 +26,10 @@ public class HpMemService implements InterHpMemService {
 		List<HpInfoVO> hpInfoList = dao.getInfoUpdateList(hpSeq);
 		return hpInfoList;
 	}
+
+	@Override
+	public HpInfoVO getHpInfoDetail(String submitId) {
+		HpInfoVO hpInfoDetail = dao.getHpInfoDetail(submitId);
+		return hpInfoDetail;
+	}
 }

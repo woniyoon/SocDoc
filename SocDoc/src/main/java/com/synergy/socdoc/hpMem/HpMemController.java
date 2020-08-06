@@ -52,7 +52,11 @@ public class HpMemController {
 	public String test_updateHpInfo(HttpServletRequest request) {
 		String submitId = request.getParameter("submitId");
 		
+		HpInfoVO hpInfoDetail = service.getHpInfoDetail(submitId);
+		
 		System.out.println(submitId);
+		
+		request.setAttribute("hpInfo", hpInfoDetail);
 		
 		return "hpMem/updateHpInfo.tiles4";
 	}

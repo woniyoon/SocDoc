@@ -13,4 +13,8 @@
 	<select id="getInfoUpdateList" parameterType="String" resultType="com.synergy.socdoc.member.HpInfoVO">
 		select submitId, hpName, status, to_char(uploadDate, 'yyyy-mm-dd') as uploadDate from hpApplication where hpseq = #{hpSeq}
 	</select>
+
+	<select id="getHpInfoDetail" parameterType="String" resultType="com.synergy.socdoc.member.HpInfoVO">
+		select hpname, dept, address, phone, info, mainImg, subImg1, subImg2, reason from hpApplication where submitId = #{submitId}
+	</select>
 </mapper>

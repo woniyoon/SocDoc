@@ -28,4 +28,11 @@ public class HpMemDAO implements InterHpMemDAO {
 		return hpInfoList;
 	}
 
+	@Override
+	public HpInfoVO getHpInfoDetail(String submitId) {
+		HpInfoVO hpInfoDetail = sqlsession.selectOne("hpMem.getHpInfoDetail", submitId);
+		
+		return hpInfoDetail;
+	}
+
 }
