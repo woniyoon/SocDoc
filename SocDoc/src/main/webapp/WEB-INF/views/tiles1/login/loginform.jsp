@@ -86,8 +86,8 @@
 
 	#btnLogin {
 		display: inline-block;
-		width: 25.7%;
-		height: 82px;
+		width: 30%;
+		height: 72px;
 		padding: 0 10px;
 		background-color: #58ACFA;
 		border: solid 1px #ccc;
@@ -98,6 +98,7 @@
 	#bottomBtn > ul li {
 		display: inline-block;
 		padding-right: 10px;
+		margin-top: 15px;
 	}
 	
 	a {
@@ -147,7 +148,7 @@
 <script type="text/javascript">
 
 	$(document).ready(function(){
-		$("#btnJoin").click(function(){
+		$("#btnLogin").click(function(){
 	         goLogin(); // 로그인 시도한다.
 		});
 	      
@@ -156,6 +157,12 @@
 	            goLogin(); // 로그인 시도한다.
 			} 
 		});
+		
+		var userid = localStorage.getItem('saveid');
+			if(userid != null){
+				$("#userid").val(userid);
+	    	  	$("input:checkbox[id=saveid]").prop("checked",true);
+		}
 	});	
 	
 	/* === 로그인 처리 함수 === */
@@ -165,25 +172,41 @@
 		var pwd = $("#pwd").val().trim();
       
 		if(userid == "") {
-			alert("아이디를 입력하세요!!");
+			alert("아이디를 입력하세요");
 			$("#userid").val("");
 			$("#userid").focus();
 			return; 
       	}
       
       	if(pwd == "") {
-        	alert("암호를 입력하세요!!");
+        	alert("비밀번호를 입력하세요");
         	$("#pwd").val("");
          	$("#pwd").focus();
          	return;  
       	}
-      
-      	var frm = document.loginFrm;
+		
+		// === 로컬 스토리지(localStorage)에 userid 값 저장시키기 === //
+	  	if($("input:checkbox[id=saveid]").prop("checked")){
+	  		alert("아이디 저장을 클릭하셨네요");
+  		   	localStorage.setItem('saveid', $("#userid").val());
+  	   	} else {
+  	   		alert("아이디 저장을 해제하셨네요");
+			localStorage.removeItem('saveid');
+  	   	}
+      	var frm = document.loginFrm;  
       	
-      	frm.action = "<%=ctxPath%>/loginEnd.action";
-      	frm.method = "post";
+      	frm.action = "<%=ctxPath%>/loginEnd.sd";
+      	frm.method = "POST";
       	frm.submit();
 	}
+	
+<%--
+ 	/* === 로그아웃 처리 함수 === */	
+	function goLogOut() {
+		location.href="<%= request.getContextPath()%>/login/logout.sd";
+	}
+--%>
+
 </script>
 
 
@@ -204,18 +227,16 @@
 		<form name="loginFrm">
 			<div id="box">
 				<div class="checkbox">
-					<label><input type="checkbox" name="rememberEmail">아이디저장</label>
+					<label for="saveid"><input type="checkbox" id="saveid" name="saveid" />아이디저장</label>
 				</div>
 		         
 				<div class="formGroup">
 		            <div class="input">
-						<label for="userid"></label>
-						<input type="text" class="formControl" name="loginUserid" id="userid" value="" placeholder="아이디" /> 
+						<input type="text" class="formControl" name="userid" id="userid" value="" placeholder="아이디" /> 
 					</div>
 		             
 		            <div class="input">
-		                <label for="pwd"></label>
-						<input type="password" class="formControl" name="pwd" id="loginPwd" value="" placeholder="비밀번호"/> 
+						<input type="password" class="formControl" name="pwd" id="pwd" value="" placeholder="비밀번호"/> 
 		            </div>
 		
 			        <div class="btnJoin">
