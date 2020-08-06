@@ -48,6 +48,16 @@ public class HpMemController {
 	}
 
 	// 예약관리
+	@RequestMapping(value = "/hpPanel/updateHpInfo.sd", method = RequestMethod.GET)
+	public String test_updateHpInfo(HttpServletRequest request) {
+		String submitId = request.getParameter("submitId");
+		
+		System.out.println(submitId);
+		
+		return "hpMem/updateHpInfo.tiles4";
+	}
+
+	// 예약관리
 	@RequestMapping(value = "/hpPanel/reservationInfo.sd", method = RequestMethod.GET)
 	public String reservationInfo(HttpServletRequest request) {
 		

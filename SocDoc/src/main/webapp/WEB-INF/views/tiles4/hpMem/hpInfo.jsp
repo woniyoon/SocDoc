@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
   
 <%
 	String ctxPath = request.getContextPath();
@@ -17,20 +18,6 @@
 		margin-left: 0;
 	}
 	
-	.searchContainer {
-		margin: 10px 0;
-	}
-	
-	.visitorSearch {
-	    height: 40px;
-	    background-image: url("https://img.icons8.com/material-outlined/24/000000/search.png");
-	    background-repeat: no-repeat;
-	    background-position: right;
-	    border: 1px solid #cccccc;
-	    border-radius: 5px;
-	    padding: 10px;
-	}
-	
 	.reviewListBottom {
 		width: 100%;
 		display: flex;
@@ -40,24 +27,25 @@
 	}
 </style>
 
-<div class="reviewsContainer">
+<div class="applicationInfoContainer">
 	<h3 align="left">정보관리</h3>
-	<div class="searchContainer" align="right">
-		<input class="reviewerSearch" type="text" placeholder="회원 검색"/>
-	</div>
 	<table class="customTable" style="width: 100%;">
 		<tr>
-			<th>번호</th>
+			<th></th>
+			<th>접수아이디</th>
 			<th>병원명</th>
 			<th>신청일</th>
 			<th>상태</th>
 		</tr>
-		<tr>
-			<td>1</td>
-			<td>띠용병원</td>
-			<td>2020-08-06</td>
-			<td>완료</td>
-		</tr>
+		<c:forEach var="item" items="${infoUpdateList }" varStatus="status">
+			<tr style="cursor: pointer;" onclick="javascript:location.href='<%=ctxPath%>/hpPanel/updateHpInfo.sd?submitId=${item.submitId}'">
+				<td>${status.count }</td>
+				<td>${item.submitId}</td>
+				<td>${item.hpName }</td>
+				<td>${item.uploadDate}</td>
+				<td>${item.status }</td>
+			</tr>
+		</c:forEach>
 	</table>
 	<div class="pageContainer" align="center">
 		<span>< 1 2 3 4 5 6 7 8 9 10 ></span>
