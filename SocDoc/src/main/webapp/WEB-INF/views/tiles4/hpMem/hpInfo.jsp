@@ -7,7 +7,8 @@
 %>
 
 <link rel="stylesheet" type="text/css" media="screen" href="<%=ctxPath %>/resources/css/hpInfo.css" />
-
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b7fa563027be4561a627edb8c3c2821f&libraries=services"></script>
 
 	<div class="hpInfoContainer">
 		<h3 align="left">병원 정보 관리</h3>
@@ -37,21 +38,27 @@
 			<div id="hpDetail">
 				<ul id="hpDetailList">
 					<li><input type="text" id="mainImg" readonly value="상세이미지1" />
-						<button class="deleteBtn findFile" type="button" id="mainImg">찾기</button> <input
+						<button class="greyBtn findFile" type="button" id="mainImg">찾기</button> <input
 						type="file" id="mainImgFile" /></li>
 					<li><input type="text" id="subImg1" readonly value="상세이미지1" />
-						<button class="deleteBtn findFile" type="button" id="subImg1">찾기</button> <input
+						<button class="greyBtn findFile" type="button" id="subImg1">찾기</button> <input
 						type="file" id="subImg1File" /></li>
 					<li><input type="text" id="subImg2" readonly value="상세이미지2" />
-						<button class="deleteBtn findFile" type="button" id="subImg2">찾기</button> <input
+						<button class="greyBtn findFile" type="button" id="subImg2">찾기</button> <input
 						type="file" id="subImg2File" /></li>
 				</ul>
-				<table id="hpTextInfo">
+				<table class="hpTextInfo">
+					<tr>
+						<th>이름</th>
+						<td>
+							<input type="text" id="name" value="${hpInfo.hpName }" />
+						</td>
+					</tr>
 					<tr>
 						<th>주소</th>
 						<td>
-							<div>${hpInfo.address }</div>
-							<div align="right"><button class="addBtn" type="button">주소찾기</button></div>
+							<div id="hpAddress">${hpInfo.address }</div>
+							<div align="right"><button class="blueBtn" type="button" onclick="searchAddress()">주소찾기</button></div>
 						</td>
 					</tr>
 					<tr>
@@ -89,16 +96,17 @@
 		<table id="settingSection">
 			<tr>
 				<th>진료과목</th>
-				<td><input type="checkbox" value="1" /> <label id="1">내과</label>
-					<input type="checkbox" value="2" /> <label id="2">소아과</label> <input
-					type="checkbox" value="3" /> <label id="3">가정의학</label> <input
-					type="checkbox" value="4" /> <label id="4">여성의학과</label> <input
-					type="checkbox" value="5" /> <label id="5">정신과</label> <input
-					type="checkbox" value="6" /> <label id="6">비뇨기과</label> <input
-					type="checkbox" value="7" /> <label id="7">피부과</label> <input
-					type="checkbox" value="8" /> <label id="8">안과</label> <input
-					type="checkbox" value="9" /> <label id="9">치과</label> <input
-					type="checkbox" value="0" /> <label id="0">이비인후과</label></td>
+				<td>
+				<input type="checkbox" id="1" value="내과" /> <label for="1">내과</label>
+					<input type="checkbox" id="2" value="소아청소년과" /> <label for="2">소아청소년과</label> <input
+					type="checkbox" id="3" value="정신건강의학과" /> <label for="3">정신건강의학과</label> <input
+					type="checkbox" id="4" value="피부과" /> <label for="4">피부과</label> <input
+					type="checkbox" id="5" value="여성의학과" /> <label for="5">여성의학과</label> <input
+					type="checkbox" id="6" value="안과" /> <label for="6">안과</label> <input
+					type="checkbox" id="7" value="이비인후과" /> <label for="7">이비인후과</label> <input
+					type="checkbox" id="8" value="비뇨기과" /> <label for="8">비뇨기과</label> <input
+					type="checkbox" id="9" value="가정의학과" /> <label for="9">가정의학과</label> <input
+					type="checkbox" id="0" value="치과" /> <label for="0">치과</label></td>
 			</tr>
 			<tr>
 				<th rowspan="7">진료시간</th>
@@ -145,60 +153,75 @@
 			</tr>
 		</table>
 		<div style="margin: 10px 0;" align="right">
-			<button class="deleteBtn">승인 신청</button>
+			<button class="blueBtn">승인 신청</button>
 		</div>
+		<div id="mapContainer"></div>
 	</div>
 
 <script>
-	$(document).ready(
-			function() {
-				$("input[type=file]").each(
-						function() {
-							$(this).hide();
+	$(document).ready(function() {
+				
+		// DB에 진료과목 정보가 등록돼있으면, 체크해둔다.
+		$("input[type='checkbox']").each(function(){
+			var deptOption = $(this).val();
+			
+			if(deptOption == "${hpInfo.dept}") {
+				$(this).prop("checked", true);
+			}
 
-							$(this).on(
-									"change",
-									function() {
-										console.log("change 펑션!");
+		});
+		
+		
+		
+		
+		$("input[type=file]").each(
+				function() {
+					$(this).hide();
 
-										var id = $(this).prop("id");
-										var idToShow = "#"
-												+ id.substr(0, id.length - 4);
-										console.log($(this));
-										$(idToShow).prop(
-												"value",
-												$(this).val().split('/').pop()
-														.split('\\').pop());
+					$(this).on(
+							"change",
+							function() {
+								console.log("change 펑션!");
 
-									});
-						});
+								var id = $(this).prop("id");
+								var idToShow = "#"
+										+ id.substr(0, id.length - 4);
+								console.log($(this));
+								$(idToShow).prop(
+										"value",
+										$(this).val().split('/').pop()
+												.split('\\').pop());
 
-				$(".findFile").click(function() {
-					console.log("찾기 버튼 클릭!");
-					var idToTrigger = "#" + $(this).prop("id") + "File";
-
-					$(idToTrigger).trigger("click");
-					console.log("클릭 이벤트 트리거!");
-
+							});
 				});
 
-				$("input[type=checkbox]").click(function() {
-					// 체크박스 선택은 한 개만 가능하게 설정
-					var checkedValue = $(this).prop("value");
+		$(".findFile").click(function() {
+			console.log("찾기 버튼 클릭!");
+			var idToTrigger = "#" + $(this).prop("id") + "File";
 
-					$("input[type=checkbox]").each(function() {
-						if (checkedValue != $(this).prop("value")) {
-							$(this).prop("checked", false);
-						} else {
-							console.log("클릭된 체크박스!")
-							$(this).prop("checked", true);
-						}
-					});
+			$(idToTrigger).trigger("click");
+			console.log("클릭 이벤트 트리거!");
 
-					// 체크된 과목을 상세정보에 반영
-					$("#dept").text($("label#" + checkedValue).text());
-				});
+		});
+
+		$("input[type=checkbox]").click(function() {
+			// 체크박스 선택은 한 개만 가능하게 설정
+			var checkedValue = $(this).prop("value");
+
+			console.log(checkedValue);
+			$("input[type=checkbox]").each(function() {
+				if (checkedValue != $(this).prop("value")) {
+					$(this).prop("checked", false);
+				} else {
+					console.log("클릭된 체크박스!")
+					$(this).prop("checked", true);
+				}
 			});
+
+			// 체크된 과목을 상세정보에 반영
+			/* $("#dept").text(checkedValue); */
+		});
+	});
 
 	var slideIndex = 1;
 	showSlides(slideIndex);

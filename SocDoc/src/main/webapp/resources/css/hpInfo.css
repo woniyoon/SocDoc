@@ -50,21 +50,22 @@
 }
 
 
-#hpTextInfo {
+.hpTextInfo {
     width: 100%;
 }
 
-#hpTextInfo td {
+.hpTextInfo td {
     height: 2.5em;
     padding: 10px;
 }
 
-#hpTextInfo th, #settingSection th {
+.hpTextInfo th, #settingSection th {
     background-color: rgb(212, 212, 212);
     padding: 0 10px;
+    width: 60px;
 }
 
-#hpTextInfo, #hpTextInfo tr, #settingSection tr {
+.hpTextInfo, .hpTextInfo tr, #settingSection tr {
     border-top: 1px solid lightgray;
     border-bottom: 1px solid lightgray;
     border-collapse: collapse;
@@ -85,7 +86,7 @@ textarea {
 }
 
 /* 파랑색 */
-.addBtn {
+.blueBtn {
    background-color: #0080ff;
    color:#fff;
    cursor: pointer;   
@@ -97,7 +98,7 @@ textarea {
 }
 
 /* 회색 */   
-.deleteBtn {
+.greyBtn {
    background-color: #efefef;
    cursor: pointer;   
    border: 1px solid #dddddd;       
