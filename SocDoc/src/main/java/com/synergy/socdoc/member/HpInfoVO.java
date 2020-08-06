@@ -5,11 +5,11 @@ public class HpInfoVO {
 	private String dept;
 	private String hpName;
 	private String address;
-	private String addressDetail;
 	private String phone;
 	private String info;
 	private double latitude;
 	private double longitude;
+	// 필요한지 모르겠음; 
 	private int open;
 	private int close;
 	private String mainImg;
@@ -17,6 +17,8 @@ public class HpInfoVO {
 	private String subImg2;
 	// 신청 상태 (1:신청, 2:반려, 3:수정신청, 4:완료)
 	private int status;
+	private String submitId;
+	private String uploadDate;
 	
 	
 	public HpInfoVO() {
@@ -24,12 +26,11 @@ public class HpInfoVO {
 	}	
 	
 	public HpInfoVO(String dept, String hpName, String address, String phone, String info,
-			double latitude, double longitude, int open, int close, String mainImg, String subImg1, String subImg2, int status ) {
+			double latitude, double longitude, int open, int close, String mainImg, String subImg1, String subImg2, int status, String submitId, String uploadDate) {
 		super();
 		this.dept = dept;
 		this.hpName = hpName;
 		this.address = address;
-		this.addressDetail = addressDetail;
 		this.phone = phone;
 		this.info = info;
 		this.latitude = latitude;
@@ -40,6 +41,8 @@ public class HpInfoVO {
 		this.subImg1 = subImg1;
 		this.subImg2 = subImg2;
 		this.status = status;
+		this.submitId = submitId;
+		this.uploadDate = uploadDate;
 	}
 
 	public String getDept() {
@@ -66,20 +69,12 @@ public class HpInfoVO {
 		this.address = address;
 	}
 
-	public String getAddressDetail() {
-		return addressDetail;
+	public String getphone() {
+		return phone;
 	}
 
-	public void setAddressDetail(String addressDetail) {
-		this.addressDetail = addressDetail;
-	}
-
-	public String getTel() {
-		return tel;
-	}
-
-	public void setTel(String tel) {
-		this.tel = tel;
+	public void setphone(String phone) {
+		this.phone = phone;
 	}
 
 	public String getInfo() {
@@ -146,14 +141,6 @@ public class HpInfoVO {
 		this.subImg2 = subImg2;
 	}
 
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
 	public int getStatus() {
 		return status;
 	}
@@ -161,6 +148,21 @@ public class HpInfoVO {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	
+
+	public String getSubmitId() {
+		return submitId;
+	}
+
+	public void setSubmitId(String submitId) {
+		this.submitId = submitId;
+	}
+
+	public String getUploadDate() {
+		return uploadDate;
+	}
+
+	public void setUploadDate(String uploadDate) {
+		this.uploadDate = uploadDate;
+	}
 	
 }
