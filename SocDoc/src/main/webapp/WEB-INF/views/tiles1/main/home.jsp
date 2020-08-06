@@ -9,8 +9,10 @@
 <%@ page session="false" %>
 
 <script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/dumbbell.js"></script>
+<script src="https://code.highcharts.com/modules/lollipop.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
-<script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
 	<style>
@@ -276,19 +278,19 @@
         }
         
 		.highcharts-figure, .highcharts-data-table table {
-		    min-width: 310px; 
+		    min-width: 320px; 
 		    max-width: 800px;
 		    margin: 1em auto;
 		}
 		
 		.highcharts-data-table table {
-		    font-family: Verdana, sans-serif;
-		    border-collapse: collapse;
-		    border: 1px solid #EBEBEB;
-		    margin: 10px auto;
-		    text-align: center;
-		    width: 100%;
-		    max-width: 500px;
+			font-family: Verdana, sans-serif;
+			border-collapse: collapse;
+			border: 1px solid #EBEBEB;
+			margin: 10px auto;
+			text-align: center;
+			width: 100%;
+			max-width: 500px;
 		}
 		.highcharts-data-table caption {
 		    padding: 1em 0;
@@ -308,6 +310,20 @@
 		.highcharts-data-table tr:hover {
 		    background: #f1f7ff;
 		}
+		
+		.ld-label {
+			width:200px;
+			display: inline-block;
+		}
+		
+		.ld-url-input {
+			width: 500px; 
+		}
+		
+		.ld-time-input {
+			width: 40px;
+		}
+				
         
     </style>
 
@@ -467,81 +483,75 @@ function coronaList() {
 	
 	$.ajax({
 		
-		url:"<%= ctxPath%>/api/covidStats.sd",
+		url:"<%= ctxPath%>/api/corona.sd",
 		dataType: "JSON",
 		success:function(json) {
-			
-		/* 			
-			var resultArr = [];
-			
-			console.log(json);
-			
-			var realResult = test.response.body.items.item;
-			console.log(realResult);
-			for(var i=0;i<result.length;i++){
-			    
-				console.log(result[i].deathCnt);
 
-			}
-		 */
+		//	console.log(json);
 		 
+			var resultArr = [];
+			var data = [];
+			
+			resultArr = json.response.body.items.item;
+			
+			for(var i=1; i<resultArr.length; i++) {
+				
+				if(resultArr[i].gubunEn != "Lazaretto") {
+				//	console.log(resultArr[i].gubunEn);
+					var obj = new Object();
+					
+					obj["name"] = resultArr[i].gubunEn;
+					obj["low"] = resultArr[i].localOccCnt;
+					
+					data.push(obj);
+				}
+				
+			}
+			
 			Highcharts.chart('chart', {
+
 			    chart: {
-			        type: 'areaspline'
+			        type: 'lollipop'
 			    },
-			    title: {
-			        text: '일자별 전국 신규 확진자'
+
+			    accessibility: {
+			        point: {
+			            valueDescriptionFormat: '{index}. {xDescription}, {point.y}.'
+			        }
 			    },
+
 			    legend: {
-			        layout: 'vertical',
-			        align: 'left',
-			        verticalAlign: 'top',
-			        x: 150,
-			        y: 100,
-			        floating: true,
-			        borderWidth: 1,
-			        backgroundColor:
-			            Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF'
+			        enabled: false
 			    },
+
+			    subtitle: {
+			        text: '2020'
+			    },
+
+			    title: {
+			        text: '지역별 코로나 신규 확진자 현황'
+			    },
+
+			    tooltip: {
+			        shared: true
+			    },
+
 			    xAxis: {
-			        categories: [
-			            'Monday',
-			            'Tuesday',
-			            'Wednesday',
-			            'Thursday',
-			            'Friday',
-			            'Saturday',
-			            'Sunday'
-			        ],
-			        plotBands: [{ // visualize the weekend
-			            from: 4.5,
-			            to: 6.5,
-			            color: 'rgba(68, 170, 213, .2)'
-			        }]
+			        type: 'category',
 			    },
+
 			    yAxis: {
 			        title: {
 			            text: ''
 			        }
 			    },
-			    tooltip: {
-			        shared: true,
-			        valueSuffix: ' people'
-			    },
-			    credits: {
-			        enabled: false
-			    },
-			    plotOptions: {
-			        areaspline: {
-			            fillOpacity: 0.5
-			        }
-			    },
+
 			    series: [{
-			        name: 'COVID 19',
-			        data: [21, 11, 23, 2, 1, 0, 1]
+			        name: '신규',
+			        data: data
 			    }]
-			    
-				});
+
+			});
 		   
 			},
 		 	error: function(request, status, error) {

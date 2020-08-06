@@ -22,4 +22,15 @@ public class ApiController {
 		
 		return result;
 	}
+
+	@ResponseBody
+	@RequestMapping(value = "/api/corona.sd", method = RequestMethod.GET)
+	public String getCoronaStats(HttpServletRequest request) {
+		System.out.println("********* 호출시작! *********");
+		String result= service.getCoronaStats();
+		
+		System.out.println("********* 호출완료 ! *********");
+		
+		return result;
+	}
 }
