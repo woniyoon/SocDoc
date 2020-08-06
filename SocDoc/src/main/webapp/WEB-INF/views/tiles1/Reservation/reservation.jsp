@@ -6,13 +6,13 @@
 	<%
 		String ctxPath = request.getContextPath();
 	%>
-	<link rel="stylesheet" href="<%=ctxPath%>/resources/css/pignose.calendar.min.css">
-	<link rel="stylesheet" href="<%=ctxPath%>/resources/css/pignose.calendar.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
-	<script src="<%=ctxPath%>/resources/pg-calendar/dist/js/pignose.calendar.full.js"></script>
-	<script src="<%=ctxPath%>/resources/pg-calendar/dist/js/pignose.calendar.min.js"></script>
-	<script src="<%=ctxPath%>/resources/pg-calendar/dist/js/pignose.calendar.full.min.js"></script>
-	<script src="<%=ctxPath%>/resources/pg-calendar/dist/js/pignose.calendar.js"></script>
+	<link rel="stylesheet" href="<%=ctxPath%>/resources/pg-calendar/dist/css/pignose.calendar.min.css">
+<link rel="stylesheet" href="<%=ctxPath%>/resources/pg-calendar/dist/css/pignose.calendar.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+<script src="<%=ctxPath%>/resources/pg-calendar/dist/js/pignose.calendar.full.js"></script>
+<script src="<%=ctxPath%>/resources/pg-calendar/dist/js/pignose.calendar.min.js"></script>
+<script src="<%=ctxPath%>/resources/pg-calendar/dist/js/pignose.calendar.full.min.js"></script>
+<script src="<%=ctxPath%>/resources/pg-calendar/dist/js/pignose.calendar.js"></script>
 	<style type="text/css">
 	body {
 		width: 1440px;	
@@ -365,9 +365,15 @@
 	<div class="schedule_medical">
 	<h2>진료일정</h2>
 	<hr style="border: solid 1px black;"/>
-	<div id="list_container" style="margin: 30%;">
+	<!-- 병원선택 안 했을경우 -->
+	<!-- <div id="list_container" style="margin: 30%;">
 	<span>병원을 선택하시면 진료일정을 확인 하실 수 있습니다.</span>
-	</div>
+	</div> --><!-- 끝 -->
+	
+	<!-- 병원 선택 했을 경우 -->
+	<div class="calendar"></div>
+	<!-- 끝 -->
+	
 	<!-- 예약확정하기 -->
 	<div id="reverse_set">
 	<a style="cursor: pointer;" class="setbtn" data-toggle="modal" data-target="#myModal">
