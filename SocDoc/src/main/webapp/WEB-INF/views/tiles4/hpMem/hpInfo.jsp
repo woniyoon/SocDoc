@@ -167,22 +167,18 @@
 			
 			if(deptOption == "${hpInfo.dept}") {
 				$(this).prop("checked", true);
+				return;
 			}
-
 		});
-		
-		
 		
 		
 		$("input[type=file]").each(
 				function() {
 					$(this).hide();
-
 					$(this).on(
 							"change",
 							function() {
 								console.log("change 펑션!");
-
 								var id = $(this).prop("id");
 								var idToShow = "#"
 										+ id.substr(0, id.length - 4);
@@ -191,51 +187,49 @@
 										"value",
 										$(this).val().split('/').pop()
 												.split('\\').pop());
-
 							});
 				});
-
 		$(".findFile").click(function() {
 			console.log("찾기 버튼 클릭!");
 			var idToTrigger = "#" + $(this).prop("id") + "File";
-
 			$(idToTrigger).trigger("click");
 			console.log("클릭 이벤트 트리거!");
-
 		});
-
-		$("input[type=checkbox]").click(function() {
+		$("input[type=checkbox]").click(function(e) {
 			// 체크박스 선택은 한 개만 가능하게 설정
 			var checkedValue = $(this).prop("value");
-
-			console.log(checkedValue);
-			$("input[type=checkbox]").each(function() {
-				if (checkedValue != $(this).prop("value")) {
-					$(this).prop("checked", false);
+			if("${hpInfo.dept}" == "") {
+				console.log(checkedValue);
+				$("input[type=checkbox]").each(function() {
+					if (checkedValue != $(this).prop("value")) {
+						$(this).prop("checked", false);
+					} else {
+						console.log("클릭된 체크박스!")
+						$(this).prop("checked", true);
+					}
+				});
+			} else {
+				if($(this).val() != "${hpInfo.dept}") {
+					$(this).prop("checked", false);		
+					console.log("다른 벨류 !!!");
 				} else {
-					console.log("클릭된 체크박스!")
-					$(this).prop("checked", true);
+					$(this).prop("checked", true);		
 				}
-			});
-
+			}
 			// 체크된 과목을 상세정보에 반영
 			/* $("#dept").text(checkedValue); */
 		});
 	});
-
 	var slideIndex = 1;
 	showSlides(slideIndex);
-
 	// Next/previous controls
 	function plusSlides(n) {
 		showSlides(slideIndex += n);
 	}
-
 	// Thumbnail image controls
 	function currentSlide(n) {
 		showSlides(slideIndex = n);
 	}
-
 	function showSlides(n) {
 		var i;
 		var slides = document.getElementsByClassName("mySlides");
@@ -255,4 +249,6 @@
 		slides[slideIndex - 1].style.display = "block";
 		// dots[slideIndex - 1].className += " active";
 	}
+	
+	
 </script>
