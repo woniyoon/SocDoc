@@ -13,8 +13,8 @@ public class HpMemDAO implements InterHpMemDAO {
 	private SqlSessionTemplate sqlsession;
 	
 	@Override
-	public HpInfoVO getHpInvo(String hpSeq) {
-		HpInfoVO hpInfo = sqlsession.selectOne("hpMem.getHpInvo", hpSeq);
+	public HpInfoVO getHpInfo(String hpSeq) {
+		HpInfoVO hpInfo = sqlsession.selectOne("hpMem.getHpInfo", hpSeq);
 		return hpInfo;
 	}
 

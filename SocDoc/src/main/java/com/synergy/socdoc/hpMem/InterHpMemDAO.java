@@ -4,6 +4,6 @@ import com.synergy.socdoc.member.HpInfoVO;
 
 public interface InterHpMemDAO {
 
-	public HpInfoVO getHpInvo(String hpSeq);
+	public HpInfoVO getHpInfo(String hpSeq);
 
 }

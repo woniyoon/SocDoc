@@ -13,7 +13,7 @@ public class HpMemService implements InterHpMemService {
 	
 	@Override
 	public HpInfoVO getHpInfo(String hpSeq) {
-		HpInfoVO hpInfo = dao.getHpInvo(hpSeq);
+		HpInfoVO hpInfo = dao.getHpInfo(hpSeq);
 		
 		return hpInfo;
 	}
