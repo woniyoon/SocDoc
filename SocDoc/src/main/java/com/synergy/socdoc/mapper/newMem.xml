@@ -10,10 +10,31 @@
 		select email from tbl_test where userid = 'woniyoon'
 	</select>
 	
-	<!-- 회원가입 아이디 중복검사 -->
-	<select id="idChk" resultType="int"> <!-- HashMap이 아니라면 resultType -->
+	<!-- 회원가입 회원 아이디 중복검사 -->
+	<select id="idChk" resultType="int">
 		select count(*)
 		from member
 		where userid = #{userid}
+	</select>
+	
+	<!-- 회원가입 회원 이메일 중복검사 -->
+	<select id="emailChk" resultType="int">
+		select count(*)
+		from member
+		where email = #{email}
+	</select>
+	
+	<!-- 회원가입 병원 아이디 중복검사 -->
+	<select id="hpIdChk" resultType="int">
+		select count(*)
+		from hpMember
+		where userid = #{hpUserid}
+	</select>
+	
+	<!-- 회원가입 병원 이메일 중복검사 -->
+	<select id="hpEmailChk" resultType="int">
+		select count(*)
+		from hpMember
+		where email = #{hpEmail}
 	</select>
 </mapper>
