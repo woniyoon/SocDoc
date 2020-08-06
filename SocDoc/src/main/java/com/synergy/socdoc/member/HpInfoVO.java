@@ -6,7 +6,7 @@ public class HpInfoVO {
 	private String hpName;
 	private String address;
 	private String addressDetail;
-	private String tel;
+	private String phone;
 	private String info;
 	private double latitude;
 	private double longitude;
@@ -15,20 +15,22 @@ public class HpInfoVO {
 	private String mainImg;
 	private String subImg1;
 	private String subImg2;
+	// 신청 상태 (1:신청, 2:반려, 3:수정신청, 4:완료)
+	private int status;
 	
 	
 	public HpInfoVO() {
 		
 	}	
 	
-	public HpInfoVO(String dept, String hpName, String address, String addressDetail, String tel, String info,
-			double latitude, double longitude, int open, int close, String mainImg, String subImg1, String subImg2) {
+	public HpInfoVO(String dept, String hpName, String address, String phone, String info,
+			double latitude, double longitude, int open, int close, String mainImg, String subImg1, String subImg2, int status ) {
 		super();
 		this.dept = dept;
 		this.hpName = hpName;
 		this.address = address;
 		this.addressDetail = addressDetail;
-		this.tel = tel;
+		this.phone = phone;
 		this.info = info;
 		this.latitude = latitude;
 		this.longitude = longitude;
@@ -37,6 +39,7 @@ public class HpInfoVO {
 		this.mainImg = mainImg;
 		this.subImg1 = subImg1;
 		this.subImg2 = subImg2;
+		this.status = status;
 	}
 
 	public String getDept() {
@@ -141,6 +144,22 @@ public class HpInfoVO {
 
 	public void setSubImg2(String subImg2) {
 		this.subImg2 = subImg2;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 	
 	
