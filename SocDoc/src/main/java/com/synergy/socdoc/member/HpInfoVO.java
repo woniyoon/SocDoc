@@ -15,6 +15,8 @@ public class HpInfoVO {
 	private String mainImg;
 	private String subImg1;
 	private String subImg2;
+	// 신청 상태 (1:신청, 2:반려, 3:수정신청, 4:완료)
+	private int status;
 	
 	
 	public HpInfoVO() {
@@ -36,6 +38,7 @@ public class HpInfoVO {
 		this.mainImg = mainImg;
 		this.subImg1 = subImg1;
 		this.subImg2 = subImg2;
+		this.status = status;
 	}
 
 	public String getDept() {
@@ -132,6 +135,22 @@ public class HpInfoVO {
 
 	public void setSubImg2(String subImg2) {
 		this.subImg2 = subImg2;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 	
 	
