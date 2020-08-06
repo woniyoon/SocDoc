@@ -39,9 +39,11 @@ public class HpMemController {
 //		
 //		HpInfoVO hpInfo = service.getHpInfo(hpSeq);
 		
-		List<HpInfoVO> hpInfo = service.getInfoUpdateList(hpSeq);
+		List<HpInfoVO> infoUpdateList = service.getInfoUpdateList(hpSeq);
 		
-		request.setAttribute("hpInfo", hpInfo);
+		System.out.println(infoUpdateList.get(0).getSubmitId());
+		
+		request.setAttribute("infoUpdateList", infoUpdateList);
 		return "hpMem/hpInfo.tiles4";
 	}
 

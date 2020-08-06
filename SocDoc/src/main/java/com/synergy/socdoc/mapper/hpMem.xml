@@ -10,6 +10,7 @@
 		select hpname, dept, address, phone, info, latitude, longitude from hospitalInfo where hpSeq = #{hpSeq}
 	</select>
 
-	<select>
+	<select id="getInfoUpdateList" parameterType="String" resultType="com.synergy.socdoc.member.HpInfoVO">
+		select submitId, hpName, status, to_char(uploadDate, 'yyyy-mm-dd') as uploadDate from hpApplication where hpseq = #{hpSeq}
 	</select>
 </mapper>
