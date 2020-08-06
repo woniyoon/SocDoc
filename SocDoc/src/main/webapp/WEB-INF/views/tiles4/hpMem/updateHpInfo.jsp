@@ -37,13 +37,13 @@
 			</div>
 			<div id="hpDetail">
 				<ul id="hpDetailList">
-					<li><input type="text" id="mainImg" readonly value="상세이미지1" />
+					<li><input type="text" id="mainImg" readonly value="${hpInfo.mainImg }" />
 						<button class="greyBtn findFile" type="button" id="mainImg">찾기</button> <input
 						type="file" id="mainImgFile" /></li>
-					<li><input type="text" id="subImg1" readonly value="상세이미지1" />
+					<li><input type="text" id="subImg1" readonly value="${hpInfo.subImg1 }" />
 						<button class="greyBtn findFile" type="button" id="subImg1">찾기</button> <input
 						type="file" id="subImg1File" /></li>
-					<li><input type="text" id="subImg2" readonly value="상세이미지2" />
+					<li><input type="text" id="subImg2" readonly value="${hpInfo.subImg2 }" />
 						<button class="greyBtn findFile" type="button" id="subImg2">찾기</button> <input
 						type="file" id="subImg2File" /></li>
 				</ul>
@@ -155,7 +155,6 @@
 		<div style="margin: 10px 0;" align="right">
 			<button class="blueBtn">승인 신청</button>
 		</div>
-		<div id="mapContainer"></div>
 	</div>
 
 <script>
@@ -220,6 +219,7 @@
 			/* $("#dept").text(checkedValue); */
 		});
 	});
+	
 	var slideIndex = 1;
 	showSlides(slideIndex);
 	// Next/previous controls
@@ -248,6 +248,39 @@
 		// }
 		slides[slideIndex - 1].style.display = "block";
 		// dots[slideIndex - 1].className += " active";
+	}
+	
+	
+	// 지도검색
+	function searchAddress(){
+	    var geocoder = new daum.maps.services.Geocoder();
+
+		new daum.Postcode({
+            oncomplete: function(data) {
+                var addr = data.address; // 최종 주소 변수
+
+                // 주소로 상세 정보를 검색
+                geocoder.addressSearch(data.address, function(results, status) {
+                    // 정상적으로 검색이 완료됐으면
+                    if (status === daum.maps.services.Status.OK) {
+
+                        var result = results[0]; //첫번째 결과의 값을 활용
+
+                        console.log(result);
+                        
+                        // 주소
+                        var address = result.address_name;
+                        
+                        // 선택된 위치의 좌표값
+                        var x = result.x;
+                        var y = result.y;
+                        
+                        // 새로 선택한 주소 보여주기
+                        $("#hpAddress").text(address);
+                    }
+                });
+            }
+        }).open();
 	}
 	
 	
