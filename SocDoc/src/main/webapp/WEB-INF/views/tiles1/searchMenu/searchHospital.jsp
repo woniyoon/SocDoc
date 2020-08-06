@@ -321,6 +321,7 @@
 					
 					$.each(json, function(index, item){ 
 						var position = {}; // position 이라는 객체 생성
+						var test ="";
 												
 						position.content = "<div class='infoWindow'>"+ 
 							        	   "  <div class='windowHpName'>"+ 
