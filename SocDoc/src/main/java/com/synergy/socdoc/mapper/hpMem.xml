@@ -9,4 +9,7 @@
 	<select id="getHpInfo" parameterType="String" resultType="com.synergy.socdoc.member.HpInfoVO">
 		select hpname, dept, address, phone, info, latitude, longitude from hospitalInfo where hpSeq = #{hpSeq}
 	</select>
+
+	<select>
+	</select>
 </mapper>

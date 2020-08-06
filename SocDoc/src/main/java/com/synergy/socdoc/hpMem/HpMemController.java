@@ -1,5 +1,7 @@
 package com.synergy.socdoc.hpMem;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +35,11 @@ public class HpMemController {
 		
 		// TODO: 나중에는 이 부분을 이용해서 병원정보 가져오기
 //		String hpSeq = request.getSession().getAttribute("hpSeq");
-		String hpSeq = "10";
+		String hpSeq = "2";
+//		
+//		HpInfoVO hpInfo = service.getHpInfo(hpSeq);
 		
-		HpInfoVO hpInfo = service.getHpInfo(hpSeq);
+		List<HpInfoVO> hpInfo = service.getInfoUpdateList(hpSeq);
 		
 		request.setAttribute("hpInfo", hpInfo);
 		return "hpMem/hpInfo.tiles4";

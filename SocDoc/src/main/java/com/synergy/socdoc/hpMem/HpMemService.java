@@ -1,5 +1,7 @@
 package com.synergy.socdoc.hpMem;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,4 +20,10 @@ public class HpMemService implements InterHpMemService {
 		return hpInfo;
 	}
 
+	// 신청테이블에서 정보 가져오기
+	@Override
+	public List<HpInfoVO> getInfoUpdateList(String hpSeq) {
+		List<HpInfoVO> hpInfoList = dao.getInfoUpdateList(hpSeq);
+		return hpInfoList;
+	}
 }
