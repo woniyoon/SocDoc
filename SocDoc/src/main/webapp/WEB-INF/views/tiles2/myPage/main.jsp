@@ -7,7 +7,7 @@
 	// 	   /board
 %>
 
-    
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -75,6 +75,18 @@
         justify-content: space-around;
     }
 
+    /* #scheduleTbl, thead, tbody, td {
+        width: 50vw;
+        border: 2px solid grey;
+        border-collapse: collapse;
+    }
+
+    #reviewBoard, thead, tfoot {
+        width: 50vw;
+        border: 2px solid grey;
+        border-collapse: collapse;
+    } */
+
     
     /*  main 끝  */
     footer {
@@ -91,6 +103,7 @@
 		height: 200px;
 		border: 1px solid gray;
 		padding: 0 15px 15px 15px;
+
 	}
 	
 	/* 두번째줄 셋팅 */
@@ -188,7 +201,7 @@
             <li><a>후기</a></li>
             <li><a>알림소식</a></li>
         </ul>
-    </header> -->
+</header> -->
     <main>
         <div id="sideMenu">
             <ul style="margin-left: 50px;">
@@ -202,6 +215,7 @@
                 <li><a href="<%= request.getContextPath()%>/review.sd">· 내 후기</a></li>
             </ul>
             <ul style="display:inline-block; margin-top: 20px; margin-left: 50px;">
+
             	<li><h3>자주 찾는 서비스</h3></li>
                 <li><a>FAQ</a>&nbsp;&nbsp;&nbsp;<a>병원찾기</a></li>
                 <li><a>내 건강</a></li>
@@ -210,6 +224,7 @@
         <div id="contents">
 		<h1 style="text-align: left;"><strong>마이페이지</strong></h1>
 	<div id="box1">
+
 		<h3 style="margin-bottom: 0;">예약확인</h3>
 		<!-- 더보기 -->
 		<div id="more" style="text-align: right; margin-right: 30px;">
@@ -238,6 +253,7 @@
 			</table>
 			</form>
 			<!-- 테이블 -->
+
 		</div>
 	</div>
 	<div id="box2">
@@ -276,6 +292,7 @@
 				</table>
 				</form>
 				<!-- 테이블 -->
+
 			</div>
 		</div>
 		<div id="box2-2" style="float: left; margin-left: 18px;">
