@@ -7,6 +7,7 @@
 	// 	   /board
 %>
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -210,6 +211,146 @@
 	
 
 </style>
+
+<script type="text/javascript">
+
+	$(document).ready(function(){
+	    
+<%-- 	    $(".subject").bind("mouseover", function(event){
+	       var $target = $(event.target);
+	       $target.addClass("subjectStyle");
+	    });
+	    
+	    $(".subject").bind("mouseout", function(event){
+	       var $target = $(event.target);
+	       $target.removeClass("subjectStyle");
+	    });
+	    
+	    $("#searchWord").keydown(function(event) {
+	        if(event.keyCode == 13) {
+	           // 엔터를 했을 경우
+	           goSearch();
+	        }
+	     });
+	    
+	 // 검색시 검색조건 및 검색어 값 유지시키기 
+	    if(${paraMap != null}) {
+	       $("#searchType").val("${paraMap.searchType}");
+	       $("#searchWord").val("${paraMap.searchWord}");
+	    }
+	 
+	 === #105. 검색어 입력시 자동글 완성하기 2 ===
+	    $("#displayList").hide();
+	    
+	    $("#searchWord").keyup(function(){
+	       
+	       var wordLength = $(this).val().length;
+	       // 검색어의 길이를 알아온다.
+	       
+	       // 검색어 입력후 백스페이스키를 눌러서 검색어를 모두 지우면 검색된 내용이 안 나오도록 해야 한다.
+	       if( wordLength == 0) {
+	          $("#displayList").hide();
+	       }
+	       else {
+	          
+	          $.ajax({
+	             url:"<%= request.getContextPath()%>/wordSearchShow.action",
+	             type:"GET",
+	             data:{searchType:$("#searchType").val()
+	                 ,searchWord:$("#searchWord").val()},
+	             dataType:"JSON",
+	             success:function(json){
+	                
+	                 === #110. 검색어 입력시 자동글 완성하기 7 ===
+	                 if(json.length > 0) {
+	                    // 검색된 데이터가 있는 경우임.
+	                    
+	                    var html = "";
+	                    
+	                    $.each(json, function(entryIndex, item){
+	                       var word = item.word;
+	                       
+	                       var index = word.toLowerCase().indexOf( $("#searchWord").val().toLowerCase());
+	                   //    console.log("index : " + index);
+	                       
+	                       var len = $("#searchWord").val().length;
+	                       
+	                       var result = "";
+	                       
+	                   //    console.log( word.substr(0,index) );   // 검색어 앞까지의 글자
+	                   //    console.log( word.substr(index,len) ); // 검색어 글자
+	                   //    console.log( word.substr(index+len) ); // 검색어 뒤부터 끝까지의 글자
+	                       
+	                       result = "<span style='color:blue;'>"+word.substr(0,index)+"</span>" + "<span style='color:red;'>"+word.substr(index,len)+"</span>" + "<span style='color:blue;'>"+word.substr(index+len)+"</span>";
+	
+	                       html += "<span style='cursor:pointer;' class='result'>"+result+"</span><br/>";
+	                    });
+	                    
+	                    $("#displayList").html(html);
+	                    $("#displayList").show();
+	                 }
+	                 else {
+	                   // 검색된 데이터가 존재하지 않는 경우임.
+	                    $("#displayList").hide();
+	                 }
+	                
+	             },
+	             error: function(request, status, error){
+	                      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	               }
+	          });
+	       }
+	       
+	    });// end of $("#searchWord").keyup()-------------------------------
+	    
+	    
+	    
+	    === #111. 검색어 입력시 자동글 완성하기 8 ===
+	    $(document).on("click",".result",function(){
+	       var word = $(this).text();
+	       $("#searchWord").val(word);
+	       $("#displayList").hide();
+	       goSearch();
+	       //alert(word);
+	    });
+	    
+	/*     $("#displayList").click(function(event){
+	          var $target = $(event.target);
+	          if($target.is(".result")){
+	          alert("호호호");
+	        }
+	    });
+	     */
+	     --%>
+	     
+	     console.log($("#totalPage").val());
+	     
+	  });// end of $(document).ready(function(){})-------------------
+	
+	 function goView(qnaSeq) {
+	     
+	     <%-- location.href="<%= request.getContextPath()%>/myPage/ask.sd?qnaSeq="+qnaSeq; --%>
+	     
+	  // === #121. 페이징 처리되어진 후 특정글제목을 클릭하여 상세내용을 본 이후
+			// 			  사용자가 목록보기 버튼을 클릭했을때 돌아갈 페이지를 알려주기 위해
+			// 			  현재 페이지 주소를 뷰단으로 넘겨준다.
+			var frm = document.goViewfrm;
+	  		frm.qnaSeq.value = qnaSeq;
+	  		
+	  		frm.method= "GET";
+	  		frm.action = "<%= request.getContextPath()%>/ask.sd";
+	  		frm.submit();
+	  }// end of function goView(seq)---------------------------------- 
+	
+	  function goSearch() {
+	    var frm = document.searchFrm;
+	    frm.method = "GET";
+	    frm.action = "<%= request.getContextPath()%>/askList.sd";
+	    frm.submit();
+	  }// end of function goSearch()-------------------------
+</script>
+
+
 </head>
 <body>
     <main>
@@ -233,9 +374,16 @@
         
         <div id="contents">
         <h1><strong>문의내역</strong></h1>
-        <div>총 문의내역: <span style="color: skyblue;">1</span></div>
+        <div>총 문의내역: <span style="color: skyblue;">
+				        <c:if test="${not empty(totalCount)}">
+				         		${totalCount}
+				        </c:if>
+				         <c:if test="${empty(totalCount)}">
+				         	0
+				        </c:if> 
+				       </span></div>
         <div>
-        	<form name="seachFrm">
+        	<form name="searchFrm">
 				<div id="search_header">
 					<div id="search_bar">
 						<div id="search_bar_right">
@@ -247,7 +395,7 @@
 				</div>	
 			</form>
         </div>
-			<form name="noticeListFrm">
+			
 			<table style="margin-top: 30px;">
 				<thead>
 					 <tr>
@@ -260,21 +408,35 @@
 				</thead>
 				
 				<tbody>
+				<c:forEach var="askList" items="${askList}" varStatus="status">
 					<tr>
 						<td><input type="checkbox" /></td>
-					    <td class="notice_seq">1</td>
-						<td class="noticeTitle"><a href="<%= request.getContextPath()%>/ask.sd">문의합니다</a></td>
-						<td>2020-07-29</td>
-						<td style="color: skyblue;">답변완료</td>
+					    <td class="notice_seq">${askList.qnaSeq}</td>
+						<td class="noticeTitle"><span onclick="goView('${askList.qnaSeq}')">${askList.subject}</span></td>
+						<td>${askList.regDate}</td>
+						<c:if test="${askList.status == 0}">
+						<td style="color: red;">
+								접수완료
+						</td>
+						</c:if>
+						<c:if test="${askList.status == 1}">
+						<td style="color: skyblue;">
+				         		답변완료
+				        </td> 		
+				        </c:if>
 					</tr>
+				</c:forEach>	
 				</tbody>	
 						
 
 			</table>
-			</form>
+			
 			</br></br>
 			
-			
+			<!-- 페이지바 -->
+			<div id="center" style="width: 30%; border: solid 0px gray; margin: 20px auto;">
+				${pageBar}
+			</div>
 			
 			<div id="btn" style="width:80%; text-align: right;">
 				<%-- <button id="printBtn" style="background-color: skyblue; color:white; width: 80px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" onclick="javascript:location.href='<%= request.getContextPath()%>/ask.sd'">문의하기</button>
@@ -283,15 +445,19 @@
 			 	<button id="printBtn" style="background-color: skyblue; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" >삭제</button>
 			</div>
 			
-			<!-- 페이지바 -->
-			<div id="center" style="width: 70%; border: solid 0px gray; margin: 20px auto;">
-				${pageBar}
-			</div>
+			
+			
 			
 			</div>
 			</br></br>
 			
-			
+			<%--  === 페이징 처리되어진 후 특정글제목을 클릭하여 상세내용을 본 이후
+					사용자가 목록보기 버튼을 클릭했을때 돌아갈 페이지를 알려주기 위해
+					현재 페이지 주소를 뷰단으로 넘겨준다. --%>
+			<form name="goViewfrm">
+				<input type="hidden" name="qnaSeq"/>
+				<input type="hidden" name="gobackURL" value="${gobackURL}"/>
+			</form>
 			
 		</section>
 		</div>

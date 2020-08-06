@@ -201,6 +201,13 @@
 		
 		
 	});
+	
+	function goStore() {
+	    var frm = document.healthFrm;
+	    frm.method = "GET";
+	    frm.action = "<%= request.getContextPath()%>/myHealth.sd";
+	    frm.submit();
+	  }// end of function goSearch()-------------------------
 
 
 </script>
@@ -229,7 +236,7 @@
 		
 	    
 	    <!-- 기본정보 변경 form시작 -->
-		<form name="writeFrm" >
+		<form name="healthFrm" >
 			<table class="type05" style="border-top: solid 1px black; margin-top: 20px;">
 				<tbody>
 			    <tr>
@@ -279,7 +286,7 @@
 	  </form>
    <!-- 기본정보 변경 form끝 -->
 	    
-		<div style="text-align:right; margin-top: 30px; width: 70%;"><button type="button" style="background-color: skyblue; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;">저장</button></div>
+		<div style="text-align:right; margin-top: 30px; width: 70%;"><button type="button" onclick="goStore();" style="background-color: skyblue; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;">저장</button></div>
         </div>
     </main>
     <footer>

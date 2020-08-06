@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ==== #29. mapper 기본설정 ==== -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- ==== #29. 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체내에서 유일해야 한다.) ==== -->
+<mapper namespace="mypage">
+	
+	<!-- == 총 게시물 건수(totalCount)를 구하기(검색이 있을때와 검색이 없을때로 나뉜다.) == -->
+	   <select id="getTotalCount" parameterType="HashMap" resultType="int">
+	   	select count(*)
+	   	from qnaBoard
+		<if test='searchWord != ""'>
+		     where subject like '%'|| lower(#{searchWord}) ||'%'
+		</if> 
+	   </select>
+	  
+	   
+	 
+	 <!-- == #154. 첨부파일이 있는 답변형 게시판의 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것)  
+  		    먼저 #144 을 주석처리 한 후에 아래와 같이 한다.== -->
+	   <select id="boardListSearchWithPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.QnaBoardVO">
+		  	select qnaSeq, userid, subject, content, regDate, status, groupno, fk_seq, depthno 
+			from 
+			(
+			    select rownum AS rno
+			         , qnaSeq, userid, subject, content, regDate, status, groupno, fk_seq, depthno 
+			    from
+			    (
+			        select qnaSeq, userid, subject, content,
+			        	   to_char(regDate, 'yyyy-mm-dd hh24:mi:ss') as regDate, status, groupno, fk_seq, depthno 
+			        from qnaBoard
+			        <if test='searchWord != ""'>
+				     where subject like '%'|| #{searchWord} ||'%'
+				    </if>
+			        start with fk_seq = 0
+		        	connect by prior qnaSeq = fk_seq
+		        	order siblings by groupno desc, qnaSeq desc
+			    ) V
+			) T
+			where rno between #{startRno} and #{endRno}
+	  </select>   
+	  
+	  
+	  <!-- === #66.(댓글쓰기가 없는 게시판에서) 글 1개 보여주기 === -->
+	   <select id="getView" parameterType="String" resultType="com.synergy.socdoc.member.QnaBoardVO">
+		    select previousseq, previoussubject
+		         , qnaSeq, userid, subject, content, regDate, status
+		         , nextseq, nextsubject
+			from
+			(
+			    select lag(qnaSeq, 1) over(order by qnaSeq asc) as previousseq 
+			         , lag(subject, 1) over(order by qnaSeq asc) as previoussubject
+			       
+			         , qnaSeq, userid, subject, content
+			         , to_char(regDate, 'yyyy-mm-dd hh24:mi:ss') as regDate ,status
+			           
+			         , lead(qnaSeq, 1) over(order by qnaSeq asc) as nextseq 
+			         , lead(subject, 1) over(order by qnaSeq asc) as nextsubject
+			    from qnaBoard
+			) V
+			where V.qnaSeq = #{qnaSeq}
+	   </select>
+	   
+	   
+	    <!-- === 1개글 삭제하기 === -->
+		  <delete id="deleteBoard" parameterType="HashMap">
+			   delete from qnaBoard
+			   where qnaSeq = #{qnaSeq}
+		  </delete>
+	
+</mapper>

@@ -194,7 +194,7 @@
        width: 84px;
        background: #666666;
       color: white;
-      float: left;
+      float: right;
       margin: 30px 20px 50px 0px;
    }   
     
@@ -297,6 +297,13 @@
 	}
 
 </style>
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		// console.log($("#status").val());
+	});
+	
+</script>	
 </head>
 <body>
     <main>
@@ -344,19 +351,19 @@
 									<tr>
 								        <th scope="row" style="border: none;">제목 </th>
 								        <td style="border: none;">
-										    문의 남깁니다;;
+										    ${boardvo.subject}
 										</td>
 								    </tr>
 								    <tr>
 								        <th scope="row" style="border: none;">작성자 </th>
 								        <td style="border: none;">
-										      김나나
+										      ${boardvo.userid}
 										</td>
 								    </tr>
 								    <tr>
 								        <th scope="row" style="border: none;">작성일 </th>
 								        <td style="border: none;">
-										    2020.07.01
+										   ${boardvo.regDate}
 										</td>
 							        </tr>
 								    </tbody>
@@ -368,46 +375,51 @@
                     <tbody>
                         <tr>
                             <td>
-                            	비밀번호 설정을 못하겠습니다.<br/><br/><br/><br/><br/>
-                            	<div id="comment">
+                            	${boardvo.content}<br/><br/><br/><br/><br/>
+                            	<c:if test="${boardvo.status == 1}">
+                            		<div id="comment">
                             		<strong>관리자 ｜ 2020.07.01</strong><br/>
                             		비밀번호 설정은 마이페이지에서 가능합니다.<br/>
                             		비밀번호를 잊으신 경우에는 고객센터로 연락 주시어 개인 정보가 포함된 자료를 송부하여 주시기 바랍니다.
                             		<br/>
-                            	</div>
+                            		</div>
+                            	</c:if>
                             </td>
                         </tr>
+                       
                     </tbody>
+                  
                 </table>
+                <p id="listBtn"><a href="<%= request.getContextPath()%>/askList.sd" class="notice_view">목록</a></p>
 
-                <p id="listBtn"><a href="adminNotice.sd" class="notice_view">목록</a></p>
+                 <p id="deleteBtn"><a href="<%= request.getContextPath()%>/deleteAsk.sd" class="notice_view">삭제</a></p>             
 
-                <p id="deleteBtn"><a href="noticeList.sb" class="notice_view">삭제</a></p>             
-
-                <p id="modifyBtn"><a href="noticeList.sb" class="notice_view">수정</a></p>
-                
+                <!-- <p id="modifyBtn"><a href="noticeList.sb" class="notice_view">수정</a></p> -->
+                 <input type="hidden" id="status" value="${boardvo.status}" /> 
                 <div>
                     <table>
                         <tr>
                             <th class="next_post th">이전글</th>
                             <!-- <td class="noticeNO" ></td>
                             <td class="noticeNO postrno" ></td> -->
-                            <td class="next_post postNotice titlePointer" style="padding-left: 10px;">윗글 제목이 보일 예정</td>
+                            <td class="next_post postNotice titlePointer" style="padding-left: 10px;" onclick="javascript:location.href='ask.sd?qnaSeq=${boardvo.previousseq}'">${boardvo.previoussubject}</td>
                         </tr>
                         <tr>
                             <th class="pre_post th">다음글</th>
-                            <td class="pre_post preNotice titlePointer" style="padding-left: 10px;">아랫글 제목이 보일 예정</td>
+                            <td class="pre_post preNotice titlePointer" style="padding-left: 10px;" onclick="javascript:location.href='ask.sd?qnaSeq=${boardvo.nextseq}'">${boardvo.nextsubject}</td>
                         </tr>
                     </table>
                 </div>
-
+                
+                
+				</div>
                 <br/><br/><br/>
 
             </section>
 			</br></br>
 			
 			
-			</div>
+			
 			</br></br>
 			
 		</section>
