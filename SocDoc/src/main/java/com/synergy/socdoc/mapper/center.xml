@@ -3,15 +3,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="center">
-	<select id="faqSelect" resultType="HashMap">
+	<resultMap type="HashMap" id="faqListMap">
+		<result property="faqseq" column="faqseq" javaType="String"/>
+		<result property="question" column="question" javaType="String"/>
+		<result property="answer" column="answer" javaType="String"/>
+	</resultMap>
+
+	<select id="faqSelect" resultMap="faqListMap">
 		select faqseq, question, answer
 		from faqboard
 		order by faqseq desc
 	</select>
-
-
-
-
 
 
 </mapper>
