@@ -161,5 +161,4 @@ public class MemberVO {
 		this.birthDate = birthDate;
 	}
 	
-	
 }

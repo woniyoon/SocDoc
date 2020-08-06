@@ -58,5 +58,5 @@ public class NoticeVO {
 	public void setHit(int hit) {
 		this.hit = hit;
 	}
-	
+
 }
