@@ -167,11 +167,10 @@
 			
 			if(deptOption == "${hpInfo.dept}") {
 				$(this).prop("checked", true);
+				return;
 			}
-
 		});
-		
-		
+
 		
 		
 		$("input[type=file]").each(
@@ -204,19 +203,28 @@
 
 		});
 
-		$("input[type=checkbox]").click(function() {
+		$("input[type=checkbox]").click(function(e) {
 			// 체크박스 선택은 한 개만 가능하게 설정
 			var checkedValue = $(this).prop("value");
 
-			console.log(checkedValue);
-			$("input[type=checkbox]").each(function() {
-				if (checkedValue != $(this).prop("value")) {
-					$(this).prop("checked", false);
+			if("${hpInfo.dept}" == "") {
+				console.log(checkedValue);
+				$("input[type=checkbox]").each(function() {
+					if (checkedValue != $(this).prop("value")) {
+						$(this).prop("checked", false);
+					} else {
+						console.log("클릭된 체크박스!")
+						$(this).prop("checked", true);
+					}
+				});
+			} else {
+				if($(this).val() != "${hpInfo.dept}") {
+					$(this).prop("checked", false);		
+					console.log("다른 벨류 !!!");
 				} else {
-					console.log("클릭된 체크박스!")
-					$(this).prop("checked", true);
+					$(this).prop("checked", true);		
 				}
-			});
+			}
 
 			// 체크된 과목을 상세정보에 반영
 			/* $("#dept").text(checkedValue); */
@@ -255,4 +263,6 @@
 		slides[slideIndex - 1].style.display = "block";
 		// dots[slideIndex - 1].className += " active";
 	}
+	
+	
 </script>
