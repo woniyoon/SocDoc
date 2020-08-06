@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 
 <style type="text/css">
 
@@ -73,11 +74,22 @@
 	th {
 		text-align: center;
 	}
+	
+	.deleteBtn {
+      background-color: #efefef;
+      cursor: pointer;   
+      border: 1px solid #dddddd;       
+      padding: 0.25em .75em;    
+      border-radius: .25em;       
+      font-weight: 500;
+      font-size: 10pt;   
+      margin-top: 30px;
+    }
 
 </style>
 
 
-	<div id="container" style="min-height: 70vh;">
+	<div id="container" style="min-height: 100vh;">
 		
 		<div id="memberList">
 			<h2>회원관리</h2>
@@ -105,30 +117,35 @@
 					<th>상태</th>
 				</tr>
 				
-				<tr>
-					<td><input type="checkbox" /></td>		
-					<td>hongs</td>			
-					<td>홍길동</td>			
-					<td>2020-08-01</td>
-					<td>hong@naver.com</td>			
-				    <td>010-2838-0212</td>
-				    <td>2020-08-01</td>	
-					<td style="font-weight:bold;">회원</td>	
-				</tr>
-                
-                <tr>
-					<td><input type="checkbox" /></td>		
-					<td>nana</td>			
-					<td>김나나</td>			
-					<td>2020-07-31</td>
-					<td>nana@naver.com</td>			
-				    <td>010-1133-2566</td>
-				    <td>2020-07-31</td>	
-					<td style="color: red; font-weight:bold;">탈퇴</td>	
-				</tr>
+				<c:forEach var="membervo" items="${membervoList}">
+					<tr>
+						<td><input type="checkbox" /></td>		
+						<td>${membervo.userid}</td>			
+						<td>${membervo.name}</td>			
+						<td>${membervo.birthDate}</td>			
+						<td>${membervo.email}</td>			
+						<td>${membervo.phone}</td>			
+						<td>${membervo.registerDate}</td>	
+						<c:choose>
+							<c:when test="${membervo.status eq 1}">
+								<td style="font-weight:bold;">회원</td>	
+							</c:when>
+							<c:when test="${membervo.status eq 0}">
+								<td style="font-weight:bold; color:red;">탈퇴</td>	
+							</c:when>
+						</c:choose>		
+					</tr>
+				</c:forEach>
 				
 			</table>
 			
+			<div align="right">
+		      <button type="button" id="deleteBtn" class="deleteBtn"> 탈퇴 </button>   
+		   </div>
+		   
+		   <div align="center">
+				${pageBar}
+			</div>
 		</div>
 		
 	</div>

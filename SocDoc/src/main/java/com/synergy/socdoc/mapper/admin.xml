@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="admin">
+	
+	<select id="selectMemberList" resultType="com.synergy.socdoc.member.MemberVO">
+		select userid, name, birthDate, email, phone, registerDate, status
+		from member
+	</select>
+ 	
+ 	<!-- 
+ 	<select id="getTotalCount" parameterMap="HashMap" resultType="int">
+		select count(*)
+		from member
+			<if test='searchWord != ""'>
+				and lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
+			</if>
+	</select>
+
+	<select id="memberListSearchWithPaging" parameterMap="HashMap" resultType="com.synergy.socdoc.member.MemberVO">
+		select userid, name, birthDate, email, phone, registerDate, status
+		from 
+		(
+			select userid, name, birthDate, email, phone, to_char(registerDate, 'yyyy-mm-dd hh24:mi:ss'), status
+			from member
+			<if test='searchWord != ""'>
+				and ${searchType} like '%' || #{searchWord} || '%'
+			</if>
+		) V
+		where userid between #{startRno} and #{endRno}
+	</select>
+ 	 -->
+ 	 
+</mapper>
