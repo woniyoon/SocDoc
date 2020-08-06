@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.synergy.socdoc.member.MemberVO;
+import com.synergy.socdoc.member.NoticeVO;
 
 
 @Component
@@ -29,6 +30,7 @@ public class AdminController {
 		request.setAttribute("membervoList", map.get("membervoList"));
 		
 		return "admin/adminMemberMng.tiles3";
+		
 	}
 	
 
@@ -49,6 +51,9 @@ public class AdminController {
 	/* 공지사항관리 */
 	@RequestMapping(value = "/adminNoticeMng.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	public String adminNoticeMng(HttpServletRequest request) {
+		
+		HashMap<String, List<NoticeVO>> map = service.selectNoticeList();
+		request.setAttribute("noticevoList", map.get("noticevoList"));
 		
 		return "admin/adminNoticeMng.tiles3";
 	}

@@ -9,6 +9,12 @@
 		from member
 	</select>
  	
+	<select id="selectNoticeList" resultType="com.synergy.socdoc.member.NoticeVO">
+		select noticeSeq, subject, regDate, hit
+		from noticeBoard
+		order by regDate desc 
+	</select>
+ 	
  	<!-- 
  	<select id="getTotalCount" parameterMap="HashMap" resultType="int">
 		select count(*)

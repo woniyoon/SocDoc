@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
     
 <%
 	String ctxPath = request.getContextPath();
@@ -71,7 +72,7 @@
 	
 </style>
 
-	<div id="container" style="min-height: 70vh;">
+	<div id="container" style="min-height: 100vh;">
 
         <div id="noticeList">
            
@@ -90,16 +91,16 @@
                      </tr>
                 </thead>
 
-                <tbody>
+                <c:forEach var="noticevo" items="${noticevoList}">
                     <tr>
                         <td><input type="checkbox" /></td>
-                        <td>1</td>
-                        <td class="noticeTitle">시스템 점검 공지</td>
-                        <td>2020.08.01</td>
-                        <td>124</td>
+                        <td>${noticevo.noticeSeq}</td>
+                        <td class="noticeTitle">${noticevo.subject}</td>
+                        <td>${noticevo.regDate}</td>
+                        <td>${noticevo.hit}</td>
                     </tr>
-                </tbody>
-
+				</c:forEach>
+            
             </table>
             <button id="ckAll">전체선택</button>
             <button id="deleteBtn">삭제</button>

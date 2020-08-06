@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import com.synergy.socdoc.member.MemberVO;
+import com.synergy.socdoc.member.NoticeVO;
 
 @Component
 @Repository
@@ -21,6 +22,14 @@ public class AdminDAO implements InterAdminDAO {
 	public List<MemberVO> selectMemberList() {
 		List<MemberVO> membervoList = sqlsession.selectList("admin.selectMemberList");
 		return membervoList;
+	}
+
+
+	// 공지사항 목록 불러오기
+	@Override
+	public List<NoticeVO> selectNoticeList() {
+		List<NoticeVO> noticevoList = sqlsession.selectList("admin.selectNoticeList");
+		return noticevoList;
 	}
 
 /*	

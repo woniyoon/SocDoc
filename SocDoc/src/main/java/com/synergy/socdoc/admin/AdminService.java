@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.synergy.socdoc.member.MemberVO;
+import com.synergy.socdoc.member.NoticeVO;
 
 @Component
 @Service
@@ -22,6 +23,17 @@ public class AdminService implements InterAdminService {
 		
 		HashMap<String, List<MemberVO>> map = new HashMap<>();
 		map.put("membervoList", membervoList);
+		
+		return map;
+	}
+
+	// 공지사항 목록 불러오기
+	@Override
+	public HashMap<String, List<NoticeVO>> selectNoticeList() {
+		List<NoticeVO> noticevoList = dao.selectNoticeList();
+		
+		HashMap<String, List<NoticeVO>> map = new HashMap<>();
+		map.put("noticevoList", noticevoList);
 		
 		return map;
 	}
