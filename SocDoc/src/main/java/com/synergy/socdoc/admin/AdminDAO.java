@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import com.synergy.socdoc.member.HealthInfoVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.NoticeVO;
 
@@ -30,6 +31,14 @@ public class AdminDAO implements InterAdminDAO {
 	public List<NoticeVO> selectNoticeList() {
 		List<NoticeVO> noticevoList = sqlsession.selectList("admin.selectNoticeList");
 		return noticevoList;
+	}
+
+
+	// 건강정보 목록 불러오기
+	@Override
+	public List<HealthInfoVO> selectHealthList() {
+		List<HealthInfoVO> healthvoList = sqlsession.selectList("admin.selectHealthList");
+		return healthvoList;
 	}
 
 /*	

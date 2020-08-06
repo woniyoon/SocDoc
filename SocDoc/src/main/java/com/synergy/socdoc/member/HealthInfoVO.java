@@ -2,7 +2,7 @@ package com.synergy.socdoc.member;
 
 public class HealthInfoVO {
 
-	private int noticeSeq;
+	private int infoSeq;
 	private String subject;
 	private String contents;
 	private String regDate;
@@ -10,21 +10,21 @@ public class HealthInfoVO {
 	
 	public HealthInfoVO() {}
 	
-	public HealthInfoVO(int noticeSeq, String subject, String contents, String regDate, String img) {
+	public HealthInfoVO(int infoSeq, String subject, String contents, String regDate, String img) {
 		super();
-		this.noticeSeq = noticeSeq;
+		this.infoSeq = infoSeq;
 		this.subject = subject;
 		this.contents = contents;
 		this.regDate = regDate;
 		this.img = img;
 	}
 
-	public int getNoticeSeq() {
-		return noticeSeq;
+	public int getInfoSeq() {
+		return infoSeq;
 	}
 	
-	public void setNoticeSeq(int noticeSeq) {
-		this.noticeSeq = noticeSeq;
+	public void setInfoSeq(int infoSeq) {
+		this.infoSeq = infoSeq;
 	}
 	
 	public String getSubject() {

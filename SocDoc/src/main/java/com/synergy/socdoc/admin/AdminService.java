@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.synergy.socdoc.member.HealthInfoVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.NoticeVO;
 
@@ -34,6 +35,17 @@ public class AdminService implements InterAdminService {
 		
 		HashMap<String, List<NoticeVO>> map = new HashMap<>();
 		map.put("noticevoList", noticevoList);
+		
+		return map;
+	}
+
+	// 건강정보 목록 불러오기
+	@Override
+	public HashMap<String, List<HealthInfoVO>> selectHealthInfoList() {
+		List<HealthInfoVO> healthvoList = dao.selectHealthList();
+		
+		HashMap<String, List<HealthInfoVO>> map = new HashMap<>();
+		map.put("healthvoList", healthvoList);
 		
 		return map;
 	}

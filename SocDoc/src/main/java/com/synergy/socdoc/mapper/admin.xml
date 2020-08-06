@@ -10,8 +10,14 @@
 	</select>
  	
 	<select id="selectNoticeList" resultType="com.synergy.socdoc.member.NoticeVO">
-		select noticeSeq, subject, regDate, hit
+		select noticeSeq, subject, regDate
 		from noticeBoard
+		order by regDate desc 
+	</select>
+ 	
+	<select id="selectHealthList" resultType="com.synergy.socdoc.member.HealthInfoVO">
+		select infoSeq, subject, regDate
+		from infoBoard
 		order by regDate desc 
 	</select>
  	

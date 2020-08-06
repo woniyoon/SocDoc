@@ -87,7 +87,6 @@
                         <th>No.</th>
                         <th>제목</th>
                         <th>등록일</th>
-                        <th>조회수</th>
                      </tr>
                 </thead>
 
@@ -97,7 +96,6 @@
                         <td>${noticevo.noticeSeq}</td>
                         <td class="noticeTitle">${noticevo.subject}</td>
                         <td>${noticevo.regDate}</td>
-                        <td>${noticevo.hit}</td>
                     </tr>
 				</c:forEach>
             

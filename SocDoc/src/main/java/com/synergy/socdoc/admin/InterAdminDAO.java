@@ -3,6 +3,7 @@ package com.synergy.socdoc.admin;
 import java.util.HashMap;
 import java.util.List;
 
+import com.synergy.socdoc.member.HealthInfoVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.NoticeVO;
 
@@ -18,4 +19,6 @@ public interface InterAdminDAO {
 	List<MemberVO> selectMemberList(); // 회원 정보 불러오기
 	
 	List<NoticeVO> selectNoticeList(); // 공지사항 목록 불러오기
+
+	List<HealthInfoVO> selectHealthList(); // 건강정보 목록 불러오기
 }

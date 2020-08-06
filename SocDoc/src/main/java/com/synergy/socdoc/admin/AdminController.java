@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.synergy.socdoc.member.HealthInfoVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.NoticeVO;
 
@@ -75,6 +76,9 @@ public class AdminController {
 	/* 건강정보관리 */
 	@RequestMapping(value = "/healthInfoMng.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	public String healthInfoMng(HttpServletRequest request) {
+		
+		HashMap<String, List<HealthInfoVO>> map = service.selectHealthInfoList();
+		request.setAttribute("healthvoList", map.get("healthvoList"));
 		
 		return "admin/healthInfoMng.tiles3";
 	}

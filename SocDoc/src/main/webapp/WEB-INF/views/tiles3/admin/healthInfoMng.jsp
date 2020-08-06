@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
     
 <%
 	String ctxPath = request.getContextPath();
@@ -116,19 +117,17 @@
                         <th>No.</th>
                         <th>제목</th>
                         <th>등록일</th>
-                        <th>조회수</th>
                      </tr>
                 </thead>
 
-                <tbody>
+                <c:forEach var="healthvo" items="${healthvoList}">
                     <tr>
                         <td><input type="checkbox" /></td>
-                        <td>1</td>
-                        <td class="healthTitle">손은 언제 씻어야 할까?</td>
-                        <td>2020.08.04</td>
-                        <td>124</td>
+                        <td>${healthvo.infoSeq}</td>
+                        <td class="healthTitle">${healthvo.subject}</td>
+                        <td>${healthvo.regDate}</td>
                     </tr>
-                </tbody>
+                </c:forEach>
 
             </table>
             <button id="ckAll">전체선택</button>
