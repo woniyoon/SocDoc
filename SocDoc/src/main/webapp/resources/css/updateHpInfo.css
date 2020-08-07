@@ -17,7 +17,7 @@
 
 #hpDetail {
     flex: 1;
-    border: 1px solid green;
+/*     border: 1px solid green; */
     display: flex;
     padding: 0 5px;
     margin: 10px;
@@ -27,7 +27,7 @@
 
 #hpDetailList {
     list-style-type: none;
-    border: 1px solid purple;
+/*     border: 1px solid purple; */
     padding: 0;
     margin: 0;
     width: inherit;
@@ -81,7 +81,7 @@ textInfo {
 
 textarea {
     resize: none;
-    width: 95%;
+    width: 100%;
     height: 10vh;
 }
 
@@ -114,11 +114,11 @@ textarea {
 #settingSection {
 	width: 100%;
 	margin: 0px;
-	border: 1px solid yellowgreen;
 }
 
 #settingSection td {
 	padding: 10px;
+	border: 1px solid lightgray;
 }
 
 .timeSettingRow {

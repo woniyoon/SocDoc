@@ -72,7 +72,7 @@
 					</tr>
 					<tr>
 						<th>소개</th>
-						<td>
+						<td align="right">
 							<textarea placeholder="200자 내외로 작성해주세요!">${hpInfo.info }</textarea>
 							<br>
 							<span id="letterCounter">
@@ -126,7 +126,7 @@
 						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[1].open.substring(0,2) }"> : 
 						<input type="text" value="00" readonly>
 						<span>부터</span> 
-						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[1].close.substring(0,2) }"> : 
+						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[1].close.substring(0,2) }"> : 
 						<input type="text" value="00" readonly>
 						<span>까지</span>
 					</div>
@@ -135,7 +135,7 @@
 						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[2].open.substring(0,2) }"> : 
 						<input type="text" value="00" readonly>
 						<span>부터</span> 
-						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[2].close.substring(0,2) }"> : 
+						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[2].close.substring(0,2) }"> : 
 						<input type="text" value="00" readonly>
 						<span>까지</span>
 					</div>
@@ -144,7 +144,7 @@
 						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[3].open.substring(0,2) }"> : 
 						<input type="text" value="00" readonly>
 						<span>부터</span> 
-						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[3].close.substring(0,2) }"> : 
+						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[3].close.substring(0,2) }"> : 
 						<input type="text" value="00" readonly>
 						<span>까지</span>
 					</div>
@@ -153,7 +153,7 @@
 						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[4].open.substring(0,2) }"> : 
 						<input type="text" value="00" readonly>
 						<span>부터</span> 
-						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[4].close.substring(0,2) }"> : 
+						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[4].close.substring(0,2) }"> : 
 						<input type="text" value="00" readonly>
 						<span>까지</span>
 					</div>
@@ -162,7 +162,7 @@
 						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[5].open.substring(0,2) }"> : 
 						<input type="text" value="00" readonly>
 						<span>부터</span> 
-						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[5].close.substring(0,2) }"> : 
+						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[5].close.substring(0,2) }"> : 
 						<input type="text" value="00" readonly>
 						<span>까지</span>
 					</div>
