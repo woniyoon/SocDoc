@@ -154,26 +154,17 @@
 					</div>
 				</td>
 			</tr>
-			<!-- <tr>
-			</tr>
-			<tr>
-				<td colspan="6">></td>
-			</tr>
-			<tr>
-				<td colspan="6"><label>금요일</label> <input type="number" min="9"
-					max="23" step="1"> : <input type="number" min="0" max="30"
-					step="30"> <span>부터</span> <input type="number" min="10"
-					max="23" step="1"> : <input type="number" min="0" max="30"
-					step="30"> <span>까지</span></td>
-			</tr>
-			<tr>
-				<td colspan="6"><label>토요일</label> <input type="number" min="9"
-					max="23" step="1"> : <input type="number" min="0" max="30"
-					step="30"> <span>부터</span> <input type="number" min="10"
-					max="23" step="1"> : <input type="number" min="0" max="30"
-					step="30"> <span>까지</span></td>
-			</tr> -->
 		</table>
+		<c:if test="${not empty scheduleTbl }">
+			<c:forEach var="map" items="${scheduleTbl }">
+				<span>
+					${map.day } /
+					${map.open } / 
+					${map.close } /
+				</span>			
+			</c:forEach>
+		</c:if>
+		
 		<div style="margin: 10px 0;" align="right">
 			<button class="blueBtn">승인 신청</button>
 		</div>
@@ -182,6 +173,7 @@
 <script>
 	$(document).ready(function() {
 				
+		
 		// DB에 진료과목 정보가 등록돼있으면, 체크해둔다.
 		$("input[type='checkbox']").each(function(){
 			var deptOption = $(this).val();

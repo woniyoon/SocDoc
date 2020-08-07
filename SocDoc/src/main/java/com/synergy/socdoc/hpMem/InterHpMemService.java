@@ -1,6 +1,6 @@
 package com.synergy.socdoc.hpMem;
 
-import java.util.List;
+import java.util.*;
 
 import org.springframework.stereotype.Service;
 
@@ -15,6 +15,9 @@ public interface InterHpMemService {
 
 	// 병원 정보 관리에서 행을 클릭했을 때 구체적인 정보를 가져옴
 	public HpInfoVO getHpInfoDetail(String submitId);
+
+	// 병원의 오픈/클로즈 스케줄 가져오기
+	public List<HashMap<String, String>> getScheduleTbl(String submitId);
 
 	
 }

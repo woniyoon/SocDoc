@@ -1,6 +1,6 @@
 package com.synergy.socdoc.hpMem;
 
-import java.util.List;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,7 +9,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.synergy.service.InterService;
 import com.synergy.socdoc.member.HpInfoVO;
 
@@ -46,17 +50,45 @@ public class HpMemController {
 		request.setAttribute("infoUpdateList", infoUpdateList);
 		return "hpMem/hpInfo.tiles4";
 	}
+	
+	
+	
+	/*
+	 * 	@ResponseBody
+	@RequestMapping(value="/chart/genderJSON.action", produces="text/plain;charset=UTF-8")
+	public String genderJSON() {
+		List<HashMap<String, String>> genderPercentageList = service.genderJSON();
+		
+		Gson gson = new Gson();
+		JsonArray jsonArr = new JsonArray();
+		
+		for(HashMap<String, String> map : genderPercentageList) {
+			JsonObject jsonObj = new JsonObject();
+			jsonObj.addProperty("gender", map.get("gender"));
+			jsonObj.addProperty("cnt", map.get("cnt"));
+			jsonObj.addProperty("percentage", map.get("percentage"));
+			
+			jsonArr.add(jsonObj);
+		}
+		
+		return gson.toJson(jsonArr);
+	} 
+	 * */
 
-	// 예약관리
+	// 병원 정보 관리에서 각 신청 정보를 확인
 	@RequestMapping(value = "/hpPanel/updateHpInfo.sd", method = RequestMethod.GET)
 	public String test_updateHpInfo(HttpServletRequest request) {
 		String submitId = request.getParameter("submitId");
 		
+		// 병원 상세 정보 가져오기
 		HpInfoVO hpInfoDetail = service.getHpInfoDetail(submitId);
 		
-		System.out.println(submitId);
+		// 시간테이블 들고 오기
+		List<HashMap<String, String>> scheduleTbl = service.getScheduleTbl(submitId);
+		
 		
 		request.setAttribute("hpInfo", hpInfoDetail);
+		request.setAttribute("scheduleTbl", scheduleTbl);
 		
 		return "hpMem/updateHpInfo.tiles4";
 	}

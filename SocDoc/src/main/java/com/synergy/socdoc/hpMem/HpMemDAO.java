@@ -1,6 +1,6 @@
 package com.synergy.socdoc.hpMem;
 
-import java.util.List;
+import java.util.*;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +33,13 @@ public class HpMemDAO implements InterHpMemDAO {
 		HpInfoVO hpInfoDetail = sqlsession.selectOne("hpMem.getHpInfoDetail", submitId);
 		
 		return hpInfoDetail;
+	}
+
+	@Override
+	public List<HashMap<String, String>> getScheduleTbl(String submitId) {
+		List<HashMap<String, String>> scheduleTbl = sqlsession.selectList("hpMem.getScheduleTbl", submitId);
+		System.out.println(scheduleTbl.size());
+		return scheduleTbl;
 	}
 
 }

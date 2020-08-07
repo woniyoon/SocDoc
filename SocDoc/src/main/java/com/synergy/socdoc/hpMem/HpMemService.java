@@ -1,6 +1,6 @@
 package com.synergy.socdoc.hpMem;
 
-import java.util.List;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,5 +31,11 @@ public class HpMemService implements InterHpMemService {
 	public HpInfoVO getHpInfoDetail(String submitId) {
 		HpInfoVO hpInfoDetail = dao.getHpInfoDetail(submitId);
 		return hpInfoDetail;
+	}
+
+	@Override
+	public List<HashMap<String, String>> getScheduleTbl(String submitId) {
+		List<HashMap<String, String>> scheduleTbl = dao.getScheduleTbl(submitId);
+		return scheduleTbl;
 	}
 }
