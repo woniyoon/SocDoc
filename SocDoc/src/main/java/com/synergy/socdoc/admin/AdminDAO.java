@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.synergy.socdoc.member.HealthInfoVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.NoticeVO;
+import com.synergy.socdoc.member.QnaBoardVO;
 
 @Component
 @Repository
@@ -39,6 +40,20 @@ public class AdminDAO implements InterAdminDAO {
 	public List<HealthInfoVO> selectHealthList() {
 		List<HealthInfoVO> healthvoList = sqlsession.selectList("admin.selectHealthList");
 		return healthvoList;
+	}
+
+	// 문의관리 목록 불러오기
+	@Override
+	public List<QnaBoardVO> selectQnAList() {
+		List<QnaBoardVO> qnavoList = sqlsession.selectList("admin.selectQnAList");
+		return qnavoList;
+	}
+
+	// 공지사항 글 조회
+	@Override
+	public NoticeVO getView(String seq) {
+		NoticeVO noticevo = sqlsession.selectOne("admin.getView", seq);
+		return noticevo;
 	}
 
 /*	

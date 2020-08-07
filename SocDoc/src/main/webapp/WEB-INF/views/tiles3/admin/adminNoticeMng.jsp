@@ -38,7 +38,7 @@
 	
 	}
 	
-	td.noticeTitle:hover {
+	span.noticeTitle:hover {
 		cursor: pointer;
 	}
     
@@ -94,7 +94,7 @@
                     <tr>
                         <td><input type="checkbox" /></td>
                         <td>${noticevo.noticeSeq}</td>
-                        <td class="noticeTitle">${noticevo.subject}</td>
+                        <td><span class="noticeTitle" onclick="goView('${noticevo.seq}')">${noticevo.subject}</span></td>
                         <td>${noticevo.regDate}</td>
                     </tr>
 				</c:forEach>
@@ -105,6 +105,10 @@
             <button id="writeBtn" onclick="location.href='<%= ctxPath%>/noticeWrite.sd'">글쓰기</button>
             
         </div>		
+        
+        <form action="goViewFrm">
+        	<input type="text" name="seq" />
+        </form>
 	
 	</div>
 
@@ -117,5 +121,15 @@
 	    location.href='<%= ctxPath%>/noticeView.sd';
 	    
 	});
+	
+	function goView(seq) {
+		
+		var frm = document.goViewFrm;
+		frm.seq.value = seq;
+		
+		frm.method = "GET";
+		frm.action = "noticeView.sd";
+		frm.submit();
+	}
 	
 </script>    

@@ -21,6 +21,18 @@
 		order by regDate desc 
 	</select>
  	
+	<select id="selectQnAList" resultType="com.synergy.socdoc.member.QnaBoardVO">
+		select qnaSeq, subject, userid, regDate, status
+		from qnaBoard
+		order by regDate desc 
+	</select>
+	
+	<select id="getView" parameterType="String"  resultType="com.synergy.socdoc.member.NoticeVO">
+		select subject, contents
+		from noticeBoard
+		where noticeSeq = #{seq}
+	</select>
+ 	
  	<!-- 
  	<select id="getTotalCount" parameterMap="HashMap" resultType="int">
 		select count(*)

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
     
 <%
 	String ctxPath = request.getContextPath();
@@ -112,23 +113,22 @@
                      </tr>
                 </thead>
 
-                <tbody>
+                <c:forEach var="qnavo" items="${qnavoList}">
                     <tr>
                         <td><input type="checkbox" /></td>
-                        <td class="qnaTitle">예약 어케함;</td>
-                        <td>김나나</td>
-                        <td>2020.08.04</td>
-                        <td style="color: limegreen; font-weight: bold;">답변완료</td>
+                        <td class="qnaTitle">${qnavo.subject}</td>
+                        <td>${qnavo.userid}</td>
+                        <td>${qnavo.regDate}</td>
+                        <c:choose>
+                        	<c:when test="${qnavo.status eq 1}">
+                        		<td style="color: limegreen; font-weight: bold;">답변완료</td>
+                        	</c:when>
+                        	<c:otherwise>
+                        		<td style="color: orangered; font-weight: bold;">미답변</td>
+                        	</c:otherwise>
+                        </c:choose>
                     </tr>
-                    
-                    <tr>
-                        <td><input type="checkbox" /></td>
-                        <td>비번 변경 어케함?</td>
-                        <td>이라라</td>
-                        <td>2020.07.30</td>
-                        <td style="color: orangered; font-weight: bold;">미답변</td>
-                    </tr>
-                </tbody>
+                </c:forEach>
 
             </table>
             

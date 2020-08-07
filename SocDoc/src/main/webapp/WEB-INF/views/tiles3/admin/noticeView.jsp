@@ -120,13 +120,13 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>공지사항 제목 들어갈 자리</th>
+                            <th>${noticevo.subject}</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         <tr>
-                            <td>내용물 들어갈 자리<br/><br/><br/><br/><br/></td>
+                            <td><p style="word-break: break-all;">${noticevo.contents}</p></td>
                         </tr>
                     </tbody>
                 </table>

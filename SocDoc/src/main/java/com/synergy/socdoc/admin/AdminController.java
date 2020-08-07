@@ -4,16 +4,19 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.synergy.socdoc.member.HealthInfoVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.NoticeVO;
+import com.synergy.socdoc.member.QnaBoardVO;
 
 
 @Component
@@ -61,9 +64,23 @@ public class AdminController {
 	
 	/* 공지사항 글보기 */
 	@RequestMapping(value = "/noticeView.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
-	public String noticeView(HttpServletRequest request) {
+	public ModelAndView noticeView(HttpServletRequest request, ModelAndView mav) {
 		
-		return "admin/noticeView.tiles3";
+		String seq = request.getParameter("seq");
+		
+		System.out.println("공지사항 seq 잘오나? : " + seq);
+		
+		String gobackURL = request.getParameter("gobackURL");
+		mav.addObject("gobackURL", gobackURL);
+
+		NoticeVO noticevo = null;
+
+		noticevo = service.getView(seq);
+		
+		mav.addObject("noticevo", noticevo);
+		mav.setViewName("admin/noticeView.tiles3");
+		
+		return mav;
 	}
 	
 	/* 공지사항 글쓰기 */
@@ -107,6 +124,8 @@ public class AdminController {
 	/* 문의관리 */
 	@RequestMapping(value = "/qnaMng.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	public String qnaMng(HttpServletRequest request) {
+		HashMap<String, List<QnaBoardVO>> map = service.selectQnAList();
+		request.setAttribute("qnavoList", map.get("qnavoList"));
 		
 		return "admin/qnaMng.tiles3";
 	}
