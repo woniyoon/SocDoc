@@ -5,7 +5,6 @@ public class HpInfoVO {
 	private String dept;
 	private String hpName;
 	private String address;
-	private String addressDetail;
 	private String phone;
 	private String info;
 	private double latitude;
@@ -71,11 +70,11 @@ public class HpInfoVO {
 		this.address = address;
 	}
 
-	public String getphone() {
+	public String getPhone() {
 		return phone;
 	}
 
-	public void setphone(String phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -88,7 +89,7 @@ public class SearchMenuCtrl {
 	}
 	
 	
-	// 민간구급차
+	// 민간구급차 찾기
 	@RequestMapping(value = "/searchAmbulance.sd")
 	public ModelAndView searchAmbulance(ModelAndView mav) {
 
@@ -96,6 +97,9 @@ public class SearchMenuCtrl {
 
 		return mav;
 	}
+	
+	
+	
 	
 	
 }

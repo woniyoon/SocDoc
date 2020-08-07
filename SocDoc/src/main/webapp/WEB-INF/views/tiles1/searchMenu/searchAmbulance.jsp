@@ -96,6 +96,50 @@
 
 
 
+<script type="text/javascript">
+	 $(document).ready(function(){
+		 
+		 showAmList();	 
+		 
+	 })
+
+	 function showAmList(){
+		 
+		 var html = "";
+
+		 $.ajax({
+			 url: "<%= ctxPath %>/api/amList.sd",
+	         type: "GET",
+	         dataType: "JSON",
+	         success: function(json){	
+	        		
+				$.each(json, function(index,item){		
+
+					var adr = item.dutyAddr;
+					var adrArr = adr.split(' ');					
+					
+				 	html+="<tr><td>"+adrArr[0]+"</td>"
+						+"<td>"+adrArr[1]+"</td>"
+						+"<td>"+item.dutyName+"</td>"
+						+"<td>"+item.carSeq+"</td></tr>";
+						 
+				})		
+					        	
+				$("#ambulanceTblBody").html(html);
+	        	 
+	         },
+	         error: function(request, status, error){
+	            alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	         }   
+		 })
+		 
+		 
+	 }
+
+
+</script>
+
+
 
 <div class="container">
 
@@ -125,7 +169,7 @@
 				<th>차량번호</th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody id="ambulanceTblBody">
 			<tr>
 				<td>서울</td>
 				<td>서울</td>
