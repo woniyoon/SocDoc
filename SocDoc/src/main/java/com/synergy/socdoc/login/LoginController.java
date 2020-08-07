@@ -170,32 +170,46 @@ public class LoginController {
 	
 	// === 회원가입 이메일 인증확인 === //
 	@ResponseBody
-	@RequestMapping(value="/verifyCertification.sd", method={RequestMethod.POST})
-	public void verifyCertification(String userid, String email, HttpServletRequest request) {
+	@RequestMapping(value="/verifyCertificationFrm.sd", method={RequestMethod.POST}, produces="text/plain;charset=UTF-8")
+	public String verifyCertification(HttpServletRequest request) {
 		
 		String userCertificationCode = request.getParameter("userCertificationCode");
-		
+
 		HttpSession session = request.getSession();
 		String certificationCode = (String)session.getAttribute("certificationCode");
+	
+		System.out.println("userCertificationCode 인증 코드 : "+userCertificationCode);
+		System.out.println("certificationCode 인증 코드 : "+certificationCode);
+	/*	String msg = "";
+		String loc = "";*/
 		
-		String message = "";
-		String loc = "";
+		boolean isbool=false;
 		
 		if( certificationCode.equals(userCertificationCode) ) {
-			message = "인증성공 되었습니다.";
-			loc = request.getContextPath()+"/userCertificationCode.sd";
+//			msg = "인증성공 되었습니다.";
+//			loc = request.getContextPath()+"/userCertificationCode.sd";
+			isbool=true;
+			System.out.println("인증코드 맞음");
+
 		}
 		else {
-			message = "발급된 인증코드가 아닙니다. 인증코드를 다시 발급받으세요!!";
-			loc = request.getContextPath()+"/register.sd";
+//			msg = "발급된 인증코드가 아닙니다. 인증코드를 다시 발급받으세요!!";
+//			loc = request.getContextPath()+"/register.sd";
+			isbool=false;
+			System.out.println("인증코드 안 맞음");
 		}
-		
-		request.setAttribute("message", message);
-		request.setAttribute("loc", loc);
+		/*
+		request.setAttribute("msg", msg);
+		request.setAttribute("loc", loc);*/
 		
 		// !!! 중요 !!! //
 		// 세션에 저장된 인증코드 삭제하기 !!!!
-		session.removeAttribute("certificationCode");
+		//session.removeAttribute("certificationCode");
+		
+		JSONObject json = new JSONObject();
+        json.put("isbool", isbool);
+        
+        return json.toString();  
 		
 	}
 	
@@ -221,6 +235,7 @@ public class LoginController {
 		return json.toString();
 	}
 	
+	
 	// === 회원가입 회원 이메일 중복검사 === //
 	@ResponseBody
 	@RequestMapping(value="/emailChk.sd", method= {RequestMethod.POST})
@@ -228,13 +243,14 @@ public class LoginController {
 		String email= request.getParameter("email");
 		
 		boolean isUse = service.emailChk(email);
-		System.out.println("emailChk 값 : " + isUse);
+		//System.out.println("emailChk 값 : " + isUse);
 		/*String ctxPath = request.getContextPath();*/
 		JSONObject json = new JSONObject();
 		json.put("isUse", isUse);
 		
 		return json.toString();
 	}
+	
 	
 	// === 회원가입 병원 아이디 중복검사 === //
 	@ResponseBody
