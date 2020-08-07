@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
   
 <%
 	String ctxPath = request.getContextPath();
@@ -74,9 +75,9 @@
 						<td>
 							<textarea placeholder="200자 내외로 작성해주세요!">${hpInfo.info }</textarea>
 							<br>
-							<span>
+							<span id="letterCounter">
 							<c:if test="${not empty hpInfo}">
-								140
+								${fn:length("${hpInfo}")-1}
 							</c:if>
 							<c:if test="${empty hpInfo }">
 								0
