@@ -9,4 +9,11 @@
 	<select id="getContent" resultType="String">
 		select email from tbl_test where userid = 'woniyoon'
 	</select>
+	
+	
+	<select id="hospital_select" resultType="com.synergy.socdoc.member.HpInfoVO"> 
+		select dept, hpName
+		from hospitalInfo
+	</select>
+	
 </mapper>

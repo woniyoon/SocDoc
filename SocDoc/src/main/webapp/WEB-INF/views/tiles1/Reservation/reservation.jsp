@@ -330,10 +330,10 @@ table.type05 td {
    // ================ 검색 ================
    function goSearch(){  
       
-      var h_area1 = $("#h_area1").val().trim(); /* 시도선택 */
-      var h_area2 = $("#h_area2").val().trim(); /* 구군선택 */
-      var h_area3 = $("#h_area3").val().trim(); /* 진료과목선택 */
-      var myInput = $("#myInput").val().trim(); /* 병원명입력창 */
+      var h_area1 = $("#h_area1").val().trim(); 	// 시도선택
+      var h_area2 = $("#h_area2").val().trim(); 	// 구군선택
+      var h_area3 = $("#h_area3").val().trim(); 	// 진료과목선택
+      var myInput = $("#myInput").val().trim(); 	// 병원명입력창
       
       if(! (h_area1 == "시도선택" && h_area2 == "구군선택" && h_area3 == "전체" && myInput=="")){ 
          alert("검색완료");
@@ -341,11 +341,6 @@ table.type05 td {
          alert("찾으시는 병원 정보를 선택해주세요.");
       }
    }// end of 검색 끝 =======================
-
-   
-   
-   
-   
    </script>
    
    <!-- 전체박스 -->
@@ -409,7 +404,7 @@ table.type05 td {
    <div class="check_box">
    <h3 style="margin-left: 4%; margin-bottom: 4%;">예약하실정보확인</h3>
       <ul>
-         <li>환자명 : 홍길동(123456789)</li>
+         <li>환자명 : </li>
          <li><button class="btnTypecheck">환자정보확인</button><button class="btnTypecheck">최근예약</button></li>
          <li>병원/진료과 : </li>
          <li>진료일시 : </li>
@@ -427,22 +422,27 @@ table.type05 td {
    병원찾기전 끝 
    
    <!-- 병원검색했을경우, 병원정보정렬 -->
+   
    <div id="hospital" style="height: 300px;">
       <div class="hspimg" style="float: left;">
+    
       <!-- 병원사진 --><img width="150px;" height="140px;" src="<%= ctxPath%>/resources/images/피부과.jpg" /></div>
    <div class="hpsinfo" style="float: left; width:150px; margin-left: 6px;">
       <ul>
-      <!-- 병원이름 --><li style="font-size: 12pt; color: blue; font-weight: bold;">닥터손유나의원</li>
-      <!-- 병원정보 --><li style="font-size: 9pt;">병만 치료하는 곳이 아니라 영성과 마음까지 치유되는 곳이 되려고 노력하고 있습니다.</li>
-      <br>
+      <c:forEach var="hpinfovo" items="${hpinfovoList}" varStatus="status">
+      <!-- 병원이름 --><li style="font-size: 12pt; color: blue; font-weight: bold;">${hpinfovoList.dept}</li>
+      <!-- 병원정보 --><li style="font-size: 9pt;">${hpinfovoList.hpName}a</li>
       <!-- 리뷰보기 --><li style="font-weight: bold; cursor: pointer;"><a href="http://drsonyouna.com/">리뷰 및 상세보기</a></li>
       </ul>
+      		</c:forEach>
       </div>
       <!-- 리뷰보기 -->
    <!-- 병원검색했을경우, 병원정보정렬 끝 -->
+
    </div>
    </div>
    <!-- 병원목록 끝 -->
+   
    
    <!-- 진료일정 : 달력 날짜선택 시간선택 -->
    <div class="schedule_medical">

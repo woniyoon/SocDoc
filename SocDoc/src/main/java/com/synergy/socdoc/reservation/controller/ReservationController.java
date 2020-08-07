@@ -1,5 +1,9 @@
 package com.synergy.socdoc.reservation.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.synergy.service.InterService;
+import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.reservation.service.InterReserveService;
 
 @Component
@@ -22,8 +27,13 @@ public class ReservationController {
 	 
 	   // === 예약하기 페이지 요청 === // 
 	   @RequestMapping(value="/reserve.sd")
-	   public String reserve() {
-	      return "Reservation/reservation.tiles1";
+	   public String reserve(HttpServletRequest request) {
+	     
+		   List<HpInfoVO> hpinfovoList = service.hospital_list();
+		   
+		   request.setAttribute("hpinfovoList", hpinfovoList);
+		   
+		   return "Reservation/reservation.tiles1";
 	   }
 	   
 	   // === 예약완료 페이지 요청 === // 
