@@ -69,11 +69,11 @@ public class HpInfoVO {
 		this.address = address;
 	}
 
-	public String getphone() {
+	public String getPhone() {
 		return phone;
 	}
 
-	public void setphone(String phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
