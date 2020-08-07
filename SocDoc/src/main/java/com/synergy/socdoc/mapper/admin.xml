@@ -33,27 +33,33 @@
 		where noticeSeq = #{noticeSeq}
 	</select>
  	
- 	<!-- 
- 	<select id="getTotalCount" parameterMap="HashMap" resultType="int">
+ 	
+ 	<select id="getTotalCount" parameterType="HashMap" resultType="int">
 		select count(*)
 		from member
+		where status in (1,0)
 			<if test='searchWord != ""'>
 				and lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
 			</if>
 	</select>
 
-	<select id="memberListSearchWithPaging" parameterMap="HashMap" resultType="com.synergy.socdoc.member.MemberVO">
-		select userid, name, birthDate, email, phone, registerDate, status
-		from 
-		(
-			select userid, name, birthDate, email, phone, to_char(registerDate, 'yyyy-mm-dd hh24:mi:ss'), status
-			from member
-			<if test='searchWord != ""'>
-				and ${searchType} like '%' || #{searchWord} || '%'
-			</if>
-		) V
-		where userid between #{startRno} and #{endRno}
+	<select id="memberListSearchWithPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.MemberVO">
+		select rno, userid, name, birthDate, email, phone, registerDate, status
+		from
+	    ( 
+	        select rownum as rno, userid, name, birthDate, email, phone, registerDate, status 
+			from 
+			(
+				select userid, name, birthDate, email, phone, registerDate, status
+				from member
+				where status in (1,0)
+				<if test='searchWord != ""'>
+					and ${searchType} like '%' || #{searchWord} || '%'
+				</if>
+			) V
+		)T
+		where rno between #{startRno} and #{endRno}
 	</select>
- 	 -->
+ 	
  	 
 </mapper>

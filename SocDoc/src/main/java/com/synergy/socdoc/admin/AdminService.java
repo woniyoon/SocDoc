@@ -70,19 +70,19 @@ public class AdminService implements InterAdminService {
 		return noticevo;
 	}
 	
-/*
+
 	@Override
 	public int getTotalCount(HashMap<String, String> paraMap) {
 		int totalCount = dao.getTotalCount(paraMap);
 		return totalCount;
 	}
 
-	@Overrides
+	@Override
 	public List<MemberVO> memberListSearchWithPaging(HashMap<String, String> paraMap) {
 		List<MemberVO> memberList = dao.memberListSearchWithPaging(paraMap);
-		return null;
+		return memberList;
 	}
-*/
+
 	
 	
 }

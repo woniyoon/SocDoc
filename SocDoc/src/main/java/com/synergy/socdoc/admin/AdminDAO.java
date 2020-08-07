@@ -56,7 +56,7 @@ public class AdminDAO implements InterAdminDAO {
 		return noticevo;
 	}
 
-/*	
+	
 	@Override
 	public int getTotalCount(HashMap<String, String> paraMap) {
 		int totalCount = sqlsession.selectOne("admin.getTotalCount", paraMap);
@@ -69,5 +69,5 @@ public class AdminDAO implements InterAdminDAO {
 		return memberList;
 	}	
 
-*/	
+	
 }

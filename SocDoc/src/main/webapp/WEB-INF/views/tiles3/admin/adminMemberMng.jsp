@@ -93,18 +93,19 @@
 		
 		<div id="memberList">
 			<h2>회원관리</h2>
-			 
-            <button class="searchBtn">검색</button>
-            <input type="text" class="searchWord" placeholder="검색어를 입력하세요">
-            <select>
-                <option selected="selected">아이디</option>
-                <option>이름</option>
-                <option>이메일</option>
-                <option>전화번호</option>
-            </select>
-            
-            <p>전체 회원 수 : 2981명</p>		
 			
+			<form name="searchFrm"> 
+	            <button class="searchBtn" onclick="goSearch()">검색</button>
+	            <input type="text" class="searchWord" id="searchWord" name="searchWord" autocomplete="off" placeholder="검색어를 입력하세요">
+	            <select name="searchType" id="searchType">
+	                <option selected="selected" value="userid">아이디</option>
+	                <option value="name">이름</option>
+	                <option value="email">이메일</option>
+	                <option value="phone">전화번호</option>
+	            </select>
+            </form>
+            
+            <p>전체 회원 수 : ${totalCount}명</p>		
 			<table class="table" style="text-align: center;">
 				<tr>
 					<th>선택</th>
@@ -116,7 +117,6 @@
 					<th>가입일자</th>
 					<th>상태</th>
 				</tr>
-				
 				<c:forEach var="membervo" items="${membervoList}">
 					<tr>
 						<td><input type="checkbox" /></td>		
@@ -149,3 +149,31 @@
 		</div>
 		
 	</div>
+	
+	
+<script type="text/javascript">
+	
+	$(document).ready(function(){
+		
+		$("#searchWord").keydown(function(event){
+			if(event.keyCode == 13) {
+				goSearch();
+			}
+		});
+		
+		if(${paraMap != null}) {
+			$("#searchType").val("${paraMap.searchType}");
+			$("#searchWord").val("${paraMap.searchWord}");
+		}
+		
+	});
+	
+	
+	function goSearch() {
+		var frm = document.searchFrm;
+			frm.method = "GET";
+			frm.action = "<%= request.getContextPath()%>/adminMemberMng.sd";
+			frm.submit();
+	}
+
+</script>	
