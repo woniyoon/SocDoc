@@ -54,18 +54,6 @@ public class HomeController {
       return "main/home.tiles1";
    }
    
-   
-   // === 예약하기 페이지 요청 === // 
-   @RequestMapping(value="/reserve.sd")
-   public String reserve() {
-      return "Reservation/reservation.tiles1";
-   }
-   
-   // === 예약완료 페이지 요청 === // 
-   @RequestMapping(value="/reserve_result.sd")
-   public String reserve_result() {
-      return "Reservation/reservation_result.tiles1";
-   }
   
    
   
