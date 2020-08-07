@@ -456,6 +456,9 @@
 		//  ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 이메일
 		$("span#emailError").hide();
 		$("span#emailSuccess").hide();
+		$("span#emailGo").hide();
+		$("#email2").hide();
+		$("#btnFind2").hide();
 		
 		$("#email").blur(function(){
 			
@@ -463,6 +466,7 @@
 				$("span#emailSuccess").hide();
 				$("span#emailError").show();
 				$("input#email").addClass("wrong");
+				$("#div_btnFind").hide();
 			} else {	// 데이터가 있다면
 				// 정규표현식
 				var email = $("#email").val();
@@ -477,9 +481,41 @@
 					return;
 				} else {	// 데이터가 조건에 맞다면
 					//$("span#useridSuccess").show();
-					$("span#emailSuccess").html("이메일 중복검사를 하세요 제발 plz").show();
+					//$("span#emailSuccess").html("이메일 중복검사를 하세요 제발 plz").show();
 					$("input#email").removeClass("wrong");
 					condition4 = true;
+					
+					$.ajax({
+						url:"<%=ctxPath%>/emailChk.sd",
+						type:"POST",
+						data:{"email":$("#email").val()},
+						dataType:"json",
+						success:function(json){
+							if(json.isUse) {	// X 데이터가 중복된다면 X false
+								$("span#emailError").html($("#email").val()+"은(는) 이미 사용 중이거나, 탈퇴한 이메일로 사용 불가능합니다.").show();
+								$("span#emailSuccess").hide();
+							} else {	// O 데이터가 중복되지않는다면 O true
+								if(condition4 == false){ // 정규표현식이 틀리다면
+									$("span#emailError").html("조건 맞춰주세요ㅅㅂ").show();
+									$("span#emailSuccess").hide();
+									emailOK = false;
+								} else if(condition4 == true) {	// 정규표현식이 맞다면
+									$("span#emailSuccess").html("사용 가능한 이메일 입니다.").show();
+									$("span#emailError").hide();
+									emailOK = true;
+								
+									
+	<%-- 							var frm = document.registerFrm;
+									frm.method = "POST";
+									frm.action = "<%= ctxPath%>/register.sd";
+									frm.submit(); --%>
+								}
+							}
+						},
+						error: function(request, status, error){
+							alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+						}
+					});
 				}
 				
 				$("span#emailError").hide();
@@ -487,9 +523,94 @@
 				return;
 			}
 		}); 
-
+		
+		// 이메일 인증하기 버튼 눌렀을 때..
+		$("#btnFind").click(function() {
+			if(emailOK == true){
+				$("span#emailGo").show();
+				$("#email2").show();
+				$("#btnFind2").show();
+				$.ajax({	
+					url:"<%= ctxPath%>/emailCode.sd",
+					type:"POST",
+					data:{"email":$("#email").val().trim()},
+					dataType:"json",
+					success:function(json){
+						console.log(json.isSent);
+						console.log("!!!!!!!!!!!!!!!!!!!!발송성공!!!!!!!!!!!!!!!!!!!!");
+						$("#emailGo").html($("#email").val()+"로 인증번호가 발송되었습니다. 전달받은 인증번호를 입력해주세요").show();
+						
+					},
+					error: function(request, status, error){
+						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+						$("#emailGo").html("메일발송이 실패했습니다. 다시 시도해주세요.").show();
+					}
+				}); 
+			} else {
+				alert('사용 중이신 이메일 입력해주세요.');
+			}
+		});	
+		
+ 		
+		var method = "${method}";
+		var email = "${email}";
+		
+		if(method=="POST") {
+			$("#email").val(email);
+			$("#div_btnFind").hide();
+		}
+		else {
+			$("#div_btnFind").show();
+		}
+<%--		
+		$("#btnFind2").click(function(){
+			var frm = document.verifyCertificationFrm;
+			frm.userCertificationCode.value = $("#email2").val();
+			
+			frm.action = "<%= ctxPath%>/verifyCertification.sd";
+			frm.method = "POST";
+			frm.submit();
+		});
+		
+ --%>		
+ 		/////////////////////////////////////////////////////
+		
+		// 이메일 인증 확인버튼 눌렀을 때..
+ 		$("#btnFind2").click(function() {
+			$.ajax({	
+				url:"<%= ctxPath%>/verifyCertificationFrm.sd",
+				type:"POST",
+				data:{"email":$("#email2").val().trim()},
+				dataType:"json",
+				success:function(json){
+					console.log(json.isSent);
+					console.log("!!!인증성공!!!");
+					$("#emailGo").html("인증 성공되었습니다.").show();
+				},
+				error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+					$("#emailGo").html("인증 실패되었습니다.").show();
+				}
+			}); 
+		});	
+		///////////////////////////////////////////////////////////////
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		/// **** AJAX로 email중복확인하기  ****///
-		$("#emailCheck").click(function() {
+<%-- 		$("#emailCheck").click(function() {
 			
 			if($("input#email").val().trim() == "") {	// 데이터 없을 때 중복검사를 하면
 				alert("이메일을 입력하세요.");
@@ -507,16 +628,34 @@
 							if(condition4 == false){ // 정규표현식이 틀리다면
 								$("span#emailError").html("조건 맞춰주세요ㅅㅂ").show();
 								$("span#emailSuccess").hide();
-								emailOK = false;
+//								emailOK = false;
 							} else if(condition4 == true) {	// 정규표현식이 맞다면
 								$("span#emailSuccess").html("사용 가능한 이메일 입니다.").show();
 								$("span#emailError").hide();
-								emailOK = true;
+//								emailOK = true;
 								
-<%-- 								var frm = document.registerFrm;
+								$.ajax({	
+									url:"<%= ctxPath%>/emailCode.sd",
+									type:"POST",
+									data:{"email":$("#email").val().trim()},
+									dataType:"json",
+									success:function(json){
+										console.log(json.isSent);
+										if(isSent==true){
+											alert('인증완료');
+										} else {
+											alert("재시도");
+										}
+									},
+									error: function(request, status, error){
+										alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+									}
+								});
+								
+								var frm = document.registerFrm;
 								frm.method = "POST";
 								frm.action = "<%= ctxPath%>/register.sd";
-								frm.submit(); --%>
+								frm.submit();
 							}
 						}
 					},
@@ -526,10 +665,10 @@
 				});
 			}
 		});
-		
+--%>
 		
 		// ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 이메일로 인증번호 전송 
-		$("#btnFind").click(function(){
+<%-- 		$("#btnFind").click(function(){
 			
 			$.ajax({	
 				url:"<%= ctxPath%>/emailCode.sd",
@@ -548,8 +687,8 @@
 					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 				}
 			});
-		});	
-			<%-- $.ajax();
+		});	 
+		$.ajax();
 			var emailVal = $("#email").val().trim();
 			
 			if(emailVal != "") {
@@ -562,27 +701,8 @@
 				alert("이메일을 입력하세요!!");
 				return;
 			}
-		});
-		
-		var method = "${method}";
-		var email = "${email}";
-		
-		if(method=="POST") {
-			$("#email").val(email);
-			$("#div_btnFind").hide();
-		}
-		else {
-			$("#div_btnFind").show();
-		}
-		
-		$("#btnConfirmCode").click(function(){
-			var frm = document.verifyCertificationFrm;
-			frm.userCertificationCode.value = $("#input_confirmCode").val();
-			
-			frm.action = "<%= ctxPath%>/verifyCertification.sd";
-			frm.method = "POST";
-			frm.submit();
-		}); --%>
+		});--%>
+
 		
 	
 		
@@ -1123,19 +1243,24 @@
 				         	         	
 				        <label for="email" style="display: block;">이메일</label>
 				        <input type="email" name="email" id="email" class="requiredInfo" placeholder="E-mail을 입력하세요" style="width: 75%;" /> 
-				        <!-- 이메일 중복 체크 -->
-			        	<input type="button" id="emailCheck" value="중복검사" style="width: 95px; height: 35px;"/>
+				        <!-- 이메일 중복 체크 
+			        	<input type="button" id="emailCheck" value="중복검사" style="width: 95px; height: 35px;"/>  -->
+			        	<input type="button" id="btnFind" value="인증하기" style="width: 95px; height: 35px;"/>
 				        <span class="error" id="emailError" >이메일 형식에 맞지 않습니다.</span> 
 						<span class="success" id="emailSuccess">사용 가능한 이메일 입니다.</span> 
-				        
 				        <div id="div_btnFind">
+					        <input type="text" name="email2" id="email2" class="requiredInfo" placeholder="E-mail로 발송된 인증번호를 입력하세요" style="width: 75%;" />
+							<input type="button" id="btnFind2" value="인증확인하기" style="width: 95px; height: 35px;"/>
+							<span class="go" id="emailGo">잠시만 기다리세요</span>
+				        </div>
+<%--       				<div id="div_btnFind">
 							<label for="email2" style="display: block;">인증확인</label>
 							<input type="text" name="email2" id="email2" class="requiredInfo" placeholder="E-mail로 발송된 인증번호를 입력하세요" style="width: 75%;" />
 							<input type="button" id="btnFind" value="인증하기" style="width: 95px; height: 35px;"/>
 						</div>		
 						<span class="error" id="goCode" >${email}로 인증번호가 발송되었습니다.<br/>이메일로 전달받은 인증번호를 입력해주세요</span>
 						<span class="error" id="codeError" style="color: red;">메일발송이 실패했습니다.</span>  						
-				        
+--%>	        
 				      
 							<%-- <div id="div_findResult">
 								<div id="div_btnFind">
