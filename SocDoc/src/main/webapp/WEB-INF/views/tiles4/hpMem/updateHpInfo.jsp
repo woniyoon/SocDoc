@@ -110,32 +110,54 @@
 			</tr>
 			<tr>
 				<th rowspan="7">진료시간</th>
-				<td colspan="6"><label>월요일</label> <input type="number" min="9"
-					max="23" step="1"> : <input type="number" min="0" max="30"
-					step="30"> <span>부터</span> <input type="number" min="10"
-					max="23" step="1"> : <input type="number" min="0" max="30"
-					step="30"> <span>까지</span></td>
+				<td colspan="6">
+					<div class="timeSettingRow">
+						<label>월요일</label> <input type="number" min="9"
+						max="23" step="1"> : <input type="number" min="0" max="30"
+						step="30"> <span>부터</span> <input type="number" min="10"
+						max="23" step="1"> : <input type="number" max="00" min="00" value="0"> <span>까지</span>
+					</div>
+					<div class="timeSettingRow">
+						<label>화요일</label> <input type="number" min="9"
+						max="23" step="1"> : <input type="number" min="0" max="30"
+						step="30"> <span>부터</span> <input type="number" min="10"
+						max="23" step="1"> : <input type="number" min="0" max="30"
+						step="30"> <span>까지</span>
+					</div>
+					<div class="timeSettingRow">
+						<label>수요일</label> <input type="number" min="9"
+							max="23" step="1"> : <input type="number" min="0" max="30"
+							step="30"> <span>부터</span> <input type="number" min="10"
+							max="23" step="1"> : <input type="number" min="0" max="30"
+							step="30"> <span>까지</span>
+					</div>
+					<div class="timeSettingRow">
+						<label>목요일</label> <input type="number" min="9"
+						max="23" step="1"> : <input type="number" min="0" max="30"
+						step="30"> <span>부터</span> <input type="number" min="10"
+						max="23" step="1"> : <input type="number" min="0" max="30"
+						step="30"> <span>까지</span>
+					</div>
+					<div class="timeSettingRow">
+						<label>금요일</label> <input type="number" min="9"
+						max="23" step="1"> : <input type="number" min="0" max="30"
+						step="30"> <span>부터</span> <input type="number" min="10"
+						max="23" step="1"> : <input type="number" min="0" max="30"
+						step="30"> <span>까지</span>
+					</div>
+					<div class="timeSettingRow">
+						<label>토요일</label> <input type="number" min="9"
+						max="23" step="1"> : <input type="number" min="0" max="30"
+						step="30"> <span>부터</span> <input type="number" min="10"
+						max="23" step="1"> : <input type="number" min="0" max="30"
+						step="30"> <span>까지</span>
+					</div>
+				</td>
+			</tr>
+			<!-- <tr>
 			</tr>
 			<tr>
-				<td colspan="6"><label>화요일</label> <input type="number" min="9"
-					max="23" step="1"> : <input type="number" min="0" max="30"
-					step="30"> <span>부터</span> <input type="number" min="10"
-					max="23" step="1"> : <input type="number" min="0" max="30"
-					step="30"> <span>까지</span></td>
-			</tr>
-			<tr>
-				<td colspan="6"><label>수요일</label> <input type="number" min="9"
-					max="23" step="1"> : <input type="number" min="0" max="30"
-					step="30"> <span>부터</span> <input type="number" min="10"
-					max="23" step="1"> : <input type="number" min="0" max="30"
-					step="30"> <span>까지</span></td>
-			</tr>
-			<tr>
-				<td colspan="6"><label>목요일</label> <input type="number" min="9"
-					max="23" step="1"> : <input type="number" min="0" max="30"
-					step="30"> <span>부터</span> <input type="number" min="10"
-					max="23" step="1"> : <input type="number" min="0" max="30"
-					step="30"> <span>까지</span></td>
+				<td colspan="6">></td>
 			</tr>
 			<tr>
 				<td colspan="6"><label>금요일</label> <input type="number" min="9"
@@ -150,7 +172,7 @@
 					step="30"> <span>부터</span> <input type="number" min="10"
 					max="23" step="1"> : <input type="number" min="0" max="30"
 					step="30"> <span>까지</span></td>
-			</tr>
+			</tr> -->
 		</table>
 		<div style="margin: 10px 0;" align="right">
 			<button class="blueBtn">승인 신청</button>

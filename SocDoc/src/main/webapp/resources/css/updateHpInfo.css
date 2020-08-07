@@ -121,6 +121,14 @@ textarea {
 	padding: 10px;
 }
 
+.timeSettingRow {
+	margin: 15px 0;	
+}
+
+.timeSettingRow label, .timeSettingRow span {
+	margin: 0 10px;
+}
+
 /* W3School 이미지 슬라이더 */
 
 * {
