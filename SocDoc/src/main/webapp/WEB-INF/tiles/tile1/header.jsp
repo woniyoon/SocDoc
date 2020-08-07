@@ -11,6 +11,11 @@
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
+ <%-- 테이블 스타일을 위해 common.css 적용 --%>
+<link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/resources/css/common.css" />
+
+
+<title>속닥속닥</title>
 
     
     <style>
