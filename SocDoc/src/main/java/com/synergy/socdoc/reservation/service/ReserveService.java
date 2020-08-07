@@ -22,7 +22,7 @@ public class ReserveService implements InterReserveService {
 
 	// 병원정보가져오기
 	@Override
-	public List<HpInfoVO> hospital_list() {
+	public List<HpInfoVO> hospital_select() {
 		List<HpInfoVO> hpinfovoList = dao.hospital_select();
 		return hpinfovoList;
 	}

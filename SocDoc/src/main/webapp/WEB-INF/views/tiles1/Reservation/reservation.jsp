@@ -14,11 +14,11 @@
 <script src="<%=ctxPath%>/resources/pg-calendar/dist/js/pignose.calendar.full.min.js"></script>
 <script src="<%=ctxPath%>/resources/pg-calendar/dist/js/pignose.calendar.js"></script>
 <style type="text/css">
-body {
+/* body {
       width: 1440px;   
-}
+} */
 #reservation_container{
-      width: 90%;
+      width: 95%;
        margin: 0 auto
 }
 #reservation_title{
@@ -429,12 +429,13 @@ table.type05 td {
       <!-- 병원사진 --><img width="150px;" height="140px;" src="<%= ctxPath%>/resources/images/피부과.jpg" /></div>
    <div class="hpsinfo" style="float: left; width:150px; margin-left: 6px;">
       <ul>
-      <c:forEach var="hpinfovo" items="${hpinfovoList}" varStatus="status">
-      <!-- 병원이름 --><li style="font-size: 12pt; color: blue; font-weight: bold;">${hpinfovoList.dept}</li>
-      <!-- 병원정보 --><li style="font-size: 9pt;">${hpinfovoList.hpName}a</li>
+      <c:forEach var="hpinfovoList" items="${hpinfovoList}" varStatus="status">
+      <!-- 병원이름 --><li style="font-size: 12pt; color: blue; font-weight: bold;">${hpinfovoList.hpName}</li>
+      <!-- 병원정보 --><li style="font-size: 9pt;"></li>
       <!-- 리뷰보기 --><li style="font-weight: bold; cursor: pointer;"><a href="http://drsonyouna.com/">리뷰 및 상세보기</a></li>
+      </c:forEach>
       </ul>
-      		</c:forEach>
+      		
       </div>
       <!-- 리뷰보기 -->
    <!-- 병원검색했을경우, 병원정보정렬 끝 -->

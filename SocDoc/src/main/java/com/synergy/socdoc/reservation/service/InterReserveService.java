@@ -8,6 +8,6 @@ public interface InterReserveService {
 
 		String getContent();
 
-		List<HpInfoVO> hospital_list(); // 병원 정보 가져오기
+		List<HpInfoVO> hospital_select(); // 병원 정보 가져오기
 	}
 

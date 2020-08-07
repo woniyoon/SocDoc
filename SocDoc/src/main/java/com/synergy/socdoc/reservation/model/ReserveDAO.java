@@ -17,7 +17,6 @@ public class ReserveDAO implements InterReserveDAO {
 	@Override
 	public String getContent() {
 		String content = sqlsession.selectOne("test.getContent");
-		
 		return content;
 	}
 
