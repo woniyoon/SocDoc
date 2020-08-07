@@ -126,7 +126,7 @@
 
                     <tbody>
                         <tr>
-                            <td><p style="word-break: break-all;">${noticevo.contents}</p></td>
+                            <td><p style="word-break: break-all;">${noticevo.content}</p></td>
                         </tr>
                     </tbody>
                 </table>

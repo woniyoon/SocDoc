@@ -94,7 +94,7 @@
                     <tr>
                         <td><input type="checkbox" /></td>
                         <td>${noticevo.noticeSeq}</td>
-                        <td><span class="noticeTitle" onclick="goView('${noticevo.seq}')">${noticevo.subject}</span></td>
+                        <td><span class="noticeTitle" onclick="goView('${noticevo.noticeSeq}')">${noticevo.subject}</span></td>
                         <td>${noticevo.regDate}</td>
                     </tr>
 				</c:forEach>
@@ -106,8 +106,8 @@
             
         </div>		
         
-        <form action="goViewFrm">
-        	<input type="text" name="seq" />
+        <form name="goViewFrm">
+        	<input type="hidden" name="noticeSeq" />
         </form>
 	
 	</div>
@@ -116,20 +116,23 @@
 
 <script type="text/javascript">
 	
+	<%-- 
 	$(".noticeTitle").click(function(){ 
 		
 	    location.href='<%= ctxPath%>/noticeView.sd';
 	    
 	});
-	
-	function goView(seq) {
-		
-		var frm = document.goViewFrm;
-		frm.seq.value = seq;
+	 --%>
+	 
+	function goView(noticeSeq) {
+		console.log(noticeSeq);
+ 		var frm = document.goViewFrm;
+		frm.noticeSeq.value = noticeSeq; 
 		
 		frm.method = "GET";
-		frm.action = "noticeView.sd";
+		frm.action = "<%=ctxPath%>/noticeView.sd";
 		frm.submit();
 	}
+	
 	
 </script>    

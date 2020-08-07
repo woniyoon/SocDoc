@@ -51,8 +51,8 @@ public class AdminDAO implements InterAdminDAO {
 
 	// 공지사항 글 조회
 	@Override
-	public NoticeVO getView(String seq) {
-		NoticeVO noticevo = sqlsession.selectOne("admin.getView", seq);
+	public NoticeVO getView(String noticeSeq) {
+		NoticeVO noticevo = sqlsession.selectOne("admin.getView", noticeSeq);
 		return noticevo;
 	}
 

@@ -66,16 +66,16 @@ public class AdminController {
 	@RequestMapping(value = "/noticeView.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	public ModelAndView noticeView(HttpServletRequest request, ModelAndView mav) {
 		
-		String seq = request.getParameter("seq");
+		String noticeSeq = request.getParameter("noticeSeq");
 		
-		System.out.println("공지사항 seq 잘오나? : " + seq);
+		System.out.println("공지사항 seq 잘오나? : " + noticeSeq);
 		
 		String gobackURL = request.getParameter("gobackURL");
 		mav.addObject("gobackURL", gobackURL);
 
 		NoticeVO noticevo = null;
 
-		noticevo = service.getView(seq);
+		noticevo = service.getView(noticeSeq);
 		
 		mav.addObject("noticevo", noticevo);
 		mav.setViewName("admin/noticeView.tiles3");

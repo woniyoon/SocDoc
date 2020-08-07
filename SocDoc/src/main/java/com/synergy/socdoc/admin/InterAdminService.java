@@ -23,7 +23,7 @@ public interface InterAdminService {
 
 	HashMap<String, List<QnaBoardVO>> selectQnAList(); // 문의관리 목록 불러오기
 
-	NoticeVO getView(String seq); // 공지사항 글 조회
+	NoticeVO getView(String noticeSeq); // 공지사항 글 조회
 	
 
 }

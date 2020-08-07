@@ -27,10 +27,10 @@
 		order by regDate desc 
 	</select>
 	
-	<select id="getView" parameterType="String"  resultType="com.synergy.socdoc.member.NoticeVO">
-		select subject, contents
+	<select id="getView" parameterType="String" resultType="com.synergy.socdoc.member.NoticeVO">
+		select subject, content
 		from noticeBoard
-		where noticeSeq = #{seq}
+		where noticeSeq = #{noticeSeq}
 	</select>
  	
  	<!-- 
