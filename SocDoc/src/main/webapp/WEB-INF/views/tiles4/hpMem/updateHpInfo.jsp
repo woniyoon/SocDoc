@@ -110,61 +110,64 @@
 			</tr>
 			<tr>
 				<th rowspan="7">진료시간</th>
-				<td colspan="6">
-					<div class="timeSettingRow">
-						<label>월요일</label> <input type="number" min="9"
-						max="23" step="1"> : <input type="number" min="0" max="30"
-						step="30"> <span>부터</span> <input type="number" min="10"
-						max="23" step="1"> : <input type="number" max="00" min="00" value="0"> <span>까지</span>
+				<td colspan="6" id="scheduleTbl">
+					 <div class="timeSettingRow">
+						<label>월요일</label> 
+						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[0].open.substring(0,2) }"> : 
+						<input type="text" value="00" readonly> 
+						<span>부터</span> 
+						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[0].close.substring(0,2) }"> : 
+						<input type="text" value="00" readonly> 
+						<span>까지</span>
 					</div>
 					<div class="timeSettingRow">
-						<label>화요일</label> <input type="number" min="9"
-						max="23" step="1"> : <input type="number" min="0" max="30"
-						step="30"> <span>부터</span> <input type="number" min="10"
-						max="23" step="1"> : <input type="number" min="0" max="30"
-						step="30"> <span>까지</span>
+						<label>화요일</label> 
+						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[1].open.substring(0,2) }"> : 
+						<input type="text" value="00" readonly>
+						<span>부터</span> 
+						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[1].close.substring(0,2) }"> : 
+						<input type="text" value="00" readonly>
+						<span>까지</span>
 					</div>
 					<div class="timeSettingRow">
-						<label>수요일</label> <input type="number" min="9"
-							max="23" step="1"> : <input type="number" min="0" max="30"
-							step="30"> <span>부터</span> <input type="number" min="10"
-							max="23" step="1"> : <input type="number" min="0" max="30"
-							step="30"> <span>까지</span>
+						<label>수요일</label> 
+						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[2].open.substring(0,2) }"> : 
+						<input type="text" value="00" readonly>
+						<span>부터</span> 
+						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[2].close.substring(0,2) }"> : 
+						<input type="text" value="00" readonly>
+						<span>까지</span>
 					</div>
 					<div class="timeSettingRow">
-						<label>목요일</label> <input type="number" min="9"
-						max="23" step="1"> : <input type="number" min="0" max="30"
-						step="30"> <span>부터</span> <input type="number" min="10"
-						max="23" step="1"> : <input type="number" min="0" max="30"
-						step="30"> <span>까지</span>
+						<label>목요일</label> 
+						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[3].open.substring(0,2) }"> : 
+						<input type="text" value="00" readonly>
+						<span>부터</span> 
+						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[3].close.substring(0,2) }"> : 
+						<input type="text" value="00" readonly>
+						<span>까지</span>
 					</div>
 					<div class="timeSettingRow">
-						<label>금요일</label> <input type="number" min="9"
-						max="23" step="1"> : <input type="number" min="0" max="30"
-						step="30"> <span>부터</span> <input type="number" min="10"
-						max="23" step="1"> : <input type="number" min="0" max="30"
-						step="30"> <span>까지</span>
+						<label>금요일</label> 
+						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[4].open.substring(0,2) }"> : 
+						<input type="text" value="00" readonly>
+						<span>부터</span> 
+						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[4].close.substring(0,2) }"> : 
+						<input type="text" value="00" readonly>
+						<span>까지</span>
 					</div>
 					<div class="timeSettingRow">
-						<label>토요일</label> <input type="number" min="9"
-						max="23" step="1"> : <input type="number" min="0" max="30"
-						step="30"> <span>부터</span> <input type="number" min="10"
-						max="23" step="1"> : <input type="number" min="0" max="30"
-						step="30"> <span>까지</span>
+						<label>토요일</label> 
+						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[5].open.substring(0,2) }"> : 
+						<input type="text" value="00" readonly>
+						<span>부터</span> 
+						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[5].close.substring(0,2) }"> : 
+						<input type="text" value="00" readonly>
+						<span>까지</span>
 					</div>
 				</td>
 			</tr>
 		</table>
-		<c:if test="${not empty scheduleTbl }">
-			<c:forEach var="map" items="${scheduleTbl }">
-				<span>
-					${map.day } /
-					${map.open } / 
-					${map.close } /
-				</span>			
-			</c:forEach>
-		</c:if>
-		
 		<div style="margin: 10px 0;" align="right">
 			<button class="blueBtn">승인 신청</button>
 		</div>
@@ -185,29 +188,30 @@
 		});
 		
 		
-		$("input[type=file]").each(
-				function() {
-					$(this).hide();
-					$(this).on(
-							"change",
-							function() {
-								console.log("change 펑션!");
-								var id = $(this).prop("id");
-								var idToShow = "#"
-										+ id.substr(0, id.length - 4);
-								console.log($(this));
-								$(idToShow).prop(
-										"value",
-										$(this).val().split('/').pop()
-												.split('\\').pop());
-							});
+		$("input[type=file]").each(function() {
+				$(this).hide();
+					
+				$(this).on("change", function() {
+					console.log("change 펑션!");
+
+					var id = $(this).prop("id");
+					var idToShow = "#" + id.substr(0, id.length - 4);
+								
+					console.log($(this));
+					
+					$(idToShow).prop("value", $(this).val().split('/').pop().split('\\').pop());
 				});
+		});
+		
 		$(".findFile").click(function() {
 			console.log("찾기 버튼 클릭!");
 			var idToTrigger = "#" + $(this).prop("id") + "File";
 			$(idToTrigger).trigger("click");
 			console.log("클릭 이벤트 트리거!");
 		});
+		
+		
+		// 진료과목 체크박스 클릭 이벤트 정의
 		$("input[type=checkbox]").click(function(e) {
 			// 체크박스 선택은 한 개만 가능하게 설정
 			var checkedValue = $(this).prop("value");
@@ -232,8 +236,30 @@
 			// 체크된 과목을 상세정보에 반영
 			/* $("#dept").text(checkedValue); */
 		});
+		
+		
+/* 		<div class="timeSettingRow">
+		<label>월요일</label> <input type="number" min="9"
+		max="23" step="1"> : <input type="number" min="0" max="30"
+		step="30"> <span>부터</span> <input type="number" min="10"
+		max="23" step="1"> : <input type="number" max="00" min="00" value="0"> <span>까지</span>
+	</div>
+ */
+
+ 			
+ 		var scheduleTbl = "${scheduleTbl[0].open}";
+
+ 		console.log(typeof scheduleTbl);
+ 		console.log(scheduleTbl);
+ 		console.log(scheduleTbl[1].open);
+ 
+		
 	});
 	
+	
+	
+	
+	// 이미지 슬라이더
 	var slideIndex = 1;
 	showSlides(slideIndex);
 	// Next/previous controls
@@ -265,7 +291,7 @@
 	}
 	
 	
-	// 지도검색
+	// 주소 검색
 	function searchAddress(){
 	    var geocoder = new daum.maps.services.Geocoder();
 

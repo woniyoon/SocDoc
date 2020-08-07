@@ -29,12 +29,12 @@
 	
 	
 	<select id="getScheduleTbl" parameterType="String" resultMap="scheduleTbl">
-		select s.day as day, s.open as open, t.hour as close
+		select nvl2(s.open, s.day, null) as day, nvl(s.open, null) as open, nvl2(s.open, t.hour, null) as close
 		from
 		(select s.day, s.close, t.hour as open
 		from scheduleEdit s left join
 		     timetable t
-		     on s.open = t.hourSeq and s.submitid = 'e35tnqv64ag'
+		     on s.open = t.hourSeq and s.submitid = #{submitId}
 		)s
 		join timetable t
 		on s.close = t.hourSeq

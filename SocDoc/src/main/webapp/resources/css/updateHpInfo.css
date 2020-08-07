@@ -123,10 +123,17 @@ textarea {
 
 .timeSettingRow {
 	margin: 15px 0;	
+	font-size: 1.4em;
 }
 
 .timeSettingRow label, .timeSettingRow span {
 	margin: 0 10px;
+}
+
+.timeSettingRow input {
+	display: inline-block;
+	width: 50px;
+	border: 1px solid #d8d8d8;
 }
 
 /* W3School 이미지 슬라이더 */

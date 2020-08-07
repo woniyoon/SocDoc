@@ -51,30 +51,6 @@ public class HpMemController {
 		return "hpMem/hpInfo.tiles4";
 	}
 	
-	
-	
-	/*
-	 * 	@ResponseBody
-	@RequestMapping(value="/chart/genderJSON.action", produces="text/plain;charset=UTF-8")
-	public String genderJSON() {
-		List<HashMap<String, String>> genderPercentageList = service.genderJSON();
-		
-		Gson gson = new Gson();
-		JsonArray jsonArr = new JsonArray();
-		
-		for(HashMap<String, String> map : genderPercentageList) {
-			JsonObject jsonObj = new JsonObject();
-			jsonObj.addProperty("gender", map.get("gender"));
-			jsonObj.addProperty("cnt", map.get("cnt"));
-			jsonObj.addProperty("percentage", map.get("percentage"));
-			
-			jsonArr.add(jsonObj);
-		}
-		
-		return gson.toJson(jsonArr);
-	} 
-	 * */
-
 	// 병원 정보 관리에서 각 신청 정보를 확인
 	@RequestMapping(value = "/hpPanel/updateHpInfo.sd", method = RequestMethod.GET)
 	public String test_updateHpInfo(HttpServletRequest request) {
@@ -82,6 +58,8 @@ public class HpMemController {
 		
 		// 병원 상세 정보 가져오기
 		HpInfoVO hpInfoDetail = service.getHpInfoDetail(submitId);
+		
+		System.out.println(submitId);
 		
 		// 시간테이블 들고 오기
 		List<HashMap<String, String>> scheduleTbl = service.getScheduleTbl(submitId);
