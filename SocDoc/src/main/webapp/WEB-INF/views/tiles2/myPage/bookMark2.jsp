@@ -247,25 +247,6 @@
 			 
 		 });
 		
-		/* // 목록에서 삭제버튼을 누르면 
-		
-		$("#printBtn").click(function(){
-			
-			alert("정말 삭제하시겠습니까?");
-			document.
-			
-		}); */
-	    
-<%-- 	    $(".subject").bind("mouseover", function(event){
-	       var $target = $(event.target);
-	       $target.addClass("subjectStyle");
-	    });
-	    
-	    $(".subject").bind("mouseout", function(event){
-	       var $target = $(event.target);
-	       $target.removeClass("subjectStyle");
-	    });
-	 --%>   
 	    
 	    $("#searchWord").keydown(function(event) {
 	        if(event.keyCode == 13) {
@@ -278,98 +259,11 @@
 	    if(${paraMap != null}) {
 	       $("#searchWord").val("${paraMap.searchWord}");
 	    }
-	 
-	    <%--
-	 === #105. 검색어 입력시 자동글 완성하기 2 ===
-	    $("#displayList").hide();
-	    
-	    $("#searchWord").keyup(function(){
-	       
-	       var wordLength = $(this).val().length;
-	       // 검색어의 길이를 알아온다.
-	       
-	       // 검색어 입력후 백스페이스키를 눌러서 검색어를 모두 지우면 검색된 내용이 안 나오도록 해야 한다.
-	       if( wordLength == 0) {
-	          $("#displayList").hide();
-	       }
-	       else {
-	          
-	          $.ajax({
-	             url:"<%= request.getContextPath()%>/wordSearchShow.action",
-	             type:"GET",
-	             data:{searchType:$("#searchType").val()
-	                 ,searchWord:$("#searchWord").val()},
-	             dataType:"JSON",
-	             success:function(json){
-	                
-	                 === #110. 검색어 입력시 자동글 완성하기 7 ===
-	                 if(json.length > 0) {
-	                    // 검색된 데이터가 있는 경우임.
-	                    
-	                    var html = "";
-	                    
-	                    $.each(json, function(entryIndex, item){
-	                       var word = item.word;
-	                       
-	                       var index = word.toLowerCase().indexOf( $("#searchWord").val().toLowerCase());
-	                   //    console.log("index : " + index);
-	                       
-	                       var len = $("#searchWord").val().length;
-	                       
-	                       var result = "";
-	                       
-	                   //    console.log( word.substr(0,index) );   // 검색어 앞까지의 글자
-	                   //    console.log( word.substr(index,len) ); // 검색어 글자
-	                   //    console.log( word.substr(index+len) ); // 검색어 뒤부터 끝까지의 글자
-	                       
-	                       result = "<span style='color:blue;'>"+word.substr(0,index)+"</span>" + "<span style='color:red;'>"+word.substr(index,len)+"</span>" + "<span style='color:blue;'>"+word.substr(index+len)+"</span>";
-	
-	                       html += "<span style='cursor:pointer;' class='result'>"+result+"</span><br/>";
-	                    });
-	                    
-	                    $("#displayList").html(html);
-	                    $("#displayList").show();
-	                 }
-	                 else {
-	                   // 검색된 데이터가 존재하지 않는 경우임.
-	                    $("#displayList").hide();
-	                 }
-	                
-	             },
-	             error: function(request, status, error){
-	                      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-	               }
-	          });
-	       }
-	       
-	    });// end of $("#searchWord").keyup()-------------------------------
-	    
-	    
-	    
-	    === #111. 검색어 입력시 자동글 완성하기 8 ===
-	    $(document).on("click",".result",function(){
-	       var word = $(this).text();
-	       $("#searchWord").val(word);
-	       $("#displayList").hide();
-	       goSearch();
-	       //alert(word);
-	    });
-	    
-	/*     $("#displayList").click(function(event){
-	          var $target = $(event.target);
-	          if($target.is(".result")){
-	          alert("호호호");
-	        }
-	    });
-	     */
-	     --%>
-	     
-	     
+
 	  });// end of $(document).ready(function(){})-------------------
 	
 	 function goView(qnaSeq) {
 	     
-	     <%-- location.href="<%= request.getContextPath()%>/myPage/ask.sd?qnaSeq="+qnaSeq; --%>
 	     
 	  // === #121. 페이징 처리되어진 후 특정글제목을 클릭하여 상세내용을 본 이후
 			// 			  사용자가 목록보기 버튼을 클릭했을때 돌아갈 페이지를 알려주기 위해
@@ -441,8 +335,8 @@
         </div>
         
         <div id="contents">
-        <h1><strong>문의내역</strong></h1>
-        <div>총 문의내역: <span style="color: skyblue;">
+        <h1><strong>병원 즐겨찾기</strong></h1>
+        <div>총 즐겨찾기: <span style="color: skyblue;">
 				        <c:if test="${not empty(totalCount)}">
 				         		${totalCount}
 				        </c:if>
@@ -469,22 +363,22 @@
 				<thead>
 					 <tr>
 					 	<th><input type="checkbox" id="allCheck"/></th>
-					 	<th>글번호</th>
-					 	<th>제목</th>
+					 	<th>번호</th>
+					 	<th>유형</th>
+					 	<th>병원이름</th>
 					 	<th>등록일</th>
-					 	<th>처리과정</th>
 					 </tr>
 				</thead>
 				
 				
 				<tbody>
-				<c:forEach var="askList" items="${askList}" varStatus="status">
+				<c:forEach var="hpvo" items="${hpvo}" varStatus="status">
 					<tr>
-						<td><input type="checkbox" name="items" value="${askList.qnaSeq}"/></td>
-					    <td class="notice_seq" >${askList.qnaSeq}</td>
-						<td class="noticeTitle"><span onclick="goView('${askList.qnaSeq}')">${askList.subject}</span></td>
-						<td>${askList.regDate}</td>
-						<c:if test="${askList.status == 0}">
+						<td><input type="checkbox" name="items" value="${hpvo.qnaSeq}"/></td>
+					    <td class="notice_seq" >${hpvo.qnaSeq}</td>
+						<td class="noticeTitle"><span onclick="goView('${boardvo.qnaSeq}')">${askList.subject}</span></td>
+						<td>${boardvo.regDate}</td>
+						<c:if test="${boardvo.status == 0}">
 						<td style="color: red;">
 								접수완료
 						</td>

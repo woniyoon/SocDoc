@@ -2,7 +2,9 @@ package com.synergy.socdoc.mypage.model;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.QnaBoardVO;
 
 public interface InterMyPageDAO {
@@ -13,7 +15,13 @@ public interface InterMyPageDAO {
 
 	QnaBoardVO getView(String qnaSeq); // 글1개를 보여주기
 
-	int deleteBoard(HashMap<String, String> paraMap); // 글을 삭제한다.
+	int deleteBoard(HashMap<String, String> paraMap); // 문의내역 삭제 (글)
+
+	int dele(Map<String, Object> paraMap); // 문의내역 삭제 (목록)
+
+	int goDel(String qnaSeq); // 문의내역 삭제 (목록)
+
+	int addHealth(MemberVO membervo); // 내 건강 새로 저장하기(insert)
 
 
 

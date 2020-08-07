@@ -2,7 +2,9 @@ package com.synergy.socdoc.mypage.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.QnaBoardVO;
 
 public interface InterMyPageService {
@@ -15,7 +17,13 @@ public interface InterMyPageService {
 
 	QnaBoardVO getViewWithNoAddCount(String qnaSeq); // 글조회수 증가는 없고 단순히 글1개 조회만을 해주는 것이다.
 
-	int del(HashMap<String, String> paraMap) throws Throwable; // 1개글 삭제하기 
+	int del(HashMap<String, String> paraMap) throws Throwable; // 문의내역 1개글 삭제하기 (글)
+
+	int goDel(Map<String, Object> paraMap); // 문의내역 글 삭제하기(목록)
+
+	int goDel(String qnaSeq); // 문의내역 글 삭제하기(목록)
+
+	int addHealth(MemberVO membervo); // 내 건강 새로 저장하기(insert)
 	
 	
 

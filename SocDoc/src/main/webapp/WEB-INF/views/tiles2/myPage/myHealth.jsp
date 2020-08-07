@@ -205,10 +205,9 @@
 	function goStore() {
 	    var frm = document.healthFrm;
 	    frm.method = "GET";
-	    frm.action = "<%= request.getContextPath()%>/myHealth.sd";
+	    frm.action = "<%= request.getContextPath()%>/addHealth.sd";
 	    frm.submit();
 	  }// end of function goSearch()-------------------------
-
 
 </script>
 
@@ -242,19 +241,19 @@
 			    <tr>
 			        <th scope="row">키</th>
 			        <td>
-					    <input class="form-control-tel" name="hp2" type="text" maxlength="4"/> cm
+					    <input class="form-control-tel" name="height" type="text" /> cm
 					</td>
 			    </tr>
 			    <tr>
 			        <th scope="row">몸무게</th>
 			        <td>
-					    <input class="form-control-tel" name="hp2" type="text" maxlength="4"/> kg
+					    <input class="form-control-tel" name="weight" type="text" /> kg
 					</td>
 			    </tr>
 			    <tr>
 			        <th scope="row">혈액형</th>
 			        <td>
-						<select class="form-control-tel" id="sel1" name="hp1" style="height: 35px;">
+						<select class="form-control-tel" id="sel1" name="bloodType" style="height: 35px;">
 					      	<option>O형</option>
 					        <option>A형</option>
 					        <option>AB형</option>
@@ -265,19 +264,19 @@
 			    <tr>
 			        <th scope="row">알레르기</th>
 			        <td>
-					    <input class="textIpt" name="hp2" type="text" maxlength="4" placeholder="내용을 입력해주세요"/>
+					    <input class="textIpt" name="allergy" type="text" placeholder="내용을 입력해주세요"/>
 					</td>
 			    </tr>
 			    <tr>
 			        <th scope="row">병력</th>
 			        <td>
-					    <input class="textIpt" name="hp2" type="text" maxlength="4" placeholder="내용을 입력해주세요"/>
+					    <input class="textIpt" name="history" type="text" placeholder="내용을 입력해주세요"/>
 					</td>
 			    </tr>
 			    <tr>
 			        <th scope="row">복용약</th>
 			        <td>
-					    <input class="textIpt" name="hp2" type="text" maxlength="4" placeholder="내용을 입력해주세요"/>
+					    <input class="textIpt" name="medicine" type="text" placeholder="내용을 입력해주세요"/>
 					</td>
 			    </tr>
 			    </tbody>

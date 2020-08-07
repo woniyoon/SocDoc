@@ -2,6 +2,7 @@ package com.synergy.socdoc.mypage.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,7 +11,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.synergy.socdoc.common.MyUtil;
@@ -317,7 +323,28 @@ public class MypageController {
 		
 	}
 	
-	// === 문의내역 삭제하기 페이지 === //
+	// === 문의내역(목록) 삭제하기 페이지 === //
+	@RequestMapping(value="/goDel.sd" ,method = RequestMethod.POST)
+    @ResponseBody
+    public ModelAndView goDel(@RequestParam("items") String[] items, ModelAndView mav, HttpServletRequest request) throws Exception {
+		// 삭제할 사용자 ID마다 반복해서 사용자 삭제 
+		for (String qnaSeq : items) { 
+			System.out.println("글삭제 = " + qnaSeq); 
+			int n = service.goDel(qnaSeq); 
+		} 
+		
+		// 목록 페이지로 이동
+		/*mav.addObject("msg", "글삭제 성공!!");*/
+		mav.addObject("loc",request.getContextPath()+"/askList.sd");
+		
+		mav.setViewName("msg");
+		
+		return mav;
+
+       }
+
+	
+	// === 문의내역(글) 삭제하기 페이지 === //
 	@RequestMapping(value="/deleteAsk.sd")
 	public ModelAndView deleteAsk(HttpServletRequest request, ModelAndView mav) throws Throwable {
 		
@@ -343,12 +370,24 @@ public class MypageController {
 	}
 	
 	
-	// === 내 건강 페이지 === // 
+	// === 내 건강 페이지 보이기 === // 
 	@RequestMapping(value="/myHealth.sd")
 	public String myHealth() {
-	
+
 		return "myPage/myHealth.tiles2";
 	}
+	
+	// === 내 건강 페이지 새로 추가하기 === // 
+	@RequestMapping(value="/addHealth.sd")
+	public String addHealth(HashMap<String, String> paraMap, MemberVO membervo) {
+
+		int n = service.addHealth(membervo);
+		
+		return "redirect:/myHealth.sd";
+	}
+	
+	// === 내 건강 페이지 수정하기 === // 
+	
 	
 	// === 병원 즐겨찾기 페이지 === // 
 	@RequestMapping(value="/bookMark.sd")

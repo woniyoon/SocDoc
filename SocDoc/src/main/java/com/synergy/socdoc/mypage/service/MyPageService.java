@@ -2,6 +2,7 @@ package com.synergy.socdoc.mypage.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.QnaBoardVO;
 import com.synergy.socdoc.mypage.model.InterMyPageDAO;
 
@@ -64,16 +66,36 @@ public class MyPageService implements InterMyPageService {
 	}
 
 
-	// 1개글 삭제하기 
+	// 문의내역 1개글 삭제하기 (글)
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor = {Throwable.class})
 	public int del(HashMap<String,String> paraMap) throws Throwable {
-		
-		int n = 0;
-		
 		// dao.deleteComment(paraMap); // 딸린 댓글을 삭제한다.(딸린 댓글이 있는 경우 댓글도 동시에 삭제한다.)
-		n = dao.deleteBoard(paraMap); // 글을 삭제한다.
-		
+		int n = dao.deleteBoard(paraMap); // 글을 삭제한다.
+		return n;
+	}
+
+
+	// 문의내역 1개글 삭제하기 (목록)
+	@Override
+	public int goDel(Map<String, Object> paraMap) {
+		int n= dao.dele(paraMap);
+		return n;
+	}
+
+
+	// 문의내역 1개글 삭제하기 (목록)
+	@Override
+	public int goDel(String qnaSeq) {
+		int n = dao.goDel(qnaSeq);
+		return n;
+	}
+
+
+	// 내 건강 새로 저장하기(insert)
+	@Override
+	public int addHealth(MemberVO membervo) {
+		int n = dao.addHealth(membervo);
 		return n;
 	}
 	

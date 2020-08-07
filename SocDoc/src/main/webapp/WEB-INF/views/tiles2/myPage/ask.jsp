@@ -161,6 +161,7 @@
       margin-left: auto;
       margin-right: auto;
    }
+   
     
     table {
       width: 100%;
@@ -230,11 +231,13 @@
        line-height: 45px;
        width: 100%;
        text-decoration: none;
+       cursor: pointer;
    }
    
-   a.delete {
+   span.delete {
       cursor: pointer;
    }
+   
    
    .th {
       background: #f2f2f2;
@@ -300,8 +303,17 @@
 <script type="text/javascript">
 
 	$(document).ready(function(){
-		// console.log($("#status").val());
+		
 	});
+	
+	function goDelete(qnaSeq) {
+	    var frm = document.deletefrm;
+	    frm.qnaSeq.value = qnaSeq;
+	    
+	    frm.method = "GET";
+	    frm.action = "<%= request.getContextPath()%>/deleteAsk.sd";
+	    frm.submit();
+	  }// end of function goSearch()-------------------------
 	
 </script>	
 </head>
@@ -390,10 +402,9 @@
                     </tbody>
                   
                 </table>
-                <p id="listBtn"><a href="<%= request.getContextPath()%>/askList.sd" class="notice_view">목록</a></p>
-
-                 <p id="deleteBtn"><a href="<%= request.getContextPath()%>/deleteAsk.sd" class="notice_view">삭제</a></p>             
-
+                <p id="listBtn"><a onClick="javascript:location.href='<%= request.getContextPath()%>/askList.sd'" class="notice_view">목록</a></p>
+                 <p id="deleteBtn"><a onclick="goDelete('${boardvo.qnaSeq}')" class="notice_view">삭제</a></p>             
+									
                 <!-- <p id="modifyBtn"><a href="noticeList.sb" class="notice_view">수정</a></p> -->
                  <input type="hidden" id="status" value="${boardvo.status}" /> 
                 <div>
@@ -411,6 +422,10 @@
                     </table>
                 </div>
                 
+                <form name="deletefrm">
+					<input type="hidden" name="qnaSeq"/>
+					<%-- <input type="hidden" name="gobackURL" value="${gobackURL}"/> --%>
+				</form>
                 
 				</div>
                 <br/><br/><br/>

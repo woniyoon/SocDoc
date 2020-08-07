@@ -64,10 +64,17 @@
 	   </select>
 	   
 	   
-	    <!-- === 1개글 삭제하기 === -->
-		  <delete id="deleteBoard" parameterType="HashMap">
-			   delete from qnaBoard
-			   where qnaSeq = #{qnaSeq}
-		  </delete>
+      <!-- === 1개글 삭제하기 === -->
+	  <delete id="deleteBoard" parameterType="HashMap">
+		   delete from qnaBoard
+		   where qnaSeq = #{qnaSeq}
+	  </delete>
+	  
+	  <!--  === 내 건강 새로추가 === -->
+	   <insert id="addHealth" parameterType="com.synergy.socdoc.member.MemberVO">
+	   		insert into member(height, weight, bloodType, allergy, history, medicine)
+	   		values(#{height}, #{weight}, #{bloodType}, #{allergy}, #{history}, #{medicine})
+	   		where userid = #{userid}
+	   </insert>
 	
 </mapper>
