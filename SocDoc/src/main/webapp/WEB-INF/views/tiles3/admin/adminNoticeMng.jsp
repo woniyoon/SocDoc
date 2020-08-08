@@ -78,7 +78,7 @@
            
             <h2>공지사항관리</h2>
             
-            <p style="margin: 20px 0 20px 0;">전체 글 : 12개</p>
+            <p style="margin: 20px 0 20px 0;">전체 글 : ${totalCount}개</p>
            
             <table class="table" style="text-align: center;">
                 <thead>
@@ -105,6 +105,10 @@
             <button id="writeBtn" onclick="location.href='<%= ctxPath%>/noticeWrite.sd'">글쓰기</button>
             
         </div>		
+        
+        <div align="center">
+			${pageBar}
+		</div>
         
         <form name="goViewFrm">
         	<input type="hidden" name="noticeSeq" />

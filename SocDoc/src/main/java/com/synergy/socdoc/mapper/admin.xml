@@ -3,28 +3,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="admin">
-	
+	<!-- 
 	<select id="selectMemberList" resultType="com.synergy.socdoc.member.MemberVO">
 		select userid, name, birthDate, email, phone, registerDate, status
 		from member
 	</select>
- 	
+	 -->
+	
+	<!--  	
 	<select id="selectNoticeList" resultType="com.synergy.socdoc.member.NoticeVO">
 		select noticeSeq, subject, regDate
 		from noticeBoard
 		order by regDate desc 
 	</select>
- 	
+ 	 -->
+	
 	<select id="selectHealthList" resultType="com.synergy.socdoc.member.HealthInfoVO">
 		select infoSeq, subject, regDate
 		from infoBoard
-		order by regDate desc 
+		order by infoSeq desc 
 	</select>
  	
 	<select id="selectQnAList" resultType="com.synergy.socdoc.member.QnaBoardVO">
 		select qnaSeq, subject, userid, regDate, status
 		from qnaBoard
-		order by regDate desc 
+		order by qnaSeq desc 
 	</select>
 	
 	<select id="getView" parameterType="String" resultType="com.synergy.socdoc.member.NoticeVO">
@@ -50,7 +53,7 @@
 	        select rownum as rno, userid, name, birthDate, email, phone, registerDate, status 
 			from 
 			(
-				select userid, name, birthDate, email, phone, registerDate, status
+				select userid, name, to_char(birthDate,'yyyy-mm-dd') AS birthDate, email, phone, to_char(registerDate,'yyyy-mm-dd') AS registerDate, status
 				from member
 				where status in (1,0)
 				<if test='searchWord != ""'>
@@ -59,6 +62,27 @@
 			) V
 		)T
 		where rno between #{startRno} and #{endRno}
+	</select>
+	
+
+	<select id="noticeListPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.NoticeVO">
+		select rno, noticeSeq, subject, regDate
+		from
+	    ( 
+	        select rownum as rno, noticeSeq, subject, regDate 
+			from 
+			(
+				select noticeSeq, subject, to_char(regDate,'yyyy-mm-dd') AS regDate
+				from noticeBoard
+				order by noticeSeq desc
+			) V
+		)T
+		where rno between #{startRno} and #{endRno}
+	</select>
+	
+	<select id="noticeTotalCount" parameterType="HashMap" resultType="int">
+		select count(*)
+		from noticeBoard
 	</select>
  	
  	 

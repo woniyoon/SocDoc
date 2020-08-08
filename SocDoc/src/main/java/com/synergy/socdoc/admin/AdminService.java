@@ -28,7 +28,7 @@ public class AdminService implements InterAdminService {
 		
 		return map;
 	}
-
+/*
 	// 공지사항 목록 불러오기
 	@Override
 	public HashMap<String, List<NoticeVO>> selectNoticeList() {
@@ -40,6 +40,7 @@ public class AdminService implements InterAdminService {
 		return map;
 	}
 
+	*/
 	// 건강정보 목록 불러오기
 	@Override
 	public HashMap<String, List<HealthInfoVO>> selectHealthInfoList() {
@@ -70,17 +71,32 @@ public class AdminService implements InterAdminService {
 		return noticevo;
 	}
 	
-
+	// 회원관리 총 게시물 건수 구하기
 	@Override
 	public int getTotalCount(HashMap<String, String> paraMap) {
 		int totalCount = dao.getTotalCount(paraMap);
 		return totalCount;
 	}
 
+	// 회원관리 페이징 한 글목록 가져오기
 	@Override
 	public List<MemberVO> memberListSearchWithPaging(HashMap<String, String> paraMap) {
 		List<MemberVO> memberList = dao.memberListSearchWithPaging(paraMap);
 		return memberList;
+	}
+
+	// 공지사항 글 목록 (페이징처리)
+	@Override
+	public List<NoticeVO> noticeListPaging(HashMap<String, String> paraMap) {
+		List<NoticeVO> noticeList = dao.noticeListPaging(paraMap);
+		return noticeList;
+	}
+
+	// 공지사항 총 게시물 건수 구하기
+	@Override
+	public int noticeTotalCount(HashMap<String, String> paraMap) {
+		int totalCount = dao.noticeTotalCount(paraMap);
+		return totalCount;
 	}
 
 	

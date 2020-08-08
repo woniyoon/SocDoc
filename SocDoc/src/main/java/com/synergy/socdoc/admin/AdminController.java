@@ -171,16 +171,122 @@ public class AdminController {
 		return "admin/hospitalInfo.tiles3";
 	}
 	
+
 	/* 공지사항관리 */
 	@RequestMapping(value = "/adminNoticeMng.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
-	public String adminNoticeMng(HttpServletRequest request) {
+	public ModelAndView adminNoticeMng(HttpServletRequest request, ModelAndView mav) {
 		
+		/*
 		HashMap<String, List<NoticeVO>> map = service.selectNoticeList();
 		request.setAttribute("noticevoList", map.get("noticevoList"));
 		
 		return "admin/adminNoticeMng.tiles3";
-	}
+		*/
+		
+
+		List<NoticeVO> noticevoList = null;
+		
+		
+		String str_currentShowPageNo = request.getParameter("currentShowPageNo");
+		
+		
+		HashMap<String, String> paraMap = new HashMap<>();
+		
+		
+		int totalCount = 0;
+		int sizePerPage = 5;
+		int currentShowPageNo = 0;
+		int totalPage = 0;
+		
+		int startRno = 0;
+		int endRno = 0;
+		
+		totalCount = service.noticeTotalCount(paraMap);
+		
+		totalPage = (int)Math.ceil((double)totalCount/sizePerPage);
+		
+		if(str_currentShowPageNo == null) {
+			
+			currentShowPageNo = 1;
+		}
+		else {
+			try {
+				currentShowPageNo = Integer.parseInt(str_currentShowPageNo);
+				
+				if(currentShowPageNo < 1 || currentShowPageNo > totalPage) {
+					currentShowPageNo = 1;
+				}
+				
+			} catch (NumberFormatException e) {
+				currentShowPageNo = 1;
+			}
+		}
+		
+		startRno = ((currentShowPageNo - 1)*sizePerPage)+1;
+		endRno = startRno + sizePerPage - 1;
+		
+		paraMap.put("startRno", String.valueOf(startRno));
+		paraMap.put("endRno", String.valueOf(endRno));
+ 
+		
+		noticevoList = service.noticeListPaging(paraMap);
 	
+		
+		String pageBar = "<ul style='list-style: none;'>";
+		
+		int blockSize = 10;
+		
+		int loop = 1;
+		
+		int pageNo = ((currentShowPageNo -1)/blockSize) * blockSize + 1;
+		
+		String url = "adminNoticeMng.sd";
+		
+		// === [이전] 만들기 ===
+		if(pageNo != 1) {
+			pageBar += "<li style='display:inline-block; width:50px; font-size:12pt;'><a href='"+url+"?currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
+		}
+		
+		while (!(loop > blockSize || pageNo > totalPage )) {
+
+			
+			if(pageNo == currentShowPageNo) {
+				pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; border: solid 1px solid; color: red; padding: 2px 4px;'>" + pageNo + "</li>";
+			}
+			else {
+				pageBar += "<li style='display:inline-block; width:30px; font-size:12pt;'><a href='"+url+"?currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
+			}
+			
+			loop ++;
+			pageNo ++;
+			
+		} // end of while ----------------------------
+		
+		
+		// === [다음] 만들기 ===
+		if( !(pageNo > totalPage) ) {
+		
+			pageBar += "<li style='display:inline-block; width:50px; font-size:12pt;'><a href='"+url+"?currentShowPageNo="+pageNo+"'>[다음]</a></li>";		
+		
+		}
+		
+		pageBar += "</ul>";
+		
+		mav.addObject("pageBar", pageBar);
+
+		String gobackURL = MyUtil.getCurrentURL(request);
+		
+		mav.addObject("gobackURL", gobackURL);
+		
+		mav.addObject("noticevoList", noticevoList);
+		mav.addObject("totalCount", totalCount);
+		mav.setViewName("admin/adminNoticeMng.tiles3");
+		
+		return mav;
+		
+		
+	}
+
 	/* 공지사항 글보기 */
 	@RequestMapping(value = "/noticeView.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	public ModelAndView noticeView(HttpServletRequest request, ModelAndView mav) {
@@ -200,6 +306,7 @@ public class AdminController {
 		mav.setViewName("admin/noticeView.tiles3");
 		
 		return mav;
+		
 	}
 	
 	/* 공지사항 글쓰기 */
