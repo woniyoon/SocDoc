@@ -64,7 +64,7 @@
 					</tr>
 					<tr>
 						<th>대표전화</th>
-						<td><input type="text" value="${hpInfo.phone }" /></td>
+						<td><input type="tel" value="${hpInfo.phone }" /></td>
 					</tr>
 					<tr>
 						<th>진료과목</th>
@@ -73,9 +73,9 @@
 					<tr>
 						<th>소개</th>
 						<td align="right">
-							<textarea placeholder="200자 내외로 작성해주세요!">${hpInfo.info }</textarea>
+							<textarea name="info" id="info" placeholder="200자 내외로 작성해주세요!" maxlength="200">${hpInfo.info }</textarea>
 							<br>
-							<span id="letterCounter">
+							<span id="charLength">
 							<c:if test="${not empty hpInfo}">
 								${fn:length("${hpInfo}")-1}
 							</c:if>
@@ -238,14 +238,11 @@
 			$("#dept").text(checkedValue);
 		});
 		
-		
-/* 		<div class="timeSettingRow">
-		<label>월요일</label> <input type="number" min="9"
-		max="23" step="1"> : <input type="number" min="0" max="30"
-		step="30"> <span>부터</span> <input type="number" min="10"
-		max="23" step="1"> : <input type="number" max="00" min="00" value="0"> <span>까지</span>
-	</div>
- */
+		$("#info").keyup(function(){
+			var charLength = $(this).val().length;
+
+			$("#charLength").text(charLength);
+		});		
 
  			
  		var scheduleTbl = "${scheduleTbl[0].open}";
@@ -310,7 +307,7 @@
                         console.log(result);
                         
                         // 주소
-                        var address = result.address_name;
+                        var address = result.address_name + " 우)" + result.road_address.zone_no;
                         
                         // 선택된 위치의 좌표값
                         var x = result.x;
