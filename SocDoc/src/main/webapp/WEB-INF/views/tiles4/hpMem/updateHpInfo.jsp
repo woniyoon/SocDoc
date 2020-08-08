@@ -39,13 +39,13 @@
 				</div>
 				<div id="hpDetail">
 					<ul id="hpDetailList">
-						<li><input type="text" name="mainImg" id="mainImg" readonly value="${hpInfo.mainImg }" />
+						<li><input type="text" name="mainImg" id="mainImg" value="${hpInfo.mainImg }" readonly required />
 							<button class="greyBtn findFile" type="button" id="mainImg">찾기</button> <input
 							type="file" id="mainImgFile" /></li>
-						<li><input type="text" name="subImg1" id="subImg1" readonly value="${hpInfo.subImg1 }" />
+						<li><input type="text" name="subImg1" id="subImg1" value="${hpInfo.subImg1 }" readonly />
 							<button class="greyBtn findFile" type="button" id="subImg1">찾기</button> <input
 							type="file" id="subImg1File" /></li>
-						<li><input type="text" name="subImg2" id="subImg2" readonly value="${hpInfo.subImg2 }" />
+						<li><input type="text" name="subImg2" id="subImg2" value="${hpInfo.subImg2 }" readonly />
 							<button class="greyBtn findFile" type="button" id="subImg2">찾기</button> <input
 							type="file" id="subImg2File" /></li>
 					</ul>
@@ -53,30 +53,31 @@
 						<tr>
 							<th>이름</th>
 							<td>
-								<input type="text" name="name" id="name" value="${hpInfo.hpName }" />
+								<input type="text" name="name" id="name" value="${hpInfo.hpName }" required />
 							</td>
 						</tr>
 						<tr>
 							<th>주소</th>
 							<td>
-<%-- 								<div id="hpAddress">${hpInfo.address }</div> --%>
-								<textarea name="address" id="address" form="hpInfoForm" placeholder="주소찾기를 이용해주세요!" readonly>${hpInfo.address }</textarea>
+								<textarea name="address" id="address" form="hpInfoForm" placeholder="주소찾기를 이용해주세요!" readonly required>${hpInfo.address }</textarea>
 <%-- 								<input type="text" name="address" id="address" value="${hpInfo.hpName }" /> --%>
+								<input type="hidden" name="latitude" id="latitude" />
+								<input type="hidden" name="longitude" id="longitude" />
 								<div align="right"><button class="blueBtn" type="button" onclick="searchAddress()">주소찾기</button></div>
 							</td>
 						</tr>
 						<tr>
 							<th>대표전화</th>
-							<td><input name="phone" type="tel" value="${hpInfo.phone }" /></td>
+							<td><input name="phone" type="tel" value="${hpInfo.phone }" required /></td>
 						</tr>
 						<tr>
 							<th>진료과목</th>
-							<td><input name="dept" id="dept" value="${hpInfo.dept}" readonly /></td>
+							<td><input name="dept" id="dept" value="${hpInfo.dept}" readonly required/></td>
 						</tr>
 						<tr>
 							<th>소개</th>
 							<td align="right">
-								<textarea name="info" id="info" placeholder="200자 내외로 작성해주세요!" maxlength="200" form="hpInfoForm">${hpInfo.info }</textarea>
+								<textarea name="info" id="info" placeholder="200자 내외로 작성해주세요!" maxlength="200" form="hpInfoForm" required>${hpInfo.info }</textarea>
 								<br>
 								<span id="charLength">
 								<c:if test="${not empty hpInfo}">
@@ -117,16 +118,16 @@
 				<td colspan="6" id="scheduleTbl">
 					 <div class="timeSettingRow">
 						<label>월요일</label> 
-						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[0].open.substring(0,2) != null ? scheduleTbl[0].open.substring(0,2) : 9}"> : 
+						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[0].open.substring(0,2) != null ? scheduleTbl[0].open.substring(0,2) : 9}" required> : 
 						<input type="text" value="00" readonly> 
 						<span>부터</span> 
-						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[0].close.substring(0,2) != null ? scheduleTbl[0].close.substring(0,2) : 18}"> : 
+						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[0].close.substring(0,2) != null ? scheduleTbl[0].close.substring(0,2) : 18}" required> : 
 						<input type="text" value="00" readonly> 
 						<span>까지</span>
 					</div>
 					<div class="timeSettingRow">
 						<label>화요일</label> 
-						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[1].open.substring(0,2) != null ? scheduleTbl[1].open.substring(0,2) : 9}"> : 
+						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[1].open.substring(0,2) != null ? scheduleTbl[1].open.substring(0,2) : 9}" required> : 
 						<input type="text" value="00" readonly>
 						<span>부터</span> 
 						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[1].close.substring(0,2) != null ? scheduleTbl[1].close.substring(0,2) : 18}"> : 
@@ -135,37 +136,37 @@
 					</div>
 					<div class="timeSettingRow">
 						<label>수요일</label> 
-						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[2].open.substring(0,2) != null ? scheduleTbl[2].open.substring(0,2) : 9}"> : 
+						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[2].open.substring(0,2) != null ? scheduleTbl[2].open.substring(0,2) : 9}" required> : 
 						<input type="text" value="00" readonly>
 						<span>부터</span> 
-						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[2].close.substring(0,2) != null ? scheduleTbl[2].close.substring(0,2) : 18}"> : 
+						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[2].close.substring(0,2) != null ? scheduleTbl[2].close.substring(0,2) : 18}" required> : 
 						<input type="text" value="00" readonly>
 						<span>까지</span>
 					</div>
 					<div class="timeSettingRow">
 						<label>목요일</label> 
-						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[3].open.substring(0,2) != null ? scheduleTbl[3].open.substring(0,2) : 9}"> : 
+						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[3].open.substring(0,2) != null ? scheduleTbl[3].open.substring(0,2) : 9}" required> : 
 						<input type="text" value="00" readonly>
 						<span>부터</span> 
-						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[3].close.substring(0,2) != null ? scheduleTbl[3].close.substring(0,2) : 18 }"> : 
+						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[3].close.substring(0,2) != null ? scheduleTbl[3].close.substring(0,2) : 18 }" required> : 
 						<input type="text" value="00" readonly>
 						<span>까지</span>
 					</div>
 					<div class="timeSettingRow">
 						<label>금요일</label> 
-						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[4].open.substring(0,2) != null ? scheduleTbl[4].open.substring(0,2) : 9}"> : 
+						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[4].open.substring(0,2) != null ? scheduleTbl[4].open.substring(0,2) : 9}" required> : 
 						<input type="text" value="00" readonly>
 						<span>부터</span> 
-						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[4].close.substring(0,2) != null ? scheduleTbl[4].close.substring(0,2) : 18 }"> : 
+						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[4].close.substring(0,2) != null ? scheduleTbl[4].close.substring(0,2) : 18 }" required> : 
 						<input type="text" value="00" readonly>
 						<span>까지</span>
 					</div>
 					<div class="timeSettingRow">
 						<label>토요일</label> 
-						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[5].open.substring(0,2) != null ? scheduleTbl[5].open.substring(0,2) : 9 }"> : 
+						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[5].open.substring(0,2) != null ? scheduleTbl[5].open.substring(0,2) : 9 }" required> : 
 						<input type="text" value="00" readonly>
 						<span>부터</span> 
-						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[5].close.substring(0,2) != null ? scheduleTbl[5].close.substring(0,2) : 18 }"> : 
+						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[5].close.substring(0,2) != null ? scheduleTbl[5].close.substring(0,2) : 18 }" required> : 
 						<input type="text" value="00" readonly>
 						<span>까지</span>
 					</div>
@@ -174,13 +175,12 @@
 		</table>
 		</form>	
 		<div style="margin: 10px 0;" align="right">
-			<button class="blueBtn">승인 신청</button>
+			<button class="blueBtn" id="submitBtn" onclick="submit()">승인 신청</button>
 		</div>
 	</div>
 
 <script>
 	$(document).ready(function() {
-				
 		
 		// DB에 진료과목 정보가 등록돼있으면, 체크해둔다.
 		$("input[type='checkbox']").each(function(){
@@ -256,6 +256,8 @@
  		console.log(scheduleTbl[1].open);
  
 		
+ 		
+ 		
 	});
 	
 	
@@ -299,7 +301,6 @@
 
 		new daum.Postcode({
             oncomplete: function(data) {
-                var addr = data.address; // 최종 주소 변수
 
                 // 주소로 상세 정보를 검색
                 geocoder.addressSearch(data.address, function(results, status) {
@@ -313,17 +314,44 @@
                         // 주소
                         var address = result.address_name + " 우)" + result.road_address.zone_no;
                         
-                        // 선택된 위치의 좌표값
-                        var x = result.x;
-                        var y = result.y;
-                        
                         // 새로 선택한 주소 보여주기
                         $("#address").text(address);
+                        
+                        // 숨겨진 input에 좌표값 저장
+                        $("#latitude").val(result.y);
+                        $("#longitude").val(result.x);
                     }
                 });
             }
         }).open();
 	}
 	
+	// 업데이트 신청
+	function submit(){
+		// 필수로 받아야 하는 값들
+		// 메인이미지, 이름, 주소, 대표전화, 진료과목, 소개, 진료시간 
+
+		var isAllFilled = true;
+		
+		$("form input, form textarea").each(function() {
+			$(this).css("border", "");
+			
+			if ($(this).val() == "" && $(this).prop("id").substring(0, 6) != "subImg") {
+				$(this).css({"border": "1px solid red", "box-shadow": "0 0 5px red", "outline": "none"});
+				
+				isAllFilled = false;
+			}
+		});
+		
+		if(!isAllFilled) {
+			alert("모든 영역을 기입해주세요.");
+		}
+		
+		
+		var form = document.hpInfoForm;
+		
+		console.log(form);
+		
+	}
 	
 </script>
