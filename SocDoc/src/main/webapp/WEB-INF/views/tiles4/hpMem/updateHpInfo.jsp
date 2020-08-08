@@ -61,8 +61,8 @@
 							<td>
 								<textarea name="address" id="address" form="hpInfoForm" placeholder="주소찾기를 이용해주세요!" readonly required>${hpInfo.address }</textarea>
 <%-- 								<input type="text" name="address" id="address" value="${hpInfo.hpName }" /> --%>
-								<input type="hidden" name="latitude" id="latitude" />
-								<input type="hidden" name="longitude" id="longitude" />
+								<input type="hidden" name="latitude" id="latitude" value="${hpInfo.latitude }" />
+								<input type="hidden" name="longitude" id="longitude" value="${hpInfo.longitude}" />
 								<div align="right"><button class="blueBtn" type="button" onclick="searchAddress()">주소찾기</button></div>
 							</td>
 						</tr>
@@ -333,12 +333,12 @@
 
 		var isAllFilled = true;
 		
-		$("form input, form textarea").each(function() {
+		$("form input[type!=file], form textarea").each(function() {
 			$(this).css("border", "");
 			
 			if ($(this).val() == "" && $(this).prop("id").substring(0, 6) != "subImg") {
 				$(this).css({"border": "1px solid red", "box-shadow": "0 0 5px red", "outline": "none"});
-				
+				console.log($(this).prop("id"));
 				isAllFilled = false;
 			}
 		});
