@@ -13,80 +13,81 @@
 
 	<div class="hpInfoContainer">
 		<h3 align="left">병원 정보 관리</h3>
+		<form name="hpInfoForm">
 		<section id="infoContainer">
-			<div class="slideshow-container">
-	
-				<!-- Full-width images with number and caption text -->
-				<div class="mySlides fade">
-					<div class="numbertext">1 / 3</div>
-					<img src="../assets/bh_large.jpg" style="width: 100%; height: 100%;">
+				<div class="slideshow-container">
+		
+					<!-- Full-width images with number and caption text -->
+					<div class="mySlides fade">
+						<div class="numbertext">1 / 3</div>
+						<img src="../assets/bh_large.jpg" style="width: 100%; height: 100%;">
+					</div>
+		
+					<div class="mySlides fade">
+						<div class="numbertext">2 / 3</div>
+						<img src="../assets/jm_large.jpg" style="width: 100%; height: 100%;">
+					</div>
+		
+					<div class="mySlides fade">
+						<div class="numbertext">3 / 3</div>
+						<img src="../assets/pp_large.jpg" style="width: 100%; height: 100%;">
+					</div>
+		
+					<!-- Next and previous buttons -->
+					<a class="prev" onclick="plusSlides(-1)">&#10094;</a> <a class="next"
+						onclick="plusSlides(1)">&#10095;</a>
 				</div>
-	
-				<div class="mySlides fade">
-					<div class="numbertext">2 / 3</div>
-					<img src="../assets/jm_large.jpg" style="width: 100%; height: 100%;">
+				<div id="hpDetail">
+					<ul id="hpDetailList">
+						<li><input type="text" id="mainImg" readonly value="${hpInfo.mainImg }" />
+							<button class="greyBtn findFile" type="button" id="mainImg">찾기</button> <input
+							type="file" id="mainImgFile" /></li>
+						<li><input type="text" id="subImg1" readonly value="${hpInfo.subImg1 }" />
+							<button class="greyBtn findFile" type="button" id="subImg1">찾기</button> <input
+							type="file" id="subImg1File" /></li>
+						<li><input type="text" id="subImg2" readonly value="${hpInfo.subImg2 }" />
+							<button class="greyBtn findFile" type="button" id="subImg2">찾기</button> <input
+							type="file" id="subImg2File" /></li>
+					</ul>
+					<table class="hpTextInfo">
+						<tr>
+							<th>이름</th>
+							<td>
+								<input type="text" id="name" value="${hpInfo.hpName }" />
+							</td>
+						</tr>
+						<tr>
+							<th>주소</th>
+							<td>
+								<div id="hpAddress">${hpInfo.address }</div>
+								<div align="right"><button class="blueBtn" type="button" onclick="searchAddress()">주소찾기</button></div>
+							</td>
+						</tr>
+						<tr>
+							<th>대표전화</th>
+							<td><input name="phone" type="tel" value="${hpInfo.phone }" /></td>
+						</tr>
+						<tr>
+							<th>진료과목</th>
+							<td><input name="dept" id="dept" value="${hpInfo.dept}" readonly /></td>
+						</tr>
+						<tr>
+							<th>소개</th>
+							<td align="right">
+								<textarea name="info" id="info" placeholder="200자 내외로 작성해주세요!" maxlength="200">${hpInfo.info }</textarea>
+								<br>
+								<span id="charLength">
+								<c:if test="${not empty hpInfo}">
+									${fn:length("${hpInfo}")-1}
+								</c:if>
+								<c:if test="${empty hpInfo }">
+									0
+								</c:if>
+								</span>/200자
+							</td>
+						</tr>
+					</table>
 				</div>
-	
-				<div class="mySlides fade">
-					<div class="numbertext">3 / 3</div>
-					<img src="../assets/pp_large.jpg" style="width: 100%; height: 100%;">
-				</div>
-	
-				<!-- Next and previous buttons -->
-				<a class="prev" onclick="plusSlides(-1)">&#10094;</a> <a class="next"
-					onclick="plusSlides(1)">&#10095;</a>
-			</div>
-			<div id="hpDetail">
-				<ul id="hpDetailList">
-					<li><input type="text" id="mainImg" readonly value="${hpInfo.mainImg }" />
-						<button class="greyBtn findFile" type="button" id="mainImg">찾기</button> <input
-						type="file" id="mainImgFile" /></li>
-					<li><input type="text" id="subImg1" readonly value="${hpInfo.subImg1 }" />
-						<button class="greyBtn findFile" type="button" id="subImg1">찾기</button> <input
-						type="file" id="subImg1File" /></li>
-					<li><input type="text" id="subImg2" readonly value="${hpInfo.subImg2 }" />
-						<button class="greyBtn findFile" type="button" id="subImg2">찾기</button> <input
-						type="file" id="subImg2File" /></li>
-				</ul>
-				<table class="hpTextInfo">
-					<tr>
-						<th>이름</th>
-						<td>
-							<input type="text" id="name" value="${hpInfo.hpName }" />
-						</td>
-					</tr>
-					<tr>
-						<th>주소</th>
-						<td>
-							<div id="hpAddress">${hpInfo.address }</div>
-							<div align="right"><button class="blueBtn" type="button" onclick="searchAddress()">주소찾기</button></div>
-						</td>
-					</tr>
-					<tr>
-						<th>대표전화</th>
-						<td><input type="tel" value="${hpInfo.phone }" /></td>
-					</tr>
-					<tr>
-						<th>진료과목</th>
-						<td><span id="dept">${hpInfo.dept}</span></td>
-					</tr>
-					<tr>
-						<th>소개</th>
-						<td align="right">
-							<textarea name="info" id="info" placeholder="200자 내외로 작성해주세요!" maxlength="200">${hpInfo.info }</textarea>
-							<br>
-							<span id="charLength">
-							<c:if test="${not empty hpInfo}">
-								${fn:length("${hpInfo}")-1}
-							</c:if>
-							<c:if test="${empty hpInfo }">
-								0
-							</c:if>
-							</span>/200자
-						</td>
-					</tr>
-				</table>
-			</div>
 			<!-- The dots/circles -->
 			<!-- <div style="text-align:center">
 	            <span class="dot" onclick="currentSlide(1)"></span>
@@ -169,6 +170,7 @@
 				</td>
 			</tr>
 		</table>
+		</form>	
 		<div style="margin: 10px 0;" align="right">
 			<button class="blueBtn">승인 신청</button>
 		</div>
@@ -235,7 +237,7 @@
 				}
 			}
 			// 체크된 과목을 상세정보에 반영
-			$("#dept").text(checkedValue);
+			$("#dept").val(checkedValue);
 		});
 		
 		$("#info").keyup(function(){
