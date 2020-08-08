@@ -114,55 +114,55 @@
 				<td colspan="6" id="scheduleTbl">
 					 <div class="timeSettingRow">
 						<label>월요일</label> 
-						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[0].open.substring(0,2) }"> : 
+						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[0].open.substring(0,2) != null ? scheduleTbl[0].open.substring(0,2) : 9}"> : 
 						<input type="text" value="00" readonly> 
 						<span>부터</span> 
-						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[0].close.substring(0,2) }"> : 
+						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[0].close.substring(0,2) != null ? scheduleTbl[0].close.substring(0,2) : 18}"> : 
 						<input type="text" value="00" readonly> 
 						<span>까지</span>
 					</div>
 					<div class="timeSettingRow">
 						<label>화요일</label> 
-						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[1].open.substring(0,2) }"> : 
+						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[1].open.substring(0,2) != null ? scheduleTbl[1].open.substring(0,2) : 9}"> : 
 						<input type="text" value="00" readonly>
 						<span>부터</span> 
-						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[1].close.substring(0,2) }"> : 
+						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[1].close.substring(0,2) != null ? scheduleTbl[1].close.substring(0,2) : 18}"> : 
 						<input type="text" value="00" readonly>
 						<span>까지</span>
 					</div>
 					<div class="timeSettingRow">
 						<label>수요일</label> 
-						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[2].open.substring(0,2) }"> : 
+						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[2].open.substring(0,2) != null ? scheduleTbl[2].open.substring(0,2) : 9}"> : 
 						<input type="text" value="00" readonly>
 						<span>부터</span> 
-						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[2].close.substring(0,2) }"> : 
+						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[2].close.substring(0,2) != null ? scheduleTbl[2].close.substring(0,2) : 18}"> : 
 						<input type="text" value="00" readonly>
 						<span>까지</span>
 					</div>
 					<div class="timeSettingRow">
 						<label>목요일</label> 
-						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[3].open.substring(0,2) }"> : 
+						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[3].open.substring(0,2) != null ? scheduleTbl[3].open.substring(0,2) : 9}"> : 
 						<input type="text" value="00" readonly>
 						<span>부터</span> 
-						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[3].close.substring(0,2) }"> : 
+						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[3].close.substring(0,2) != null ? scheduleTbl[3].close.substring(0,2) : 18 }"> : 
 						<input type="text" value="00" readonly>
 						<span>까지</span>
 					</div>
 					<div class="timeSettingRow">
 						<label>금요일</label> 
-						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[4].open.substring(0,2) }"> : 
+						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[4].open.substring(0,2) != null ? scheduleTbl[4].open.substring(0,2) : 9}"> : 
 						<input type="text" value="00" readonly>
 						<span>부터</span> 
-						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[4].close.substring(0,2) }"> : 
+						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[4].close.substring(0,2) != null ? scheduleTbl[4].close.substring(0,2) : 18 }"> : 
 						<input type="text" value="00" readonly>
 						<span>까지</span>
 					</div>
 					<div class="timeSettingRow">
 						<label>토요일</label> 
-						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[5].open.substring(0,2) }"> : 
+						<input type="number" min="9" max="23" step="1" value="${scheduleTbl[5].open.substring(0,2) != null ? scheduleTbl[5].open.substring(0,2) : 9 }"> : 
 						<input type="text" value="00" readonly>
 						<span>부터</span> 
-						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[5].close.substring(0,2) }"> : 
+						<input type="number" min="10" max="23" step="1" value="${scheduleTbl[5].close.substring(0,2) != null ? scheduleTbl[5].close.substring(0,2) : 18 }"> : 
 						<input type="text" value="00" readonly>
 						<span>까지</span>
 					</div>
@@ -235,7 +235,7 @@
 				}
 			}
 			// 체크된 과목을 상세정보에 반영
-			/* $("#dept").text(checkedValue); */
+			$("#dept").text(checkedValue);
 		});
 		
 		
