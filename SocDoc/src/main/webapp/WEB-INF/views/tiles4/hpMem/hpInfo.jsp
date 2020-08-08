@@ -37,15 +37,25 @@
 			<th>신청일</th>
 			<th>상태</th>
 		</tr>
-		<c:forEach var="item" items="${infoUpdateList }" varStatus="status">
-			<tr style="cursor: pointer;" onclick="javascript:location.href='<%=ctxPath%>/hpPanel/updateHpInfo.sd?submitId=${item.submitId}'">
-				<td>${status.count }</td>
-				<td>${item.submitId}</td>
-				<td>${item.hpName }</td>
-				<td>${item.uploadDate}</td>
-				<td>${item.status }</td>
+		<c:if test="${not empty infoUpdateList }">
+			<c:forEach var="item" items="${infoUpdateList }" varStatus="status">
+				<tr style="cursor: pointer;" onclick="javascript:location.href='<%=ctxPath%>/hpPanel/updateHpInfo.sd?submitId=${item.submitId}'">
+					<td>${status.count }</td>
+					<td>${item.submitId}</td>
+					<td>${item.hpName }</td>
+					<td>${item.uploadDate}</td>
+					<td>${item.status }</td>
+				</tr>
+			</c:forEach>
+		</c:if>
+		<c:if test="${empty infoUpdateList }">
+			<tr>
+				<td colspan="5">
+					<span>신청 정보가 존재하지 않습니다! 신청해주세요! </span>
+					<button type="button" class="blueBtn" onclick="javascript:location.href='<%=ctxPath%>/hpPanel/updateHpInfo.sd'">신청하기</button>
+				</td>
 			</tr>
-		</c:forEach>
+		</c:if>
 	</table>
 	<div class="pageContainer" align="center">
 		<span>< 1 2 3 4 5 6 7 8 9 10 ></span>

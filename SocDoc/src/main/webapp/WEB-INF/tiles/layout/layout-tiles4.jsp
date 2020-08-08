@@ -49,6 +49,30 @@
 	#contents h3 {
 		margin: 20px 0;
 	}
+	
+	/* 파랑색 */
+	.blueBtn {
+	   background-color: #0080ff;
+	   color:#fff;
+	   cursor: pointer;   
+	   border: 1px solid #dddddd;       
+	   padding: 0.25em .75em;    
+	   border-radius: .25em;       
+	   font-weight: 500;
+	   font-size: 10pt;   
+	}
+	
+	/* 회색 */   
+	.greyBtn {
+	   background-color: #efefef;
+	   cursor: pointer;   
+	   border: 1px solid #dddddd;       
+	   padding: 0.25em .75em;    
+	   border-radius: .25em;       
+	   font-weight: 500;
+	   font-size: 10pt;   
+	   margin-right: 1
+	}
 </style>
 
 <body>

@@ -39,13 +39,11 @@ public class HpMemController {
 		
 		// TODO: 나중에는 이 부분을 이용해서 병원정보 가져오기
 //		String hpSeq = request.getSession().getAttribute("hpSeq");
-		String hpSeq = "2";
+		String hpSeq = "100";
 //		
 //		HpInfoVO hpInfo = service.getHpInfo(hpSeq);
 		
 		List<HpInfoVO> infoUpdateList = service.getInfoUpdateList(hpSeq);
-		
-		System.out.println(infoUpdateList.get(0).getSubmitId());
 		
 		request.setAttribute("infoUpdateList", infoUpdateList);
 		return "hpMem/hpInfo.tiles4";
@@ -56,17 +54,18 @@ public class HpMemController {
 	public String test_updateHpInfo(HttpServletRequest request) {
 		String submitId = request.getParameter("submitId");
 		
-		// 병원 상세 정보 가져오기
-		HpInfoVO hpInfoDetail = service.getHpInfoDetail(submitId);
-		
-		System.out.println(submitId);
-		
-		// 시간테이블 들고 오기
-		List<HashMap<String, String>> scheduleTbl = service.getScheduleTbl(submitId);
-		
-		
-		request.setAttribute("hpInfo", hpInfoDetail);
-		request.setAttribute("scheduleTbl", scheduleTbl);
+		if(submitId != null) {
+			// 병원 상세 정보 가져오기
+			HpInfoVO hpInfoDetail = service.getHpInfoDetail(submitId);
+			
+			System.out.println(submitId);
+			
+			// 시간테이블 들고 오기
+			List<HashMap<String, String>> scheduleTbl = service.getScheduleTbl(submitId);
+			
+			request.setAttribute("hpInfo", hpInfoDetail);
+			request.setAttribute("scheduleTbl", scheduleTbl);
+		}
 		
 		return "hpMem/updateHpInfo.tiles4";
 	}
