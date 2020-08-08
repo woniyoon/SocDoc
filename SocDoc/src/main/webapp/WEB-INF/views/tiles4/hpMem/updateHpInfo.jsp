@@ -39,13 +39,13 @@
 				</div>
 				<div id="hpDetail">
 					<ul id="hpDetailList">
-						<li><input type="text" id="mainImg" readonly value="${hpInfo.mainImg }" />
+						<li><input type="text" name="mainImg" id="mainImg" readonly value="${hpInfo.mainImg }" />
 							<button class="greyBtn findFile" type="button" id="mainImg">찾기</button> <input
 							type="file" id="mainImgFile" /></li>
-						<li><input type="text" id="subImg1" readonly value="${hpInfo.subImg1 }" />
+						<li><input type="text" name="subImg1" id="subImg1" readonly value="${hpInfo.subImg1 }" />
 							<button class="greyBtn findFile" type="button" id="subImg1">찾기</button> <input
 							type="file" id="subImg1File" /></li>
-						<li><input type="text" id="subImg2" readonly value="${hpInfo.subImg2 }" />
+						<li><input type="text" name="subImg2" id="subImg2" readonly value="${hpInfo.subImg2 }" />
 							<button class="greyBtn findFile" type="button" id="subImg2">찾기</button> <input
 							type="file" id="subImg2File" /></li>
 					</ul>
@@ -53,13 +53,15 @@
 						<tr>
 							<th>이름</th>
 							<td>
-								<input type="text" id="name" value="${hpInfo.hpName }" />
+								<input type="text" name="name" id="name" value="${hpInfo.hpName }" />
 							</td>
 						</tr>
 						<tr>
 							<th>주소</th>
 							<td>
-								<div id="hpAddress">${hpInfo.address }</div>
+<%-- 								<div id="hpAddress">${hpInfo.address }</div> --%>
+								<textarea name="address" id="address" form="hpInfoForm" placeholder="주소찾기를 이용해주세요!" readonly>${hpInfo.address }</textarea>
+<%-- 								<input type="text" name="address" id="address" value="${hpInfo.hpName }" /> --%>
 								<div align="right"><button class="blueBtn" type="button" onclick="searchAddress()">주소찾기</button></div>
 							</td>
 						</tr>
@@ -74,7 +76,7 @@
 						<tr>
 							<th>소개</th>
 							<td align="right">
-								<textarea name="info" id="info" placeholder="200자 내외로 작성해주세요!" maxlength="200">${hpInfo.info }</textarea>
+								<textarea name="info" id="info" placeholder="200자 내외로 작성해주세요!" maxlength="200" form="hpInfoForm">${hpInfo.info }</textarea>
 								<br>
 								<span id="charLength">
 								<c:if test="${not empty hpInfo}">
@@ -316,7 +318,7 @@
                         var y = result.y;
                         
                         // 새로 선택한 주소 보여주기
-                        $("#hpAddress").text(address);
+                        $("#address").text(address);
                     }
                 });
             }

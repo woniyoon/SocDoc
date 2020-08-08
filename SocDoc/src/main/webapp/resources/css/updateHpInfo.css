@@ -30,6 +30,14 @@
 	font-size:1em;
 }
 
+textarea#address {
+	height: 5vh;
+}
+
+textarea#info {
+	height: 10vh;
+}
+
 #hpDetailList {
     list-style-type: none;
 /*     border: 1px solid purple; */
@@ -87,7 +95,6 @@ textInfo {
 textarea {
     resize: none;
     width: 100%;
-    height: 10vh;
 }
 
 /* 병원 정보 관리의 밑부분(진료과목/진료시간 설정부분) */
