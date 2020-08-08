@@ -25,6 +25,11 @@
     justify-content: space-between;
 }
 
+#hpDetail input, textarea {
+	border: 1px solid #d8d8d8;
+	font-size:1em;
+}
+
 #hpDetailList {
     list-style-type: none;
 /*     border: 1px solid purple; */
@@ -60,7 +65,7 @@
 }
 
 .hpTextInfo th, #settingSection th {
-    background-color: rgb(212, 212, 212);
+    background-color: #efefef;
     padding: 0 10px;
     width: 60px;
 }
@@ -90,6 +95,7 @@ textarea {
 #settingSection {
 	width: 100%;
 	margin: 0px;
+	border-collapse: collapse;
 }
 
 #settingSection td {
@@ -110,6 +116,7 @@ textarea {
 	display: inline-block;
 	width: 50px;
 	border: 1px solid #d8d8d8;
+	font-size:1em;
 }
 
 /* W3School 이미지 슬라이더 */
