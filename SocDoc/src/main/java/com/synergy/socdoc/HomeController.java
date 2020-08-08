@@ -2,6 +2,8 @@ package com.synergy.socdoc;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.synergy.service.InterService;
+import com.synergy.socdoc.member.NoticeVO;
 
 /**
  * Handles requests for the application home page.
@@ -49,7 +52,12 @@ public class HomeController {
 		
 //		request.setAttribute("content", content);
 
+
+		HashMap<String, List<NoticeVO>> map = service.selectNoticeList();
+		request.setAttribute("noticevoList", map.get("noticevoList"));
+		
 		return "main/home.tiles1";
+		
 	}
 	
 

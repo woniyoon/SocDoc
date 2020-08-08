@@ -1,8 +1,12 @@
 package com.synergy.model;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.synergy.socdoc.member.NoticeVO;
 
 @Repository
 public class TestDAO implements InterDAO {
@@ -15,6 +19,13 @@ public class TestDAO implements InterDAO {
 		String content = sqlsession.selectOne("test.getContent");
 		
 		return content;
+	}
+
+	// 공지사항 최근 3개 글목록 불러오기
+	@Override
+	public List<NoticeVO> selectNoticeList() {
+		List<NoticeVO> noticevoList = sqlsession.selectList("test.selectNoticeList");
+		return noticevoList;
 	}
 
 }

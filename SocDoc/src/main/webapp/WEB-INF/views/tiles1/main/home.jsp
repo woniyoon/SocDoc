@@ -354,33 +354,18 @@
                          <tr>
                             <th>No</th>
                             <th>제목</th>
-                            <th>글쓴이</th>
                             <th>날짜</th>
                          </tr>
                     </thead>
                     
-                    <tbody>
-                        <tr>
-                            <td name="rno">3</td>
-                            <td class="notice_seq">안보면 후회하는 공지글</td>
-                            <td class="noticeTitle">관리자</td>
-                            <td>2020-07-29</td>
-                        </tr>
-                        
-                        <tr>
-                            <td name="rno">2</td>
-                            <td class="notice_seq">이것은 예시입니다</td>
-                            <td class="noticeTitle">관리자</td>
-                            <td>2020-07-20</td>
-                        </tr>
-                        
-                        <tr>
-                            <td name="rno">1</td>
-                            <td class="notice_seq">세상에서 제일 예쁜 메인페이지</td>
-                            <td class="noticeTitle">관리자</td>
-                            <td>2020-06-30</td>
-                        </tr>
-				    </tbody>
+                    <c:forEach var="noticevo" items="${noticevoList}">
+                    <tr>
+                        <td>${noticevo.noticeSeq}</td>
+                        <td><span class="noticeTitle" onclick="goView('${noticevo.noticeSeq}')">${noticevo.subject}</span></td>
+                        <td>${noticevo.regDate}</td>
+                    </tr>
+					</c:forEach>
+					
                 </table>
             </div>
         </div>
@@ -478,6 +463,15 @@ $(".hover").mouseleave(
 ); 
 
 
+function goView(noticeSeq) {
+	var frm = document.goViewFrm;
+	frm.noticeSeq.value = noticeSeq; 
+	
+	frm.method = "GET";
+	frm.action = "<%=ctxPath%>/noticeView.sd";
+	frm.submit();
+}
+
 /* corona19 chart */
 function coronaList() {
 	
@@ -559,7 +553,6 @@ function coronaList() {
 	    }
 	});
 }
-
 
 
 </script>

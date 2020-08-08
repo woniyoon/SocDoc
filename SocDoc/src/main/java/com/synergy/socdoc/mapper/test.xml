@@ -9,4 +9,16 @@
 	<select id="getContent" resultType="String">
 		select email from tbl_test where userid = 'woniyoon'
 	</select>
+	
+	<select id="selectNoticeList" resultType="com.synergy.socdoc.member.NoticeVO">
+		select S.rno, S.noticeSeq, S.subject, S.regDate from
+		(select rownum as rno, V.noticeSeq, V.subject, V.regDate
+		from 
+		(select noticeSeq, subject, regDate from noticeboard
+		order by noticeSeq desc) V
+		order by rno)S
+		where 
+		<![CDATA[ S.rno <= 3 ]]>
+	</select>
+	
 </mapper>
