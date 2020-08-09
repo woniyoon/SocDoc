@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%
 	String ctxPath = request.getContextPath();
 %>
@@ -19,9 +21,33 @@
 			<tbody>
 				<!-- 동적으로 생성되는 부분 ⬇️-->
 				<tr>
-					<td id="weekdaySchedule" rowspan="5">월요일 오전 09:00 ~ 오후 06:00<br>
-						화요일 오전 09:00 ~ 오후 06:00<br> 수요일 오전 09:00 ~ 오후 06:00<br>
-						목요일 오전 09:00 ~ 오후 06:00<br> 금요일 오전 09:00 ~ 오후 06:00<br>
+					<td id="weekdaySchedule" rowspan="5">
+					<c:if test="${ not empty openingHours }">
+						<c:forEach var="map" items="${openingHours }" varStatus="status">
+							<div>
+							<c:choose>
+						         <c:when test = "${status.index == 0}">
+						            월요일
+						         </c:when>
+						         <c:when test = "${status.index == 1}">
+						            화요일
+						         </c:when>
+						         <c:when test = "${status.index == 2}">
+						            수요일
+						         </c:when>
+						         <c:when test = "${status.index == 3}">
+						            목요일
+						         </c:when>
+						         <c:when test = "${status.index == 4}">
+						            금요일
+						         </c:when>
+						         <c:when test = "${status.index == 5}">
+						            토요일
+						         </c:when>
+						      </c:choose>
+							&emsp;<span>${map.open}</span> ~ <span>${map.close}</span></div>
+						</c:forEach>
+					</c:if>
 					</td>
 				</tr>
 				<tr>

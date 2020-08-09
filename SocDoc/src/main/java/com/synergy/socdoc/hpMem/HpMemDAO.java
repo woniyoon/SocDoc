@@ -35,11 +35,20 @@ public class HpMemDAO implements InterHpMemDAO {
 		return hpInfoDetail;
 	}
 
+	// 병원의 영업시간 가져오기
+	@Override
+	public List<HashMap<String, String>> getOpeningHours(String hpSeq) {
+		List<HashMap<String, String>> openingHours = sqlsession.selectList("hpMem.getOpeningHours", hpSeq);
+		return openingHours;
+	}
+
+	// 신청테이블에서 영업시간 가져오기
 	@Override
 	public List<HashMap<String, String>> getScheduleTbl(String submitId) {
 		List<HashMap<String, String>> scheduleTbl = sqlsession.selectList("hpMem.getScheduleTbl", submitId);
 		System.out.println(scheduleTbl.size());
 		return scheduleTbl;
 	}
+
 
 }

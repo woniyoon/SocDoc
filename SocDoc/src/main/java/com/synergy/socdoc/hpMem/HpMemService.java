@@ -34,8 +34,15 @@ public class HpMemService implements InterHpMemService {
 	}
 
 	@Override
+	public List<HashMap<String, String>> getOpeningHours(String hpSeq) {
+		List<HashMap<String, String>> openingHours = dao.getOpeningHours(hpSeq);
+		return openingHours;
+	}
+
+	@Override
 	public List<HashMap<String, String>> getScheduleTbl(String submitId) {
 		List<HashMap<String, String>> scheduleTbl = dao.getScheduleTbl(submitId);
 		return scheduleTbl;
 	}
+
 }

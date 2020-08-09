@@ -29,7 +29,15 @@ public class HpMemController {
 	@RequestMapping(value = "/hpPanel/main.sd", method = RequestMethod.GET)
 	public String main(HttpServletRequest request) {
 
+		// TODO: 나중에는 이 부분을 이용해서 병원정보 가져오기
+//		String hpSeq = request.getSession().getAttribute("hpSeq");
+		String hpSeq = "2";
 		
+		List<HashMap<String, String>> openingHours = service.getOpeningHours(hpSeq);
+
+		System.out.println(openingHours.get(0).get("close"));
+		
+		request.setAttribute("openingHours", openingHours);
 		return "hpMem/main.tiles4";
 	}
 
