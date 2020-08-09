@@ -42,17 +42,17 @@
 						<li>
 							<input type="text" name="mainImg" value="${hpInfo.mainImg }" readonly required />
 							<button class="greyBtn findFile" type="button" id="mainImg">찾기</button> 
-							<input type="file" id="mainImgFile" />
+							<input type="file" id="mainImgFile" accept="image/*" />
 						</li>
 						<li>
 							<input type="text" name="subImg1" value="${hpInfo.subImg1 }" readonly />
 							<button class="greyBtn findFile" type="button" id="subImg1">찾기</button> 
-							<input type="file" id="subImg1File" />
+							<input type="file" id="subImg1File" accept="image/*" />
 						</li>
 						<li>
 							<input type="text" name="subImg2" value="${hpInfo.subImg2 }" readonly />
 							<button class="greyBtn findFile" type="button" id="subImg2">찾기</button> 
-							<input type="file" id="subImg2File" />
+							<input type="file" id="subImg2File" accept="image/*" />
 						</li>
 					</ul>
 					<table class="hpTextInfo">
@@ -201,6 +201,14 @@
 		});
 		
 		
+		// 파일첨부
+		$(".findFile").click(function() {
+			console.log("찾기 버튼 클릭!");
+			var idToTrigger = "#" + $(this).prop("id") + "File";
+			$(idToTrigger).trigger("click");
+			console.log("클릭 이벤트 트리거!");
+		});
+
 		$("input[type=file]").each(function() {
 				$(this).hide();
 					
@@ -213,13 +221,6 @@
 					$(this).siblings().prev().prop("value", filename);
 					
 				});
-		});
-		
-		$(".findFile").click(function() {
-			console.log("찾기 버튼 클릭!");
-			var idToTrigger = "#" + $(this).prop("id") + "File";
-			$(idToTrigger).trigger("click");
-			console.log("클릭 이벤트 트리거!");
 		});
 		
 		
