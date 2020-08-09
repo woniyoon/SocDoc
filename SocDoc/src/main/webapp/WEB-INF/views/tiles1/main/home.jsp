@@ -111,6 +111,10 @@
             float: left;
         }
         
+        span.noticeTitle:hover {
+			cursor: pointer;
+		}
+        
         table {
             width: 100%;
             border-collapse: collapse;
@@ -368,6 +372,7 @@
 					
                 </table>
             </div>
+        	
         </div>
     
         <div class="swiper-container">
@@ -420,7 +425,11 @@
             <div class="swiper-pagination"></div>
        
         </div>
-    
+     
+        <form name="goViewFrm">
+    		<input type="hidden" name="noticeSeq" />
+    	</form>
+    	
         <br>
        
         <div id="chart"></div>

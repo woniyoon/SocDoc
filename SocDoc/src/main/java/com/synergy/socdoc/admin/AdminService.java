@@ -29,18 +29,6 @@ public class AdminService implements InterAdminService {
 		return map;
 	}
 /*
-	// 공지사항 목록 불러오기
-	@Override
-	public HashMap<String, List<NoticeVO>> selectNoticeList() {
-		List<NoticeVO> noticevoList = dao.selectNoticeList();
-		
-		HashMap<String, List<NoticeVO>> map = new HashMap<>();
-		map.put("noticevoList", noticevoList);
-		
-		return map;
-	}
-
-	*/
 	// 건강정보 목록 불러오기
 	@Override
 	public HashMap<String, List<HealthInfoVO>> selectHealthInfoList() {
@@ -52,6 +40,7 @@ public class AdminService implements InterAdminService {
 		return map;
 	}
 
+*/
 	// 문의관리 목록 불러오기
 	@Override
 	public HashMap<String, List<QnaBoardVO>> selectQnAList() {
@@ -85,6 +74,12 @@ public class AdminService implements InterAdminService {
 		return memberList;
 	}
 
+	// 공지사항 총 게시물 건수 구하기
+	@Override
+	public int noticeTotalCount(HashMap<String, String> paraMap) {
+		int totalCount = dao.noticeTotalCount(paraMap);
+		return totalCount;
+	}
 	// 공지사항 글 목록 (페이징처리)
 	@Override
 	public List<NoticeVO> noticeListPaging(HashMap<String, String> paraMap) {
@@ -92,13 +87,20 @@ public class AdminService implements InterAdminService {
 		return noticeList;
 	}
 
-	// 공지사항 총 게시물 건수 구하기
+	
 	@Override
-	public int noticeTotalCount(HashMap<String, String> paraMap) {
-		int totalCount = dao.noticeTotalCount(paraMap);
+	public int healthInfoCount(HashMap<String, String> paraMap) {
+		int totalCount = dao.healthInfoCount(paraMap);
 		return totalCount;
 	}
+	@Override
+	public List<HealthInfoVO> healthInfoPaging(HashMap<String, String> paraMap) {
+		List<HealthInfoVO> healthInfoList = dao.healthInfoPaging(paraMap);
+		return healthInfoList;
+	}
 
+
+	
 	
 	
 }

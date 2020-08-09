@@ -108,7 +108,7 @@
 		<div id="healthInfoList">
 			<h2>건강정보관리</h2>
 			 
-            <p>전체 글 : 12개</p>
+            <p>전체 글 : ${totalCount}개</p>
            
             <table class="table table-hover" style="text-align: center;">
                 <thead>
@@ -135,7 +135,9 @@
             <button id="writeBtn" onclick="location.href='<%= ctxPath%>/healthWrite.sd'">글쓰기</button>
             
         </div>
-            
+            <div align="center">
+				${pageBar}
+			</div>
 		</div>
 
 		

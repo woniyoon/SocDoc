@@ -10,21 +10,15 @@
 	</select>
 	 -->
 	
-	<!--  	
-	<select id="selectNoticeList" resultType="com.synergy.socdoc.member.NoticeVO">
-		select noticeSeq, subject, regDate
-		from noticeBoard
-		order by regDate desc 
-	</select>
- 	 -->
-	
+<!-- 
 	<select id="selectHealthList" resultType="com.synergy.socdoc.member.HealthInfoVO">
 		select infoSeq, subject, regDate
 		from infoBoard
 		order by infoSeq desc 
 	</select>
  	
-	<select id="selectQnAList" resultType="com.synergy.socdoc.member.QnaBoardVO">
+ -->
+ 	<select id="selectQnAList" resultType="com.synergy.socdoc.member.QnaBoardVO">
 		select qnaSeq, subject, userid, regDate, status
 		from qnaBoard
 		order by qnaSeq desc 
@@ -65,6 +59,11 @@
 	</select>
 	
 
+	<!-- 공지사항 글 목록 (페이징처리) -->
+	<select id="noticeTotalCount" parameterType="HashMap" resultType="int">
+		select count(*)
+		from noticeBoard
+	</select>
 	<select id="noticeListPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.NoticeVO">
 		select rno, noticeSeq, subject, regDate
 		from
@@ -79,10 +78,27 @@
 		)T
 		where rno between #{startRno} and #{endRno}
 	</select>
-	
-	<select id="noticeTotalCount" parameterType="HashMap" resultType="int">
+
+
+
+
+	<select id="healthInfoCount" parameterType="HashMap" resultType="int">
 		select count(*)
 		from noticeBoard
+	</select>
+	<select id="healthInfoPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.HealthInfoVO">
+		select rno, infoSeq, subject, regDate
+		from
+	    ( 
+	        select rownum as rno, infoSeq, subject, regDate
+			from 
+			(
+				select infoSeq, subject, to_char(regDate,'yyyy-mm-dd') AS regDate
+				from infoBoard
+				order by infoSeq desc
+			) V
+		)T
+		where rno between #{startRno} and #{endRno}
 	</select>
  	
  	 

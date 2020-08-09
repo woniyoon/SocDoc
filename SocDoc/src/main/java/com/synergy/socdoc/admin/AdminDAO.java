@@ -25,16 +25,7 @@ public class AdminDAO implements InterAdminDAO {
 		List<MemberVO> membervoList = sqlsession.selectList("admin.selectMemberList");
 		return membervoList;
 	}
-
 /*
-	// 공지사항 목록 불러오기
-	@Override
-	public List<NoticeVO> selectNoticeList() {
-		List<NoticeVO> noticevoList = sqlsession.selectList("admin.selectNoticeList");
-		return noticevoList;
-	}
-
-*/
 	// 건강정보 목록 불러오기
 	@Override
 	public List<HealthInfoVO> selectHealthList() {
@@ -42,6 +33,7 @@ public class AdminDAO implements InterAdminDAO {
 		return healthvoList;
 	}
 
+*/
 	// 문의관리 목록 불러오기
 	@Override
 	public List<QnaBoardVO> selectQnAList() {
@@ -70,6 +62,13 @@ public class AdminDAO implements InterAdminDAO {
 		return memberList;
 	}
 
+
+	// 공지사항 총 게시물 건수 구하기
+	@Override
+	public int noticeTotalCount(HashMap<String, String> paraMap) {
+		int totalCount = sqlsession.selectOne("admin.noticeTotalCount", paraMap);
+		return totalCount;
+	}
 	// 공지사항 글 목록 (페이징처리)
 	@Override
 	public List<NoticeVO> noticeListPaging(HashMap<String, String> paraMap) {
@@ -77,12 +76,19 @@ public class AdminDAO implements InterAdminDAO {
 		return noticeList;
 	}
 
-	// 공지사항 총 게시물 건수 구하기
-	@Override
-	public int noticeTotalCount(HashMap<String, String> paraMap) {
-		int totalCount = sqlsession.selectOne("admin.noticeTotalCount", paraMap);
-		return totalCount;
-	}	
-
 	
+
+	@Override
+	public int healthInfoCount(HashMap<String, String> paraMap) {
+		int totalCount = sqlsession.selectOne("admin.healthInfoCount", paraMap);
+		return totalCount;
+	}
+	@Override
+	public List<HealthInfoVO> healthInfoPaging(HashMap<String, String> paraMap) {
+		List<HealthInfoVO> healthInfoList = sqlsession.selectList("admin.healthInfoPaging", paraMap);
+		return healthInfoList;
+	}
+	
+	
+
 }

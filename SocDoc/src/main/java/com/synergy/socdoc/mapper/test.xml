@@ -11,11 +11,16 @@
 	</select>
 	
 	<select id="selectNoticeList" resultType="com.synergy.socdoc.member.NoticeVO">
-		select S.rno, S.noticeSeq, S.subject, S.regDate from
-		(select rownum as rno, V.noticeSeq, V.subject, V.regDate
+		select S.rno, S.noticeSeq, S.subject, S.regDate 
+		from
+		(
+		select rownum as rno, V.noticeSeq, V.subject, V.regDate
 		from 
-		(select noticeSeq, subject, regDate from noticeboard
-		order by noticeSeq desc) V
+		(
+		select noticeSeq, subject, to_char(regDate,'yyyy-mm-dd') AS regDate 
+		from noticeboard
+		order by noticeSeq desc
+		) V
 		order by rno)S
 		where 
 		<![CDATA[ S.rno <= 3 ]]>

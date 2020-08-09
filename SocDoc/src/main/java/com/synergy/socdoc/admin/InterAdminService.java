@@ -16,16 +16,14 @@ public interface InterAdminService {
 	
 	HashMap<String, List<MemberVO>> selectMemberList(); // 회원 정보 불러오기
 
-//	HashMap<String, List<NoticeVO>> selectNoticeList(); // 공지사항 목록 불러오기
-
-	HashMap<String, List<HealthInfoVO>> selectHealthInfoList(); // 건강정보 목록 불러오기
-
 	HashMap<String, List<QnaBoardVO>> selectQnAList(); // 문의관리 목록 불러오기
 
 	NoticeVO getView(String noticeSeq); // 공지사항 글 조회
 
+	int noticeTotalCount(HashMap<String, String> paraMap); // 공지사항 총 게시물 건수 구하기
 	List<NoticeVO> noticeListPaging(HashMap<String, String> paraMap);  // 공지사항 글 목록 (페이징처리)
 
-	int noticeTotalCount(HashMap<String, String> paraMap); // 공지사항 총 게시물 건수 구하기
+	int healthInfoCount(HashMap<String, String> paraMap);
+	List<HealthInfoVO> healthInfoPaging(HashMap<String, String> paraMap);
 
 }
