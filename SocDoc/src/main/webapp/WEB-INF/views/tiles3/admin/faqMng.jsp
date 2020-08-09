@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <% String ctxPath = request.getContextPath(); %>
 
@@ -112,23 +113,17 @@
 		   <h2>FAQ관리</h2>
 				
 		   <table class="faqTbl">
-		      <tr class="question">
-		         <td><input type="checkbox" /></td>
-		         <td >Q . 속닥속닥은 병원인가요?</td>
-		      </tr>
-		      <tr class="answer">
-		         <td></td>
-		         <td>A . 주식회사 속닥속닥은 의료정보의 중개서비스 또는 의료정보중개시스템의 제공자로서, 
-		            의료정보의 당사자가 아니며, 의료정보와 관련된 의무와 책임은 각 의료기관에게 있습니다.</td>
-		      </tr>      
-		      <tr class="question">
-		         <td><input type="checkbox" /></td>
-		         <td >Q . 속닥속닥은 뭐하는 병원인가요?</td>
-		      </tr>
-		      <tr class="answer">
-		         <td></td>         
-		         <td>A . 주식회사 속닥속닥은 병원이 아니라고요.</td>
-		      </tr>
+		      <c:forEach var="faqvo" items="${faqvoList}">
+			      <tr class="question">
+			         <td><input type="checkbox" /></td>
+			         <td >${faqvo.question}</td>
+			      </tr>
+		      
+			      <tr class="answer">
+			         <td></td>
+			         <td>${faqvo.answer}</td>
+			      </tr>
+			 </c:forEach>          
 		   </table>
 		   
 		   <button type="button" id="ckAll" class="ckAll"> 전체선택 </button>

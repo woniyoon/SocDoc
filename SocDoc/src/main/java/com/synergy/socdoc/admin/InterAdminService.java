@@ -3,6 +3,7 @@ package com.synergy.socdoc.admin;
 import java.util.HashMap;
 import java.util.List;
 
+import com.synergy.socdoc.member.FaqBoardVO;
 import com.synergy.socdoc.member.HealthInfoVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.NoticeVO;
@@ -23,7 +24,10 @@ public interface InterAdminService {
 	int noticeTotalCount(HashMap<String, String> paraMap); // 공지사항 총 게시물 건수 구하기
 	List<NoticeVO> noticeListPaging(HashMap<String, String> paraMap);  // 공지사항 글 목록 (페이징처리)
 
-	int healthInfoCount(HashMap<String, String> paraMap);
-	List<HealthInfoVO> healthInfoPaging(HashMap<String, String> paraMap);
+	int healthInfoCount(HashMap<String, String> paraMap); // 건강정보 총 게시물 건수 구하기
+	List<HealthInfoVO> healthInfoPaging(HashMap<String, String> paraMap); // 건강정보 글 목록 (페이징처리)
+
+	HashMap<String, List<FaqBoardVO>> selectfaqList(); // faq 목록 불러오기
+
 
 }

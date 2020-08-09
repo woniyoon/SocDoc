@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import com.synergy.socdoc.member.FaqBoardVO;
 import com.synergy.socdoc.member.HealthInfoVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.NoticeVO;
@@ -76,17 +77,24 @@ public class AdminDAO implements InterAdminDAO {
 		return noticeList;
 	}
 
-	
-
+	// 건강정보 총 게시물 건수 구하기
 	@Override
 	public int healthInfoCount(HashMap<String, String> paraMap) {
 		int totalCount = sqlsession.selectOne("admin.healthInfoCount", paraMap);
 		return totalCount;
 	}
+	// 건강정보 글 목록 (페이징처리)
 	@Override
 	public List<HealthInfoVO> healthInfoPaging(HashMap<String, String> paraMap) {
 		List<HealthInfoVO> healthInfoList = sqlsession.selectList("admin.healthInfoPaging", paraMap);
 		return healthInfoList;
+	}
+	
+	// faq 목록 불러오기
+	@Override
+	public List<FaqBoardVO> selectfaqList() {
+		List<FaqBoardVO> faqvoList = sqlsession.selectList("admin.selectfaqList");
+		return faqvoList;
 	}
 	
 	

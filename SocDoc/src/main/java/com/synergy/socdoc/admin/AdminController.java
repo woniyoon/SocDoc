@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.synergy.socdoc.common.MyUtil;
+import com.synergy.socdoc.member.FaqBoardVO;
 import com.synergy.socdoc.member.HealthInfoVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.NoticeVO;
@@ -455,6 +456,8 @@ public class AdminController {
 	/* FAQ관리 */
 	@RequestMapping(value = "/faqMng.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	public String faqMng(HttpServletRequest request) {
+		HashMap<String, List<FaqBoardVO>> map = service.selectfaqList();
+		request.setAttribute("faqvoList", map.get("faqvoList"));
 		
 		return "admin/faqMng.tiles3";
 	}
