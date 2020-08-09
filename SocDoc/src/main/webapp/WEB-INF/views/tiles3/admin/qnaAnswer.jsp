@@ -30,6 +30,11 @@
    
    }
 
+   table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+	
    tbody > tr > td {
       font-size: 14px;
        color: #666666;
@@ -40,12 +45,49 @@
    
    }
    
+   table.type05 {
+       width: 1000px;
+       border-collapse: separate;
+       border-spacing: 1px;
+       text-align: left;
+       line-height: 1.5;
+       border: 1px solid #ccc;
+   }
+   
+   table.type05 th {
+       width: 20%;
+       padding: 10px;
+       font-weight: bold;
+       vertical-align: middle;
+       background: #f2f2f2;
+   }
+   
+   table.type05 td {
+       width: 80%;
+       padding: 10px;
+       vertical-align: top;
+   }
+   
+   .form-control-tel {
+      width: 70px;
+   }
+   
+   #infoChange {
+      width: 69%;
+   }
+   
+   #comment {
+      padding: 10px;
+      background-color: #f2f2f2;
+      border-radius: 4px;
+   }
+   
    p#listBtn {
       display: inline-block;
       border-radius: 3px;
-       height: 45px;
-       width: 84px;
-       background: #666666;
+      height: 45px;
+      width: 84px;
+      background: #666666;
       color: white;
       float: left;
       margin: 30px 20px 50px 0px;
@@ -54,9 +96,9 @@
     p#modifyBtn {
       display: inline-block;
       border-radius: 3px;
-       height: 45px;
-       width: 84px;
-       background: #666666;
+      height: 45px;
+      width: 84px;
+      background: #666666;
       color: white;
       float: right;
       margin: 30px 20px 50px 0px;
@@ -65,9 +107,9 @@
     p#deleteBtn {
       display: inline-block;
       border-radius: 3px;
-       height: 45px;
-       width: 84px;
-       background: #666666;
+      height: 45px;
+      width: 84px;
+      background: #666666;
       color: white;
       float: right;
       margin: 30px 20px 50px 0px;
@@ -110,42 +152,7 @@
       text-decoration: none;
     }
     
-   table.type05 {
-      width: 100%;
-       border-collapse: separate;
-       border-spacing: 1px;
-       text-align: left;
-       line-height: 1.5;
-       border: 1px solid #ccc;
-   }
    
-   table.type05 th {
-       width: 20%;
-       padding: 10px;
-       font-weight: bold;
-       vertical-align: middle;
-       background: #f2f2f2;
-   }
-   
-   table.type05 td {
-       width: 80%;
-       padding: 10px;
-       vertical-align: top;
-   }
-   
-   .form-control-tel {
-      width: 70px;
-   }
-   
-   #infoChange {
-      width: 69%;
-   }
-   
-   #comment {
-      padding: 10px;
-      background-color: #f2f2f2;
-      border-radius: 4px;
-   }
 </style>
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
@@ -159,18 +166,18 @@
                     <thead>
                         <tr>
                             <th>
-                               <table class="type05" style= " margin: 0 auto;">
+                           <table class="type05" style= " margin: 0 auto;">
                            <tbody>
                            <tr>
                                 <th scope="row" style="border: none;">제목 </th>
                                 <td style="border: none;">
-                                  문의 남깁니다;;
+                                  		문의 남깁니다;;
                               </td>
                             </tr>
                             <tr>
                                 <th scope="row" style="border: none;">작성자 </th>
                                 <td style="border: none;">
-                                    김나나
+                                    	김나나
                               </td>
                             </tr>
                             <tr>
@@ -188,11 +195,11 @@
                     <tbody>
                         <tr>
                             <td>
-                               비밀번호 설정을 못하겠습니다.<br/><br/><br/><br/><br/>
+				                               비밀번호 설정을 못하겠습니다.<br/><br/><br/><br/><br/>
                                <div id="comment">
                                   <strong>관리자 ｜ 2020.07.01</strong><br/>
-                                  비밀번호 설정은 마이페이지에서 가능합니다.<br/>
-                                  비밀번호를 잊으신 경우에는 고객센터로 연락 주시어 개인 정보가 포함된 자료를 송부하여 주시기 바랍니다.
+                                  		비밀번호 설정은 마이페이지에서 가능합니다.<br/>
+                                  		비밀번호를 잊으신 경우에는 고객센터로 연락 주시어 개인 정보가 포함된 자료를 송부하여 주시기 바랍니다.
                                   <br/>
                                </div>
                             </td>
@@ -206,20 +213,18 @@
 
                 <p id="modifyBtn"><a href="noticeList.sb" class="notice_view">수정</a></p>
                 
-                <div>
-                    <table>
-                        <tr>
-                            <th class="next_post th">이전글</th>
-                            <!-- <td class="noticeNO" ></td>
-                            <td class="noticeNO postrno" ></td> -->
-                            <td class="next_post postNotice titlePointer" style="padding-left: 10px;">윗글 제목이 보일 예정</td>
-                        </tr>
-                        <tr>
-                            <th class="pre_post th">다음글</th>
-                            <td class="pre_post preNotice titlePointer" style="padding-left: 10px;">아랫글 제목이 보일 예정</td>
-                        </tr>
-                    </table>
-                </div>
+                <table>
+                    <tr>
+                        <th class="next_post th">윗글</th>
+                        <!-- <td class="noticeNO" ></td>
+                        <td class="noticeNO postrno" ></td> -->
+                        <td class="next_post postNotice titlePointer">윗글 제목이 보일 예정</td>
+                    </tr>
+                    <tr>
+                        <th class="pre_post th">아랫글</th>
+                        <td class="pre_post preNotice titlePointer">아랫글 제목이 보일 예정</td>
+                    </tr>
+                </table>
 
                 <br/><br/><br/>
 	
