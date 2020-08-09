@@ -211,7 +211,6 @@
 	var condition5 = false;
 	
 	// 아이디 정규표현식 성공 여부
-	//var idOK = false;	
 	var emailOK = false;
 	// 이메일 인증 성공 여부
 	var certification = false;
@@ -227,17 +226,16 @@
 		$("span#useridSuccess").hide();
 	
 		$("#userid").keyup(function(){
-		
+			$(this).val( $(this).val().replace( /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '' ).trim() ); // 한글 막기
 			if($("input#userid").val().trim() == "") {	// 데이터가 없다면
 				$("span#useridSuccess").hide();
 				$("span#useridError").show();
 				$("input#userid").addClass("wrong"); 
 			} else {	// 데이터가 있다면
 				// 정규표현식
-		        //var regExp = /^[a-zA-Z]{1}[a-zA-Z0-9]{4,9}$/;	// 5자 이상 10글자 이하의 영문과 숫자를 조합
 				var regExp = /^[A-Za-z0-9]{5,10}$/;	// 5자 이상 10글자 이하의 영문과 숫자를 조합
 		        var bool = regExp.test($(this).val()); // 생성된 정규표현식 객체속에 데이터를 넣어서 검사하기
-		        //console.log($("input#userid").val());
+		        
 				if(!bool) {  // 데이터가 조건에 맞지않으면
 					$("span#useridSuccess").hide();
 					$("span#useridError").html("영문,숫자 조합으로 5~10자리만 입력 가능합니다.").show();
@@ -245,7 +243,6 @@
 					condition1 = false;
 					return;
 				} else {	// 데이터가 조건에 맞다면
-					//$("span#useridSuccess").html("아이디 중복검사를 하세요 제발 plz").show();
 					$("input#userid").removeClass("wrong");
 					condition1 = true;
 					
@@ -259,11 +256,7 @@
 								$("span#useridError").html($("#userid").val()+"은(는) 이미 사용 중이거나, 탈퇴한 아이디로 사용 불가능합니다.").show();
 								$("span#useridSuccess").hide();
 							} else {	// O 데이터가 중복되지않는다면 O true
-								/* if(condition1 == false){ // 정규표현식이 틀리다면
-									$("span#useridError").html("조건 맞춰주세요ㅅㅂ").show();
-									$("span#useridSuccess").hide();
-									$("input#userid").addClass("wrong");  
-								} else */ if(condition1 == true) {	// 정규표현식이 맞다면
+								if(condition1 == true) {	// 정규표현식이 맞다면
 									$("span#useridSuccess").html("사용 가능한 아이디 입니다.").show();
 									$("span#useridError").hide();
 								}
@@ -274,49 +267,12 @@
 						}
 					});
 				}
-		        
 				$("span#useridError").hide();
 				$(":input").prop("disabled",false).removeClass("wrong"); 
 				return;
 			}
 		});
 		
-<%-- 		
-		/// **** AJAX로 id중복확인하기  ****///
-		$("#idCheck").click(function() {
-			
-			if($("input#userid").val().trim() == "") {	// 데이터 없을 때 중복검사를 하면
-				alert('아이디를 입력하세요.');
-			}else{ // 데이터 있을 때 중복검사를 하면
-				$.ajax({
-					url:"<%=ctxPath%>/idChk.sd",
-					type:"POST",
-					data:{"userid":$("#userid").val()},
-					dataType:"json",
-					success:function(json){
-						if(json.isUse) {	// X 데이터가 중복된다면 X false
-							$("span#useridError").html($("#userid").val()+"은(는) 이미 사용 중이거나, 탈퇴한 아이디로 사용 불가능합니다.").show();
-							$("span#useridSuccess").hide();
-						} else {	// O 데이터가 중복되지않는다면 O true
-							if(condition1 == false){ // 정규표현식이 틀리다면
-								$("span#useridError").html("조건 맞춰주세요ㅅㅂ").show();
-								$("span#useridSuccess").hide();
-								idOK = false;
-							} else if(condition1 == true) {	// 정규표현식이 맞다면
-								$("span#useridSuccess").html("사용 가능한 아이디 입니다.").show();
-								$("span#useridError").hide();
-								idOK = true;
-							}
-						}
-					},
-					error: function(request, status, error){
-						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-					}
-				});
-			}
-		}); 
---%>
-
 		
 		// ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 비밀번호
 		$("span#pwdError").hide();
@@ -444,7 +400,7 @@
 			var userAge = Math.floor((today - userInputDate) / (1000 * 60 * 60 * 24 * 365));
 			//console.log('userAge', userAge);
 	
-			// 안맞을 때
+			// 미래
 			if (userAge < 0) {
 				// error, return
 				$(".birthday").addClass('wrong');
@@ -470,7 +426,7 @@
 		$("#btnFind3").hide();
 		
 		$("#email").keyup(function(){
-			
+			$(this).val( $(this).val().replace( /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '' ).trim() ); // 한글 막기
 			if($("input#email").val().trim() == "") {	// 데이터가 없다면
 				$("span#emailSuccess").hide();
 				$("span#emailError").show();
@@ -489,11 +445,9 @@
 					condition4 = false;
 					return;
 				} else {	// 데이터가 조건에 맞다면
-					//$("span#emailSuccess").html("이메일 중복검사를 하세요 제발 plz").show();
 					$("input#email").removeClass("wrong");
 					condition4 = true;
 					
-					////////////////////////////////////
 					$.ajax({
 						url:"<%=ctxPath%>/emailChk.sd",
 						type:"POST",
@@ -504,15 +458,10 @@
 								$("span#emailError").html($("#email").val()+"은(는) 이미 사용 중이거나, 탈퇴한 이메일로 사용 불가능합니다.").show();
 								$("span#emailSuccess").hide();
 							} else {	// O 데이터가 중복되지않는다면 O true
-								if(condition4 == false){ // 정규표현식이 틀리다면
-									$("span#emailError").html("조건 맞춰주세요ㅅㅂ").show();
-									$("span#emailSuccess").hide();
-									emailOK = false;
-								} else if(condition4 == true) {	// 정규표현식이 맞다면
+								if(condition4 == true) {	// 정규표현식이 맞다면
 									$("span#emailSuccess").html("사용 가능한 이메일 입니다.").show();
 									$("span#emailError").hide();
 									emailOK = true;
-									//$("span#btnFine").hide();
 								}
 							}
 						},
@@ -520,8 +469,6 @@
 							alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 						}
 					});
-					////////////////////////////////////
-					
 				}
 				$("span#emailError").hide();
 				$(":input").prop("disabled",false).removeClass("wrong"); 
@@ -529,42 +476,39 @@
 			}
 		}); 
 		
-		// 이메일 '인증하기' 버튼 눌렀을 때..////////////////////////
+		// 이메일 '인증하기' 버튼 눌렀을 때..///////////////////////////////
 		$("#btnFind").click(sendVerificationCode);	
-		/////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////
 		
 		var method = "${method}";
 		var email = "${email}";
-		
 		if(method=="POST") {
 			$("#email").val(email);
 			$("#div_btnFind").hide();
 		} else {
 			$("#div_btnFind").show();
 		}
- 		
 		
 		// 이메일 '인증확인하기'버튼 눌렀을 때..///////////////////////////// 
   		$("#btnFind2").click(function() {
-  		
   			disabled=false; // 버튼 비활성화
-  		
+  			
 			$.ajax({	
 				url:"<%= ctxPath%>/verifyCertificationFrm.sd",
 				type:"POST",
 				data:{"userCertificationCode" : $("#email2").val().trim()},
 				dataType:"json",
 				success:function(json){
-					console.log(json.isbool)
+					//console.log(json.isbool)
 					if(json.isbool){
 						console.log("!!!메일인증성공!!!");
 						$("#emailCkSuccess").html("인증 성공. 회원가입을 진행하세요.").show();
 						$("input#email2").removeClass("wrong");
 						$("span#emailCkSuccess").hide();
-						certification = true;
 						$("#btnFind2").hide();
 						$("#btnFind3").show();
-						$("#btnFind3").click(function(){
+						certification = true;
+						$("#btnFind3").click(function(){ // 인증성공 후 '인증확인' 버튼 재클릭 시 막아버리기
 							disabled = 'disabled';
 							alert("해당 이메일은 인증 확인이 되었습니다. 다음 단계로 넘어가세요");
 						});
@@ -582,114 +526,6 @@
 		});	
 		/////////////////////////////////////////////////////////////// 
 		
-
-		
-		
-		
-		
-		
-		
-		
-		
-		
-<%--		
-		
-		/// **** AJAX로 email중복확인하기  ****///
- 		$("#emailCheck").click(function() {
-			
-			if($("input#email").val().trim() == "") {	// 데이터 없을 때 중복검사를 하면
-				alert("이메일을 입력하세요.");
-			} else { // 데이터 있을 때 중복검사를 하면
-				$.ajax({
-					url:"<%=ctxPath%>/emailChk.sd",
-					type:"POST",
-					data:{"email":$("#email").val()},
-					dataType:"json",
-					success:function(json){
-						if(json.isUse) {	// X 데이터가 중복된다면 X false
-							$("span#emailError").html($("#email").val()+"은(는) 이미 사용 중이거나, 탈퇴한 이메일로 사용 불가능합니다.").show();
-							$("span#emailSuccess").hide();
-						} else {	// O 데이터가 중복되지않는다면 O true
-							if(condition4 == false){ // 정규표현식이 틀리다면
-								$("span#emailError").html("조건 맞춰주세요ㅅㅂ").show();
-								$("span#emailSuccess").hide();
-//								emailOK = false;
-							} else if(condition4 == true) {	// 정규표현식이 맞다면
-								$("span#emailSuccess").html("사용 가능한 이메일 입니다.").show();
-								$("span#emailError").hide();
-//								emailOK = true;
-								
-								$.ajax({	
-									url:"<%= ctxPath%>/emailCode.sd",
-									type:"POST",
-									data:{"email":$("#email").val().trim()},
-									dataType:"json",
-									success:function(json){
-										console.log(json.isSent);
-										if(isSent==true){
-											alert('인증완료');
-										} else {
-											alert("재시도");
-										}
-									},
-									error: function(request, status, error){
-										alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-									}
-								});
-								
-								var frm = document.registerFrm;
-								frm.method = "POST";
-								frm.action = "<%= ctxPath%>/register.sd";
-								frm.submit();
-							}
-						}
-					},
-					error: function(request, status, error){
-						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-					}
-				});
-			}
-		});
-
-		
-		// ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 이메일로 인증번호 전송 
- 		$("#btnFind").click(function(){
-			
-			$.ajax({	
-				url:"<%= ctxPath%>/emailCode.sd",
-				type:"POST",
-				data:{"email":$("#email").val().trim()},
-				dataType:"json",
-				success:function(json){
-					console.log(json.isSent);
-					if(isSent==true){
-						alert('인증완료');
-					} else {
-						alert("재시도");
-					}
-				},
-				error: function(request, status, error){
-					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-				}
-			});
-		});	 
-		$.ajax();
-			var emailVal = $("#email").val().trim();
-			
-			if(emailVal != "") {
-				var frm = document.registerFrm;
-				frm.method = "POST";
-				frm.action = "<%= ctxPath%>/emailCode.sd";
-				frm.submit();
-			}
-			else {
-				alert("이메일을 입력하세요!!");
-				return;
-			}
-		});--%>
-
-		
-	
 		
 		// ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 휴대폰 
 		$("span#hpError").hide();
@@ -698,7 +534,7 @@
 					
 			// 숫자만 입력
 			var keycode = event.keyCode;
-	        if( !((48 <= keycode && keycode<=57) || (96<=keycode && keycode<=105)|| (keycode==8))){
+	        if( !((48 <= keycode && keycode<=57) || (96<=keycode && keycode<=105) || (keycode==8))){
 	            var word = $(this).val().length;
 	            var keyValue = $(this).val().substring(0,word-1);
 	            $(this).val(keyValue);
@@ -708,8 +544,6 @@
 				$("input#hp").addClass("wrong");
 			} else {	// 데이터가 있다면
 				// 정규표현식
-				//var regExp = /^((01[1|6|7|8|9])[1-9]+[0-9]{6,7})|(010[1-9][0-9]{7})$/;
-				//var bool = regExp.test($(this).val());
 				var regExp = $(this).val( $(this).val().replace(/[^0-9]/g,"").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})/,"$1-$2-$3").replace("--","-") );
 				var bool = regExp.val(); // 생성된 정규표현식 객체속에 데이터를 넣어서 검사하기
 				
@@ -728,8 +562,10 @@
 			}
 		});
 	});
-		
+	
+	// 이메일 '인증하기'버튼 눌렀을 때 
 	function sendVerificationCode(){
+		
 		if(emailOK == true){
 			$("#email2").show();
 			$("#btnFind2").show();
@@ -738,16 +574,15 @@
 			$("#btnFind3").hide();
 			disabled = false;
 			$("#email2").val(''); // 입력칸 비우기
-			
+			$("#email2").focus();
 			$.ajax({	
 				url:"<%= ctxPath%>/emailCode.sd",
 				type:"POST",
 				data:{"email":$("#email").val().trim()},
 				dataType:"json",
 				success:function(json){
-					console.log(json.isSent);
+					//console.log(json.isSent);
 					console.log("!!!!!!!!!!!!!!!!!!!!발송성공!!!!!!!!!!!!!!!!!!!!");
-					//$("#emailGo").html($("#email").val()+"로 인증번호가 발송되었습니다. 전달받은 인증번호를 입력해주세요").show();
 					alert("입력하신 이메일("+$("#email").val()+")로 인증번호가 발송되었습니다.\n전달받은 인증번호를 입력해주세요");					
 					var btnChange = true;
 					if(btnChange == true){
@@ -808,7 +643,7 @@
 		$("input:radio[name=gender]").each(function(){ // 반복문
 			var bChecked = $(this).prop("checked");
 			if(bChecked) {
-				console.log(bChecked);
+				//console.log(bChecked);
 				bFlag = true;
 				return false;
 			} 
@@ -823,7 +658,7 @@
 			$("#email").focus();
 			return;
 		}
-		if(!certification || hpEmailOK == false) {
+		if(!certification || certification == false) {
 			alert("이메일 인증을 완료하세요.");
 			$("#email").focus();
 			return;
@@ -879,8 +714,7 @@
 	var hpCondition4 = false;
 	var hpCondition4 = false;
 	
-	// 아이디 정규표현식 성공 여부
-	//var hpIdOK = false;	
+	// 아이디 정규표현식 성공 여부	
 	var hpEmailOK = false;
 	// 이메일 인증 성공 여부
 	var hpCertification = false;
@@ -892,30 +726,22 @@
 		$("span#businessNumberError").hide();
 	
 		$("#businessNumber").keyup(function(){
-	
+			
+			// 숫자만 입력
+			var keycode = event.keyCode;
+	        if( !((48 <= keycode && keycode<=57) || (96<=keycode && keycode<=105) || (keycode==8))){
+	            var word = $(this).val().length;
+	            var keyValue = $(this).val().substring(0,word-1);
+	            $(this).val(keyValue);
+	        }
 			if($("input#businessNumber").val().trim() == "") {	// 데이터가 없다면
 				$("span#businessNumberError").show();
 				$("input#businessNumber").addClass("wrong"); 
 			} else {	// 데이터가 있다면
 				// 정규표현식
-		        //var regExp = /^([0-9]{3})([0-9]{2})([0-9]{5})$/;
-				//var regExp = $(this).val( $(this).val().replace(/^([0-9]{3})([0-9]{2})([0-9]{5})$/,"$1-$2-$3").replace("--","-") );
-				//휴대폰번호var regExp = $(this).val( $(this).val().replace(/[^0-9]/g,"").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})/,"$1-$2-$3").replace("--","-") );
-				var regExp = $(this).val( $(this).val().replace(/[^0-9]/g,"").replace(/^([0-9]{3})([0-9]{2})([0-9]{5})?/,"$1-$2-$3").replace("--","-") );
+		        var regExp = $(this).val( $(this).val().replace(/[^0-9]/g,"").replace(/^([0-9]{3})([0-9]{2})([0-9]{5})?/,"$1-$2-$3").replace("--","-") );
 				var bool = regExp.val(); // 생성된 정규표현식 객체속에 데이터를 넣어서 검사하기
-				
-				/* if(!bool) {  // 데이터가 조건에 맞지않으면
-					$("span#businessNumberError").html("올바른 사업자번호가 아닙니다.").show();
-					$("input#businessNumber").addClass("wrong");  
-					hpCondition1 = false;
-					return;
-				} else {	// 데이터가 조건에 맞다면
-					$("input#businessNumber").removeClass("wrong");
-					hpCondition1 = true;
-				}
-				$("span#businessNumberError").hide();
-				$(":input").prop("disabled",false).removeClass("wrong"); 
-				return; */
+		
 				if(!bool || bool.length < 12) {  // 데이터가 조건에 맞지않으면
 					$("span#businessNumberError").html("올바른 사업자번호가 아닙니다.").show();
 					$("input#businessNumber").addClass("wrong");  
@@ -937,7 +763,7 @@
 		$("span#hpUseridSuccess").hide();
 	
 		$("#hpUserid").keyup(function(){
-		
+			$(this).val( $(this).val().replace( /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '' ) ); // 한글 막기
 			if($("input#hpUserid").val().trim() == "") {	// 데이터가 없다면
 				$("span#hpUseridSuccess").hide();
 				$("span#hpUseridError").show();
@@ -946,7 +772,6 @@
 				// 정규표현식
 		        var regExp = /^[A-Za-z0-9]{5,10}$/;	// 5자 이상 10글자 이하의 영문과 숫자를 조합
 		        var bool = regExp.test($(this).val()); // 생성된 정규표현식 객체속에 데이터를 넣어서 검사하기
-		        //console.log($("input#hpUserid").val());
 		        
 				if(!bool) {  // 데이터가 조건에 맞지않으면
 					$("span#hpUseridSuccess").hide();
@@ -968,11 +793,7 @@
 								$("span#hpUseridError").html($("#hpUserid").val()+"은(는) 이미 사용 중이거나, 탈퇴한 아이디로 사용 불가능합니다.").show();
 								$("span#hpUseridSuccess").hide();
 							} else {	// O 데이터가 중복되지않는다면 O true
-								if(hpCondition2 == false){ // 정규표현식이 틀리다면
-									$("span#hpUseridError").html("조건 맞춰주세요ㅅㅂ").show();
-									$("span#hpUseridSuccess").hide();
-									$("input#hpUserid").addClass("wrong");
-								} else if(hpCondition2 == true) {	// 정규표현식이 맞다면
+								if(hpCondition2 == true) {	// 정규표현식이 맞다면
 									$("span#hpUseridSuccess").html("사용 가능한 아이디 입니다.").show();
 									$("span#hpUseridError").hide();
 								}
@@ -983,48 +804,13 @@
 						}
 					});
 				}
-	
 				$("span#hpUseridError").hide();
 				$(":input").prop("disabled",false).removeClass("wrong"); 
 				return;
 			}
 		});
+
 		
-<%-- 		/// **** AJAX로 id중복확인하기  ****///
-		$("#hpIdCheck").click(function() {
-			
-			if($("input#hpUserid").val().trim() == "") {	// 데이터 없을 때 중복검사를 하면
-				alert('아이디를 입력하세요.');
-			} else {	// 데이터 있을 때 중복검사를 하면
-				$.ajax({	
-					url:"<%= ctxPath%>/hpIdChk.sd",
-					type:"POST",
-					data:{"hpUserid":$("#hpUserid").val()},
-					dataType:"json",
-					success:function(json){
-						if(json.isUse) {	// X 데이터가 중복된다면 X false
-							$("span#hpUseridError").html($("#hpUserid").val()+"은(는) 이미 사용 중이거나, 탈퇴한 아이디로 사용 불가능합니다.").show();
-							$("span#hpUseridSuccess").hide();
-						} else {	// O 데이터가 중복되지않는다면 O true
-							if(hpCondition2 == false){ // 정규표현식이 틀리다면
-								$("span#hpUseridError").html("조건 맞춰주세요ㅅㅂ").show();
-								$("span#hpUseridSuccess").hide();
-								hpIdOK = false;
-							} else if(hpCondition2 == true) {	// 정규표현식이 맞다면
-								$("span#hpUseridSuccess").html("사용 가능한 아이디 입니다.").show();
-								$("span#hpUseridError").hide();
-								hpIdOK  = true;
-							}
-						}
-					},
-					error: function(request, status, error){
-						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-					}
-				});
-			}
-		});
- --%>		
- 
 		// ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 비밀번호
 		$("span#hpPwdError").hide();
 		$("span#hpPwdSuccess").hide();
@@ -1035,7 +821,6 @@
 				$("span#hpPwdSuccess").hide();
 				$("span#hpPwdError").show();
 				$("input#hpPwd").addClass("wrong");
-				
 			} else {	// 데이터가 있다면
 				// 정규표현식
 		        var regExp = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).*$/g;	//  8~15자리 이하의 숫자,문자,특수문자 조합 
@@ -1091,9 +876,15 @@
 		// ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 이메일 
 		$("span#hpEmailError").hide();
 		$("span#hpEmailSuccess").hide();
+		$("#hpEmail2").hide();
+		$("#hpBtnFind2").hide();
+		$("#hpBtnFindNext").hide();
+		$("span#hpEmailCkError").hide();
+		$("span#hpEmailCkSuccess").hide();
+		$("#hpBtnFind3").hide();
 		
 		$("#hpEmail").keyup(function(){
-			
+			$(this).val( $(this).val().replace( /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '' ).trim() ); // 한글 막기
 			if($("input#hpEmail").val().trim() == "") {	// 데이터가 없다면
 				$("span#hpEmailSuccess").hide();
 				$("span#hpEmailError").show();
@@ -1111,9 +902,30 @@
 					hpCondition5 = false;
 					return;
 				} else {	// 데이터가 조건에 맞다면
-					$("span#hpEmailSuccess").html("이메일 중복검사를 하세요 제발 plz").show();
 					$("input#hpEmail").removeClass("wrong");
 					hpCondition5 = true;
+					
+					$.ajax({
+						url:"<%=ctxPath%>/hpEmailChk.sd",
+						type:"POST",
+						data:{"hpEmail":$("#hpEmail").val()},
+						dataType:"json",
+						success:function(json){
+							if(json.isUse) {	// X 데이터가 중복된다면 X false
+								$("span#hpEmailError").html($("#hpEmail").val()+"은(는) 이미 사용 중이거나, 탈퇴한 이메일로 사용 불가능합니다.").show();
+								$("span#hpEmailSuccess").hide();
+							} else {	// O 데이터가 중복되지않는다면 O true
+								if(hpCondition5 == true) {	// 정규표현식이 맞다면
+									$("span#hpEmailSuccess").html("사용 가능한 이메일 입니다.").show();
+									$("span#hpEmailError").hide();
+									hpEmailOK = true;
+								}
+							}
+						},
+						error: function(request, status, error){
+							alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+						}
+					});
 				}
 				$("span#hpEmailError").hide();
 				$(":input").prop("disabled",false).removeClass("wrong"); 
@@ -1121,72 +933,97 @@
 			}
 		}); 
 		
+		// 이메일 '인증하기' 버튼 눌렀을 때..///////////////////////////////
+		$("#hpBtnFind").click(hpSendVerificationCode);	
+		///////////////////////////////////////////////////////////		
 		
+		var method = "${method}";
+		var hpEmail = "${hpEmail}";
+		if(method=="POST") {
+			$("#hpEmail").val(email);
+			$("#DivBtnFind").hide();
+		} else {
+			$("#DivBtnFind").show();
+		}
 		
-		
-		
-		
-		
-		
-		
-		
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-		
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
-		
-		
-		
-		
-		/// **** AJAX로 email중복확인하기  ****///
-		$("#hpEmailCheck").click(function() {
-			
-			if($("input#hpEmail").val().trim() == "") {	// 데이터 없을 때 중복검사를 하면
-				alert("이메일을 입력하세요.");
-			} else { // 데이터 있을 때 중복검사를 하면
-				$.ajax({
-					url:"<%=ctxPath%>/hpEmailChk.sd",
-					type:"POST",
-					data:{"hpEmail":$("#hpEmail").val()},
-					dataType:"json",
-					success:function(json){
-						if(json.isUse) {	// X 데이터가 중복된다면 X false
-							$("span#hpEmailError").html($("#hpEmail").val()+"은(는) 이미 사용 중이거나, 탈퇴한 이메일로 사용 불가능합니다.").show();
-							$("span#hpEmailSuccess").hide();
-						} else {	// O 데이터가 중복되지않는다면 O true
-							if(hpCondition5 == false){ // 정규표현식이 틀리다면
-								$("span#hpEmailError").html("조건 맞춰주세요ㅅㅂ").show();
-								$("span#hpEmailSuccess").hide();
-								hpEmailOK = false;
-							} else if(hpCondition5 == true) {	// 정규표현식이 맞다면
-								$("span#hpEmailSuccess").html("사용 가능한 이메일 입니다.").show();
-								$("span#hpEmailError").hide();
-								hpEmailOK = true;
-							}
-						}
-					},
-					error: function(request, status, error){
-						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		// 이메일 '인증확인하기'버튼 눌렀을 때..///////////////////////////// 
+  		$("#hpBtnFind2").click(function() {
+  			disabled=false; // 버튼 비활성화
+  			
+			$.ajax({	
+				url:"<%= ctxPath%>/hpVerifyCertificationFrm.sd",
+				type:"POST",
+				data:{"hpUserCertificationCode" : $("#hpEmail2").val().trim()},
+				dataType:"json",
+				success:function(json){
+					//console.log(json.isbool)
+					if(json.isbool){
+						console.log("!!!메일인증성공!!!");
+						certification = true;
+						$("#hpEmailCkSuccess").html("인증 성공. 회원가입을 진행하세요.").show();
+						$("input#hpEmail2").removeClass("wrong");
+						$("span#hpEmailCkSuccess").hide();
+						$("#hpBtnFind2").hide();
+						$("#hpBtnFind3").show();
+						$("#hpBtnFind3").click(function(){ // 인증성공 후 '인증확인' 버튼 재클릭 시 막아버리기
+							disabled = 'disabled';
+							alert("해당 이메일은 인증 확인이 되었습니다. 다음 단계로 넘어가세요");
+						});
+					}else{
+						console.log("!!!메일인증실패!!!");
+						$("#hpEmailCkError").html("인증 실패. 다시 시도해주세요.").show();
+						$("input#hpEmail2").addClass("wrong");
+						certification = false;
 					}
-				});
-			}
-		});
+				},
+				error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			}); 
+		});	
+	});
+		/////////////////////////////////////////////////////////////// 	
+	
+
+	// 이메일 '인증하기'버튼 눌렀을 때 
+	function hpSendVerificationCode(){
+  			
+		if(hpEmailOK == true){
+			$("#hpEmail2").show();
+			$("#hpBtnFind2").show();
+			$("#hpEmailCkError").hide();
+			$("#hpEmailCkSuccess").hide();
+			$("#hpBtnFind3").hide();
+			disabled = false;
+			$("#hpEmail2").val(''); // 입력칸 비우기
+				
+			$.ajax({	
+				url:"<%= ctxPath%>/hpEmailCode.sd",
+				type:"POST",
+				data:{"hpEmail":$("#hpEmail").val().trim()},
+				dataType:"json",
+				success:function(json){
+					//console.log(json.isSent);
+					console.log("!!!!!!!!!!!!!!!!!!!!발송성공!!!!!!!!!!!!!!!!!!!!");
+					alert("입력하신 이메일("+$("#hpEmail").val()+")로 인증번호가 발송되었습니다.\n전달받은 인증번호를 입력해주세요");					
+					var btnChange = true;
+					if(btnChange == true){
+						$("#hpBtnFind").hide();
+						$("#hpBtnFindNext").show();
+					} 
+				},
+				error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+					$("input#hpEmail").addClass("wrong");
+					$("#hpEmailCkError").html("메일발송이 실패했습니다. 다시 시도해주세요.").show();
+				}
+			}); 
+		} else {
+			alert('이메일을 알맞게 입력해주세요.');
+		}	
+	}
 		
-	});	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		
 	// ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 병원///약관동의 
 	//------------------- 가입버튼 클릭 시 안 적은 항목이 있다면 알려주자~! ------------------- //
 	function hpGoRegister() {
@@ -1223,7 +1060,7 @@
 			$("#hpEmail").focus();
 			return;
 		}
-		if(!certification || hpEmailOK == false) {
+		if(!certification || certification == false) {
 			alert("이메일 인증을 확인하세요.");
 			$("#email").focus();
 			return;
@@ -1249,9 +1086,6 @@
 			frm.submit();
 		} 
 	}
-	
-
-	
 
 </script>
 
@@ -1279,8 +1113,6 @@
 					<div class="formGroup">
 						<label for="userid" style="display: block;">아이디</label>
 			         	<input type="text" name="userid" id="userid" class="requiredInfo" autofocus placeholder="5자 이상으로 입력하세요"/>
-			         	<!-- 아이디 중복 체크
-			        	<input type="button" id="idCheck" value="중복검사" style="width: 95px; height: 35px;"/>  -->
 			         	<span class="error" id="useridError">아이디를 입력하세요.</span>
 			        	<span class="success" id="useridSuccess">사용 가능한 아이디 입니다.</span> 
 			
@@ -1294,7 +1126,6 @@
 			         	<span class="error" id="nameError">이름을 입력하세요.</span>
 		
 			         	<label for="birthday">생년월일</label>
-			         	<!-- <input type="number" name="birthday" id="birthday" class="requiredInfo" placeholder="YYYYMMDD"/>  -->
 			         	<div class="birthday">
 							<input type="text" name="birthYY" id="birthYY" class="requiredInfo" value="" size="4" maxlength="4" placeholder="YYYY">
 			             	<div class="bar">년</div>
@@ -1312,12 +1143,9 @@
 				            <input type="radio" class="gender" name="gender" value="1" id="male"/>
 				            <label for="male" class="textPosition">남자</label>
 			            </div>
-				        <!-- <span class="error" id="genderError">성별을 선택하세요.</span> -->
 				         	         	
 				        <label for="email" style="display: block;">이메일</label>
-				        <input type="email" name="email" id="email" class="requiredInfo" placeholder="E-mail을 입력하세요" style="width: 75%;" /> 
-				        <!-- 이메일 중복 체크 
-			        	<input type="button" id="emailCheck" value="중복검사" style="width: 95px; height: 35px;"/>  -->
+				        <input type="email" name="email" id="email" class="requiredInfo" placeholder="E-mail을 입력하세요" style="width: 75%;" />
 			        	<input type="button" id="btnFind" class="btnFind" value="인증하기" style="width: 95px; height: 35px;"/>
 			        	<input type="button" id="btnFindNext" class="btnFind" onclick="sendVerificationCode()" value="재인증" style="width: 95px; height: 35px;"/>
 				        <span class="error" id="emailError" >이메일 형식에 맞지 않습니다.</span> 
@@ -1328,36 +1156,7 @@
 							<input type="button" id="btnFind3" value="인증확인" disabled="disabled" style="width: 95px; height: 35px;"/>
 							<span class="error" id="emailCkError" >이메일 형식에 맞지 않습니다.</span> 
 							<span class="success" id="emailCkSuccess">사용 가능한 이메일 입니다.</span>
-				        </div>
-<%--       				<div id="div_btnFind">
-							<label for="email2" style="display: block;">인증확인</label>
-							<input type="text" name="email2" id="email2" class="requiredInfo" placeholder="E-mail로 발송된 인증번호를 입력하세요" style="width: 75%;" />
-							<input type="button" id="btnFind" value="인증하기" style="width: 95px; height: 35px;"/>
-						</div>		
-						<span class="error" id="goCode" >${email}로 인증번호가 발송되었습니다.<br/>이메일로 전달받은 인증번호를 입력해주세요</span>
-						<span class="error" id="codeError" style="color: red;">메일발송이 실패했습니다.</span>  						
---%>	        
-				      
-							<%-- <div id="div_findResult">
-								<div id="div_btnFind">
-									<label for="email2" style="display: block;">인증확인</label>
-									<input type="text" name="email2" id="email2" class="requiredInfo" placeholder="E-mail로 발송된 인증번호를 입력하세요" style="width: 75%;" />
-									<input type="button" id="btnFind" value="인증하기" style="width: 95px; height: 35px;"/>
-								</div>					   		
-							
-								<span class="error" id="goCode" >${email}로 인증번호가 발송되었습니다.<br/>이메일로 전달받은 인증번호를 입력해주세요</span>
-								<span class="error" id="codeError" style="color: red;">메일발송이 실패했습니다.</span>  							
-							</div>    --%>
-	<!--   
-	   						<div id="div_btnFind" align="center">
-								<label for="email2" style="display: block;">인증확인</label>
-								<input type="text" name="email2" id="email2" class="requiredInfo" placeholder="E-mail로 발송된 인증번호를 입력하세요" style="width: 75%;" />
-								<input type="button" id="btnFind" value="인증하기" style="width: 95px; height: 35px;"/>
-							</div>	
-	   
-	    -->
-    					
-   
+				        </div>   
    	       
 				        <label for="hp">전화번호</label>
 				        <input type="tel" id="hp" name="hp" maxlength="13" class="requiredInfo" placeholder="'-'없이 입력하세요" />
@@ -1384,8 +1183,6 @@
 			      
 				        <label for="hpUserid" style="display: block;">아이디</label>
 				        <input type="text" name="hpUserid" id="hpUserid" class="requiredInfo" placeholder="5자 이상으로 입력하세요"/>
-			         	<!-- 아이디 중복 체크
-			        	<input type="button" id="hpIdCheck" value="중복검사" style="width: 95px; height: 35px;"/> -->
 				        <span class="error" id="hpUseridError">아이디를 입력 하세요.</span>
 				        <span class="success" id="hpUseridSuccess">사용 가능한 아이디 입니다.</span> 
 				
@@ -1397,20 +1194,19 @@
 				        <label for="hpName">담당자 이름</label>
 				        <input type="text" name="hpName" id="hpName" class="requiredInfo" /> 
 				        <span class="error" id="hpNameError">담당자 이름을 입력 하세요.</span>
-				
+			
 				        <label for="hpEmail" style="display: block;">이메일</label>
 				        <input type="email" name="hpEmail" id="hpEmail" class="requiredInfo" placeholder="E-mail을 입력하세요" style="width: 75%;" /> 
-				        <!-- 이메일 중복 체크 -->
-			        	<input type="button" id="hpEmailCheck" value="중복검사" style="width: 95px; height: 35px;"/>
+						<input type="button" id="hpBtnFind" class="hpBtnFind" value="인증하기" style="width: 95px; height: 35px;"/>
+						<input type="button" id="hpBtnFindNext" class="hpBtnFind" onclick="hpSendVerificationCode()" value="재인증" style="width: 95px; height: 35px;"/>
 				        <span class="error" id="hpEmailError">이메일 형식에 맞지 않습니다.</span>
 				        <span class="success" id="hpEmailSuccess">사용 가능한 이메일 입니다.</span>
-						
-						<div id="div_findResult" align="center">
-							<span style="font-size: 10pt;">인증코드가 ${email}로 발송되었습니다.</span><br/>  
-					   	   	<span style="font-size: 10pt;">인증코드를 입력해주세요</span><br/>
-					   	   	<input type="text" name="input_confirmCode" id="input_confirmCode" required />
-					   	  	<br/><br/>
-					   	   	<button type="button" class="btn btn-info" id="btnConfirmCode">인증하기</button>
+						<div id="hpDivBtnFind">
+							<input type="text" name="hpEmail2" id="hpEmail2" class="requiredInfo" maxlength="7" placeholder="E-mail로 발송된 인증번호를 입력하세요" style="width: 75%;" />
+							<input type="button" id="hpBtnFind2" value="인증확인하기" disabled="disabled" style="width: 95px; height: 35px;"/>
+							<input type="button" id="hpBtnFind3" value="인증확인" disabled="disabled" style="width: 95px; height: 35px;"/>
+							<span class="error" id="hpEmailCkError" >이메일 형식에 맞지 않습니다.</span> 
+							<span class="success" id="hpEmailCkSuccess">사용 가능한 이메일 입니다.</span>
 					   </div>
 						
 				        <label for="hpAgree">약관 동의 &nbsp;&nbsp;<input type="checkbox" id="hpAgree" /> </label>
@@ -1433,7 +1229,10 @@
 			<input type="hidden" name="userid" />
 			<input type="hidden" name="userCertificationCode" />
 		</form>
-
+		<form name="hpVerifyCertificationFrm">
+			<input type="hidden" name="hpUserid" />
+			<input type="hidden" name="hpUserCertificationCode" />
+		</form>
 
 	</div>
 </div>    

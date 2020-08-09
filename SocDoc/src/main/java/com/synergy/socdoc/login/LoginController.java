@@ -111,22 +111,12 @@ public class LoginController {
 		
 		String ctxPath = request.getContextPath();
 		System.out.println(ctxPath+"/register.sd로 접속하셨습니다.");
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+	
 		return "login/register.tiles1";
 	}
 
 
-	// === 회원가입 이메일 인증키 난수 만들기 === //
+	// === 회원가입 회원 이메일 인증키 난수 만들기 === //
 	@ResponseBody
 	@RequestMapping(value="/emailCode.sd", method = {RequestMethod.POST})
 	public String emailCode(HttpServletRequest request) {
@@ -167,8 +157,50 @@ public class LoginController {
         json.put("isSent", isSent);
         return json.toString();  
 	}
+
+	// === 회원가입 병원 이메일 인증키 난수 만들기 === //
+	@ResponseBody
+	@RequestMapping(value="/hpEmailCode.sd", method = {RequestMethod.POST})
+	public String hpEmailCode(HttpServletRequest request) {
+		
+		String hpEmail = request.getParameter("hpEmail");
+				
+		// 인증키를 랜덤하게 생성하도록 한다.
+		Random rnd = new Random();
+		
+		String hpCertificationCode = "";
+		
+		int randnum = 0;
+		for(int i=0; i<7; i++) {
+			randnum = rnd.nextInt(9 - 0 + 1) + 0;
+			hpCertificationCode += randnum;
+		}
+		
+		// 랜덤하게 생성한 인증코드(certificationCode)를 비밀번호 찾기를 하고자 하는 사용자의 email로 전송시킨다.
+		GoogleMail mail = new GoogleMail();
+		
+		// 세션은 우리가 만드는게 아니라, WAS에서 불러오는 것
+        HttpSession session = request.getSession();
+		
+        boolean isSent;
+        
+        try {
+        	System.out.println("~~~~~~~~~~~~~~~~ 메일전송  시작 ~~~~~~~~~~~~~~~~");
+			mail.sendmail(hpEmail, hpCertificationCode);
+			session.setAttribute("hpCertificationCode", hpCertificationCode);
+			isSent = true;
+			// 자바에서 발급한 인증코드를 세션에 저장
+        } catch (Exception e) {
+			e.printStackTrace();
+			isSent= false;
+		}
+
+        JSONObject json = new JSONObject();
+        json.put("isSent", isSent);
+        return json.toString();  
+	}
 	
-	// === 회원가입 이메일 인증확인 === //
+	// === 회원가입 회원 이메일 인증확인 === //
 	@ResponseBody
 	@RequestMapping(value="/verifyCertificationFrm.sd", method={RequestMethod.POST}, produces="text/plain;charset=UTF-8")
 	public String verifyCertification(HttpServletRequest request) {
@@ -213,6 +245,51 @@ public class LoginController {
 		
 	}
 	
+	// === 회원가입 병원 이메일 인증확인 === //
+		@ResponseBody
+		@RequestMapping(value="/hpVerifyCertificationFrm.sd", method={RequestMethod.POST}, produces="text/plain;charset=UTF-8")
+		public String hpVerifyCertificationFrm(HttpServletRequest request) {
+			
+			String hpUserCertificationCode = request.getParameter("hpUserCertificationCode");
+
+			HttpSession session = request.getSession();
+			String hpCertificationCode = (String)session.getAttribute("hpCertificationCode");
+		
+			System.out.println("hpUserCertificationCode 인증 코드 : "+hpUserCertificationCode);
+			System.out.println("hpCertificationCode 인증 코드 : "+hpCertificationCode);
+		/*	String msg = "";
+			String loc = "";*/
+			
+			boolean isbool=false;
+			
+			if( hpCertificationCode.equals(hpUserCertificationCode) ) {
+//				msg = "인증성공 되었습니다.";
+//				loc = request.getContextPath()+"/userCertificationCode.sd";
+				isbool=true;
+				System.out.println("인증코드 맞음");
+
+			}
+			else {
+//				msg = "발급된 인증코드가 아닙니다. 인증코드를 다시 발급받으세요!!";
+//				loc = request.getContextPath()+"/register.sd";
+				isbool=false;
+				System.out.println("인증코드 안 맞음");
+			}
+			/*
+			request.setAttribute("msg", msg);
+			request.setAttribute("loc", loc);*/
+			
+			// !!! 중요 !!! //
+			// 세션에 저장된 인증코드 삭제하기 !!!!
+			//session.removeAttribute("certificationCode");
+			
+			JSONObject json = new JSONObject();
+	        json.put("isbool", isbool);
+	        
+	        return json.toString();  
+			
+		}
+	
 	
 	
 	
@@ -227,7 +304,7 @@ public class LoginController {
 		String userid= request.getParameter("userid");
 		
 		boolean isUse = service.idChk(userid);
-		System.out.println("isUse 값 : " + isUse);
+		//System.out.println("isUse 값 : " + isUse);
 		/*String ctxPath = request.getContextPath();*/
 		JSONObject json = new JSONObject();
 		json.put("isUse", isUse);
@@ -235,6 +312,20 @@ public class LoginController {
 		return json.toString();
 	}
 	
+	// === 회원가입 병원 아이디 중복검사 === //
+	@ResponseBody
+	@RequestMapping(value="/hpIdChk.sd", method= {RequestMethod.POST})
+	public String hpIdChk(HttpServletRequest request) {
+		String hpUserid = request.getParameter("hpUserid");
+		
+		boolean isUse = service.hpIdChk(hpUserid);
+		//System.out.println("isUse 값 : " + isUse);
+		/*String ctxPath = request.getContextPath();*/
+		JSONObject json = new JSONObject();
+		json.put("isUse", isUse);
+		
+		return json.toString();
+	}
 	
 	// === 회원가입 회원 이메일 중복검사 === //
 	@ResponseBody
@@ -251,22 +342,6 @@ public class LoginController {
 		return json.toString();
 	}
 	
-	
-	// === 회원가입 병원 아이디 중복검사 === //
-	@ResponseBody
-	@RequestMapping(value="/hpIdChk.sd", method= {RequestMethod.POST})
-	public String hpIdChk(HttpServletRequest request) {
-		String hpUserid = request.getParameter("hpUserid");
-		
-		boolean isUse = service.hpIdChk(hpUserid);
-		System.out.println("isUse 값 : " + isUse);
-		/*String ctxPath = request.getContextPath();*/
-		JSONObject json = new JSONObject();
-		json.put("isUse", isUse);
-		
-		return json.toString();
-	}
-	
 	// === 회원가입 병원 이메일 중복검사 === //
 	@ResponseBody
 	@RequestMapping(value="/hpEmailChk.sd", method= {RequestMethod.POST})
@@ -274,7 +349,7 @@ public class LoginController {
 		String hpEmail = request.getParameter("hpEmail");
 		
 		boolean isUse = service.hpEmailChk(hpEmail);
-		System.out.println("isUse 값 : " + isUse);
+		//System.out.println("isUse 값 : " + isUse);
 		/*String ctxPath = request.getContextPath();*/
 		JSONObject json = new JSONObject();
 		json.put("isUse", isUse);
@@ -287,7 +362,7 @@ public class LoginController {
 	public String idFind(HttpServletRequest request) {
 		
 		String ctxPath = request.getContextPath();
-		System.out.println(ctxPath+"/idFind.sd로 접속하셨습니다.");
+		//System.out.println(ctxPath+"/idFind.sd로 접속하셨습니다.");
 		
 		return "login/idFind.tiles1";
 	}
@@ -297,7 +372,7 @@ public class LoginController {
 	public String idFindResult(HttpServletRequest request) {
 		
 		String ctxPath = request.getContextPath();
-		System.out.println(ctxPath+"/idFindResult.sd로 접속하셨습니다.");
+		//System.out.println(ctxPath+"/idFindResult.sd로 접속하셨습니다.");
 		
 		return "login/idFindResult.tiles1";
 	}
