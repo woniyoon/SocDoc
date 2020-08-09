@@ -6,6 +6,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.synergy.socdoc.member.MemberVO;
+
 @Repository
 public class LoginDAO implements InterLoginDAO {
 
@@ -44,7 +46,24 @@ public class LoginDAO implements InterLoginDAO {
 		return result;
 	}
 
+	// 회원 회원가입 //
+	@Override
+	public void register(MemberVO vo) {
+		sqlsession.insert("newMem.register", vo);
+	}
 	
+	// 로그인 처리 //
+	@Override
+	public MemberVO getLoginMember(HashMap<String, String> paraMap) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setLastLoginDate(HashMap<String, String> paraMap) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	
 

@@ -37,4 +37,10 @@
 		from hpMember
 		where email = #{hpEmail}
 	</select>
+	
+	<!-- 회원 회원가입 -->
+	<insert id="register">
+		insert into member(userid, email, name, phone, height, weight, bloodtype, allergy, history, medicine, memberseq, registerdate, status, birthdate, gender, pwd)
+		values(#{userid}, #{email}, #{name}, #{phone}, default, default, default, default, default, default, memberseq.nextval, sysdate, 1, default, #{gender}, #{pwd})
+	</insert>
 </mapper>

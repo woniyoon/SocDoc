@@ -1,5 +1,6 @@
 package com.synergy.socdoc.login;
 
+import java.util.HashMap;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,8 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.synergy.socdoc.common.Sha256;
 import com.synergy.socdoc.mail.GoogleMail;
+import com.synergy.socdoc.member.MemberVO;
 
 @Controller
 public class LoginController {
@@ -30,9 +34,9 @@ public class LoginController {
 		return "login/loginform.tiles1";
 	}
 
-	// === 로그인 폼 페이지 요청 === //
-/*	@RequestMapping(value="/loginEnd.sd", method= {RequestMethod.POST})
-	public ModelAndView loginEnd(HttpServletRequest request) {
+	// === 로그인 처리 === //
+	@RequestMapping(value="/loginEnd.sd", method= {RequestMethod.POST})
+	public ModelAndView loginEnd(HttpServletRequest request, ModelAndView mav) {
 		
 		String userid = request.getParameter("userid");
 		String pwd = request.getParameter("pwd");
@@ -103,7 +107,8 @@ public class LoginController {
 		}
 		
 		return mav;
-	}*/
+	}
+	
 	
 	// === 회원가입 폼 페이지 요청 === //
 	@RequestMapping(value="/register.sd", method= {RequestMethod.GET})
@@ -115,7 +120,16 @@ public class LoginController {
 		return "login/register.tiles1";
 	}
 
-
+	// 회원 회원가입 //
+	@RequestMapping(value="/register.sd", method= {RequestMethod.POST})
+	public String register(MemberVO vo, HttpServletRequest request) {
+		String ctxPath = request.getContextPath();
+		System.out.println("회우너가입 성공??");
+		service.register(vo);
+	
+		return null;
+	}
+	
 	// === 회원가입 회원 이메일 인증키 난수 만들기 === //
 	@ResponseBody
 	@RequestMapping(value="/emailCode.sd", method = {RequestMethod.POST})
