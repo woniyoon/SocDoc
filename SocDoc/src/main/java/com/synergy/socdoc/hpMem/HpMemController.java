@@ -69,6 +69,31 @@ public class HpMemController {
 		
 		return "hpMem/updateHpInfo.tiles4";
 	}
+	
+	// 새 병원상세정보 업데이트
+	@RequestMapping(value = "/hpPanel/submitInfo.sd", method = RequestMethod.POST)
+	public String submitInfo(HttpServletRequest request) {
+		String schedule = request.getParameter("schedule");
+		String name = request.getParameter("name");
+		String mainImg = request.getParameter("mainImg");
+		String address = request.getParameter("address");
+		String latitude = request.getParameter("latitude");
+		String longitude = request.getParameter("longitude");
+		String phone = request.getParameter("phone");
+		String dept = request.getParameter("dept");
+		String info = request.getParameter("info");
+		System.out.println(schedule);
+		System.out.println(name);
+		System.out.println(latitude);
+		System.out.println(longitude);
+		System.out.println(address);
+		System.out.println(info);
+		System.out.println("?????");
+		
+		return "msg";
+	}
+	
+	
 
 	// 예약관리
 	@RequestMapping(value = "/hpPanel/reservationInfo.sd", method = RequestMethod.GET)
