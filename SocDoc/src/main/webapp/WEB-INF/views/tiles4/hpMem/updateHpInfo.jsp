@@ -39,15 +39,21 @@
 				</div>
 				<div id="hpDetail">
 					<ul id="hpDetailList">
-						<li><input type="text" name="mainImg" id="mainImg" value="${hpInfo.mainImg }" readonly required />
-							<button class="greyBtn findFile" type="button" id="mainImg">찾기</button> <input
-							type="file" id="mainImgFile" /></li>
-						<li><input type="text" name="subImg1" id="subImg1" value="${hpInfo.subImg1 }" readonly />
-							<button class="greyBtn findFile" type="button" id="subImg1">찾기</button> <input
-							type="file" id="subImg1File" /></li>
-						<li><input type="text" name="subImg2" id="subImg2" value="${hpInfo.subImg2 }" readonly />
-							<button class="greyBtn findFile" type="button" id="subImg2">찾기</button> <input
-							type="file" id="subImg2File" /></li>
+						<li>
+							<input type="text" name="mainImg" value="${hpInfo.mainImg }" readonly required />
+							<button class="greyBtn findFile" type="button" id="mainImg">찾기</button> 
+							<input type="file" id="mainImgFile" />
+						</li>
+						<li>
+							<input type="text" name="subImg1" value="${hpInfo.subImg1 }" readonly />
+							<button class="greyBtn findFile" type="button" id="subImg1">찾기</button> 
+							<input type="file" id="subImg1File" />
+						</li>
+						<li>
+							<input type="text" name="subImg2" value="${hpInfo.subImg2 }" readonly />
+							<button class="greyBtn findFile" type="button" id="subImg2">찾기</button> 
+							<input type="file" id="subImg2File" />
+						</li>
 					</ul>
 					<table class="hpTextInfo">
 						<tr>
@@ -173,6 +179,7 @@
 				</td>
 			</tr>
 		</table>
+		<input type="hidden" name="submitId" value=" " />
 		</form>	
 		<div style="margin: 10px 0;" align="right">
 			<button class="blueBtn" id="submitBtn" onclick="submit()">승인 신청</button>
@@ -199,12 +206,11 @@
 				$(this).on("change", function() {
 					console.log("change 펑션!");
 
-					var id = $(this).prop("id");
-					var idToShow = "#" + id.substr(0, id.length - 4);
-								
-					console.log($(this));
+					// 이미지 파일명만 추출후, 보여주기
+					var filename = $(this).val().split('/').pop().split('\\').pop();
 					
-					$(idToShow).prop("value", $(this).val().split('/').pop().split('\\').pop());
+					$(this).siblings().prev().prop("value", filename);
+					
 				});
 		});
 		
@@ -334,7 +340,7 @@
 		var isAllFilled = true;
 		
 		$("form input[type!=file], form textarea").each(function() {
-			$(this).css("border", "");
+			$(this).css({"border": "", "box-shadow" : ""});
 			
 			if ($(this).val() == "" && $(this).prop("id").substring(0, 6) != "subImg") {
 				$(this).css({"border": "1px solid red", "box-shadow": "0 0 5px red", "outline": "none"});
@@ -351,6 +357,7 @@
 		var form = document.hpInfoForm;
 		
 		console.log(form);
+		
 		
 	}
 	
