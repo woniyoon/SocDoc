@@ -19,7 +19,11 @@
 	}
 	
 	.searchContainer {
-		margin: 10px 0;
+		margin: 10px;
+		display: flex;
+	    flex-direction: row;
+	    justify-content: space-between;
+	    margin: 10px;
 	}
 	
 	.visitorSearch {
@@ -32,18 +36,15 @@
 	    padding: 10px;
 	}
 	
-	.visitorsListBottom {
-		width: 100%;
-		display: flex;
-	    flex-direction: row;
-	    justify-content: space-between;
-	    margin: 10px;
+	.excelBtnContainer {
+		margin: 10px;
 	}
 </style>
 
 <div class="visitorsListContainer">
 	<h3 align="left">방문회원관리</h3>
 	<div class="searchContainer" align="right">
+		<span>총 <span id="numOfVisitors">${numOfVisitors}</span> 건</span>
 		<input class="visitorSearch" type="text" placeholder="회원 검색"/>
 	</div>
 	<table class="customTable" style="width: 100%;">
@@ -73,9 +74,8 @@
 				</tr>
 			</c:if>
 	</table>
-	<div class="visitorsListBottom">
-		<span>총 <span id="numOfVisitors">${numOfVisitors}</span> 건</span>
-		<button type="button">엑셀로 내보내기</button>
+	<div class="excelBtnContainer" align="right">
+		<button class="blueBtn" type="button">엑셀로 내보내기</button>
 	</div>
 	<div class="pageContainer" align="center">
 		<span>${pageBar }</span>
