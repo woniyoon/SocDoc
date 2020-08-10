@@ -17,6 +17,7 @@
 	</select>
  	
  	
+ 	<!-- 회원관리 목록 (페이징처리) -->
  	<select id="getTotalCount" parameterType="HashMap" resultType="int">
 		select count(*)
 		from member
@@ -25,7 +26,6 @@
 				and lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
 			</if>
 	</select>
-
 	<select id="memberListSearchWithPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.MemberVO">
 		select rno, userid, name, birthDate, email, phone, registerDate, status
 		from
@@ -92,5 +92,79 @@
 		from faqboard
 		order by faqSeq desc 
 	</select>
+	
+	
+	<!-- 병원회원 목록 (페이징처리) -->
+	<select id="hpMemberCount" parameterType="HashMap" resultType="int">
+		select count(*)
+		from hpMember
+		where infoStatus in (1,0)
+			<if test='searchWord != ""'>
+				and ${searchType} like '%' || #{searchWord} || '%'
+			</if>
+	</select>
+	<select id="hpmemberListPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpMemberVO">
+		
+		select rno, userid, regId, name, email, registerDate, infoStatus
+		from
+	    ( 
+	        select rownum as rno, userid, regId, name, email, registerDate, infoStatus
+			from 
+			(
+				select userid, regId, name, email, to_char(registerDate,'yyyy-mm-dd') AS registerDate, infoStatus
+				from hpMember
+				where infoStatus in (1,0)
+				<if test='searchWord != ""'>
+					and ${searchType} like '%' || #{searchWord} || '%'
+				</if>
+			) V
+		)T
+		where rno between #{startRno} and #{endRno}
+		
+		<!-- 
+		select rno, userid, regId, name, email, to_char(registerDate,'yyyy-mm-dd') AS registerDate, infoStatus, nvl(b.hpname, '미등록')
+		from 
+		(
+			select rownum as rno, userid, regId, name, email, to_char(registerDate,'yyyy-mm-dd') AS registerDate, infoStatus, nvl(b.hpname, '미등록')
+			from
+				(
+				select  userid, regId, name, email, to_char(registerDate,'yyyy-mm-dd') AS registerDate, infoStatus, nvl(b.hpname, '미등록')
+				from hpMember A left join hospitalinfo B
+				on a.hpseq = b.hpseq
+				)V
+			)T
+		where rno between #{startRno} and #{endRno}
+		
+		 -->
+	</select>
+	
+	
+	<!-- 병원(정보)등록 목록 (페이징처리) -->
+	<select id="hpInfoCount" parameterType="HashMap" resultType="int">
+		select count(*)
+		from hpMember
+		where infoStatus in (1,0)
+			<if test='searchWord != ""'>
+				and lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
+			</if>
+	</select>
+	<select id="hpInfoListPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpMemberVO">
+		select rno, userid, regId, name, infoStatus
+		from
+	    ( 
+	        select rownum as rno, userid, regId, name, infoStatus
+			from 
+			(
+				select userid, regId, name, infoStatus
+				from hpMember
+				where infoStatus in (1,0)
+				<if test='searchWord != ""'>
+					and ${searchType} like '%' || #{searchWord} || '%'
+				</if>
+			) V
+		)T
+		where rno between #{startRno} and #{endRno}
+	</select>
+	
  	 
 </mapper>

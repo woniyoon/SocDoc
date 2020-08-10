@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <style type="text/css">
 
@@ -136,16 +137,19 @@
 		<div id="hospitalList" style="min-height: 70vh;">
 			<h2>병원회원관리</h2>
 			 
-            <button class="searchBtn">검색</button>
-            <input type="text" class="searchWord" placeholder="검색어를 입력하세요">
-            <select>
-                <option selected="selected">아이디</option>
-                <option>사업자번호</option>
-                <option>담당자</option>
-                <option>이메일</option>
-                <option>병원명</option>
-            </select>
-            <p>전체 회원 수 : 2981명</p>	
+			<form name="searchFrm">  
+	            <button class="searchBtn" onclick="goSearch()">검색</button>
+	            <input type="text" name="searchWord" id="searchWord" class="searchWord" placeholder="검색어를 입력하세요">
+	            <select  name="searchType" id="searchType">
+	                <option selected="selected" value="userid">아이디</option>
+	                <option value="regId">사업자번호</option>
+	                <option value="name">담당자</option>
+	                <option value="email">이메일</option>
+	                <option value="">병원명</option>
+	            </select>
+            </form>
+            
+            <p>전체 회원 수 : ${totalCount}명</p>	
 			
 			<table class="table table-hover" style="text-align: center;">
 				<tr>
@@ -158,27 +162,30 @@
 					<th>등록</th>
 				</tr>
 				
-				<tr class="detailRow">
-					<td>hospital1</td>			
-					<td>123456-78910</td>			
-					<td>김관리</td>			
-					<td>hoskim@gmail.com</td>			
-					<td>강남병원</td>			
-					<td>2020-07-31</td>			
-					<td style="color:blue; font-weight:bold;">Y</td>			
-				</tr>
-               
-                <tr class="detailRow">
-					<td>hospital2</td>			
-					<td>123456-78910</td>			
-					<td>나관리</td>			
-					<td>hoskim@gmail.com</td>	
-					<td>종로병원</td>		
-					<td>2020-07-31</td>			
-					<td style="font-weight:bold;">N</td>			
-				</tr>
+				<c:forEach var="hpvo" items="${hospitalvoList}">
+					<tr class="detailRow">
+						<td>${hpvo.userid}</td>			
+						<td>${hpvo.regId}</td>			
+						<td>${hpvo.name}</td>			
+						<td>${hpvo.email}</td>			
+						<td></td>			
+						<td>${hpvo.registerDate}</td>	
+						<c:choose>
+							<c:when test="${hpvo.infoStatus eq 4}">
+								<td style="color:blue; font-weight:bold;">Y</td>			
+							</c:when>
+							<c:otherwise>
+								<td style="font-weight:bold;">N</td>
+							</c:otherwise>
+						</c:choose>		
+					</tr>
+               </c:forEach>
 
 			</table>
+			
+			<div align="center">
+				${pageBar}
+			</div>
 			
 		</div>
 		
@@ -202,23 +209,44 @@
 	
 	
 	
-<script>
-$(document).ready(function() {
-	$(".detailRow").each(function() {
-		$(this).click(function(e) {
-			// 체크박스 클릭시, 이벤트를 취소
-			if (e.target.type == "checkbox") {
-				e.stopPropagation();
-				console.log("event canceled!!");
-			} else {
-				$(".modalContainer").removeClass("hidden");
-				console.log("event going on");
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+		$("#searchWord").keydown(function(event){
+			if(event.keyCode == 13) {
+				goSearch();
 			}
 		});
-	});
-});
+		
+		if(${paraMap != null}) {
+			$("#searchType").val("${paraMap.searchType}");
+			$("#searchWord").val("${paraMap.searchWord}");
+		}
+		
+		$(".detailRow").each(function() {
+			$(this).click(function(e) {
+				// 체크박스 클릭시, 이벤트를 취소
+				if (e.target.type == "checkbox") {
+					e.stopPropagation();
+					console.log("event canceled!!");
+				} else {
+					$(".modalContainer").removeClass("hidden");
+					console.log("event going on");
+				}
+			});
+		});
 
-function closeModal() {
-	$(".modalContainer").addClass("hidden");
-}
+	});
+
+	function goSearch() {
+		var frm = document.searchFrm;
+			frm.method = "GET";
+			frm.action = "<%= request.getContextPath()%>/adminHospitalMng.sd";
+			frm.submit();
+	}
+
+	function closeModal() {
+		$(".modalContainer").addClass("hidden");
+	}
+	
 </script> 	

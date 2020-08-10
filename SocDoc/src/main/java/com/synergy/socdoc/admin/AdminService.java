@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.synergy.socdoc.member.FaqBoardVO;
 import com.synergy.socdoc.member.HealthInfoVO;
+import com.synergy.socdoc.member.HpMemberVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.NoticeVO;
 import com.synergy.socdoc.member.QnaBoardVO;
@@ -29,19 +30,7 @@ public class AdminService implements InterAdminService {
 		
 		return map;
 	}
-/*
-	// 건강정보 목록 불러오기
-	@Override
-	public HashMap<String, List<HealthInfoVO>> selectHealthInfoList() {
-		List<HealthInfoVO> healthvoList = dao.selectHealthList();
-		
-		HashMap<String, List<HealthInfoVO>> map = new HashMap<>();
-		map.put("healthvoList", healthvoList);
-		
-		return map;
-	}
 
-*/
 	// 문의관리 목록 불러오기
 	@Override
 	public HashMap<String, List<QnaBoardVO>> selectQnAList() {
@@ -61,7 +50,7 @@ public class AdminService implements InterAdminService {
 		return noticevo;
 	}
 	
-	// 회원관리 총 게시물 건수 구하기
+	// 회원관리 총 회원 수 구하기
 	@Override
 	public int getTotalCount(HashMap<String, String> paraMap) {
 		int totalCount = dao.getTotalCount(paraMap);
@@ -110,6 +99,32 @@ public class AdminService implements InterAdminService {
 		map.put("faqvoList", faqvoList);
 		
 		return map;
+	}
+
+	// 병원회원관리 총 회원 수 구하기
+	@Override
+	public int hpMemberCount(HashMap<String, String> paraMap) {
+		int totalCount = dao.hpMemberCount(paraMap);
+		return totalCount;
+	}
+	// 병원회원 목록 (페이징처리)
+	@Override
+	public List<HpMemberVO> hpmemberListPaging(HashMap<String, String> paraMap) {
+		List<HpMemberVO> hospitalList = dao.hpmemberListPaging(paraMap);
+		return hospitalList;
+	}
+
+	// 병원(정보)등록 총 게시물 건수 구하기
+	@Override
+	public int hpInfoCount(HashMap<String, String> paraMap) {
+		int totalCount = dao.hpInfoCount(paraMap);
+		return totalCount;
+	}
+	// 병원등록 목록 (페이징처리)
+	@Override
+	public List<HpMemberVO> hpInfoListPaging(HashMap<String, String> paraMap) {
+		List<HpMemberVO> hpInfoList = dao.hpInfoListPaging(paraMap);
+		return hpInfoList;
 	}
 
 

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.synergy.socdoc.member.FaqBoardVO;
 import com.synergy.socdoc.member.HealthInfoVO;
+import com.synergy.socdoc.member.HpMemberVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.NoticeVO;
 import com.synergy.socdoc.member.QnaBoardVO;
@@ -55,7 +56,6 @@ public class AdminDAO implements InterAdminDAO {
 		int totalCount = sqlsession.selectOne("admin.getTotalCount", paraMap);
 		return totalCount;
 	}
-
 	// 회원관리 페이징 한 글목록 가져오기
 	@Override
 	public List<MemberVO> memberListSearchWithPaging(HashMap<String, String> paraMap) {
@@ -95,6 +95,32 @@ public class AdminDAO implements InterAdminDAO {
 	public List<FaqBoardVO> selectfaqList() {
 		List<FaqBoardVO> faqvoList = sqlsession.selectList("admin.selectfaqList");
 		return faqvoList;
+	}
+	
+	// 병원회원관리 총 회원 수 구하기
+	@Override
+	public int hpMemberCount(HashMap<String, String> paraMap) {
+		int totalCount = sqlsession.selectOne("admin.hpMemberCount", paraMap);
+		return totalCount;
+	}
+	// 병원회원 목록 (페이징처리)
+	@Override
+	public List<HpMemberVO> hpmemberListPaging(HashMap<String, String> paraMap) {
+		List<HpMemberVO> hospitalList = sqlsession.selectList("admin.hpmemberListPaging", paraMap);
+		return hospitalList;
+	}
+	
+	// 병원(정보)등록 총 게시물 건수 구하기
+	@Override
+	public int hpInfoCount(HashMap<String, String> paraMap) {
+		int totalCount = sqlsession.selectOne("admin.hpInfoCount", paraMap);
+		return totalCount;
+	}
+	// 병원등록 목록 (페이징처리)
+	@Override
+	public List<HpMemberVO> hpInfoListPaging(HashMap<String, String> paraMap) {
+		List<HpMemberVO> hpInfoList = sqlsession.selectList("admin.hpInfoListPaging", paraMap);
+		return hpInfoList;
 	}
 	
 	

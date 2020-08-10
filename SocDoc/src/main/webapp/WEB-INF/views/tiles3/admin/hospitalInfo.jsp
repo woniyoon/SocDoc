@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <style type="text/css">
 
@@ -93,15 +94,17 @@
 		<div id="hospitalInfoList">
 			<h2>병원등록</h2>
 			 
-            <button class="searchBtn">검색</button>
-            <input type="text" class="searchWord" placeholder="검색어를 입력하세요">
-            <select>
-                <option selected="selected">아이디</option>
-                <option>사업자번호</option>
-                <option>병원명</option>
-            </select>
+			<form name="searchFrm">  
+	            <button class="searchBtn" onclick="goSearch()">검색</button>
+	            <input type="text" class="searchWord" id="searchWord" name="searchWord" placeholder="검색어를 입력하세요">
+	            <select id="searchType" name="searchType">
+	                <option selected="selected" value="userid">아이디</option>
+	                <option value="regId">사업자번호</option>
+	                <option value="">병원명</option>
+	            </select>
+            </form>
             
-            <p>전체 등록 수 : 2981명</p>		
+            <p>전체 등록 수 : ${totalCount}명</p>		
 			
 			<table class="table table-hover" style="text-align: center;">
 				<tr>
@@ -113,24 +116,23 @@
 					<th>상태</th>
 				</tr>
 				
+				<c:forEach var="hpvo" items="${hpinfovoList}">
 				<tr>
                     <td><input type="checkbox"/></td>	
-					<td>hospital1</td>			
-					<td>123456-78910</td>			
-					<td>김관리</td>			
+					<td>${hpvo.userid}</td>			
+					<td>${hpvo.regId}</td>			
+					<td>${hpvo.name}</td>			
 					<td>강남병원</td>	
-					<td style="color:red; font-weight:bold;">대기</td>			
+					<c:choose>
+						<c:when test="${hpvo.infoStatus eq 1}">
+							<td style="color:red; font-weight:bold;">신청</td>
+						</c:when>			
+						<c:when test="${hpvo.infoStatus eq 3}">
+							<td style="color:green; font-weight:bold;">수정</td>
+						</c:when>			
+					</c:choose>
 				</tr>
-
-                <tr>
-                    <td><input type="checkbox"/></td>	
-					<td>hospital4</td>			
-					<td>123456-78910</td>			
-					<td>최관리</td>			
-					<td>강남병원</td>	
-					<td style="color:blue; font-weight:bold;">수정</td>			
-				</tr>
-               
+				</c:forEach>
 			</table>
 			
 			<button id="deleteBtn">반려</button>
@@ -138,4 +140,34 @@
             
 		</div>
 		
+		<div align="center">
+			${pageBar}
+		</div>
+		
 	</div>
+	
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+		$("#searchWord").keydown(function(event){
+			if(event.keyCode == 13) {
+				goSearch();
+			}
+		});
+		
+		if(${paraMap != null}) {
+			$("#searchType").val("${paraMap.searchType}");
+			$("#searchWord").val("${paraMap.searchWord}");
+		}
+		
+	});
+	
+	
+	function goSearch() {
+		var frm = document.searchFrm;
+			frm.method = "GET";
+			frm.action = "<%= request.getContextPath()%>/hospitalInfo.sd";
+			frm.submit();
+	}
+
+</script>	

@@ -16,11 +16,13 @@ public class HpMemberVO {
 	private int infoStatus;
 	private HpInfoVO hpinfo;
 	
+	private String hpName;
+	
 	
 	public HpMemberVO() {}
 
 	public HpMemberVO(String userid, String pwd, String email, String name, String phone, int hpSeq, String regId,
-			String registerDate, int status, int infoStatus) {
+			String registerDate, int status, int infoStatus, String hpName) {
 		super();
 		this.userid = userid;
 		this.pwd = pwd;
@@ -32,6 +34,7 @@ public class HpMemberVO {
 		this.registerDate = registerDate;
 		this.status = status;
 		this.infoStatus = infoStatus;
+		this.hpName = hpName;
 	}
 
 	public String getUserid() {
@@ -112,6 +115,14 @@ public class HpMemberVO {
 
 	public void setInfoStatus(int infoStatus) {
 		this.infoStatus = infoStatus;
+	}
+
+	public String getHpName() {
+		return hpName;
+	}
+
+	public void setHpName(String hpName) {
+		this.hpName = hpName;
 	}
 	
 	
