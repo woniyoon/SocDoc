@@ -39,24 +39,21 @@
 	</select>
 	
 	<!-- 회원 회원가입 -->
-	<insert id="register">
-		insert into member(userid, email, name, phone, height, weight, bloodtype, allergy, history, medicine, memberseq, registerdate, status, birthdate, pwd)
-		values(#{userid}, #{email}, #{name}, #{phone}, default, default, default, default, default, default, memberseq.nextval, sysdate, 1, default, #{pwd})
+	<insert id="register" parameterType="com.synergy.socdoc.member.MemberVO">
+		INSERT INTO member(userid, pwd, email, name, phone, memberSeq, birthDate, gender) 
+		VALUES (#{userid}, #{pwd},#{email},#{name},#{phone}, memberSeq.nextval, to_date(#{birthDate}, 'yyyy-mm-dd'), #{gender})
 	</insert>
 	
 	<!-- 로그인 처리 -->
-		<select id="getLoginMember" parameterType="HashMap" resultType="com.synergy.socdoc.member.MemberVO">
+<!-- 		<select id="getLoginMember" parameterType="HashMap" resultType="com.synergy.socdoc.member.MemberVO">
 		select idx, userid, name, email, gradelevel
 		     , trunc( months_between(sysdate, lastPwdChangeDate) ) AS pwdchangegap  
-			 , trunc( months_between(sysdate, lastLoginDate) ) AS lastlogindategap <!-- lastlogindategap  memberVo의 Lastlogindategap랑 이름 같게  쨋던 VO의 값이 쏙 들어감-->
+			 , trunc( months_between(sysdate, lastLoginDate) ) AS lastlogindategap lastlogindategap  memberVo의 Lastlogindategap랑 이름 같게  쨋던 VO의 값이 쏙 들어감
 		from member
 		where status = 1 and 
 				userid = #{userid} and 
 				pwd = #{pwd}
-	</select>
-	<update id="setLastLoginDate" parameterType="HashMap">
-		update mymvc_shopping_member set lastLoginDate = sysdate <!-- 마지막으로 로그인 한 날짜시간/현재 시각을 기록해 주겠다. -->
-		where userid = #{userid}
-	</update>
+	</select> -->
+
 	
 </mapper>
