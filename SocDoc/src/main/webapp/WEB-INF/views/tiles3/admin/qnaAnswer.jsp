@@ -165,37 +165,37 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>
+                           <th>
                            <table class="type05" style= " margin: 0 auto;">
-                           <tbody>
-                           <tr>
-                                <th scope="row" style="border: none;">제목 </th>
-                                <td style="border: none;">
-                                  		문의 남깁니다;;
-                              </td>
-                            </tr>
-                            <tr>
-                                <th scope="row" style="border: none;">작성자 </th>
-                                <td style="border: none;">
-                                    	김나나
-                              </td>
-                            </tr>
-                            <tr>
-                                <th scope="row" style="border: none;">작성일 </th>
-                                <td style="border: none;">
-                                  2020.07.01
-                              </td>
-                             </tr>
-                            </tbody>
-                        </table>
-                            </th>
+	                           <tbody>
+		                           <tr>
+		                             <th scope="row" style="border: none;">제목 </th>
+		                             <td style="border: none;">
+		                               	${qnavo.subject}
+		                           	 </td>
+		                           </tr>
+		                           <tr>
+		                             <th scope="row" style="border: none;">작성자 </th>
+		                             <td style="border: none;">
+		                                 ${qnavo.userid}
+		                           	 </td>
+		                           </tr>
+		                           <tr>
+		                             <th scope="row" style="border: none;">작성일 </th>
+		                             <td style="border: none;">
+		                               	${qnavo.regDate}
+		                           	 </td>
+		                          </tr>
+	                          </tbody>
+                          </table>
+                          </th>
                         </tr>
                     </thead>
 
                     <tbody>
                         <tr>
                             <td>
-				                               비밀번호 설정을 못하겠습니다.<br/><br/><br/><br/><br/>
+				                 ${qnavo.content}<br/><br/><br/><br/><br/>
                                <div id="comment">
                                   <strong>관리자 ｜ 2020.07.01</strong><br/>
                                   		비밀번호 설정은 마이페이지에서 가능합니다.<br/>

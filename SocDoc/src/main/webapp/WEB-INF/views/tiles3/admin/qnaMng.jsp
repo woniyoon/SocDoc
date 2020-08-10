@@ -100,7 +100,7 @@
 		<div id="qnaList">
 			<h2>문의관리</h2>
 				
-          	<p>전체 글 : 65개</p>
+          	<p>전체 글 : ${totalCount}개</p>
           	
 			<table class="table table-hover" style="text-align: center;">
                 <thead>
@@ -116,7 +116,7 @@
                 <c:forEach var="qnavo" items="${qnavoList}">
                     <tr>
                         <td><input type="checkbox" /></td>
-                        <td class="qnaTitle">${qnavo.subject}</td>
+                        <td class="qnaTitle" onclick="goView('${qnavo.qnaSeq}')">${qnavo.subject}</td>
                         <td>${qnavo.userid}</td>
                         <td>${qnavo.regDate}</td>
                         <c:choose>
@@ -136,17 +136,35 @@
             <button id="deleteBtn">삭제</button>
             
 		</div>
-
 	
+		<div align="center">
+			${pageBar}
+		</div>	
+		
+		<form name="goViewFrm">
+        	<input type="hidden" name="qnaSeq" />
+        </form>
+		
 	</div>
 	
 
 <script type="text/javascript">
 	
+	<%-- 
 	$(".qnaTitle").click(function(){ 
 		
 	    location.href='<%= ctxPath%>/qnaAnswer.sd';
 	    
 	});
+	 --%>
+	 
+	function goView(qnaSeq) {
+ 		var frm = document.goViewFrm;
+		frm.qnaSeq.value = qnaSeq; 
+		
+		frm.method = "GET";
+		frm.action = "<%=ctxPath%>/qnaAnswer.sd";
+		frm.submit();
+	}
 	
 </script>   	

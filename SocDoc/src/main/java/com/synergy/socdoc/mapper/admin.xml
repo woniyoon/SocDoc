@@ -166,5 +166,30 @@
 		where rno between #{startRno} and #{endRno}
 	</select>
 	
- 	 
+	<!-- 문의관리 목록 (페이징) -->
+	<select id="qnaListCount" parameterType="HashMap" resultType="int">
+		select count(*)
+		from qnaBoard
+	</select>
+	<select id="qnaListPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.QnaBoardVO">
+		select rno, qnaSeq, subject, userid, regDate, status
+		from
+	    ( 
+	        select rownum as rno, qnaSeq, subject, userid, regDate, status
+			from 
+			(
+				select qnaSeq, subject, userid, to_char(regDate,'yyyy-mm-dd') AS regDate, status
+				from qnaBoard
+				order by qnaSeq desc
+			) V
+		)T
+		where rno between #{startRno} and #{endRno}
+	</select>
+	
+	<select id="getQnaView" parameterType="String" resultType="com.synergy.socdoc.member.QnaBoardVO">
+		select subject, userid, regDate, content
+		from qnaBoard
+		where qnaSeq = #{qnaSeq}
+	</select>
+	
 </mapper>

@@ -16,7 +16,7 @@ public class HpMemberVO {
 	private int infoStatus;
 	private HpInfoVO hpinfo;
 	
-	private String hpName;
+	private String hpName; // 내가 임의로 추가한 객체
 	
 	
 	public HpMemberVO() {}

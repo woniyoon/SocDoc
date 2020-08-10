@@ -123,6 +123,24 @@ public class AdminDAO implements InterAdminDAO {
 		return hpInfoList;
 	}
 	
-	
+	// 문의관리 총 게시물 건수 구하기
+	@Override
+	public int qnaListCount(HashMap<String, String> paraMap) {
+		int totalCount = sqlsession.selectOne("admin.qnaListCount", paraMap);
+		return totalCount;
+	}
+	// 문의관리 글 목록 (페이징처리)
+	@Override
+	public List<QnaBoardVO> qnaListPaging(HashMap<String, String> paraMap) {
+		List<QnaBoardVO> qnavoList = sqlsession.selectList("admin.qnaListPaging", paraMap);
+		return qnavoList;
+	}
+
+	// QnA 글 조회
+	@Override
+	public QnaBoardVO getQnaView(String qnaSeq) {
+		QnaBoardVO qnavo = sqlsession.selectOne("admin.getQnaView", qnaSeq);
+		return qnavo;
+	}
 
 }

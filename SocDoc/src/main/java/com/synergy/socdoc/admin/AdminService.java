@@ -46,7 +46,6 @@ public class AdminService implements InterAdminService {
 	@Override
 	public NoticeVO getView(String seq) {
 		NoticeVO noticevo = dao.getView(seq);
-		
 		return noticevo;
 	}
 	
@@ -125,6 +124,26 @@ public class AdminService implements InterAdminService {
 	public List<HpMemberVO> hpInfoListPaging(HashMap<String, String> paraMap) {
 		List<HpMemberVO> hpInfoList = dao.hpInfoListPaging(paraMap);
 		return hpInfoList;
+	}
+
+	// 문의관리 총 게시물 건수 구하기
+	@Override
+	public int qnaListCount(HashMap<String, String> paraMap) {
+		int totalCount = dao.qnaListCount(paraMap);
+		return totalCount;
+	}
+	// 문의관리 글 목록 (페이징처리)
+	@Override
+	public List<QnaBoardVO> qnaListPaging(HashMap<String, String> paraMap) {
+		List<QnaBoardVO> qnavoList = dao.qnaListPaging(paraMap);
+		return qnavoList;
+	}
+
+	// QnA 글 조회
+	@Override
+	public QnaBoardVO getQnaView(String qnaSeq) {
+		QnaBoardVO qnavo = dao.getQnaView(qnaSeq);
+		return qnavo;
 	}
 
 

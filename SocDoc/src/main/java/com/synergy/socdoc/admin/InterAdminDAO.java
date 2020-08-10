@@ -37,5 +37,10 @@ public interface InterAdminDAO {
 	int hpInfoCount(HashMap<String, String> paraMap); // 병원(정보)등록 총 게시물 건수 구하기
 	List<HpMemberVO> hpInfoListPaging(HashMap<String, String> paraMap); // 병원등록 목록 (페이징처리)
 
+	int qnaListCount(HashMap<String, String> paraMap); // 문의관리 총 게시물 건수 구하기 
+	List<QnaBoardVO> qnaListPaging(HashMap<String, String> paraMap); // 문의관리 글 목록 (페이징처리)
+
+	QnaBoardVO getQnaView(String qnaSeq); // QnA 글 조회
+
 
 }

@@ -129,7 +129,7 @@
 	 --%>
 	 
 	function goView(noticeSeq) {
-		console.log(noticeSeq);
+	//	console.log(noticeSeq);
  		var frm = document.goViewFrm;
 		frm.noticeSeq.value = noticeSeq; 
 		
