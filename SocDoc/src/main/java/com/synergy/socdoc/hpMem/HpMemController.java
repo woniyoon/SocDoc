@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.synergy.service.InterService;
+import com.synergy.socdoc.common.MyUtil;
 import com.synergy.socdoc.member.HpInfoVO;
 
 @Component
@@ -147,11 +148,8 @@ public class HpMemController {
 			currentShowPageNo = 1;
 		}
 		
-		int startRNO = 0; // 시작 행번호
-		int endRNO = 0; // 끝 행번호
-
-		startRNO = ((currentShowPageNo - 1) * sizePerPage) + 1;
-		endRNO = startRNO + sizePerPage - 1;
+		int startRNO = ((currentShowPageNo - 1) * sizePerPage) + 1;
+		int endRNO = startRNO + sizePerPage - 1;
 		
 		paraMap.put("startRNO", String.valueOf(startRNO));
 		paraMap.put("endRNO", String.valueOf(endRNO));
@@ -160,40 +158,7 @@ public class HpMemController {
 		// 방문자 목록 가져오기
 		List<HashMap<String, String>> visitorsList = service.getVisitors(paraMap);
 		
-		
-		// 페이지에서 보여지는 첫번째 페이지 번호
-		int pageNo = 1;
-		// 블럭당 보여지는 페이지 번호의 갯수
-		int blockSize = 10;
-		// 1부터 증가해 1개 블럭을 이루는 페이지 번호의 갯수(10개)까지만 증가하는 용도
-		int loop = 1;
-				
-		pageNo = ((currentShowPageNo-1)/blockSize) * blockSize + 1;
-
-		
-		String pageBar = "";
-
-		
-		if(pageNo != 1) {
-		  pageBar += "&nbsp;<a href='memberManagement.sb?currentShowPageNo="+(pageNo-1)+"'>[이전]</a>&nbsp;";		  		  
-		}
-		
-		while(!(loop > blockSize || pageNo > totalPage)) {
-			  
-			if(pageNo == currentShowPageNo) {
-				pageBar += "&nbsp;<a class='active'>" + pageNo + "</a>&nbsp;";			  
-			} else {			  
-				pageBar += "&nbsp;<a href='memberManagement.sb?currentShowPageNo="+pageNo+"'>"+pageNo+"</a>&nbsp;";
-			}
-
-			pageNo++;
-			loop++;
-		}
-		
-		if(!(pageNo > totalPage)) {
-		  pageBar += "&nbsp;<a href='memberManagement.sb?currentShowPageNo="+pageNo+"'>[다음]</a>&nbsp;";		  
-		}		
-		
+		String pageBar = MyUtil.createPageBar(currentShowPageNo, totalPage);
 		
 		request.setAttribute("numOfVisitors", numOfVisitors);
 		request.setAttribute("pageBar", pageBar);
