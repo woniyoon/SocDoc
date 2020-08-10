@@ -92,10 +92,10 @@
 					</tr>
 				</c:if>
 			</tbody>
-			<tfoot>
+			<%-- <tfoot>
 				<tr>
 					<td colspan="4" align="right"><span style="cursor: pointer" onclick="location.href='<%=ctxPath %>/hpPanel/hpReviews.sd'">더보기</span></td>
 				</tr>
-			</tfoot>
+			</tfoot> --%>
 		</table>
 	</section>
