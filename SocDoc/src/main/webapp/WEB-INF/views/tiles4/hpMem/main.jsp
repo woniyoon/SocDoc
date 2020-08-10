@@ -77,11 +77,12 @@
 			</thead>
 			<tbody>
 				<c:if test="${not empty reviewList }">
-					<c:forEach var="review" items="${reviewList }">
+					<c:forEach var="review" items="${reviewList }" varStatus="status">
 						<tr>
-							<td colspan="4">
-								${review.userid} &nbsp; ${review.rating} &nbsp; ${review.content} &nbsp; ${review.regDate }
-							</td>
+							<td>${review.userid}</td>
+							<td>${review.rating}</td>
+							<td>${review.content}</td>
+							<td>${review.regDate }</td>
 						</tr>
 					</c:forEach>
 				</c:if>
