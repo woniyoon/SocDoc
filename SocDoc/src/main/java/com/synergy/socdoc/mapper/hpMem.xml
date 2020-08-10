@@ -81,6 +81,33 @@
 		order by rno)
 		where <![CDATA[ ROWNUM <= 3 ]]>
 	</select>
+
+	<!-- 방문자 목록 가져오기 -->
+	<resultMap type="HashMap" id="visitorsList">
+		<result property="rno" column="rno" javaType="String"></result>
+		<result property="userid" column="userid" javaType="String"></result>
+		<result property="name" column="name" javaType="String"></result>
+		<result property="birthDate" column="birthDate" javaType="String"></result>
+		<result property="phone" column="phone" javaType="String"></result>
+		<result property="age" column="age" javaType="String"></result>
+		<result property="visitDate" column="visitDate" javaType="String"></result>
+		
+	</resultMap>
+	
+	<select id="getVisitors" parameterType="String" resultMap="visitorsList">
+		select RNO, userid, name, birthDate, visitDate, age, phone from
+		(select rownum AS RNO, V.userid, V.name, V.birthDate, V.visitDate, V.age, V.phone
+		  from 
+		    (
+		        select distinct M.userid, M.name, to_char(M.birthDate, 'yyyy-mm-dd') as birthDate, to_char(R.visitDate, 'yyyy-mm-dd') as visitDate
+		        , (extract(year from sysdate)) - extract(year from birthDate) + 1 as age, M.phone
+		        from reservation R join member M
+		        on R.status = 1 and R.hpSeq = #{hpSeq} and R.userid = M.userid
+		        order by visitDate desc
+		    ) V
+		 ) T
+		where T.RNO between 1 and 10
+	</select>
 	
 	
 </mapper>

@@ -51,4 +51,10 @@ public class HpMemService implements InterHpMemService {
 		return reviewList;
 	}
 
+	@Override
+	public List<HashMap<String, String>> getVisitors(String hpSeq) {
+		List<HashMap<String, String>> visitorsList = dao.getVisitors(hpSeq);
+		return visitorsList;
+	}
+
 }

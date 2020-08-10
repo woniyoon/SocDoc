@@ -25,6 +25,9 @@ public interface InterHpMemService {
 	// 최근 리뷰 3개만 가져오기
 	public List<HashMap<String, String>> getRecentReviews(String hpSeq);
 
+	// 병원 방문자 목록 가져오기
+	public List<HashMap<String, String>> getVisitors(String hpSeq);
+
 
 	
 }
