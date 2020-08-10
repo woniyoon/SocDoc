@@ -18,7 +18,7 @@
 		margin-left: 0;
 	}
 	
-	.searchContainer {
+	.listHeader {
 		margin: 10px;
 		display: flex;
 	    flex-direction: row;
@@ -35,17 +35,43 @@
 	    border-radius: 5px;
 	    padding: 10px;
 	}
+
+	.searchContainer {
+		display: flex;
+		flex-direction: row;		
+	}
 	
 	.excelBtnContainer {
 		margin: 10px;
 	}
 </style>
 
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#searchWord").keydown(function(e){
+		    if (e.keyCode == 13) {
+		    	search();
+		    }
+		});
+		
+	});
+	
+	function search() {
+		var searchWord = $("#searchWord").prop("value");	
+		
+		location.href = "<%=ctxPath%>/hpPanel/visitorsMng.sd?currentShowPageNoStr=1&searchWord=" + searchWord;
+	}
+
+</script>
+
 <div class="visitorsListContainer">
 	<h3 align="left">방문회원관리</h3>
-	<div class="searchContainer" align="right">
+	<div class="listHeader" align="right">
 		<span>총 <span id="numOfVisitors">${numOfVisitors}</span> 건</span>
-		<input class="visitorSearch" type="text" placeholder="회원 검색"/>
+		<div class="searchContainer">
+			<input class="visitorSearch" id="searchWord" type="text" placeholder="회원 검색" />
+			<button class="blueBtn" id="searchBtn" onclick="search()">검색</button>
+		</div>
 	</div>
 	<table class="customTable" style="width: 100%;">
 			<tr>
