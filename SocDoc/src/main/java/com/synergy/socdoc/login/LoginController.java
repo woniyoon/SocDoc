@@ -26,12 +26,13 @@ public class LoginController {
 	
 	// === 로그인 폼 페이지 요청 === //
 	@RequestMapping("/login.sd")
-	public String login(HttpServletRequest request) {
+	public ModelAndView login(ModelAndView mav) {
 		
-		String ctxPath = request.getContextPath();
-		System.out.println(ctxPath+"/loginform.sd로 접속하셨습니다.");
+		/*String ctxPath = request.getContextPath();
+		System.out.println(ctxPath+"/loginform.sd로 접속하셨습니다.");*/
+		mav.setViewName("login/loginform.tiles1");
 		
-		return "login/loginform.tiles1";
+		return mav;
 	}
 
 	// === 로그인 처리 === //
@@ -43,7 +44,7 @@ public class LoginController {
 		
 		HashMap<String, String> paraMap = new HashMap<>();
 		paraMap.put("userid", userid);
-		paraMap.put("pwd", Sha256.encrypt(pwd)); // 암호화 하겠다.
+		paraMap.put("pwd", Sha256.encrypt(pwd)); // 암호화
 		
 		MemberVO loginuser = service.getLoginMember(paraMap);
 		
@@ -56,12 +57,11 @@ public class LoginController {
 			mav.addObject("msg", msg);
 			mav.addObject("loc", loc);
 			
-			mav.setViewName("msg"); // 타일즈가 없어서 2순위?
-			//	/WEB-INF/views/msg.jsp 파일을 생성한다.
+			mav.setViewName("msg"); 
 			
 		} else {
 			
-			if(loginuser.isIdleStatus() == true) { // == true 빼도 됨. 
+			if(loginuser.isIdleStatus() == true) { 
 				// 로그인을 한지 1년이 지나서 휴면상태에 빠진 경우
 				String msg = "로그인을 한지 1년이 지나서 휴면상태에 빠졌습니다.";
 				String loc = "javascript:history.back()";
@@ -70,17 +70,15 @@ public class LoginController {
 				mav.addObject("loc", loc);
 				
 				mav.setViewName("msg");
-				//	/WEB-INF/views/msg.jsp 파일을 생성한다.
 			
 			} else {
 				
-				if(loginuser.isRequirePwdChange() == true ) { // == true 빼도 됨.  // 복호화 되어진 loginuser
+				if(loginuser.isRequirePwdChange() == true ) { 
 					// 암호를 최근 3개월 동안 변경하지 않은 경우 
 					session.setAttribute("loginuser", loginuser);
 					
 					String msg = "암호를 최근 3개월 동안 변경하지 않으셨습니다. 암호변경을 위해 나의정보 페이지로 이동합니다.";
-					String loc = request.getContextPath()+"/myinfo.action";
-								//		/board/myinfo.action
+					String loc = request.getContextPath()+"/myinfo.sd";
 					mav.addObject("msg", msg);
 					mav.addObject("loc", loc);
 					
@@ -101,7 +99,6 @@ public class LoginController {
 			    	}
 					
 					mav.setViewName("login/loginEnd.tiles1");
-					//	/WEB-INF/views/tiles1/login/loginEnd.jsp 파일을 생성한다.
 				}
 			}
 		}
@@ -121,10 +118,16 @@ public class LoginController {
 	}
 
 	// 회원 회원가입 //
-	@RequestMapping(value="/register.sd", method= {RequestMethod.POST})
+	@RequestMapping(value="/registerEnd.sd", method= {RequestMethod.POST})
 	public String register(MemberVO vo, HttpServletRequest request) {
-		String ctxPath = request.getContextPath();
+		
 		System.out.println("회우너가입 성공??");
+		System.out.println(" 이름 :" + vo.getName());
+		System.out.println(" 번호 " + vo.getPhone());
+		System.out.println(" 아이디 " + vo.getUserid());
+		System.out.println(" 비번 : " + vo.getPwd());
+		System.out.println(" 이메일 : " + vo.getEmail());
+	
 		service.register(vo);
 	
 		return null;

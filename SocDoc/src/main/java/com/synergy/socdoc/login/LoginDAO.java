@@ -55,16 +55,17 @@ public class LoginDAO implements InterLoginDAO {
 	// 로그인 처리 //
 	@Override
 	public MemberVO getLoginMember(HashMap<String, String> paraMap) {
-		// TODO Auto-generated method stub
-		return null;
+
+		MemberVO loginuser = sqlsession.selectOne("newMem.getLoginMember", paraMap);
+		
+		return loginuser;
 	}
 
+	// 마지막으로 로그인 한 날짜시간 변경(기록)하기
 	@Override
 	public void setLastLoginDate(HashMap<String, String> paraMap) {
-		// TODO Auto-generated method stub
-		
+		sqlsession.update("newMem.setLastLoginDate", paraMap);
 	}
-
 	
 
 }

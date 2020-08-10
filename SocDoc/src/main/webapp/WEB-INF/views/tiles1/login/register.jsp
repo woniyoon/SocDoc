@@ -95,7 +95,7 @@
 		color: red;
 	}
     
-    .requiredInfo {
+    .requiredInfo, .hpRequiredInfo{
 		width: 100%;
 		height: 35px;
 		padding-left: 10px;
@@ -528,9 +528,9 @@
 		
 		
 		// ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 휴대폰 
-		$("span#hpError").hide();
+		$("span#phoneError").hide();
 		
-		$("#hp").keyup(function(event){
+		$("#phone").keyup(function(event){
 					
 			// 숫자만 입력
 			var keycode = event.keyCode;
@@ -539,24 +539,24 @@
 	            var keyValue = $(this).val().substring(0,word-1);
 	            $(this).val(keyValue);
 	        }
-	        if($("input#hp").val().trim() == "") {	// 데이터가 없다면
-				$("span#hpError").show();
-				$("input#hp").addClass("wrong");
+	        if($("input#phone").val().trim() == "") {	// 데이터가 없다면
+				$("span#phoneError").show();
+				$("input#phone").addClass("wrong");
 			} else {	// 데이터가 있다면
 				// 정규표현식
 				var regExp = $(this).val( $(this).val().replace(/[^0-9]/g,"").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})/,"$1-$2-$3").replace("--","-") );
 				var bool = regExp.val(); // 생성된 정규표현식 객체속에 데이터를 넣어서 검사하기
 				
 				if(!bool || bool.length < 13) { // 데이터가 조건에 맞지 않는다면
-					$("span#hpError").html("휴대폰 형식에 맞게 입력해주세요.").show();
-					$("input#hp").addClass("wrong"); 
+					$("span#phoneError").html("휴대폰 형식에 맞게 입력해주세요.").show();
+					$("input#phone").addClass("wrong"); 
 					condition5 = false;
 					return;
 				} else { // 데이터가 조건에 맞다면
-					$("input#hp").removeClass("wrong");
+					$("input#phone").removeClass("wrong");
 					condition5 = true;
 				}
-				$("span#hpError").hide();
+				$("span#phoneError").hide();
 				$(":input").prop("disabled",false).removeClass("wrong"); 
 				return;
 			}
@@ -658,14 +658,14 @@
 			$("#email").focus();
 			return;
 		}
-		if(!certification || certification == false) {
+/* 		if(!certification || certification == false) {
 			alert("이메일 인증을 완료하세요.");
 			$("#email").focus();
 			return;
-		}
-		if($("#hp").val().trim()=="" || condition5 == false) {
+		} */
+		if($("#phone").val().trim()=="" || condition5 == false) {
 			alert("전화번호를 확인하세요.");
-			$("#hp").focus();
+			$("#phone").focus();
 			return;
 		}
 		if( !$("input:checkbox[id=agree]").prop("checked") ) {
@@ -674,20 +674,28 @@
 			return;
 		} 
 		var bRequiredInfo = false;
+		var data="";
 		$(".requiredInfo").each(function(){
 			var data = $(this).val().trim();
 			if(data == "") {
 				bRequiredInfo = true;
+				console.log("data가 비어있음");
+				console.log($(this));
 				$(this).focus();
 				return false;
 			}
 		}); 
+		
+		console.log(bRequiredInfo);
 		if(!bRequiredInfo) {
+			console.log("ddddd");
 		var frm = document.registerFrm;
 			frm.method = "POST";
-			frm.action = "register.sd";
+			frm.action = "<%=ctxPath%>/registerEnd.sd";
 			frm.submit();
-		} 
+		} else {
+			console.log("ㅡㅡ?!");
+		}
 	}
 	
 </script>	
@@ -1070,19 +1078,19 @@
 			$("#hpAgree").focus();
 			return;
 		} 
-		var bRequiredInfo = false;
-		$(".requiredInfo").each(function(){
+		var bHpRequiredInfo = false;
+		$(".hpRequiredInfo").each(function(){
 			var data = $(this).val().trim();
 			if(data == "") {
-				bRequiredInfo = true;
+				bHpRequiredInfo = true;
 				$(this).focus();
 				return false;
 			}
 		}); 
-		if(!bRequiredInfo) {
+		if(!bHpRequiredInfo) {
 		var frm = document.registerFrm;
 			frm.method = "POST";
-			frm.action = "register.sd";
+			frm.action = "registerEnd.sd";
 			frm.submit();
 		} 
 	}
@@ -1158,9 +1166,9 @@
 							<span class="success" id="emailCkSuccess">사용 가능한 이메일 입니다.</span>
 				        </div>   
    	       
-				        <label for="hp">전화번호</label>
-				        <input type="tel" id="hp" name="hp" maxlength="13" class="requiredInfo" placeholder="'-'없이 입력하세요" />
-				        <span class="error" id="hpError">휴대폰 형식이 아닙니다.</span>
+				        <label for="phone">전화번호</label>
+				        <input type="tel" id="phone" name="phone" maxlength="13" class="requiredInfo" placeholder="'-'없이 입력하세요" />
+				        <span class="error" id="phoneError">휴대폰 형식이 아닙니다.</span>
 				
 				        <label for="agree">약관 동의 &nbsp;&nbsp;<input type="checkbox" id="agree" /> </label>
 				        <div style="text-align: center; vertical-align: middle;">
@@ -1178,31 +1186,31 @@
 				<div class="hospitalMember"> 
 					<div class="formGroup" >
 						<label for="businessNumber">사업자등록번호</label>
-			         	<input type="text" name="businessNumber" id="businessNumber" class="requiredInfo" maxlength="12" autofocus placeholder="'-'없이 10자로입력하세요" />
+			         	<input type="text" name="businessNumber" id="businessNumber" class="hpRequiredInfo" maxlength="12" autofocus placeholder="'-'없이 10자로입력하세요" />
 			         	<span class="error" id="businessNumberError">사업자등록번호를 입력 하세요.</span>
 			      
 				        <label for="hpUserid" style="display: block;">아이디</label>
-				        <input type="text" name="hpUserid" id="hpUserid" class="requiredInfo" placeholder="5자 이상으로 입력하세요"/>
+				        <input type="text" name="hpUserid" id="hpUserid" class="hpRequiredInfo" placeholder="5자 이상으로 입력하세요"/>
 				        <span class="error" id="hpUseridError">아이디를 입력 하세요.</span>
 				        <span class="success" id="hpUseridSuccess">사용 가능한 아이디 입니다.</span> 
 				
 				        <label for="hpPwd">비밀번호</label>
-				        <input type="password" name="hpPwd" id="hpPwd" class="requiredInfo" placeholder="대소문자, 특수문자 조합하여 8자 이상으로 입력하세요" />
+				        <input type="password" name="hpPwd" id="hpPwd" class="hpRequiredInfo" placeholder="대소문자, 특수문자 조합하여 8자 이상으로 입력하세요" />
 				        <span class="error" id="hpPwdError">비밀번호를 입력 하세요.</span>
 				        <span class="success" id="hpPwdSuccess">사용 가능한 비밀번호 입니다.</span> 
 				
 				        <label for="hpName">담당자 이름</label>
-				        <input type="text" name="hpName" id="hpName" class="requiredInfo" /> 
+				        <input type="text" name="hpName" id="hpName" class="hpRequiredInfo" /> 
 				        <span class="error" id="hpNameError">담당자 이름을 입력 하세요.</span>
 			
 				        <label for="hpEmail" style="display: block;">이메일</label>
-				        <input type="email" name="hpEmail" id="hpEmail" class="requiredInfo" placeholder="E-mail을 입력하세요" style="width: 75%;" /> 
+				        <input type="email" name="hpEmail" id="hpEmail" class="hpRequiredInfo" placeholder="E-mail을 입력하세요" style="width: 75%;" /> 
 						<input type="button" id="hpBtnFind" class="hpBtnFind" value="인증하기" style="width: 95px; height: 35px;"/>
 						<input type="button" id="hpBtnFindNext" class="hpBtnFind" onclick="hpSendVerificationCode()" value="재인증" style="width: 95px; height: 35px;"/>
 				        <span class="error" id="hpEmailError">이메일 형식에 맞지 않습니다.</span>
 				        <span class="success" id="hpEmailSuccess">사용 가능한 이메일 입니다.</span>
 						<div id="hpDivBtnFind">
-							<input type="text" name="hpEmail2" id="hpEmail2" class="requiredInfo" maxlength="7" placeholder="E-mail로 발송된 인증번호를 입력하세요" style="width: 75%;" />
+							<input type="text" name="hpEmail2" id="hpEmail2" class="hpRequiredInfo" maxlength="7" placeholder="E-mail로 발송된 인증번호를 입력하세요" style="width: 75%;" />
 							<input type="button" id="hpBtnFind2" value="인증확인하기" disabled="disabled" style="width: 95px; height: 35px;"/>
 							<input type="button" id="hpBtnFind3" value="인증확인" disabled="disabled" style="width: 95px; height: 35px;"/>
 							<span class="error" id="hpEmailCkError" >이메일 형식에 맞지 않습니다.</span> 
