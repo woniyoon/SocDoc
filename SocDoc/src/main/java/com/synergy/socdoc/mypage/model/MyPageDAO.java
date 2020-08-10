@@ -72,6 +72,7 @@ public class MyPageDAO implements InterMyPageDAO {
 		return membervo;
 	}
 	
+	
 	// 내 건강 새로 저장하기(update)
 	@Override
 	public int addHealth(MemberVO membervo) {
@@ -110,6 +111,9 @@ public class MyPageDAO implements InterMyPageDAO {
 		String userid = sqlsession.selectOne("mypage.getUserid");
 		return userid;
 	}
+
+
+	
 
 
 	

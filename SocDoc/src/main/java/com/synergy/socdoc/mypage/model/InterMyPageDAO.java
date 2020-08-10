@@ -34,6 +34,8 @@ public interface InterMyPageDAO {
 
 	String getUserid(); // 즐겨찾기에서 userid 들고오기
 
+	
+
 
 
 }

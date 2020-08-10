@@ -35,6 +35,8 @@ public interface InterMyPageService {
 	List<HashMap<String, String>> bookMarkListSearchWithPaging(HashMap<String, String> paraMap); // 페이징 처리한 즐겨찾기목록 가져오기
 
 	String userid(); // 즐겨찾기에서 userid 들고오기
+
+	
 	
 	
 

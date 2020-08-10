@@ -261,7 +261,7 @@
 			<h3>최근 진료이력조회</h3>
 			<!-- 더보기 -->
 			<div id="more" style="text-align: right; margin-right: 15px;">
-					<a href="<%= request.getContextPath()%>/reservation.sd" style="font-size: 9pt;">더보기></a>
+					<a href="<%= request.getContextPath()%>/viewHistory.sd" style="font-size: 9pt;">더보기></a>
 			</div>
 			<!-- 더보기 -->
 			<div style="height:80%; text-align: center; margin-top: 25px;">

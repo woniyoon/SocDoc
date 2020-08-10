@@ -76,6 +76,8 @@
 		from member
 		where userid = #{userid}
    	</select>
+   	
+ 
 	  
 	  <!--  === 내 건강 새로추가 === -->
 	   <update id="addHealth" parameterType="com.synergy.socdoc.member.MemberVO">

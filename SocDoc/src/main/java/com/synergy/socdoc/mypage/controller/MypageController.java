@@ -383,7 +383,7 @@ public class MypageController {
 		
 		mav.addObject("userid",userid);
 		
-		MemberVO membervo = service.viewMyHealth(userid); 
+		MemberVO membervo = service.viewMyHealth(userid);
 		
 		mav.addObject("membervo", membervo);
 		mav.setViewName("mypage/myHealth.tiles2");
