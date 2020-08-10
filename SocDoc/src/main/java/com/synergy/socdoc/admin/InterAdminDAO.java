@@ -6,6 +6,7 @@ import java.util.List;
 import com.synergy.socdoc.member.FaqBoardVO;
 import com.synergy.socdoc.member.HealthInfoVO;
 import com.synergy.socdoc.member.HpMemberVO;
+import com.synergy.socdoc.member.HpReviewVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.NoticeVO;
 import com.synergy.socdoc.member.QnaBoardVO;
@@ -41,6 +42,9 @@ public interface InterAdminDAO {
 	List<QnaBoardVO> qnaListPaging(HashMap<String, String> paraMap); // 문의관리 글 목록 (페이징처리)
 
 	QnaBoardVO getQnaView(String qnaSeq); // QnA 글 조회
+
+	int reviewTotalCount(HashMap<String, String> paraMap); // 후기관리 총 게시물 건수 구하기
+	List<HpReviewVO> reviewListPaging(HashMap<String, String> paraMap); // 후기관리 글 목록 (페이징처리)
 
 
 }

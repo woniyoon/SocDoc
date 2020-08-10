@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <style type="text/css">
 
@@ -91,13 +92,16 @@
 		<div id="reviewList">
 			<h2>후기관리</h2>
 				
-           <button class="searchBtn">검색</button>
-            <input type="text" class="searchWord" placeholder="검색어를 입력하세요">
-            <select>
-                <option selected="selected">기관명</option>
-                <option>작성자</option>
-            </select>
-            <p>전체 회원 수 : 2981명</p>
+		   <form name="searchFrm">		
+	           <button class="searchBtn" onclick="goSearch()">검색</button>
+	            <input type="text" class="searchWord" id="searchWord" name="searchWord" placeholder="검색어를 입력하세요">
+	            <select name="searchType" id="searchType">
+	                <option selected="selected" value="">기관명</option>
+	                <option value="userid">작성자</option>
+	            </select>
+            </form>
+            
+            <p>전체 회원 수 : ${totalCount}명</p>
 			
 			<table class="table table-hover" style="text-align: center;">
                 <thead>
@@ -109,17 +113,15 @@
                         <th>작성일</th>
                      </tr>
                 </thead>
-
-                <tbody>
+				<c:forEach var="reviewvo" items="${reviewvoList}">
                     <tr>
                         <td><input type="checkbox" /></td>
-                        <td>어쩌고병원</td>
-                        <td>최고의 병원 추천합니다.</td>
-                        <td>김나나</td>
-                        <td>2020.08.04</td>
+                        <td></td>
+                        <td>${reviewvo.content}</td>
+                        <td>${reviewvo.userid}</td>
+                        <td>${reviewvo.regDate}</td>
                     </tr>
-
-                </tbody>
+				</c:forEach>
 
             </table>
             
@@ -127,5 +129,38 @@
             <button id="deleteBtn">삭제</button>
             
 		</div>
+		
+            <div align="center">
+				${pageBar}
+			</div>
 	
 	</div>
+	
+	
+	
+<script type="text/javascript">
+	
+	$(document).ready(function(){
+		
+		$("#searchWord").keydown(function(event){
+			if(event.keyCode == 13) {
+				goSearch();
+			}
+		});
+		
+		if(${paraMap != null}) {
+			$("#searchType").val("${paraMap.searchType}");
+			$("#searchWord").val("${paraMap.searchWord}");
+		}
+		
+	});
+	
+	
+	function goSearch() {
+		var frm = document.searchFrm;
+			frm.method = "GET";
+			frm.action = "<%= request.getContextPath()%>/reviewMng.sd";
+			frm.submit();
+	}
+
+</script>		

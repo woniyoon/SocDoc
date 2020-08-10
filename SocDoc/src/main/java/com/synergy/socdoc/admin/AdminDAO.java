@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.synergy.socdoc.member.FaqBoardVO;
 import com.synergy.socdoc.member.HealthInfoVO;
 import com.synergy.socdoc.member.HpMemberVO;
+import com.synergy.socdoc.member.HpReviewVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.NoticeVO;
 import com.synergy.socdoc.member.QnaBoardVO;
@@ -77,6 +78,7 @@ public class AdminDAO implements InterAdminDAO {
 		return noticeList;
 	}
 
+	
 	// 건강정보 총 게시물 건수 구하기
 	@Override
 	public int healthInfoCount(HashMap<String, String> paraMap) {
@@ -90,12 +92,14 @@ public class AdminDAO implements InterAdminDAO {
 		return healthInfoList;
 	}
 	
+	
 	// faq 목록 불러오기
 	@Override
 	public List<FaqBoardVO> selectfaqList() {
 		List<FaqBoardVO> faqvoList = sqlsession.selectList("admin.selectfaqList");
 		return faqvoList;
 	}
+	
 	
 	// 병원회원관리 총 회원 수 구하기
 	@Override
@@ -110,6 +114,7 @@ public class AdminDAO implements InterAdminDAO {
 		return hospitalList;
 	}
 	
+	
 	// 병원(정보)등록 총 게시물 건수 구하기
 	@Override
 	public int hpInfoCount(HashMap<String, String> paraMap) {
@@ -122,6 +127,7 @@ public class AdminDAO implements InterAdminDAO {
 		List<HpMemberVO> hpInfoList = sqlsession.selectList("admin.hpInfoListPaging", paraMap);
 		return hpInfoList;
 	}
+	
 	
 	// 문의관리 총 게시물 건수 구하기
 	@Override
@@ -136,11 +142,25 @@ public class AdminDAO implements InterAdminDAO {
 		return qnavoList;
 	}
 
+	
 	// QnA 글 조회
 	@Override
 	public QnaBoardVO getQnaView(String qnaSeq) {
 		QnaBoardVO qnavo = sqlsession.selectOne("admin.getQnaView", qnaSeq);
 		return qnavo;
+	}
+	
+	// 후기관리 총 게시물 건수 구하기
+	@Override
+	public int reviewTotalCount(HashMap<String, String> paraMap) {
+		int totalCount = sqlsession.selectOne("admin.reviewTotalCount", paraMap);
+		return totalCount;
+	}
+	// 후기관리 글 목록 (페이징처리)
+	@Override
+	public List<HpReviewVO> reviewListPaging(HashMap<String, String> paraMap) {
+		List<HpReviewVO> reviewvoList = sqlsession.selectList("admin.reviewListPaging", paraMap);
+		return reviewvoList;
 	}
 
 }
