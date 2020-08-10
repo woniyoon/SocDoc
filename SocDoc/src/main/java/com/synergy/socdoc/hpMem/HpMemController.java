@@ -171,6 +171,7 @@ public class HpMemController {
 		request.setAttribute("numOfVisitors", numOfVisitors);
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("visitorsList", visitorsList);
+		request.setAttribute("searchWord", searchWord);
 		return "hpMem/visitorsMng.tiles4";
 	}
 	

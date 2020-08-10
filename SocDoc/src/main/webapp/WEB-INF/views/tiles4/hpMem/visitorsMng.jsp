@@ -69,7 +69,7 @@
 	<div class="listHeader" align="right">
 		<span>총 <span id="numOfVisitors">${numOfVisitors}</span> 건</span>
 		<div class="searchContainer">
-			<input class="visitorSearch" id="searchWord" type="text" placeholder="회원 검색" />
+			<input class="visitorSearch" id="searchWord" type="text" placeholder="회원 검색" value="${searchWord}" />
 			<button class="blueBtn" id="searchBtn" onclick="search()">검색</button>
 		</div>
 	</div>
