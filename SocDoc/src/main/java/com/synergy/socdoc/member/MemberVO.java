@@ -17,12 +17,13 @@ public class MemberVO {
 	private String registerDate;
 	private int status;
 	private String birthDate;
-	
+	private String gender;
+
 	public MemberVO() {}
 	
 	public MemberVO(String userid, String pwd, String email, String name, String phone, int height, int weight,
 			String bloodType, String allergy, String history, String medicine, int memberSeq, String registerDate,
-			int status, String birthDate) {
+			int status, String birthDate, String gender) {
 		super();
 		this.userid = userid;
 		this.pwd = pwd;
@@ -39,6 +40,7 @@ public class MemberVO {
 		this.registerDate = registerDate;
 		this.status = status;
 		this.birthDate = birthDate;
+		this.gender = gender;
 	}
 
 	public String getUserid() {
@@ -159,6 +161,14 @@ public class MemberVO {
 
 	public void setBirthDate(String birthDate) {
 		this.birthDate = birthDate;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 	
 }
