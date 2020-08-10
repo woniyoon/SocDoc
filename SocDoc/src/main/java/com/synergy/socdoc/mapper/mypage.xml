@@ -101,5 +101,63 @@
 			    medicine = null
 		   where userid = #{userid}
 	   </update>
+	   
+	   
+	   <!-- == 총 즐겨찾기 건수(totalCount)를 구하기 == -->
+	   <select id="getTotalBookMarkCount" parameterType="HashMap" resultType="int">
+	   	select count(*)
+	   	from bookmark
+	   </select>
+	   
+	   
+	   <!-- == #154. 첨부파일이 있는 답변형 게시판의 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것)  
+  		    먼저 #144 을 주석처리 한 후에 아래와 같이 한다.== -->
+  		<!--    
+	   <select id="boardListSearchWithPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.QnaBoardVO">
+		  	select qnaSeq, userid, subject, content, regDate, status, groupno, fk_seq, depthno 
+			from 
+			(
+			    select rownum AS rno
+			         , qnaSeq, userid, subject, content, regDate, status, groupno, fk_seq, depthno 
+			    from
+			    (
+			        select qnaSeq, userid, subject, content,
+			        	   to_char(regDate, 'yyyy-mm-dd hh24:mi:ss') as regDate, status, groupno, fk_seq, depthno 
+			        from qnaBoard
+			        <if test='searchWord != ""'>
+				     where subject like '%'|| #{searchWord} ||'%'
+				    </if>
+			        start with fk_seq = 0
+		        	connect by prior qnaSeq = fk_seq
+		        	order siblings by groupno desc, qnaSeq desc
+			    ) V
+			) T
+			where rno between #{startRno} and #{endRno}
+	  </select> 
+	  -->  
+	  
+	   <!--  북마크 userid 들고오기 -->
+	   <!--  
+	   <select id="getUserid" resultType="String">
+	 	   select distinct userid
+		   from bookmark
+		   order by userid
+	   </select> 
+	   -->
+	   
+	   <!-- 즐겨찾기 목록 가져오기 --> 
+	   <resultMap type="HashMap" id="hpInfoMap">
+   		<result property="dept" 	column="dept" 		javaType="String"/>
+   		<result property="hpName" 	column="hpName" 	javaType="String"/>
+   		<result property="phone" 	column="phone" 		javaType="String"/>
+	   </resultMap>
+	   <select id="bookMarkListSearchWithPaging" parameterType="HashMap" resultMap="hpInfoMap">
+	 	   select H.dept AS depth
+	      		, H.hpName AS hpName
+	      		, H.phone AS phone
+	 		from bookmark B join hospitalInfo H 
+	 		on B.hpSeq = H.hpSeq
+	 		where B.userid = #{userid}
+	   </select> 
 	
 </mapper>

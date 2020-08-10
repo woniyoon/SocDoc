@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.QnaBoardVO;
 
@@ -84,6 +85,30 @@ public class MyPageDAO implements InterMyPageDAO {
 	public int delHealth(String userid) {
 		int n = sqlsession.update("mypage.delHealth", userid);
 		return n;
+	}
+
+
+	// 즐겨찾기 게시판 불러오기
+	@Override
+	public int getTotalBookMarkCount(HashMap<String, String> paraMap) {
+		int n = sqlsession.selectOne("mypage.getTotalBookMarkCount", paraMap);
+		return n;
+	}
+
+
+	// 페이징 처리한 즐겨찾기목록 가져오기 
+	@Override
+	public List<HashMap<String, String>> bookMarkListSearchWithPaging(HashMap<String, String> paraMap) {
+		List<HashMap<String, String>> bookMarkList = sqlsession.selectList("mypage.bookMarkListSearchWithPaging",paraMap);
+		return bookMarkList;
+	}
+
+
+	// 즐겨찾기에서 userid 들고오기
+	@Override
+	public String getUserid() {
+		String userid = sqlsession.selectOne("mypage.getUserid");
+		return userid;
 	}
 
 

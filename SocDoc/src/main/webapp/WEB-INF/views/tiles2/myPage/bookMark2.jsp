@@ -276,12 +276,6 @@
 	  		frm.submit();
 	  }// end of function goView(seq)---------------------------------- 
 	
-	  function goSearch() {
-	    var frm = document.searchFrm;
-	    frm.method = "GET";
-	    frm.action = "<%= request.getContextPath()%>/askList.sd";
-	    frm.submit();
-	  }// end of function goSearch()-------------------------
 	  
 	  function goDel() {
 		  
@@ -291,11 +285,11 @@
 	            arr.push($(this).attr('id'));
 	        });
 	        if(cnt == 0){
-	            alert("선택된 글이 없습니다.");
+	            alert("선택된 즐겨찾기가 없습니다.");
 	        }
 	        else{
 	           
-	        	var con = confirm("선택된 글을 삭제합니다.");
+	        	var con = confirm("선택된 즐겨찾기를 삭제합니다.");
 	        	
 	        	if(con == true) {
 	        		var frm = document.delFrm;
@@ -345,17 +339,7 @@
 				        </c:if> 
 				       </span></div>
         <div>
-        	<form name="searchFrm">
-				<div id="search_header">
-					<div id="search_bar">
-						<div id="search_bar_right">
-	
-							<input id="searchWord" name="searchWord" type="text" placeholder="검색어를 입력해 주세요." />
-							<input id="search_button" onclick="goSearch();" type="button" value="검색" /> 
-						</div>
-					</div>
-				</div>	
-			</form>
+        	
         </div>
 			
 			<form name="delFrm">
@@ -372,16 +356,12 @@
 				
 				
 				<tbody>
-				<c:forEach var="hpvo" items="${hpvo}" varStatus="status">
+				<c:forEach var="bookMarkList" items="${bookMarkList}" varStatus="status">
 					<tr>
-						<td><input type="checkbox" name="items" value="${hpvo.qnaSeq}"/></td>
-					    <td class="notice_seq" >${hpvo.qnaSeq}</td>
-						<td class="noticeTitle"><span onclick="goView('${boardvo.qnaSeq}')">${askList.subject}</span></td>
-						<td>${boardvo.regDate}</td>
-						<td style="color: red;">
-								접수완료
-						</td>
-						
+						<td><input type="checkbox" name="items" value="${status}"/></td>
+					    <td class="notice_seq" >${bookMarkList.dept}</td>
+						<td class="noticeTitle" onclick="goDetail()">${bookMarkList.hpName}</td>
+						<td>${bookMarkList.phone}</td>
 					</tr>
 				</c:forEach>	
 				</tbody>	

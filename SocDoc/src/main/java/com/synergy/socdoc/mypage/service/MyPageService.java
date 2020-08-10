@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.QnaBoardVO;
 import com.synergy.socdoc.mypage.model.InterMyPageDAO;
@@ -113,6 +114,30 @@ public class MyPageService implements InterMyPageService {
 	public int delHealth(String userid) {
 		int n = dao.delHealth(userid); 
 		return n;
+	}
+
+
+	// 즐겨찾기 게시판 불러오기
+	@Override
+	public int getTotalBookMarkCount(HashMap<String, String> paraMap) {
+		int n = dao.getTotalBookMarkCount(paraMap);
+		return n;
+	}
+
+
+	// 페이징 처리한 즐겨찾기목록 가져오기 
+	@Override
+	public List<HashMap<String, String>> bookMarkListSearchWithPaging(HashMap<String, String> paraMap) {
+		List<HashMap<String, String>> bookMarkList = dao.bookMarkListSearchWithPaging(paraMap);
+		return bookMarkList;
+	}
+
+
+	// 즐겨찾기에서 userid 들고오기
+	@Override
+	public String userid() {
+		String userid = dao.getUserid();
+		return userid;
 	}
 
 	

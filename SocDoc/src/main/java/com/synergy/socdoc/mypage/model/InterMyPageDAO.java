@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.QnaBoardVO;
 
@@ -26,6 +27,12 @@ public interface InterMyPageDAO {
 	MemberVO viewMyHealth(String userid); // 내 건강 페이지 보이기(select)
 
 	int delHealth(String userid); // 내 건강 페이지 삭제하기(delete)
+
+	int getTotalBookMarkCount(HashMap<String, String> paraMap); // 즐겨찾기 게시판 불러오기
+
+	List<HashMap<String, String>> bookMarkListSearchWithPaging(HashMap<String, String> paraMap); // 페이징 처리한 즐겨찾기목록 가져오기 
+
+	String getUserid(); // 즐겨찾기에서 userid 들고오기
 
 
 
