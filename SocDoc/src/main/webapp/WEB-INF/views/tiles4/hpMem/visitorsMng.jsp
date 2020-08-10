@@ -96,7 +96,7 @@
 			</c:if>
 			<c:if test="${empty visitorsList }">
 				<tr align="center">
-					<td colspan="6">속닥을 이용해 예약방문한 고객이 없어요!</td>
+					<td colspan="6">결과가 없습니다.</td>
 				</tr>
 			</c:if>
 	</table>

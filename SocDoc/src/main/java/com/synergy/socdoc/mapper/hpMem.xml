@@ -105,13 +105,29 @@
 		        on R.status = 1 and R.hpSeq = #{hpSeq} and R.userid = M.userid
 		        order by visitDate desc
 		    ) V
+		    <if test="!searchWord.equals('')">
+        		where name LIKE '%'|| #{searchWord} ||'%'
+      		</if>
 		 ) T
-		where RNO between #{startRNO} and #{endRNO}
+		where RNO between #{startRNO} and #{endRNO} 
 	</select>
 	
 	<!-- 총 방문자수 가져오기 -->
-	<select id="getNumOfVisitors" parameterType="String" resultType="int">
-		select count(*) from reservation
+	<select id="getNumOfVisitors" parameterType="HashMap" resultType="int">
+		<!-- select count(*) from reservation
 		where status = 1 and hpSeq = #{hpSeq}
+		<if test="!searchWord.equals('')">
+        	and name LIKE '%'|| #{searchWord} ||'%'
+      	</if> -->
+      	
+      	select count(*)
+		from 
+		(select userid 
+		from member
+		<if test="!searchWord.equals('')">
+			where name LIKE '%'|| #{searchWord} ||'%'
+		</if>
+		) M join reservation R
+		on R.status = 1 and R.hpSeq = #{hpSeq} and R.userid = M.userid
 	</select>
 </mapper>

@@ -123,13 +123,21 @@ public class HpMemController {
 		// TODO: 나중에는 이 부분을 이용해서 병원정보 가져오기
 //		String hpSeq = request.getSession().getAttribute("hpSeq");
 		String currentShowPageNoStr = request.getParameter("currentShowPageNoStr");
+		String searchWord = request.getParameter("searchWord");
 		String hpSeq = "2";
 		int sizePerPage = 10;
 		HashMap<String, String> paraMap = new HashMap<>();
 
+		// 검색어가 없을 때 공백으로 초기화
+		if(searchWord == null) {
+			searchWord = "";
+		}
+		
+		paraMap.put("hpSeq", hpSeq);
+		paraMap.put("searchWord", searchWord);
 		
 		// 총 방문자 수 가져오기 
-		int numOfVisitors = service.getNumOfVisitors(hpSeq);
+		int numOfVisitors = service.getNumOfVisitors(paraMap);
 		
 		int totalPage = (int) Math.ceil((double) numOfVisitors / sizePerPage);
 		int currentShowPageNo = 0;
@@ -138,6 +146,7 @@ public class HpMemController {
 		if(currentShowPageNoStr == null) {
 			currentShowPageNo = 1;
 		}
+		
 		
 		try {
 			currentShowPageNo = Integer.parseInt(currentShowPageNoStr);
@@ -153,7 +162,6 @@ public class HpMemController {
 		
 		paraMap.put("startRNO", String.valueOf(startRNO));
 		paraMap.put("endRNO", String.valueOf(endRNO));
-		paraMap.put("hpSeq", hpSeq);
 
 		// 방문자 목록 가져오기
 		List<HashMap<String, String>> visitorsList = service.getVisitors(paraMap);

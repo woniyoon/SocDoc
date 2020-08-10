@@ -66,8 +66,8 @@ public class HpMemDAO implements InterHpMemDAO {
 	}
 
 	@Override
-	public int getNumOfVisitors(String hpSeq) {
-		int numOfVisitors = sqlsession.selectOne("hpMem.getNumOfVisitors", hpSeq);
+	public int getNumOfVisitors(HashMap<String, String> paraMap) {
+		int numOfVisitors = sqlsession.selectOne("hpMem.getNumOfVisitors", paraMap);
 		return numOfVisitors;
 	}
 

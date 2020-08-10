@@ -29,7 +29,7 @@ public interface InterHpMemService {
 	public List<HashMap<String, String>> getVisitors(HashMap<String, String> paraMap);
 
 	// 총 방문자 수 가져오기
-	public int getNumOfVisitors(String hpSeq);
+	public int getNumOfVisitors(HashMap<String, String> paraMap);
 
 
 	

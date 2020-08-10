@@ -20,6 +20,6 @@ public interface InterHpMemDAO {
 
 	public List<HashMap<String, String>> getVisitors(HashMap<String, String> paraMap);
 
-	public int getNumOfVisitors(String hpSeq);
+	public int getNumOfVisitors(HashMap<String, String> paraMap);
 
 }
