@@ -95,11 +95,11 @@
 	</resultMap>
 	
 	<select id="getVisitors" parameterType="HashMap" resultMap="visitorsList">
-		select RNO, userid, name, birthDate, visitDate, age, phone from
-		(select rownum AS RNO, V.userid, V.name, V.birthDate, V.visitDate, V.age, V.phone
+		select RNO, memberSeq, name, birthDate, visitDate, age, phone from
+		(select rownum AS RNO, V.memberSeq, V.name, V.birthDate, V.visitDate, V.age, V.phone
 		  from 
 		    (
-		        select distinct M.userid, M.name, to_char(M.birthDate, 'yyyy-mm-dd') as birthDate, to_char(R.visitDate, 'yyyy-mm-dd') as visitDate
+		        select distinct M.memberSeq, M.name, to_char(M.birthDate, 'yyyy-mm-dd') as birthDate, to_char(R.visitDate, 'yyyy-mm-dd') as visitDate
 		        , (extract(year from sysdate)) - extract(year from birthDate) + 1 as age, M.phone
 		        from reservation R join member M
 		        on R.status = 1 and R.hpSeq = #{hpSeq} and R.userid = M.userid

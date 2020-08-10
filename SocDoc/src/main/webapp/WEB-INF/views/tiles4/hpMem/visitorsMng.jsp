@@ -58,7 +58,7 @@
 			</tr>
 			<c:if test="${not empty visitorsList }">
 				<c:forEach var="map" items="${visitorsList }">
-					<tr>
+					<tr id="${map.memberSeq }">
 						<td>${map.rno}</td>
 						<td>${map.name}</td>
 						<td>${map.birthDate}</td>
