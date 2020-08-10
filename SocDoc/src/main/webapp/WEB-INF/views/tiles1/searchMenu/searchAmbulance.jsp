@@ -149,11 +149,12 @@
 	<div align="right">
 	     <div class="ambulanceSelect">
 	        <select id="city" name="city" class="select">
-	           <option value="0">시도</option>                                 
+	           <option value="">시도</option>
+	           <option value="서울특별시">서울특별시</option>   
+	           <option value="강원도">강원도</option>
 	        </select>          
 	     </div>	     
 	     <div class="ambulanceSelect">
-	        <input type="text" id="search" name="search" class="select" style="width:120px;">
 	        <button type="button" class="btnSearch" onclick="goSearch();" >검색</button>
 	     </div>
 	     <button type="button" class="btnExcel" onclick="downloadExcel();" >엑셀다운로드</button>
@@ -170,15 +171,12 @@
 			</tr>
 		</thead>
 		<tbody id="ambulanceTblBody">
-			<tr>
-				<td>서울</td>
-				<td>서울</td>
-				<td>사회복지법인대한구조봉사회</td>
-				<td>11가1111</td>
-			</tr>			
+						
 		</tbody>
 		
 	</table>
+	
+	<div id="pageBar"></div>
 
 
 </div>

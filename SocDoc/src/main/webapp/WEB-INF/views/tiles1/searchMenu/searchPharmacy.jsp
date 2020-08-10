@@ -103,7 +103,7 @@
 		height:40px;
 	}
 	
-	.mapSearch{
+	.searchMap{
 		display:inline-block; 
 		width:35%; 
 		height:40px;
@@ -111,7 +111,7 @@
 		text-align:right;
 	}
 	
-	.mapContent{
+	.divMap{
 		float:clear;
 		width:100%;
 		height:800px;
@@ -184,7 +184,7 @@
 
 	$(document).ready(function(){
 		
-		//탭 전환
+	/* 	//탭 전환
 		$('ul.tabs li').click(function(){
 			var tab_id = $(this).attr('data-tab');
 	
@@ -193,147 +193,172 @@
 	
 			$(this).addClass('current');
 			$("#"+tab_id).addClass('current');
+		}) */
+		
+// ========== 탭
+
+		// 약국 지도 탭
+		$('#tabMap').click(function(){
+			$('ul.tabs li').removeClass('current');
+			$('.tab-content').removeClass('current');
+			
+			$(#tabMap).addClass('current');
+			$('#contentMap').addClass('current');
+			
+			$.ajax({
+				
+				url:"/socdoc/mapPharm.",
+				async: false,
+				dataType:"json",
+				success:function(json){
+					
+					
+					
+				},
+				error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			    }
+				
+				
+				
+			});
+		
+			
+			
 		})
 		
 		
 		
+		// 약국 일반 탭
+		$('#tabGeneral').click(function(){
+			$('ul.tabs li').removeClass('current');
+			$('.tab-content').removeClass('current');
+			
+			$('#tabGeneral').addClass('current');
+			$('#contentGeneral').addClass('current');
+			
+			$.ajax({
+				
+				url:"/socdoc/generalPharm.",
+				dataType:"json",
+				success:function(json){
+					
+					
+					
+				},
+				error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			    }
+				
+				
+				
+			});
 		
-		//지도
-		/* 
-		var usesOwnLocation = confirm("현재 위치를 이용하겠습니까?");
-	    
-	    var coordinates = { // 디폴트 위치
-	    	"lat":33.450701, 
-	    	"lng":126.570667
-	    };
-	    
-	    var container = document.getElementById('map');
-	    var options = { 
-	    		center: new kakao.maps.LatLng(coordinates.lat, coordinates.lng),
-	    		level: 3,
-	    };
-	    
-	    var map = new kakao.maps.Map(container, options); 
-	    	
-		var positionArr = [];
-	    
-	    $.ajax({ 
-			url: "/SocDoc/location.sd",
-			async: false,
-			dataType: "json",
-			success: function(json){ 
-				
-				$.each(json, function(index, item){ 
-					var position = {}; // position 이라는 객체 생성
-					
-					if(navigator.geolocation && usesOwnLocation) {
-					    
-					    navigator.geolocation.getCurrentPosition(function(position) {
-				            
-				            var lat = position.coords.latitude, // 위도
-				                lon = position.coords.longitude; // 경도
-				            				
-				            var position = new kakao.maps.LatLng(lat, lon);
-				
-						    map.setCenter(position);					
-
-				        });
-					    
-					} else if(!usesOwnLocation && index == 5) {
-						var locPosition = new kakao.maps.LatLng(item.latitude, item.longitude);     
-					    map.setCenter(locPosition);	
-					} 			    
-					
-					console.log(item);
-					
-					// 마커 위에 나타낼 인포 element 만들기
-					position.content = "<div class='store_info' id='store_info"+item.store_id+"'>"+ 
-						        	   "  <div class='store_info_header' align='left'>"+ 
-								       "    <strong>"+item.store_name.substring(5)+"</strong>"+  
-								       "  </div>"+
-								       "  <div class='store_info_body'>"+  
-								       "    <span class='address'>"+item.address+"</span>"+ 
-								       "  </div>"+ 
-								       "<input id='store_name"+item.store_id+"' type='hidden' value='"+item.store_name.substring(4)+"'/>"
-								       "</div>";
-					
-					position.latlng = new kakao.maps.LatLng(item.latitude, item.longitude);
-					position.zIndex = item.zIndex;
-					
-					positionArr.push(position);
-		       
-				});					
-			},
-			error: function(request, status, error){
-				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-		    }
+			
 			
 		});
-	    
-	 
-	    
-	 // 인포윈도우를 가지고 있는 객체 배열의 용도 
-		var infowindowArr = new Array(); 
-		
-		var imageSrc = "/SocDoc/resource/images/location_pin.png";       
-	    var imageSize = new kakao.maps.Size(38, 60);   
-	    var imageOption = {offset: new kakao.maps.Point(15, 39)};         
-	    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
-		
-		// == 객체 배열 만큼 마커 및 인포윈도우를 생성하여 지도위에 표시한다. == //
-		for(var i=0; i<positionArr.length; i++) {
-			
-			// == 마커 생성하기
-			var marker = new kakao.maps.Marker({ 
-				map: map,
-				position: positionArr[i].latlng,	
-				image: markerImage,
-			});
-			
-			// 지도에 마커를 표시한다.
-			marker.setMap(map);
-			
-			// == 인포윈도우(말풍선) 생성하기 ==
-			var infowindow = new kakao.maps.InfoWindow({ 
-				content: positionArr[i].content,
-				removable: true,
-				zIndex: i+1
-			});
-			
-			
-			// 인포윈도우를 가지고 있는 객체배열에 넣기
-			infowindowArr.push(infowindow);	
-			
-			
-			// == 마커위에 인포윈도우를 표시하기
-			// 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
-		    // 이벤트 리스너로는 클로저(closure => 함수 내에서 함수를 정의하고 사용하도록 만든것)를 만들어 등록합니다 
-		    // for문에서 클로저(closure => 함수 내에서 함수를 정의하고 사용하도록 만든것)를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
-		    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow, infowindowArr));
-
-		}
- */
-		
 	
+		
+//  ==============  약국 지도
+
+		var mapContainer = document.getElementById('map');
+		
+		var options = {
+			center: new kakao.maps.LatLng(37.56602747782394, 126.98265938959321), // 지도의 중심좌표.
+			level: 3 // 지도의 레벨(확대, 축소 정도). 숫자가 적을수록 확대된다.
+		};
+		
+		// 지도 생성 및 생성된 지도객체 리턴
+		var mapobj = new kakao.maps.Map(mapContainer, options);
+		
+		// 일반 or 스카이뷰 전환
+		var mapTypeControl = new kakao.maps.MapTypeControl();
+		mapobj.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+
+		// 지도 확대 축소를 제어컨트롤
+		var zoomControl = new kakao.maps.ZoomControl(); 
+		mapobj.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+
+		if (navigator.geolocation) {
+			
+			navigator.geolocation.getCurrentPosition(function(position) {
+				var latitude = position.coords.latitude;   //위도
+				var longitude = position.coords.longitude; //경도
+								
+				// 마커 만들기
+				var locPosition = new kakao.maps.LatLng(latitude, longitude);
+				
+		        var imageSrc = 'http://localhost:9090/socdoc/resources/images/locationPin.png'; 
+			    var imageSize = new kakao.maps.Size(34, 35);
+			    var imageOption = {offset: new kakao.maps.Point(15, 35)}; //이미지 꼭지점 잡기 ?
+			    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+
+				var marker = new kakao.maps.Marker({ 
+					map: mapobj, 
+			        position: locPosition,
+			        image: markerImage
+				}); 
+			 	
+				marker.setMap(mapobj);
+		
+				// 인포 윈도우
+				var iwContent = "<div style='padding:5px; font-size:9pt;'>여기에 계신가요?<br/><a href='https://map.kakao.com/link/map/현위치(약간틀림),"
+								+latitude+","+longitude+"' style='color:blue;' target='_blank'>큰지도</a> <a href='https://map.kakao.com/link/to/현위치,"
+								+latitude+","+longitude+"' style='color:blue' target='_blank'>길찾기</a></div>";
+				
+			    var iwPosition = locPosition;
+			    var iwRemoveable = true; // x표시
+
+				var infowindow = new kakao.maps.InfoWindow({
+				    position : iwPosition, 
+				    content : iwContent,
+				    removable : iwRemoveable
+				});
+
+				infowindow.open(mapobj, marker);
+			    mapobj.setCenter(locPosition);
+
+			});
+		}
+		else {
+
+			var locPosition = new kakao.maps.LatLng(37.56602747782394, 126.98265938959321);     
+	        
+			// 위의 
+			// 마커이미지를 기본이미지를 사용하지 않고 다른 이미지로 사용할 경우의 이미지 주소 
+			// 부터
+			// 마커 위에 인포윈도우를 표시하기 
+			// 까지 동일함.
+			
+	     	// 지도의 센터위치를 위에서 정적으로 입력한 위.경도로 변경한다.
+		    mapobj.setCenter(locPosition);
+			
+		} 
+		
+		
+		
+///////////////////////
+	
+	
+	
+	
+	
+	
+		
+		
+		
+		
+		
+		
+		
+		
 	})
 	
 	
 	
 	
 	
-	function makeOverListener(map, marker, infowindow, infowindowArr) {
-	    return function() {    	
-	    	for(var i=0; i<infowindowArr.length; i++) {
-	    		if(i == infowindow.getZIndex()-1) {
-	    			infowindowArr[i].open(map, marker);
-	    		}
-	    		else{
-	    			infowindowArr[i].close();
-	    		}
-	    	}
-	    };
-	}
-
 	
 	
 	
@@ -351,13 +376,13 @@
 		<div class="content">
 		
 			<ul class="tabs">
-				<li class="tab-link current" data-tab="tab-1">지도</li>
-				<li class="tab-link" data-tab="tab-2">일반</li>
+				<li class="tab-link current" id="tabMap">지도</li>
+				<li class="tab-link" id="tabGeneral">일반</li>
 			</ul>
 		
 			<!-- 지도 -->
-			<div id="tab-1" class="tab-content current">
-				  <div class="tabMap">
+			<div id="contentMap" class="tab-content current">
+				  <div class="selectMap">
 				      <div class="mapSelect">
 				         <select id="city" name="city" class="selectMap">
 				            <option value="0">시</option>                                 
@@ -370,13 +395,14 @@
 				         </select>            
 				      </div>
 				      
-				      <div class="mapSearch">
+				      <div class="searchMap">
 				         <input type="text" id="search" name="search" class="select" style="width:60%;">
 				         <button type="button" class="btnSearch" onclick="goSearch();" >검색</button>
 				      </div>
 				 </div>
 				   
-				 <div class="mapContent">
+				 <div class="divMap">
+				 '
 				      <div id="map" class="map">지도영역</div>
 				      <div class="mapList">
 				      		<table class="mabListTable">
@@ -400,8 +426,8 @@
 			</div>
 			
 			<!-- 일반 -->			
-			<div id="tab-2" class="tab-content">
-				<div class="tabGeneral">					
+			<div id="contentGeneral" class="tab-content">
+				<div class="selectGeneral">					
 			          <select id="city" name="city" class="selectMap">
 			             <option value="0">시</option>                                 
 			          </select>
@@ -412,7 +438,7 @@
 			             <option value="0">구</option>                                 
 			          </select>            
 			      
-				      <div class="mapSearch">
+				      <div class="searchGeneral">
 				         <input type="text" id="search" name="search" class="select" style="width:60%;">
 				         <button type="button" class="btnSearch" onclick="goSearch();" >검색</button>
 				      </div>	

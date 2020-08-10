@@ -9,5 +9,39 @@
 		from hospitalinfo
 		order by hpseq desc
 	</select>
+	
+	
+	
+	<select id="hospitalListSearchWithPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpInfoVO">		
+		
+		select hpseq, hpname, address, phone, dept
+		from 
+		(
+		    select rownum AS rno
+		         , hpseq, hpname, address, phone, dept
+		    from
+		    (
+		        select hpseq, hpname, address, phone, dept 
+		        from hospitalboard
+		        where 1 = 1
+		        <if test='searchWord != ""'>
+		     		and lower(${searchType}) like '%'|| lower(#{searchWord}) ||'%'
+				</if>
+		    ) V
+		) T
+		where rno between #{startRno} and #{endRno}
+				
+	</select>   
+	
+	<select id="getTotalCount" parameterType="HashMap" resultType="int">
+		select count(*)
+		from hospitalinfo	
+		where 1=1
+		<if test='searchWord != ""'>
+		     and lower(${searchType}) like '%'|| lower(#{searchWord}) ||'%'
+		</if>		
+	</select>  
+	
+	
 
 </mapper>
