@@ -33,8 +33,6 @@ public class HpMemController {
 //		String hpSeq = request.getSession().getAttribute("hpSeq");
 		String hpSeq = "2";
 		
-		
-		
 		// 병원 영업시간 가져오기
 		List<HashMap<String, String>> openingHours = service.getOpeningHours(hpSeq);
 
@@ -118,10 +116,88 @@ public class HpMemController {
 		return "hpMem/reservationInfo.tiles4";
 	}
 
-	// 방문고객관리
+	// 방문고객관리 w. 페이징
 	@RequestMapping(value = "/hpPanel/visitorsMng.sd", method = RequestMethod.GET)
 	public String visitorsMng(HttpServletRequest request) {
+		// TODO: 나중에는 이 부분을 이용해서 병원정보 가져오기
+//		String hpSeq = request.getSession().getAttribute("hpSeq");
+		String currentShowPageNoStr = request.getParameter("currentShowPageNoStr");
+		String hpSeq = "2";
+		int sizePerPage = 10;
+		HashMap<String, String> paraMap = new HashMap<>();
+
 		
+		// 총 방문자 수 가져오기 
+		int numOfVisitors = service.getNumOfVisitors(hpSeq);
+		
+		int totalPage = (int) Math.ceil((double) numOfVisitors / sizePerPage);
+		int currentShowPageNo = 0;
+		
+		// 현재 페이지 번호 설정
+		if(currentShowPageNoStr == null) {
+			currentShowPageNo = 1;
+		}
+		
+		try {
+			currentShowPageNo = Integer.parseInt(currentShowPageNoStr);
+			if (currentShowPageNo < 1 || currentShowPageNo > totalPage) {
+				currentShowPageNo = 1;
+			}
+		} catch (NumberFormatException e) {
+			currentShowPageNo = 1;
+		}
+		
+		int startRNO = 0; // 시작 행번호
+		int endRNO = 0; // 끝 행번호
+
+		startRNO = ((currentShowPageNo - 1) * sizePerPage) + 1;
+		endRNO = startRNO + sizePerPage - 1;
+		
+		paraMap.put("startRNO", String.valueOf(startRNO));
+		paraMap.put("endRNO", String.valueOf(endRNO));
+		paraMap.put("hpSeq", hpSeq);
+
+		// 방문자 목록 가져오기
+		List<HashMap<String, String>> visitorsList = service.getVisitors(paraMap);
+		
+		
+		// 페이지에서 보여지는 첫번째 페이지 번호
+		int pageNo = 1;
+		// 블럭당 보여지는 페이지 번호의 갯수
+		int blockSize = 10;
+		// 1부터 증가해 1개 블럭을 이루는 페이지 번호의 갯수(10개)까지만 증가하는 용도
+		int loop = 1;
+				
+		pageNo = ((currentShowPageNo-1)/blockSize) * blockSize + 1;
+
+		
+		String pageBar = "";
+
+		
+		if(pageNo != 1) {
+		  pageBar += "&nbsp;<a href='memberManagement.sb?currentShowPageNo="+(pageNo-1)+"'>[이전]</a>&nbsp;";		  		  
+		}
+		
+		while(!(loop > blockSize || pageNo > totalPage)) {
+			  
+			if(pageNo == currentShowPageNo) {
+				pageBar += "&nbsp;<a class='active'>" + pageNo + "</a>&nbsp;";			  
+			} else {			  
+				pageBar += "&nbsp;<a href='memberManagement.sb?currentShowPageNo="+pageNo+"'>"+pageNo+"</a>&nbsp;";
+			}
+
+			pageNo++;
+			loop++;
+		}
+		
+		if(!(pageNo > totalPage)) {
+		  pageBar += "&nbsp;<a href='memberManagement.sb?currentShowPageNo="+pageNo+"'>[다음]</a>&nbsp;";		  
+		}		
+		
+		
+		request.setAttribute("numOfVisitors", numOfVisitors);
+		request.setAttribute("pageBar", pageBar);
+		request.setAttribute("visitorsList", visitorsList);
 		return "hpMem/visitorsMng.tiles4";
 	}
 	

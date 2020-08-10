@@ -18,6 +18,8 @@ public interface InterHpMemDAO {
 
 	public List<HashMap<String, String>> getRecentReviews(String hpSeq);
 
-	public List<HashMap<String, String>> getVisitors(String hpSeq);
+	public List<HashMap<String, String>> getVisitors(HashMap<String, String> paraMap);
+
+	public int getNumOfVisitors(String hpSeq);
 
 }

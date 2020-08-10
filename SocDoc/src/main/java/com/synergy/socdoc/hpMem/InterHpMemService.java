@@ -26,7 +26,10 @@ public interface InterHpMemService {
 	public List<HashMap<String, String>> getRecentReviews(String hpSeq);
 
 	// 병원 방문자 목록 가져오기
-	public List<HashMap<String, String>> getVisitors(String hpSeq);
+	public List<HashMap<String, String>> getVisitors(HashMap<String, String> paraMap);
+
+	// 총 방문자 수 가져오기
+	public int getNumOfVisitors(String hpSeq);
 
 
 	

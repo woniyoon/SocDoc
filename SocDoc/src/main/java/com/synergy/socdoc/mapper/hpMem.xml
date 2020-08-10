@@ -94,7 +94,7 @@
 		
 	</resultMap>
 	
-	<select id="getVisitors" parameterType="String" resultMap="visitorsList">
+	<select id="getVisitors" parameterType="HashMap" resultMap="visitorsList">
 		select RNO, userid, name, birthDate, visitDate, age, phone from
 		(select rownum AS RNO, V.userid, V.name, V.birthDate, V.visitDate, V.age, V.phone
 		  from 
@@ -106,8 +106,12 @@
 		        order by visitDate desc
 		    ) V
 		 ) T
-		where T.RNO between 1 and 10
+		where RNO between #{startRNO} and #{endRNO}
 	</select>
 	
-	
+	<!-- 총 방문자수 가져오기 -->
+	<select id="getNumOfVisitors" parameterType="String" resultType="int">
+		select count(*) from reservation
+		where status = 1 and hpSeq = #{hpSeq}
+	</select>
 </mapper>

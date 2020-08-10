@@ -74,10 +74,10 @@
 			</c:if>
 	</table>
 	<div class="visitorsListBottom">
-		<span>총 <span id="numOfVisitors">13445</span> 건</span>
+		<span>총 <span id="numOfVisitors">${numOfVisitors}</span> 건</span>
 		<button type="button">엑셀로 내보내기</button>
 	</div>
 	<div class="pageContainer" align="center">
-		<span>< 1 2 3 4 5 6 7 8 9 10 ></span>
+		<span>${pageBar }</span>
 	</div>
 </div>
