@@ -370,24 +370,56 @@ public class MypageController {
 	}
 	
 	
-	// === 내 건강 페이지 보이기 === // 
+	// === 내 건강 페이지 보이기(select) === // 
 	@RequestMapping(value="/myHealth.sd")
-	public String myHealth() {
+	public ModelAndView myHealth(HttpServletRequest request, ModelAndView mav) {
+		
+		
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		String userid = loginuser.getUserid();
+		
+		MemberVO membervo = service.viewMyHealth(userid); 
+		
+		mav.addObject("membervo", membervo);
+		mav.setViewName("mypage/myHealth.tiles2");
 
-		return "myPage/myHealth.tiles2";
+		return mav;
 	}
 	
-	// === 내 건강 페이지 새로 추가하기 === // 
-	@RequestMapping(value="/addHealth.sd")
-	public String addHealth(HashMap<String, String> paraMap, MemberVO membervo) {
+	// === 내 건강 페이지 새로 추가하기(update) === // 
+	@RequestMapping(value="/addHealth.sd", method= {RequestMethod.POST})
+	public ModelAndView addHealth(HttpServletRequest request, MemberVO membervo, ModelAndView mav) {
 
 		int n = service.addHealth(membervo);
 		
-		return "redirect:/myHealth.sd";
+		mav.addObject("msg", "내 건강 저장 성공!!");
+		
+		mav.addObject("loc", request.getContextPath()+"/myHealth.sd?userid="+membervo.getUserid());
+		mav.setViewName("msg");
+		
+		return mav;
 	}
 	
-	// === 내 건강 페이지 수정하기 === // 
-	
+	// === 내 건강 페이지 초기화하기 (delete) === // 
+	@RequestMapping(value="/delHealth.sd", method= {RequestMethod.POST})
+	public ModelAndView delHealth(HttpServletRequest request, ModelAndView mav) throws Throwable {
+		
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		String userid = loginuser.getUserid();
+		
+		int n = service.delHealth(userid);
+		
+		mav.addObject("msg", "내 건강을 초기화 하였습니다.");
+		mav.addObject("loc", request.getContextPath()+"/myHealth.sd"); 
+		
+		mav.setViewName("msg");
+		
+		return mav;
+	}
 	
 	// === 병원 즐겨찾기 페이지 === // 
 	@RequestMapping(value="/bookMark.sd")
@@ -426,6 +458,8 @@ public class MypageController {
 		return "myPage/review.tiles2";
 	}
 	
+	
+	// === 후기 페이지 보이기 === // 
 	
 	
 }

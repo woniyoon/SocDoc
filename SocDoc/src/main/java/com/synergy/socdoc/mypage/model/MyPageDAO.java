@@ -63,13 +63,31 @@ public class MyPageDAO implements InterMyPageDAO {
 		return n;
 	}
 
-
-	// 내 건강 새로 저장하기(insert)
+	
+	// 내 건강 페이지 보이기(select)
+	@Override
+	public MemberVO viewMyHealth(String userid) {
+		MemberVO membervo = sqlsession.selectOne("mypage.viewMyHealth", userid);
+		return membervo;
+	}
+	
+	// 내 건강 새로 저장하기(update)
 	@Override
 	public int addHealth(MemberVO membervo) {
-		int n = sqlsession.insert("mypage.addHealth", membervo);
+		int n = sqlsession.update("mypage.addHealth", membervo);
 		return n;
 	}
+
+
+	// 내 건강 페이지 삭제하기(delete)
+	@Override
+	public int delHealth(String userid) {
+		int n = sqlsession.update("mypage.delHealth", userid);
+		return n;
+	}
+
+
+	
 
 
 }

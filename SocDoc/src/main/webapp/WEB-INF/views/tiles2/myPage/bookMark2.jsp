@@ -366,7 +366,7 @@
 					 	<th>번호</th>
 					 	<th>유형</th>
 					 	<th>병원이름</th>
-					 	<th>등록일</th>
+					 	<th>전화번호</th>
 					 </tr>
 				</thead>
 				
@@ -378,16 +378,10 @@
 					    <td class="notice_seq" >${hpvo.qnaSeq}</td>
 						<td class="noticeTitle"><span onclick="goView('${boardvo.qnaSeq}')">${askList.subject}</span></td>
 						<td>${boardvo.regDate}</td>
-						<c:if test="${boardvo.status == 0}">
 						<td style="color: red;">
 								접수완료
 						</td>
-						</c:if>
-						<c:if test="${askList.status == 1}">
-						<td style="color: skyblue;">
-				         		답변완료
-				        </td> 		
-				        </c:if>
+						
 					</tr>
 				</c:forEach>	
 				</tbody>	

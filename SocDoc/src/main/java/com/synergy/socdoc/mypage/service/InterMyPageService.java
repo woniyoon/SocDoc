@@ -23,7 +23,13 @@ public interface InterMyPageService {
 
 	int goDel(String qnaSeq); // 문의내역 글 삭제하기(목록)
 
+	MemberVO viewMyHealth(String userid); // 내 건강 페이지 보이기(select)
+	
 	int addHealth(MemberVO membervo); // 내 건강 새로 저장하기(insert)
+
+	int delHealth(String userid); // 내 건강 페이지 삭제하기(delete)
+
+	
 	
 	
 

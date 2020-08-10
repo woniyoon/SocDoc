@@ -91,14 +91,32 @@ public class MyPageService implements InterMyPageService {
 		return n;
 	}
 
+	
+	// 내 건강 페이지 보이기(select)
+	@Override
+	public MemberVO viewMyHealth(String userid) {
+		MemberVO membervo = dao.viewMyHealth(userid);
+		return membervo;
+	}
+	
 
-	// 내 건강 새로 저장하기(insert)
+	// 내 건강 새로 저장하기(update)
 	@Override
 	public int addHealth(MemberVO membervo) {
 		int n = dao.addHealth(membervo);
 		return n;
 	}
+
+
+	// 내 건강 페이지 삭제하기(delete)
+	@Override
+	public int delHealth(String userid) {
+		int n = dao.delHealth(userid); 
+		return n;
+	}
+
 	
+
 	
 
 }

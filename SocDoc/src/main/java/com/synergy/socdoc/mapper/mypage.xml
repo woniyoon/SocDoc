@@ -70,11 +70,36 @@
 		   where qnaSeq = #{qnaSeq}
 	  </delete>
 	  
+	  <!-- === 내 건강 보기 === -->
+	  <select id="viewMyHealth" parameterType="String" resultType="com.synergy.socdoc.member.MemberVO">
+	    select height, weight, bloodType, allergy, history, medicine
+		from member
+		where userid = #{userid}
+   	</select>
+	  
 	  <!--  === 내 건강 새로추가 === -->
-	   <insert id="addHealth" parameterType="com.synergy.socdoc.member.MemberVO">
-	   		insert into member(height, weight, bloodType, allergy, history, medicine)
-	   		values(#{height}, #{weight}, #{bloodType}, #{allergy}, #{history}, #{medicine})
-	   		where userid = #{userid}
-	   </insert>
+	   <update id="addHealth" parameterType="com.synergy.socdoc.member.MemberVO">
+	   		update member 
+			set height = #{height},
+			    weight = #{weight},
+			    bloodType = #{bloodType},
+			    allergy = #{allergy},
+			    history = #{history},
+			    medicine = #{medicine}
+			where userid = #{userid}
+	   </update>
+	   
+	   
+	   <!--  === 내 건강 초기화하기 === -->
+	   <update id="delHealth" parameterType="String">
+		    update member
+			set height = null,
+			    weight = null,
+			    bloodType = null,
+			    allergy = null,
+			    history = null,
+			    medicine = null
+		   where userid = #{userid}
+	   </update>
 	
 </mapper>

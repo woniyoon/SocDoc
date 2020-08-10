@@ -241,42 +241,42 @@
 			    <tr>
 			        <th scope="row">키</th>
 			        <td>
-					    <input class="form-control-tel" name="height" type="text" /> cm
+					    <input class="form-control-tel" name="height" type="text" value="${membervo.height}"/> cm
 					</td>
 			    </tr>
 			    <tr>
 			        <th scope="row">몸무게</th>
 			        <td>
-					    <input class="form-control-tel" name="weight" type="text" /> kg
+					    <input class="form-control-tel" name="weight" type="text" value="${membervo.weigth}"/> kg
 					</td>
 			    </tr>
 			    <tr>
 			        <th scope="row">혈액형</th>
 			        <td>
-						<select class="form-control-tel" id="sel1" name="bloodType" style="height: 35px;">
-					      	<option>O형</option>
-					        <option>A형</option>
-					        <option>AB형</option>
-					        <option>B형</option>
+						<select class="form-control-tel" id="sel1" name="bloodType" style="height: 35px;" >
+					      	<option value="O">O형</option>
+					        <option value="A">A형</option>
+					        <option value="AB">AB형</option>
+					        <option value="B">B형</option>
 					    </select>
 					</td> 
 			    </tr>
 			    <tr>
 			        <th scope="row">알레르기</th>
 			        <td>
-					    <input class="textIpt" name="allergy" type="text" placeholder="내용을 입력해주세요"/>
+					    <input class="textIpt" name="allergy" type="text" placeholder="내용을 입력해주세요" value="${membervo.allergy}"/>
 					</td>
 			    </tr>
 			    <tr>
 			        <th scope="row">병력</th>
 			        <td>
-					    <input class="textIpt" name="history" type="text" placeholder="내용을 입력해주세요"/>
+					    <input class="textIpt" name="history" type="text" placeholder="내용을 입력해주세요" value="${membervo.history}"/>
 					</td>
 			    </tr>
 			    <tr>
 			        <th scope="row">복용약</th>
 			        <td>
-					    <input class="textIpt" name="medicine" type="text" placeholder="내용을 입력해주세요"/>
+					    <input class="textIpt" name="medicine" type="text" placeholder="내용을 입력해주세요" value="${membervo.medicine}"/>
 					</td>
 			    </tr>
 			    </tbody>

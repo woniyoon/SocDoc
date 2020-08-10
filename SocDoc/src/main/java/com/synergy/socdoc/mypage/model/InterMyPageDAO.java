@@ -21,7 +21,11 @@ public interface InterMyPageDAO {
 
 	int goDel(String qnaSeq); // 문의내역 삭제 (목록)
 
-	int addHealth(MemberVO membervo); // 내 건강 새로 저장하기(insert)
+	int addHealth(MemberVO membervo);  // 내 건강 새로 저장하기(update)
+
+	MemberVO viewMyHealth(String userid); // 내 건강 페이지 보이기(select)
+
+	int delHealth(String userid); // 내 건강 페이지 삭제하기(delete)
 
 
 
