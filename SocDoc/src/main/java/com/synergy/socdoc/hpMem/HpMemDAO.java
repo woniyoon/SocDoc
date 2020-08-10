@@ -28,6 +28,7 @@ public class HpMemDAO implements InterHpMemDAO {
 		return hpInfoList;
 	}
 
+	// 병원 상세 정보 디테일 가져오기
 	@Override
 	public HpInfoVO getHpInfoDetail(String submitId) {
 		HpInfoVO hpInfoDetail = sqlsession.selectOne("hpMem.getHpInfoDetail", submitId);
@@ -48,6 +49,13 @@ public class HpMemDAO implements InterHpMemDAO {
 		List<HashMap<String, String>> scheduleTbl = sqlsession.selectList("hpMem.getScheduleTbl", submitId);
 		System.out.println(scheduleTbl.size());
 		return scheduleTbl;
+	}
+
+	// 병원의 후기 리스트 가져오기
+	@Override
+	public List<HashMap<String, String>> getRecentReviews(String hpSeq) {
+		List<HashMap<String, String>> reviewList = sqlsession.selectList("hpMem.getRecentReviews", hpSeq);
+		return reviewList;
 	}
 
 

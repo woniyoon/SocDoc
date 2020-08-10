@@ -60,4 +60,27 @@
 		on s.close = t.hourSeq
 		order by day asc
 	</select>
+
+	<!-- 후기 목록 가져오기 -->
+	<resultMap type="HashMap" id="recentReviews">
+		<result property="userid" column="userid" javaType="String"></result>
+		<result property="rating" column="rating" javaType="String"></result>
+		<result property="content" column="content" javaType="String"></result>
+		<result property="regDate" column="regDate" javaType="String"></result>
+		
+	</resultMap>
+	
+	<select id="getRecentReviews" parameterType="String" resultMap="recentReviews">
+		select rno, userid, rating, content, to_char(regDate, 'yyyy-mm-dd') as regDate
+		from 
+		(select rownum as rno, V.userid, V.rating, V.content, V.regDate
+		from
+		(select userid, rating, content, regDate from hospitalReview 
+		where hpSeq = #{hpSeq}
+		order by regDate desc) V
+		order by rno)
+		where <![CDATA[ ROWNUM <= 3 ]]>
+	</select>
+	
+	
 </mapper>

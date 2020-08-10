@@ -16,4 +16,6 @@ public interface InterHpMemDAO {
 
 	public List<HashMap<String, String>> getOpeningHours(String hpSeq);
 
+	public List<HashMap<String, String>> getRecentReviews(String hpSeq);
+
 }

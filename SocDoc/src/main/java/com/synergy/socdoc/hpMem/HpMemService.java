@@ -45,4 +45,10 @@ public class HpMemService implements InterHpMemService {
 		return scheduleTbl;
 	}
 
+	@Override
+	public List<HashMap<String, String>> getRecentReviews(String hpSeq) {
+		List<HashMap<String, String>> reviewList = dao.getRecentReviews(hpSeq);
+		return reviewList;
+	}
+
 }

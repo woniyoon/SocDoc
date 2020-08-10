@@ -22,6 +22,9 @@ public interface InterHpMemService {
 	// 신청테이블에서 병원의 오픈/클로즈 스케줄 가져오기
 	public List<HashMap<String, String>> getScheduleTbl(String submitId);
 
+	// 최근 리뷰 3개만 가져오기
+	public List<HashMap<String, String>> getRecentReviews(String hpSeq);
+
 
 	
 }

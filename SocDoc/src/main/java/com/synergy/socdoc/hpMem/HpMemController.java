@@ -33,11 +33,19 @@ public class HpMemController {
 //		String hpSeq = request.getSession().getAttribute("hpSeq");
 		String hpSeq = "2";
 		
+		
+		
+		// 병원 영업시간 가져오기
 		List<HashMap<String, String>> openingHours = service.getOpeningHours(hpSeq);
 
+		// 병원 후기 가져오기
+		List<HashMap<String, String>> reviewList = service.getRecentReviews(hpSeq);
+		
 		System.out.println(openingHours.get(0).get("close"));
 		
 		request.setAttribute("openingHours", openingHours);
+		request.setAttribute("reviewList", reviewList);
+		
 		return "hpMem/main.tiles4";
 	}
 

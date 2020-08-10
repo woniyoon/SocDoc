@@ -11,7 +11,7 @@
 		<table class="scheduleTbl">
 			<thead>
 				<tr>
-					<th colspan="2" align="left"><a><h4>병원진료시간 ></h4></a></th>
+					<th colspan="2" align="left"><h3><a>병원진료시간 ></a></h3></th>
 				</tr>
 				<tr>
 					<td>평일</td>
@@ -72,37 +72,28 @@
 		<table class="reviewBoard">
 			<thead>
 				<tr>
-					<th colspan="4" align="left"><a><h4>후기 ></h4></a></th>
+					<th colspan="4" align="left"><h3><a>후기 ></a></h3></th>
 				</tr>
 			</thead>
 			<tbody>
-				<!-- 동적으로 생성되는 부분 ⬇️-->
-				<tr>
-					<td colspan="4">
-						<span>
-							woniyoon   ☆☆☆☆☆    좋아요 ~~~   2020-07-24
-						</span>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="4">
-						<span>
-							woniyoon   ☆☆☆☆☆    좋아요 ~~~   2020-07-24
-						</span>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="4">
-						<span>
-							woniyoon   ☆☆☆☆☆    좋아요 ~~~   2020-07-24
-						</span>
-					</td>
-				</tr>
-				<!-- 동적으로 생성되는 부분 ⬆️-->
+				<c:if test="${not empty reviewList }">
+					<c:forEach var="review" items="${reviewList }">
+						<tr>
+							<td colspan="4">
+								${review.userid} &nbsp; ${review.rating} &nbsp; ${review.content} &nbsp; ${review.regDate }
+							</td>
+						</tr>
+					</c:forEach>
+				</c:if>
+				<c:if test="${empty reviewList }">
+					<tr>
+						<td colspan="4" rowspan="3" align="center">아직 후기가 없습니다!</td>
+					</tr>
+				</c:if>
 			</tbody>
 			<tfoot>
 				<tr>
-					<td colspan="4" align="right"><span style="cursor: pointer" onclick="location.href='<%=ctxPath %>/hpPanel/reservationInfo.sd'">더보기</span></td>
+					<td colspan="4" align="right"><span style="cursor: pointer" onclick="location.href='<%=ctxPath %>/hpPanel/hpReviews.sd'">더보기</span></td>
 				</tr>
 			</tfoot>
 		</table>
