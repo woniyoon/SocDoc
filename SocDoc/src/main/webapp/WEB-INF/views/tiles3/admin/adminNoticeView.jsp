@@ -143,11 +143,11 @@
                             <th class="next_post th">윗글</th>
                             <!-- <td class="noticeNO" ></td>
                             <td class="noticeNO postrno" ></td> -->
-                            <td class="next_post postNotice titlePointer">윗글 제목이 보일 예정</td>
+                            <td class="next_post postNotice titlePointer">${noticevo.presubject}</td>
                         </tr>
                         <tr>
                             <th class="pre_post th">아랫글</th>
-                            <td class="pre_post preNotice titlePointer">아랫글 제목이 보일 예정</td>
+                            <td class="pre_post preNotice titlePointer">${noticevo.nextsubject}</td>
                         </tr>
                     </table>
                 </div>

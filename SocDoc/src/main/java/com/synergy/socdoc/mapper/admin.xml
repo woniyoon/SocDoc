@@ -10,10 +10,23 @@
 		order by qnaSeq desc 
 	</select>
 	
+	<!-- 공지사항 상세 글보기 -->
 	<select id="getView" parameterType="String" resultType="com.synergy.socdoc.member.NoticeVO">
-		select subject, content
-		from noticeBoard
-		where noticeSeq = #{noticeSeq}
+		select  preseq, presubject, 
+		        noticeseq, subject, content, regDate
+		        nextseq, nextsubject
+		from 
+		(
+		    select lag(noticeseq, 1) over(order by noticeseq desc)  as preseq
+		            , lag(subject, 1) over(order by noticeseq desc) as presubject
+		            , noticeseq, subject, content
+		            , to_char(regDate, 'yyyy-mm-dd') as regDate
+		           
+		            , lead(noticeseq, 1) over(order by noticeseq desc) as nextseq
+		            , lead(subject, 1) over(order by noticeseq desc) as nextsubject
+		    from noticeBoard
+		) V
+		where V.noticeSeq = #{noticeSeq}
 	</select>
  	
  	
@@ -232,6 +245,5 @@
          delete from noticeBoard
          where noticeSeq = #{noticeSeq}
     </delete>
-	
 	
 </mapper>
