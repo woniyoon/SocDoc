@@ -164,7 +164,7 @@
 		
 		if (subject == "") {
 			alert("제목을 입력해주세요");
-			return "admin/noticeWrite.sd";
+			return "admin/adminNoticeWrite.sd";
 		}
 		
 		if (content == "") {

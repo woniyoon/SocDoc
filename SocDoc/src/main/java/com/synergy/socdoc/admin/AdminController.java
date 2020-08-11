@@ -495,7 +495,7 @@ public class AdminController {
 	}
 
 	/* 공지사항 글보기 */
-	@RequestMapping(value = "/noticeView.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value = "/adminNoticeView.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	public ModelAndView noticeView(HttpServletRequest request, ModelAndView mav) {
 		
 		String noticeSeq = request.getParameter("noticeSeq");
@@ -510,16 +510,16 @@ public class AdminController {
 		noticevo = service.getView(noticeSeq);
 		
 		mav.addObject("noticevo", noticevo);
-		mav.setViewName("admin/noticeView.tiles3");
+		mav.setViewName("admin/adminNoticeView.tiles3");
 		
 		return mav;
 		
 	}
 	/* 공지사항 글쓰기 */
-	@RequestMapping(value = "/noticeWrite.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value = "/adminNoticeWrite.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	public String noticeWrite(HttpServletRequest request) {
 		
-		return "admin/noticeWrite.tiles3";
+		return "admin/adminNoticeWrite.tiles3";
 	}
 	/* 공지사항 글쓰기 요청 */
 	@RequestMapping(value = "/noticeWriteEnd.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
@@ -546,7 +546,6 @@ public class AdminController {
 	@RequestMapping(value="/goDel.sd" ,method = RequestMethod.POST)
 	@ResponseBody
 	public ModelAndView delNotice(@RequestParam("noticeck") String[] noticeck, ModelAndView mav, HttpServletRequest request) throws Exception {
-
 		
 		String noticeJoin = request.getParameter("noticeJoin");
 		

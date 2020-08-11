@@ -188,7 +188,7 @@
 		frm.noticeSeq.value = noticeSeq; 
 		
 		frm.method = "GET";
-		frm.action = "<%=ctxPath%>/noticeView.sd";
+		frm.action = "<%=ctxPath%>/adminNoticeView.sd";
 		frm.submit();
 	}
 	
