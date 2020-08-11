@@ -373,6 +373,10 @@
 			}
 		
 		
+			
+			
+		
+		goSearch();
 		
 		
 	})
@@ -380,19 +384,19 @@
 		
 	
 	
-	
-function makeOverListener(map, marker, infowindow, infowindowArr) {
-    return function() {    	
-    	for(var i=0; i<infowindowArr.length; i++) {
-    		if(i == infowindow.getZIndex()-1) {
-    			infowindowArr[i].open(map, marker);
-    		}
-    		else{
-    			infowindowArr[i].close();
-    		}
-    	}
-    };
-}
+		
+	function makeOverListener(map, marker, infowindow, infowindowArr) {
+	    return function() {    	
+	    	for(var i=0; i<infowindowArr.length; i++) {
+	    		if(i == infowindow.getZIndex()-1) {
+	    			infowindowArr[i].open(map, marker);
+	    		}
+	    		else{
+	    			infowindowArr[i].close();
+	    		}
+	    	}
+	    };
+	}
 
 	
 	// 인포윈도우를 표시하는 클로저(closure => 함수 내에서 함수를 정의하고 사용하도록 만든것)를 만드는 함수입니다 
@@ -410,6 +414,19 @@ function makeOverListener(map, marker, infowindow, infowindowArr) {
 	    	}
 	    };
 	}	
+	
+
+	  
+	function goSearch(){
+	 
+		 var frm = document.searchFrm;
+		 frm.method = "GET";
+		 frm.action = "generalHospital.sd";
+		 frm.submit();
+		 
+	}
+	    
+	    
 	
 	
 	
@@ -478,25 +495,26 @@ function makeOverListener(map, marker, infowindow, infowindowArr) {
 			<!-- 일반 -->			
 			<div id="tab-2" class="tab-content">
 				<div class="tabGeneral">
-					<div>
-						<select id="city" name="city" class="select">
-							<option value="city">시</option>
-						</select>
-						<select id="county" name="county" class="select">
-							<option value="county">군</option>
-						</select>
-						<select id="district" name="district" class="select">
-							<option value="district">구</option>
-						</select>
-					</div>
-					<div>
-						<select id="category" name="category" class="select">
-							<option value="category">진료과목</option>
-						</select>
-						<input type="text" id ="searchWord" name="searchWord" class="select"/>	
-						<button type="button" class="btnSearch" onclick="goSearch();">검색</button>
-					</div>					
-					
+					<form name="searchFrm">
+						<div>
+							<select id="city" name="city" class="select">
+								<option value="city">시</option>
+							</select>
+							<select id="county" name="county" class="select">
+								<option value="county">군</option>
+							</select>
+							<select id="district" name="district" class="select">
+								<option value="district">구</option>
+							</select>
+						</div>
+						<div>
+							<select id="category" name="category" class="select">
+								<option value="category">진료과목</option>
+							</select>
+							<input type="text" id ="searchWord" name="searchWord" class="select"/>	
+							<button type="button" class="btnSearch" onclick="goSearch();">검색</button>
+						</div>					
+					</form>	
 				</div>
 				
 				<hr style="width:100%; border:solid 1px #999999; margin: 20px 0;">

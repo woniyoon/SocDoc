@@ -38,7 +38,7 @@ public class SearchMenuCtrl {
 	}
 	
 	
-	
+	/*
 	@ResponseBody
 	@RequestMapping(value = "/mapHospital.sd", produces="application/text;charset=utf-8")
 	public String searchHospital(HttpServletRequest request) {
@@ -76,13 +76,20 @@ public class SearchMenuCtrl {
 		return json;
 	}
 	
+	*/
+	@ResponseBody
 	@RequestMapping(value="/generalHospital.sd", produces="application.text;charset=utf-8")
 	public String generalHospital(HttpServletRequest request, ModelAndView mav) {
 		
 		List<HpInfoVO> hpList = null;
 		
-		String searchType = request.getParameter(searchType);
-		String searchWord = request.getParameter(searchWord);
+		
+		String city = request.getParameter("city");
+		String county = request.getParameter("county");
+		String district = request.getParameter("district");
+		String category = request.getParameter("category");
+		String searchWord = request.getParameter("searchWord");
+		
 		String str_currentShowPageNo = request.getParameter("currentShowPageNo");
 
 		if (searchWord == null || searchWord.trim().isEmpty()) {
@@ -95,7 +102,10 @@ public class SearchMenuCtrl {
 		
 		
 		HashMap<String, String> paraMap = new HashMap<>();
-		paraMap.put("searchType", searchType);
+		paraMap.put("city", city);
+		paraMap.put("county", county);
+		paraMap.put("district", district);
+		paraMap.put("category", category);
 		paraMap.put("searchWord", searchWord);
 
 		int totalCount = 0;
@@ -138,18 +148,18 @@ public class SearchMenuCtrl {
 	    
 	    int pageNo = ((currentShowPageNo - 1)/blockSize) * blockSize + 1;	
 	    
-	    String url = "generalHospital.action";
+	    String url = "generalHospital.sd";
 
 	    
 	    // [이전]
  	 	if(pageNo != 1) {
  	 		pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'>"
- 	 				+ "<a href='"+url+"?searchType="+searchType+"&searchType="+searchWord+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";			
+ 	 				+ "<a href='"+url+"?city="+city+"&county="+county+"&district="+district+"&category="+category+"&searchType="+searchWord+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";			
  	 	}
  	    
  	    while (!(loop > blockSize || pageNo > totalPage )) {
  	         
- 	         pageBar += "<li style='display:inline-block; width:20px;'><a href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
+ 	         pageBar += "<li style='display:inline-block; width:20px;'><a href='"+url+"?city="+city+"&county="+county+"&district="+district+"&category="+category+"&searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
  	         
  	         loop ++;
  	         pageNo ++;	         
@@ -158,7 +168,7 @@ public class SearchMenuCtrl {
  	    // [다음]
  	    if( !(pageNo > totalPage) ) {
  			pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'>"
- 					+ "<a href='"+url+"?searchType="+searchType+"&searchType="+searchWord+"&currentShowPageNo="+(pageNo)+"'>[다음]</a></li>";
+ 					+ "<a href='"+url+"?category="+category+"&searchType="+searchWord+"&currentShowPageNo="+(pageNo)+"'>[다음]</a></li>";
  		}
 
  	      
@@ -174,11 +184,12 @@ public class SearchMenuCtrl {
 				String hpName = hpMapVO.getHpName();
 				String address = hpMapVO.getAddress();
 				String phone = hpMapVO.getPhone();
-
-
+				String dept = hpMapVO.getDept();
+				
 	            jsonObj.put("hpName", hpName);
 	            jsonObj.put("address", address);
 	            jsonObj.put("phone", phone);
+	            jsonObj.put("dept", dept);
 	            
 	            jsonArr.put(jsonObj);				
 				
@@ -191,7 +202,7 @@ public class SearchMenuCtrl {
 		
 	}
 	
-	
+	/*
 	// 약국찾기
 	@RequestMapping(value = "/searchPharmacy.sd")
 	public ModelAndView searchPharmacy(ModelAndView mav) {
@@ -245,7 +256,7 @@ public class SearchMenuCtrl {
 	
 	
 	
-	
+	*/
 	
 	
 	
