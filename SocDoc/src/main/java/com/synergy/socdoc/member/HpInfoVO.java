@@ -1,5 +1,7 @@
 package com.synergy.socdoc.member;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class HpInfoVO {
 
 	private String hpSeq;
@@ -20,6 +22,22 @@ public class HpInfoVO {
 	private int status;
 	private String submitId;
 	private String uploadDate;
+	
+	private String fileNameMain; // WAS에 저장될 파일명, 날짜 + 나노초.png (예)20200725.....png)
+	private String orgFileNameMain; // 진짜 파일명(예)강아지.png)
+	private String fileSizeMain; // 파일크기
+	
+	private String fileNameSub1; // WAS에 저장될 파일명, 날짜 + 나노초.png (예)20200725.....png)
+	private String orgFileNameSub1; // 진짜 파일명(예)강아지.png)
+	private String fileSizeSub1; // 파일크기
+	
+	private String fileNameSub2; // WAS에 저장될 파일명, 날짜 + 나노초.png (예)20200725.....png)
+	private String orgFileNameSub2; // 진짜 파일명(예)강아지.png)
+	private String fileSizeSub2; // 파일크기
+
+	private MultipartFile[] attachMain;
+//	private MultipartFile attachSub1;
+//	private MultipartFile attachSub2;
 	
 	
 	public HpInfoVO() {
@@ -174,5 +192,101 @@ public class HpInfoVO {
 	public void setUploadDate(String uploadDate) {
 		this.uploadDate = uploadDate;
 	}
+
+	public String getFileNameMain() {
+		return fileNameMain;
+	}
+
+	public void setFileNameMain(String fileNameMain) {
+		this.fileNameMain = fileNameMain;
+	}
+
+	public String getOrgFileNameMain() {
+		return orgFileNameMain;
+	}
+
+	public void setOrgFileNameMain(String orgFileNameMain) {
+		this.orgFileNameMain = orgFileNameMain;
+	}
+
+	public String getFileSizeMain() {
+		return fileSizeMain;
+	}
+
+	public void setFileSizeMain(String fileSizeMain) {
+		this.fileSizeMain = fileSizeMain;
+	}
+
+	public String getFileNameSub1() {
+		return fileNameSub1;
+	}
+
+	public void setFileNameSub1(String fileNameSub1) {
+		this.fileNameSub1 = fileNameSub1;
+	}
+
+	public String getOrgFileNameSub1() {
+		return orgFileNameSub1;
+	}
+
+	public void setOrgFileNameSub1(String orgFileNameSub1) {
+		this.orgFileNameSub1 = orgFileNameSub1;
+	}
+
+	public String getFileSizeSub1() {
+		return fileSizeSub1;
+	}
+
+	public void setFileSizeSub1(String fileSizeSub1) {
+		this.fileSizeSub1 = fileSizeSub1;
+	}
+
+	public String getFileNameSub2() {
+		return fileNameSub2;
+	}
+
+	public void setFileNameSub2(String fileNameSub2) {
+		this.fileNameSub2 = fileNameSub2;
+	}
+
+	public String getOrgFileNameSub2() {
+		return orgFileNameSub2;
+	}
+
+	public void setOrgFileNameSub2(String orgFileNameSub2) {
+		this.orgFileNameSub2 = orgFileNameSub2;
+	}
+
+	public String getFileSizeSub2() {
+		return fileSizeSub2;
+	}
+
+	public void setFileSizeSub2(String fileSizeSub2) {
+		this.fileSizeSub2 = fileSizeSub2;
+	}
+
+	public MultipartFile[] getAttachMain() {
+		return attachMain;
+	}
+
+	public void setAttachMain(MultipartFile[] attachMain) {
+		this.attachMain = attachMain;
+	}
+
+//	public MultipartFile getAttachSub1() {
+//		return attachSub1;
+//	}
+//
+//	public void setAttachSub1(MultipartFile attachSub1) {
+//		this.attachSub1 = attachSub1;
+//	}
+//
+//	public MultipartFile getAttachSub2() {
+//		return attachSub2;
+//	}
+//
+//	public void setAttachSub2(MultipartFile attachSub2) {
+//		this.attachSub2 = attachSub2;
+//	}
 	
 }
