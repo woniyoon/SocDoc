@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.synergy.socdoc.common.Sha256;
 import com.synergy.socdoc.mail.GoogleMail;
+import com.synergy.socdoc.member.HpMemberVO;
 import com.synergy.socdoc.member.MemberVO;
 
 @Controller
@@ -48,18 +49,21 @@ public class LoginController {
 		
 		MemberVO loginuser = service.getLoginMember(paraMap);
 		
-		HttpSession session = request.getSession();
-		
 		if(loginuser == null) {
 			String msg = "아이디 또는 암호가 틀립니다.";
 			String loc = "javascript:history.back()";
-			
 			mav.addObject("msg", msg);
 			mav.addObject("loc", loc);
-			
 			mav.setViewName("msg"); 
-			
 		} else {
+			String msg = "속닥 로그인 성공 희희바리~~ 건강한 하루 보내세요 ^~^";
+			String loc = request.getContextPath() + "/index.sd";
+			mav.addObject("msg", msg);
+			mav.addObject("loc", loc);
+			mav.setViewName("msg"); 
+		}	
+		
+			/*else {
 			
 			if(loginuser.isIdleStatus() == true) { 
 				// 로그인을 한지 1년이 지나서 휴면상태에 빠진 경우
@@ -101,11 +105,37 @@ public class LoginController {
 					mav.setViewName("login/loginEnd.tiles1");
 				}
 			}
-		}
+		}*/
 		
 		return mav;
 	}
+	@RequestMapping(value="/hpLoginEnd.sd", method= {RequestMethod.POST})
+	public ModelAndView hpLoginEnd(HttpServletRequest request, ModelAndView mav) {
+		
+		String userid = request.getParameter("userid");
+		String pwd = request.getParameter("pwd");
+		
+		HashMap<String, String> paraMap = new HashMap<>();
+		paraMap.put("userid", userid);
+		paraMap.put("pwd", Sha256.encrypt(pwd)); // 암호화
+		
+		HpMemberVO hpLoginuser = service.getHpLoginMember(paraMap);
 	
+		if(hpLoginuser == null) {
+			String msg = "아이디 또는 암호가 틀립니다.";
+			String loc = "javascript:history.back()";
+			mav.addObject("msg", msg);
+			mav.addObject("loc", loc);
+			mav.setViewName("msg"); 
+		} else {
+			String msg = "속닥 로그인 성공 희희바리~~ 건강한 하루 보내세요 ^~^";
+			String loc = request.getContextPath() + "/index.sd";
+			mav.addObject("msg", msg);
+			mav.addObject("loc", loc);
+			mav.setViewName("msg"); 
+		}	
+		return mav;
+	}	
 	
 	// === 회원가입 폼 페이지 요청 === //
 	@RequestMapping(value="/register.sd", method= {RequestMethod.GET})
@@ -120,17 +150,66 @@ public class LoginController {
 	// 회원 회원가입 //
 	@RequestMapping(value="/registerEnd.sd", method= {RequestMethod.POST})
 	public String register(MemberVO vo, HttpServletRequest request) {
-		
-		System.out.println("회우너가입 성공??");
+		/*System.out.println("회원가입 성공??");
 		System.out.println(" 이름 :" + vo.getName());
 		System.out.println(" 번호 " + vo.getPhone());
 		System.out.println(" 아이디 " + vo.getUserid());
 		System.out.println(" 비번 : " + vo.getPwd());
 		System.out.println(" 이메일 : " + vo.getEmail());
+		System.out.println("생년월일 : " + vo.getBirthDate());
+		System.out.println("성별 : " + vo.getGender());*/
+		
+		HashMap<String, String> paraMap = new HashMap<>();
+		String pwd = Sha256.encrypt(vo.getPwd());
+		vo.setPwd(pwd); // pwd를 vo로 보내주자
+		
+		HttpSession session = request.getSession();
+		int n = service.register(vo);
 	
-		service.register(vo);
+		String msg = "";
+		String loc = "";
+		if(n==1) {
+			session.setAttribute("loginuser", vo);
+			msg = "가입 성공하셨습니다.";
+			loc = request.getContextPath() + "/index.sd";
+		} else {
+			msg = "다시 시도해주세요!";
+			loc = "history.back()";
+		}
+		request.setAttribute("msg", msg);
+		request.setAttribute("loc", loc);
+		return "msg";
+	}
+	// 병원 회원가입 //
+	@RequestMapping(value="/hpRegisterEnd.sd", method= {RequestMethod.POST})
+	public String hpRegisterEnd(HpMemberVO vo, HttpServletRequest request) {
+		/*System.out.println("회원가입 성공??");
+		System.out.println(" 이름 :" + vo.getName());
+		System.out.println(" 아이디 " + vo.getUserid());
+		System.out.println(" 비번 : " + vo.getPwd());
+		System.out.println(" 이메일 : " + vo.getEmail());
+		System.out.println(" 사업자 : " + vo.getRegId());*/
+		
+		HashMap<String, String> paraMap = new HashMap<>();
+		String pwd = Sha256.encrypt(vo.getPwd());
+		vo.setPwd(pwd); // pwd를 vo로 보내주자
+		
+		HttpSession session = request.getSession();
+		int n = service.hpRegister(vo);
 	
-		return null;
+		String msg = "";
+		String loc = "";
+		if(n==1) {
+			session.setAttribute("hpLoginuser", vo);
+			msg = "가입 성공하셨습니다.";
+			loc = request.getContextPath() + "/index.sd";
+		} else {
+			msg = "다시 시도해주세요!";
+			loc = "history.back()";
+		}
+		request.setAttribute("msg", msg);
+		request.setAttribute("loc", loc);
+		return "msg";
 	}
 	
 	// === 회원가입 회원 이메일 인증키 난수 만들기 === //
@@ -139,10 +218,7 @@ public class LoginController {
 	public String emailCode(HttpServletRequest request) {
 		
 		String email = request.getParameter("email");
-				
-		// 인증키를 랜덤하게 생성하도록 한다.
-		Random rnd = new Random();
-		
+		Random rnd = new Random();	// 인증키를 랜덤하게 생성하도록 한다.
 		String certificationCode = "";
 		
 		int randnum = 0;
@@ -153,38 +229,29 @@ public class LoginController {
 		
 		// 랜덤하게 생성한 인증코드(certificationCode)를 비밀번호 찾기를 하고자 하는 사용자의 email로 전송시킨다.
 		GoogleMail mail = new GoogleMail();
-		
-		// 세션은 우리가 만드는게 아니라, WAS에서 불러오는 것
         HttpSession session = request.getSession();
 		
         boolean isSent;
-        
         try {
         	System.out.println("~~~~~~~~~~~~~~~~ 메일전송  시작 ~~~~~~~~~~~~~~~~");
 			mail.sendmail(email, certificationCode);
 			session.setAttribute("certificationCode", certificationCode);
 			isSent = true;
-			// 자바에서 발급한 인증코드를 세션에 저장
         } catch (Exception e) {
 			e.printStackTrace();
 			isSent= false;
 		}
-
         JSONObject json = new JSONObject();
         json.put("isSent", isSent);
         return json.toString();  
 	}
-
 	// === 회원가입 병원 이메일 인증키 난수 만들기 === //
 	@ResponseBody
 	@RequestMapping(value="/hpEmailCode.sd", method = {RequestMethod.POST})
 	public String hpEmailCode(HttpServletRequest request) {
 		
-		String hpEmail = request.getParameter("hpEmail");
-				
-		// 인증키를 랜덤하게 생성하도록 한다.
-		Random rnd = new Random();
-		
+		String email = request.getParameter("email");
+		Random rnd = new Random(); 	// 인증키를 랜덤하게 생성하도록 한다.
 		String hpCertificationCode = "";
 		
 		int randnum = 0;
@@ -195,23 +262,18 @@ public class LoginController {
 		
 		// 랜덤하게 생성한 인증코드(certificationCode)를 비밀번호 찾기를 하고자 하는 사용자의 email로 전송시킨다.
 		GoogleMail mail = new GoogleMail();
-		
-		// 세션은 우리가 만드는게 아니라, WAS에서 불러오는 것
         HttpSession session = request.getSession();
 		
         boolean isSent;
-        
         try {
         	System.out.println("~~~~~~~~~~~~~~~~ 메일전송  시작 ~~~~~~~~~~~~~~~~");
-			mail.sendmail(hpEmail, hpCertificationCode);
+			mail.sendmail(email, hpCertificationCode);
 			session.setAttribute("hpCertificationCode", hpCertificationCode);
 			isSent = true;
-			// 자바에서 발급한 인증코드를 세션에 저장
         } catch (Exception e) {
 			e.printStackTrace();
 			isSent= false;
 		}
-
         JSONObject json = new JSONObject();
         json.put("isSent", isSent);
         return json.toString();  
@@ -229,39 +291,24 @@ public class LoginController {
 	
 		System.out.println("userCertificationCode 인증 코드 : "+userCertificationCode);
 		System.out.println("certificationCode 인증 코드 : "+certificationCode);
-	/*	String msg = "";
-		String loc = "";*/
 		
 		boolean isbool=false;
-		
 		if( certificationCode.equals(userCertificationCode) ) {
-//			msg = "인증성공 되었습니다.";
-//			loc = request.getContextPath()+"/userCertificationCode.sd";
 			isbool=true;
 			System.out.println("인증코드 맞음");
-
 		}
 		else {
-//			msg = "발급된 인증코드가 아닙니다. 인증코드를 다시 발급받으세요!!";
-//			loc = request.getContextPath()+"/register.sd";
 			isbool=false;
 			System.out.println("인증코드 안 맞음");
 		}
 		/*
 		request.setAttribute("msg", msg);
 		request.setAttribute("loc", loc);*/
-		
-		// !!! 중요 !!! //
-		// 세션에 저장된 인증코드 삭제하기 !!!!
-		//session.removeAttribute("certificationCode");
-		
+		//session.removeAttribute("certificationCode"); // 세션에 저장된 인증코드 삭제하기
 		JSONObject json = new JSONObject();
         json.put("isbool", isbool);
-        
         return json.toString();  
-		
 	}
-	
 	// === 회원가입 병원 이메일 인증확인 === //
 		@ResponseBody
 		@RequestMapping(value="/hpVerifyCertificationFrm.sd", method={RequestMethod.POST}, produces="text/plain;charset=UTF-8")
@@ -274,21 +321,13 @@ public class LoginController {
 		
 			System.out.println("hpUserCertificationCode 인증 코드 : "+hpUserCertificationCode);
 			System.out.println("hpCertificationCode 인증 코드 : "+hpCertificationCode);
-		/*	String msg = "";
-			String loc = "";*/
 			
 			boolean isbool=false;
-			
 			if( hpCertificationCode.equals(hpUserCertificationCode) ) {
-//				msg = "인증성공 되었습니다.";
-//				loc = request.getContextPath()+"/userCertificationCode.sd";
 				isbool=true;
 				System.out.println("인증코드 맞음");
-
 			}
 			else {
-//				msg = "발급된 인증코드가 아닙니다. 인증코드를 다시 발급받으세요!!";
-//				loc = request.getContextPath()+"/register.sd";
 				isbool=false;
 				System.out.println("인증코드 안 맞음");
 			}
@@ -299,21 +338,12 @@ public class LoginController {
 			// !!! 중요 !!! //
 			// 세션에 저장된 인증코드 삭제하기 !!!!
 			//session.removeAttribute("certificationCode");
-			
 			JSONObject json = new JSONObject();
 	        json.put("isbool", isbool);
-	        
 	        return json.toString();  
-			
 		}
-	
-	
-	
-	
-	
-	
-	
-	
+
+
 	// === 회원가입 회원 아이디 중복검사 === //
 	@ResponseBody
 	@RequestMapping(value="/idChk.sd", method= {RequestMethod.POST})
@@ -333,9 +363,9 @@ public class LoginController {
 	@ResponseBody
 	@RequestMapping(value="/hpIdChk.sd", method= {RequestMethod.POST})
 	public String hpIdChk(HttpServletRequest request) {
-		String hpUserid = request.getParameter("hpUserid");
+		String userid = request.getParameter("userid");
 		
-		boolean isUse = service.hpIdChk(hpUserid);
+		boolean isUse = service.hpIdChk(userid);
 		//System.out.println("isUse 값 : " + isUse);
 		/*String ctxPath = request.getContextPath();*/
 		JSONObject json = new JSONObject();
@@ -363,9 +393,9 @@ public class LoginController {
 	@ResponseBody
 	@RequestMapping(value="/hpEmailChk.sd", method= {RequestMethod.POST})
 	public String hpEmailChk(HttpServletRequest request) {
-		String hpEmail = request.getParameter("hpEmail");
+		String email = request.getParameter("email");
 		
-		boolean isUse = service.hpEmailChk(hpEmail);
+		boolean isUse = service.hpEmailChk(email);
 		//System.out.println("isUse 값 : " + isUse);
 		/*String ctxPath = request.getContextPath();*/
 		JSONObject json = new JSONObject();

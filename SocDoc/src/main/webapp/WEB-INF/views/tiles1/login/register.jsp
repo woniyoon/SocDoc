@@ -94,6 +94,11 @@
 		font-size: 8pt;
 		color: red;
 	}
+    input[type=button] {
+    	color: #fff;
+    	background-color: #58ACFA;
+	    border: solid 1px #ccc;
+    }
     
     .requiredInfo, .hpRequiredInfo{
 		width: 100%;
@@ -129,13 +134,13 @@
 		border: solid 0px #ccc;
 	}
 	
-	.birthday {
+	.birthDate {
 		overflow : hidden;
 	    box-sizing: border-box;
 	    border: solid 1px gray;
 	}
 	
-	.birthday input[type=text] {
+	.birthDate input[type=text] {
 		float: left;
 	    width: 100px;
 	    height: 35px;
@@ -225,12 +230,12 @@
 		$("span#useridError").hide();
 		$("span#useridSuccess").hide();
 	
-		$("#userid").keyup(function(){
+		$("form[name=registerFrm] #userid").keyup(function(){
 			$(this).val( $(this).val().replace( /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '' ).trim() ); // 한글 막기
-			if($("input#userid").val().trim() == "") {	// 데이터가 없다면
+			if($("form[name=registerFrm] input#userid").val().trim() == "") {	// 데이터가 없다면
 				$("span#useridSuccess").hide();
 				$("span#useridError").show();
-				$("input#userid").addClass("wrong"); 
+				$("form[name=registerFrm] input#userid").addClass("wrong"); 
 			} else {	// 데이터가 있다면
 				// 정규표현식
 				var regExp = /^[A-Za-z0-9]{5,10}$/;	// 5자 이상 10글자 이하의 영문과 숫자를 조합
@@ -239,21 +244,21 @@
 				if(!bool) {  // 데이터가 조건에 맞지않으면
 					$("span#useridSuccess").hide();
 					$("span#useridError").html("영문,숫자 조합으로 5~10자리만 입력 가능합니다.").show();
-					$("input#userid").addClass("wrong");  
+					$("form[name=registerFrm] input#userid").addClass("wrong");  
 					condition1 = false;
 					return;
 				} else {	// 데이터가 조건에 맞다면
-					$("input#userid").removeClass("wrong");
+					$("form[name=registerFrm] input#userid").removeClass("wrong");
 					condition1 = true;
 					
 					$.ajax({
 						url:"<%=ctxPath%>/idChk.sd",
 						type:"POST",
-						data:{"userid":$("#userid").val()},
+						data:{"userid":$("form[name=registerFrm] #userid").val()},
 						dataType:"json",
 						success:function(json){
 							if(json.isUse) {	// X 데이터가 중복된다면 X false
-								$("span#useridError").html($("#userid").val()+"은(는) 이미 사용 중이거나, 탈퇴한 아이디로 사용 불가능합니다.").show();
+								$("span#useridError").html($("form[name=registerFrm] #userid").val()+"은(는) 이미 사용 중이거나, 탈퇴한 아이디로 사용 불가능합니다.").show();
 								$("span#useridSuccess").hide();
 							} else {	// O 데이터가 중복되지않는다면 O true
 								if(condition1 == true) {	// 정규표현식이 맞다면
@@ -278,12 +283,12 @@
 		$("span#pwdError").hide();
 		$("span#pwdSuccess").hide();
 	
-		$("#pwd").keyup(function(){
+		$("form[name=registerFrm] #pwd").keyup(function(){
 		
-			if($("input#pwd").val().trim() == "") {	// 데이터가 없다면
+			if($("form[name=registerFrm] input#pwd").val().trim() == "") {	// 데이터가 없다면
 				$("span#pwdSuccess").hide();
 				$("span#pwdError").show();
-				$("input#pwd").addClass("wrong");
+				$("form[name=registerFrm] input#pwd").addClass("wrong");
 			} else {	// 데이터가 있다면
 				// 정규표현식
 		        var regExp = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).*$/g;	//  8~15자리 이하의 숫자,문자,특수문자 조합 
@@ -292,12 +297,12 @@
 				if(!bool) {  // 데이터가 조건에 맞지않으면
 					$("span#pwdSuccess").hide();
 					$("span#pwdError").html("숫자,문자,특수문자 조합으로 8~15자리만 입력 가능합니다.").show();
-					$("input#pwd").addClass("wrong");  
+					$("form[name=registerFrm] input#pwd").addClass("wrong");  
 					condition2 = false;
 					return;
 				} else {	// 데이터가 조건에 맞다면
 					$("span#pwdSuccess").show();
-					$("input#pwd").removeClass("wrong");
+					$("form[name=registerFrm] input#pwd").removeClass("wrong");
 					condition2 = true;
 				}
 				$("span#pwdError").hide();
@@ -310,11 +315,11 @@
 		// ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 이름
 		$("span#nameError").hide();
 	
-		$("#name").keyup(function(){
+		$("form[name=registerFrm] #name").keyup(function(){
 		
-			if($("input#name").val().trim() == "") {	// 데이터가 없다면
+			if($("form[name=registerFrm] input#name").val().trim() == "") {	// 데이터가 없다면
 				$("span#nameError").show();
-				$("input#name").addClass("wrong");
+				$("form[name=registerFrm] input#name").addClass("wrong");
 			} else {	// 데이터가 있다면
 				// 정규표현식
 		        var regExp = /^[가-힣]{2,4}$/;	//  2~4글자 한글만 
@@ -322,11 +327,11 @@
 				
 		        if(!bool) {  // 데이터가 조건에 맞지않으면
 					$("span#nameError").show();
-					$("input#name").addClass("wrong");
+					$("form[name=registerFrm] input#name").addClass("wrong");
 					condition3 = false;
 					return;
 				} else {	// 데이터가 조건에 맞다면
-					$("input#name").removeClass("wrong");
+					$("form[name=registerFrm] input#name").removeClass("wrong");
 					condition3 = true;
 				}
 				$("span#nameError").hide();
@@ -337,7 +342,7 @@
 	
 		
 		// ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 생년월일
-		$("span#birthdayError").hide();
+		$("span#birthdateError").hide();
 	    $("input#birthYY, input#birthMM, input#birthDD").keyup(validateBirth);
 	    
 	    // 생년월일에 0추가 
@@ -371,24 +376,24 @@
 			// 년
 			var yearValue = $("#birthYY").val();
 			if (!yearRegex.test(yearValue)) {
-				$(".birthday").addClass('wrong');
-				$("span#birthdayError").html("연도를 정확하게 입력해주세요").show();
+				$(".birthDate").addClass('wrong');
+				$("span#birthdateError").html("연도를 정확하게 입력해주세요").show();
 				return;
 			}
 			// 월
 			var monthValue = $("#birthMM").val();
 			if (!monthRegex.test(monthValue)) {
 				// error , return
-				$(".birthday").addClass('wrong');
-				$("span#birthdayError").html("월을 정확하게 입력해주세요").show();
+				$(".birthDate").addClass('wrong');
+				$("span#birthdateError").html("월을 정확하게 입력해주세요").show();
 				return;
 			}
 			// 일
 			var dateValue = $("#birthDD").val();
 			if (!dateRegex.test(dateValue)) {
 				// error , return
-				$(".birthday").addClass('wrong');
-				$("span#birthdayError").html("일을 정확하게 입력해주세요").show();
+				$(".birthDate").addClass('wrong');
+				$("span#birthdateError").html("일을 정확하게 입력해주세요").show();
 				return;
 			}
 			var userYearInt = parseInt(yearValue);
@@ -403,15 +408,15 @@
 			// 미래
 			if (userAge < 0) {
 				// error, return
-				$(".birthday").addClass('wrong');
-				$("span#birthdayError").html("정확한 날짜로 입력해주세요").show();
+				$(".birthDate").addClass('wrong');
+				$("span#birthdateError").html("정확한 날짜로 입력해주세요").show();
 				return;
 			}
 			
 			// 모두 맞으면
-			$(".birthday").addClass('wrong');
-			$("span#birthdayError").html("").hide();
-			$(".birthday").prop("disabled",false).removeClass("wrong"); 
+			$(".birthDate").addClass('wrong');
+			$("span#birthdateError").html("").hide();
+			$(".birthDate").prop("disabled",false).removeClass("wrong"); 
 		}
 	
 		
@@ -425,37 +430,37 @@
 		$("span#emailCkSuccess").hide();
 		$("#btnFind3").hide();
 		
-		$("#email").keyup(function(){
+		$("form[name=registerFrm] #email").keyup(function(){
 			$(this).val( $(this).val().replace( /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '' ).trim() ); // 한글 막기
-			if($("input#email").val().trim() == "") {	// 데이터가 없다면
+			if($("form[name=registerFrm] input#email").val().trim() == "") {	// 데이터가 없다면
 				$("span#emailSuccess").hide();
 				$("span#emailError").show();
-				$("input#email").addClass("wrong");
-				$("#div_btnFind").hide();
+				$("form[name=registerFrm] input#email").addClass("wrong");
+				$("form[name=registerFrm] #div_btnFind").hide();
 			} else {	// 데이터가 있다면
 				// 정규표현식
-				var email = $("#email").val();
+				var email = $("form[name=registerFrm] #email").val();
 				var regExp_EMAIL = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 				var bool = regExp_EMAIL.test(email); // 생성된 정규표현식 객체속에 데이터를 넣어서 검사하기
 				
 				if(!bool) {  // 데이터가 조건에 맞지않으면
 					$("span#emailSuccess").hide();
 					$("span#emailError").html("이메일 형식에 맞게 입력해주세요.").show();
-					$("input#email").addClass("wrong"); 
+					$("form[name=registerFrm] input#email").addClass("wrong"); 
 					condition4 = false;
 					return;
 				} else {	// 데이터가 조건에 맞다면
-					$("input#email").removeClass("wrong");
+					$("form[name=registerFrm] input#email").removeClass("wrong");
 					condition4 = true;
 					
 					$.ajax({
 						url:"<%=ctxPath%>/emailChk.sd",
 						type:"POST",
-						data:{"email":$("#email").val()},
+						data:{"email":$("form[name=registerFrm]  #email").val()},
 						dataType:"json",
 						success:function(json){
 							if(json.isUse) {	// X 데이터가 중복된다면 X false
-								$("span#emailError").html($("#email").val()+"은(는) 이미 사용 중이거나, 탈퇴한 이메일로 사용 불가능합니다.").show();
+								$("span#emailError").html($("form[name=registerFrm] #email").val()+"은(는) 이미 사용 중이거나, 탈퇴한 이메일로 사용 불가능합니다.").show();
 								$("span#emailSuccess").hide();
 							} else {	// O 데이터가 중복되지않는다면 O true
 								if(condition4 == true) {	// 정규표현식이 맞다면
@@ -483,14 +488,14 @@
 		var method = "${method}";
 		var email = "${email}";
 		if(method=="POST") {
-			$("#email").val(email);
-			$("#div_btnFind").hide();
+			$("form[name=registerFrm] #email").val(email);
+			$("form[name=registerFrm] #div_btnFind").hide();
 		} else {
-			$("#div_btnFind").show();
+			$("form[name=registerFrm] #div_btnFind").show();
 		}
 		
 		// 이메일 '인증확인하기'버튼 눌렀을 때..///////////////////////////// 
-  		$("#btnFind2").click(function() {
+  		$("form[name=registerFrm] #btnFind2").click(function() {
   			disabled=false; // 버튼 비활성화
   			
 			$.ajax({	
@@ -503,7 +508,7 @@
 					if(json.isbool){
 						console.log("!!!메일인증성공!!!");
 						$("#emailCkSuccess").html("인증 성공. 회원가입을 진행하세요.").show();
-						$("input#email2").removeClass("wrong");
+						$("form[name=registerFrm] input#email2").removeClass("wrong");
 						$("span#emailCkSuccess").hide();
 						$("#btnFind2").hide();
 						$("#btnFind3").show();
@@ -583,7 +588,7 @@
 				success:function(json){
 					//console.log(json.isSent);
 					console.log("!!!!!!!!!!!!!!!!!!!!발송성공!!!!!!!!!!!!!!!!!!!!");
-					alert("입력하신 이메일("+$("#email").val()+")로 인증번호가 발송되었습니다.\n전달받은 인증번호를 입력해주세요");					
+					alert("입력하신 이메일("+$("form[name=registerFrm] #email").val()+")로 인증번호가 발송되었습니다.\n전달받은 인증번호를 입력해주세요");					
 					var btnChange = true;
 					if(btnChange == true){
 						$("#btnFind").hide();
@@ -610,19 +615,19 @@
 		  
 		var bFlag = false;
 		
-		if($("#userid").val().trim()=="" || condition1 == false) {
+		if($("form[name=registerFrm] #userid").val().trim()=="" || condition1 == false) {
 			alert("아이디를 확인하세요.");
-			$("#userid").focus();
+			$("form[name=registerFrm] #userid").focus();
 			return;
 		}
-		if($("#pwd").val().trim()=="" || condition2 == false) {
+		if($("form[name=registerFrm] #pwd").val().trim()=="" || condition2 == false) {
 			alert("비밀번호를 확인하세요.");
-			$("#pwd").focus();
+			$("form[name=registerFrm] #pwd").focus();
 			return;
 		}
-		if($("#name").val().trim()=="" || condition3 == false) {
+		if($("form[name=registerFrm] #name").val().trim()=="" || condition3 == false) {
 			alert("이름을 확인하세요.");
-			$("#name").focus();
+			$("form[name=registerFrm] #name").focus();
 			return;
 		}
 		if($("#birthYY").val().trim()=="") {
@@ -653,16 +658,16 @@
 			$("#gender").focus();
 			return;
 		}
-		if($("#email").val().trim()=="" || condition4 == false) {
+		if($("form[name=registerFrm] #email").val().trim()=="" || condition4 == false) {
 			alert("이메일을 확인하세요.");
 			$("#email").focus();
 			return;
 		}
-/* 		if(!certification || certification == false) {
+ 		if(!certification || certification == false) {
 			alert("이메일 인증을 완료하세요.");
-			$("#email").focus();
+			$("form[name=registerFrm] #email").focus();
 			return;
-		} */
+		} 
 		if($("#phone").val().trim()=="" || condition5 == false) {
 			alert("전화번호를 확인하세요.");
 			$("#phone").focus();
@@ -688,16 +693,14 @@
 		
 		console.log(bRequiredInfo);
 		if(!bRequiredInfo) {
-			console.log("ddddd");
-		var frm = document.registerFrm;
+			var frm = document.registerFrm;
+			frm.birthDate.value = frm.birthYY.value + "-" + frm.birthMM.value + "-" + frm.birthDD.value;
+			console.log(frm.birthDate.value);
 			frm.method = "POST";
 			frm.action = "<%=ctxPath%>/registerEnd.sd";
 			frm.submit();
-		} else {
-			console.log("ㅡㅡ?!");
 		}
 	}
-	
 </script>	
 		
 	
@@ -731,9 +734,9 @@
 	$(document).ready(function(){	
 		
 		// ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 사업자등록번호
-		$("span#businessNumberError").hide();
+		$("span#regIdError").hide();
 	
-		$("#businessNumber").keyup(function(){
+		$("#regId").keyup(function(){
 			
 			// 숫자만 입력
 			var keycode = event.keyCode;
@@ -742,24 +745,24 @@
 	            var keyValue = $(this).val().substring(0,word-1);
 	            $(this).val(keyValue);
 	        }
-			if($("input#businessNumber").val().trim() == "") {	// 데이터가 없다면
-				$("span#businessNumberError").show();
-				$("input#businessNumber").addClass("wrong"); 
+			if($("input#regId").val().trim() == "") {	// 데이터가 없다면
+				$("span#regIdError").show();
+				$("input#regId").addClass("wrong"); 
 			} else {	// 데이터가 있다면
 				// 정규표현식
 		        var regExp = $(this).val( $(this).val().replace(/[^0-9]/g,"").replace(/^([0-9]{3})([0-9]{2})([0-9]{5})?/,"$1-$2-$3").replace("--","-") );
 				var bool = regExp.val(); // 생성된 정규표현식 객체속에 데이터를 넣어서 검사하기
 		
 				if(!bool || bool.length < 12) {  // 데이터가 조건에 맞지않으면
-					$("span#businessNumberError").html("올바른 사업자번호가 아닙니다.").show();
-					$("input#businessNumber").addClass("wrong");  
+					$("span#regIdError").html("올바른 사업자번호가 아닙니다.").show();
+					$("input#regId").addClass("wrong");  
 					return;
 					hpCondition1 = false;
 				} else {	// 데이터가 조건에 맞다면
-					$("input#businessNumber").removeClass("wrong");
+					$("input#regId").removeClass("wrong");
 					hpCondition1 = true;
 				}
-				$("span#businessNumberError").hide();
+				$("span#regIdError").hide();
 				$(":input").prop("disabled",false).removeClass("wrong"); 
 				return;
 			}
@@ -770,12 +773,12 @@
 		$("span#hpUseridError").hide();
 		$("span#hpUseridSuccess").hide();
 	
-		$("#hpUserid").keyup(function(){
+		$("form[name=hpRegisterFrm] #userid").keyup(function(){
 			$(this).val( $(this).val().replace( /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '' ) ); // 한글 막기
-			if($("input#hpUserid").val().trim() == "") {	// 데이터가 없다면
+			if($("form[name=hpRegisterFrm] input#userid").val().trim() == "") {	// 데이터가 없다면
 				$("span#hpUseridSuccess").hide();
 				$("span#hpUseridError").show();
-				$("input#hpUserid").addClass("wrong"); 
+				$("form[name=hpRegisterFrm] input#userid").addClass("wrong"); 
 			} else {	// 데이터가 있다면
 				// 정규표현식
 		        var regExp = /^[A-Za-z0-9]{5,10}$/;	// 5자 이상 10글자 이하의 영문과 숫자를 조합
@@ -784,21 +787,21 @@
 				if(!bool) {  // 데이터가 조건에 맞지않으면
 					$("span#hpUseridSuccess").hide();
 					$("span#hpUseridError").html("영문,숫자 조합으로 5~10자리만 입력 가능합니다.").show();
-					$("input#hpUserid").addClass("wrong");
+					$("input#userid").addClass("wrong");
 					hpCondition2 = false;
 					return;
 				} else {	// 데이터가 조건에 맞다면
-					$("input#hpUserid").removeClass("wrong");
+					$("form[name=hpRegisterFrm] input#userid").removeClass("wrong");
 					hpCondition2 = true;
 					
 					$.ajax({	
 						url:"<%= ctxPath%>/hpIdChk.sd",
 						type:"POST",
-						data:{"hpUserid":$("#hpUserid").val()},
+						data:{"userid":$("form[name=hpRegisterFrm] #userid").val()},
 						dataType:"json",
 						success:function(json){
 							if(json.isUse) {	// X 데이터가 중복된다면 X false
-								$("span#hpUseridError").html($("#hpUserid").val()+"은(는) 이미 사용 중이거나, 탈퇴한 아이디로 사용 불가능합니다.").show();
+								$("span#hpUseridError").html($("form[name=hpRegisterFrm] #userid").val()+"은(는) 이미 사용 중이거나, 탈퇴한 아이디로 사용 불가능합니다.").show();
 								$("span#hpUseridSuccess").hide();
 							} else {	// O 데이터가 중복되지않는다면 O true
 								if(hpCondition2 == true) {	// 정규표현식이 맞다면
@@ -823,12 +826,12 @@
 		$("span#hpPwdError").hide();
 		$("span#hpPwdSuccess").hide();
 	
-		$("#hpPwd").keyup(function(){
+		$("form[name=hpRegisterFrm] #pwd").keyup(function(){
 		
-			if($("input#hpPwd").val().trim() == "") {	// 데이터가 없다면
+			if($("form[name=hpRegisterFrm] input#pwd").val().trim() == "") {	// 데이터가 없다면
 				$("span#hpPwdSuccess").hide();
 				$("span#hpPwdError").show();
-				$("input#hpPwd").addClass("wrong");
+				$("form[name=hpRegisterFrm] input#pwd").addClass("wrong");
 			} else {	// 데이터가 있다면
 				// 정규표현식
 		        var regExp = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).*$/g;	//  8~15자리 이하의 숫자,문자,특수문자 조합 
@@ -837,12 +840,12 @@
 				if(!bool) {  // 데이터가 조건에 맞지않으면
 					$("span#hpPwdSuccess").hide();
 					$("span#hpPwdError").html("숫자,문자,특수문자 조합으로 8~15자리만 입력 가능합니다.").show();
-					$("input#hpPwd").addClass("wrong");  
+					$("form[name=hpRegisterFrm] input#pwd").addClass("wrong");  
 					hpCondition3 = false;
 					return;
 				} else {	// 데이터가 조건에 맞다면
 					$("span#hpPwdSuccess").show();
-					$("input#hpPwd").removeClass("wrong");
+					$("form[name=hpRegisterFrm] input#pwd").removeClass("wrong");
 					hpCondition3 = true;
 				}
 				$("span#hpPwdError").hide();
@@ -855,11 +858,11 @@
 		// ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 이름
 		$("span#hpNameError").hide();
 	
-		$("#hpName").keyup(function(){
+		$("form[name=hpRegisterFrm] #name").keyup(function(){
 		
-			if($("input#hpName").val().trim() == "") {	// 데이터가 없다면
+			if($("form[name=hpRegisterFrm] input#name").val().trim() == "") {	// 데이터가 없다면
 				$("span#hpNameError").show();
-				$("input#hpName").addClass("wrong");
+				$("form[name=hpRegisterFrm] input#name").addClass("wrong");
 			} else {	// 데이터가 있다면
 				// 정규표현식
 		        var regExp = /^[가-힣]{2,4}$/;	//  2~4글자 한글만 
@@ -867,11 +870,11 @@
 				
 		        if(!bool) {  // 데이터가 조건에 맞지않으면
 					$("span#hpNameError").show();
-					$("input#hpName").addClass("wrong");
+					$("form[name=hpRegisterFrm] input#name").addClass("wrong");
 					hpCondition4 = false;
 					return;
 				} else {	// 데이터가 조건에 맞다면
-					$("input#hpName").removeClass("wrong");
+					$("form[name=hpRegisterFrm] input#name").removeClass("wrong");
 					hpCondition4 = true;
 				}
 				$("span#hpNameError").hide();
@@ -891,36 +894,36 @@
 		$("span#hpEmailCkSuccess").hide();
 		$("#hpBtnFind3").hide();
 		
-		$("#hpEmail").keyup(function(){
+		$("form[name=hpRegisterFrm] #email").keyup(function(){
 			$(this).val( $(this).val().replace( /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '' ).trim() ); // 한글 막기
-			if($("input#hpEmail").val().trim() == "") {	// 데이터가 없다면
+			if($("form[name=hpRegisterFrm] input#email").val().trim() == "") {	// 데이터가 없다면
 				$("span#hpEmailSuccess").hide();
 				$("span#hpEmailError").show();
-				$("input#hpEmail").addClass("wrong");
+				$("form[name=hpRegisterFrm] input#email").addClass("wrong");
 			} else {	// 데이터가 있다면
 				// 정규표현식
-				var email = $("#hpEmail").val();
+				var email = $("form[name=hpRegisterFrm] #email").val();
 				var regExp_EMAIL = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 				var bool = regExp_EMAIL.test(email); // 생성된 정규표현식 객체속에 데이터를 넣어서 검사하기
 				
 				if(!bool) {  // 데이터가 조건에 맞지않으면
 					$("span#hpEmailSuccess").hide();
 					$("span#hpEmailError").html("이메일 형식에 맞게 입력해주세요.").show();
-					$("input#hpEmail").addClass("wrong");  
+					$("form[name=hpRegisterFrm] input#email").addClass("wrong");  
 					hpCondition5 = false;
 					return;
 				} else {	// 데이터가 조건에 맞다면
-					$("input#hpEmail").removeClass("wrong");
+					$("form[name=hpRegisterFrm] input#email").removeClass("wrong");
 					hpCondition5 = true;
 					
 					$.ajax({
 						url:"<%=ctxPath%>/hpEmailChk.sd",
 						type:"POST",
-						data:{"hpEmail":$("#hpEmail").val()},
+						data:{"email":$("form[name=hpRegisterFrm] #email").val()},
 						dataType:"json",
 						success:function(json){
 							if(json.isUse) {	// X 데이터가 중복된다면 X false
-								$("span#hpEmailError").html($("#hpEmail").val()+"은(는) 이미 사용 중이거나, 탈퇴한 이메일로 사용 불가능합니다.").show();
+								$("span#hpEmailError").html($("form[name=hpRegisterFrm] #email").val()+"은(는) 이미 사용 중이거나, 탈퇴한 이메일로 사용 불가능합니다.").show();
 								$("span#hpEmailSuccess").hide();
 							} else {	// O 데이터가 중복되지않는다면 O true
 								if(hpCondition5 == true) {	// 정규표현식이 맞다면
@@ -946,12 +949,12 @@
 		///////////////////////////////////////////////////////////		
 		
 		var method = "${method}";
-		var hpEmail = "${hpEmail}";
+		var email = "${email}";
 		if(method=="POST") {
-			$("#hpEmail").val(email);
-			$("#DivBtnFind").hide();
+			$("form[name=hpRegisterFrm] #email").val(email);
+			$("form[name=hpRegisterFrm] #DivBtnFind").hide();
 		} else {
-			$("#DivBtnFind").show();
+			$("form[name=hpRegisterFrm] #DivBtnFind").show();
 		}
 		
 		// 이메일 '인증확인하기'버튼 눌렀을 때..///////////////////////////// 
@@ -967,7 +970,7 @@
 					//console.log(json.isbool)
 					if(json.isbool){
 						console.log("!!!메일인증성공!!!");
-						certification = true;
+						hpCertification = true;
 						$("#hpEmailCkSuccess").html("인증 성공. 회원가입을 진행하세요.").show();
 						$("input#hpEmail2").removeClass("wrong");
 						$("span#hpEmailCkSuccess").hide();
@@ -981,7 +984,7 @@
 						console.log("!!!메일인증실패!!!");
 						$("#hpEmailCkError").html("인증 실패. 다시 시도해주세요.").show();
 						$("input#hpEmail2").addClass("wrong");
-						certification = false;
+						hpCertification = false;
 					}
 				},
 				error: function(request, status, error){
@@ -1008,12 +1011,12 @@
 			$.ajax({	
 				url:"<%= ctxPath%>/hpEmailCode.sd",
 				type:"POST",
-				data:{"hpEmail":$("#hpEmail").val().trim()},
+				data:{"email":$("form[name=hpRegisterFrm] #email").val().trim()},
 				dataType:"json",
 				success:function(json){
 					//console.log(json.isSent);
 					console.log("!!!!!!!!!!!!!!!!!!!!발송성공!!!!!!!!!!!!!!!!!!!!");
-					alert("입력하신 이메일("+$("#hpEmail").val()+")로 인증번호가 발송되었습니다.\n전달받은 인증번호를 입력해주세요");					
+					alert("입력하신 이메일("+$("form[name=hpRegisterFrm] #email").val()+")로 인증번호가 발송되었습니다.\n전달받은 인증번호를 입력해주세요");					
 					var btnChange = true;
 					if(btnChange == true){
 						$("#hpBtnFind").hide();
@@ -1022,7 +1025,7 @@
 				},
 				error: function(request, status, error){
 					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-					$("input#hpEmail").addClass("wrong");
+					$("input#email").addClass("wrong");
 					$("#hpEmailCkError").html("메일발송이 실패했습니다. 다시 시도해주세요.").show();
 				}
 			}); 
@@ -1038,39 +1041,34 @@
 		  
 		var bFlag = false;
 	
-		if($("#businessNumber").val().trim()=="" || hpCondition1 == false) {
+		if($("#regId").val().trim()=="" || hpCondition1 == false) {
 			alert("사업자등록번호를 확인하세요.");
-			$("#businessNumber").focus();
+			$("#regId").focus();
 			return;
 		}
-		if($("#hpUserid").val().trim()=="" || hpCondition2 == false) {
+		if($("form[name=hpRegisterFrm] #userid").val().trim()=="" || hpCondition2 == false) {
 			alert("아이디를 확인하세요.");
-			$("#hpUserid").focus();
-			return;
-		}
-		if(!hpIdOK || hpIdOK == false) {
-			alert("아이디 중복검사를 하세요.");
-			$("#hpUserid").focus();
+			$("form[name=hpRegisterFrm] #userid").focus();
 			return;
 		}		
-		if($("#hpPwd").val().trim()=="" || hpCondition3 == false) {
+		if($("form[name=hpRegisterFrm] #pwd").val().trim()=="" || hpCondition3 == false) {
 			alert("비밀번호를 확인하세요.");
-			$("#hpPwd").focus();
+			$("form[name=hpRegisterFrm] #pwd").focus();
 			return;
 		}
-		if($("#hpName").val().trim()=="" || hpCondition4 == false) {
+		if($("form[name=hpRegisterFrm] #name").val().trim()=="" || hpCondition4 == false) {
 			alert("담당자 이름을 확인하세요.");
-			$("#hpName").focus();
+			$("form[name=hpRegisterFrm] #name").focus();
 			return;
 		}
-		if($("#hpEmail").val().trim()=="" || hpCondition5 == false) {
+		if($("form[name=hpRegisterFrm] #email").val().trim()=="" || hpCondition5 == false) {
 			alert("이메일을 확인하세요.");
-			$("#hpEmail").focus();
+			$("form[name=hpRegisterFrm] #email").focus();
 			return;
 		}
-		if(!certification || certification == false) {
+ 		if(!hpCertification || hpCertification == false) {
 			alert("이메일 인증을 확인하세요.");
-			$("#email").focus();
+			$("form[name=hpRegisterFrm] #email").focus();
 			return;
 		}
 		if( !$("input:checkbox[id=hpAgree]").prop("checked") ) {
@@ -1087,11 +1085,12 @@
 				return false;
 			}
 		}); 
+	
 		if(!bHpRequiredInfo) {
-		var frm = document.registerFrm;
-			frm.method = "POST";
-			frm.action = "registerEnd.sd";
-			frm.submit();
+			var frm = document.hpRegisterFrm;
+				frm.method = "POST";
+				frm.action = "hpRegisterEnd.sd";
+				frm.submit();
 		} 
 	}
 
@@ -1133,35 +1132,36 @@
 			         	<input type="text" name="name" id="name" class="requiredInfo" /> 
 			         	<span class="error" id="nameError">이름을 입력하세요.</span>
 		
-			         	<label for="birthday">생년월일</label>
-			         	<div class="birthday">
+			         	<label for="birthDate">생년월일</label>
+			         	<div class="birthDate">
 							<input type="text" name="birthYY" id="birthYY" class="requiredInfo" value="" size="4" maxlength="4" placeholder="YYYY">
 			             	<div class="bar">년</div>
 			             	<input type="text" name="birthMM" id="birthMM" class="requiredInfo" value="" size="2" maxlength="2" placeholder="MM">
 			             	<div class="bar">월</div>
 			             	<input type="text" name="birthDD" id="birthDD" class="requiredInfo" value="" size="2" maxlength="2" placeholder="DD">
 							<div class="bar">일</div>
+							<input type="hidden" name="birthDate" />
 						</div>
-						<span class="error" id="birthdayError">생년월일을 입력하세요.</span>
+						<span class="error" id="birthdateError">생년월일을 입력하세요.</span>
 			         
 			         	<label for="gender">성별</label>
 						<div class="gender" >
-							<input type="radio" class="gender" name="gender" value="0" id="female"/>
+							<input type="radio" class="gender" name="gender" value="여" id="female"/>
 				            <label for="female" class="textPosition">여자</label>
-				            <input type="radio" class="gender" name="gender" value="1" id="male"/>
+				            <input type="radio" class="gender" name="gender" value="남" id="male"/>
 				            <label for="male" class="textPosition">남자</label>
 			            </div>
 				         	         	
 				        <label for="email" style="display: block;">이메일</label>
 				        <input type="email" name="email" id="email" class="requiredInfo" placeholder="E-mail을 입력하세요" style="width: 75%;" />
-			        	<input type="button" id="btnFind" class="btnFind" value="인증하기" style="width: 95px; height: 35px;"/>
-			        	<input type="button" id="btnFindNext" class="btnFind" onclick="sendVerificationCode()" value="재인증" style="width: 95px; height: 35px;"/>
+			        	<input type="button" id="btnFind" class="btnFind" value="인증하기" style="width: 90px; height: 35px;"/>
+			        	<input type="button" id="btnFindNext" class="btnFind" onclick="sendVerificationCode()" value="재인증" style="width: 90px; height: 35px;"/>
 				        <span class="error" id="emailError" >이메일 형식에 맞지 않습니다.</span> 
 						<span class="success" id="emailSuccess">사용 가능한 이메일 입니다.</span> 
 				        <div id="div_btnFind">
 					        <input type="text" name="email2" id="email2" class="requiredInfo" maxlength="7" placeholder="E-mail로 발송된 인증번호를 입력하세요" style="width: 75%;" />
-							<input type="button" id="btnFind2" value="인증확인하기" disabled="disabled" style="width: 95px; height: 35px;"/>
-							<input type="button" id="btnFind3" value="인증확인" disabled="disabled" style="width: 95px; height: 35px;"/>
+							<input type="button" id="btnFind2" value="인증확인하기" disabled="disabled" style="width: 90px; height: 35px; background-color: #ccc; color: black;"/>
+							<input type="button" id="btnFind3" value="인증확인" disabled="disabled" style="width: 90px; height: 35px;"/>
 							<span class="error" id="emailCkError" >이메일 형식에 맞지 않습니다.</span> 
 							<span class="success" id="emailCkSuccess">사용 가능한 이메일 입니다.</span>
 				        </div>   
@@ -1180,39 +1180,46 @@
 						<input type="button" id="btnRegister" value="가입하기" onClick="goRegister();" />
 					</div> 			 
 				</div>
-				
+			</div>
+		</form>
+		
+		
 		<!-- -------------------------------- 일반고객 회원가입 끝 ---------------------------------- --> 
-			 
+		
+		
+		<form name="hpRegisterFrm">
+			<div id="box">
+						 
 				<div class="hospitalMember"> 
 					<div class="formGroup" >
-						<label for="businessNumber">사업자등록번호</label>
-			         	<input type="text" name="businessNumber" id="businessNumber" class="hpRequiredInfo" maxlength="12" autofocus placeholder="'-'없이 10자로입력하세요" />
-			         	<span class="error" id="businessNumberError">사업자등록번호를 입력 하세요.</span>
+						<label for="regId">사업자등록번호</label>
+			         	<input type="text" name="regId" id="regId" class="hpRequiredInfo" maxlength="12" autofocus placeholder="'-'없이 10자로입력하세요" />
+			         	<span class="error" id="regIdError">사업자등록번호를 입력 하세요.</span>
 			      
-				        <label for="hpUserid" style="display: block;">아이디</label>
-				        <input type="text" name="hpUserid" id="hpUserid" class="hpRequiredInfo" placeholder="5자 이상으로 입력하세요"/>
+				        <label for="userid" style="display: block;">아이디</label>
+				        <input type="text" name="userid" id="userid" class="hpRequiredInfo" placeholder="5자 이상으로 입력하세요"/>
 				        <span class="error" id="hpUseridError">아이디를 입력 하세요.</span>
 				        <span class="success" id="hpUseridSuccess">사용 가능한 아이디 입니다.</span> 
 				
-				        <label for="hpPwd">비밀번호</label>
-				        <input type="password" name="hpPwd" id="hpPwd" class="hpRequiredInfo" placeholder="대소문자, 특수문자 조합하여 8자 이상으로 입력하세요" />
+				        <label for="pwd">비밀번호</label>
+				        <input type="password" name="pwd" id="pwd" class="hpRequiredInfo" placeholder="대소문자, 특수문자 조합하여 8자 이상으로 입력하세요" />
 				        <span class="error" id="hpPwdError">비밀번호를 입력 하세요.</span>
 				        <span class="success" id="hpPwdSuccess">사용 가능한 비밀번호 입니다.</span> 
 				
-				        <label for="hpName">담당자 이름</label>
-				        <input type="text" name="hpName" id="hpName" class="hpRequiredInfo" /> 
+				        <label for="name">담당자 이름</label>
+				        <input type="text" name="name" id="name" class="hpRequiredInfo" /> 
 				        <span class="error" id="hpNameError">담당자 이름을 입력 하세요.</span>
 			
-				        <label for="hpEmail" style="display: block;">이메일</label>
-				        <input type="email" name="hpEmail" id="hpEmail" class="hpRequiredInfo" placeholder="E-mail을 입력하세요" style="width: 75%;" /> 
-						<input type="button" id="hpBtnFind" class="hpBtnFind" value="인증하기" style="width: 95px; height: 35px;"/>
-						<input type="button" id="hpBtnFindNext" class="hpBtnFind" onclick="hpSendVerificationCode()" value="재인증" style="width: 95px; height: 35px;"/>
+				        <label for="email" style="display: block;">이메일</label>
+				        <input type="email" name="email" id="email" class="hpRequiredInfo" placeholder="E-mail을 입력하세요" style="width: 75%;" /> 
+						<input type="button" id="hpBtnFind" class="hpBtnFind" value="인증하기" style="width: 90px; height: 35px;"/>
+						<input type="button" id="hpBtnFindNext" class="hpBtnFind" onclick="hpSendVerificationCode()" value="재인증" style="width: 90px; height: 35px;"/>
 				        <span class="error" id="hpEmailError">이메일 형식에 맞지 않습니다.</span>
 				        <span class="success" id="hpEmailSuccess">사용 가능한 이메일 입니다.</span>
 						<div id="hpDivBtnFind">
 							<input type="text" name="hpEmail2" id="hpEmail2" class="hpRequiredInfo" maxlength="7" placeholder="E-mail로 발송된 인증번호를 입력하세요" style="width: 75%;" />
-							<input type="button" id="hpBtnFind2" value="인증확인하기" disabled="disabled" style="width: 95px; height: 35px;"/>
-							<input type="button" id="hpBtnFind3" value="인증확인" disabled="disabled" style="width: 95px; height: 35px;"/>
+							<input type="button" id="hpBtnFind2" value="인증확인하기" disabled="disabled" style="width: 90px; height: 35px; background-color: #ccc; color: black;"/>
+							<input type="button" id="hpBtnFind3" value="인증확인" disabled="disabled" style="width: 90px; height: 35px;"/>
 							<span class="error" id="hpEmailCkError" >이메일 형식에 맞지 않습니다.</span> 
 							<span class="success" id="hpEmailCkSuccess">사용 가능한 이메일 입니다.</span>
 					   </div>
@@ -1227,11 +1234,12 @@
 						<input type="button" id="hpBtnRegister" value="가입하기" onClick="hpGoRegister();" />
 					</div> 			 	
 			 	</div>
+			</div>
+		</form>
+			 	
 			 	
 		<!-- -------------------------------- 병원고객 회원가입 끝 ---------------------------------- --> 
 	
-			</div>
-		</form>
 		
 		<form name="verifyCertificationFrm">
 			<input type="hidden" name="userid" />

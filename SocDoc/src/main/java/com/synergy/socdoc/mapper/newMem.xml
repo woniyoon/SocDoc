@@ -6,10 +6,25 @@
 
 <!-- ==== #29. 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체내에서 유일해야 한다.) ==== -->
 <mapper namespace="newMem">
+	
 	<select id="getContent" resultType="String">
 		select email from tbl_test where userid = 'woniyoon'
 	</select>
 	
+	<!-- 로그인 처리 -->
+	<select id="getLoginMember" parameterType="HashMap" resultType="com.synergy.socdoc.member.MemberVO">
+		select userid, pwd
+		from member
+		where userid = #{userid} 
+			and pwd = #{pwd}
+	</select>
+	<select id="getHpLoginMember" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpMemberVO">
+		select userid, pwd
+		from hpMember
+		where userid = #{userid} 
+			and pwd = #{pwd}
+	</select>
+		
 	<!-- 회원가입 회원 아이디 중복검사 -->
 	<select id="idChk" resultType="int">
 		select count(*)
@@ -17,43 +32,42 @@
 		where userid = #{userid}
 	</select>
 	
-	<!-- 회원가입 회원 이메일 중복검사 -->
-	<select id="emailChk" resultType="int">
-		select count(*)
-		from member
-		where email = #{email}
-	</select>
-	
-	<!-- 회원가입 병원 아이디 중복검사 -->
 	<select id="hpIdChk" resultType="int">
 		select count(*)
 		from hpMember
 		where userid = #{hpUserid}
 	</select>
 	
-	<!-- 회원가입 병원 이메일 중복검사 -->
+	<!-- 회원가입 이메일 중복검사 -->
+	<select id="emailChk" resultType="int">
+		select count(*)
+		from member
+		where email = #{email}
+	</select>
+	
 	<select id="hpEmailChk" resultType="int">
 		select count(*)
 		from hpMember
 		where email = #{hpEmail}
 	</select>
-	
-	<!-- 회원 회원가입 -->
+
+	<!-- 회원가입 -->
 	<insert id="register" parameterType="com.synergy.socdoc.member.MemberVO">
 		INSERT INTO member(userid, pwd, email, name, phone, memberSeq, birthDate, gender) 
 		VALUES (#{userid}, #{pwd},#{email},#{name},#{phone}, memberSeq.nextval, to_date(#{birthDate}, 'yyyy-mm-dd'), #{gender})
 	</insert>
+	<insert id="hpRegister" parameterType="com.synergy.socdoc.member.HpMemberVO">
+		INSERT INTO hpMember(userid, pwd, email, name, regId, hpSeq) 
+		VALUES (#{userid}, #{pwd},#{email},#{name}, #{regId}, hpSeq.nextval)
+	</insert>
 	
-	<!-- 로그인 처리 -->
-<!-- 		<select id="getLoginMember" parameterType="HashMap" resultType="com.synergy.socdoc.member.MemberVO">
-		select idx, userid, name, email, gradelevel
-		     , trunc( months_between(sysdate, lastPwdChangeDate) ) AS pwdchangegap  
-			 , trunc( months_between(sysdate, lastLoginDate) ) AS lastlogindategap lastlogindategap  memberVo의 Lastlogindategap랑 이름 같게  쨋던 VO의 값이 쏙 들어감
-		from member
-		where status = 1 and 
-				userid = #{userid} and 
-				pwd = #{pwd}
-	</select> -->
+	
+	
+	
+	
+	
+	
+ 
 
 	
 </mapper>
