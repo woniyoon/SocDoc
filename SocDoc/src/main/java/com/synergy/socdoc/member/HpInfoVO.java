@@ -15,6 +15,7 @@ public class HpInfoVO {
 	// 필요한지 모르겠음; 
 	private int open;
 	private int close;
+	// WAS에 저장될 파일명, 날짜 + 나노초.png
 	private String mainImg;
 	private String subImg1;
 	private String subImg2;
@@ -23,21 +24,14 @@ public class HpInfoVO {
 	private String submitId;
 	private String uploadDate;
 	
-	private String fileNameMain; // WAS에 저장될 파일명, 날짜 + 나노초.png (예)20200725.....png)
 	private String orgMainImg; // 진짜 파일명(예)강아지.png)
-	private String fileSizeMain; // 파일크기
-	
-	private String fileNameSub1; // WAS에 저장될 파일명, 날짜 + 나노초.png (예)20200725.....png)
 	private String orgSubImg1; // 진짜 파일명(예)강아지.png)
-	private String fileSizeSub1; // 파일크기
-	
-	private String fileNameSub2; // WAS에 저장될 파일명, 날짜 + 나노초.png (예)20200725.....png)
 	private String orgSubImg2; // 진짜 파일명(예)강아지.png)
-	private String fileSizeSub2; // 파일크기
 
 	private MultipartFile[] attachMain;
-//	private MultipartFile attachSub1;
-//	private MultipartFile attachSub2;
+	
+	// 반려 사유
+	private String reason;
 	
 	
 	public HpInfoVO() {
@@ -45,7 +39,7 @@ public class HpInfoVO {
 	}	
 	
 	public HpInfoVO(String hpSeq, String dept, String hpName, String address, String phone, String info,
-			double latitude, double longitude, int open, int close, String mainImg, String subImg1, String subImg2, int status, String submitId, String uploadDate) {
+			double latitude, double longitude, int open, int close, String mainImg, String subImg1, String subImg2, int status, String submitId, String uploadDate, String reason) {
 		super();
 		this.hpSeq = hpSeq;
 		this.dept = dept;
@@ -63,6 +57,7 @@ public class HpInfoVO {
 		this.status = status;
 		this.submitId = submitId;
 		this.uploadDate = uploadDate;
+		this.reason = reason;
 	}
 
 	public String getHpSeq() {
@@ -193,36 +188,12 @@ public class HpInfoVO {
 		this.uploadDate = uploadDate;
 	}
 
-	public String getFileNameMain() {
-		return fileNameMain;
-	}
-
-	public void setFileNameMain(String fileNameMain) {
-		this.fileNameMain = fileNameMain;
-	}
-
 	public String getOrgFileNameMain() {
 		return orgMainImg;
 	}
 
 	public void setOrgFileNameMain(String orgFileNameMain) {
 		this.orgMainImg = orgFileNameMain;
-	}
-
-	public String getFileSizeMain() {
-		return fileSizeMain;
-	}
-
-	public void setFileSizeMain(String fileSizeMain) {
-		this.fileSizeMain = fileSizeMain;
-	}
-
-	public String getFileNameSub1() {
-		return fileNameSub1;
-	}
-
-	public void setFileNameSub1(String fileNameSub1) {
-		this.fileNameSub1 = fileNameSub1;
 	}
 
 	public String getOrgFileNameSub1() {
@@ -233,22 +204,6 @@ public class HpInfoVO {
 		this.orgSubImg1 = orgFileNameSub1;
 	}
 
-	public String getFileSizeSub1() {
-		return fileSizeSub1;
-	}
-
-	public void setFileSizeSub1(String fileSizeSub1) {
-		this.fileSizeSub1 = fileSizeSub1;
-	}
-
-	public String getFileNameSub2() {
-		return fileNameSub2;
-	}
-
-	public void setFileNameSub2(String fileNameSub2) {
-		this.fileNameSub2 = fileNameSub2;
-	}
-
 	public String getOrgFileNameSub2() {
 		return orgSubImg2;
 	}
@@ -257,20 +212,44 @@ public class HpInfoVO {
 		this.orgSubImg2 = orgFileNameSub2;
 	}
 
-	public String getFileSizeSub2() {
-		return fileSizeSub2;
-	}
-
-	public void setFileSizeSub2(String fileSizeSub2) {
-		this.fileSizeSub2 = fileSizeSub2;
-	}
-
 	public MultipartFile[] getAttachMain() {
 		return attachMain;
 	}
 
 	public void setAttachMain(MultipartFile[] attachMain) {
 		this.attachMain = attachMain;
+	}
+
+	public String getOrgMainImg() {
+		return orgMainImg;
+	}
+
+	public void setOrgMainImg(String orgMainImg) {
+		this.orgMainImg = orgMainImg;
+	}
+
+	public String getOrgSubImg1() {
+		return orgSubImg1;
+	}
+
+	public void setOrgSubImg1(String orgSubImg1) {
+		this.orgSubImg1 = orgSubImg1;
+	}
+
+	public String getOrgSubImg2() {
+		return orgSubImg2;
+	}
+
+	public void setOrgSubImg2(String orgSubImg2) {
+		this.orgSubImg2 = orgSubImg2;
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
 	}
 
 //	public MultipartFile getAttachSub1() {
