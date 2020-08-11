@@ -13,7 +13,7 @@
 
 	<div class="hpInfoContainer">
 		<h3 align="left">병원 정보 관리</h3>
-		<form id="hpInfoForm" name="hpInfoForm">
+		<form id="hpInfoForm" name="hpInfoForm" enctype="multipart/form-data">
 		<section id="infoContainer">
 				<div class="slideshow-container">
 		
@@ -40,26 +40,26 @@
 				<div id="hpDetail">
 					<ul id="hpDetailList">
 						<li>
-							<input type="text" name="mainImg" value="${hpInfo.mainImg }" readonly required />
-							<button class="greyBtn findFile" type="button" id="mainImg">찾기</button> 
-							<input type="file" id="mainImgFile" accept="image/*" />
+							<input type="text" value="${hpInfo.orgFileNameMain }" readonly required />
+							<button class="greyBtn findFile" type="button" >찾기</button> 
+							<input type="file" name="attachMain" id="mainImg" accept="image/*" />
 						</li>
 						<li>
-							<input type="text" name="subImg1" value="${hpInfo.subImg1 }" readonly />
-							<button class="greyBtn findFile" type="button" id="subImg1">찾기</button> 
-							<input type="file" id="subImg1File" accept="image/*" />
+							<input type="text" id="subImg1File" value="${hpInfo.orgFileNameSub1 }" readonly />
+							<button class="greyBtn findFile" type="button">찾기</button> 
+							<input type="file" name="attachMain" id="subImg1" accept="image/*" />
 						</li>
 						<li>
-							<input type="text" name="subImg2" value="${hpInfo.subImg2 }" readonly />
-							<button class="greyBtn findFile" type="button" id="subImg2">찾기</button> 
-							<input type="file" id="subImg2File" accept="image/*" />
+							<input type="text" id="subImg2File" value="${hpInfo.orgFileNameSub2 }" readonly />
+							<button class="greyBtn findFile" type="button">찾기</button> 
+							<input type="file" name="attachMain" id="subImg2" accept="image/*" />
 						</li>
 					</ul>
 					<table class="hpTextInfo">
 						<tr>
 							<th>이름</th>
 							<td>
-								<input type="text" name="name" id="name" value="${hpInfo.hpName }" required />
+								<input type="text" name="hpName" id="name" value="${hpInfo.hpName }" required />
 							</td>
 						</tr>
 						<tr>
@@ -124,63 +124,64 @@
 				<td colspan="6" id="scheduleTbl">
 					 <div class="timeSettingRow">
 						<label>월요일</label> 
-						<input type="number" class="open" min="9" max="23" step="1" value="${scheduleTbl[0].open.substring(0,2) != null ? scheduleTbl[0].open.substring(0,2) : 9}" required> : 
+						<input type="number" class="open" min="9" max="20" step="1" value="${scheduleTbl[0].open.substring(0,2) != null ? scheduleTbl[0].open.substring(0,2) : 9}" required> : 
 						<input type="text" value="00" readonly> 
 						<span>부터</span> 
-						<input type="number" class="close" min="10" max="23" step="1" value="${scheduleTbl[0].close.substring(0,2) != null ? scheduleTbl[0].close.substring(0,2) : 18}" required> : 
+						<input type="number" class="close" min="10" max="20" step="1" value="${scheduleTbl[0].close.substring(0,2) != null ? scheduleTbl[0].close.substring(0,2) : 18}" required> : 
 						<input type="text" value="00" readonly> 
 						<span>까지</span>
 					</div>
 					<div class="timeSettingRow">
 						<label>화요일</label> 
-						<input type="number" class="open" min="9" max="23" step="1" value="${scheduleTbl[1].open.substring(0,2) != null ? scheduleTbl[1].open.substring(0,2) : 9}" required> : 
+						<input type="number" class="open" min="9" max="20" step="1" value="${scheduleTbl[1].open.substring(0,2) != null ? scheduleTbl[1].open.substring(0,2) : 9}" required> : 
 						<input type="text" value="00" readonly>
 						<span>부터</span> 
-						<input type="number" class="close" min="10" max="23" step="1" value="${scheduleTbl[1].close.substring(0,2) != null ? scheduleTbl[1].close.substring(0,2) : 18}"> : 
+						<input type="number" class="close" min="10" max="20" step="1" value="${scheduleTbl[1].close.substring(0,2) != null ? scheduleTbl[1].close.substring(0,2) : 18}"> : 
 						<input type="text" value="00" readonly>
 						<span>까지</span>
 					</div>
 					<div class="timeSettingRow">
 						<label>수요일</label> 
-						<input type="number" class="open" min="9" max="23" step="1" value="${scheduleTbl[2].open.substring(0,2) != null ? scheduleTbl[2].open.substring(0,2) : 9}" required> : 
+						<input type="number" class="open" min="9" max="20" step="1" value="${scheduleTbl[2].open.substring(0,2) != null ? scheduleTbl[2].open.substring(0,2) : 9}" required> : 
 						<input type="text" value="00" readonly>
 						<span>부터</span> 
-						<input type="number" class="close" min="10" max="23" step="1" value="${scheduleTbl[2].close.substring(0,2) != null ? scheduleTbl[2].close.substring(0,2) : 18}" required> : 
+						<input type="number" class="close" min="10" max="20" step="1" value="${scheduleTbl[2].close.substring(0,2) != null ? scheduleTbl[2].close.substring(0,2) : 18}" required> : 
 						<input type="text" value="00" readonly>
 						<span>까지</span>
 					</div>
 					<div class="timeSettingRow">
 						<label>목요일</label> 
-						<input type="number" class="open" min="9" max="23" step="1" value="${scheduleTbl[3].open.substring(0,2) != null ? scheduleTbl[3].open.substring(0,2) : 9}" required> : 
+						<input type="number" class="open" min="9" max="20" step="1" value="${scheduleTbl[3].open.substring(0,2) != null ? scheduleTbl[3].open.substring(0,2) : 9}" required> : 
 						<input type="text" value="00" readonly>
 						<span>부터</span> 
-						<input type="number" class="close" min="10" max="23" step="1" value="${scheduleTbl[3].close.substring(0,2) != null ? scheduleTbl[3].close.substring(0,2) : 18 }" required> : 
+						<input type="number" class="close" min="10" max="20" step="1" value="${scheduleTbl[3].close.substring(0,2) != null ? scheduleTbl[3].close.substring(0,2) : 18 }" required> : 
 						<input type="text" value="00" readonly>
 						<span>까지</span>
 					</div>
 					<div class="timeSettingRow">
 						<label>금요일</label> 
-						<input type="number" class="open" min="9" max="23" step="1" value="${scheduleTbl[4].open.substring(0,2) != null ? scheduleTbl[4].open.substring(0,2) : 9}" required> : 
+						<input type="number" class="open" min="9" max="20" step="1" value="${scheduleTbl[4].open.substring(0,2) != null ? scheduleTbl[4].open.substring(0,2) : 9}" required> : 
 						<input type="text" value="00" readonly>
 						<span>부터</span> 
-						<input type="number" class="close" min="10" max="23" step="1" value="${scheduleTbl[4].close.substring(0,2) != null ? scheduleTbl[4].close.substring(0,2) : 18 }" required> : 
+						<input type="number" class="close" min="10" max="20" step="1" value="${scheduleTbl[4].close.substring(0,2) != null ? scheduleTbl[4].close.substring(0,2) : 18 }" required> : 
 						<input type="text" value="00" readonly>
 						<span>까지</span>
 					</div>
 					<div class="timeSettingRow">
 						<label>토요일</label> 
-						<input type="number" class="open" min="9" max="23" step="1" value="${scheduleTbl[5].open.substring(0,2) != null ? scheduleTbl[5].open.substring(0,2) : 9 }" required> : 
+						<input type="number" class="open" min="9" max="20" step="1" value="${scheduleTbl[5].open.substring(0,2) != null ? scheduleTbl[5].open.substring(0,2) : 9 }" required> : 
 						<input type="text" value="00" readonly>
 						<span>부터</span> 
-						<input type="number" class="close" min="10" max="23" step="1" value="${scheduleTbl[5].close.substring(0,2) != null ? scheduleTbl[5].close.substring(0,2) : 18 }" required> : 
+						<input type="number" class="close" min="10" max="20" step="1" value="${scheduleTbl[5].close.substring(0,2) != null ? scheduleTbl[5].close.substring(0,2) : 18 }" required> : 
 						<input type="text" value="00" readonly>
 						<span>까지</span>
 					</div>
 				</td>
 			</tr>
 		</table>
-		<input type="hidden" name="submitId" value=" " />
+		<input type="hidden" name="submitId" value="${hpInfo.submitId != null ? hpInfo.submitId : ' '}" />
 		<input type="hidden" name="schedule" value=" "/>
+		<input type="hidden" name="status" value="3"/>
 		</form>	
 		<div style="margin: 10px 0;" align="right">
 			<button class="blueBtn" id="submitBtn" onclick="submit()">승인 신청</button>
@@ -204,8 +205,10 @@
 		// 파일첨부
 		$(".findFile").click(function() {
 			console.log("찾기 버튼 클릭!");
-			var idToTrigger = "#" + $(this).prop("id") + "File";
-			$(idToTrigger).trigger("click");
+/* 			var idToTrigger = "#" + $(this).prop("id") + "File"; */
+			var fileInput = $(this).next();
+			fileInput.trigger("click");
+			console.log(fileInput);
 			console.log("클릭 이벤트 트리거!");
 		});
 
@@ -352,15 +355,16 @@
 		
 		var scheduleArrStr = JSON.stringify(scheduleArr);
 		$("input[name=schedule]").prop("value", scheduleArrStr);
-		
+	
+
 		
 		// 파일타입 input제외하고 모두 기입이됐는지 확인
 		var isAllFilled = true;
 
-		$("form input[type!=file], form textarea").each(function() {
+		$("form input, form textarea").each(function() {
 			$(this).css({"border": "", "box-shadow" : ""});
 			
-			if ($(this).val() == "" && $(this).prop("name").substring(0, 6) != "subImg") {
+			if ($(this).val() == "" && $(this).prop("id").substring(0, 6) != "subImg") {
 				$(this).css({"border": "1px solid red", "box-shadow": "0 0 5px red", "outline": "none"});
 				console.log($(this));
 				isAllFilled = false;
@@ -372,15 +376,24 @@
 			return;
 		}
 		
-
+		console.log($("input#mainImg"));
+		
 		// 모든 필드 기입 완료시 전송
 		var form = document.hpInfoForm;
 		
-		form.submitId.val = Math.random().toString(36).substr(2,11);
-
-		console.log(form.info);
+		console.log(form.mainImg);
+		console.log($("input[name=submitId]").prop("value"));
+	
+		var submitId = $("input[name=submitId]").prop("value");
+		
+		// 신청아이디가 없음 = 새로 신청, status를 1로 준다.
+		if(submitId.trim() == "") {
+			$("input[name=submitId]").prop("value", Math.random().toString(36).substr(2,11));
+			$("input[name=status]").prop("value", "1");
+		} 
+		
 		console.log(form.submitId.val);
-		alert("ㅡㅡ");
+		
 		form.method = "POST";
 		form.action = "<%=ctxPath%>/hpPanel/submitInfo.sd";
 		form.submit();
