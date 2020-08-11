@@ -14,8 +14,9 @@
 		select submitId, hpName, status, to_char(uploadDate, 'yyyy-mm-dd') as uploadDate from hpApplication where hpseq = #{hpSeq}
 	</select>
 
+	<!-- 병원 상세 정보 가져오기 -->
 	<select id="getHpInfoDetail" parameterType="String" resultType="com.synergy.socdoc.member.HpInfoVO">
-		select hpname, dept, address, phone, info, mainImg, subImg1, subImg2, reason from hpApplication where submitId = #{submitId}
+		select hpname, dept, address, phone, info, orgMainImg, orgSubImg1, orgSubImg2, reason from hpApplication where submitId = #{submitId}
 	</select>
 	
 	<!-- 병원의 영업시간 가져오기 -->
@@ -130,4 +131,26 @@
 		) M join reservation R
 		on R.status = 1 and R.hpSeq = #{hpSeq} and R.userid = M.userid
 	</select>
+	
+	<insert id="submitInfo" parameterType="com.synergy.socdoc.member.HpInfoVO">
+		<choose>
+            <when test="subImg1 == null and subImg2 == null">
+				INSERT INTO hpApplication(address,hpName,phone,hpSeq,info,latitude,longitude, mainImg, orgMainImg, status, uploadDate, submitId, dept) 
+				VALUES (#{address}, #{hpName}, #{phone}, #{hpSeq}, #{info}, #{latitude}, #{longitude}, #{mainImg}, #{orgFileNameMain}, #{status}, sysdate, #{submitId}, #{dept})
+            </when>
+            <when test="subImg1 != null and subImg2 == null">
+				INSERT INTO hpApplication(address,hpName,phone,hpSeq,info,latitude,longitude, mainImg, orgMainImg, status, uploadDate, submitId, dept,subImg1, orgSubImg1) 
+				VALUES (#{address}, #{hpName}, #{phone}, #{hpSeq}, #{info}, #{latitude}, #{longitude}, #{mainImg}, #{orgFileNameMain}, #{status}, sysdate, #{submitId}, #{dept}, #{subImg1}, #{orgFileNameSub1})		
+            </when>
+            <otherwise>
+				INSERT INTO hpApplication(address,hpName,phone,hpSeq,info,latitude,longitude, mainImg, orgMainImg, status, uploadDate, submitId, dept,subImg1, orgSubImg1,subImg2, orgSubImg2) 
+				VALUES (#{address}, #{hpName}, #{phone}, #{hpSeq}, #{info}, #{latitude}, #{longitude}, #{mainImg}, #{orgFileNameMain}, #{status}, sysdate, #{submitId}, #{dept}, #{subImg1}, #{orgFileNameSub1}, #{subImg2}, #{orgFileNameSub2})		
+            </otherwise>
+        </choose>
+	</insert>
+	
+	<insert id="submitSchedule" parameterType="HashMap">
+		insert into scheduleEdit (submitId, hpSeq, day, open, close)
+		values (#{submitId}, #{hpSeq}, #{day}, #{open}-8, #{close}-8)
+	</insert>
 </mapper>
