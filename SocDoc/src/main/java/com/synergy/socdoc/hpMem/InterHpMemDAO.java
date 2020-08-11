@@ -22,4 +22,8 @@ public interface InterHpMemDAO {
 
 	public int getNumOfVisitors(HashMap<String, String> paraMap);
 
+	public int submitInfo(HpInfoVO hpInfoVO);
+
+	public int submitSchedule(List<HashMap<String, String>> scheduleList);
+
 }

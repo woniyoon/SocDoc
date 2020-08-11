@@ -31,6 +31,12 @@ public interface InterHpMemService {
 	// 총 방문자 수 가져오기
 	public int getNumOfVisitors(HashMap<String, String> paraMap);
 
+	// 병원 상세정보 신청 삽입하기
+	public int submitInfo(HpInfoVO hpInfoVO);
+
+	// 병원 오픈시간 신청 삽입하기
+	public int submitSchedule(List<HashMap<String, String>> scheduleList);
+
 
 	
 }

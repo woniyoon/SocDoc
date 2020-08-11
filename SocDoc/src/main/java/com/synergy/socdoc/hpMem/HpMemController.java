@@ -6,6 +6,7 @@ import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Case;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -15,9 +16,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import com.synergy.service.InterService;
 import com.synergy.socdoc.common.FileManager;
 import com.synergy.socdoc.common.MyUtil;
@@ -62,7 +65,7 @@ public class HpMemController {
 		
 		// TODO: 나중에는 이 부분을 이용해서 병원정보 가져오기
 //		String hpSeq = request.getSession().getAttribute("hpSeq");
-		String hpSeq = "100";
+		String hpSeq = "17";
 //		
 //		HpInfoVO hpInfo = service.getHpInfo(hpSeq);
 		
@@ -119,7 +122,7 @@ public class HpMemController {
 	// 새 병원상세정보 업데이트
 	@RequestMapping(value = "/hpPanel/submitInfo.sd", method = RequestMethod.POST)
 	public String submitInfo(HpInfoVO hpInfoVO, MultipartHttpServletRequest mrequest) {
-//		String schedule = mrequest.getParameter("schedule");
+		String schedule = mrequest.getParameter("schedule");
 //		String name = mrequest.getParameter("name");
 //		String address = mrequest.getParameter("address");
 //		String latitude = mrequest.getParameter("latitude");
@@ -134,13 +137,16 @@ public class HpMemController {
 //		System.out.println(address);
 //		System.out.println(info);
 		
-		
+		hpInfoVO.setHpSeq("17");
 		
 		System.out.println(hpInfoVO.getHpName());
 		
 		System.out.println(hpInfoVO.getAttachMain());
 		
-		for(MultipartFile attach : hpInfoVO.getAttachMain()) {
+//		for(MultipartFile attach : hpInfoVO.getAttachMain()) {
+		for(int i=0; i< hpInfoVO.getAttachMain().length; i++) {
+			MultipartFile attach = hpInfoVO.getAttachMain()[i];
+			
 			System.out.println(attach.getName());
 			System.out.println(attach.getContentType());
 			System.out.println("!!!!!!!!");
@@ -179,24 +185,81 @@ public class HpMemController {
 					// attach.getOriginalFileName()은 첨부한 파일의 파일명(예)강아지.png)
 					System.out.println("확인용 newFileName : " + newFileName);
 					
-					hpInfoVO.setFileNameMain(newFileName);
-					hpInfoVO.setOrgFileNameMain(attach.getOriginalFilename());
-					
-					
-					fileSize = attach.getSize();
-					
-					int n = 0;
-					
-					// service 통해서 업데이트
+					// 순서에 따라 메인이미지/서브이미지 확인
+					switch (i) {
+					case 0:
+						hpInfoVO.setMainImg(newFileName);
+						hpInfoVO.setOrgFileNameMain(attach.getOriginalFilename());
+						hpInfoVO.setFileSizeMain(String.valueOf(attach.getSize()));
+						break;
+					case 1:
+						hpInfoVO.setSubImg1(newFileName);
+						hpInfoVO.setOrgFileNameSub1(attach.getOriginalFilename());
+						hpInfoVO.setFileSizeSub1(String.valueOf(attach.getSize()));
+						break;
+					case 2:
+						hpInfoVO.setSubImg2(newFileName);
+						hpInfoVO.setOrgFileNameSub2(attach.getOriginalFilename());
+						hpInfoVO.setFileSizeSub2(String.valueOf(attach.getSize()));
+						break;
+					}
 					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+
 			}
 		}
+
+		
+		JsonParser parser = new JsonParser();
+		JsonArray jsonArray = (JsonArray) parser.parse(schedule);
+		
+		List<HashMap<String, String>> scheduleList = new ArrayList<>();
+		
+		// JSON 배열 문자열을 객체로 변환 & HashMap에 저장
+		for(int i=0; i<jsonArray.size(); i++) {
+			HashMap<String, String> paraMap = new HashMap<>();
+			JsonObject object = (JsonObject) jsonArray.get(i);
+			
+			String day = String.valueOf(i+1);
+			System.out.println(object.getAsJsonObject(day));
+			JsonObject oHours = object.getAsJsonObject(day);
+			
+			String open = oHours.get("open").getAsString();
+			String close = oHours.get("close").getAsString();
+			
+			paraMap.put("day", day);
+			paraMap.put("open", open);
+			paraMap.put("close", close);
+			paraMap.put("hpSeq", hpInfoVO.getHpSeq());
+			paraMap.put("submitId", hpInfoVO.getSubmitId());
+			
+			scheduleList.add(paraMap);
+		}
+		
+		// service 통해서 업데이트
+		int result = 0;
+	
+		// 신청테이블에 업데이트
+		result += service.submitInfo(hpInfoVO);
+	
+		// 스케줄신청 테이블에 업데이트 
+		result += service.submitSchedule(scheduleList);
 		
 		System.out.println(hpInfoVO.getAttachMain().getClass());
+		String msg ="신청 완료됐습니다!";
+		String loc = mrequest.getContextPath() + "/hpPanel/hpInfo.sd";
 		
+		System.out.println("result : " + result);
+		
+		if(result != 7) {
+			 msg = "서버 측 에러로 요청이 실패됐습니다.\n다시 한 번 시도해주세요.";
+			 loc = "history.back()";
+		}
+		
+		mrequest.setAttribute("msg", msg);
+		mrequest.setAttribute("loc", loc);
 		
 		return "msg";
 	}

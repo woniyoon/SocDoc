@@ -70,6 +70,28 @@ public class HpMemDAO implements InterHpMemDAO {
 		int numOfVisitors = sqlsession.selectOne("hpMem.getNumOfVisitors", paraMap);
 		return numOfVisitors;
 	}
+	
+	// 병원 상세정보 신청 삽입하기
+	@Override
+	public int submitInfo(HpInfoVO hpInfoVO) {
+		int result = sqlsession.insert("hpMem.submitInfo", hpInfoVO);
+		return result;
+	}
+
+	// 병원 오픈시간 신청 삽입하기
+	@Override
+	public int submitSchedule(List<HashMap<String, String>> scheduleList) {
+		int result = 0;
+		
+		for(int i=0; i<scheduleList.size(); i++) {	
+			System.out.println("요일 : " + scheduleList.get(i).get("day"));
+			System.out.println("오픈 : " + scheduleList.get(i).get("open"));
+			System.out.println("클로즈 : " + scheduleList.get(i).get("close"));
+			result += sqlsession.insert("hpMem.submitSchedule", scheduleList.get(i));
+		};
+		
+		return result;
+	}
 
 
 }

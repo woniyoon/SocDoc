@@ -63,4 +63,20 @@ public class HpMemService implements InterHpMemService {
 		return numOfVisitors;
 	}
 
+	// 병원 상세정보 신청 삽입하기
+	@Override
+	public int submitInfo(HpInfoVO hpInfoVO) {
+		int result = dao.submitInfo(hpInfoVO);
+		return result;
+	}
+
+	// 병원 스케줄 신청 삽입하기
+	@Override
+	public int submitSchedule(List<HashMap<String, String>> scheduleList) {
+		int result = dao.submitSchedule(scheduleList);
+		return result;
+	}
+
+	
+
 }
