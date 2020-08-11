@@ -165,9 +165,13 @@ public class AdminService implements InterAdminService {
 		return reviewvoList;
 	}
 
+	
+	// 공지사항 글쓰기
+	@Override
+	public int noticeInsert(HashMap<String, String> paraMap) {
+		int n = dao.noticeInsert(paraMap);
+		return n;
+	}
+	
 
-
-	
-	
-	
 }

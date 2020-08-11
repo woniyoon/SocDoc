@@ -223,4 +223,9 @@
 	</select>
 	
 	
+	<insert id="noticeInsert" parameterType="HashMap">
+		insert into noticeBoard (noticeSeq, subject, content, regDate)
+		values(noticeSeq.nextval, #{subject}, #{content}, default)
+	</insert>
+	
 </mapper>

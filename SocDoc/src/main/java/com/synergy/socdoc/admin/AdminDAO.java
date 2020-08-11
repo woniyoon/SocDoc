@@ -163,4 +163,15 @@ public class AdminDAO implements InterAdminDAO {
 		return reviewvoList;
 	}
 
+	
+	// 공지사항 글쓰기 
+	@Override
+	public int noticeInsert(HashMap<String, String> paraMap) {
+		int n = sqlsession.insert("admin.noticeInsert", paraMap);
+		return n;
+	}
+	
+	
+	
+
 }

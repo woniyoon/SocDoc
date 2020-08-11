@@ -2,6 +2,7 @@ package com.synergy.socdoc.admin;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -519,6 +520,29 @@ public class AdminController {
 		
 		return "admin/noticeWrite.tiles3";
 	}
+	/* 공지사항 글쓰기 요청 */
+	@RequestMapping(value = "/noticeWriteEnd.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+	public String noticeWriteEnd(HttpServletRequest request) {
+		
+		String subject = request.getParameter("subject");
+		String content = request.getParameter("content");
+		
+		HashMap<String, String> paraMap = new HashMap<>();
+		paraMap.put("subject", subject);
+		paraMap.put("content", content);
+		
+		int n = service.noticeInsert(paraMap);
+		
+		if(n>0) {
+			return "redirect:/adminNoticeMng.sd";
+		}
+		else {
+			return "redirect:/noticeWrite.sd";
+		}
+		
+		
+	}
+	
 	
 	/* 건강정보관리 */
 	@RequestMapping(value = "/healthInfoMng.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")

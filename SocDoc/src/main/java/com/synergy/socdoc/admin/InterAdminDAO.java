@@ -46,5 +46,7 @@ public interface InterAdminDAO {
 	int reviewTotalCount(HashMap<String, String> paraMap); // 후기관리 총 게시물 건수 구하기
 	List<HpReviewVO> reviewListPaging(HashMap<String, String> paraMap); // 후기관리 글 목록 (페이징처리)
 
+	int noticeInsert(HashMap<String, String> paraMap); // 공지사항 글쓰기
+
 
 }

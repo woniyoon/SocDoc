@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
+<%
+	String ctxPath = request.getContextPath();
+%>
+    
+    
 <style type="text/css" >
 
 	.container { 
@@ -114,7 +119,7 @@
 				<thead>
 					<tr>
 						<th>
-							<input type="text" id="title" name="title" size="116" class="input_title" style="margin: 0px; width: 854px;" placeholder="제목"/>
+							<input type="text" id="subject" name="subject" size="116" class="input_title" style="margin: 0px; width: 854px;" placeholder="제목"/>
 						</th>
 					</tr>
 				</thead>
@@ -122,7 +127,7 @@
 				<tbody>
 					<tr>
 						<td>
-							<textarea id="contents" name="contents" rows="20" cols="119" style="margin: 0px; width: 854px; height: 293px;" placeholder="내용" ></textarea>
+							<textarea id="content" name="content" rows="20" cols="119" style="margin: 0px; width: 854px; height: 293px;" placeholder="내용" ></textarea>
 						</td>
 					</tr>
 				</tbody>
@@ -140,3 +145,36 @@
 		<br/><br/><br/>
 	</section>
 </div>
+
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+		$("#btnNoticeSubmit").click(function(){
+			goWrite();
+		});
+	
+	});
+	
+	
+	function goWrite() {
+		var subject = $("#subject").val().trim();
+		var content = $("#content").val().trim();
+		
+		if (subject == "") {
+			alert("제목을 입력해주세요");
+			return "admin/noticeWrite.sd";
+		}
+		
+		if (content == "") {
+			alert("내용을 입력해주세요");
+			return;	
+		}
+		
+		var frm = document.noticeFrm;
+		frm.action = "<%= ctxPath%>/noticeWriteEnd.sd";
+		frm.method = "GET";
+		frm.submit();
+	}
+
+</script>
