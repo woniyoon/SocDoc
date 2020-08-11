@@ -148,16 +148,14 @@
 <script type="text/javascript">
 
 	$(document).ready(function(){
-		$("form[name=loginFrm] #btnLogin").click(function(e){
-			
-			console.log(e.target);
-			goRegister(); // 로그인 시도한다.
+		$("form[name=loginFrm] #btnLogin").click(function(event){
+			goLogin(); // 로그인 시도한다.
 				
 		});
 	      
 		$("form[name=loginFrm] #pwd").keydown(function(event){
         	if(event.keyCode == 13) { // 암호입력란에 엔터를 했을 경우 
-				goRegister(); // 로그인 시도한다.
+        		goLogin(); // 로그인 시도한다.
 			} 
 		});
 		
@@ -169,7 +167,7 @@
 	});	
 	
 	/* === 로그인 처리 함수 === */
-	function goRegister() {
+	function goLogin() {
    
 		var userid = $("form[name=loginFrm] #userid").val().trim();
 		var pwd = $("form[name=loginFrm] #pwd").val().trim();
@@ -202,12 +200,12 @@
 	}
 	
 	
-<%--
+
  	/* === 로그아웃 처리 함수 === */	
-	function goLogOut() {
-		location.href="<%= request.getContextPath()%>/login/logout.sd";
+	function goLogout() {
+		location.href="logout.sd";
 	}
---%>
+
 
 
 
@@ -226,12 +224,12 @@
 
 	$(document).ready(function(){
 		$("form[name=hpLoginFrm] #btnLogin").click(function(){
-			goHpRegister(); // 로그인 시도한다.
+			goHpLogin(); // 로그인 시도한다.
 		});
 	      
 		$("form[name=hpLoginFrm] #pwd").keydown(function(event){
 	         if(event.keyCode == 13) { // 암호입력란에 엔터를 했을 경우 
-				goHpRegister(); // 로그인 시도한다.
+	        	 goHpLogin(); // 로그인 시도한다.
 			} 
 		});
 		
@@ -243,7 +241,7 @@
 	});	
 	
 	/* === 로그인 처리 함수 === */
-	function goHpRegister() {
+	function goHpLogin() {
    
 		var userid = $("form[name=hpLoginFrm] #userid").val().trim();
 		var pwd = $("form[name=hpLoginFrm] #pwd").val().trim();
@@ -274,7 +272,11 @@
       	frm.action = "hpLoginEnd.sd";
       	frm.submit();
 	}
-
+	
+	/* === 로그아웃 처리 함수 === */	
+ 	function goHpLogout() {
+		location.href="hpLogout.sd";
+	}
 </script>
 
 

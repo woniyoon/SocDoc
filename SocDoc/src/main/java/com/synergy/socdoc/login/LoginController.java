@@ -136,6 +136,34 @@ public class LoginController {
 		}	
 		return mav;
 	}	
+	// 로그아웃 처리 //
+	@RequestMapping(value="/logout.sd")
+	public ModelAndView logout(HttpServletRequest request, ModelAndView mav) {  //직접 세션해도 되고, HttpServletRequest request 해도 됨)
+		
+		HttpSession session = request.getSession();
+		session.invalidate();
+		
+		String msg = "로그아웃 되었습니다.";
+		String loc = request.getContextPath()+"/index.sd";
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("msg");
+		return mav;
+	}
+	@RequestMapping(value="/hpLogout.sd")
+	public ModelAndView hpLogout(HttpServletRequest request, ModelAndView mav) {  //직접 세션해도 되고, HttpServletRequest request 해도 됨)
+		
+		HttpSession session = request.getSession();
+		session.invalidate();
+		
+		String msg = "로그아웃 되었습니다.";
+		String loc = request.getContextPath()+"/index.sd";
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("msg");
+		return mav;
+	}
+	
 	
 	// === 회원가입 폼 페이지 요청 === //
 	@RequestMapping(value="/register.sd", method= {RequestMethod.GET})
