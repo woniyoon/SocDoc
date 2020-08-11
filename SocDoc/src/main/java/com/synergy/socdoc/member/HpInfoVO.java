@@ -188,30 +188,6 @@ public class HpInfoVO {
 		this.uploadDate = uploadDate;
 	}
 
-	public String getOrgFileNameMain() {
-		return orgMainImg;
-	}
-
-	public void setOrgFileNameMain(String orgFileNameMain) {
-		this.orgMainImg = orgFileNameMain;
-	}
-
-	public String getOrgFileNameSub1() {
-		return orgSubImg1;
-	}
-
-	public void setOrgFileNameSub1(String orgFileNameSub1) {
-		this.orgSubImg1 = orgFileNameSub1;
-	}
-
-	public String getOrgFileNameSub2() {
-		return orgSubImg2;
-	}
-
-	public void setOrgFileNameSub2(String orgFileNameSub2) {
-		this.orgSubImg2 = orgFileNameSub2;
-	}
-
 	public MultipartFile[] getAttachMain() {
 		return attachMain;
 	}
