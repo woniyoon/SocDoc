@@ -136,15 +136,15 @@
 		<choose>
             <when test="subImg1 == null and subImg2 == null">
 				INSERT INTO hpApplication(address,hpName,phone,hpSeq,info,latitude,longitude, mainImg, orgMainImg, status, uploadDate, submitId, dept) 
-				VALUES (#{address}, #{hpName}, #{phone}, #{hpSeq}, #{info}, #{latitude}, #{longitude}, #{mainImg}, #{orgFileNameMain}, #{status}, sysdate, #{submitId}, #{dept})
+				VALUES (#{address}, #{hpName}, #{phone}, #{hpSeq}, #{info}, #{latitude}, #{longitude}, #{mainImg}, #{orgMainImg}, #{status}, sysdate, #{submitId}, #{dept})
             </when>
             <when test="subImg1 != null and subImg2 == null">
 				INSERT INTO hpApplication(address,hpName,phone,hpSeq,info,latitude,longitude, mainImg, orgMainImg, status, uploadDate, submitId, dept,subImg1, orgSubImg1) 
-				VALUES (#{address}, #{hpName}, #{phone}, #{hpSeq}, #{info}, #{latitude}, #{longitude}, #{mainImg}, #{orgFileNameMain}, #{status}, sysdate, #{submitId}, #{dept}, #{subImg1}, #{orgFileNameSub1})		
+				VALUES (#{address}, #{hpName}, #{phone}, #{hpSeq}, #{info}, #{latitude}, #{longitude}, #{mainImg}, #{orgMainImg}, #{status}, sysdate, #{submitId}, #{dept}, #{subImg1}, #{orgSubImg1})		
             </when>
             <otherwise>
 				INSERT INTO hpApplication(address,hpName,phone,hpSeq,info,latitude,longitude, mainImg, orgMainImg, status, uploadDate, submitId, dept,subImg1, orgSubImg1,subImg2, orgSubImg2) 
-				VALUES (#{address}, #{hpName}, #{phone}, #{hpSeq}, #{info}, #{latitude}, #{longitude}, #{mainImg}, #{orgFileNameMain}, #{status}, sysdate, #{submitId}, #{dept}, #{subImg1}, #{orgFileNameSub1}, #{subImg2}, #{orgFileNameSub2})		
+				VALUES (#{address}, #{hpName}, #{phone}, #{hpSeq}, #{info}, #{latitude}, #{longitude}, #{mainImg}, #{orgMainImg}, #{status}, sysdate, #{submitId}, #{dept}, #{subImg1}, #{orgSubImg1}, #{subImg2}, #{orgSubImg2})		
             </otherwise>
         </choose>
 	</insert>
