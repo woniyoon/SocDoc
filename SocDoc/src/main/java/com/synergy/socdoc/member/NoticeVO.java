@@ -4,17 +4,17 @@ public class NoticeVO {
 	
 	private int noticeSeq;
 	private String subject;
-	private String contents;
+	private String content;
 	private String regDate;
 	private int hit;
 	
 	public NoticeVO() {}
 	
-	public NoticeVO(int noticeSeq, String subject, String contents, String regDate, int hit) {
+	public NoticeVO(int noticeSeq, String subject, String content, String regDate, int hit) {
 		super();
 		this.noticeSeq = noticeSeq;
 		this.subject = subject;
-		this.contents = contents;
+		this.content = content;
 		this.regDate = regDate;
 		this.hit = hit;
 	}
@@ -35,12 +35,12 @@ public class NoticeVO {
 		this.subject = subject;
 	}
 	
-	public String getContents() {
-		return contents;
+	public String getcontent() {
+		return content;
 	}
 	
-	public void setContents(String contents) {
-		this.contents = contents;
+	public void setcontent(String content) {
+		this.content = content;
 	}
 	
 	public String getRegDate() {
