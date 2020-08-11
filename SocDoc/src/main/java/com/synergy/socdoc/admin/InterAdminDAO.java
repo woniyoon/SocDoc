@@ -47,6 +47,6 @@ public interface InterAdminDAO {
 	List<HpReviewVO> reviewListPaging(HashMap<String, String> paraMap); // 후기관리 글 목록 (페이징처리)
 
 	int noticeInsert(HashMap<String, String> paraMap); // 공지사항 글쓰기
-
+	int delNotice(String noticeSeq); // 공지사항 글삭제
 
 }

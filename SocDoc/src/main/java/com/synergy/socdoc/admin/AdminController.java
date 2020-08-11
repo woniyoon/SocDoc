@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.synergy.socdoc.common.MyUtil;
@@ -513,7 +515,6 @@ public class AdminController {
 		return mav;
 		
 	}
-	
 	/* 공지사항 글쓰기 */
 	@RequestMapping(value = "/noticeWrite.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	public String noticeWrite(HttpServletRequest request) {
@@ -540,8 +541,36 @@ public class AdminController {
 			return "redirect:/noticeWrite.sd";
 		}
 		
-		
 	}
+	/* 공지사항 글삭제 */
+	@RequestMapping(value="/goDel.sd" ,method = RequestMethod.POST)
+	@ResponseBody
+	public ModelAndView delNotice(@RequestParam("noticeck") String[] noticeck, ModelAndView mav, HttpServletRequest request) throws Exception {
+
+		
+		String noticeJoin = request.getParameter("noticeJoin");
+		
+		String[] noticeArr = noticeJoin.split(",");
+		
+		for(int i=0; i<noticeArr.length; i++) {
+			service.delNotice(noticeArr[i]);
+		}
+		
+		
+		/*
+		 for (String noticeSeq : noticeck) { 
+	         System.out.println("글삭제 = " + noticeSeq); 
+	         int n = service.delNotice(noticeSeq); 
+	      } 
+	    */  
+	      // 목록 페이지로 이동
+	      mav.addObject("loc",request.getContextPath()+"/adminNoticeMng.sd");
+	      
+	      mav.setViewName("msg");
+	      
+	      return mav;
+
+	 }
 	
 	
 	/* 건강정보관리 */

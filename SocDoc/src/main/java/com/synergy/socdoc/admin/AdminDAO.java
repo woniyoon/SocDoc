@@ -170,6 +170,12 @@ public class AdminDAO implements InterAdminDAO {
 		int n = sqlsession.insert("admin.noticeInsert", paraMap);
 		return n;
 	}
+	// 공지사항 글삭제
+	@Override
+	public int delNotice(String noticeSeq) {
+		int n = sqlsession.delete("admin.delNotice", noticeSeq);
+		return n;
+	}
 	
 	
 	

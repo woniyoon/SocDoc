@@ -34,7 +34,7 @@
 	}
     
     table {
-		width: 100%;
+		width: 80%;
 		border-collapse: collapse;
 	}
 	
@@ -49,6 +49,7 @@
 	
 	input.input_title {
 		height: 30px;
+		padding-left: 10px;
 	}
 	
 	tbody > tr > td {

@@ -172,6 +172,12 @@ public class AdminService implements InterAdminService {
 		int n = dao.noticeInsert(paraMap);
 		return n;
 	}
+	// 공지사항 글삭제
+	@Override
+	public int delNotice(String noticeSeq) {
+		int n = dao.delNotice(noticeSeq);
+		return n;
+	}
 	
 
 }

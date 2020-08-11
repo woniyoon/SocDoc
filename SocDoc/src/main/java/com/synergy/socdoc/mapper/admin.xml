@@ -228,4 +228,10 @@
 		values(noticeSeq.nextval, #{subject}, #{content}, default)
 	</insert>
 	
+	<delete id="delNotice" parameterType="HashMap">
+         delete from noticeBoard
+         where noticeSeq = #{noticeSeq}
+    </delete>
+	
+	
 </mapper>
