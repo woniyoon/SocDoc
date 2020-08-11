@@ -166,5 +166,36 @@
 	 		on B.hpSeq = H.hpSeq
 	 		where B.userid = #{userid}
 	   </select> 
+	   
+	   
+	   <!-- == 총 예약 건수(totalCount)를 구하기 == -->
+	   <select id="getTotalCountReservation" parameterType="HashMap" resultType="int">
+	   	select count(*)
+	   	from reservation
+	   </select>
+	   
+	    
+	   <!-- == 예약확인 게시판의 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것) -->
+	   <select id="reservationListSearchWithPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.ReservationVO">
+		  	select reservSeq, userid, hpSeq, hourSeq, visitDate, status
+	        from
+		        (
+		            select rownum AS rno
+					         ,reservSeq, userid, hpSeq, hourSeq, visitDate, status
+		            from
+		            (
+			            select reservSeq, userid, hpSeq, hourSeq, to_char(visitDate, 'yyyy-mm-dd hh24:mi:ss') as visitDate, status
+			            from reservation
+			            <if test='searchType == "2"'>
+			            order by visitDate desc
+			            </if>
+			            <if test='searchType == "3"'>
+			            order by visitDate asc
+			            </if>
+		        ) V
+	    	) T
+	        where rno between #{startRno} and #{endRno}
+	  </select>   
+	   
 	
 </mapper>

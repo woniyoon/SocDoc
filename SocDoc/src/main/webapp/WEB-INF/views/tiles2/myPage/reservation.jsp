@@ -194,6 +194,11 @@
 	#infoChange {
 		width: 100%;
 	}
+	
+	div#pageBar {
+		text-align: center;
+		
+	}
 
 </style>
 
@@ -202,12 +207,21 @@
 
 <script type="text/javascript">
 
-	/* $(document).ready(function() {
+	 $(document).ready(function() {
 		
+		// 검색시 검색조건 및 검색어 값 유지시키기 
+	    if(${paraMap != null}) {
+	       $("#searchType").val("${paraMap.searchType}");
+	    }
+		
+		$("#searchType").change(function(){
+			searchType = $(this).val();
+			goSearch(searchType);
+		});
 		
 		
 	});
- */
+ 
 	function hospitalName(){
 		
 		// 팝업창 띄우기
@@ -217,6 +231,15 @@
 					"left=350px, top=100px, width=350px, height=250px, resizable = no, scrollbars = no"); // 팝업창 띄움(view단주소, 팝업창이름, 위치) --%>
 		
 	}
+	
+	function goSearch(searchType) {
+	    var frm = document.searchFrm;
+	    frm.searchType.value = searchType;
+	    
+	    frm.method = "GET";
+	    frm.action = "<%= request.getContextPath()%>/reservation.sd";
+	    frm.submit();
+	  }// end of function goSearch()-------------------------
 
 </script>
 
@@ -243,13 +266,15 @@
         
         <div id="contents">
         <h1 style="text-align: left;"><strong>예약확인</strong></h1>
-        <div>총 예약: <span style="color: skyblue;">1</span></div>
+        <div>총 예약: <span style="color: skyblue;">${totalCount}</span></div>
         <div style="width:80%; display: inline-block; ">
-  			<select style="height:25px; float: right;">
-  				<option>전체</option>
-  				<option>방문날짜순</option>
-  				<option>병원이름순</option>
+        <form name="searchFrm">
+  			<select id="searchType" name="searchType" style="height:25px; float: right;" >
+  				<option id="searchType1" value="1" >전체</option>
+  				<option id="searchType2" value="2" >방문날짜 최신순</option>
+  				<option id="searchType3" value="3" >방문날짜 오래된순</option>
   			</select>
+  		</form>
        </div>
 			<form name="noticeListFrm">
 			<table style="margin-top: 30px;">
@@ -258,17 +283,19 @@
 					 	<th>번호</th>
 					 	<th>병원이름</th>
 					 	<th>방문예정일</th>
-					 	<th>방문예정시간</th>
+					 	<th>방문여부</th>
 					 </tr>
 				</thead>
 				
 				<tbody>
+				<c:forEach var="reservationList" items="${reservationList}" varStatus="status">
 					<tr>
-					    <td class="notice_seq">1</td>
-						<td id="hospitalName" class="noticeTitle"><a style="cursor: pointer;" class="btn" data-toggle="modal" data-target="#myModal">똑닥병원</a></td>
-						<td>2020-07-30</td>
-						<td>14:00</td>
+					    <td class="notice_seq">${reservationList.reservSeq}</td>
+						<td id="hospitalName" class="noticeTitle"><a style="cursor: pointer;" class="btn" data-toggle="modal" data-target="#myModal">${reservationList.hpSeq}</a></td>
+						<td>${reservationList.visitDate}</td>
+						<td>${reservationList.status}</td>
 					</tr>
+				</c:forEach>
 				</tbody>	
 					
 			</table>
@@ -284,7 +311,7 @@
 			</div>
 			
 			<!-- 페이지바 -->
-			<div id="center" style="width: 70%; border: solid 0px gray; margin: 20px auto;">
+			<div id="center" style="width: 30%; border: solid 0px gray; margin: 20px auto;">
 				${pageBar}
 			</div>
 			

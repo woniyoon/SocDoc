@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.QnaBoardVO;
+import com.synergy.socdoc.member.ReservationVO;
 import com.synergy.socdoc.mypage.model.InterMyPageDAO;
 
 
@@ -146,6 +147,22 @@ public class MyPageService implements InterMyPageService {
 	public String userid() {
 		String userid = dao.getUserid();
 		return userid;
+	}
+
+
+	// 예약확인 갯수 구하기
+	@Override
+	public int getTotalCountReservation(HashMap<String, String> paraMap) {
+		int n = dao.getTotalCountReservation(paraMap);
+		return n;
+	}
+
+
+	// 예약확인 페이지 목록 불러오기
+	@Override
+	public List<ReservationVO> reservationListSearchWithPaging(HashMap<String, String> paraMap) {
+		List<ReservationVO> reservationList = dao.reservationListSearchWithPaging(paraMap);
+		return reservationList;
 	}
 
 

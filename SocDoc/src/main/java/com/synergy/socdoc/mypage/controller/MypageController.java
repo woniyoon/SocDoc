@@ -23,6 +23,7 @@ import com.synergy.socdoc.common.MyUtil;
 import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.QnaBoardVO;
+import com.synergy.socdoc.member.ReservationVO;
 import com.synergy.socdoc.mypage.service.InterMyPageService;
 
 
@@ -583,24 +584,24 @@ public class MypageController {
 	@RequestMapping(value="/reservation.sd")
 	public ModelAndView reservation(HttpServletRequest request, ModelAndView mav) {
 		
-		List<QnaBoardVO> askList = null;
+		List<ReservationVO> reservationList = null;
 		
 		/*String searchType = request.getParameter("searchType");*/
-        String searchWord = request.getParameter("searchWord");
+        String searchType = request.getParameter("searchType");
         // System.out.println(searchWord);
         String str_currentShowPageNo = request.getParameter("currentShowPageNo");
         
-        if(searchWord == null || searchWord.trim().isEmpty()) {
-           searchWord = "";
-        }
-        
-        /*if(searchType == null) {
+       /* if(searchType == null || searchType.trim().isEmpty()) {
         	searchType = "";
-         }*/
+        }*/
+        
+        if(searchType == null) {
+        	searchType = "";
+         }
         
         HashMap<String,String> paraMap = new HashMap<>();
-      /*  paraMap.put("searchType", searchType); // "컬럼"*/ 
-       paraMap.put("searchWord", searchWord); // 검색어를 담는다.
+        paraMap.put("searchType", searchType); // "컬럼"
+       // paraMap.put("searchWord", searchWord); // 검색어를 담는다.
         
         // 먼저 총 게시물 건수(totalCount)를 구해와야한다. 
         // 총 게시물 건수(totalCount)는 검색조건이 있을때와 없는때로 나뉘어진다.
@@ -615,7 +616,7 @@ public class MypageController {
         // 현재 보여주는 페이지 번호로서, 초기치로는 1페이지로 설정한다. 
         
         // 총 게시물 건수(totalCount)
-        totalCount = service.getTotalCount(paraMap);
+        totalCount = service.getTotalCountReservation(paraMap);
 //    	System.out.println("~~~~ 확인용 totalCount : " + totalCount);
         
         // 만약에 총 게시물 건수(totalCount)가 127개라면, 
@@ -641,27 +642,16 @@ public class MypageController {
 	        }
         }
         
-        // **** 가져올 게시글의 범위를 구한다.(공식임!!!) **** 
-    	/*
-    	     currentShowPageNo      startRno     endRno
-    	    --------------------------------------------
-    	         1 page        ===>    1           10
-    	         2 page        ===>    11          20
-    	         3 page        ===>    21          30
-    	         4 page        ===>    31          40
-    	         ......                ...         ...
-    	 */
-        
         startRno = ((currentShowPageNo - 1 ) * sizePerPage) + 1;
    		endRno = startRno + sizePerPage - 1; 
 
    		paraMap.put("startRno", String.valueOf(startRno));
    		paraMap.put("endRno", String.valueOf(endRno));
         
-   		askList = service.boardListSearchWithPaging(paraMap);
+   		reservationList = service.reservationListSearchWithPaging(paraMap);
    		// 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것)
 		
-		if(!"".equals(searchWord)) {
+		if(!"".equals(searchType)) {
 			mav.addObject("paraMap", paraMap);
 		}
 		
@@ -670,63 +660,17 @@ public class MypageController {
 		String pageBar = "<ul style='list-style: none;'>";
         
 		int blockSize = 10;
-		// blockSize 는 1개 블럭(토막)당 보여지는 페이번호의 개수 이다.
-		/*
-		 	1 2 3 4 5 6 7 8 9 10  다음 		 -- 1개블럭
-		 이전	11 12 13 14 15 16 17 18 19 20  다음 -- 1개블럭
-		 이전	21 22 23
-		 */
 		
 		int loop = 1;
-		/*
-		 	loop는 1부터 증가하여 1개 블럭을 이루는 페이지번호의 개수[ 지금은 10개(== blockSize) ] 까지만 증가하는 용도이다.
-		 */
 		
 		int pageNo = ((currentShowPageNo - 1)/blockSize) * blockSize + 1;
-		// *** !! 공식이다. !! *** //
+	
 		
-	/*
-	    1  2  3  4  5  6  7  8  9  10  -- 첫번째 블럭의 페이지번호 시작값(pageNo)은 1 이다.
-	    11 12 13 14 15 16 17 18 19 20  -- 두번째 블럭의 페이지번호 시작값(pageNo)은 11 이다.
-	    21 22 23 24 25 26 27 28 29 30  -- 세번째 블럭의 페이지번호 시작값(pageNo)은 21 이다.
-	    
-	    currentShowPageNo         pageNo
-	   ----------------------------------
-	         1                      1 = ((1 - 1)/10) * 10 + 1
-	         2                      1 = ((2 - 1)/10) * 10 + 1
-	         3                      1 = ((3 - 1)/10) * 10 + 1
-	         4                      1
-	         5                      1
-	         6                      1
-	         7                      1 
-	         8                      1
-	         9                      1
-	         10                     1 = ((10 - 1)/10) * 10 + 1
-	        
-	         11                    11 = ((11 - 1)/10) * 10 + 1
-	         12                    11 = ((12 - 1)/10) * 10 + 1
-	         13                    11 = ((13 - 1)/10) * 10 + 1
-	         14                    11
-	         15                    11
-	         16                    11
-	         17                    11
-	         18                    11 
-	         19                    11 
-	         20                    11 = ((20 - 1)/10) * 10 + 1
-	         
-	         21                    21 = ((21 - 1)/10) * 10 + 1
-	         22                    21 = ((22 - 1)/10) * 10 + 1
-	         23                    21 = ((23 - 1)/10) * 10 + 1
-	         ..                    ..
-	         29                    21
-	         30                    21 = ((30 - 1)/10) * 10 + 1
-	*/
-		
-		String url = "askList.sd";
+		String url = "reservation.sd";
 		
 		// === [이전] 만들기 === 
 		if(pageNo != 1) {
-			pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
+			pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchType="+searchType+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
 		}
 	
 		while ( !(loop > blockSize || pageNo > totalPage) ) {
@@ -735,7 +679,7 @@ public class MypageController {
 				pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; text-align: center; border: solid 1px gray; color: red; padding: 2px 4px;'>"+pageNo+"</li>";
 			}
 			else {
-				pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; text-align: center;'><a href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
+				pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; text-align: center;'><a href='"+url+"?searchType="+searchType+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
 			}
 			loop++;
 			pageNo++;
@@ -745,7 +689,7 @@ public class MypageController {
 		
 		// === [다음] 만들기 === 
 		if( !(pageNo > totalPage) ) {
-			pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
+			pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchType="+searchType+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
 		}
 		
 		pageBar += "</ul>";
@@ -754,32 +698,15 @@ public class MypageController {
 		
 		////////////////////////////////////////////////////
 		String gobackURL = MyUtil.getCurrentURL(request);
-		/*// === #121. 페이징 처리되어진 후 특정글제목을 클릭하여 상세내용을 본 이후
-		// 			  사용자가 목록보기 버튼을 클릭했을때 돌아갈 페이지를 알려주기 위해
-		// 			  현재 페이지 주소를 뷰단으로 넘겨준다.
-*/
-//		System.out.println("~~~~~ 확인용 gobackURL : " + gobackURL);
 		
 		mav.addObject("gobackURL", gobackURL);
 		mav.addObject("totalCount", totalCount);
 
-		
-		//////////////////////////////////////////////////////
-		// === #69. 글조회수(readCount)증가 (DML문 update)는
-		//          반드시 목록보기에 와서 해당 글제목을 클릭했을 경우에만 증가되고,
-		//          웹브라우저에서 새로고침(F5)을 했을 경우에는 증가가 되지 않도록 해야 한다.
-		//          이것을 하기 위해서는 session 을 사용하여 처리하면 된다.
-
 		HttpSession session = request.getSession();
 		session.setAttribute("readCountPermission", "yes");
-		/*
-		   session 에  "readCountPermission" 키값으로 저장된 value값은 "yes" 이다.
-		   session 에  "readCountPermission" 키값에 해당하는 value값 "yes"를 얻으려면 
-		      반드시 웹브라우저에서 주소창에 "/list.action" 이라고 입력해야만 얻어올 수 있다. 
-		*/
-		//////////////////////////////////////////////////////
+	
 		
-		mav.addObject("askList",askList);
+		mav.addObject("reservationList",reservationList);
 		mav.setViewName("myPage/reservation.tiles2");
 		
 		return mav;

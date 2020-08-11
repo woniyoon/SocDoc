@@ -7,6 +7,7 @@ import java.util.Map;
 import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.QnaBoardVO;
+import com.synergy.socdoc.member.ReservationVO;
 
 public interface InterMyPageService {
 
@@ -37,6 +38,10 @@ public interface InterMyPageService {
 	List<HashMap<String, String>> bookMarkListSearchWithPaging(HashMap<String, String> paraMap); // 페이징 처리한 즐겨찾기목록 가져오기
 
 	String userid(); // 즐겨찾기에서 userid 들고오기
+
+	int getTotalCountReservation(HashMap<String, String> paraMap); // 예약확인 갯수 구하기
+
+	List<ReservationVO> reservationListSearchWithPaging(HashMap<String, String> paraMap); // 예약확인 페이지 목록 불러오기
 
 	
 

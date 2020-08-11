@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.QnaBoardVO;
+import com.synergy.socdoc.member.ReservationVO;
 
 @Repository
 public class MyPageDAO implements InterMyPageDAO {
@@ -116,6 +117,22 @@ public class MyPageDAO implements InterMyPageDAO {
 	public String getUserid() {
 		String userid = sqlsession.selectOne("mypage.getUserid");
 		return userid;
+	}
+
+
+	// 예약확인 갯수 구하기
+	@Override
+	public int getTotalCountReservation(HashMap<String, String> paraMap) {
+		int n = sqlsession.selectOne("mypage.getTotalCountReservation", paraMap);
+		return n;
+	}
+
+
+	// 예약확인 페이지 목록 불러오기
+	@Override
+	public List<ReservationVO> reservationListSearchWithPaging(HashMap<String, String> paraMap) {
+		List<ReservationVO> reservationList = sqlsession.selectList("mypage.reservationListSearchWithPaging",paraMap);
+		return reservationList;
 	}
 
 
