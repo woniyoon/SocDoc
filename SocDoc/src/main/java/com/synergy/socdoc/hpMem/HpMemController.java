@@ -1,8 +1,10 @@
 package com.synergy.socdoc.hpMem;
 
+import java.io.File;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,11 +12,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.synergy.service.InterService;
+import com.synergy.socdoc.common.FileManager;
 import com.synergy.socdoc.common.MyUtil;
 import com.synergy.socdoc.member.HpInfoVO;
 
@@ -24,6 +29,9 @@ public class HpMemController {
 	
 	@Autowired
 	private InterHpMemService service;
+	
+	@Autowired
+	private FileManager fileManager;
 	
 	// 병원회원 페이지 
 	// 홈
@@ -85,29 +93,113 @@ public class HpMemController {
 		return "hpMem/updateHpInfo.tiles4";
 	}
 	
+//	// 새 병원상세정보 업데이트
+//	@RequestMapping(value = "/hpPanel/submitInfo.sd", method = RequestMethod.POST)
+//	public String submitInfo(HttpServletRequest request) {
+//		String schedule = request.getParameter("schedule");
+//		String name = request.getParameter("name");
+//		String mainImg = request.getParameter("mainImg");
+//		String address = request.getParameter("address");
+//		String latitude = request.getParameter("latitude");
+//		String longitude = request.getParameter("longitude");
+//		String phone = request.getParameter("phone");
+//		String dept = request.getParameter("dept");
+//		String info = request.getParameter("info");
+//		System.out.println(schedule);
+//		System.out.println(name);
+//		System.out.println(latitude);
+//		System.out.println(longitude);
+//		System.out.println(address);
+//		System.out.println(info);
+//		System.out.println("?????");
+//		
+//		return "msg";
+//	}
+	
 	// 새 병원상세정보 업데이트
 	@RequestMapping(value = "/hpPanel/submitInfo.sd", method = RequestMethod.POST)
-	public String submitInfo(HttpServletRequest request) {
-		String schedule = request.getParameter("schedule");
-		String name = request.getParameter("name");
-		String mainImg = request.getParameter("mainImg");
-		String address = request.getParameter("address");
-		String latitude = request.getParameter("latitude");
-		String longitude = request.getParameter("longitude");
-		String phone = request.getParameter("phone");
-		String dept = request.getParameter("dept");
-		String info = request.getParameter("info");
-		System.out.println(schedule);
-		System.out.println(name);
-		System.out.println(latitude);
-		System.out.println(longitude);
-		System.out.println(address);
-		System.out.println(info);
-		System.out.println("?????");
+	public String submitInfo(HpInfoVO hpInfoVO, MultipartHttpServletRequest mrequest) {
+//		String schedule = mrequest.getParameter("schedule");
+//		String name = mrequest.getParameter("name");
+//		String address = mrequest.getParameter("address");
+//		String latitude = mrequest.getParameter("latitude");
+//		String longitude = mrequest.getParameter("longitude");
+//		String phone = mrequest.getParameter("phone");
+//		String dept = mrequest.getParameter("dept");
+//		String info = mrequest.getParameter("info");
+//		System.out.println(schedule);
+//		System.out.println(name);
+//		System.out.println(latitude);
+//		System.out.println(longitude);
+//		System.out.println(address);
+//		System.out.println(info);
+		
+		
+		
+		System.out.println(hpInfoVO.getHpName());
+		
+		System.out.println(hpInfoVO.getAttachMain());
+		
+		for(MultipartFile attach : hpInfoVO.getAttachMain()) {
+			System.out.println(attach.getName());
+			System.out.println(attach.getContentType());
+			System.out.println("!!!!!!!!");
+			
+		
+			if(!attach.isEmpty()) {
+				System.out.println("파일첨부 돼있음");
+				System.out.println(attach.getName());
+				
+				// WAS의 webapp의 절대경로를 알아와야한다.
+				HttpSession session = mrequest.getSession();
+				String root = session.getServletContext().getRealPath("/");
+			
+				String path = root + "resources" + File.separator + "files";
+				
+				// path = 첨부파일 저장될 WAS의 폴더
+	
+				System.out.println(" path   :   " + path);
+				//  path: /Users/woniyoon/Documents/workspace-sts-3.9.13.RELEASE/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/Board/resources/files
+	
+				
+				// 2. 파일첨부를 위한변수의 설정 및 값을 초기화한 후 파일 올리기
+				String newFileName = "";
+				
+				byte[] bytes = null;
+				long fileSize = 0L;
+				
+				try {
+					bytes = attach.getBytes();
+					// getBytes() 메소드는 첨부된 파일을 바이트단위로 파일을 다 읽어오는 것이다. 
+		            // 예를 들어, 첨부한 파일이 "강아지.png" 이라면
+		            // 이파일을 WAS(톰캣) 디스크에 저장시키기 위해 byte[] 타입으로 변경해서 올린다.
+					
+					newFileName = fileManager.doFileUpload(bytes, attach.getOriginalFilename(), path);
+					// 파일 올리기
+					// attach.getOriginalFileName()은 첨부한 파일의 파일명(예)강아지.png)
+					System.out.println("확인용 newFileName : " + newFileName);
+					
+					hpInfoVO.setFileNameMain(newFileName);
+					hpInfoVO.setOrgFileNameMain(attach.getOriginalFilename());
+					
+					
+					fileSize = attach.getSize();
+					
+					int n = 0;
+					
+					// service 통해서 업데이트
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		System.out.println(hpInfoVO.getAttachMain().getClass());
+		
 		
 		return "msg";
 	}
-	
 	
 
 	// 예약관리
