@@ -192,7 +192,7 @@
         <c:if test="${not empty sessionScope.loginuser}">
 	        <li><a href="<%=ctxPath%>/logout.sd">로그아웃</a></li>
         </c:if>
-        <li><a href="#">마이페이지</a></li>
+        <li><a href="<%=ctxPath%>/mypage.sd">마이페이지</a></li>
         <li><a href="#">고객센터</a></li>
     </ul>
 

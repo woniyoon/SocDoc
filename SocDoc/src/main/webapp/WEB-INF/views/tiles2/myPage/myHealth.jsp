@@ -204,7 +204,7 @@
 	
 	function goStore() {
 	    var frm = document.healthFrm;
-	    frm.method = "GET";
+	    frm.method = "POST";
 	    frm.action = "<%= request.getContextPath()%>/addHealth.sd";
 	    frm.submit();
 	  }// end of function goSearch()-------------------------

@@ -74,7 +74,7 @@
 	  <select id="viewMyHealth" parameterType="String" resultType="com.synergy.socdoc.member.MemberVO">
 	    select height, weight, bloodType, allergy, history, medicine
 		from member
-		where userid = 'kimmm'
+		where userid = #{userid}
    	</select>
    	
    	<select id="viewMyHealthTest" resultType="com.synergy.socdoc.member.MemberVO">

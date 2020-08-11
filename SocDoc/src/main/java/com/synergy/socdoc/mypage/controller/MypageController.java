@@ -382,6 +382,8 @@ public class MypageController {
 		
 		String userid = loginuser.getUserid();
 		
+		System.out.println(userid);
+		
 		mav.addObject("userid",userid);
 		
 		MemberVO membervo = service.viewMyHealth(userid);
