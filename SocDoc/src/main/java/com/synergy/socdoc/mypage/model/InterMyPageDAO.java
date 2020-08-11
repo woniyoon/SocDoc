@@ -25,6 +25,8 @@ public interface InterMyPageDAO {
 	int addHealth(MemberVO membervo);  // 내 건강 새로 저장하기(update)
 
 	MemberVO viewMyHealth(String userid); // 내 건강 페이지 보이기(select)
+	
+	List<MemberVO> viewMyHealthTest();
 
 	int delHealth(String userid); // 내 건강 페이지 삭제하기(delete)
 
@@ -33,6 +35,8 @@ public interface InterMyPageDAO {
 	List<HashMap<String, String>> bookMarkListSearchWithPaging(HashMap<String, String> paraMap); // 페이징 처리한 즐겨찾기목록 가져오기 
 
 	String getUserid(); // 즐겨찾기에서 userid 들고오기
+
+	
 
 	
 

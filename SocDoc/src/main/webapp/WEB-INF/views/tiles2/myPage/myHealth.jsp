@@ -241,13 +241,13 @@
 			    <tr>
 			        <th scope="row">키</th>
 			        <td>
-					    <input class="form-control-tel" name="height" type="text" value="${membervo.height}"/> cm
+					    <input class="form-control-tel" name="height" type="number" value="${memberList.height}"/> cm
 					</td>
 			    </tr>
 			    <tr>
 			        <th scope="row">몸무게</th>
 			        <td>
-					    <input class="form-control-tel" name="weight" type="text" value="${membervo.weigth}"/> kg
+					    <input class="form-control-tel" name="weight" type="number" value="${memberList.weigth}"/> kg
 					</td>
 			    </tr>
 			    <tr>
@@ -264,19 +264,19 @@
 			    <tr>
 			        <th scope="row">알레르기</th>
 			        <td>
-					    <input class="textIpt" name="allergy" type="text" placeholder="내용을 입력해주세요" value="${membervo.allergy}"/>
+					    <input class="textIpt" name="allergy" type="text" placeholder="내용을 입력해주세요" value="${memberList.allergy}"/>
 					</td>
 			    </tr>
 			    <tr>
 			        <th scope="row">병력</th>
 			        <td>
-					    <input class="textIpt" name="history" type="text" placeholder="내용을 입력해주세요" value="${membervo.history}"/>
+					    <input class="textIpt" name="history" type="text" placeholder="내용을 입력해주세요" value="${memberList.history}"/>
 					</td>
 			    </tr>
 			    <tr>
 			        <th scope="row">복용약</th>
 			        <td>
-					    <input class="textIpt" name="medicine" type="text" placeholder="내용을 입력해주세요" value="${membervo.medicine}"/>
+					    <input class="textIpt" name="medicine" type="text" placeholder="내용을 입력해주세요" value="${memberList.medicine}"/>
 					</td>
 			    </tr>
 			    </tbody>
