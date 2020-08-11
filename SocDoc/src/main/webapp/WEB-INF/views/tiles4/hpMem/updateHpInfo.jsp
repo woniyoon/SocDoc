@@ -361,7 +361,7 @@
 		// 파일타입 input제외하고 모두 기입이됐는지 확인
 		var isAllFilled = true;
 
-		$("form input, form textarea").each(function() {
+		$("form input:not([type=file]), form textarea").each(function() {
 			$(this).css({"border": "", "box-shadow" : ""});
 			
 			if ($(this).val() == "" && $(this).prop("id").substring(0, 6) != "subImg") {
