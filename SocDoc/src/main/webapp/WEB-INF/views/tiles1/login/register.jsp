@@ -41,6 +41,11 @@
 		//border: solid 1px blue;
 	}
    
+	.textPrimary {
+   		margin-bottom: 5px;
+   		color: #454545; 
+   	}
+   	
 	/* 탭(개인회원/병원회원) */
 	#tab {
 		display: flex;
@@ -94,17 +99,19 @@
 		font-size: 8pt;
 		color: red;
 	}
+	
     input[type=button] {
     	color: #fff;
     	background-color: #58ACFA;
 	    border: solid 1px #ccc;
     }
     
-    .requiredInfo, .hpRequiredInfo{
+    .requiredInfo, .hpRequiredInfo {
 		width: 100%;
 		height: 35px;
 		padding-left: 10px;
 		box-sizing: border-box;
+		border: solid 1px #ccc;
     }
      
     .btnJoin, .hpBtnJoin {
@@ -137,7 +144,7 @@
 	.birthDate {
 		overflow : hidden;
 	    box-sizing: border-box;
-	    border: solid 1px gray;
+	    border: solid 1px #ccc;
 	}
 	
 	.birthDate input[type=text] {
@@ -515,7 +522,7 @@
 						certification = true;
 						$("#btnFind3").click(function(){ // 인증성공 후 '인증확인' 버튼 재클릭 시 막아버리기
 							disabled = 'disabled';
-							alert("해당 이메일은 인증 확인이 되었습니다. 다음 단계로 넘어가세요");
+							alert("인증이 이미 완료되었습니다. 다음 단계로 넘어가세요");
 						});
 					}else{
 						console.log("!!!메일인증실패!!!");
@@ -602,7 +609,8 @@
 				}
 			}); 
 		} else {
-			alert('이메일을 알맞게 입력해주세요.');
+			alert('잘못된 이메일 주소입니다. 이메일 주소를 정확하게 입력해주세요.');
+			$("form[name=registerFrm] #email").focus();
 		}
 	
 	}
@@ -660,7 +668,7 @@
 		}
 		if($("form[name=registerFrm] #email").val().trim()=="" || condition4 == false) {
 			alert("이메일을 확인하세요.");
-			$("#email").focus();
+			$("form[name=registerFrm] #email").focus();
 			return;
 		}
  		if(!certification || certification == false) {
@@ -978,7 +986,7 @@
 						$("#hpBtnFind3").show();
 						$("#hpBtnFind3").click(function(){ // 인증성공 후 '인증확인' 버튼 재클릭 시 막아버리기
 							disabled = 'disabled';
-							alert("해당 이메일은 인증 확인이 되었습니다. 다음 단계로 넘어가세요");
+							alert("인증이 이미 완료되었습니다. 다음 단계로 넘어가세요");
 						});
 					}else{
 						console.log("!!!메일인증실패!!!");
@@ -1030,7 +1038,8 @@
 				}
 			}); 
 		} else {
-			alert('이메일을 알맞게 입력해주세요.');
+			alert('잘못된 이메일 주소입니다. 이메일 주소를 정확하게 입력해주세요.');
+			$("form[name=hpRegisterFrm] #email").focus();
 		}	
 	}
 		
@@ -1118,7 +1127,7 @@
 			
 				<div class="individualMember"> 
 					<div class="formGroup">
-						<label for="userid" style="display: block;">아이디</label>
+						<label for="userid">아이디</label>
 			         	<input type="text" name="userid" id="userid" class="requiredInfo" autofocus placeholder="5자 이상으로 입력하세요"/>
 			         	<span class="error" id="useridError">아이디를 입력하세요.</span>
 			        	<span class="success" id="useridSuccess">사용 가능한 아이디 입니다.</span> 
@@ -1214,8 +1223,8 @@
 				        <label for="email" style="display: block;">이메일</label>	
 				        <div style="width:100%; height:35px;">			   
 					        <input type="email" name="email" id="email" class="hpRequiredInfo" placeholder="E-mail을 입력하세요" style="width: 70%; height:100%;" /> 
-							<input type="button" id="hpBtnFind" class="hpBtnFind" value="인증하기" style="width: 28%; height: 100%;"/>
-							<input type="button" id="hpBtnFindNext" class="hpBtnFind" onclick="hpSendVerificationCode()" value="재인증" style="width: 28%; height: 35px;"/>
+							<input type="button" id="hpBtnFind" class="hpBtnFind" value="인증" style="width: 28%; height: 100%;"/>
+							<input type="button" id="hpBtnFindNext" class="hpBtnFind" onclick="hpSendVerificationCode()" value="재인증" style="width: 28%; height: 35px; background-color: #f4f4f1; color: black;"/>
 				        </div>
 				        <span class="error" id="hpEmailError">이메일 형식에 맞지 않습니다.</span>
 				        <span class="success" id="hpEmailSuccess">사용 가능한 이메일 입니다.</span>
