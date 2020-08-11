@@ -24,15 +24,15 @@ public class HpInfoVO {
 	private String uploadDate;
 	
 	private String fileNameMain; // WAS에 저장될 파일명, 날짜 + 나노초.png (예)20200725.....png)
-	private String orgFileNameMain; // 진짜 파일명(예)강아지.png)
+	private String orgMainImg; // 진짜 파일명(예)강아지.png)
 	private String fileSizeMain; // 파일크기
 	
 	private String fileNameSub1; // WAS에 저장될 파일명, 날짜 + 나노초.png (예)20200725.....png)
-	private String orgFileNameSub1; // 진짜 파일명(예)강아지.png)
+	private String orgSubImg1; // 진짜 파일명(예)강아지.png)
 	private String fileSizeSub1; // 파일크기
 	
 	private String fileNameSub2; // WAS에 저장될 파일명, 날짜 + 나노초.png (예)20200725.....png)
-	private String orgFileNameSub2; // 진짜 파일명(예)강아지.png)
+	private String orgSubImg2; // 진짜 파일명(예)강아지.png)
 	private String fileSizeSub2; // 파일크기
 
 	private MultipartFile[] attachMain;
@@ -202,11 +202,11 @@ public class HpInfoVO {
 	}
 
 	public String getOrgFileNameMain() {
-		return orgFileNameMain;
+		return orgMainImg;
 	}
 
 	public void setOrgFileNameMain(String orgFileNameMain) {
-		this.orgFileNameMain = orgFileNameMain;
+		this.orgMainImg = orgFileNameMain;
 	}
 
 	public String getFileSizeMain() {
@@ -226,11 +226,11 @@ public class HpInfoVO {
 	}
 
 	public String getOrgFileNameSub1() {
-		return orgFileNameSub1;
+		return orgSubImg1;
 	}
 
 	public void setOrgFileNameSub1(String orgFileNameSub1) {
-		this.orgFileNameSub1 = orgFileNameSub1;
+		this.orgSubImg1 = orgFileNameSub1;
 	}
 
 	public String getFileSizeSub1() {
@@ -250,11 +250,11 @@ public class HpInfoVO {
 	}
 
 	public String getOrgFileNameSub2() {
-		return orgFileNameSub2;
+		return orgSubImg2;
 	}
 
 	public void setOrgFileNameSub2(String orgFileNameSub2) {
-		this.orgFileNameSub2 = orgFileNameSub2;
+		this.orgSubImg2 = orgFileNameSub2;
 	}
 
 	public String getFileSizeSub2() {
