@@ -23,8 +23,8 @@ public class LoginDAO implements InterLoginDAO {
 	}
 	@Override
 	public HpMemberVO getHpLoginMember(HashMap<String, String> paraMap) {
-		HpMemberVO hpLoginuser = sqlsession.selectOne("newMem.getHpLoginMember", paraMap);
-		return hpLoginuser;
+		HpMemberVO loginuser = sqlsession.selectOne("newMem.getHpLoginMember", paraMap);
+		return loginuser;
 	}
 	
 	// === 회원가입  아이디 중복검사 === //

@@ -46,8 +46,8 @@ public class LoginService implements InterLoginService {
 	}
 	@Override
 	public HpMemberVO getHpLoginMember(HashMap<String, String> paraMap) {
-		HpMemberVO hpLoginuser = dao.getHpLoginMember(paraMap); // DB에 넘기자.
-		return hpLoginuser;
+		HpMemberVO loginuser = dao.getHpLoginMember(paraMap); // DB에 넘기자.
+		return loginuser;
 	}
 	
 	// === 회원가입 아이디 중복검사 === //

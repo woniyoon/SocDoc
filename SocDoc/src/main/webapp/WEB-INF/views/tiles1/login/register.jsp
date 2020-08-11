@@ -23,7 +23,7 @@
 	}
 
 	.container { 
-		width: 35%;
+		width: 30%;
 		height: 150%;
 		margin: 100px auto 200px auto;
 		padding: 0;
@@ -55,8 +55,8 @@
    		font-weight: bold;
    		background-color: white;
    		color: #ccc;
-   		border: solid 1px #f4f4f1;
-   		border-bottom: solid 2px #58ACFA;
+   		border-bottom: solid 1px #ccc;
+   		//border-bottom: solid 2px #58ACFA;
 	}
 	
  	/* 버튼 클릭 됐을 때 */
@@ -151,7 +151,7 @@
 	
 	div.bar {
 		display: inline-block;
-		width: 20px;
+		//width: 20px;
 		padding-top: 5px;
 		text-align: center;
 		position: relative;
@@ -1135,11 +1135,10 @@
 			         	<label for="birthDate">생년월일</label>
 			         	<div class="birthDate">
 							<input type="text" name="birthYY" id="birthYY" class="requiredInfo" value="" size="4" maxlength="4" placeholder="YYYY">
-			             	<div class="bar">년</div>
+			             	<div class="bar">/</div>
 			             	<input type="text" name="birthMM" id="birthMM" class="requiredInfo" value="" size="2" maxlength="2" placeholder="MM">
-			             	<div class="bar">월</div>
+			             	<div class="bar">/</div>
 			             	<input type="text" name="birthDD" id="birthDD" class="requiredInfo" value="" size="2" maxlength="2" placeholder="DD">
-							<div class="bar">일</div>
 							<input type="hidden" name="birthDate" />
 						</div>
 						<span class="error" id="birthdateError">생년월일을 입력하세요.</span>
@@ -1153,19 +1152,21 @@
 			            </div>
 				         	         	
 				        <label for="email" style="display: block;">이메일</label>
-				        <input type="email" name="email" id="email" class="requiredInfo" placeholder="E-mail을 입력하세요" style="width: 75%;" />
-			        	<input type="button" id="btnFind" class="btnFind" value="인증하기" style="width: 90px; height: 35px;"/>
-			        	<input type="button" id="btnFindNext" class="btnFind" onclick="sendVerificationCode()" value="재인증" style="width: 90px; height: 35px;"/>
+				        <div style="width:100%; height:35px;">
+					        <input type="email" name="email" id="email" class="requiredInfo" placeholder="E-mail을 입력하세요" style="width: 70%; height:100%;" />
+ 				        	<input type="button" id="btnFind" class="btnFind" value="인증" style="width: 28%; height: 100%;"/>
+			        		<input type="button" id="btnFindNext" class="btnFind" onclick="sendVerificationCode()" value="재인증" style="width: 28%; height: 35px;"/>
+				        </div>
 				        <span class="error" id="emailError" >이메일 형식에 맞지 않습니다.</span> 
 						<span class="success" id="emailSuccess">사용 가능한 이메일 입니다.</span> 
-				        <div id="div_btnFind">
-					        <input type="text" name="email2" id="email2" class="requiredInfo" maxlength="7" placeholder="E-mail로 발송된 인증번호를 입력하세요" style="width: 75%;" />
-							<input type="button" id="btnFind2" value="인증확인하기" disabled="disabled" style="width: 90px; height: 35px; background-color: #ccc; color: black;"/>
-							<input type="button" id="btnFind3" value="인증확인" disabled="disabled" style="width: 90px; height: 35px;"/>
-							<span class="error" id="emailCkError" >이메일 형식에 맞지 않습니다.</span> 
-							<span class="success" id="emailCkSuccess">사용 가능한 이메일 입니다.</span>
+				        <div id="div_btnFind" style="width:100%;">
+					        <input type="text" name="email2" id="email2" class="requiredInfo" maxlength="7" placeholder="E-mail로 발송된 인증번호를 입력하세요" style="width: 70%;" />
+							<input type="button" id="btnFind2" value="인증확인하기" disabled="disabled" style="width: 28%; height:35px; background-color: #f4f4f1; color: black;"/>
+							<input type="button" id="btnFind3" value="인증확인" disabled="disabled" style="width: 28%; height:35px;"/>
 				        </div>   
-   	       
+						<span class="error" id="emailCkError" >이메일 형식에 맞지 않습니다.</span> 
+						<span class="success" id="emailCkSuccess">사용 가능한 이메일 입니다.</span>
+   	       				
 				        <label for="phone">전화번호</label>
 				        <input type="tel" id="phone" name="phone" maxlength="13" class="requiredInfo" placeholder="'-'없이 입력하세요" />
 				        <span class="error" id="phoneError">휴대폰 형식이 아닙니다.</span>
@@ -1210,19 +1211,22 @@
 				        <input type="text" name="name" id="name" class="hpRequiredInfo" /> 
 				        <span class="error" id="hpNameError">담당자 이름을 입력 하세요.</span>
 			
-				        <label for="email" style="display: block;">이메일</label>
-				        <input type="email" name="email" id="email" class="hpRequiredInfo" placeholder="E-mail을 입력하세요" style="width: 75%;" /> 
-						<input type="button" id="hpBtnFind" class="hpBtnFind" value="인증하기" style="width: 90px; height: 35px;"/>
-						<input type="button" id="hpBtnFindNext" class="hpBtnFind" onclick="hpSendVerificationCode()" value="재인증" style="width: 90px; height: 35px;"/>
+				        <label for="email" style="display: block;">이메일</label>	
+				        <div style="width:100%; height:35px;">			   
+					        <input type="email" name="email" id="email" class="hpRequiredInfo" placeholder="E-mail을 입력하세요" style="width: 70%; height:100%;" /> 
+							<input type="button" id="hpBtnFind" class="hpBtnFind" value="인증하기" style="width: 28%; height: 100%;"/>
+							<input type="button" id="hpBtnFindNext" class="hpBtnFind" onclick="hpSendVerificationCode()" value="재인증" style="width: 28%; height: 35px;"/>
+				        </div>
 				        <span class="error" id="hpEmailError">이메일 형식에 맞지 않습니다.</span>
 				        <span class="success" id="hpEmailSuccess">사용 가능한 이메일 입니다.</span>
-						<div id="hpDivBtnFind">
-							<input type="text" name="hpEmail2" id="hpEmail2" class="hpRequiredInfo" maxlength="7" placeholder="E-mail로 발송된 인증번호를 입력하세요" style="width: 75%;" />
-							<input type="button" id="hpBtnFind2" value="인증확인하기" disabled="disabled" style="width: 90px; height: 35px; background-color: #ccc; color: black;"/>
-							<input type="button" id="hpBtnFind3" value="인증확인" disabled="disabled" style="width: 90px; height: 35px;"/>
-							<span class="error" id="hpEmailCkError" >이메일 형식에 맞지 않습니다.</span> 
-							<span class="success" id="hpEmailCkSuccess">사용 가능한 이메일 입니다.</span>
-					   </div>
+						<div id="hpDivBtnFind" style="width:100%;">
+							<input type="text" name="hpEmail2" id="hpEmail2" class="hpRequiredInfo" maxlength="7" placeholder="E-mail로 발송된 인증번호를 입력하세요" style="width: 70%;" />
+							<input type="button" id="hpBtnFind2" value="인증확인하기" disabled="disabled" style="width: 28%; height:35px; background-color: #f4f4f1; color: black;"/>
+							<input type="button" id="hpBtnFind3" value="인증확인" disabled="disabled" style="width: 28%; height:35px;"/>
+						</div>
+						<span class="error" id="hpEmailCkError" >이메일 형식에 맞지 않습니다.</span> 
+						<span class="success" id="hpEmailCkSuccess">사용 가능한 이메일 입니다.</span>
+					   
 						
 				        <label for="hpAgree">약관 동의 &nbsp;&nbsp;<input type="checkbox" id="hpAgree" /> </label>
 				        <div style="text-align: center; vertical-align: middle;">

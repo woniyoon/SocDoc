@@ -61,6 +61,8 @@ public class LoginController {
 			mav.addObject("msg", msg);
 			mav.addObject("loc", loc);
 			mav.setViewName("msg"); 
+			HttpSession session = request.getSession();
+			session.setAttribute("loginuser", loginuser);
 		}	
 		
 			/*else {
@@ -119,9 +121,9 @@ public class LoginController {
 		paraMap.put("userid", userid);
 		paraMap.put("pwd", Sha256.encrypt(pwd)); // 암호화
 		
-		HpMemberVO hpLoginuser = service.getHpLoginMember(paraMap);
+		HpMemberVO loginuser = service.getHpLoginMember(paraMap);
 	
-		if(hpLoginuser == null) {
+		if(loginuser == null) {
 			String msg = "아이디 또는 암호가 틀립니다.";
 			String loc = "javascript:history.back()";
 			mav.addObject("msg", msg);
@@ -133,6 +135,8 @@ public class LoginController {
 			mav.addObject("msg", msg);
 			mav.addObject("loc", loc);
 			mav.setViewName("msg"); 
+			HttpSession session = request.getSession();
+			session.setAttribute("loginuser", loginuser);
 		}	
 		return mav;
 	}	
@@ -228,7 +232,7 @@ public class LoginController {
 		String msg = "";
 		String loc = "";
 		if(n==1) {
-			session.setAttribute("hpLoginuser", vo);
+			session.setAttribute("loginuser", vo);
 			msg = "가입 성공하셨습니다.";
 			loc = request.getContextPath() + "/index.sd";
 		} else {

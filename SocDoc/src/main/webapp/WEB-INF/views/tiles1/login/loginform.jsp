@@ -22,7 +22,7 @@
 	}
 
 	.container { 
-		width: 35%;
+		width: 30%;
 		height: 150%;
 		margin: 100px auto 200px auto;
 		padding: 0;
@@ -54,8 +54,8 @@
    		font-weight: bold;
    		background-color: white;
    		color: #ccc;
-   		border: solid 1px #f4f4f1;
-   		border-bottom: solid 2px #58ACFA;
+   		border-bottom: solid 1px #ccc;
+   		//border-bottom: solid 2px #58ACFA;
 	}
 	
  	/* 버튼 클릭 됐을 때 */
@@ -81,13 +81,15 @@
 		float:left;
 		width: 70%;
 		height: 35px;
+		margin-bottom: 5px;
 		padding-left: 10px;
+		//border-right: solid 0px red; 
 	}
 
 	#btnLogin {
 		display: inline-block;
 		width: 30%;
-		height: 72px;
+		height: 75.5px;
 		padding: 0 10px;
 		background-color: #58ACFA;
 		border: solid 1px #ccc;
@@ -100,13 +102,14 @@
 		padding-right: 10px;
 		margin-top: 15px;
 	}
-	
+
 	a {
 		text-decoration: none;
 	}
     
 	.bottom {
 		list-style: none;
+		width: fit-content;
 		padding-left: 0;
 	}
     
@@ -298,7 +301,7 @@
 			<div id="box">
 				<div class="individualMember">
 					<div class="checkbox">
-						<label for="saveid"><input type="checkbox" id="saveid" name="saveid" />아이디저장</label>
+						<label for="saveid"><input type="checkbox" id="saveid" name="saveid" />&nbsp;&nbsp;아이디저장</label>
 					</div>
 			         
 					<div class="formGroup">
@@ -332,7 +335,7 @@
 			<div id="box">
 				<div class="hospitalMember">
 					<div class="checkbox">
-						<label for="saveid"><input type="checkbox" id="saveid" name="saveid" />아이디저장</label>
+						<label for="saveid"><input type="checkbox" id="saveid" name="saveid" />&nbsp;&nbsp;아이디저장</label>
 					</div>
 			         
 					<div class="hpFormGroup">
