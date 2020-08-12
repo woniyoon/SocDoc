@@ -199,5 +199,26 @@
 		where RNO between #{startRNO} and #{endRNO} 
 	</select>
 	
+	<!-- 병원방문예정자 목록 가져오기 -->
+	<resultMap type="HashMap" id="visitorsListPerDate">
+		<result property="name" column="name" javaType="String"></result>
+		<result property="phone" column="phone" javaType="String"></result>
+		<result property="reservSeq" column="reservSeq" javaType="String"></result>
+		<result property="userid" column="userid" javaType="String"></result>
+		<result property="visitDate" column="visitDate" javaType="String"></result>
+		<result property="status" column="status" javaType="String"></result>
+		<result property="day" column="day" javaType="String"></result>
+		<result property="hour" column="hour" javaType="String"></result>
+	</resultMap>
+	<select id="getVisitorsList" parameterType="HashMap" resultMap="visitorsListPerDate">
+		select M.name, M.phone, A.reservSeq, A.userid, A.visitDate, A.status, A.hour
+		from
+		(select R.reservSeq, R.userid, R.visitDate, R.status, T.hour
+		from
+		(select reservSeq, userid, hourSeq, to_char(visitDate, 'yyyy-mm-dd') as visitDate, status from reservation
+		where hpSeq = #{hpSeq} and visitDate= to_date(#{visitDate}, 'yyyy-mm-dd')) R join timetable T
+		on R.hourSeq = T.hourSeq) A join member M
+		on A.userid = M.userid
+	</select>
 	
 </mapper>

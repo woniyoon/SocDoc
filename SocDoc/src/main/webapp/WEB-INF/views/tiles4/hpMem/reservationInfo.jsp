@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%-- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> --%>
+
 <%
 	String ctxPath = request.getContextPath();
 %>
@@ -83,7 +85,7 @@
 		var html = "<table class='timetable'>";
 
 		for (var i = 9; i <= 18; i++) {
-			html += "<tr><td>" + i + ":00</td><td>0/6 명</td></tr>";
+			html += "<tr><th>" + i + ":00</th><td>0/6 명</td></tr>";
 		}
 
 		html += "</table>";
@@ -104,19 +106,19 @@
 		<div class="timetableContainer">
 			<table>
 				<tr>
-					<td>9:00</td>
+					<th>9:00</th>
 					<td>0/6 명</td>
 				</tr>
 				<tr>
-					<td>10:00</td>
+					<th>9:00</th>
 					<td>0/6 명</td>
 				</tr>
 				<tr>
-					<td>11:00</td>
+					<th>9:00</th>
 					<td>0/6 명</td>
 				</tr>
 				<tr>
-					<td>12:00</td>
+					<th>9:00</th>
 					<td>0/6 명</td>
 				</tr>
 			</table>
@@ -138,7 +140,25 @@
 			</thead>
 			<!-- 동적으로 생성되는 부분 ⬇️-->
 			<tbody>
-				<tr class="visitorRow">
+				<%-- <c:if test="${not empty visitorsList }">
+					<c:forEach var="map" items="${visitorsList }" varStatus="status">
+						<tr>
+							<td>${status.count }</td>
+							<td>${map.hour}</td>
+							<td>${map.name }</td>
+							<td>${map.phone }</td>
+							<td>초진</td>
+							<td>${map.status == 0 ? '미방문' : '방문' }</td>
+							<td><input id="${map.reservSeq }" type="checkbox" /></td>
+						</tr>
+					</c:forEach>
+				</c:if> --%>
+				<%-- <c:if test="${empty visitorsList }">
+					<tr align="center">
+						<td colspan="7">예약자가 없습니다.</td>
+					</tr>
+				</c:if> --%>
+				<!-- <tr class="visitorRow">
 					<td>1</td>
 					<td>9:00</td>
 					<td>김무명</td>
@@ -164,7 +184,7 @@
 					<td>초진</td>
 					<td>예정</td>
 					<td><input type="checkbox" /></td>
-				</tr>
+				</tr> -->
 			</tbody>
 			<!-- 동적으로 생성되는 부분 ⬆️-->
 		</table>

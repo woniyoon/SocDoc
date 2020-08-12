@@ -106,4 +106,12 @@ public class HpMemDAO implements InterHpMemDAO {
 		return reviewList;
 	}
 
+	// 방문예정자 목록 가져오기
+	@Override
+	public List<HashMap<String, String>> getVisitorsList(HashMap<String, String> paraMap) {
+		List<HashMap<String, String>> visitorsList = sqlsession.selectList("hpMem.getVisitorsList", paraMap);
+		System.out.println("DAO에서 : " + visitorsList.size());
+		return visitorsList;
+	}
+
 }

@@ -34,4 +34,7 @@ public interface InterHpMemDAO {
 	// 병원 리뷰 목록 가져오기
 	public List<HpReviewVO> getHpReviews(HashMap<String, String> paraMap);
 
+	// 방문예정자 목록 가져오기
+	public List<HashMap<String, String>> getVisitorsList(HashMap<String, String> paraMap);
+
 }

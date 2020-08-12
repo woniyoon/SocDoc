@@ -1,6 +1,7 @@
 package com.synergy.socdoc.hpMem;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.servlet.http.*;
@@ -260,6 +261,37 @@ public class HpMemController {
 	// 예약관리
 	@RequestMapping(value = "/hpPanel/reservationInfo.sd", method = RequestMethod.GET)
 	public String reservationInfo(HttpServletRequest request) {
+		
+		// TODO: 나중에는 이 부분을 이용해서 병원정보 가져오기
+//		String hpSeq = request.getSession().getAttribute("hpSeq");
+		String hpSeq = "2";
+		
+		// 방문예정자 리스트 뽑아오기
+		String visitDate = request.getParameter("visitDate");
+
+		// 방문일자가 없으면 오늘로 설정
+		if(visitDate == null) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	        Calendar calendar = Calendar.getInstance();
+	        
+	        visitDate = sdf.format(calendar.getTime());
+		}
+		
+		System.out.println(visitDate);
+		HashMap<String, String> paraMap = new HashMap<>();
+
+		paraMap.put("hpSeq", hpSeq);
+		paraMap.put("visitDate", visitDate);
+		
+		List<HashMap<String, String>> visitorsList = service.getVisitorsList(paraMap);
+		
+		for(HashMap<String,String> map : visitorsList) {
+			System.out.println(map.get("name"));
+		}
+		
+		request.setAttribute("visitorsList", visitorsList);
+		
+		
 		
 		return "hpMem/reservationInfo.tiles4";
 	}

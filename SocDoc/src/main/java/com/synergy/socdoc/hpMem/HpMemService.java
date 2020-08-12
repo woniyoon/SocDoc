@@ -97,6 +97,13 @@ public class HpMemService implements InterHpMemService {
 		List<HpReviewVO> reviewList = dao.getHpReviews(paraMap);
 		return reviewList;
 	}
+
+	// 방문예정자 목록 가져오기
+	@Override
+	public List<HashMap<String, String>> getVisitorsList(HashMap<String, String> paraMap) {
+		List<HashMap<String, String>> visitorsList = dao.getVisitorsList(paraMap);
+		return visitorsList;
+	}
 	
 	
 	
