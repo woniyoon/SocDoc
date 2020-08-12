@@ -20,15 +20,14 @@ public interface InterHpMemDAO {
 
 	public List<HashMap<String, String>> getVisitors(HashMap<String, String> paraMap);
 
+	// JOIN 해 온 테이블의 행 개수
 	public int getNumOfVisitors(HashMap<String, String> paraMap);
 
 	public int submitInfo(HpInfoVO hpInfoVO);
 
 	public int submitSchedule(List<HashMap<String, String>> scheduleList);
 
-	public int getNumOfUpdates(String hpSeq);
-	
-	// 특정 테이블 행의 총 개수 가져오기 
+	// JOIN 없는 특정 테이블 행의 총 개수 가져오기 
 	public int getNumOfItems(HashMap<String, String> paraMap);
 
 }

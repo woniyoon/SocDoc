@@ -29,12 +29,12 @@ public class HpMemDAO implements InterHpMemDAO {
 		return hpInfoList;
 	}
 	
-	// 업데이트 목록 총 개수 가져오기
-	@Override
-	public int getNumOfUpdates(String hpSeq) {
-		int numOfUpdates = sqlsession.selectOne("hpMem.getNumOfUpdates", hpSeq);
-		return numOfUpdates;
-	}
+//	// 업데이트 목록 총 개수 가져오기
+//	@Override
+//	public int getNumOfUpdates(String hpSeq) {
+//		int numOfUpdates = sqlsession.selectOne("hpMem.getNumOfUpdates", hpSeq);
+//		return numOfUpdates;
+//	}
 
 
 	// 병원 상세 정보 디테일 가져오기

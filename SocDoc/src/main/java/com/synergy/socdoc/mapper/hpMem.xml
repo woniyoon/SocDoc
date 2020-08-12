@@ -176,6 +176,9 @@
 		<if test="@com.synergy.socdoc.common.MyUtil@notEmpty(hpSeq)">
 			where hpSeq = #{hpSeq}
 		</if>
+		<if test="@com.synergy.socdoc.common.MyUtil@notEmpty(searchWord)">
+			and searchWord LIKE '%'|| #{searchWord} ||'%'
+		</if>
 	</select>
 	
 	

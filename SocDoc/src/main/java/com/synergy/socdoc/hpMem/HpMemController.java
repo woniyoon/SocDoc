@@ -57,11 +57,15 @@ public class HpMemController {
 //		HpInfoVO hpInfo = service.getHpInfo(hpSeq);
 		String hpSeq = "17";
 		
+		String table = "hpApplication";
 		HashMap<String, String> paraMap = new HashMap<>();
 		paraMap.put("hpSeq", hpSeq);
+		paraMap.put("table", table);
 		
 		// 업데이트 리스트 총 개수 가져오기
-		int numOfUpdates = service.getNumOfUpdates(hpSeq);
+		int numOfUpdates = service.getNumOfItems(paraMap);
+
+		
 
 		String currentShowPageNoStr = request.getParameter("currentShowPageNoStr");
 		int sizePerPage = 5;

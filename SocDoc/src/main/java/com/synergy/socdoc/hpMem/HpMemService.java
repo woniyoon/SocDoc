@@ -27,13 +27,6 @@ public class HpMemService implements InterHpMemService {
 		return hpInfoList;
 	}
 
-	// 병원 정보 리스트 총 개수 (페이징)
-	@Override
-	public int getNumOfUpdates(String hpSeq) {
-		int numOfUpdates = dao.getNumOfUpdates(hpSeq);
-		return numOfUpdates;
-	}
-
 	// 병원 상세 정보 가져오기
 	@Override
 	public HpInfoVO getHpInfoDetail(String submitId) {
@@ -90,14 +83,7 @@ public class HpMemService implements InterHpMemService {
 		return result;
 	}
 
-	// 후기 전체 목록 가져오기
-	@Override
-	public int getNumOfReviews(String hpSeq) {
-		int numOfReviews = 0;
-		return numOfReviews;
-	}
-
-	// 특정 테이블 행의 총 개수 가져오기 
+	// 특정 테이블 행의 총 개수 가져오기 (페이징)
 	@Override
 	public int getNumOfItems(HashMap<String, String> paraMap) {
 		int num = dao.getNumOfItems(paraMap);

@@ -13,9 +13,6 @@ public interface InterHpMemService {
 
 	public List<HpInfoVO> getInfoUpdateList(HashMap<String, String> paraMap);
 
-	// 병원 정보 리스트 개수 가져오기 
-	public int getNumOfUpdates(String hpSeq);
-
 	// 병원 정보 관리에서 행을 클릭했을 때 구체적인 정보를 가져옴
 	public HpInfoVO getHpInfoDetail(String submitId);
 
@@ -39,9 +36,6 @@ public interface InterHpMemService {
 
 	// 병원 오픈시간 신청 삽입하기
 	public int submitSchedule(List<HashMap<String, String>> scheduleList);
-
-	// 전체 후기 목록 가져오기
-	public int getNumOfReviews(String hpSeq);
 
 	// 특정 테이블 행의 총 개수 가져오기 
 	public int getNumOfItems(HashMap<String, String> paraMap);
