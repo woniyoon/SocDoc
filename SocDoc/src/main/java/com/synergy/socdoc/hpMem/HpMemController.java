@@ -42,7 +42,7 @@ public class HpMemController {
 	public String main(HttpServletRequest request) {
 
 		// TODO: 나중에는 이 부분을 이용해서 병원정보 가져오기
-//		String hpSeq = request.getSession().getAttribute("hpSeq");
+//		String hpSeq = (String) request.getSession().getAttribute("hpSeq");
 		String hpSeq = "2";
 		
 		// 병원 영업시간 가져오기
@@ -63,11 +63,9 @@ public class HpMemController {
 	@RequestMapping(value = "/hpPanel/hpInfo.sd", method = RequestMethod.GET)
 	public String test_hpInfo(HttpServletRequest request) {
 		
-		// TODO: 나중에는 이 부분을 이용해서 병원정보 가져오기
-//		String hpSeq = request.getSession().getAttribute("hpSeq");
-		String hpSeq = "17";
-//		
+//		String hpSeq = (String) request.getSession().getAttribute("hpSeq");
 //		HpInfoVO hpInfo = service.getHpInfo(hpSeq);
+		String hpSeq = "17";
 		
 		List<HpInfoVO> infoUpdateList = service.getInfoUpdateList(hpSeq);
 		
@@ -143,73 +141,71 @@ public class HpMemController {
 		
 		System.out.println(hpInfoVO.getAttachMain());
 		
-//		for(MultipartFile attach : hpInfoVO.getAttachMain()) {
-		for(int i=0; i< hpInfoVO.getAttachMain().length; i++) {
-			MultipartFile attach = hpInfoVO.getAttachMain()[i];
-			
-			System.out.println(attach.getName());
-			System.out.println(attach.getContentType());
-			System.out.println("!!!!!!!!");
-			
 		
-			if(!attach.isEmpty()) {
-				System.out.println("파일첨부 돼있음");
+		if(hpInfoVO.getStatus() == 1) {
+			for(int i=0; i< hpInfoVO.getAttachMain().length; i++) {
+				MultipartFile attach = hpInfoVO.getAttachMain()[i];
+				
 				System.out.println(attach.getName());
+				System.out.println(attach.getContentType());
+				System.out.println("!!!!!!!!");
 				
-				// WAS의 webapp의 절대경로를 알아와야한다.
-				HttpSession session = mrequest.getSession();
-				String root = session.getServletContext().getRealPath("/");
 			
-				String path = root + "resources" + File.separator + "files";
-				
-				// path = 첨부파일 저장될 WAS의 폴더
-	
-				System.out.println(" path   :   " + path);
-				//  path: /Users/woniyoon/Documents/workspace-sts-3.9.13.RELEASE/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/Board/resources/files
-	
-				
-				// 2. 파일첨부를 위한변수의 설정 및 값을 초기화한 후 파일 올리기
-				String newFileName = "";
-				
-				byte[] bytes = null;
-				long fileSize = 0L;
-				
-				try {
-					bytes = attach.getBytes();
-					// getBytes() 메소드는 첨부된 파일을 바이트단위로 파일을 다 읽어오는 것이다. 
-		            // 예를 들어, 첨부한 파일이 "강아지.png" 이라면
-		            // 이파일을 WAS(톰캣) 디스크에 저장시키기 위해 byte[] 타입으로 변경해서 올린다.
+				if(!attach.isEmpty()) {
+					System.out.println("파일첨부 돼있음");
+					System.out.println(attach.getName());
 					
-					newFileName = fileManager.doFileUpload(bytes, attach.getOriginalFilename(), path);
-					// 파일 올리기
-					// attach.getOriginalFileName()은 첨부한 파일의 파일명(예)강아지.png)
-					System.out.println("확인용 newFileName : " + newFileName);
+					// WAS의 webapp의 절대경로를 알아와야한다.
+					HttpSession session = mrequest.getSession();
+					String root = session.getServletContext().getRealPath("/");
+				
+					String path = root + "resources" + File.separator + "files";
 					
-					// 순서에 따라 메인이미지/서브이미지 확인
-					switch (i) {
-					case 0:
-						hpInfoVO.setMainImg(newFileName);
-						hpInfoVO.setOrgFileNameMain(attach.getOriginalFilename());
-						hpInfoVO.setFileSizeMain(String.valueOf(attach.getSize()));
-						break;
-					case 1:
-						hpInfoVO.setSubImg1(newFileName);
-						hpInfoVO.setOrgFileNameSub1(attach.getOriginalFilename());
-						hpInfoVO.setFileSizeSub1(String.valueOf(attach.getSize()));
-						break;
-					case 2:
-						hpInfoVO.setSubImg2(newFileName);
-						hpInfoVO.setOrgFileNameSub2(attach.getOriginalFilename());
-						hpInfoVO.setFileSizeSub2(String.valueOf(attach.getSize()));
-						break;
+					// path = 첨부파일 저장될 WAS의 폴더
+		
+					System.out.println(" path   :   " + path);
+					//  path: /Users/woniyoon/Documents/workspace-sts-3.9.13.RELEASE/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/Board/resources/files
+		
+					
+					// 2. 파일첨부를 위한변수의 설정 및 값을 초기화한 후 파일 올리기
+					String newFileName = "";
+					
+					byte[] bytes = null;
+					
+					try {
+						bytes = attach.getBytes();
+						// getBytes() 메소드는 첨부된 파일을 바이트단위로 파일을 다 읽어오는 것이다. 
+			            // 예를 들어, 첨부한 파일이 "강아지.png" 이라면
+			            // 이파일을 WAS(톰캣) 디스크에 저장시키기 위해 byte[] 타입으로 변경해서 올린다.
+						
+						newFileName = fileManager.doFileUpload(bytes, attach.getOriginalFilename(), path);
+						// 파일 올리기
+						// attach.getOriginalFileName()은 첨부한 파일의 파일명(예)강아지.png)
+						System.out.println("확인용 newFileName : " + newFileName);
+						
+						// 순서에 따라 메인이미지/서브이미지 확인
+						switch (i) {
+						case 0:
+							hpInfoVO.setMainImg(newFileName);
+							hpInfoVO.setOrgMainImg(attach.getOriginalFilename());
+							break;
+						case 1:
+							hpInfoVO.setSubImg1(newFileName);
+							hpInfoVO.setOrgSubImg1(attach.getOriginalFilename());
+							break;
+						case 2:
+							hpInfoVO.setSubImg2(newFileName);
+							hpInfoVO.setOrgSubImg2(attach.getOriginalFilename());
+							break;
+						}
+						
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
 
+				}
 			}
-		}
+		} 
 
 		
 		JsonParser parser = new JsonParser();
@@ -223,7 +219,6 @@ public class HpMemController {
 			JsonObject object = (JsonObject) jsonArray.get(i);
 			
 			String day = String.valueOf(i+1);
-			System.out.println(object.getAsJsonObject(day));
 			JsonObject oHours = object.getAsJsonObject(day);
 			
 			String open = oHours.get("open").getAsString();

@@ -39,20 +39,23 @@
 				</div>
 				<div id="hpDetail">
 					<ul id="hpDetailList">
-						<li>
-							<input type="text" value="${hpInfo.orgFileNameMain }" readonly required />
+						<li> 
+							<input type="text" name="orgMainImg" value="${hpInfo.orgMainImg }" readonly required />
 							<button class="greyBtn findFile" type="button" >찾기</button> 
-							<input type="file" name="attachMain" id="mainImg" accept="image/*" />
+							<input type="file" name="attachMain" id="mainImgFile" accept="image/*" />
+							<input type="hidden" name="mainImg" value="${hpInfo.mainImg != null ? hpInfo.mainImg : ' '}" />
 						</li>
 						<li>
-							<input type="text" id="subImg1File" value="${hpInfo.orgFileNameSub1 }" readonly />
+							<input type="text" id="subImg1File" name="orgSubImg1" value="${hpInfo.orgSubImg1 }" readonly />
 							<button class="greyBtn findFile" type="button">찾기</button> 
-							<input type="file" name="attachMain" id="subImg1" accept="image/*" />
+							<input type="file" name="attachMain" id="subImg1File" accept="image/*" />
+							<input type="hidden" name="subImg1" value="${hpInfo.subImg1 != null ? hpInfo.subImg1 : ' '}" />
 						</li>
 						<li>
-							<input type="text" id="subImg2File" value="${hpInfo.orgFileNameSub2 }" readonly />
+							<input type="text" id="subImg2File" name="orgSubImg2" value="${hpInfo.orgSubImg2 }" readonly />
 							<button class="greyBtn findFile" type="button">찾기</button> 
-							<input type="file" name="attachMain" id="subImg2" accept="image/*" />
+							<input type="file" name="attachMain" id="subImg2File" accept="image/*" />
+							<input type="hidden" name="subImg2" value="${hpInfo.subImg2 != null ? hpInfo.subImg2 : ' '}" />
 						</li>
 					</ul>
 					<table class="hpTextInfo">
@@ -178,6 +181,12 @@
 					</div>
 				</td>
 			</tr>
+			<c:if test="${hpInfo.reason }">
+				<tr>
+					<th>반려사유</th>
+					<td>${hpInfo.reason }</td>
+				</tr>
+			</c:if>
 		</table>
 		<input type="hidden" name="submitId" value="${hpInfo.submitId != null ? hpInfo.submitId : ' '}" />
 		<input type="hidden" name="schedule" value=" "/>
@@ -222,7 +231,6 @@
 					var filename = $(this).val().split('/').pop().split('\\').pop();
 					
 					$(this).siblings().prev().prop("value", filename);
-					
 				});
 		});
 		
@@ -231,8 +239,10 @@
 		$("input[type=checkbox]").click(function(e) {
 			// 체크박스 선택은 한 개만 가능하게 설정
 			var checkedValue = $(this).prop("value");
+			
 			if("${hpInfo.dept}" == "") {
 				console.log(checkedValue);
+				
 				$("input[type=checkbox]").each(function() {
 					if (checkedValue != $(this).prop("value")) {
 						$(this).prop("checked", false);
@@ -241,6 +251,9 @@
 						$(this).prop("checked", true);
 					}
 				});
+
+				// 체크된 과목을 상세정보에 반영
+				$("#dept").val(checkedValue);
 			} else {
 				if($(this).val() != "${hpInfo.dept}") {
 					$(this).prop("checked", false);		
@@ -249,24 +262,24 @@
 					$(this).prop("checked", true);		
 				}
 			}
-			// 체크된 과목을 상세정보에 반영
-			$("#dept").val(checkedValue);
 		});
 		
+		
+		// 소개란 글자수 체크
 		$("#info").keyup(function(){
 			var charLength = $(this).val().length;
 
 			$("#charLength").text(charLength);
 		});		
 
- 			
+/*  			
  		var scheduleTbl = "${scheduleTbl[0].open}";
 
  		console.log(typeof scheduleTbl);
  		console.log(scheduleTbl);
  		console.log(scheduleTbl[1].open);
  
-		
+		 */
  		
  		
 	});
@@ -376,23 +389,26 @@
 			return;
 		}
 		
-		console.log($("input#mainImg"));
 		
 		// 모든 필드 기입 완료시 전송
 		var form = document.hpInfoForm;
 		
 		console.log(form.mainImg);
-		console.log($("input[name=submitId]").prop("value"));
 	
-		var submitId = $("input[name=submitId]").prop("value");
+		
+		var submitId = $("input[name=submitId]").val().trim();
 		
 		// 신청아이디가 없음 = 새로 신청, status를 1로 준다.
-		if(submitId.trim() == "") {
-			$("input[name=submitId]").prop("value", Math.random().toString(36).substr(2,11));
+		if(submitId == "") {
 			$("input[name=status]").prop("value", "1");
-		} 
+			console.log("신청 !!!");
+		} else {
+			$("input[name=status]").prop("value", "3");
+			console.log("수정!!!");
+		}
+
+		$("input[name=submitId]").prop("value", Math.random().toString(36).substr(2,11));
 		
-		console.log(form.submitId.val);
 		
 		form.method = "POST";
 		form.action = "<%=ctxPath%>/hpPanel/submitInfo.sd";

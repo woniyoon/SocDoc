@@ -16,7 +16,7 @@
 
 	<!-- 병원 상세 정보 가져오기 -->
 	<select id="getHpInfoDetail" parameterType="String" resultType="com.synergy.socdoc.member.HpInfoVO">
-		select hpname, dept, address, phone, info, mainImg, orgMainImg, subImg1, orgSubImg1, subImg2, orgSubImg2, reason from hpApplication where submitId = #{submitId}
+		select submitId, hpname, dept, address, phone, info, latitude, longitude, mainImg, orgMainImg, subImg1, orgSubImg1, subImg2, orgSubImg2, reason from hpApplication where submitId = #{submitId}
 	</select>
 	
 	<!-- 병원의 영업시간 가져오기 -->

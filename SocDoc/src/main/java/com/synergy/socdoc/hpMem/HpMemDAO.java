@@ -84,9 +84,6 @@ public class HpMemDAO implements InterHpMemDAO {
 		int result = 0;
 		
 		for(int i=0; i<scheduleList.size(); i++) {	
-			System.out.println("요일 : " + scheduleList.get(i).get("day"));
-			System.out.println("오픈 : " + scheduleList.get(i).get("open"));
-			System.out.println("클로즈 : " + scheduleList.get(i).get("close"));
 			result += sqlsession.insert("hpMem.submitSchedule", scheduleList.get(i));
 		};
 		
