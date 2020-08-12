@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	String ctxPath = request.getContextPath();
+%>
 
 <!DOCTYPE html>
 <html>
@@ -119,6 +122,10 @@
       text-decoration: none;
     }
    	
+	/* 입력 - 비활성화 */
+	.wrong {
+		border: solid 1px red;
+	}
 </style>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 <script type="text/javascript">
@@ -157,97 +164,202 @@ $(window).ready(function(){
 
 <script type="text/javascript">
 
-$(document).ready(function(){
-
+	$(document).ready(function(){
+		
+		// ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 이름
+		$("span#nameError").hide();
 	
-	
-	
-	
-	// ------------ 아이디 ------------ // 
-	
-	$("span#useridError").hide();
-	$("span#useridSuccess").hide();
-
-	$("#userid").blur(function(){
-	
-		if($("input#userid").val().trim() == "") {	// 데이터가 없다면
-			$("span#useridSuccess").hide();
-			$("span#useridError").show();
-			$("input#userid").addClass("wrong"); 
-			
-		} else {	// 데이터가 있다면
-			// 정규표현식
-	        var regExp = /^[A-Za-z0-9]{5,10}$/;	// 5자 이상 10글자 이하의 영문과 숫자를 조합
-	        var bool = regExp.test($(this).val()); // 생성된 정규표현식 객체속에 데이터를 넣어서 검사하기
-			
-	        console.log($("input#userid").val());
-	        
-			if(!bool) {  // 데이터가 조건에 맞지않으면
-				$("span#useridSuccess").hide();
-				$("span#useridError").html("영문,숫자 조합으로 5~10자리만 입력 가능합니다.").show();
-				$("input#userid").addClass("wrong");  
+		$("#name").keyup(function(){
+		
+			if($("input#name").val().trim() == "") {	// 데이터가 없다면
+				$("span#nameError").show();
+				$("#name").addClass("wrong");
+			} else {	// 데이터가 있다면
+				// 정규표현식
+		        var regExp = /^[가-힣]{2,4}$/;	//  2~4글자 한글만 
+		        var bool = regExp.test($(this).val()); // 생성된 정규표현식 객체속에 데이터를 넣어서 검사하기
 				
+		        if(!bool) {  // 데이터가 조건에 맞지않으면
+					$("span#nameError").show();
+					$("input#name").addClass("wrong");
+					condition1 = false;
+					return;
+				} else {	// 데이터가 조건에 맞다면
+					$("input#name").removeClass("wrong");
+					condition1 = true;
+				}
+				$("span#nameError").hide();
+				$(":input").prop("disabled",false).removeClass("wrong"); 
 				return;
 			} else {	// 데이터가 조건에 맞다면
 				$("span#useridSuccess").show();
 				$("input#userid").removeClass("wrong");
 			}
-			
-			$("span#useridError").hide();
-			$(":input").prop("disabled",false).removeClass("wrong"); 
-			
-			return;
-		}
-	});
-	
-	
-	
-	// ------------ 이메일 ------------ // 
-	
-	$("span#emailError").hide();
-
-	$("#email").blur(function(){
+		});
 		
-		if($("input#email").val().trim() == "") {	// 데이터가 없다면
-			$("span#emailError").show();
-			$("input#email").addClass("wrong");
-			
-		} else {	// 데이터가 있다면
-			// 정규표현식
-			var email = $("#email").val();
-			var regExp_EMAIL = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-			var bool = regExp_EMAIL.test(email); // 생성된 정규표현식 객체속에 데이터를 넣어서 검사하기
-			
-			if(!bool) {  // 데이터가 조건에 맞지않으면
-				$("span#emailError").html("이메일 형식에 맞게 입력해주세요.").show();
-				$("input#email").addClass("wrong");  
+		
+		//  ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 이메일
+		$("form[name=idFindFrm] span#emailError").hide();
+		$("form[name=idFindFrm] #btnChkNext").hide();
+		$("form[name=idFindFrm] #email").keyup(function(){
+			$(this).val( $(this).val().replace( /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '' ).trim() ); // 한글 막기
+			if($("form[name=idFindFrm] input#email").val().trim() == "") {	// 데이터가 없다면
+				$("span#emailError").show();
+				$("form[name=idFindFrm] input#email").addClass("wrong");
+			} else {	// 데이터가 있다면
+				// 정규표현식
+				var email = $("form[name=idFindFrm] #email").val();
+				var regExp_EMAIL = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+				var bool = regExp_EMAIL.test(email); // 생성된 정규표현식 객체속에 데이터를 넣어서 검사하기
 				
+				if(!bool) {  // 데이터가 조건에 맞지않으면
+					$("span#emailError").html("이메일 형식에 맞게 입력해주세요.").show();
+					$("form[name=idFindFrm] input#email").addClass("wrong");  
+					condition2 = false;
+					return;
+				} else {	// 데이터가 조건에 맞다면
+					$("form[name=idFindFrm] input#email").removeClass("wrong");
+					condition2 = true;
+				}
+				$("span#emailError").hide();
+				$(":input").prop("disabled",false).removeClass("wrong");
+
 				return;
 			} else {	// 데이터가 조건에 맞다면
 				$("input#email").removeClass("wrong");
 			}
-
-			$("span#emailError").hide();
-			$(":input").prop("disabled",false).removeClass("wrong"); 
-			
+		}); 
+		
+		// 이메일 '인증하기' 버튼 눌렀을 때..////////////////////////////////
+		$("form[name=idFindFrm] #btnChk").click(sendVerificationCode);	
+		///////////////////////////////////////////////////////////
+		
+		//  ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 인증번호
+		$("form[name=idFindFrm] span#codeError").hide();
+		$("form[name=idFindFrm] #code").keyup(function(){
+			$(this).val( $(this).val().replace( /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '' ).trim() ); // 한글 막기
+			if($("form[name=idFindFrm] input#code").val.trim() == "" ) { // 데이터가 없다면
+				$("form[name=idFindFrm] #codeError").show();
+				$("form[name=idFindFrm] input#code").addClass("wrong");	
+			} else { // 데이터가 있다면(인증성공여부)
+				$.ajax({	
+					url:"<%= ctxPath%>/idVerifyCertificationFrm.sd",
+					type:"POST",
+					data:{"userCertificationCode" : $("form[name=idFindFrm] #code").val().trim()},
+					dataType:"json",
+					success:function(json){
+						if(json.isbool){ // 메일 인증 성공
+							$("form[name=idFindFrm] #codeError").hide();
+							$("form[name=idFindFrm] input#code").removeClass("wrong");
+							alert("인증성공");
+							condition3 = true;
+						} else { // 메일 인증 실패
+							$("form[name=idFindFrm] #codeError").html("메일 인증 실패. 다시 시도해주세요.").show();
+							$("form[name=idFindFrm] input#code").addClass("wrong");
+							condition3 = false;
+						}
+					},
+					error: function(request, status, error){
+						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+					}
+				}); 
+			}
+		});
+	});
+	
+	
+	// 이메일 '인증하기'버튼 눌렀을 때 
+	certification=false;
+	function sendVerificationCode(){
+		if(condition2 == true){
+			disabled = false;
+			$("form[name=idFindFrm] #codeError").hide();
+			$("form[name=idFindFrm] #code").val(''); // 입력칸 비우기
+			$("form[name=idFindFrm] #code").focus();
+			$.ajax({	
+				url:"<%= ctxPath%>/emailCode.sd",
+				type:"POST",
+				data:{"email":$("form[name=idFindFrm] #email").val().trim()},
+				dataType:"json",
+				success:function(json){
+					alert("입력하신 이메일("+$("form[name=idFindFrm] #email").val()+")로 인증번호가 발송되었습니다.\n전달받은 인증번호를 입력해주세요");					
+					var btnChange = true;
+					if(btnChange == true){ // 발송되었다면 인증->재인증으로 바꾸자
+						$("form[name=idFindFrm] #btnChk").hide();
+						$("form[name=idFindFrm] #btnChkNext").show();
+					} 
+					certification=true;
+				},
+				error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+					$("form[name=idFindFrm]input #email").addClass("wrong");
+					$("form[name=idFindFrm] #codeError").html("메일발송이 실패했습니다. 다시 시도해주세요.").show();
+				}
+			}); 
+		} else {
+			alert('잘못된 이메일 주소입니다. 이메일 주소를 정확하게 입력해주세요.');
+			$("form[name=idFindFrm] input#email").addClass("wrong");
+			$("form[name=idFindFrm] #email").focus();
+		}
+	}
+	
+	function goIdFind() {
+		var bFlag = false;
+		if($("form[name=idFindFrm] #name").val().trim()=="" || condition1 == false) {
+			alert("이름을 확인하세요.");
+			$("form[name=idFindFrm] #name").focus();
 			return;
 		}
-	}); 
-	
-	
-	
-	
-	
-	
-	
-	
-	///////////////////////////////////////
-	
-	
-	
-	
-	
-	
+		if($("form[name=idFindFrm] #email").val().trim()=="" || condition2 == false) {
+			alert("이메일을 확인하세요.");
+			$("form[name=idFindFrm] #email").focus();
+			return;
+		}
+ 		if(!certification || certification == false) {
+			alert("이메일 인증을 완료하세요.");
+			$("form[name=idFindFrm] #email").focus();
+			return;
+		} 
+		if($("form[name=idFindFrm] #code").val().trim()=="" || condition3 == false) {
+			alert("인증번호를 확인하세요.");
+			$("form[name=idFindFrm] #code").focus();
+			return;
+		}
+		
+		var bRequiredInfo = false;
+		var data="";
+		$(".requiredInfo").each(function(){
+			var data = $(this).val().trim();
+			if(data == "") {
+				bRequiredInfo = true;
+				console.log($(this));
+				$(this).focus();
+				return false;
+			}
+		}); 
+		
+		console.log(bRequiredInfo);
+		if(!bRequiredInfo) {
+			var frm = document.idFindFrm;
+			frm.method = "POST";
+			frm.action = "<%=ctxPath%>/idFind.sd";
+			frm.submit();
+		}
+	}
+</script>		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+<script type="text/javascript">		
+	$(document).ready(function(){
 	
 	// ------------ 사업자등록번호 ------------ // 
 	
@@ -331,50 +443,67 @@ $(document).ready(function(){
 	   
 		<!-- -------------------------------- 上 끝 ---------------------------------- --> 
 	   
-		<form name="findFrm">
+		<form name="idFindFrm">
 			<div id="box">
 			
 				<div class="individualMember"> 
-				      <div class="formGroup">
-				         <label for="name">이름</label>
-				         <input type="text" name="name" id="name" class="requiredInfo" autofocus /> 
-				         <span class="error" id="useridError">이름을 입력하세요.</span>
+					<div class="formGroup">
+						<label for="name">이름</label>
+				        <input type="text" name="name" id="name" class="requiredInfo" autofocus /> 
+				        <span class="error" id="nameError">이름을 입력하세요.</span>
 				
-				         <label for="email">이메일</label>
-				         <input type="text" name="email" id="email" class="requiredInfo" placeholder="E-mail을 입력하세요" /> 
-				         <span class="error" id="emailError">이메일 형식에 맞지 않습니다.</span>
+				        <label for="email" style="display: block;">이메일</label>
+				        <input type="text" name="email" id="email" class="requiredInfo" placeholder="E-mail을 입력하세요" style="width: 70%; height:35px;" /> 
+				        <input type="button" id="btnChk" class="btnChk" value="인증" style="width: 28%; height:35px;"/>
+				        <input type="button" id="btnChkNext" class="btnChk" onclick="sendVerificationCode()" value="재인증" style="width: 28%; height: 35px;"/>
+				        <span class="error" id="emailError">이메일 형식에 맞지 않습니다.</span>
 				
-				         <label for="code">인증번호</label>
-				         <input type="text" id="code" name="code" class="requiredInfo" placeholder="인증번호를 입력하세요" />
-				         <span class="error" id="phoneError">인증번호를 입력하세요.</span>
-				     </div>
-				  </div>
-				  
+				        <label for="code">인증번호</label>
+				        <input type="text" id="code" name="code" class="requiredInfo" placeholder="인증번호를 입력하세요" />
+						<span class="error" id="codeError">인증번호가 맞지 않습니다.</span>
+					</div>
+
+					<div class="btnJoin">
+						<input type="button" id="btnFind" value="인증확인" onClick="goIdFind();" />
+					</div> 
+				</div>
+			</div>
+		</form>		
+		  
 		<!-- -------------------------------- 일반고객 아이디찾기 끝 ---------------------------------- --> 	
-		 
-			      <div class="hospitalMember"> 
-				      <div class="formGroup">
-				      	 <label for="businessNumber">사업자등록번호</label>
-				         <input type="text" name="businessNumber" id="businessNumber" class="requiredInfo" autofocus placeholder="'-'없이 10자로입력하세요" />
-				         <span class="error" id="businessNumberError">사업자등록번호를 입력 하세요.</span>
-			
-				         <label for="hpEmail">이메일</label>
-				         <input type="text" name="hpEmail" id="hpEmail" class="requiredInfo" placeholder="E-mail을 입력하세요" /> 
-				         <span class="error" id="hpEmailError">이메일 형식에 맞지 않습니다.</span>
+		
+		<form name="hpIdFindFrm">
+			<div id="box">
+				<div class="hospitalMember"> 
+					<div class="formGroup">
+						<label for="businessNumber">사업자등록번호</label>
+				        <input type="text" name="businessNumber" id="businessNumber" class="requiredInfo" autofocus placeholder="'-'없이 10자로입력하세요" />
+				        <span class="error" id="businessNumberError">사업자등록번호를 입력 하세요.</span>
+						<label for="hpEmail">이메일</label>
+					    <input type="text" name="hpEmail" id="hpEmail" class="requiredInfo" placeholder="E-mail을 입력하세요" /> 
+				        <span class="error" id="hpEmailError">이메일 형식에 맞지 않습니다.</span>
 				
-				         <label for="code">인증번호</label>
-				         <input type="text" id="hpCode" name="hpCode" class="requiredInfo" placeholder="인증번호를 입력하세요" />
-				         <span class="error" id="hpCodeError">인증번호를 입력하세요.</span>
-				     </div>
-				 </div>	 
+				        <label for="code">인증번호</label>
+				        <input type="text" id="hpCode" name="hpCode" class="requiredInfo" placeholder="인증번호를 입력하세요" />
+				        <span class="error" id="hpCodeError">인증번호를 입력하세요.</span>
+					</div>
+					
+					<div class="btnJoin">
+						<input type="button" id="btnFind" value="인증확인" onClick="goHpIdFind();" />
+					</div>  
+				 </div>	
+			</div>
+		</form>
 		
 		<!-- -------------------------------- 병원고객 아이디찾기 끝 ---------------------------------- --> 
-			 
-				 <div class="btnJoin">
-			     	<input type="button" id="btnFind" value="인증확인" onClick="goRegister();" />
-			     </div> 
-			     
-		    </div>
+		<form name="idVerifyCertificationFrm">
+			<input type="hidden" name="userid" />
+			<input type="hidden" name="userCertificationCode" />
 		</form>
+		
+		<form name="hpIdVerifyCertificationFrm">
+			<input type="hidden" name="hpUserid" />
+			<input type="hidden" name="hpUserCertificationCode" />
+		</form>	 
 	</div>
 </div>    
