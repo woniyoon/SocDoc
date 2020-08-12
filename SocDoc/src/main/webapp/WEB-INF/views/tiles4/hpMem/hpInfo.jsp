@@ -44,7 +44,22 @@
 					<td>${item.submitId}</td>
 					<td>${item.hpName }</td>
 					<td>${item.uploadDate}</td>
-					<td>${item.status }</td>
+					<td>
+						<c:choose>
+							<c:when test="${item.status == 1}">
+								<span>신청</span>
+							</c:when>
+							<c:when test="${item.status == 2}">
+								<span>반려</span>
+							</c:when>
+							<c:when test="${item.status == 3}">
+								<span>수정</span>
+							</c:when>
+							<c:otherwise>
+								<span>승인</span>
+							</c:otherwise>
+						</c:choose>
+					</td>
 				</tr>
 			</c:forEach>
 		</c:if>
