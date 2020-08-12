@@ -15,7 +15,7 @@ public class HealthInfoVO {
 	private String nextseq;
 	private String nextsubject;
 	
-	private MultipartFile attach; // 내가 임의로 만든 파일첨부
+	private MultipartFile attach; 
 	private String imgName;
 	
 	public HealthInfoVO() {}
