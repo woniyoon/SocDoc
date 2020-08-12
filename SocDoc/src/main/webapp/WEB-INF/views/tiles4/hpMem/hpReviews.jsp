@@ -19,13 +19,16 @@
 	}
 	
 	.searchContainer {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-end;
 		margin: 10px 0;
 	}
 	
 	.searchTypeSelect {
 		height: 40px;
 	    background-position: right;
-	    border-radius: 5px;
+	    /* border-radius: 5px; */
 	    padding: 10px 0;
 	    right: 0;
 	}
@@ -36,7 +39,7 @@
 	    background-repeat: no-repeat;
 	    background-position: right;
 	    border: 1px solid #cccccc;
-	    border-radius: 5px;
+/* 	    border-radius: 5px; */
 	    padding: 10px;
 	}
 	
@@ -49,18 +52,34 @@
 	}
 </style>
 
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+		
+	});
+	
+	function search(){
+		var document = 
+		console.log();
+	}
+	
+</script>
+
 <div class="reviewsContainer">
 	<h3 align="left">후기</h3>
 	<section>
 		<div> ⭐️⭐️⭐️⭐️⭐️ </div>
-		<div> 총 <span>${numOfReviews}</span> 후기 | 평균점수 85.5점 </div>
+		<div> 총 <span>${numOfReviews} / ${totalNum }</span> 후기 | 평균점수 85.5점 </div>
 	</section>
 	<div class="searchContainer" align="right">
-		<select class="searchTypeSelect" name="searchType">
-			<option value="content" selected>후기</option>
-			<option value="userid">회원아이디</option>
-		</select>
-		<input class="reviewerSearch" type="text" placeholder="회원 검색"/>
+		<form name=>
+			<select class="searchTypeSelect" name="searchType">
+				<option value="content" selected>후기</option>
+				<option value="userid">회원아이디</option>
+			</select>
+			<input class="reviewerSearch" type="text" name="searchWord"  placeholder="회원 검색"/>
+		</form>
+		<button class="blueBtn" id="searchBtn" onclick="search()">검색</button>
 	</div>
 	<table class="customTable" style="width: 100%;">
 		<tr>

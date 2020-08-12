@@ -341,12 +341,21 @@ public class HpMemController {
 		}
 
 		HashMap<String, String> paraMap = new HashMap<>();
+
+		
 		paraMap.put("hpSeq", hpSeq);
 		paraMap.put("table", table);
+
+		// 총 개수 알아오기 (검색 X)
+		paraMap.put("searchWord", "");
+		int totalNum = service.getNumOfItems(paraMap);
+		
 		paraMap.put("searchWord", searchWord);
 		
-		// 후기 리스트 총 개수 가져오기
+		// 후기 리스트 총 개수 가져오기 (검색)
 		int numOfReviews = service.getNumOfItems(paraMap);
+
+
 
 		String currentShowPageNoStr = request.getParameter("currentShowPageNoStr");
 		int currentShowPageNo = 0;
@@ -387,6 +396,7 @@ public class HpMemController {
 		request.setAttribute("reviewList", reviewList);
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("numOfReviews", numOfReviews);
+		request.setAttribute("totalNum", totalNum);
 		
 		
 		return "hpMem/hpReviews.tiles4";
