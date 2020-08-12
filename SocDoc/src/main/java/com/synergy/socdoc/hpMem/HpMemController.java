@@ -3,27 +3,16 @@ package com.synergy.socdoc.hpMem;
 import java.io.File;
 import java.util.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 
-import org.apache.ibatis.annotations.Case;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.stereotype.*;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.*;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 
-import com.synergy.service.InterService;
-import com.synergy.socdoc.common.FileManager;
-import com.synergy.socdoc.common.MyUtil;
+import com.synergy.socdoc.common.*;
 import com.synergy.socdoc.member.HpInfoVO;
 
 @Component
@@ -137,54 +126,16 @@ public class HpMemController {
 		return "hpMem/updateHpInfo.tiles4";
 	}
 	
-//	// 새 병원상세정보 업데이트
-//	@RequestMapping(value = "/hpPanel/submitInfo.sd", method = RequestMethod.POST)
-//	public String submitInfo(HttpServletRequest request) {
-//		String schedule = request.getParameter("schedule");
-//		String name = request.getParameter("name");
-//		String mainImg = request.getParameter("mainImg");
-//		String address = request.getParameter("address");
-//		String latitude = request.getParameter("latitude");
-//		String longitude = request.getParameter("longitude");
-//		String phone = request.getParameter("phone");
-//		String dept = request.getParameter("dept");
-//		String info = request.getParameter("info");
-//		System.out.println(schedule);
-//		System.out.println(name);
-//		System.out.println(latitude);
-//		System.out.println(longitude);
-//		System.out.println(address);
-//		System.out.println(info);
-//		System.out.println("?????");
-//		
-//		return "msg";
-//	}
-	
 	// 새 병원상세정보 업데이트
 	@RequestMapping(value = "/hpPanel/submitInfo.sd", method = RequestMethod.POST)
 	public String submitInfo(HpInfoVO hpInfoVO, MultipartHttpServletRequest mrequest) {
+		// HpInfoVO에 포함 안 되는 스케줄만 따로 받아옴
 		String schedule = mrequest.getParameter("schedule");
-//		String name = mrequest.getParameter("name");
-//		String address = mrequest.getParameter("address");
-//		String latitude = mrequest.getParameter("latitude");
-//		String longitude = mrequest.getParameter("longitude");
-//		String phone = mrequest.getParameter("phone");
-//		String dept = mrequest.getParameter("dept");
-//		String info = mrequest.getParameter("info");
-//		System.out.println(schedule);
-//		System.out.println(name);
-//		System.out.println(latitude);
-//		System.out.println(longitude);
-//		System.out.println(address);
-//		System.out.println(info);
 		
+		// TODO: 나중에는 hpSeq는 session에서 읽어옴
 		hpInfoVO.setHpSeq("17");
-		
-		System.out.println(hpInfoVO.getHpName());
-		
-		System.out.println(hpInfoVO.getAttachMain());
-		
-		
+			
+		// 새로 신청하는 경우에만(status == 1) 파일 업로드
 		if(hpInfoVO.getStatus() == 1) {
 			for(int i=0; i< hpInfoVO.getAttachMain().length; i++) {
 				MultipartFile attach = hpInfoVO.getAttachMain()[i];
@@ -207,8 +158,6 @@ public class HpMemController {
 					// path = 첨부파일 저장될 WAS의 폴더
 		
 					System.out.println(" path   :   " + path);
-					//  path: /Users/woniyoon/Documents/workspace-sts-3.9.13.RELEASE/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/Board/resources/files
-		
 					
 					// 2. 파일첨부를 위한변수의 설정 및 값을 초기화한 후 파일 올리기
 					String newFileName = "";
@@ -340,7 +289,7 @@ public class HpMemController {
 			currentShowPageNo = 1;
 		}
 		
-		
+		// 현재페이지 문자열을 숫자파싱
 		try {
 			currentShowPageNo = Integer.parseInt(currentShowPageNoStr);
 			if (currentShowPageNo < 1 || currentShowPageNo > totalPage) {
@@ -367,12 +316,15 @@ public class HpMemController {
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("visitorsList", visitorsList);
 		request.setAttribute("searchWord", searchWord);
+		
 		return "hpMem/visitorsMng.tiles4";
 	}
 	
 	// 후기보기
 	@RequestMapping(value = "/hpPanel/hpReviews.sd", method = RequestMethod.GET)
 	public String hpReviews(HttpServletRequest request) {
+		
+		
 		
 		return "hpMem/hpReviews.tiles4";
 	}

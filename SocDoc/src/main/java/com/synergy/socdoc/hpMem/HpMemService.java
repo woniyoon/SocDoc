@@ -22,41 +22,54 @@ public class HpMemService implements InterHpMemService {
 
 	// 신청테이블에서 정보 가져오기
 	@Override
-	public List<HpInfoVO> getInfoUpdateList(HashMap paraMap) {
+	public List<HpInfoVO> getInfoUpdateList(HashMap<String, String> paraMap) {
 		List<HpInfoVO> hpInfoList = dao.getInfoUpdateList(paraMap);
 		return hpInfoList;
 	}
 
+	// 병원 정보 리스트 총 개수 (페이징)
+	@Override
+	public int getNumOfUpdates(String hpSeq) {
+		int numOfUpdates = dao.getNumOfUpdates(hpSeq);
+		return numOfUpdates;
+	}
+
+	// 병원 상세 정보 가져오기
 	@Override
 	public HpInfoVO getHpInfoDetail(String submitId) {
 		HpInfoVO hpInfoDetail = dao.getHpInfoDetail(submitId);
 		return hpInfoDetail;
 	}
 
+	// 영업시간 가져오기 (상세정보)
 	@Override
 	public List<HashMap<String, String>> getOpeningHours(String hpSeq) {
 		List<HashMap<String, String>> openingHours = dao.getOpeningHours(hpSeq);
 		return openingHours;
 	}
 
+	// 스케줄표 가져오기 (메인)
 	@Override
 	public List<HashMap<String, String>> getScheduleTbl(String submitId) {
 		List<HashMap<String, String>> scheduleTbl = dao.getScheduleTbl(submitId);
 		return scheduleTbl;
 	}
-
+	
+	// 최근 리뷰 3개만 가져오기 (메인)
 	@Override
 	public List<HashMap<String, String>> getRecentReviews(String hpSeq) {
 		List<HashMap<String, String>> reviewList = dao.getRecentReviews(hpSeq);
 		return reviewList;
 	}
 
+	// 방문자 목록 가져오기
 	@Override
 	public List<HashMap<String, String>> getVisitors(HashMap<String, String> paraMap) {
 		List<HashMap<String, String>> visitorsList = dao.getVisitors(paraMap);
 		return visitorsList;
 	}
 
+	// 총 방문자수 (페이징용)
 	@Override
 	public int getNumOfVisitors(HashMap<String, String> paraMap) {
 		int numOfVisitors = dao.getNumOfVisitors(paraMap);
@@ -76,14 +89,6 @@ public class HpMemService implements InterHpMemService {
 		int result = dao.submitSchedule(scheduleList);
 		return result;
 	}
-
-	// 병원 정보 리스트 개수 가져오기 
-	@Override
-	public int getNumOfUpdates(String hpSeq) {
-		int numOfUpdates = dao.getNumOfUpdates(hpSeq);
-		return numOfUpdates;
-	}
-
 	
 
 }

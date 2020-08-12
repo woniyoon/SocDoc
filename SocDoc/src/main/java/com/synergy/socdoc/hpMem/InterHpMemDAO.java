@@ -8,7 +8,7 @@ public interface InterHpMemDAO {
 
 	public HpInfoVO getHpInfo(String hpSeq);
 
-	public List<HpInfoVO> getInfoUpdateList(HashMap paraMap);
+	public List<HpInfoVO> getInfoUpdateList(HashMap<String, String> paraMap);
 
 	public HpInfoVO getHpInfoDetail(String submitId);
 

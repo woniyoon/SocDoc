@@ -11,7 +11,7 @@ public interface InterHpMemService {
 
 	public HpInfoVO getHpInfo(String hpSeq);
 
-	public List<HpInfoVO> getInfoUpdateList(HashMap paraMap);
+	public List<HpInfoVO> getInfoUpdateList(HashMap<String, String> paraMap);
 
 	// 병원 정보 리스트 개수 가져오기 
 	public int getNumOfUpdates(String hpSeq);
