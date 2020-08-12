@@ -14,6 +14,7 @@ import com.google.gson.*;
 
 import com.synergy.socdoc.common.*;
 import com.synergy.socdoc.member.HpInfoVO;
+import com.synergy.socdoc.member.HpReviewVO;
 
 @Component
 @Controller
@@ -333,44 +334,60 @@ public class HpMemController {
 		String hpSeq = "2";
 
 		String table = "hospitalReview";
-		String currentShowPageNoStr = request.getParameter("currentShowPageNoStr");
 		String searchWord = request.getParameter("searchWord");
-		int currentShowPageNo = 0;
-		int totalPage = 0;
-		int sizePerPage = 10;
 		
-		
+		if(searchWord == null) {
+			searchWord = "";
+		}
 
 		HashMap<String, String> paraMap = new HashMap<>();
 		paraMap.put("hpSeq", hpSeq);
 		paraMap.put("table", table);
+		paraMap.put("searchWord", searchWord);
 		
 		// 후기 리스트 총 개수 가져오기
 		int numOfReviews = service.getNumOfItems(paraMap);
 
-//		String currentShowPageNoStr = request.getParameter("currentShowPageNoStr");
-//		int sizePerPage = 5;
-//		int totalPage = (int) Math.ceil((double) numOfUpdates / sizePerPage);
-//		int currentShowPageNo = 0;
-
+		String currentShowPageNoStr = request.getParameter("currentShowPageNoStr");
+		int currentShowPageNo = 0;
+		int sizePerPage = 10;
+		int totalPage = (int) Math.ceil((double) numOfReviews / sizePerPage);
 		
 		System.out.println("numOfReviews  : " + numOfReviews);
-//		
-//		if(currentShowPageNoStr == null) {
-//			currentShowPageNo = 1;
-//		} else {
-//			
-//		}
 		
-		// 문자열로 된 페이지 넘버 숫자 파싱
-//		try {
-//			currentShowPageNo = Integer.parseInt(currentShowPageNoStr);
-//			if (currentShowPageNo < 1 || currentShowPageNo > totalPage) {
-//				currentShowPageNo = 1;
-//			}
-//		} catch (NumberFormatException e) {
-//			currentShowPageNo = 1;
-//		}
+		if(currentShowPageNoStr == null) {
+			currentShowPageNo = 1;
+		} else {
+
+			// 문자열로 된 페이지 넘버 숫자 파싱
+			try {
+				currentShowPageNo = Integer.parseInt(currentShowPageNoStr);
+				if (currentShowPageNo < 1 || currentShowPageNo > totalPage) {
+					currentShowPageNo = 1;
+				}
+			} catch (NumberFormatException e) {
+				currentShowPageNo = 1;
+			}
+			
+		}
+		
+		int startRNO = ((currentShowPageNo - 1) * sizePerPage) + 1;
+		int endRNO = startRNO + sizePerPage - 1;
+		
+		paraMap.put("startRNO", String.valueOf(startRNO));
+		paraMap.put("endRNO", String.valueOf(endRNO));
+
+		List<HpReviewVO> reviewList = service.getHpReviews(paraMap);
+		
+		String baseUrl = MyUtil.getBaseURL(request);
+
+		String pageBar = MyUtil.createPageBar(currentShowPageNo, totalPage, baseUrl);
+
+		
+		request.setAttribute("reviewList", reviewList);
+		request.setAttribute("pageBar", pageBar);
+		request.setAttribute("numOfReviews", numOfReviews);
+		
 		
 		return "hpMem/hpReviews.tiles4";
 	}

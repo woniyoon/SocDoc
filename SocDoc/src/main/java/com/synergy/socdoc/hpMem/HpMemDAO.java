@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.synergy.socdoc.member.HpInfoVO;
+import com.synergy.socdoc.member.HpReviewVO;
 
 @Repository
 public class HpMemDAO implements InterHpMemDAO {
@@ -28,14 +29,6 @@ public class HpMemDAO implements InterHpMemDAO {
 		System.out.println("hpInfoList 크기 : " + hpInfoList.size());
 		return hpInfoList;
 	}
-	
-//	// 업데이트 목록 총 개수 가져오기
-//	@Override
-//	public int getNumOfUpdates(String hpSeq) {
-//		int numOfUpdates = sqlsession.selectOne("hpMem.getNumOfUpdates", hpSeq);
-//		return numOfUpdates;
-//	}
-
 
 	// 병원 상세 정보 디테일 가져오기
 	@Override
@@ -99,10 +92,18 @@ public class HpMemDAO implements InterHpMemDAO {
 		return result;
 	}
 
+	// JOIN 없는 특정 테이블 행의 총 개수 가져오기 
 	@Override
 	public int getNumOfItems(HashMap<String, String> paraMap) {
 		int num = sqlsession.selectOne("hpMem.getNumOfItems", paraMap);
 		return num;
+	}
+
+	// 병원 리뷰 목록 가져오기
+	@Override
+	public List<HpReviewVO> getHpReviews(HashMap<String, String> paraMap) {
+		List<HpReviewVO> reviewList = sqlsession.selectList("hpMem.getHpReviews", paraMap);
+		return reviewList;
 	}
 
 }

@@ -181,5 +181,22 @@
 		</if>
 	</select>
 	
+	<!-- 병원 리뷰 목록 가져오기 -->
+	<select id="getHpReviews" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpReviewVO">
+		select RNO, hpReviewSeq, userid, hpSeq, content, regDate, rating from
+		(select rownum AS RNO, V.hpReviewSeq, V.userid, V.hpSeq, V.content, V.regDate, V.rating
+		  from 
+		    (
+		       select hpReviewSeq, userid, hpSeq, content, to_char(regDate, 'yyyy-mm-dd') as regDate, rating
+                from hospitalReview
+                where hpSeq = #{hpSeq}
+		    ) V
+		    <if test="!searchWord.equals('')">
+		        where name LIKE '%'|| #{searchWord} ||'%'
+		    </if>
+		) T
+		where RNO between #{startRNO} and #{endRNO} 
+	</select>
+	
 	
 </mapper>

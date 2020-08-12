@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.synergy.socdoc.member.HpInfoVO;
+import com.synergy.socdoc.member.HpReviewVO;
 
 @Service
 public class HpMemService implements InterHpMemService {
@@ -88,6 +89,13 @@ public class HpMemService implements InterHpMemService {
 	public int getNumOfItems(HashMap<String, String> paraMap) {
 		int num = dao.getNumOfItems(paraMap);
 		return num;
+	}
+
+	// 병원 후기 목록 가져오기 
+	@Override
+	public List<HpReviewVO> getHpReviews(HashMap<String, String> paraMap) {
+		List<HpReviewVO> reviewList = dao.getHpReviews(paraMap);
+		return reviewList;
 	}
 	
 	

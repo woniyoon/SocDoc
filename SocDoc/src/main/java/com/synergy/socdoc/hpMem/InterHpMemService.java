@@ -5,6 +5,7 @@ import java.util.*;
 import org.springframework.stereotype.Service;
 
 import com.synergy.socdoc.member.HpInfoVO;
+import com.synergy.socdoc.member.HpReviewVO;
 
 @Service
 public interface InterHpMemService {
@@ -39,6 +40,9 @@ public interface InterHpMemService {
 
 	// 특정 테이블 행의 총 개수 가져오기 
 	public int getNumOfItems(HashMap<String, String> paraMap);
+
+	// 병원 리뷰 목록 가져오기
+	public List<HpReviewVO> getHpReviews(HashMap<String, String> paraMap);
 
 	
 }
