@@ -112,7 +112,7 @@
 		</c:if>
 	</table>
 	<div class="reviewListBottom" align="right">
-		<button type="button">엑셀로 내보내기</button>
+		<button class="blueBtn" type="button">엑셀로 내보내기</button>
 	</div>
 	<div class="pageContainer" align="center">
 		<span>${pageBar}</span>
