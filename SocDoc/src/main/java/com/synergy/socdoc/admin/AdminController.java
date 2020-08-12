@@ -1,5 +1,6 @@
 package com.synergy.socdoc.admin;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.synergy.socdoc.common.FileManager;
 import com.synergy.socdoc.common.MyUtil;
 import com.synergy.socdoc.member.FaqBoardVO;
 import com.synergy.socdoc.member.HealthInfoVO;
@@ -33,6 +37,9 @@ public class AdminController {
 
 	@Autowired
 	private InterAdminService service;
+	
+	@Autowired
+	private FileManager fileManager;
 
 	/* 회원관리 */ 
 	@RequestMapping(value = "/adminMemberMng.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
@@ -729,13 +736,74 @@ public class AdminController {
 		
 		return mav;
 	}
-
 	/* 건강정보 글쓰기 */
 	@RequestMapping(value = "/healthWrite.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	public String healthWrite(HttpServletRequest request) {
 		
 		return "admin/healthWrite.tiles3";
 	}
+	/* 건강정보 글쓰기 요청 */
+	@RequestMapping(value = "/healthWriteEnd.sd", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+	public String healthWriteEnd(HttpServletRequest request, HealthInfoVO healthvo, MultipartHttpServletRequest mrequest) {
+		
+		System.out.println("넘어오는지 확인");
+		
+/*		String subject = request.getParameter("subject");
+		String content = request.getParameter("content");*/
+		
+		HashMap<String, String> paraMap = new HashMap<>();
+		paraMap.put("subject", healthvo.getSubject());
+		paraMap.put("content", healthvo.getContent());
+		paraMap.put("img", healthvo.getAttach().getOriginalFilename());
+		
+		
+		MultipartFile attach = healthvo.getAttach();
+			
+			
+		HttpSession session = mrequest.getSession();
+		String root = session.getServletContext().getRealPath("/");
+		String path = root + "resources" + File.separator + "files";
+		
+		// path가 첨부파일을 지정할 WAS(톰캣)의 폴더가 된다.
+		System.out.println("---- 확인용 path => " + path);
+		// ---- 확인용 path => C:\springworkspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\Board\resources\files
+		 
+		String newFileName = ""; // WAS(톰캣)의 디스크에 저장될 파일명
+		
+		byte[] bytes = null;
+		// 첨부파일을 WAS(톰캣)의 디스크에 저장할때 사용되는 용도
+		
+		
+		try {
+			bytes = attach.getBytes(); // 파일을 전송하기 위해서는 바이트 단위로 쪼개야 함
+			
+			// getBytes() 메소드는 첨부된 파일(attach)을 바이트단위로 파일을 다 읽어오는 것이다. 
+			// 예를 들어, 첨부한 파일이 "강아지.png" 이라면
+			// 이파일을 WAS(톰캣) 디스크에 저장시키기 위해 byte[] 타입으로 변경해서 올린다.
+
+			 newFileName = fileManager.doFileUpload(bytes, attach.getOriginalFilename(), path);
+			 				// 									실제로 첨부되는 파일 이름
+		//	 System.out.println("------ 확인용 newFileName :" + newFileName);
+			 
+			 healthvo.setImgName(newFileName);
+			 healthvo.setImg(attach.getOriginalFilename());
+			 
+			} catch (Exception e) {
+				e.printStackTrace();
+		} 
+			
+		
+		int n = service.infoInsert(healthvo);
+		
+		if(n>0) {
+			return "redirect:/healthInfoMng.sd";
+		}
+		else {
+			return "redirect:/healthWrite.sd";
+		}
+		
+	}
+	
 	
 	/* 후기관리 */
 	@RequestMapping(value = "/reviewMng.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")

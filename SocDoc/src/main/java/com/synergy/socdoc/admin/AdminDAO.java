@@ -190,6 +190,12 @@ public class AdminDAO implements InterAdminDAO {
 		HealthInfoVO healthvo = sqlsession.selectOne("admin.healthInfoView", infoSeq);
 		return healthvo;
 	}
+	// 건강정보 글쓰기
+	@Override
+	public int infoInsert(HealthInfoVO healthvo) {
+		int n = sqlsession.insert("admin.infoInsert", healthvo);
+		return n;
+	}
 	
 	
 	

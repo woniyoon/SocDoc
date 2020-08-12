@@ -51,5 +51,6 @@ public interface InterAdminDAO {
 	int updateNotice(NoticeVO noticevo); // 공지사항 글수정
 
 	HealthInfoVO healthInfoView(String infoSeq); // 건강정보 글 조회
+	int infoInsert(HealthInfoVO healthvo); // 건강정보 글쓰기
 
 }

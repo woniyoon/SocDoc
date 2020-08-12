@@ -235,7 +235,7 @@
 		where rno between #{startRno} and #{endRno}
 	</select>
 	
-	
+	<!-- 공지사항 글쓰기, 삭제하기, 수정하기 -->
 	<insert id="noticeInsert" parameterType="HashMap">
 		insert into noticeBoard (noticeSeq, subject, content, regDate)
 		values(noticeSeq.nextval, #{subject}, #{content}, default)
@@ -251,15 +251,17 @@
     	where noticeSeq = #{noticeSeq}
     </update>
 	
+	
+	<!-- 건강정보 상세 글보기 -->
 	<select id="healthInfoView" parameterType="String" resultType="com.synergy.socdoc.member.HealthInfoVO">
 		select  preseq, presubject, 
-		        infoSeq, subject, content, regDate
+		        infoSeq, subject, content, imgName, regDate
 		        nextseq, nextsubject
 		from 
 		(
 		    select lag(infoSeq, 1) over(order by infoSeq desc)  as preseq
 		            , lag(subject, 1) over(order by infoSeq desc) as presubject
-		            , infoSeq, subject, content
+		            , infoSeq, subject, content, imgName
 		            , to_char(regDate, 'yyyy-mm-dd') as regDate
 		           
 		            , lead(infoSeq, 1) over(order by infoSeq desc) as nextseq
@@ -268,5 +270,11 @@
 		) V
 		where V.infoSeq = #{infoSeq}
 	</select>
+	<!-- 건강정보 글쓰기, 삭제하기, 수정하기 -->
+	<insert id="infoInsert" parameterType="com.synergy.socdoc.member.HealthInfoVO">
+		insert into infoBoard (infoSeq, subject, content, img, imgName, regDate)
+		values(infoSeq.nextval, #{subject}, #{content}, #{img}, #{imgName}, default)
+	</insert>
+	
 	
 </mapper>

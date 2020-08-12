@@ -1,5 +1,7 @@
 package com.synergy.socdoc.member;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class HealthInfoVO {
 
 	private int infoSeq;
@@ -13,15 +15,19 @@ public class HealthInfoVO {
 	private String nextseq;
 	private String nextsubject;
 	
+	private MultipartFile attach; // 내가 임의로 만든 파일첨부
+	private String imgName;
+	
 	public HealthInfoVO() {}
 	
-	public HealthInfoVO(int infoSeq, String subject, String content, String regDate, String img) {
+	public HealthInfoVO(int infoSeq, String subject, String content, String regDate, String img, String imgName) {
 		super();
 		this.infoSeq = infoSeq;
 		this.subject = subject;
 		this.content = content;
 		this.regDate = regDate;
 		this.img = img;
+		this.imgName = imgName;
 	}
 
 	public int getInfoSeq() {
@@ -95,7 +101,23 @@ public class HealthInfoVO {
 	public void setNextsubject(String nextsubject) {
 		this.nextsubject = nextsubject;
 	}
-	
+
+	public MultipartFile getAttach() {
+		return attach;
+	}
+
+	public void setAttach(MultipartFile attach) {
+		this.attach = attach;
+	}
+
+	public String getImgName() {
+		return imgName;
+	}
+
+	public void setImgName(String imgName) {
+		this.imgName = imgName;
+	}
+
 	
 	
 }

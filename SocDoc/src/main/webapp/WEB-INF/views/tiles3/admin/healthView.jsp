@@ -126,7 +126,7 @@
 
                     <tbody>
                         <tr>
-                            <td>${healthvo.content}</td>
+                            <td>${healthvo.content}<br/><img src="<%= request.getContextPath()%>/resources/files/${healthvo.imgName}" style="width: 200px; height: 200px;"/></td>
                         </tr>
                     </tbody>
                 </table>

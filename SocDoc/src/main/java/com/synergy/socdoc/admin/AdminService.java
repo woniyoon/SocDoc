@@ -192,6 +192,12 @@ public class AdminService implements InterAdminService {
 		HealthInfoVO healthvo = dao.healthInfoView(infoSeq);
 		return healthvo;
 	}
+	// 건강정보 글쓰기
+	@Override
+	public int infoInsert(HealthInfoVO healthvo) {
+		int n = dao.infoInsert(healthvo);
+		return n;
+	}
 	
 
 }

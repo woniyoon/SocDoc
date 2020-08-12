@@ -25,7 +25,7 @@
 	}
 	
     table {
-      width: 100%;
+      width: 90%;
       border-collapse: collapse;
    }
    
@@ -93,7 +93,7 @@
 		<h2 class="textPrimary">건강정보 글쓰기</h2>
 	</header>
 			
-	<form name="addFrm">
+	<form name="infoFrm" enctype="multipart/form-data">
       <table id="table">
          <thead>
             <tr>
@@ -114,7 +114,7 @@
             <tr>
                <th>파일첨부</th>
                <td>
-                  <input type="file" name="attach" />   
+                  <input type="file" id="img" name="attach" />   
                </td>
             </tr>
          </tbody>
@@ -123,7 +123,7 @@
    
    <div id="notice_button_wrap">
 		<p id="notice_button">
-			<a type="button" id="btnNoticeSubmit" class="create notice_write">작성</a> 
+			<a type="button" id="btnInfoSubmit" class="create notice_write">작성</a> 
 		</p>
 		<p id="notice_button">
 			<a type="reset" class="delete notice_write">취소</a> 
@@ -131,3 +131,41 @@
 	</div>
 </div>
 
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+		$("#btnInfoSubmit").click(function(){
+			goWrite();
+		});
+	
+	});
+	
+	
+	function goWrite() {
+		var subject = $("#subject").val().trim();
+		var content = $("#content").val().trim();
+		var img = $("#img").val().trim();
+		
+		if (subject == "") {
+			alert("제목을 입력해주세요");
+			return "admin/adminNoticeWrite.sd";
+		}
+		
+		if (content == "") {
+			alert("내용을 입력해주세요");
+			return;	
+		}
+		
+		if (img == ""){
+			alert("파일첨부는 필수입니다");
+			return;
+		}
+		
+		var frm = document.infoFrm;
+		frm.action = "<%= ctxPath%>/healthWriteEnd.sd";
+		frm.method = "POST";
+		frm.submit();
+	}
+
+</script>
