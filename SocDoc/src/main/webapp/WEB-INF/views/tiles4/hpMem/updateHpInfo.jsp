@@ -20,17 +20,17 @@
 					<!-- Full-width images with number and caption text -->
 					<div class="mySlides fade">
 						<div class="numbertext">1 / 3</div>
-						<img src="../assets/bh_large.jpg" style="width: 100%; height: 100%;">
+						<img src="<%=ctxPath %>/resources/files/${hpInfo.mainImg}" style="width: 100%; height: 100%;">
 					</div>
 		
 					<div class="mySlides fade">
 						<div class="numbertext">2 / 3</div>
-						<img src="../assets/jm_large.jpg" style="width: 100%; height: 100%;">
+						<img src="<%=ctxPath %>/resources/files/${hpInfo.subImg1}" style="width: 100%; height: 100%;">
 					</div>
 		
 					<div class="mySlides fade">
 						<div class="numbertext">3 / 3</div>
-						<img src="../assets/pp_large.jpg" style="width: 100%; height: 100%;">
+						<img src="<%=ctxPath %>/resources/files/${hpInfo.subImg2}" style="width: 100%; height: 100%;">
 					</div>
 		
 					<!-- Next and previous buttons -->
