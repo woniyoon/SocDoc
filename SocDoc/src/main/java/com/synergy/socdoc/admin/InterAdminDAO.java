@@ -50,4 +50,6 @@ public interface InterAdminDAO {
 	int delNotice(String noticeSeq); // 공지사항 글삭제
 	int updateNotice(NoticeVO noticevo); // 공지사항 글수정
 
+	HealthInfoVO healthInfoView(String infoSeq); // 건강정보 글 조회
+
 }

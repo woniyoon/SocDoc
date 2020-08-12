@@ -129,7 +129,7 @@
             
             <button id="ckAll">전체선택</button>
             <button id="deleteBtn">삭제</button>
-            <button id="writeBtn" onclick="location.href='<%= ctxPath%>/noticeWrite.sd'">글쓰기</button>
+            <button id="writeBtn" onclick="location.href='<%= ctxPath%>/adminNoticeWrite.sd'">글쓰기</button>
             
         </div>		
         

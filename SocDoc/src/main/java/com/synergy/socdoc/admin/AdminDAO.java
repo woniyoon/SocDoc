@@ -184,6 +184,14 @@ public class AdminDAO implements InterAdminDAO {
 	}
 	
 	
+	// 건강정보 글 조회
+	@Override
+	public HealthInfoVO healthInfoView(String infoSeq) {
+		HealthInfoVO healthvo = sqlsession.selectOne("admin.healthInfoView", infoSeq);
+		return healthvo;
+	}
+	
+	
 	
 
 }

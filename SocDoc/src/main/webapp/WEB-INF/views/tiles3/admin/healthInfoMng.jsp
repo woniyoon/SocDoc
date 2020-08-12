@@ -63,7 +63,7 @@
 	
 	}
 	
-	td.healthTitle:hover {
+	.healthTitle:hover {
 		cursor: pointer;
 	}
 	
@@ -84,19 +84,42 @@
 	}
 	
 	#ckAll {
-        float: left;
-		margin-top: 30px;
+	  	margin-top: 30px;
+	  	background-color: #efefef;
+      	cursor: pointer;   
+      	float: left;
+      	border: 1px solid #dddddd;       
+      	padding: 0.25em .75em;    
+      	border-radius: .25em;       
+      	font-weight: 500;
+      	font-size: 10pt;   
+      	margin-right: 1		
     }
 
 	#writeBtn {
 		float: right;
 		margin-top: 30px;
         margin-right: 20px;
+        background-color: #0080ff;
+      	color:#fff;
+      	cursor: pointer;   
+      	border: 1px solid #dddddd;       
+      	padding: 0.25em .75em;    
+      	border-radius: .25em;       
+      	font-weight: 500;
+      	font-size: 10pt;  
 	}
 	
 	#deleteBtn {
 		float: right;
 		margin-top: 30px;
+        background-color: #efefef;
+        cursor: pointer;   
+      	border: 1px solid #dddddd;       
+      	padding: 0.25em .75em;    
+      	border-radius: .25em;       
+      	font-weight: 500;
+      	font-size: 10pt;  
 	}
 	
 
@@ -110,6 +133,7 @@
 			 
             <p>전체 글 : ${totalCount}개</p>
            
+            
             <table class="table table-hover" style="text-align: center;">
                 <thead>
                      <tr>
@@ -124,12 +148,13 @@
                     <tr>
                         <td><input type="checkbox" /></td>
                         <td>${healthvo.infoSeq}</td>
-                        <td class="healthTitle">${healthvo.subject}</td>
+                        <td><span class="healthTitle" onclick="goView('${healthvo.infoSeq}')">${healthvo.subject}</span></td>
                         <td>${healthvo.regDate}</td>
                     </tr>
                 </c:forEach>
 
             </table>
+            
             <button id="ckAll">전체선택</button>
             <button id="deleteBtn">삭제</button>
             <button id="writeBtn" onclick="location.href='<%= ctxPath%>/healthWrite.sd'">글쓰기</button>
@@ -138,17 +163,38 @@
             <div align="center">
 				${pageBar}
 			</div>
+			
+			<form name="goViewFrm">
+				<input type="hidden" name="infoSeq" />
+            </form>
 		</div>
 
 		
 
 
 <script type="text/javascript">
-	
+	<%-- 
 	$(".healthTitle").click(function(){ 
 		
 	    location.href='<%= ctxPath%>/healthView.sd';
 	    
 	});
+	 --%>
+	
+	$(document).ready(function($){	 
+		
+		
+	});	 // end of $(document).ready(function($){}) ----------------------------
+		
+	
+	function goView(infoSeq) {
+ 		var frm = document.goViewFrm;
+		frm.infoSeq.value = infoSeq; 
+		
+		frm.method = "GET";
+		frm.action = "<%=ctxPath%>/healthView.sd";
+		frm.submit();
+	}
+		
 	
 </script>   		

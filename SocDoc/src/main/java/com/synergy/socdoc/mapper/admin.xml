@@ -251,4 +251,22 @@
     	where noticeSeq = #{noticeSeq}
     </update>
 	
+	<select id="healthInfoView" parameterType="String" resultType="com.synergy.socdoc.member.HealthInfoVO">
+		select  preseq, presubject, 
+		        infoSeq, subject, content, regDate
+		        nextseq, nextsubject
+		from 
+		(
+		    select lag(infoSeq, 1) over(order by infoSeq desc)  as preseq
+		            , lag(subject, 1) over(order by infoSeq desc) as presubject
+		            , infoSeq, subject, content
+		            , to_char(regDate, 'yyyy-mm-dd') as regDate
+		           
+		            , lead(infoSeq, 1) over(order by infoSeq desc) as nextseq
+		            , lead(subject, 1) over(order by infoSeq desc) as nextsubject
+		    from infoBoard
+		) V
+		where V.infoSeq = #{infoSeq}
+	</select>
+	
 </mapper>

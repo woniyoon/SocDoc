@@ -713,9 +713,21 @@ public class AdminController {
 
 	/* 건강정보 글보기 */
 	@RequestMapping(value = "/healthView.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
-	public String healthView(HttpServletRequest request) {
+	public ModelAndView healthView(HttpServletRequest request, ModelAndView mav) {
 		
-		return "admin/healthView.tiles3";
+		String infoSeq = request.getParameter("infoSeq");
+		
+		String gobackURL = request.getParameter("gobackURL");
+		mav.addObject("gobackURL", gobackURL);
+
+		HealthInfoVO healthvo = null;
+
+		healthvo = service.healthInfoView(infoSeq);
+		
+		mav.addObject("healthvo", healthvo);
+		mav.setViewName("admin/healthView.tiles3");
+		
+		return mav;
 	}
 
 	/* 건강정보 글쓰기 */

@@ -12,7 +12,7 @@
 		text-align: center;
 	}
 	
-	#noticeView {
+	#healthInfoView {
 		width: 900px;
 		margin-left: auto;
 		margin-right: auto;
@@ -114,19 +114,19 @@
     }
 </style> 
 
-	<div id="noticeView">
+	<div id="healthInfoView">
 		    <h2 class="textPrimary">건강정보관리</h2>
 			<section>
                 <table>
                     <thead>
                         <tr>
-							<th>손은 언제 씻어야 할까?</th>
+							<th>${healthvo.subject}</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         <tr>
-                            <td>코로나 조심<br/><br/><br/><br/><br/></td>
+                            <td>${healthvo.content}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -141,13 +141,11 @@
                     <table>
                         <tr>
                             <th class="next_post th">윗글</th>
-                            <!-- <td class="noticeNO" ></td>
-                            <td class="noticeNO postrno" ></td> -->
-                            <td class="next_post postNotice titlePointer">윗글 제목이 보일 예정</td>
+                            <td class="next_post postNotice titlePointer">${healthvo.presubject}</td>
                         </tr>
                         <tr>
                             <th class="pre_post th">아랫글</th>
-                            <td class="pre_post preNotice titlePointer">아랫글 제목이 보일 예정</td>
+                            <td class="pre_post preNotice titlePointer">${healthvo.nextsubject}</td>
                         </tr>
                     </table>
                 </div>
