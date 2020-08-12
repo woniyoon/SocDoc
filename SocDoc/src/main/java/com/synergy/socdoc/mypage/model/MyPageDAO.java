@@ -82,10 +82,26 @@ public class MyPageDAO implements InterMyPageDAO {
 	
 	// 내 건강 새로 저장하기(update)
 	@Override
-	public int addHealth(MemberVO membervo) {
-		int n = sqlsession.update("mypage.addHealth", membervo);
+	public int updateHealth(HashMap<String, String> paraMap) {
+		int n = sqlsession.update("mypage.updateHealth", paraMap);
 		return n;
 	}
+	
+
+	@Override
+	public int updateHealth2(String userid) {
+		int n = sqlsession.update("mypage.updateHealth2", userid);
+		return n;
+	}
+	
+
+	// 내 건강 새로 저장하기(insert)
+	@Override
+	public int insertHealth(MemberVO membervo) {
+		int n = sqlsession.insert("mypage.insertHealth", membervo);
+		return n;
+	}
+
 
 
 	// 내 건강 페이지 삭제하기(delete)
@@ -130,11 +146,38 @@ public class MyPageDAO implements InterMyPageDAO {
 
 	// 예약확인 페이지 목록 불러오기
 	@Override
-	public List<ReservationVO> reservationListSearchWithPaging(HashMap<String, String> paraMap) {
-		List<ReservationVO> reservationList = sqlsession.selectList("mypage.reservationListSearchWithPaging",paraMap);
+	public List<HashMap<String, String>> reservationListSearchWithPaging(HashMap<String, String> paraMap) {
+		List<HashMap<String, String>> reservationList = sqlsession.selectList("mypage.reservationListSearchWithPaging",paraMap);
 		return reservationList;
 	}
 
+
+	// 즐겨찾기에서 목록 삭제하기
+	@Override
+	public int goDelBM(String bookSeq) {
+		int n = sqlsession.delete("mypage.goDelBM", bookSeq);
+		return n;
+	}
+
+
+	// 방문예정시간 구하기
+	/*@Override
+	public String getHourSeq(HashMap<String, String> paraMap) {
+		String hourSeq = sqlsession.selectOne("mypage.getHourSeq", paraMap);
+		return hourSeq;
+	}*/
+
+
+	
+
+
+	
+
+
+	
+
+
+	
 
 	
 

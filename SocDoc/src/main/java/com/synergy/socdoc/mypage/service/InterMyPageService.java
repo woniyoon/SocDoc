@@ -29,7 +29,11 @@ public interface InterMyPageService {
 	
 	List<MemberVO> viewMyHealthTest();
 	
-	int addHealth(MemberVO membervo); // 내 건강 새로 저장하기(insert)
+	int updateHealth(HashMap<String, String> paraMap); // 내 건강 새로 저장하기(update)
+	
+	int updateHealth(String userid);
+	
+	int insertHealth(MemberVO membervo); // 내 건강 새로 저장하기(insert)
 
 	int delHealth(String userid); // 내 건강 페이지 삭제하기(delete)
 
@@ -41,7 +45,21 @@ public interface InterMyPageService {
 
 	int getTotalCountReservation(HashMap<String, String> paraMap); // 예약확인 갯수 구하기
 
-	List<ReservationVO> reservationListSearchWithPaging(HashMap<String, String> paraMap); // 예약확인 페이지 목록 불러오기
+	List<HashMap<String, String>> reservationListSearchWithPaging(HashMap<String, String> paraMap); // 예약확인 페이지 목록 불러오기
+
+	int goDelBM(String bookSeq); // 즐겨찾기에서 목록 삭제하기 
+
+	// String getHourSeq(HashMap<String, String> paraMap); // 방문예정 시간 구하기
+
+	
+
+	
+
+	
+
+	
+
+	
 
 	
 

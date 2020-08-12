@@ -277,7 +277,7 @@
 	  }// end of function goView(seq)---------------------------------- 
 	
 	  
-	  function goDel() {
+	  function goDelBM() {
 		  
 		  var cnt = $("input[name='items']:checked").length;
 	        var arr = new Array();
@@ -289,12 +289,15 @@
 	        }
 	        else{
 	           
+	        	var check = $("#check").val() 
+	        	 console.log(check);
+	        	
 	        	var con = confirm("선택된 즐겨찾기를 삭제합니다.");
 	        	
 	        	if(con == true) {
 	        		var frm = document.delFrm;
 		        	frm.method = "POST";
-		        	frm.action = "<%= request.getContextPath()%>/goDel.sd"
+		        	frm.action = "<%= request.getContextPath()%>/goDelBM.sd"
 		        	frm.submit();
 	        	}
 	        	else if(con == false){ 
@@ -303,6 +306,7 @@
 	        	
 	        } 
 	        
+	       
 	  }
 </script>
 
@@ -354,11 +358,11 @@
 					 </tr>
 				</thead>
 				
-				
 				<tbody>
 				<c:forEach var="bookMarkList" items="${bookMarkList}" varStatus="status">
 					<tr>
-						<td><input type="checkbox" name="items" value="${status}"/></td>
+						<td><input type="checkbox" id="check" name="items" value="${bookMarkList.bookSeq}"/></td>
+						<td class="notice_seq" >${status.count}</td>
 					    <td class="notice_seq" >${bookMarkList.dept}</td>
 						<td class="noticeTitle" onclick="goDetail()">${bookMarkList.hpName}</td>
 						<td>${bookMarkList.phone}</td>
@@ -380,7 +384,7 @@
 				<%-- <button id="printBtn" style="background-color: skyblue; color:white; width: 80px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" onclick="javascript:location.href='<%= request.getContextPath()%>/ask.sd'">문의하기</button>
 				<button id="printBtn" style="background-color: white; color:skyblue; width: 50px; height: 30px; border-radius: 4px; border: solid 1px skyblue; font-size: 10pt;">삭제</button>
 			 --%>
-			 	<button id="printBtn" style="background-color: skyblue; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" onClick="goDel()">삭제</button>
+			 	<button id="printBtn" style="background-color: skyblue; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" onClick="goDelBM()">삭제</button>
 			</div>
 			</form>
 			

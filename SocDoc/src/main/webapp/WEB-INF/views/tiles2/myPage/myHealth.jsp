@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -198,17 +201,31 @@
 
 	$(document).ready(function() {
 		
+		bloodType = $("#blood").val();
+		$("#bloodType").val(bloodType);
+		$("#bloodType > option[@value=bloodType]").attr("selected", "true");
 		
+		$("#bloodType").change(function(){
+			bloodType = $(this).val();
+			var bloodType = $('input[name=bloodType]').val();
+		});
 		
 	});
 	
 	function goStore() {
 	    var frm = document.healthFrm;
-	    frm.method = "POST";
+	    frm.method = "GET";
 	    frm.action = "<%= request.getContextPath()%>/addHealth.sd";
 	    frm.submit();
 	  }// end of function goSearch()-------------------------
 
+    function godelHealth() {
+	    var frm = document.healthFrm;
+	    frm.method = "GET";
+	    frm.action = "<%= request.getContextPath()%>/delHealth.sd";
+	    frm.submit();
+	  }// end of function goSearch()-------------------------  
+	  
 </script>
 
 <body>
@@ -241,19 +258,19 @@
 			    <tr>
 			        <th scope="row">키</th>
 			        <td>
-					    <input class="form-control-tel" name="height" type="number" value="${memberList.height}"/> cm
+					    <input class="form-control-tel" name="height" type="text" value="${membervo.height}" /> cm
 					</td>
 			    </tr>
 			    <tr>
 			        <th scope="row">몸무게</th>
 			        <td>
-					    <input class="form-control-tel" name="weight" type="number" value="${memberList.weigth}"/> kg
+					    <input class="form-control-tel" name="weight" type="text" value="${membervo.weight}"/> kg
 					</td>
 			    </tr>
 			    <tr>
 			        <th scope="row">혈액형</th>
 			        <td>
-						<select class="form-control-tel" id="sel1" name="bloodType" style="height: 35px;" >
+						<select class="form-control-tel" id="bloodType" name="bloodType" style="height: 35px;" >
 					      	<option value="O">O형</option>
 					        <option value="A">A형</option>
 					        <option value="AB">AB형</option>
@@ -263,29 +280,32 @@
 			    </tr>
 			    <tr>
 			        <th scope="row">알레르기</th>
-			        <td>
-					    <input class="textIpt" name="allergy" type="text" placeholder="내용을 입력해주세요" value="${memberList.allergy}"/>
+			        <td> 
+					    <input class="textIpt" name="allergy" type="text" placeholder="내용을 입력해주세요" value="${membervo.allergy}"/>
 					</td>
 			    </tr>
 			    <tr>
 			        <th scope="row">병력</th>
 			        <td>
-					    <input class="textIpt" name="history" type="text" placeholder="내용을 입력해주세요" value="${memberList.history}"/>
+					    <input class="textIpt" name="history" type="text" placeholder="내용을 입력해주세요" value="${membervo.history}"/>
 					</td>
 			    </tr>
 			    <tr>
 			        <th scope="row">복용약</th>
 			        <td>
-					    <input class="textIpt" name="medicine" type="text" placeholder="내용을 입력해주세요" value="${memberList.medicine}"/>
+					    <input class="textIpt" name="medicine" type="text" placeholder="내용을 입력해주세요" value="${membervo.medicine}"/>
 					</td>
 			    </tr>
 			    </tbody>
 			</table>
-		  
+		  	<input type="hidden" id="blood" value="${membervo.bloodType}"/>
 	  </form>
    <!-- 기본정보 변경 form끝 -->
 	    
-		<div style="text-align:right; margin-top: 30px; width: 70%;"><button type="button" onclick="goStore();" style="background-color: skyblue; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;">저장</button></div>
+		<div style="text-align:right; margin-top: 30px; width: 70%;">
+		<button type="button" onclick="goStore();" style="background-color: skyblue; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;">저장</button>
+		<button type="button" onclick="godelHealth();" style="background-color: skyblue; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;">초기화</button>
+		</div>
         </div>
     </main>
     <footer>

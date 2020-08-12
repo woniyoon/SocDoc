@@ -23,7 +23,11 @@ public interface InterMyPageDAO {
 
 	int goDel(String qnaSeq); // 문의내역 삭제 (목록)
 
-	int addHealth(MemberVO membervo);  // 내 건강 새로 저장하기(update)
+	int updateHealth(HashMap<String, String> paraMap);  // 내 건강 새로 저장하기(update)
+	
+	int updateHealth2(String userid);
+	
+	int insertHealth(MemberVO membervo);  // 내 건강 새로 저장하기(insert)
 
 	MemberVO viewMyHealth(String userid); // 내 건강 페이지 보이기(select)
 	
@@ -39,7 +43,19 @@ public interface InterMyPageDAO {
 
 	int getTotalCountReservation(HashMap<String, String> paraMap); // 예약확인 갯수 구하기
 
-	List<ReservationVO> reservationListSearchWithPaging(HashMap<String, String> paraMap); // 예약확인 페이지 목록 불러오기
+	List<HashMap<String, String>> reservationListSearchWithPaging(HashMap<String, String> paraMap); // 예약확인 페이지 목록 불러오기
+
+	int goDelBM(String bookSeq); // 즐겨찾기에서 목록 삭제하기
+
+	// String getHourSeq(HashMap<String, String> paraMap); // 방문 예정시간 구하기
+
+	
+
+	
+
+	
+
+	
 
 	
 

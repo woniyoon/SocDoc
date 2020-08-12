@@ -271,8 +271,8 @@
         <form name="searchFrm">
   			<select id="searchType" name="searchType" style="height:25px; float: right;" >
   				<option id="searchType1" value="1" >전체</option>
-  				<option id="searchType2" value="2" >방문날짜 최신순</option>
-  				<option id="searchType3" value="3" >방문날짜 오래된순</option>
+  				<option id="searchType2" value="2" >방문날짜 빠른순</option>
+  				<option id="searchType3" value="3" >방문날짜 느린순</option>
   			</select>
   		</form>
        </div>
@@ -283,22 +283,36 @@
 					 	<th>번호</th>
 					 	<th>병원이름</th>
 					 	<th>방문예정일</th>
+					 	<th>방문예정시간</th>
 					 	<th>방문여부</th>
 					 </tr>
 				</thead>
 				
+				
+				
 				<tbody>
 				<c:forEach var="reservationList" items="${reservationList}" varStatus="status">
 					<tr>
-					    <td class="notice_seq">${reservationList.reservSeq}</td>
-						<td id="hospitalName" class="noticeTitle"><a style="cursor: pointer;" class="btn" data-toggle="modal" data-target="#myModal">${reservationList.hpSeq}</a></td>
-						<td>${reservationList.visitDate}</td>
-						<td>${reservationList.status}</td>
+					    <td class="notice_seq">${status.count}</td>
+						<td id="hospitalName" class="noticeTitle"><a style="cursor: pointer;" class="btn" data-toggle="modal" data-target="#myModal">${reservationList.hpName}</a></td>
+						<td>${reservationList.visitdate}</td>
+						<td>${reservationList.hour}</td>
+						<c:if test="${reservationList.status == 0}">
+						<td style="color: gray;">
+								방문완료
+						</td>
+						</c:if>
+						<c:if test="${reservationList.status == 1}">
+						<td style="color: skyblue;">
+								방문예정
+						</td>
+						</c:if>
 					</tr>
 				</c:forEach>
 				</tbody>	
 					
 			</table>
+				<input type="hidden" name=reservSeq value="${reservSeq}"/>	
 			</form>
 			</br></br>
 			

@@ -84,8 +84,8 @@
    	
  
 	  
-	  <!--  === 내 건강 새로추가 === -->
-	   <update id="addHealth" parameterType="com.synergy.socdoc.member.MemberVO">
+	  <!--  === 내 건강 새로추가(update) === -->
+	   <update id="updateHealth" parameterType="HashMap">
 	   		update member 
 			set height = #{height},
 			    weight = #{weight},
@@ -95,6 +95,25 @@
 			    medicine = #{medicine}
 			where userid = #{userid}
 	   </update>
+	   
+	    <!--  === 내 건강 새로추가(update) === -->
+	   <update id="updateHealth2" parameterType="String">
+	   		update member 
+			set height = #{height},
+			    weight = #{weight},
+			    bloodType = #{bloodType},
+			    allergy = #{allergy},
+			    history = #{history},
+			    medicine = #{medicine}
+			where userid = #{userid}
+	   </update>
+	   
+	   
+	   <!--  === 내 건강 새로추가(insert) === -->
+	   <insert id="insertHealth"  parameterType="com.synergy.socdoc.member.MemberVO">
+   		insert into tblBoard(seq, fk_userid, name, subject, content, pw, readCount, regDate, status)
+   		values(boardSeq.nextval, #{fk_userid}, #{name}, #{subject}, #{content}, #{pw}, default, default, default)
+       </insert>
 	   
 	   
 	   <!--  === 내 건강 초기화하기 === -->
@@ -114,6 +133,7 @@
 	   <select id="getTotalBookMarkCount" parameterType="HashMap" resultType="int">
 	   	select count(*)
 	   	from bookmark
+	   	where userid = #{userid}
 	   </select>
 	   
 	   
@@ -157,9 +177,11 @@
    		<result property="dept" 	column="dept" 		javaType="String"/>
    		<result property="hpName" 	column="hpName" 	javaType="String"/>
    		<result property="phone" 	column="phone" 		javaType="String"/>
+   		<result property="bookSeq" 	column="bookSeq" 	javaType="String"/>
 	   </resultMap>
 	   <select id="bookMarkListSearchWithPaging" parameterType="HashMap" resultMap="hpInfoMap">
-	 	   select H.dept AS depth
+	 	   select B.bookSeq AS bookSeq
+	 	   	    , H.dept AS dept
 	      		, H.hpName AS hpName
 	      		, H.phone AS phone
 	 		from bookmark B join hospitalInfo H 
@@ -172,30 +194,59 @@
 	   <select id="getTotalCountReservation" parameterType="HashMap" resultType="int">
 	   	select count(*)
 	   	from reservation
+	   	where userid = #{userid}
 	   </select>
 	   
 	    
 	   <!-- == 예약확인 게시판의 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것) -->
-	   <select id="reservationListSearchWithPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.ReservationVO">
-		  	select reservSeq, userid, hpSeq, hourSeq, visitDate, status
+	   <resultMap type="HashMap" id="reservationMap">
+   		<result property="hpName" 		column="hpName" 		javaType="String"/>
+   		<result property="hour" 		column="hour" 			javaType="String"/>
+   		<result property="visitdate" 	column="visitdate" 		javaType="String"/>
+   		<result property="status" 		column="status" 		javaType="String"/>
+	   </resultMap>
+	   <select id="reservationListSearchWithPaging" parameterType="HashMap" resultMap="reservationMap">
+		  	select hpName, hourSeq, status, hour, to_char(visitdate, 'yyyy-mm-dd') as visitdate
 	        from
 		        (
-		            select rownum AS rno
-					         ,reservSeq, userid, hpSeq, hourSeq, visitDate, status
+		            select rownum AS rno, hpName, hourSeq, status, hour, visitdate
 		            from
 		            (
-			            select reservSeq, userid, hpSeq, hourSeq, to_char(visitDate, 'yyyy-mm-dd hh24:mi:ss') as visitDate, status
-			            from reservation
-			            <if test='searchType == "2"'>
-			            order by visitDate desc
-			            </if>
-			            <if test='searchType == "3"'>
-			            order by visitDate asc
-			            </if>
-		        ) V
-	    	) T
+			            select hpName, status, T.hour, V.hourSeq, V.visitdate 
+			            from 
+						(
+							select I.hpName, R.status, R.hourSeq, R.visitdate
+							from hospitalInfo I join reservation R 
+							on I.hpSeq = R.hpSeq
+							where userid = #{userid}
+						) V join timetable T 
+						    on V.hourSeq = T.hourSeq
+		        	) V
+	    		) T
 	        where rno between #{startRno} and #{endRno}
+	        <if test='searchType == "2"'>
+            order by visitdate asc, hour asc
+            </if>
+            <if test='searchType == "3"'>
+            order by visitdate desc, hour desc
+            </if>
+	        
 	  </select>   
-	   
+	  
+	  <!-- == 즐겨찾기에서 목록 삭제하기 == -->
+	  <delete id="goDelBM" parameterType="String">
+		   delete from bookmark
+		   where bookSeq= #{bookSeq}
+	  </delete>
+	  
+	  <!-- == 방문예정시간 구하기 == -->
+	  <!-- 
+	  <select id="getHourSeq" parameterType="HashMap" resultType="String">
+	  		select T.hour as hour
+			from reservation R join timetable T
+			on R.hourSeq = T.hourSeq
+			and R.userid = #{userid} 
+	  </select>
+	   -->
 	
 </mapper>

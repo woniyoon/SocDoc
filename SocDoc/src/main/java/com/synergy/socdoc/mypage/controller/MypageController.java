@@ -381,14 +381,16 @@ public class MypageController {
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
 		String userid = loginuser.getUserid();
-		
-		System.out.println(userid);
-		
+	
 		mav.addObject("userid",userid);
+		
+		 
 		
 		MemberVO membervo = service.viewMyHealth(userid);
 		
 		// List<MemberVO> memberList = service.viewMyHealthTest();
+		
+		
 		
 		mav.addObject("membervo", membervo);
 		mav.setViewName("myPage/myHealth.tiles2");
@@ -397,12 +399,44 @@ public class MypageController {
 	}
 	
 	// === 내 건강 페이지 새로 추가하기(update) === // 
-	@RequestMapping(value="/addHealth.sd", method= {RequestMethod.POST})
+	@RequestMapping(value="/addHealth.sd")
 	public ModelAndView addHealth(HttpServletRequest request, MemberVO membervo, ModelAndView mav) {
 
-		int n = service.addHealth(membervo);
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		String userid = loginuser.getUserid();
+		
+		System.out.println(userid);
+		
+		mav.addObject("userid",userid);
+		
+		String height = request.getParameter("height");
+		String weight = request.getParameter("weight");
+		String bloodType = request.getParameter("bloodType");
+		String allergy = request.getParameter("allergy");
+		String history = request.getParameter("history");
+		String medicine = request.getParameter("medicine");
+		
+		HashMap<String,String> paraMap = new HashMap<>();
+		 paraMap.put("userid", userid);
+	     paraMap.put("height", height);
+	     paraMap.put("weight", weight);
+	     paraMap.put("bloodType", bloodType);
+	     paraMap.put("allergy", allergy);
+	     paraMap.put("history", history);
+	     paraMap.put("medicine", medicine);
+	     
+	     mav.addObject("paraMap", paraMap);
+		// membervo = service.viewMyHealth(userid);
+		
+		int n = service.updateHealth(paraMap);
+		
+		// int n = service.updateHealth(userid);
 		
 		mav.addObject("msg", "내 건강 저장 성공!!");
+		
+	    mav.addObject("membervo", membervo);
 		
 		mav.addObject("loc", request.getContextPath()+"/myHealth.sd?userid="+membervo.getUserid());
 		mav.setViewName("msg");
@@ -411,7 +445,7 @@ public class MypageController {
 	}
 	
 	// === 내 건강 페이지 초기화하기 (delete) === // 
-	@RequestMapping(value="/delHealth.sd", method= {RequestMethod.POST})
+	@RequestMapping(value="/delHealth.sd")
 	public ModelAndView delHealth(HttpServletRequest request, ModelAndView mav) throws Throwable {
 		
 		HttpSession session = request.getSession();
@@ -444,6 +478,12 @@ public class MypageController {
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
 		String userid = loginuser.getUserid();
+		String hpSeq = request.getParameter("hpSeq");
+		String bookSeq = request.getParameter("bookSeq");
+		 
+		mav.addObject("userid", userid);
+		mav.addObject("hpSeq", hpSeq);
+		mav.addObject("bookSeq", bookSeq);
 		
 		/*String searchType = request.getParameter("searchType");*/
         String searchWord = request.getParameter("searchWord");
@@ -466,6 +506,8 @@ public class MypageController {
         // 현재 보여주는 페이지 번호로서, 초기치로는 1페이지로 설정한다. 
         
         // 총 게시물 건수(totalCount)
+        paraMap.put("userid", userid);
+        
         totalCount = service.getTotalBookMarkCount(paraMap);
 //    	System.out.println("~~~~ 확인용 totalCount : " + totalCount);
         
@@ -497,6 +539,9 @@ public class MypageController {
    		paraMap.put("startRno", String.valueOf(startRno));
    		paraMap.put("endRno", String.valueOf(endRno));
    		paraMap.put("userid", userid);
+   		paraMap.put("hpSeq", hpSeq);
+   		paraMap.put("bookSeq", bookSeq);
+   		
         
    		List<HashMap<String,String>> bookMarkList = service.bookMarkListSearchWithPaging(paraMap);
    		// 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것)
@@ -555,7 +600,6 @@ public class MypageController {
 		// 			  현재 페이지 주소를 뷰단으로 넘겨준다.
 */
 //		System.out.println("~~~~~ 확인용 gobackURL : " + gobackURL);
-		
 		mav.addObject("gobackURL", gobackURL);
 		mav.addObject("totalCount", totalCount);
 
@@ -576,17 +620,47 @@ public class MypageController {
 		//////////////////////////////////////////////////////
 		
 		mav.addObject("bookMarkList",bookMarkList);
+		
 		mav.setViewName("myPage/bookMark2.tiles2");
 		
 		return mav;
 		
 	}
 	
+	
+	// === 즐겨찾기(목록) 삭제하기 페이지 === //
+	@RequestMapping(value="/goDelBM.sd" ,method = RequestMethod.POST)
+    @ResponseBody
+    public ModelAndView goDelBM(@RequestParam("items") String[] items, ModelAndView mav, HttpServletRequest request) throws Exception {
+		
+		// 삭제할 사용자 ID마다 반복해서 사용자 삭제 
+		for (String bookSeq : items) {
+			int n = service.goDelBM(bookSeq); 
+		} 
+		
+		// 목록 페이지로 이동
+		/*mav.addObject("msg", "글삭제 성공!!");*/
+		mav.addObject("loc",request.getContextPath()+"/bookMark.sd");
+		
+		mav.setViewName("msg");
+		
+		return mav;
+
+       }
+	
+	
 	// === 예약확인 페이지 === // 
 	@RequestMapping(value="/reservation.sd")
 	public ModelAndView reservation(HttpServletRequest request, ModelAndView mav) {
 		
-		List<ReservationVO> reservationList = null;
+		// List<ReservationVO> reservationList = null;
+		
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		String userid = loginuser.getUserid();
+		
+		mav.addObject("userid", userid);
 		
 		/*String searchType = request.getParameter("searchType");*/
         String searchType = request.getParameter("searchType");
@@ -604,6 +678,7 @@ public class MypageController {
         HashMap<String,String> paraMap = new HashMap<>();
         paraMap.put("searchType", searchType); // "컬럼"
        // paraMap.put("searchWord", searchWord); // 검색어를 담는다.
+        paraMap.put("userid", userid);
         
         // 먼저 총 게시물 건수(totalCount)를 구해와야한다. 
         // 총 게시물 건수(totalCount)는 검색조건이 있을때와 없는때로 나뉘어진다.
@@ -649,8 +724,28 @@ public class MypageController {
 
    		paraMap.put("startRno", String.valueOf(startRno));
    		paraMap.put("endRno", String.valueOf(endRno));
+   		
+   		String reservSeq = request.getParameter("reservSeq");
+   		paraMap.put("reservSeq", reservSeq);
+   		mav.addObject("reservSeq",reservSeq);
         
-   		reservationList = service.reservationListSearchWithPaging(paraMap);
+   		System.out.println(reservSeq);
+   		
+   		String hour = request.getParameter("hour");
+   		paraMap.put("hour", hour);
+   		mav.addObject("hour",hour);
+   		
+   		String visitdate = request.getParameter("visitdate");
+   		paraMap.put("visitdate", visitdate);
+   		mav.addObject("visitdate",visitdate);
+   		
+   		
+   		// String hourSeq = service.getHourSeq(paraMap);
+   		
+   		// paraMap.put("hourSeq", hourSeq);
+   		// addObject("hourSeq", hourSeq);
+   		
+   		List<HashMap<String,String>> reservationList = service.reservationListSearchWithPaging(paraMap);
    		// 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것)
 		
 		if(!"".equals(searchType)) {
@@ -704,11 +799,13 @@ public class MypageController {
 		mav.addObject("gobackURL", gobackURL);
 		mav.addObject("totalCount", totalCount);
 
-		HttpSession session = request.getSession();
+		session = request.getSession();
 		session.setAttribute("readCountPermission", "yes");
 	
 		
 		mav.addObject("reservationList",reservationList);
+		
+		System.out.println(hour);
 		mav.setViewName("myPage/reservation.tiles2");
 		
 		return mav;
