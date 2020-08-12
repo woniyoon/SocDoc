@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -569,7 +570,38 @@ public class AdminController {
 	      
 	      return mav;
 
-	 }
+	}
+	/* 공지사항 글 수정 */
+	@RequestMapping(value="/editNotice.sd")
+	public ModelAndView editNotice(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+		
+		String noticeSeq = request.getParameter("noticeSeq");
+		
+		NoticeVO noticevo = service.getView(noticeSeq);
+		
+		mav.addObject("noticevo", noticevo);
+		mav.setViewName("admin/adminNoticeEdit.tiles3");
+		
+		return mav;
+	}
+	/* 공지사항 글 수정 완료 */
+	@RequestMapping(value="/editNoticeEnd.sd", method = RequestMethod.POST)
+	public ModelAndView editNoticeEnd(HttpServletRequest request, NoticeVO noticevo, ModelAndView mav) {
+		
+		int n = service.editNotice(noticevo);
+		
+		if(n==0) {
+			mav.addObject("msg", "글 수정 실패");
+		}
+		else {
+			mav.addObject("msg", "글 수정 완료");
+		}
+		
+		mav.addObject("loc", request.getContextPath()+"/adminNoticeView.sd?noticeSeq="+noticevo.getNoticeSeq());
+		mav.setViewName("msg");
+		
+		return mav;
+	}
 	
 	
 	/* 건강정보관리 */

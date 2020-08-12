@@ -48,5 +48,6 @@ public interface InterAdminDAO {
 
 	int noticeInsert(HashMap<String, String> paraMap); // 공지사항 글쓰기
 	int delNotice(String noticeSeq); // 공지사항 글삭제
+	int updateNotice(NoticeVO noticevo); // 공지사항 글수정
 
 }

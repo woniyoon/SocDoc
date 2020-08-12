@@ -131,18 +131,16 @@
                     </tbody>
                 </table>
 
-                <p id="listBtn"><a href="adminNotice.sd" class="notice_view">목록</a></p>
+                <p id="listBtn"><a href="#" onclick="javascript:location.href='${gobackURL}'" class="notice_view">목록</a></p>
 
-                <p id="deleteBtn"><a href="noticeList.sb" class="notice_view">삭제</a></p>             
+                <p id="deleteBtn"><a href="#" class="notice_view">삭제</a></p>             
 
-                <p id="modifyBtn"><a href="noticeList.sb" class="notice_view">수정</a></p>
+                <p id="modifyBtn"><a href="#" onclick="javascript:location.href='editNotice.sd?noticeSeq=${noticevo.noticeSeq}'" class="notice_view">수정</a></p>
                 
                 <div>
                     <table>
                         <tr>
                             <th class="next_post th">윗글</th>
-                            <!-- <td class="noticeNO" ></td>
-                            <td class="noticeNO postrno" ></td> -->
                             <td class="next_post postNotice titlePointer">${noticevo.presubject}</td>
                         </tr>
                         <tr>

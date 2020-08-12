@@ -245,5 +245,10 @@
          delete from noticeBoard
          where noticeSeq = #{noticeSeq}
     </delete>
+    
+    <update id="updateNotice" parameterType="com.synergy.socdoc.member.NoticeVO">
+    	update noticeBoard set subject = #{subject}, content = #{content}, regDate = sysdate
+    	where noticeSeq = #{noticeSeq}
+    </update>
 	
 </mapper>

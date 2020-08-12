@@ -178,6 +178,12 @@ public class AdminService implements InterAdminService {
 		int n = dao.delNotice(noticeSeq);
 		return n;
 	}
+	// 공지사항 글수정
+	@Override
+	public int editNotice(NoticeVO noticevo) {
+		int n = dao.updateNotice(noticevo);
+		return n;
+	}
 	
 
 }
