@@ -15,14 +15,12 @@
 	<select id="getLoginMember" parameterType="HashMap" resultType="com.synergy.socdoc.member.MemberVO">
 		select userid, pwd
 		from member
-		where userid = #{userid} 
-			and pwd = #{pwd}
+		where userid=#{userid} and pwd=#{pwd}
 	</select>
 	<select id="getHpLoginMember" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpMemberVO">
 		select userid, pwd
 		from hpMember
-		where userid = #{userid} 
-			and pwd = #{pwd}
+		where userid=#{userid} and pwd=#{pwd}
 	</select>
 		
 	<!-- 회원가입 회원 아이디 중복검사 -->
@@ -53,20 +51,30 @@
 
 	<!-- 회원가입 -->
 	<insert id="register" parameterType="com.synergy.socdoc.member.MemberVO">
-		INSERT INTO member(userid, pwd, email, name, phone, memberSeq, birthDate, gender) 
-		VALUES (#{userid}, #{pwd},#{email},#{name},#{phone}, memberSeq.nextval, to_date(#{birthDate}, 'yyyy-mm-dd'), #{gender})
+		insert into member(userid, pwd, email, name, phone, memberSeq, birthDate, gender) 
+		values (#{userid}, #{pwd},#{email},#{name},#{phone}, memberSeq.nextval, to_date(#{birthDate}, 'yyyy-mm-dd'), #{gender})
 	</insert>
 	<insert id="hpRegister" parameterType="com.synergy.socdoc.member.HpMemberVO">
-		INSERT INTO hpMember(userid, pwd, email, name, regId, hpSeq) 
-		VALUES (#{userid}, #{pwd},#{email},#{name}, #{regId}, hpSeq.nextval)
+		insert into hpMember(userid, pwd, email, name, regId, hpSeq) 
+		values (#{userid}, #{pwd},#{email},#{name}, #{regId}, hpSeq.nextval)
 	</insert>
 	
-	
-	
-	
-	
-	
-	
+	<!-- 아이디 찾기 -->
+	<select id="idFind" parameterType="com.synergy.socdoc.member.MemberVO">
+		select userid 
+		from member
+		where name=#{name} and email=#{email}
+	</select>
+	<select id="idFindResult" parameterType="HashMap" resultType="com.synergy.socdoc.member.MemberVO">
+		select userid, email, to_char(registerDate, 'yyyy-mm-dd') as registerDate
+		from member
+		where name=#{name} and email=#{email} 
+	</select>	
+	<select id="hpIdFindResult" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpMemberVO">
+		select userid, email, to_char(registerDate, 'yyyy-mm-dd') as registerDate
+		from hpMember
+		where regId=#{regId} and email=#{email}
+	</select>	
  
 
 	

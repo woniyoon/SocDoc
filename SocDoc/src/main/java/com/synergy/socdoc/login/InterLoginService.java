@@ -1,6 +1,7 @@
 package com.synergy.socdoc.login;
 
 import java.util.HashMap;
+import java.util.List;
 
 import com.synergy.socdoc.member.HpMemberVO;
 import com.synergy.socdoc.member.MemberVO;
@@ -18,9 +19,14 @@ public interface InterLoginService {
 	public boolean emailChk(String email);
 	public boolean hpEmailChk(String email);
 
-	// 회원 회원가입
+	// 회원 회원가입 //
 	public int register(MemberVO vo);
 	public int hpRegister(HpMemberVO vo);
+	
+	// 아이디 찾기 //
+	public List<MemberVO> idFind(MemberVO vo);
+	public MemberVO idFindResult(HashMap<String, String> paraMap);
+	public HpMemberVO hpIdFindResult(HashMap<String, String> paraMap);
 	
 	
 

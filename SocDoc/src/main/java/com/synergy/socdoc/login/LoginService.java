@@ -1,9 +1,11 @@
 package com.synergy.socdoc.login;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.synergy.socdoc.member.HpMemberVO;
 import com.synergy.socdoc.member.MemberVO;
@@ -109,6 +111,20 @@ public class LoginService implements InterLoginService {
 		int n = dao.hpRegister(vo);
 		return n;
 	}
-
 	
+	// 아이디 찾기 //
+	@Override
+	public List<MemberVO> idFind(MemberVO vo) {
+		return dao.idFind(vo);
+	}
+	@Override
+	public MemberVO idFindResult(HashMap<String, String> paraMap) {
+		MemberVO idFind = dao.idFindResult(paraMap); // DB에 넘기자.
+		return idFind;
+	}
+	@Override
+	public HpMemberVO hpIdFindResult(HashMap<String, String> paraMap) {
+		HpMemberVO hpIdFind = dao.hpIdFindResult(paraMap); // DB에 넘기자.
+		return hpIdFind;
+	}
 }

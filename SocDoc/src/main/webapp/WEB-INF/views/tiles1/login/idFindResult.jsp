@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%
+	String ctxPath = request.getContextPath();
+%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +23,7 @@
 	}
 
 	.container { 
-		width: 35%;
+		width: 30%;
 		height: 150%;
 		margin: 100px auto 200px auto;
 		padding: 0;
@@ -36,8 +39,12 @@
 	.description {
 		margin-top: 10px;
 		font-size: 9pt;
+	} 
+	
+    .textPrimary {
+		margin-bottom: 5px;
 	}
-   
+	
 	#bottomBtn > ul li {
 		display: inline-block;
 		padding-right: 10px;
@@ -136,16 +143,23 @@
 		      		
 		      		<tbody>
 			      		<tr>
-			      			<td>일반회원</td>
-			      			<td>leess</td>
-			      			<td>2020-02-02</td>
+				      		<c:if test="${check == 1}">
+				      			<td>일반회원</td>
+				      			<td>${userid}</td>
+				      			<td>${registerDate}</td>
+			      			</c:if>
+							<c:if test="${check == 2}">
+				      			<td>병원회원</td>
+				      			<td>${userid}</td>
+				      			<td>${registerDate}</td>
+			      			</c:if>
 			      		</tr>
 					</tbody>
 				</table>
 			      
 				<div class="btnJoin">
-					<input type="button" id="btnLogin" value="로그인" onClick="goRegister();" />
-					<input type="button" id="btnFind" value="비밀번호 찾기" onClick="goRegister();" />
+					<input type="button" id="btnLogin" value="로그인" onClick="location.href='<%=ctxPath%>/login.sd'"  />
+					<input type="button" id="btnFind" value="비밀번호 찾기" onClick="location.href='<%=ctxPath%>/pwdFindResult.sd'" />
 				</div> 
 			</div>	    
 		</form>

@@ -1,6 +1,7 @@
 package com.synergy.socdoc.login;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +67,23 @@ public class LoginDAO implements InterLoginDAO {
 		int n = sqlsession.insert("newMem.hpRegister", vo);
 		return n;
 	}
-
+	
+	// 아이디 찾기 // 
+	@Override
+	public List<MemberVO> idFind(MemberVO vo) {
+		return sqlsession.selectList("newMem.idFind", vo);
+	}
+	
+	@Override
+	public MemberVO idFindResult(HashMap<String, String> paraMap) {
+		MemberVO userid = sqlsession.selectOne("newMem.idFindResult", paraMap);
+		return userid;
+	}
+	@Override
+	public HpMemberVO hpIdFindResult(HashMap<String, String> paraMap) {
+		HpMemberVO userid = sqlsession.selectOne("newMem.hpIdFindResult", paraMap);
+		return userid;
+	}
 	
 
 
