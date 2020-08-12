@@ -55,6 +55,11 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		
+	      if("${searchType != null}" && "${searchWord != null}") {
+	    	  console.log("??");
+	    	  $("#searchType").val("${searchType}");
+	    	  $("#searchWord").val("${searchWord}");
+	      }
 		
 	});
 	
@@ -75,11 +80,11 @@
 	</section>
 	<div class="searchContainer" align="right">
 		<form name="reviewSearchFrm">
-			<select class="searchTypeSelect" name="searchType">
+			<select class="searchTypeSelect" id="searchType" name="searchType">
 				<option value="content" selected>후기</option>
 				<option value="userid">회원아이디</option>
 			</select>
-			<input class="reviewerSearch" type="text" name="searchWord"  placeholder="검색"/>
+			<input class="reviewerSearch" type="text" id="searchWord" name="searchWord"  placeholder="회원 검색" value="${searchWord}"/>
 		</form>
 		<button class="blueBtn" id="searchBtn" onclick="search()">검색</button>
 	</div>

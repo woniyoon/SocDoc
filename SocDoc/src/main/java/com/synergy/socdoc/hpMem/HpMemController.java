@@ -413,6 +413,8 @@ public class HpMemController {
 		request.setAttribute("numOfReviews", numOfReviews);
 		request.setAttribute("totalNum", totalNum);
 		request.setAttribute("avgRating", avgRating);
+		request.setAttribute("searchType", searchType);
+		request.setAttribute("searchWord", searchWord);
 		
 		
 		return "hpMem/hpReviews.tiles4";
