@@ -40,7 +40,11 @@ public interface InterHpMemService {
 	// 병원 오픈시간 신청 삽입하기
 	public int submitSchedule(List<HashMap<String, String>> scheduleList);
 
+	// 전체 후기 목록 가져오기
+	public int getNumOfReviews(String hpSeq);
 
+	// 특정 테이블 행의 총 개수 가져오기 
+	public int getNumOfItems(HashMap<String, String> paraMap);
 
 	
 }

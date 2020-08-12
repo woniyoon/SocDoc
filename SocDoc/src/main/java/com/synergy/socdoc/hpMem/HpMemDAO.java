@@ -99,4 +99,10 @@ public class HpMemDAO implements InterHpMemDAO {
 		return result;
 	}
 
+	@Override
+	public int getNumOfItems(HashMap<String, String> paraMap) {
+		int num = sqlsession.selectOne("hpMem.getNumOfItems", paraMap);
+		return num;
+	}
+
 }

@@ -64,7 +64,7 @@ public class HpMemController {
 		int numOfUpdates = service.getNumOfUpdates(hpSeq);
 
 		String currentShowPageNoStr = request.getParameter("currentShowPageNoStr");
-		int sizePerPage = 10;
+		int sizePerPage = 5;
 		int totalPage = (int) Math.ceil((double) numOfUpdates / sizePerPage);
 		int currentShowPageNo = 0;
 		
@@ -324,7 +324,49 @@ public class HpMemController {
 	@RequestMapping(value = "/hpPanel/hpReviews.sd", method = RequestMethod.GET)
 	public String hpReviews(HttpServletRequest request) {
 		
+		// TODO: 나중에는 이 부분을 이용해서 병원정보 가져오기
+//		String hpSeq = request.getSession().getAttribute("hpSeq");
+		String hpSeq = "2";
+
+		String table = "hospitalReview";
+		String currentShowPageNoStr = request.getParameter("currentShowPageNoStr");
+		String searchWord = request.getParameter("searchWord");
+		int currentShowPageNo = 0;
+		int totalPage = 0;
+		int sizePerPage = 10;
 		
+		
+
+		HashMap<String, String> paraMap = new HashMap<>();
+		paraMap.put("hpSeq", hpSeq);
+		paraMap.put("table", table);
+		
+		// 후기 리스트 총 개수 가져오기
+		int numOfReviews = service.getNumOfItems(paraMap);
+
+//		String currentShowPageNoStr = request.getParameter("currentShowPageNoStr");
+//		int sizePerPage = 5;
+//		int totalPage = (int) Math.ceil((double) numOfUpdates / sizePerPage);
+//		int currentShowPageNo = 0;
+
+		
+		System.out.println("numOfReviews  : " + numOfReviews);
+//		
+//		if(currentShowPageNoStr == null) {
+//			currentShowPageNo = 1;
+//		} else {
+//			
+//		}
+		
+		// 문자열로 된 페이지 넘버 숫자 파싱
+//		try {
+//			currentShowPageNo = Integer.parseInt(currentShowPageNoStr);
+//			if (currentShowPageNo < 1 || currentShowPageNo > totalPage) {
+//				currentShowPageNo = 1;
+//			}
+//		} catch (NumberFormatException e) {
+//			currentShowPageNo = 1;
+//		}
 		
 		return "hpMem/hpReviews.tiles4";
 	}

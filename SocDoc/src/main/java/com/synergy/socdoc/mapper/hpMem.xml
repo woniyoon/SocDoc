@@ -168,4 +168,15 @@
 		insert into scheduleEdit (submitId, hpSeq, day, open, close)
 		values (#{submitId}, #{hpSeq}, #{day}, #{open}-8, #{close}-8)
 	</insert>
+	
+	
+	<!-- 테이블의 행의 총 개수 가져오기 -->
+	<select id="getNumOfItems" parameterType="HashMap" resultType="int">
+		select count(*) from ${table}
+		<if test="@com.synergy.socdoc.common.MyUtil@notEmpty(hpSeq)">
+			where hpSeq = #{hpSeq}
+		</if>
+	</select>
+	
+	
 </mapper>

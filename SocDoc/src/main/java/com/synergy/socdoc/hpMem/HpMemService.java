@@ -89,6 +89,22 @@ public class HpMemService implements InterHpMemService {
 		int result = dao.submitSchedule(scheduleList);
 		return result;
 	}
+
+	// 후기 전체 목록 가져오기
+	@Override
+	public int getNumOfReviews(String hpSeq) {
+		int numOfReviews = 0;
+		return numOfReviews;
+	}
+
+	// 특정 테이블 행의 총 개수 가져오기 
+	@Override
+	public int getNumOfItems(HashMap<String, String> paraMap) {
+		int num = dao.getNumOfItems(paraMap);
+		return num;
+	}
+	
+	
 	
 
 }

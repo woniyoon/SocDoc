@@ -27,5 +27,8 @@ public interface InterHpMemDAO {
 	public int submitSchedule(List<HashMap<String, String>> scheduleList);
 
 	public int getNumOfUpdates(String hpSeq);
+	
+	// 특정 테이블 행의 총 개수 가져오기 
+	public int getNumOfItems(HashMap<String, String> paraMap);
 
 }
