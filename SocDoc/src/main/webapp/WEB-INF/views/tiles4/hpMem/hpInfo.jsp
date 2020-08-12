@@ -33,6 +33,7 @@
 
 <div class="applicationInfoContainer">
 	<h3 align="left">정보관리</h3>
+	<div style="margin: 10px;" align="left">총 <span>${numOfUpdates }</span>건</div>
 	<table class="customTable" style="width: 100%;">
 		<tr>
 			<th></th>
@@ -80,6 +81,6 @@
 		<button type="button" class="blueBtn" onclick="javascript:location.href='<%=ctxPath%>/hpPanel/updateHpInfo.sd'">신청하기</button>
 	</div>
 	<div class="pageContainer" align="center">
-		<span>< 1 2 3 4 5 6 7 8 9 10 ></span>
+		${pageBar }
 	</div>
 </div>

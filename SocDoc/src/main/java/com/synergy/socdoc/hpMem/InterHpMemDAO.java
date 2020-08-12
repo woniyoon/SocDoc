@@ -8,7 +8,7 @@ public interface InterHpMemDAO {
 
 	public HpInfoVO getHpInfo(String hpSeq);
 
-	public List<HpInfoVO> getInfoUpdateList(String hpSeq);
+	public List<HpInfoVO> getInfoUpdateList(HashMap paraMap);
 
 	public HpInfoVO getHpInfoDetail(String submitId);
 
@@ -25,5 +25,7 @@ public interface InterHpMemDAO {
 	public int submitInfo(HpInfoVO hpInfoVO);
 
 	public int submitSchedule(List<HashMap<String, String>> scheduleList);
+
+	public int getNumOfUpdates(String hpSeq);
 
 }

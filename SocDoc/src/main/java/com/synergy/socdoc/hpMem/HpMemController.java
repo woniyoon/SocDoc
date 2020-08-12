@@ -63,13 +63,56 @@ public class HpMemController {
 	@RequestMapping(value = "/hpPanel/hpInfo.sd", method = RequestMethod.GET)
 	public String test_hpInfo(HttpServletRequest request) {
 		
+		// TODO: 나중에는 이 부분을 이용해서 병원정보 가져오기
 //		String hpSeq = (String) request.getSession().getAttribute("hpSeq");
 //		HpInfoVO hpInfo = service.getHpInfo(hpSeq);
 		String hpSeq = "17";
 		
-		List<HpInfoVO> infoUpdateList = service.getInfoUpdateList(hpSeq);
+		HashMap<String, String> paraMap = new HashMap<>();
+		paraMap.put("hpSeq", hpSeq);
+		
+		// 업데이트 리스트 총 개수 가져오기
+		int numOfUpdates = service.getNumOfUpdates(hpSeq);
+
+		String currentShowPageNoStr = request.getParameter("currentShowPageNoStr");
+		int sizePerPage = 10;
+		int totalPage = (int) Math.ceil((double) numOfUpdates / sizePerPage);
+		int currentShowPageNo = 0;
+		
+		// 현재 페이지 번호 설정
+		if(currentShowPageNoStr == null) {
+			currentShowPageNo = 1;
+		}
+		
+		// 문자열로 된 페이지 넘버 숫자 파싱
+		try {
+			currentShowPageNo = Integer.parseInt(currentShowPageNoStr);
+			if (currentShowPageNo < 1 || currentShowPageNo > totalPage) {
+				currentShowPageNo = 1;
+			}
+		} catch (NumberFormatException e) {
+			currentShowPageNo = 1;
+		}
+		
+		int startRNO = ((currentShowPageNo - 1) * sizePerPage) + 1;
+		int endRNO = startRNO + sizePerPage - 1;
+		
+		paraMap.put("startRNO", String.valueOf(startRNO));
+		paraMap.put("endRNO", String.valueOf(endRNO));
+
+		
+		// 정보 업데이트 목록 가져오기
+		List<HpInfoVO> infoUpdateList = service.getInfoUpdateList(paraMap);
+		
+		String baseUrl = MyUtil.getBaseURL(request);
+
+		String pageBar = MyUtil.createPageBar(currentShowPageNo, totalPage, baseUrl);
+
 		
 		request.setAttribute("infoUpdateList", infoUpdateList);
+		request.setAttribute("pageBar", pageBar);
+		request.setAttribute("numOfUpdates", numOfUpdates);
+		
 		return "hpMem/hpInfo.tiles4";
 	}
 	
@@ -316,7 +359,9 @@ public class HpMemController {
 		// 방문자 목록 가져오기
 		List<HashMap<String, String>> visitorsList = service.getVisitors(paraMap);
 		
-		String pageBar = MyUtil.createPageBar(currentShowPageNo, totalPage);
+		String baseUrl = MyUtil.getBaseURL(request);
+		
+		String pageBar = MyUtil.createPageBar(currentShowPageNo, totalPage, baseUrl);
 		
 		request.setAttribute("numOfVisitors", numOfVisitors);
 		request.setAttribute("pageBar", pageBar);

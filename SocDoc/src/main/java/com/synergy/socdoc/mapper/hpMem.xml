@@ -10,8 +10,23 @@
 		select hpname, dept, address, phone, info, latitude, longitude from hospitalInfo where hpSeq = #{hpSeq}
 	</select>
 
-	<select id="getInfoUpdateList" parameterType="String" resultType="com.synergy.socdoc.member.HpInfoVO">
-		select submitId, hpName, status, to_char(uploadDate, 'yyyy-mm-dd') as uploadDate from hpApplication where hpseq = #{hpSeq}
+	<!-- 업데이트 목록 가져오기 -->
+	<select id="getInfoUpdateList" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpInfoVO">
+		select RNO, T.submitId, T.hpName, T.status, T.uploadDate from
+		(select rownum AS RNO, V.submitId, V.hpName, V.status, V.uploadDate
+		  from 
+		    (
+		        select submitId, hpName, status, to_char(uploadDate, 'yyyy-mm-dd') as uploadDate 
+                from hpApplication where hpseq = #{hpSeq}
+                order by uploadDate
+		    ) V
+		 ) T
+		where RNO between #{startRNO} and #{endRNO} 
+	</select>
+	
+	<!-- 업데이트 목록 총 개수 가져오기 -->
+	<select id="getNumOfUpdates" parameterType="String" resultType="int">
+		select count(*) from hpApplication where hpseq = #{hpSeq}
 	</select>
 
 	<!-- 병원 상세 정보 가져오기 -->

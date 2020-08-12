@@ -22,8 +22,8 @@ public class HpMemService implements InterHpMemService {
 
 	// 신청테이블에서 정보 가져오기
 	@Override
-	public List<HpInfoVO> getInfoUpdateList(String hpSeq) {
-		List<HpInfoVO> hpInfoList = dao.getInfoUpdateList(hpSeq);
+	public List<HpInfoVO> getInfoUpdateList(HashMap paraMap) {
+		List<HpInfoVO> hpInfoList = dao.getInfoUpdateList(paraMap);
 		return hpInfoList;
 	}
 
@@ -75,6 +75,13 @@ public class HpMemService implements InterHpMemService {
 	public int submitSchedule(List<HashMap<String, String>> scheduleList) {
 		int result = dao.submitSchedule(scheduleList);
 		return result;
+	}
+
+	// 병원 정보 리스트 개수 가져오기 
+	@Override
+	public int getNumOfUpdates(String hpSeq) {
+		int numOfUpdates = dao.getNumOfUpdates(hpSeq);
+		return numOfUpdates;
 	}
 
 	

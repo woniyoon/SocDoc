@@ -20,13 +20,22 @@ public class HpMemDAO implements InterHpMemDAO {
 		return hpInfo;
 	}
 
+	// 업데이트 목록 가져오기 
 	@Override
-	public List<HpInfoVO> getInfoUpdateList(String hpSeq) {
-		List<HpInfoVO> hpInfoList = sqlsession.selectList("hpMem.getInfoUpdateList", hpSeq);
+	public List<HpInfoVO> getInfoUpdateList(HashMap paraMap) {
+		List<HpInfoVO> hpInfoList = sqlsession.selectList("hpMem.getInfoUpdateList", paraMap);
 		System.out.println("데이터 가져옴! ");
 		System.out.println("hpInfoList 크기 : " + hpInfoList.size());
 		return hpInfoList;
 	}
+	
+	// 업데이트 목록 총 개수 가져오기
+	@Override
+	public int getNumOfUpdates(String hpSeq) {
+		int numOfUpdates = sqlsession.selectOne("hpMem.getNumOfUpdates", hpSeq);
+		return numOfUpdates;
+	}
+
 
 	// 병원 상세 정보 디테일 가져오기
 	@Override
@@ -89,6 +98,5 @@ public class HpMemDAO implements InterHpMemDAO {
 		
 		return result;
 	}
-
 
 }
