@@ -1,5 +1,8 @@
 package com.synergy.socdoc.common;
 
+import java.lang.reflect.Array;
+import java.util.*;
+
 import javax.servlet.http.*;
 
 public class MyUtil {
@@ -79,4 +82,24 @@ public class MyUtil {
 			
 		 return pageBar;
 	 }
+	  
+	  // MyBatis에서 파라미터로 들어온 값이 비어있는지 확인
+		public static Boolean empty(Object obj) {
+			if (obj instanceof String) {
+				return obj == null || "".equals(obj.toString().trim());
+			} else if (obj instanceof List) {
+				return obj == null || ((List<?>) obj).isEmpty();				
+			} else if (obj instanceof Map) {
+				return obj == null || ((Map<?, ?>) obj).isEmpty();				
+			} else if (obj instanceof Object[]) {
+				return obj == null || Array.getLength(obj) == 0;				
+			} else {
+				return obj == null;
+			}
+		}
+
+		public static Boolean notEmpty(Object obj) {
+			return !empty(obj);
+		}
+
 }
