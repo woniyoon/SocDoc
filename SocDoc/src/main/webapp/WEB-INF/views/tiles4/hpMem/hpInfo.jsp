@@ -25,6 +25,10 @@
 	    justify-content: space-between;
 	    margin: 10px;
 	}
+	
+	.applyBtnContainer {
+		margin: 10px;
+	}
 </style>
 
 <div class="applicationInfoContainer">
@@ -72,6 +76,9 @@
 			</tr>
 		</c:if>
 	</table>
+	<div class="applyBtnContainer" align="right">
+		<button type="button" class="blueBtn" onclick="javascript:location.href='<%=ctxPath%>/hpPanel/updateHpInfo.sd'">신청하기</button>
+	</div>
 	<div class="pageContainer" align="center">
 		<span>< 1 2 3 4 5 6 7 8 9 10 ></span>
 	</div>
