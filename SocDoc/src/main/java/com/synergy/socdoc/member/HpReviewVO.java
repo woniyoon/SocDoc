@@ -8,10 +8,12 @@ public class HpReviewVO {
 	private String content;
 	private String regDate;
 	private int rating;
+	// 병원의 평균 평점
+	private int avgRating;
 	
 	public HpReviewVO() {}
 
-	public HpReviewVO(int hpReviewSeq, String userid, int hpSeq, String content, String regDate, int rating) {
+	public HpReviewVO(int hpReviewSeq, String userid, int hpSeq, String content, String regDate, int rating, int avgRating) {
 		super();
 		this.hpReviewSeq = hpReviewSeq;
 		this.userid = userid;
@@ -19,6 +21,7 @@ public class HpReviewVO {
 		this.content = content;
 		this.regDate = regDate;
 		this.rating = rating;
+		this.avgRating = avgRating;
 	}
 
 	public int getHpReviewSeq() {
@@ -68,5 +71,13 @@ public class HpReviewVO {
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
-	
+
+	public int getAvgRating() {
+		return avgRating;
+	}
+
+	public void setAvgRating(int avgRating) {
+		this.avgRating = avgRating;
+	}
+
 }
