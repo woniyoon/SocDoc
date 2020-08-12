@@ -21,7 +21,15 @@
 		margin: 10px 0;
 	}
 	
-	.visitorSearch {
+	.searchTypeSelect {
+		height: 40px;
+	    background-position: right;
+	    border-radius: 5px;
+	    padding: 10px 0;
+	    right: 0;
+	}
+	
+	.reviewerSearch {
 	    height: 40px;
 	    background-image: url("https://img.icons8.com/material-outlined/24/000000/search.png");
 	    background-repeat: no-repeat;
@@ -47,6 +55,10 @@
 		<div> 총 13445 후기 | 평균점수 85.5점 </div>
 	</section>
 	<div class="searchContainer" align="right">
+		<select class="searchTypeSelect" name="searchType">
+			<option value="content" selected>후기</option>
+			<option value="userid">회원아이디</option>
+		</select>
 		<input class="reviewerSearch" type="text" placeholder="회원 검색"/>
 	</div>
 	<table class="customTable" style="width: 100%;">
