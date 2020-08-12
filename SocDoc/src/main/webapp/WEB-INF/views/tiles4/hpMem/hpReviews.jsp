@@ -79,7 +79,7 @@
 				<option value="content" selected>후기</option>
 				<option value="userid">회원아이디</option>
 			</select>
-			<input class="reviewerSearch" type="text" name="searchWord"  placeholder="회원 검색"/>
+			<input class="reviewerSearch" type="text" name="searchWord"  placeholder="검색"/>
 		</form>
 		<button class="blueBtn" id="searchBtn" onclick="search()">검색</button>
 	</div>
