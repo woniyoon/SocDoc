@@ -177,22 +177,23 @@
 			where hpSeq = #{hpSeq}
 		</if>
 		<if test="@com.synergy.socdoc.common.MyUtil@notEmpty(searchWord)">
-			and searchWord LIKE '%'|| #{searchWord} ||'%'
+			and ${searchType} LIKE '%'|| #{searchWord} ||'%'
 		</if>
 	</select>
 	
 	<!-- 병원 리뷰 목록 가져오기 -->
 	<select id="getHpReviews" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpReviewVO">
-		select RNO, hpReviewSeq, userid, hpSeq, content, regDate, rating from
-		(select rownum AS RNO, V.hpReviewSeq, V.userid, V.hpSeq, V.content, V.regDate, V.rating
-		  from 
-		    (
-		       select hpReviewSeq, userid, hpSeq, content, to_char(regDate, 'yyyy-mm-dd') as regDate, rating
-                from hospitalReview
-                where hpSeq = #{hpSeq}
-		    ) V
+		
+		select RNO, userid, hpSeq, content, regDate, rating, avgRating from
+			(select rownum AS RNO, L.userid, L.hpSeq, L.content, L.regDate, L.rating, L.avgRating
+				  from 
+				    (
+		                select r.hpseq, to_char(r.regDate, 'yyyy-mm-dd') as regDate, r.userid, r.content, rating, floor(v.avg) as avgRating
+							from (select hpseq, avg(rating) as avg from hospitalreview group by hpseq having hpseq= #{hpSeq}) v join hospitalreview r
+							on v.hpseq = r.hpseq
+				    ) L
 		    <if test="!searchWord.equals('')">
-		        where name LIKE '%'|| #{searchWord} ||'%'
+		        where ${searchType} LIKE '%'|| #{searchWord} ||'%'
 		    </if>
 		) T
 		where RNO between #{startRNO} and #{endRNO} 

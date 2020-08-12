@@ -334,10 +334,16 @@ public class HpMemController {
 		String hpSeq = "2";
 
 		String table = "hospitalReview";
+		String searchType = request.getParameter("searchType");
 		String searchWord = request.getParameter("searchWord");
 		
 		if(searchWord == null) {
 			searchWord = "";
+		}
+		
+		// 검색 범주를 userid로 세팅
+		if(searchType == null) {
+			searchType = "userid";
 		}
 
 		HashMap<String, String> paraMap = new HashMap<>();
@@ -345,6 +351,7 @@ public class HpMemController {
 		
 		paraMap.put("hpSeq", hpSeq);
 		paraMap.put("table", table);
+		paraMap.put("searchType", searchType);
 
 		// 총 개수 알아오기 (검색 X)
 		paraMap.put("searchWord", "");
@@ -388,8 +395,16 @@ public class HpMemController {
 
 		List<HpReviewVO> reviewList = service.getHpReviews(paraMap);
 		
-		String baseUrl = MyUtil.getBaseURL(request);
+		int avgRating = 0;
+		
+//		// 리뷰가 있다면 평점만 따로 추출
+		if(reviewList.size() > 0) {
+			avgRating = reviewList.get(0).getAvgRating();
+		}
 
+		
+		// 페이지바 생성
+		String baseUrl = MyUtil.getBaseURL(request);
 		String pageBar = MyUtil.createPageBar(currentShowPageNo, totalPage, baseUrl);
 
 		
@@ -397,6 +412,7 @@ public class HpMemController {
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("numOfReviews", numOfReviews);
 		request.setAttribute("totalNum", totalNum);
+		request.setAttribute("avgRating", avgRating);
 		
 		
 		return "hpMem/hpReviews.tiles4";

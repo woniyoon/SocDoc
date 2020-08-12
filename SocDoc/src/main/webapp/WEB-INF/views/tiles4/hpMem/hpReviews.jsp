@@ -59,8 +59,10 @@
 	});
 	
 	function search(){
-		var document = 
-		console.log();
+		var form = document.reviewSearchFrm; 
+		form.method = "GET";
+		form.action = "<%=ctxPath%>/hpPanel/hpReviews.sd";
+		form.submit();
 	}
 	
 </script>
@@ -69,10 +71,10 @@
 	<h3 align="left">후기</h3>
 	<section>
 		<div> ⭐️⭐️⭐️⭐️⭐️ </div>
-		<div> 총 <span>${numOfReviews} / ${totalNum }</span> 후기 | 평균점수 85.5점 </div>
+		<div> 총 <span>${numOfReviews} / ${totalNum }</span> 후기 | 평균 ${avgRating} </div>
 	</section>
 	<div class="searchContainer" align="right">
-		<form name=>
+		<form name="reviewSearchFrm">
 			<select class="searchTypeSelect" name="searchType">
 				<option value="content" selected>후기</option>
 				<option value="userid">회원아이디</option>
@@ -100,7 +102,7 @@
 		</c:if>
 		<c:if test="${empty reviewList}">
 			<tr align="center">
-				<td colspan="4">아직 리뷰가 없습니다 ^^;;</td>
+				<td colspan="4">검색 결과가 없습니다.</td>
 			</tr>
 		</c:if>
 	</table>
