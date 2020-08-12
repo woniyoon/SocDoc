@@ -39,5 +39,17 @@ public class SearchMenuService implements InterSearchMenuService {
 		return totalCount;
 	}
 
+	@Override
+	public List<HpInfoVO> mapHospitalListSearchWithPaging(HashMap<String, String> paraMap) {
+		List<HpInfoVO> mapHpList = dao.mapHospitalListSearchWithPaging(paraMap);
+		return mapHpList;
+	}
+
+	@Override
+	public int getTotalCountMapHp(HashMap<String, String> paraMap) {
+		int totalCount = dao.getTotalCountMapHp(paraMap);
+		return totalCount;
+	}
+
 	
 }

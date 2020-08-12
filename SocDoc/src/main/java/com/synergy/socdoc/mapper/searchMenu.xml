@@ -23,21 +23,26 @@
 		        select hpseq, hpname, address, phone, dept 
 		        from hospitalinfo
 		        where 1 = 1
-		        <if test='city != ""'>
+		       <!--  <if test='city != null'>
 		     		and address like '%'|| #{city} ||'%'
 				</if>
-				<if test='county != ""'>
+				<if test='county != null'>
 		     		and address like '%'|| #{county} ||'%'
 				</if>
-				<if test='district != ""'>
+				<if test='district != null'>
 		     		and address like '%'|| #{district} ||'%'
 				</if>
-				<if test='dept != ""'>
+				<if test='dept != null'>
 		     		and dept like '%'|| #{dept} ||'%'
 				</if>
-				<if test='hpname != ""'>
-		     		and hpname like '%'|| #{hpname} ||'%'
-				</if>
+				<if test='searchWord != ""'>
+		     		and hpname like '%'|| #{searchWord} ||'%'
+				</if> -->
+		     		and address like '%'|| #{city} ||'%'
+		     		and address like '%'|| #{county} ||'%'
+		     		and address like '%'|| #{district} ||'%'				
+		     		and dept like '%'|| #{dept} ||'%'				
+		     		and hpname like '%'|| #{searchWord} ||'%'				
 		    ) V
 		) T
 		where rno between #{startRno} and #{endRno}
@@ -53,6 +58,41 @@
 		</if>		
 	</select>  
 	
+	
+	
+	<select id="mapHospitalListSearchWithPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpInfoVO">		
+		
+		select hpseq, hpname, address, phone, dept, latitude, longitude
+		from 
+		(
+		    select rownum AS rno
+		         , hpseq, hpname, address, phone, dept,latitude, longitude
+		    from
+		    (
+		        select hpseq, hpname, address, phone, dept, latitude, longitude
+		        from hospitalinfo
+		        where 1 = 1
+		     		and address like '%'|| #{city} ||'%'
+		     		and address like '%'|| #{county} ||'%'
+		     		and address like '%'|| #{district} ||'%'				
+		     		and dept like '%'|| #{dept} ||'%'				
+		     		and hpname like '%'|| #{searchWord} ||'%'				
+		    ) V
+		) T
+		where rno between #{startRno} and #{endRno}
+				
+	</select>   
+	
+	<select id="getTotalCountMapHp" parameterType="HashMap" resultType="int">
+		select count(*)
+		from hospitalinfo	
+		where 1=1
+		    and address like '%'|| #{city} ||'%'
+     		and address like '%'|| #{county} ||'%'
+     		and address like '%'|| #{district} ||'%'				
+     		and dept like '%'|| #{dept} ||'%'				
+     		and hpname like '%'|| #{searchWord} ||'%'			
+	</select>  
 	
 
 </mapper>

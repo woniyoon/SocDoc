@@ -16,5 +16,9 @@ public interface InterSearchMenuDAO {
 
 	int getTotalCount(HashMap<String, String> paraMap);
 
+	List<HpInfoVO> mapHospitalListSearchWithPaging(HashMap<String, String> paraMap);
+
+	int getTotalCountMapHp(HashMap<String, String> paraMap);
+
 
 }

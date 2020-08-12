@@ -17,5 +17,9 @@ public interface InterSearchMenuService {
 
 	int getTotalCountHp(HashMap<String, String> paraMap);
 
+	List<HpInfoVO> mapHospitalListSearchWithPaging(HashMap<String, String> paraMap);
+
+	int getTotalCountMapHp(HashMap<String, String> paraMap);
+
 
 }

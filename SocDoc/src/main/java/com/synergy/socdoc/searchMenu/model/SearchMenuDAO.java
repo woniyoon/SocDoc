@@ -50,9 +50,9 @@ public class SearchMenuDAO implements InterSearchMenuDAO {
 			urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /* 한 페이지 결과 수 */
 	//		urlBuilder.append("&" + URLEncoder.encode("Q0", "UTF-8") + "=" + URLEncoder.encode(city, "UTF-8"));  //검색할 주소 범위의 시작 
 			
-			if(!"".equals(city)) {
+		/*	if(!"".equals(city)) {
 				urlBuilder.append("&" + URLEncoder.encode("Q0", "UTF-8") + "=" + URLEncoder.encode(city, "UTF-8"));
-			}
+			}*/
 			
 			URL url = new URL(urlBuilder.toString());
 			
@@ -113,6 +113,20 @@ public class SearchMenuDAO implements InterSearchMenuDAO {
 	@Override
 	public int getTotalCount(HashMap<String, String> paraMap) {
 		int totalCount = sqlsession.selectOne("searchMenu.getTotalCount",paraMap);
+		return totalCount;
+	}
+
+
+	@Override
+	public List<HpInfoVO> mapHospitalListSearchWithPaging(HashMap<String, String> paraMap) {
+		List<HpInfoVO> mapHpList = sqlsession.selectList("searchMenu.mapHospitalListSearchWithPaging",paraMap);
+		return mapHpList;
+	}
+
+
+	@Override
+	public int getTotalCountMapHp(HashMap<String, String> paraMap) {
+		int totalCount = sqlsession.selectOne("searchMenu.getTotalCountMapHp",paraMap);
 		return totalCount;
 	}
 
