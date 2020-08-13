@@ -199,7 +199,7 @@
     .wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
     .wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
     .info .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 15px; font-weight: bold;}
-    .info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
+    .info .close {position: absolute;top: 7px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
     .info .close:hover {cursor: pointer;}
     .info .body {position: relative;overflow: hidden;}
     .info .desc {position: relative;margin: 13px 10px; height: 75px;}
@@ -259,7 +259,6 @@
 				var longitude = position.coords.longitude; //경도	
 				var locPosition = new kakao.maps.LatLng(latitude, longitude);
 				printMap(mapobj,locPosition);
-
 			});
 		}
 		else {
@@ -271,37 +270,33 @@
 
 		} 
 		
-		goSearch(mapobj, mCurrentPage);
+		var imageSrcHere = "/socdoc/resources/images/locationPinHere.png";
+		var imageSizeHere = new kakao.maps.Size(30, 50);
+	    var imageOptionHere = {offset: new kakao.maps.Point(15, 35)};
+	    var markerImageHere = new kakao.maps.MarkerImage(imageSrcHere, imageSizeHere, imageOptionHere);
+		
+		var markerHere = new kakao.maps.Marker({ 
+			map:mapobj,
+		    position: mapobj.getCenter(),
+		    image:markerImageHere
+		}); 
 		
 		
-/* 		kakao.maps.event.addListener(mapobj, 'bounds_changed', function() {             
-		    
-		    var center = mapobj.getCenter(); 
- 	    	console.log(center);
-	    	console.log(center.Ga);
-	    	console.log(center.Ha);
-	    	
-		});
-*/		
-		kakao.maps.event.addListener(mapobj, 'click', function(mouseEvent) {        
+		goSearch(mCurrentPage);
+		
+ 		kakao.maps.event.addListener(mapobj, 'click', function(mouseEvent) {        
 		    
 
 			var latitude = mouseEvent.latLng.getLat();
-			var longitude = mouseEvent.latLng.getLng();
-			var content ="<div class='iw' style='padding:5px; font-size:9pt;'>지금 여기<br/><a href='https://map.kakao.com/link/map/현위치(약간틀림),"
-						+latitude+","+longitude+"' style='color:blue;' target='_blank'>큰지도</a> <a href='https://map.kakao.com/link/to/현위치,"
-						+latitude+","+longitude+"' style='color:blue' target='_blank'>길찾기</a></div>"
-			var imageSrc = "/socdoc/resources/images/locationPin.png";       
-
-			displayMarker(mapobj, latitude, longitude, content, imageSrc);
+			var longitude = mouseEvent.latLng.getLng();  
+			var locPosition = new kakao.maps.LatLng(latitude, longitude);
 			
-			console.log('위도 : '+latitude);
-			console.log('경도 : '+longitude);
+			markerHere.setPosition(locPosition);
+			mapobj.panTo(locPosition);
  
 		});
 		
-		
-		
+ 		var distanceKiloMeter = getDistance(37.504198, 127.047967, 37.501025, 127.037701, "kilometer");
 		 
 		$('#tabMap').click(function(){
 			$('ul.tabs li').removeClass('current');
@@ -328,50 +323,24 @@
 		})
 		
 		
-		
-		
-		
-		
 	})
-		
-		
-	function getInfo() {
-    	var center = mapobj.getCenter(); 
-    	console.log(center);
-	}
+	
+	
+//--------------------------------------------------------------------------------------------------------------------------
 	
 
+	// 지도
 	function printMap(mapobj,locPosition){
 		
 		mapobj.setCenter(locPosition);      
 
-/* 
-		if (navigator.geolocation) {
-			
-			navigator.geolocation.getCurrentPosition(function(position) {
-				var latitude = position.coords.latitude;   //위도
-				var longitude = position.coords.longitude; //경도	
-				var locPosition = new kakao.maps.LatLng(latitude, longitude);
-			    mapobj.setCenter(locPosition);   
-
-			});
-		}
-		else {
-
-			var latitude= 37.56602747782394;
-			var longitude = 126.98265938959321;	   	
-			var locPosition = new kakao.maps.LatLng(latitude, longitude);
-			mapobj.setCenter(locPosition);      
-		} 
-		
-		 */
 		$.ajax({ 
 			url: "/socdoc/mapHospital.sd",
 			async: false, //지도 비동기
 			dataType: "JSON",
 			success: function(json){ 
 				
-				var imageSrc = "/socdoc/resources/images/locationPinBlue.png";       
+				var imageSrc = "/socdoc/resources/images/locationPinBlueG.png";       
 
 				$.each(json, function(index, item){ 
 				
@@ -383,43 +352,20 @@
 		            '    <div class="info">' + 
 		            '        <div class="title">' + 
 		            	item.hpName + 
-		            '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' + 
+		            '            <div class="close" id="close" title="닫기"></div>' + 
 		            '        </div>' + 
 		            '        <div class="body">' + 
 		            '            <div class="desc">' + 
 		            '                <div class="ellipsis">' + item.address + 
 		            '                <div class="jibun ellipsis">' + item.phone + 
 		            '                <div><a href="" class="link">상세이동</a>' +
-		            '					  <a href="https://map.kakao.com/link/to/현위치,"'+latitude+','+longitude+'" style="color:blue; margin-left:5px;" target="_blank">길찾기</a></div>' + 
+		            '				 <a href="https://map.kakao.com/link/map/현위치(약간틀림),'+latitude+','+longitude+'" style="color:blue;" target="_blank">큰지도</a>' +
+		            '				 <a href="https://map.kakao.com/link/to/현위치,'+latitude+','+longitude+'" style="color:blue" target="_blank">길찾기</a></div>'+ 
 		            '            </div>' +
 		            '        </div>' + 
 		            '    </div>' +    
 		            '</div>';
-	
-			        
-							
-					
-					/* 			       
-			       var message = "<div class='infoWindow'>"+ 
-						        	   "  <div class='windowHpName'>"+ 
-								       "    <strong>"+item.hpName+"</strong></a>"+  
-								       "  </div>"+
-								       "  <div class='windowAddress'>"+ 
-								       			item.address+ 
-								       "  </div>"+ 
-								       "  <div class='windowPhone'>"+ 
-						       					item.phone+ 
-						       		   "  </div>"+
-								       "</div>";			       
-					
-					var latitude = item.latitude;
-					var longitude = item.longitude;
-					
-//					position.zIndex = 1;
- */
- 
-//					displayMarker(mapobj, latitude, longitude, message, imageSrc);
- 
+		           
 					displayMarker(mapobj, latitude, longitude, content, imageSrc);
 		       		
 				});	
@@ -436,8 +382,7 @@
 	
 	
 	var markers = [];
-	
-	
+
 	// 마커 & 인포윈도우 표시 함수
 	function displayMarker(mapobj, latitude, longitude, content, imageSrc) {
 		
@@ -447,89 +392,48 @@
 	    var imageOption = {offset: new kakao.maps.Point(15, 35)};
 	    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 	    
-	    var marker = new kakao.maps.Marker({ 
+		var marker = new kakao.maps.Marker({ 
 			map: mapobj, 
 	        position: locPosition,
-	        image: markerImage
+	        image: markerImage,
+	        clickable: true
 		}); 
 	    
 	    markers.push(marker);
-	    
-	   /*  
-	    var iwContent =  "<div class='iw' style='padding:5px; font-size:9pt;'>"+message+"<br/><a href='https://map.kakao.com/link/map/현위치(약간틀림),"
-			+latitude+","+longitude+"' style='color:blue;' target='_blank'>큰지도</a> <a href='https://map.kakao.com/link/to/현위치,"
-			+latitude+","+longitude+"' style='color:blue' target='_blank'>길찾기</a></div>";
 
-	    var infowindow = new kakao.maps.InfoWindow({
-	    	position : locPosition,
-	        content : iwContent,
-	        removable : true
-	    });
-	    
-	    $(".iw").parent().parent().children().eq(0).attr('class','iwCss');
-	    $('.iwCss').css('top', '21px');
-	    
-	     */
-	     
-//	    var position = new kakao.maps.LatLng(latitude, longitude);  
-	 	
-		/* var customOverlay = new kakao.maps.CustomOverlay({
-		    map: mapobj,
-		    position: position,
-		    content: content,
-		    yAnchor: 1 
-		});		 */	
-		 
 		var overlay = new kakao.maps.CustomOverlay({
 		    content: content,
-		    map: mapobj,
-		    position: locPosition      
+		    position: locPosition,  
+		    clickable: true
 		}); 
-			
-	//	marker.iw = infowindow;
-	
+		
 		marker.ov = overlay;
-		 
-		overlay.setMap(null);
-	    
+		
  	    mapobj.setCenter(locPosition);   
- 	//	kakao.maps.event.addListener(marker, 'click', makeOverListener(mapobj, marker, infowindow));
-		kakao.maps.event.addListener(marker, 'click', function() {overlay.setMap(mapobj);});		
+ 	    kakao.maps.event.addListener(marker, 'click', function() {
+ 			overlay.setMap(mapobj);
+ 			
+ 			$.each(markers, function(index, item){
+ 				if(item != marker){
+ 					item.ov.setMap(null);
+ 				}
+ 			}) 
+ 			mapobj.panTo(this.k);
+ 		});		
+ 	 
+ 	   $(document).on("click",".close",function(){
+ 	    	overlay.setMap(null);
+ 	   	})
+		
+
+ 	    
  	
-	}    
+	} 
 	
-	
-	// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
-	function closeOverlay() {
-	    overlay.setMap(null);     
-	}
-		
-	
-	// 인포윈도우를 표시하는 클로저(closure => 함수 내에서 함수를 정의하고 사용하도록 만든 것)
-/* 	function makeOverListener(mapobj, marker, infowindow) {
-		
-	    return function() {
-	    	$.each(markers, function(index, item){
-				if(item != marker){
-					item.iw.close();
-				}
-			})
-	    	infowindow.open(mapobj, marker);
-	    };
-	}	
-	
-	
-	function makeOutListener(infowindow) {
-	    return function() {
-	        infowindow.close();
-	    };
-	}
-	 */
-	 
-	 
 	 
 	
-	function goSearch(mapobj,mCurrentPage){
+	// 검색
+	function goSearch(mCurrentPage){
 		 
 		 var content = "";
 		 var pagebarM="";
@@ -551,7 +455,7 @@
 					
 						content += "<tr><td>"
 				      			+		"<div id='mHospitalName' class='mHospitalName'>"+item.hpName+"</div>"
-				      			+		"<div id='mHospitaldept'>"+item.dept+"</div>"
+				      			+		"<div id='mHospitaldept'>"+item.hpDept+"</div>"
 				      			+		"<div id='mHospitalTel'>"+item.phone+"</div>"
 				      			+		"<div id='mHospitalAddress'>"+item.address+"</div>"
 				      			+	"</td><tr>";
@@ -560,8 +464,6 @@
 							pagebarM = item.pageBarM;
 							latitude0 = item.latitude;
 							longitude0 = item.longitude;
-							console.log(latitude0);
-							console.log(longitude0);
 						}
 		      			
 					});	
@@ -580,12 +482,38 @@
 		 
 		 
 	}
-	 
-	 
-	 
-	 
 	
+	 
+	// 거리계산
+	function getDistance(lat1, lon1, lat2, lon2, unit) {
+        
+        theta = lon1 - lon2;
+        dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+         
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+         
+        if (unit == "kilometer") {
+            dist = dist * 1.609344;
+        } else if(unit == "meter"){
+            dist = dist * 1609.344;
+        }
+ 
+        return (dist);
+    }	 
 	
+	function deg2rad(deg) {
+        return (deg * Math.PI / 180.0);
+    }
+     
+    function rad2deg(rad) {
+        return (rad * 180 / Math.PI);
+    }
+	
+    
+    
+    
 
 	// 일반탭 리스트
 	function printGeneral(gCurrentPage){
@@ -654,7 +582,7 @@
 				  <div class="box1">
 				      <div class="mapSelect">
 				         <select id="cityM" name="cityM" class="selectMap" onChange="cat1_change(this.value,countyM)">
-				            <option>시도</option>  
+				            <option value="">시도</option>  
 							<option value='서울'>서울</option>
 							<option value='부산'>부산</option>
 							<option value='대구'>대구</option>
@@ -694,7 +622,7 @@
 				      
 				      <div class="mapSearch">
 				         <input type="text" id="searchWordM" name="searchWordM" class="select" style="width:60%;">
-				         <button type="button" class="btnSearch" onclick="goSearch(mapobj, mCurrentPage);" >검색</button>
+				         <button type="button" class="btnSearch" onclick="goSearch(mCurrentPage);" >검색</button>
 				      </div>
 				 </div>
 				   

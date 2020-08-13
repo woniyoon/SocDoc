@@ -60,7 +60,7 @@
 	}
 	
 	.reviewList{
-		background-color: #efefef;
+		background-color: transparent;
 		font-size: 10pt;
 		width:31%;
 		height: 40%;
@@ -78,6 +78,44 @@
 	ul{
 		margin:0;
 	}
+	
+	.more{
+		text-align: right;
+		color:#0080ff;
+	}
+	
+	li{
+		font-size: 10pt;
+	}
+	
+	.reviewImg{
+		width: 20px !important;
+		height: 20px !important;
+	}
+	
+	.starRating{
+		background: url('/socdoc/resources/images/starsBlue.png') no-repeat right 0;
+		background-size: auto 100%;
+		width: 10px;
+		height: 10px;
+		display: inline-block;
+		text-indent: -9999px;
+	}
+	
+	.stars{
+		background: url('/socdoc/resources/images/icoReview.png') no-repeat right 0;
+		background-size: auto 100%;
+		width: 15px;
+		height: 15px;
+		display: inline-block;
+		text-indent: -9999px;
+		cursor: pointer;
+		margin-bottom: 10px;
+	}
+	
+	.on{
+		background-position:0 0;
+	}	 
 
 </style>
 
@@ -86,14 +124,20 @@
 
 	$(document).ready(function(){
 		
-		var length=20;
+		var length=18;
 		
 		// 후기 말줄임표
-		$("li").each(function(){
+		$(".reply").each(function(){
 			if($(this).text().length>length){
 				$(this).text($(this).text().substr(0,length-1)+'...');
 			}		
 		})
+		
+		//후기별점 
+	$(".starRating").each(function(){
+		$("#starRating3").addClass("on").prevAll("span").addClass("on");
+		return false;
+	})
 		
 	
 	})
@@ -113,15 +157,30 @@
 		<div class="reviewList">
 			<div class="img"><img src="<%= ctxPath%>/resources/images/slide1.jpg"></div>
 			<div class="name">어쩌고 병원</div>
-			<div class="hospitalRating">★★★★★</div>
+			<div class="hospitalRating">
+				<span class="starRating" id="starRating1">별1</span>
+				<span class="starRating" id="starRating2">별2</span>
+				<span class="starRating" id="starRating3">별3</span>
+				<span class="starRating" id="starRating4">별4</span>
+				<span class="starRating" id="starRating5">별5</span>
+			</div>
 			<div class="reviews">
-				<ul>
-					<li>- 너무나 좋은 병원입니다. 또 아프고 싶어요. 굿굿.</li>
+				<div>
+					<img class="reviewImg" src="<%= ctxPath%>/resources/images/five.png"><span class="reply">너무나 좋은 병원입니다. 또 아프고 싶어요. 굿굿.</span>
+				</div>
+				<div>
+					<img class="reviewImg" src="<%= ctxPath%>/resources/images/two.png"><span>너무나 좋은 병원입니다. 또 아프고 싶어요. 굿굿.</span>
+				</div>
+				<div>
+					<img class="reviewImg" src="<%= ctxPath%>/resources/images/one.png"><span>너무나 좋은 병원입니다. 또 아프고 싶어요. 굿굿.</span>
+				</div>
+				<!-- <ul>
+					<li>너무나 좋은 병원입니다. 또 아프고 싶어요. 굿굿.</li>
 					<li>- 에엥 에에엥 이게 병원이란 말임</li>
 					<li>- 좋아요.</li>
-				</ul>
+				</ul> -->
 			</div>
-			<div class="more" style="text-align: right;">>더보기</div>
+			<div class="more">>더보기</div>
 		</div>
 		
 		<div class="reviewList">
@@ -135,7 +194,7 @@
 					<li>- 후기3</li>
 				</ul>
 			</div>
-			<div class="more" style="text-align: right;">>더보기</div>
+			<div class="more">>더보기</div>
 		</div>
 		
 		<div class="reviewList">
@@ -149,7 +208,7 @@
 					<li>- 후기3</li>
 				</ul>
 			</div>
-			<div class="more" style="text-align: right;">>더보기</div>
+			<div class="more">더보기</div>
 		</div>
 		
 		<div class="reviewList">
