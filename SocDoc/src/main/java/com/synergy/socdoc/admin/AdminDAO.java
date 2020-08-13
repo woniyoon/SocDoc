@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import com.synergy.socdoc.member.CommentVO;
 import com.synergy.socdoc.member.FaqBoardVO;
 import com.synergy.socdoc.member.HealthInfoVO;
 import com.synergy.socdoc.member.HpMemberVO;
@@ -195,6 +196,25 @@ public class AdminDAO implements InterAdminDAO {
 	public int infoInsert(HealthInfoVO healthvo) {
 		int n = sqlsession.insert("admin.infoInsert", healthvo);
 		return n;
+	}
+	
+	
+	// 댓글쓰기
+	@Override
+	public int addComment(CommentVO commentvo) {
+		int n = sqlsession.insert("admin.addComment", commentvo);
+		return n;
+	}
+	// 게시물에 딸린 댓글 조회하기
+	@Override
+	public List<CommentVO> getCommentList(String parentSeq) {
+		List<CommentVO> commentList = sqlsession.selectList("admin.getCommentList", parentSeq);
+		return commentList;
+	}
+	// 문의글에 답변 상태 변경하기
+	@Override
+	public void updateStatus(String parentSeq) {
+		sqlsession.update("admin.updateStatus", parentSeq);
 	}
 	
 	

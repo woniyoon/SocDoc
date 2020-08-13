@@ -89,32 +89,10 @@
       width: 84px;
       background: #666666;
       color: white;
-      float: left;
+      float: right;
       margin: 30px 20px 50px 0px;
    }   
     
-    p#modifyBtn {
-      display: inline-block;
-      border-radius: 3px;
-      height: 45px;
-      width: 84px;
-      background: #666666;
-      color: white;
-      float: right;
-      margin: 30px 20px 50px 0px;
-   } 
-    
-    p#deleteBtn {
-      display: inline-block;
-      border-radius: 3px;
-      height: 45px;
-      width: 84px;
-      background: #666666;
-      color: white;
-      float: right;
-      margin: 30px 20px 50px 0px;
-   }
-   
    a.notice_view {
       display: inline-block;
        font-size: 14px;
@@ -152,6 +130,19 @@
       text-decoration: none;
     }
     
+   .btnComment {
+   		background-color: #efefef;
+        cursor: pointer;   
+      	border: 1px solid #dddddd;       
+      	padding: 0.25em .75em;    
+      	border-radius: .25em;       
+      	font-weight: 500;
+      	font-size: 10pt;  
+   }
+    
+   .long {
+   	  width: 600px;
+    } 
    
 </style>
 
@@ -197,35 +188,112 @@
                             <td>
 				                 ${qnavo.content}<br/><br/><br/><br/><br/>
                                <div id="comment">
-                                  <strong>관리자 ｜ 2020.07.01</strong><br/>
-                                  		비밀번호 설정은 마이페이지에서 가능합니다.<br/>
-                                  		비밀번호를 잊으신 경우에는 고객센터로 연락 주시어 개인 정보가 포함된 자료를 송부하여 주시기 바랍니다.
-                                  <br/>
+                                  	<span id="commentDisplay"></span>
                                </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
 
-                <p id="listBtn"><a href="adminNotice.sd" class="notice_view">목록</a></p>
-
-                <p id="deleteBtn"><a href="noticeList.sb" class="notice_view">삭제</a></p>             
-
-                <p id="modifyBtn"><a href="noticeList.sb" class="notice_view">수정</a></p>
                 
+				<br/>	
+				
+                <form name="addWriteFrm" style="margin-top: 20px;">
+					댓글 : <input type="text" name="content" class="long" id="commentContent" />
+					<button id="btnComment" type="button" onclick="goAddWrite()">확인</button>
+					<input type="hidden" name="parentSeq" value="${qnaSeq}" />
+				</form>
+				
+				<p id="listBtn"><a href="adminNotice.sd" class="notice_view">목록</a></p>
+				
                 <table>
                     <tr>
                         <th class="next_post th">윗글</th>
                         <!-- <td class="noticeNO" ></td>
                         <td class="noticeNO postrno" ></td> -->
-                        <td class="next_post postNotice titlePointer">윗글 제목이 보일 예정</td>
+                        <td class="next_post postNotice titlePointer">이전글 보일 예정</td>
                     </tr>
                     <tr>
                         <th class="pre_post th">아랫글</th>
-                        <td class="pre_post preNotice titlePointer">아랫글 제목이 보일 예정</td>
+                        <td class="pre_post preNotice titlePointer">다음글 보일 예정</td>
                     </tr>
                 </table>
 
                 <br/><br/><br/>
 	
 	</div>
+
+	
+<script type="text/javascript">
+	$(document).ready(function(){
+		goReadComment();
+	});
+	
+	//=== 댓글쓰기 === //
+	function goAddWrite() {
+		var frm = document.addWriteFrm;
+		var contentVal = frm.content.value.trim();
+		if(contentVal=="") {
+			alert("댓글 내용을 입력하세요");
+			return;
+		}
+		
+		var form_data = $("form[name=addWriteFrm]").serialize();
+		
+		$.ajax({
+			url:"<%= request.getContextPath()%>/addComment.sd",
+			data:form_data,
+			type:"POST",
+			dataType:"JSON",
+			success:function(json){
+				if(json.n == 1) {
+				//	alert("댓글쓰기 성공");
+					goReadComment();
+				}
+				else {
+					alert("댓글쓰기 실패");
+				}
+				
+				frm.content.value = "";
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+		
+	}// end of function goAddWrite()----------------------
+	
+	
+	// === 페이징 처리 안한 댓글 읽어오기  === //
+	function goReadComment() {
+		$.ajax({
+			url:"<%= request.getContextPath()%>/readComment.sd",
+			data:{"parentSeq":"${qnavo.qnaSeq}"},
+			dataType:"JSON",
+			success:function(json){
+			//	console.log(json);
+				var html = "";
+				if(json.length > 0) {
+					$.each(json, function(index, item){
+						html += "<div style='border-bottom: solid 1px #ccc;'>";
+						html += "관리자 | ";
+						html += item.regDate;
+						html += "<br/>";
+						html += item.content;
+						html += "</div>";
+					});
+				}
+				else {
+					html += "댓글이 없습니다.";
+				}
+	
+				$("#commentDisplay").html(html);
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});	
+	
+	}// end of function goReadComment()--------------------
+
+</script>	

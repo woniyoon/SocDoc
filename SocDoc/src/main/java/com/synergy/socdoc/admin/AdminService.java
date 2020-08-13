@@ -6,7 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.synergy.socdoc.member.CommentVO;
 import com.synergy.socdoc.member.FaqBoardVO;
 import com.synergy.socdoc.member.HealthInfoVO;
 import com.synergy.socdoc.member.HpMemberVO;
@@ -198,6 +202,32 @@ public class AdminService implements InterAdminService {
 		int n = dao.infoInsert(healthvo);
 		return n;
 	}
+
+	
+	// 댓글쓰기
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor = {Throwable.class})
+	public int addComment(CommentVO commentvo) {
+		int n = 0;
+		
+		n = dao.addComment(commentvo);
+
+		return n;
+	}
+	// 게시물에 딸린 댓글 조회하기
+	@Override
+	public List<CommentVO> getCommentList(String parentSeq) {
+		List<CommentVO> commentList = dao.getCommentList(parentSeq);
+		return commentList;
+	}
+	// 문의글에 답변 상태 변경하기
+	@Override
+	public void updateStatus(String parentSeq) {
+		dao.updateStatus(parentSeq);
+	}
+	
+
+	
 	
 
 }

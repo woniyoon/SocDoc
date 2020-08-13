@@ -84,13 +84,28 @@
 	}
 	
     #ckAll {
-        float: left;
-		margin-top: 30px;
+        margin-top: 30px;
+	  	background-color: #efefef;
+      	cursor: pointer;   
+      	float: left;
+      	border: 1px solid #dddddd;       
+      	padding: 0.25em .75em;    
+      	border-radius: .25em;       
+      	font-weight: 500;
+      	font-size: 10pt;   
+      	margin-right: 1	
     }
 	
 	#deleteBtn {
 		float: right;
 		margin-top: 30px;
+        background-color: #efefef;
+        cursor: pointer;   
+      	border: 1px solid #dddddd;       
+      	padding: 0.25em .75em;    
+      	border-radius: .25em;       
+      	font-weight: 500;
+      	font-size: 10pt;  
 	}	
 
 </style>

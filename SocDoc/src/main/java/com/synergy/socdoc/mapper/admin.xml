@@ -200,7 +200,7 @@
 	</select>
 	
 	<select id="getQnaView" parameterType="String" resultType="com.synergy.socdoc.member.QnaBoardVO">
-		select subject, userid, regDate, content
+		select qnaSeq, subject, userid, regDate, content
 		from qnaBoard
 		where qnaSeq = #{qnaSeq}
 	</select>
@@ -221,7 +221,7 @@
 		(
 		select rno, V.userid, V.rating, V.content, V.hpName, V.regDate
 		from
-		    (select rownum as rno, R.userid, R.rating, R.content, H.hpname, to_char(R.regDate,'yyyy-mm-dd') AS regDate
+		    (	select rownum as rno, R.userid, R.rating, R.content, H.hpname, to_char(R.regDate,'yyyy-mm-dd') AS regDate
 		        from hospitalReview R join hospitalInfo H
 		    	on R.hpseq is not null 
 		    	<if test='searchWord != ""'>
@@ -234,6 +234,7 @@
 		)T
 		where rno between #{startRno} and #{endRno}
 	</select>
+	
 	
 	<!-- 공지사항 글쓰기, 삭제하기, 수정하기 -->
 	<insert id="noticeInsert" parameterType="HashMap">
@@ -275,6 +276,21 @@
 		insert into infoBoard (infoSeq, subject, content, img, imgName, regDate)
 		values(infoSeq.nextval, #{subject}, #{content}, #{img}, #{imgName}, default)
 	</insert>
+
 	
+	<!-- 댓글쓰기 -->
+	<insert id="addComment" parameterType="com.synergy.socdoc.member.CommentVO">
+		insert into qnaComment (commentSeq, content, regDate, parentSeq)
+		values(commentSeq.nextval, #{content}, default, #{parentSeq})
+	</insert>	
+	<select id="getCommentList" parameterType="String" resultType="com.synergy.socdoc.member.CommentVO">
+		select to_char(regDate, 'yyyy-mm-dd') as regDate, content
+		from qnaComment
+		where parentSeq = #{parentSeq}
+	</select>
+	<update id="updateStatus" parameterType="String">
+		update qnaBoard set status = '1'
+		where qnaSeq = #{parentSeq}
+	</update>
 	
 </mapper>

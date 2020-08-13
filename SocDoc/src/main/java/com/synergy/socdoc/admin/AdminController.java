@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.synergy.socdoc.common.FileManager;
 import com.synergy.socdoc.common.MyUtil;
+import com.synergy.socdoc.member.CommentVO;
 import com.synergy.socdoc.member.FaqBoardVO;
 import com.synergy.socdoc.member.HealthInfoVO;
 import com.synergy.socdoc.member.HpMemberVO;
@@ -924,6 +927,7 @@ public class AdminController {
 		
 	}
 	
+	
 	/* 문의관리 */
 	@RequestMapping(value = "/qnaMng.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	public ModelAndView qnaMng(HttpServletRequest request, ModelAndView mav) {
@@ -1035,8 +1039,7 @@ public class AdminController {
 		return mav;
 		
 	}
-
-	/* 문의관리 답변쓰기 */
+	/* 문의관리 상세 글 조회 */
 	@RequestMapping(value = "/qnaAnswer.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	public ModelAndView qnaAnswer(HttpServletRequest request, ModelAndView mav) {
 		
@@ -1050,10 +1053,64 @@ public class AdminController {
 		qnavo = service.getQnaView(qnaSeq);
 		
 		mav.addObject("qnavo", qnavo);
+		mav.addObject("qnaSeq", qnaSeq);
 		mav.setViewName("admin/qnaAnswer.tiles3");
 		
 		return mav;
 	}
+	/* 문의관리 댓글쓰기 */
+	@ResponseBody
+    @RequestMapping(value="/addComment.sd", method= {RequestMethod.POST})      
+    public String addComment(HttpServletRequest request, CommentVO commentvo) {
+	   
+	// System.out.println(commentvo.getContent() +"/"+commentvo.getParentSeq());
+	   String jsonStr = "";
+	   
+	   try {
+		   
+		   int n = service.addComment(commentvo);
+		   
+		   if(n == 1) {
+			   service.updateStatus(commentvo.getParentSeq());
+		   }
+		   
+		   JSONObject jsonObj = new JSONObject();
+		   jsonObj.put("n", n);
+		   
+		   jsonStr = jsonObj.toString();
+	   
+	   } catch (Throwable e) {
+
+		   e.printStackTrace();
+	   }
+	   
+	   return jsonStr;
+	   
+    }
+	/* 문의관리 댓글 읽어오기 */
+	@ResponseBody
+    @RequestMapping(value="/readComment.sd", produces="text/plain;charset=UTF-8")      
+    public String readComment(HttpServletRequest request) {
+	   
+	   String parentSeq = request.getParameter("parentSeq"); 
+	   System.out.println("parentSeq:"+parentSeq);
+	   List<CommentVO> commentList = service.getCommentList(parentSeq);
+	   
+	   JSONArray jsonArr = new JSONArray();
+	   
+	   if(commentList != null) {
+		   for(CommentVO cmtvo : commentList) {
+		       JSONObject jsonObj = new JSONObject();
+		       jsonObj.put("regDate", cmtvo.getRegDate());
+		       jsonObj.put("content", cmtvo.getContent());
+		    		
+		       jsonArr.put(jsonObj);
+		    }
+	   }
+	    
+	   return jsonArr.toString();
+    } 
+	
 	
 	/* FAQ관리 */
 	@RequestMapping(value = "/faqMng.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
