@@ -638,7 +638,7 @@ public class LoginController {
 		
 		return mav;
 	}
-	
+/*	
 	// === 게시판 list === //
 	@RequestMapping("/noticeList.sd")
 	public String noticeList(HttpServletRequest request) {
@@ -667,5 +667,5 @@ public class LoginController {
 		System.out.println(ctxPath+"/noticeWrite.sd로 접속하셨습니다.");
 		
 		return "notice/noticeWrite.tiles1";
-	}
+	}*/
 }
