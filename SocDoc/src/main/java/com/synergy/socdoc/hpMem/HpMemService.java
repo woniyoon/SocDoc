@@ -104,6 +104,13 @@ public class HpMemService implements InterHpMemService {
 		List<HashMap<String, String>> visitorsList = dao.getVisitorsList(paraMap);
 		return visitorsList;
 	}
+
+	// 방문상태 업데이트
+	@Override
+	public int updateVisitStatus(HashMap<String, Integer> paraMap) {
+		int result = dao.updateVisitStatus(paraMap);
+		return result;
+	}
 	
 	
 	

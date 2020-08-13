@@ -113,5 +113,12 @@ public class HpMemDAO implements InterHpMemDAO {
 		System.out.println("DAO에서 : " + visitorsList.size());
 		return visitorsList;
 	}
+	
+	// 방문상태 업데이트
+	@Override
+	public int updateVisitStatus(HashMap<String, Integer> paraMap) {
+		int result = sqlsession.update("hpMem.updateVisitStatus", paraMap);
+		return result;
+	}
 
 }

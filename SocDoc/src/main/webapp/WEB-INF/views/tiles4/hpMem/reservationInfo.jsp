@@ -17,6 +17,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
 
 <script>
+
 	$(document).ready(function() {
 		console.log("document ready function");
 		$(".visitorRow").each(function() {
@@ -31,6 +32,7 @@
 				}
 			});
 		});
+		
 	});
 
 	$(function() {
@@ -124,8 +126,8 @@
                					+	"<td>"+item.name+"</td>"
                					+	"<td>"+item.phone+"</td>"
 /*                					+	"<td>초진</td>" */
-               					+	"<td>"+(item.hasVisited?  "방문" : "미방문" ) +"</td>"
-               					+	"<td><input id="+ item.reservSeq +" type='checkbox' "+checked+" /></td>"
+               					+	"<td id='visitStatus"+item.reservSeq+"'>"+(item.hasVisited?  "방문" : "미방문" ) +"</td>"
+               					+	"<td><input onclick='updateVisitStatus(this,"+!item.hasVisited+")' id="+ item.reservSeq +" type='checkbox' "+checked+" /></td>"
                			 		+"</tr>";
                		});
                	} else {
@@ -139,6 +141,37 @@
 			}
 		});
 	}
+	
+
+	function updateVisitStatus(target){
+		console.log(target);
+		var hasVisited = target.checked;
+		
+		$.ajax({
+			url:"<%=ctxPath%>/ajax/updateVisitStatus.sd",
+			type:"POST",
+			data:{"reservSeq": target.id,
+				  "status": hasVisited},
+			dataType: "JSON",
+            success: function(json){
+                var html = "";
+               	console.log(json);
+              	if(json.isDone) {
+ 					var status = hasVisited ? "방문" : "미방문";
+	               	$("#visitStatus"+target.id).html(status);
+              	} else {
+              		alert("문제가 발생했습니다.\n다시 시도해주세요!");
+    				target.checked = !hasVisited;
+              	}
+            },
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				target.checked = !newVisitStatus;
+			}
+		});
+	}
+
+	
 </script>
 
 <div class="container" align="center">
@@ -184,7 +217,7 @@
 			</thead>
 			<!-- 동적으로 생성되는 부분 ⬇️-->
 			<tbody id="reservationList">
-				<c:if test="${not empty visitorsList }">
+				<%-- <c:if test="${not empty visitorsList }">
 					<c:forEach var="map" items="${visitorsList }" varStatus="status">
 						<tr>
 							<td>${status.count }</td>
@@ -201,7 +234,7 @@
 			 		<tr>
 			 			<td colspan="6"> ㅠ</td>
 			 		</tr>
-			 	</c:if>
+			 	</c:if> --%>
 			</tbody>
 			<!-- 동적으로 생성되는 부분 ⬆️-->
 		</table>

@@ -37,4 +37,7 @@ public interface InterHpMemDAO {
 	// 방문예정자 목록 가져오기
 	public List<HashMap<String, String>> getVisitorsList(HashMap<String, String> paraMap);
 
+	// 방문상태 업데이트
+	public int updateVisitStatus(HashMap<String, Integer> paraMap);
+
 }

@@ -221,4 +221,10 @@
 		on A.userid = M.userid
 	</select>
 	
+	<!-- 방문 상태 업데이트 --> 
+	<update id="updateVisitStatus" parameterType="HashMap">
+		update reservation set status = #{status}
+		where reservSeq = #{reservSeq}
+	</update>
+	
 </mapper>

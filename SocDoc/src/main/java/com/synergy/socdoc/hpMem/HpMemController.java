@@ -323,6 +323,38 @@ public class HpMemController {
 	}
 	
 	
+	@ResponseBody
+	@RequestMapping(value = "/ajax/updateVisitStatus.sd", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
+	public String updatevisitStatus(HttpServletRequest request) {
+	
+		String reservSeqStr = request.getParameter("reservSeq");
+		String statusStr = request.getParameter("status");
+		
+		
+		int status = "true".equalsIgnoreCase(statusStr) ? 1 : 0;
+		int reservSeq = Integer.parseInt(reservSeqStr);
+		
+		HashMap<String, Integer> paraMap = new HashMap<>();
+		
+		System.out.println(reservSeq);
+		System.out.println(status);
+		
+		paraMap.put("reservSeq", reservSeq);
+		paraMap.put("status", status);
+		
+		int result = service.updateVisitStatus(paraMap);
+		
+		JsonObject obj = new JsonObject();
+		if(result == 1) {
+			obj.addProperty("isDone", true);
+		} else {
+			obj.addProperty("isDone", false);
+		}
+		
+		return obj.toString();
+	}
+	
+	
 	// 방문고객관리 w. 페이징
 	@RequestMapping(value = "/hpPanel/visitorsMng.sd", method = RequestMethod.GET)
 	public String visitorsMng(HttpServletRequest request) {
