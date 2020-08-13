@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.synergy.socdoc.member.HpInfoVO;
+import com.synergy.socdoc.member.MemberVO;
 
 @Repository
 public class ReserveDAO implements InterReserveDAO {
@@ -25,6 +26,12 @@ public class ReserveDAO implements InterReserveDAO {
 	public List<HpInfoVO> hospital_select() {
 		List<HpInfoVO> hpinfovoList = sqlsession.selectList("test.hospital_select");
 		return hpinfovoList;
+	}
+
+	@Override
+	public MemberVO viewMyinfo(String userid) {
+		MemberVO membervo = sqlsession.selectOne("test.viewMyinfo", userid);
+	      return membervo;
 	}
 
 }

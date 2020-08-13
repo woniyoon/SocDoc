@@ -6,20 +6,23 @@
 <%
       String ctxPath = request.getContextPath();
 %>
-<link rel="stylesheet" href="<%=ctxPath%>/resources/pg-calendar/dist/css/pignose.calendar.min.css">
-<link rel="stylesheet" href="<%=ctxPath%>/resources/pg-calendar/dist/css/pignose.calendar.css">
+<link rel="stylesheet" type="text/css" media="screen" href="<%=ctxPath %>/resources/css/reservationInfo.css" />
+<!-- Pignose 캘린더 라이브러리 임포트 -->
+<link rel="stylesheet" href="<%=ctxPath %>/resources/pg-calendar/dist//css/pignose.calendar.min.css">
+<link rel="stylesheet" href="<%=ctxPath %>/resources/pg-calendar/dist//css/pignose.calendar.css">
+<script src="<%=ctxPath %>/resources/pg-calendar/dist/js/pignose.calendar.min.js"></script>
+<script src="<%=ctxPath %>/resources/pg-calendar/dist/js/pignose.calendar.full.min.js"></script>
+<script src="<%=ctxPath %>/resources/pg-calendar/dist/js/pignose.calendar.full.js"></script>
+<script src="<%=ctxPath %>/resources/pg-calendar/dist/js/pignose.calendar.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
-<script src="<%=ctxPath%>/resources/pg-calendar/dist/js/pignose.calendar.full.js"></script>
-<script src="<%=ctxPath%>/resources/pg-calendar/dist/js/pignose.calendar.min.js"></script>
-<script src="<%=ctxPath%>/resources/pg-calendar/dist/js/pignose.calendar.full.min.js"></script>
-<script src="<%=ctxPath%>/resources/pg-calendar/dist/js/pignose.calendar.js"></script>
+
 <style type="text/css">
 /* body {
       width: 1440px;   
 } */
 #reservation_container{
-      width: 95%;
-       margin: 0 auto
+      width: 80%;
+       margin: 0 auto;
 }
 #reservation_title{
       width: 40%;
@@ -48,7 +51,7 @@
       float: right;
 }
 .container_find{ /* 병원찾기 지역/진료/병원명 검색 창 */
-      width: 50%;
+      width: 65%;
       border: solid 2px black;
       padding: 5%;
       padding-bottom: 3%;
@@ -57,7 +60,7 @@
 }
 .check_box{ /* 예약하실 정보 확인 */
       float: right;
-      width: 46%;
+      width: 30%;
       height: 250px;
       background-color: skyblue;
       color: white;
@@ -101,7 +104,7 @@ select#egdgCode{
 }
 .reserve_btn{
    padding:3%;
-   width:480px;
+   width:350px;
    margin-top: 10%;
 }
 .con{
@@ -174,10 +177,115 @@ table.type05 td {
       font-size: 12pt;
       line-height: normal;
       text-align: center;
+      cursor: pointer;
+}
+.selecthospital{
+	border: solid 1px black;
+	font-size: 10pt;
+	width: 110px;
+	height: 40px;
+	background-color: white;
+	cursor: pointer;
+}
+.selecthospital:hover{
+	border: solid 1px black;
+	font-size: 10pt;
+	width: 110px;
+	height: 40px;
+	background-color: skyblue;
+	color:white;
+	cursor: pointer;
+}
+/* 모달창 만들기 */
+
+.hidden {
+    display: none;
+}
+
+.modalContainer {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;   /* 달력의 화살표가 튀어나오지 않게 방지 */
+}
+
+.modalOverlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.modalContent {
+    background-color: white;
+    width: 30%;
+    /* min-height: 70%; */
+    overflow-y: auto;
+    /* max-height: 60%; */
+    position: relative;
+    padding: 30px;
+    border: 1px solid rgb(230, 230, 230);
+}
+
+.modalContentHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.visitorDetail {
+   width: 90%;
+   margin: 40px 0 0 0;   
+}
+
+.visitorDetail tr, .visitorDetail td {
+   border-top: 1px solid #dddddd;
+   border-collapse: collapse;
+   padding: 10px 0;   
+}
+.modalbtn{
+	border: solid 1px gray;
+	font-size: 10pt;
+	margin-top: 5%;
+	padding: 5%;
+	width: 150px;
+	cursor: pointer;
+	
 }
    </style>
    <script>
    
+   $(document).ready(function() {
+	      console.log("document ready function");
+	      
+	      // 모달을 띄우기 위해 테이블 행 클릭 이벤트 추가
+	      $("#visitorRow").each(function() {
+	         $(this).click(function(e) {
+	            // 체크박스 클릭시, 이벤트를 취소
+	            if (e.target.type == "checkbox") {
+	               e.stopPropagation();
+	               console.log("event canceled!!");
+	            } else {
+	               $(".modalContainer").removeClass("hidden");
+	               console.log("event going on");
+	            }
+	         });
+	      });
+	   });
+
+	   // 달력 불러오는 로직이 있었음      
+	   
+	   function closeModal() {
+	      $(".modalContainer").addClass("hidden");
+	   }
+
+	  
+	   
    var cat1_num = new Array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16);
    var cat1_name = new Array('서울','부산','대구','인천','광주','대전','울산','강원','경기','경남','경북','전남','전북','제주','충남','충북');
    
@@ -272,9 +380,7 @@ table.type05 td {
          $('#postnTab').text("▼");
    } */
 
-   
-   
-   
+
    
 	// ================ 달력 ==================
    $(function() {
@@ -299,7 +405,7 @@ table.type05 td {
 	         var $this = $(this);
 	         
 
-	         // You can access event parameter.
+	       Socdocsocdoc2  // You can access event parameter.
 	         event.preventDefault();
 
 	         // You can get target element in `context` variable, This element is same `$(this)`.
@@ -311,14 +417,59 @@ table.type05 td {
 	    }
 	});
 
+	
    
    
    // ================ 예약버튼 ================  
-   function goReserve(){
-      alert("예약하시려면 먼저 로그인을 해주세요.");
+   function goReserve(hpSeq){
+	   
+	   if(${sessionScope.loginuser == null}){
+      		alert("예약하시려면 먼저 로그인을 해주세요.");
+      		
+       var frm = document.reserveOrderFrm;
+       
+       frm.method = "POST";
+       frm.action = "<%=ctxPath%>/socdoc/reserve.sd";
+       frm.submit();
+       
+       return;
+	   }
+	   
+	   
+	   // 병원선택을 안했을 경우  === 
+		   
+	   var hospital = document.getElementById("selecthospital").value;
+	   
+	   if(isNaN(Number(selecthospital))){
+		   alert("병원을 선택하세요");
+	   	   return;
+	   }
+		
+	   
+	   
+	   
    }// end of 예약버튼 끝 =======================
    
    
+   	// ============== 병원선택 
+   function selecthospital(name, dept){
+	   
+	   //alert(name);
+	   
+	   //hpanddept
+	   
+	   var hpanddept = document.getElementById("hpanddept");
+	   hpanddept.innerText = name + " / " + dept;
+
+	   // hpanddept.css({background:'pink'});
+	   
+	   // $(".selecthospital").addclass(".");
+	   /* 
+	   $(".selecthospital").css({background:'pink'});
+	   */
+	   
+	  
+   }
       
       
       
@@ -327,7 +478,7 @@ table.type05 td {
       
       var h_area1 = $("#h_area1").val().trim(); 	// 시도선택
       var h_area2 = $("#h_area2").val().trim(); 	// 구군선택
-      var h_area3 = $("#h_area3").val().trim(); 	// 진료과목선택
+      var dept = $("#dept").val().trim(); 	// 진료과목선택
       var myInput = $("#myInput").val().trim(); 	// 병원명입력창
       
       if(! (h_area1 == "시도선택" && h_area2 == "구군선택" && h_area3 == "전체" && myInput=="")){ 
@@ -345,6 +496,8 @@ table.type05 td {
 			$()	
 		});
 	// end of 진료과별로 나열하기 끝 =======================
+		
+		
    </script>
    
    <!-- 전체박스 -->
@@ -378,12 +531,12 @@ table.type05 td {
               </select>
               <br>
             <label>진료과목</label>
-              <select id="h_area3" name="h_area3" style="width: 200px;">
+              <select id="dept" name="dept" style="width: 200px;">
               <option selected>전체</option>
                   <option value='내과' class="dept">내과</option>
                   <option value='이비인후과' class="dept">이비인후과</option>
                   <option value='정형외과' class="dept">정형외과</option>
-                  <option value='안과' class="dept">안과</option>
+                  <option value='안과'  class="dept">안과</option>
                   <option value='산부인과' class="dept">산부인과</option>
                   <option value='치과' class="dept">치과</option>
                   <option value='외과' class="dept">외과</option>
@@ -415,13 +568,34 @@ table.type05 td {
    <!-- 시/군구/진료과목/병원검색 container 끝 -->
    
    <div class="check_box">
-   <h3 style="margin-left: 4%; margin-bottom: 4%;">예약하실정보확인</h3>
+   <h3 style="margin-left: 4%; margin-bottom: 3%; margin-top: 3%; color:black;">예약하실정보확인</h3>
+   	
+   	<c:if test="${empty membervo}">
+   	<ul>
+ 	<li style="font-size: 11pt; color: black; margin-bottom: 35px;">
+         회원정보가 없습니다.
+     <br/>속닥속닥을 더 안전하고 편리하게 이용해주세요 : ) 
+     
+     </li>  	
+     <li>
+     <a href="<%=ctxPath%>/login.sd" style="border: solid 1px black; padding: 20px; margin-top: 50px;">SOCDOC 로그인 </a>
+     </li>
+     
+   	</ul>
+   	</c:if>
+   	
+   	<c:if test="${not empty membervo}">
       <ul>
-         <li>환자명 : </li>
-         <li><button class="btnTypecheck">환자정보확인</button><button class="btnTypecheck">최근예약</button></li>
-         <li>병원/진료과 : </li>
+      
+         <li>환자명 : ${membervo.name}</li>
+         <li><button class="btnTypecheck" id="visitorRow">환자정보확인</button><button class="btnTypecheck">최근예약</button></li>
+         <li>병원/진료과&nbsp;:&nbsp;<span id="hpanddept" style="font-size: 10pt;"></span></li>
          <li>진료일시 : </li>
+       
       </ul>
+      
+      </c:if>
+      
    </div>
    <br>
    
@@ -436,9 +610,9 @@ table.type05 td {
    
     <!-- 병원검색했을경우, 병원정보정렬 -->
    
-   <div id="hospital" style="height: 300px;">
+   <div id="hospital" style="height: 300px; text-align: center;">
    <div class="hpsinfo" style="float: left; width:150px; margin-left: 6px;">
-      <table>
+      <table class="hpList">
       <c:if test="${empty hpinfovoList}">
          <tr>
             <td>현재 등록된 병원이 없습니다.</td>
@@ -449,21 +623,36 @@ table.type05 td {
       <tr>
       <c:forEach var="hpinfovoList" items="${hpinfovoList}" varStatus="status">
       <td>
+      <div style="margin-right: 40px; font-size: 10pt;">
       <!-- 병원사진 -->
-      <a href='<%= ctxPath%>/socdoc/reserve.sd?hpSeq=${hpinfovoList.hpSeq}'><img width="150px;" height="140px;" src="<%= ctxPath%>/resources/images/${hpinfovoList.mainImg}"/></a>
-      <!-- 병원이름 -->${hpinfovoList.hpName}<br/>
+      <img width="150px;" height="140px;" src="<%= ctxPath%>/resources/images/${hpinfovoList.mainImg}"/>
+      <!-- 병원이름 -->${hpinfovoList.hpName}<br/> <span style="display:none">${hpinfovoList.dept}</span>
       <!-- 병원소개 -->${hpinfovoList.info}<br/>
-      <!-- 리뷰보기 --><a href="http://drsonyouna.com/">리뷰 및 상세보기</a><br/>
-      <c:if test="${(status.count)%2 == 0 }"></c:if>
+      <!-- 리뷰보기 --><a href='<%= ctxPath%>/socdoc/reserve.sd?hpSeq=${hpinfovoList.hpSeq}' target="_blank" style="color: blue; font-size: 9pt; font-weight: bold;">리뷰 및 상세보기</a><br/>
+      <br/>
+      <!-- 선택하기버튼 -->
+      <button type="button" name="selecthospital" id="selecthospital" class="selecthospital"  onclick="selecthospital('${hpinfovoList.hpName}','${hpinfovoList.dept}')">선택</button>
+      </div>
+      <br/>
       </td>
+      <c:if test="${(status.count)%4 == 0 }">
+      </tr><tr>
+      </c:if>
       
       </c:forEach>
-      </tr>
-      </c:if> 
+      </c:if>
+      
       </table>
+      
+      <!-- 페이지바 -->
+      <div class="paging" align="left">
+      	<div>${pageBar}</div>
+      </div>
+      
+      
       </div>
       <!-- 리뷰보기 -->
-   <!-- 병원검색했을경우, 병원정보정렬 끝 -->
+   	   <!-- 병원검색했을경우, 병원정보정렬 끝 -->
    </div>
    </div>
    <!-- 병원목록 끝 -->
@@ -472,7 +661,7 @@ table.type05 td {
    <!-- 진료일정 : 달력 날짜선택 시간선택 -->
    <div class="schedule_medical">
    <h2>진료일정</h2>
-   <hr style="border: solid 1px black;"/>
+   <hr style="border: solid 1px black; margin-bottom: 15px;"/>
    
    <!-- ============================================ -->
    <!-- 병원을 선택 안했을때, 보여지는 창 -->
@@ -483,7 +672,7 @@ table.type05 td {
    <!-- [달력/시간]설정하기 -->
    <div class="calendar"></div>
    <!-- 예약확정하기 -->
-   <div id="reverse_set">
+   <div id="reverse_set" style="margin-left: 13%;">
    <a style="cursor: pointer;" class="setbtn" data-toggle="modal" data-target="#myModal">
    <button type="button" class="reserve_btn" onclick="goReserve()">예약확정하기</button></a>
    </div>
@@ -491,78 +680,68 @@ table.type05 td {
    
    
    
-   <!-- 모달 영역 -->
-      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-ladelledby="myModalLabel">
-      <div class="modal-dialog" role="document">
-      <div class="modal-content">
-         <div class="modal-header">
-         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
-         <h4 class="modal-title" id="myModalLabel" style="font-size: 18pt; color: blue; font-weight: bold;">홍길동님 진료예약하시겠습니까?</h4>
-         </div>
-         
-         <!-- 내용 -->
-         <div class="modal-body">
-         <ul>
-            <li style="font-weight: bold;">2020년 07월 30일 13시30분</li>
-            <li>닥터손유나의원/피부과</li>
-            <li>정진호 의사</li>
-         </ul>
-         <br>
-         <p class="title">
-         <span style="text-align: center;">&nbsp;&nbsp;&nbsp;내 건강정보 확인하기</span>
-         <table class="type05" style="border-top: solid 1px black; margin-bottom: 4%;">
-               <tbody>
-               <tr>
-               <th scope="row">키</th>
-                    <td>
-                         160cm
-                  </td>
-                </tr>
-                <tr>
-               <th scope="row">몸무게</th>
-                    <td>
-                      50kg
-                  </td>
-                </tr>
-                 <tr>
-               <th scope="row">혈액형</th>
-                    <td>
-                      A형
-                  </td>
-                </tr>
-                <tr>
-                <th scope="row">알레르기</th>
-                    <td>
-                      없음
-                  </td>
-                </tr>
-                <tr>
-                <th scope="row">병력</th>
-                    <td>
-                      없음
-                  </td>
-                </tr>
-                <tr>
-                <th scope="row">복용약</th>
-                    <td>
-                      없음
-                  </td>
-                </tr>
-                </tbody>
-                </table>
-      </div>
-        
-         
-         
-         <div class="modal_footer">
-         <button type="button" class="btn btn-primary">확인</button>
-         <button type="button" class="btn btn-default myclose" data-dismiss="modal">취소</button>
-         </div>
-      </div>
-      </div>
-      </div>
-      <!-- 예약확정하기 버튼 끝 -->
    
+   <div class="container" align="center">
+   <div class="modalContainer hidden">
+      <div class="modalOverlay">
+         <div class="modalContent" align="center">
+            <div class="modalContentHeader">
+               <h4 align="left">환자정보</h4>
+               <span style="font-size: 1.2em; cursor: pointer;"
+                  onclick="closeModal()">X</span>
+            </div>
+            <!-- ajax를 이용해, 동적으로 생성 ⬇️-->
+            <table class="visitorDetail customTable" >
+            <c:if test="${not empty membervo}">
+               <tr align="center">
+                  <td>성명</td>
+                  <td>${membervo.name}(${membervo.userid})</td>
+               </tr>
+               <tr align="center">
+                  <td>생년월일</td>
+                  <td>${membervo.birthDate}</td>
+               </tr>
+               <tr align="center">
+                  <td>연락처</td>
+                  <td>${membervo.phone}</td>
+               </tr>
+               <tr align="center">
+                  <td>성별</td>
+                  <td>${membervo.gender}</td>
+               </tr>
+               <tr align="center">
+                  <td>키</td>
+                  
+                  <td>${membervo.height}</td>
+                  
+               </tr>
+               <tr align="center">
+                  <td>몸무게</td>
+                  <td>${membervo.weight}
+                  </td>
+               </tr>
+               <tr align="center">
+                  <td>혈액형</td>
+                  <td>${membervo.bloodType}
+                  </td>
+               </tr>
+               </c:if>
+            </table>
+            <!-- 동적으로 생성되는 부분 ⬆️  -->
+            <table>
+             <tr>
+               <td>
+               <button class="modalbtn" style="background-color: white;">수정신청</button></td>
+              <td><button class="modalbtn" style="background-color: skyblue;" onclick="closeModal()">확인완료</button></td>
+               
+               </tr>
+            </table>
+         </div>
+      </div>
+   </div>
+</div>
+   
+  
    </div>
    <!-- 진료일정 : 달력 날짜선택 시간선택 끝-->
   

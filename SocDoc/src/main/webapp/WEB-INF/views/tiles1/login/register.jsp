@@ -97,14 +97,15 @@
     input[type=button] {
     	color: #fff;
     	background-color: #58ACFA;
-	    border: solid 1px #ccc;
+	    border: solid 0px #ccc;
     }
     
-    .requiredInfo, .hpRequiredInfo{
+    .requiredInfo, .hpRequiredInfo {
 		width: 100%;
 		height: 35px;
 		padding-left: 10px;
 		box-sizing: border-box;
+		border: solid 1px #ccc;
     }
      
     .btnJoin, .hpBtnJoin {
@@ -122,7 +123,11 @@
 	    background-color: #58ACFA;
 	    border: solid 1px #ccc;
 	}
-
+	
+	.textPrimary {
+		margin-bottom: 5px;
+	}
+	
 	.textPosition {
 		margin-top: 0;
 		padding-right: 30px;
@@ -137,7 +142,7 @@
 	.birthDate {
 		overflow : hidden;
 	    box-sizing: border-box;
-	    border: solid 1px gray;
+	    border: solid 1px #ccc;
 	}
 	
 	.birthDate input[type=text] {
@@ -214,7 +219,7 @@
 	var condition3 = false;
 	var condition4 = false;
 	var condition5 = false;
-	
+
 	// 아이디 정규표현식 성공 여부
 	var emailOK = false;
 	// 이메일 인증 성공 여부
@@ -251,7 +256,7 @@
 					$("form[name=registerFrm] input#userid").removeClass("wrong");
 					condition1 = true;
 					
-					$.ajax({
+					$.ajax({ // 아이디 중복검사
 						url:"<%=ctxPath%>/idChk.sd",
 						type:"POST",
 						data:{"userid":$("form[name=registerFrm] #userid").val()},
@@ -482,7 +487,7 @@
 		}); 
 		
 		// 이메일 '인증하기' 버튼 눌렀을 때..///////////////////////////////
-		$("#btnFind").click(sendVerificationCode);	
+		$("form[name=registerFrm] #btnFind").click(sendVerificationCode);	
 		///////////////////////////////////////////////////////////
 		
 		var method = "${method}";
@@ -517,7 +522,7 @@
 							disabled = 'disabled';
 							alert("해당 이메일은 인증 확인이 되었습니다. 다음 단계로 넘어가세요");
 						});
-					}else{
+					} else {
 						console.log("!!!메일인증실패!!!");
 						$("#emailCkError").html("인증 실패. 다시 시도해주세요.").show();
 						$("input#email2").addClass("wrong");
@@ -1162,7 +1167,7 @@
 				        <div id="div_btnFind" style="width:100%;">
 					        <input type="text" name="email2" id="email2" class="requiredInfo" maxlength="7" placeholder="E-mail로 발송된 인증번호를 입력하세요" style="width: 70%;" />
 							<input type="button" id="btnFind2" value="인증확인하기" disabled="disabled" style="width: 28%; height:35px; background-color: #f4f4f1; color: black;"/>
-							<input type="button" id="btnFind3" value="인증확인" disabled="disabled" style="width: 28%; height:35px;"/>
+							<input type="button" id="btnFind3" value="인증완료" disabled="disabled" style="width: 28%; height:35px;"/>
 				        </div>   
 						<span class="error" id="emailCkError" >이메일 형식에 맞지 않습니다.</span> 
 						<span class="success" id="emailCkSuccess">사용 가능한 이메일 입니다.</span>
@@ -1214,7 +1219,7 @@
 				        <label for="email" style="display: block;">이메일</label>	
 				        <div style="width:100%; height:35px;">			   
 					        <input type="email" name="email" id="email" class="hpRequiredInfo" placeholder="E-mail을 입력하세요" style="width: 70%; height:100%;" /> 
-							<input type="button" id="hpBtnFind" class="hpBtnFind" value="인증하기" style="width: 28%; height: 100%;"/>
+							<input type="button" id="hpBtnFind" class="hpBtnFind" value="인증" style="width: 28%; height: 100%;"/>
 							<input type="button" id="hpBtnFindNext" class="hpBtnFind" onclick="hpSendVerificationCode()" value="재인증" style="width: 28%; height: 35px;"/>
 				        </div>
 				        <span class="error" id="hpEmailError">이메일 형식에 맞지 않습니다.</span>
@@ -1222,7 +1227,7 @@
 						<div id="hpDivBtnFind" style="width:100%;">
 							<input type="text" name="hpEmail2" id="hpEmail2" class="hpRequiredInfo" maxlength="7" placeholder="E-mail로 발송된 인증번호를 입력하세요" style="width: 70%;" />
 							<input type="button" id="hpBtnFind2" value="인증확인하기" disabled="disabled" style="width: 28%; height:35px; background-color: #f4f4f1; color: black;"/>
-							<input type="button" id="hpBtnFind3" value="인증확인" disabled="disabled" style="width: 28%; height:35px;"/>
+							<input type="button" id="hpBtnFind3" value="인증완료" disabled="disabled" style="width: 28%; height:35px;"/>
 						</div>
 						<span class="error" id="hpEmailCkError" >이메일 형식에 맞지 않습니다.</span> 
 						<span class="success" id="hpEmailCkSuccess">사용 가능한 이메일 입니다.</span>

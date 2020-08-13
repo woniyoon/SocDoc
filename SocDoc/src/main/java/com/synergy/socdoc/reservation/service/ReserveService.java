@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.synergy.socdoc.member.HpInfoVO;
+import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.reservation.model.InterReserveDAO;
 
 @Service
@@ -26,5 +27,12 @@ public class ReserveService implements InterReserveService {
 		List<HpInfoVO> hpinfovoList = dao.hospital_select();
 		return hpinfovoList;
 	}
+
+	@Override
+	public MemberVO viewMyinfo(String userid) {
+		MemberVO membervo = dao.viewMyinfo(userid);
+	      return membervo;
+	}
+
 
 }

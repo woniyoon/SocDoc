@@ -208,7 +208,7 @@
       <div class="subnav">
         <button class="subnavbtn">예약<i class="fa fa-caret-down"></i></button>
         <div class="subnav-content">
-          <a href="#"><img src="<%= ctxPath%>/resources/images/reservation.png"/>병원예약</a>
+          <a href="<%=ctxPath%>/reserve.sd"><img src="<%= ctxPath%>/resources/images/reservation.png"/>병원예약</a>
         </div>
       </div> 
 

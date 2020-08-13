@@ -12,8 +12,16 @@
 	
 	
 	<select id="hospital_select" resultType="com.synergy.socdoc.member.HpInfoVO"> 
-		select hpSeq,mainImg,hpName,info
+		select hpSeq,dept,mainImg,hpName,info
 		from hospitalInfo
 	</select>
+	
+	<select id="viewMyinfo" parameterType="String" resultType="com.synergy.socdoc.member.MemberVO">
+       select userid, email, name, phone, height, weight, bloodType, bloodType, allergy, history, medicine, memberSeq
+       ,to_char(birthDate, 'yyyy-mm-dd') AS birthDate
+       ,gender
+       from member
+       where userid = #{userid}
+      </select>
 	
 </mapper>
