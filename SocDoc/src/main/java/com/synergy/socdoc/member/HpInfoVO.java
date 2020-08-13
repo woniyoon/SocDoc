@@ -2,6 +2,7 @@ package com.synergy.socdoc.member;
 
 public class HpInfoVO {
 
+	private String hpSeq;
 	private String dept;
 	private String hpName;
 	private String address;
@@ -26,9 +27,10 @@ public class HpInfoVO {
 	}	
 	
 
-	public HpInfoVO(String dept, String hpName, String address, String phone, String info,
-		double latitude, double longitude, int open, int close, String mainImg, String subImg1, String subImg2, int status, String submitId, String uploadDate) {
+	public HpInfoVO(String hpSeq, String dept, String hpName, String address, String phone, String info,
+			double latitude, double longitude, int open, int close, String mainImg, String subImg1, String subImg2, int status, String submitId, String uploadDate) {
 		super();
+		this.hpSeq = hpSeq;
 		this.dept = dept;
 		this.hpName = hpName;
 		this.address = address;
@@ -46,6 +48,14 @@ public class HpInfoVO {
 		this.uploadDate = uploadDate;
 	}
 
+	public String getHpSeq() {
+		return hpSeq;
+	}
+	
+	public void setHpSeq(String hpSeq) {
+		this.hpSeq = hpSeq;
+	}
+	
 	public String getDept() {
 		return dept;
 	}

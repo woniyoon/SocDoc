@@ -5,6 +5,7 @@
 	String ctxPath = request.getContextPath();
 %>
     
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <meta charset="UTF-8">
 
@@ -182,8 +183,13 @@
     <p class="logo"><img src="<%= ctxPath%>/resources/images/logo.jpg" width="150px" height="100px" class="logo" /></p>
 
     <ul class="util">     
-        <li><a href="#">로그인</a></li>
-        <li><a href="#">회원가입</a></li>
+    	<c:if test="${sessionScope.loginuser == null}">
+	        <li><a href="<%=ctxPath%>/login.sd">로그인</a></li>
+	    	<li><a href="<%=ctxPath%>/register.sd">회원가입</a></li>
+        </c:if>
+        <c:if test="${not empty sessionScope.loginuser}">
+	        <li><a href="<%=ctxPath%>/logout.sd">로그아웃</a></li>
+        </c:if>
         <li><a href="#">마이페이지</a></li>
         <li><a href="#">고객센터</a></li>
     </ul>
