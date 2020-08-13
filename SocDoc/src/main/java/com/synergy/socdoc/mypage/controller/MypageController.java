@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.JsonObject;
 import com.synergy.socdoc.common.MyUtil;
 import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.MemberVO;
@@ -659,8 +660,10 @@ public class MypageController {
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
 		String userid = loginuser.getUserid();
+		String reservSeq = request.getParameter("reservSeq");
 		
 		mav.addObject("userid", userid);
+		mav.addObject("reservSeq", reservSeq);
 		
 		/*String searchType = request.getParameter("searchType");*/
         String searchType = request.getParameter("searchType");
@@ -679,6 +682,7 @@ public class MypageController {
         paraMap.put("searchType", searchType); // "컬럼"
        // paraMap.put("searchWord", searchWord); // 검색어를 담는다.
         paraMap.put("userid", userid);
+        paraMap.put("reservSeq", reservSeq);
         
         // 먼저 총 게시물 건수(totalCount)를 구해와야한다. 
         // 총 게시물 건수(totalCount)는 검색조건이 있을때와 없는때로 나뉘어진다.
@@ -725,11 +729,6 @@ public class MypageController {
    		paraMap.put("startRno", String.valueOf(startRno));
    		paraMap.put("endRno", String.valueOf(endRno));
    		
-   		String reservSeq = request.getParameter("reservSeq");
-   		paraMap.put("reservSeq", reservSeq);
-   		mav.addObject("reservSeq",reservSeq);
-        
-   		System.out.println(reservSeq);
    		
    		String hour = request.getParameter("hour");
    		paraMap.put("hour", hour);
@@ -745,9 +744,15 @@ public class MypageController {
    		// paraMap.put("hourSeq", hourSeq);
    		// addObject("hourSeq", hourSeq);
    		
+   		if(reservSeq != null) {
+   			
+   		}
+   		
    		List<HashMap<String,String>> reservationList = service.reservationListSearchWithPaging(paraMap);
    		// 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것)
 		
+   		
+   		
 		if(!"".equals(searchType)) {
 			mav.addObject("paraMap", paraMap);
 		}
@@ -802,12 +807,12 @@ public class MypageController {
 		session = request.getSession();
 		session.setAttribute("readCountPermission", "yes");
 	
-		
+		//List<HashMap<String,String>> reservationDetail = service.reservationDetailListSearchWithPaging(paraMap);
+   		
 		mav.addObject("reservationList",reservationList);
+		//mav.addObject("reservationDetail",reservationDetail);
 		
-		System.out.println(hour);
 		mav.setViewName("myPage/reservation.tiles2");
-		
 		return mav;
 		
 	}
@@ -994,7 +999,7 @@ public class MypageController {
 	
 	// === 후기 페이지 보이기 === //  
 	@RequestMapping(value="/review.sd")
-	public String review(HttpServletRequest request, ModelAndView mav) {
+	public ModelAndView review(HttpServletRequest request, ModelAndView mav) {
 	
 		// List<ReservationVO> reservationList = null;
 		
@@ -1002,19 +1007,15 @@ public class MypageController {
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
 		String userid = loginuser.getUserid();
-		String name = loginuser.getName();
-		//String memberSeq = String.valueOf(loginuser.getMemberSeq());
 		
 		mav.addObject("userid", userid);
-		mav.addObject("name", name);
-		//mav.addObject("memberSeq", memberSeq);
 		
 		/*String searchType = request.getParameter("searchType");*/
         String searchType = request.getParameter("searchType");
         // System.out.println(searchWord);
         String str_currentShowPageNo = request.getParameter("currentShowPageNo");
         
-       /* if(searchType == null || searchType.trim().isEmpty()) {
+       /* if(searchType == null || searchType.trim().isEmpty()) {reviewList
         	searchType = "";
         }*/
         
@@ -1022,21 +1023,10 @@ public class MypageController {
         	searchType = "";
          }
         
-        membervo = service.viewMyHealth(userid);
-		
-		// List<MemberVO> memberList = service.viewMyHealthTest();
-		
-		mav.addObject("membervo", membervo);
-        
         HashMap<String,String> paraMap = new HashMap<>();
         paraMap.put("searchType", searchType); // "컬럼"
        // paraMap.put("searchWord", searchWord); // 검색어를 담는다.
         paraMap.put("userid", userid);
-        paraMap.put("name", name);
-        //paraMap.put("memberSeq", memberSeq);
-        
-        System.out.println(userid);
-        System.out.println(name);
         
         // 먼저 총 게시물 건수(totalCount)를 구해와야한다. 
         // 총 게시물 건수(totalCount)는 검색조건이 있을때와 없는때로 나뉘어진다.
@@ -1051,8 +1041,8 @@ public class MypageController {
         // 현재 보여주는 페이지 번호로서, 초기치로는 1페이지로 설정한다. 
         
         // 총 게시물 건수(totalCount)
-        totalCount = service.getTotalCountReservation(paraMap);
-//				    	System.out.println("~~~~ 확인용 totalCount : " + totalCount);
+        totalCount = service.getTotalCountReview(paraMap);
+//		    	System.out.println("~~~~ 확인용 totalCount : " + totalCount);
         
         // 만약에 총 게시물 건수(totalCount)가 127개라면, 
         // 총 페이지 수(totalPage)는 13개가 되어야 한다. 
@@ -1083,21 +1073,7 @@ public class MypageController {
    		paraMap.put("startRno", String.valueOf(startRno));
    		paraMap.put("endRno", String.valueOf(endRno));
    		
-   		String hour = request.getParameter("hour");
-   		paraMap.put("hour", hour);
-   		mav.addObject("hour",hour);
-   		
-   		String visitdate = request.getParameter("visitdate");
-   		paraMap.put("visitdate", visitdate);
-   		mav.addObject("visitdate",visitdate);
-   		
-   		
-   		// String hourSeq = service.getHourSeq(paraMap);
-   		
-   		// paraMap.put("hourSeq", hourSeq);
-   		// addObject("hourSeq", hourSeq);
-   		
-   		List<HashMap<String,String>> historyList = service.historyListSearchWithPaging(paraMap);
+   		List<HashMap<String,String>> reviewList = service.reviewListSearchWithPaging(paraMap);
    		// 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것)
 		
 		if(!"".equals(searchType)) {
@@ -1115,7 +1091,7 @@ public class MypageController {
 		int pageNo = ((currentShowPageNo - 1)/blockSize) * blockSize + 1;
 	
 		
-		String url = "reservation.sd";
+		String url = "review.sd";
 		
 		// === [이전] 만들기 === 
 		if(pageNo != 1) {
@@ -1155,16 +1131,59 @@ public class MypageController {
 		session.setAttribute("readCountPermission", "yes");
 	
 		
-		mav.addObject("historyList",historyList);
+		mav.addObject("reviewList",reviewList);
 		
-		mav.setViewName("myPage/viewHistory.tiles2");
+		mav.setViewName("myPage/review.tiles2");
 		
 		return mav;
 		
-		return "myPage/review.tiles2";
 	}
 	
-	
+	// 예약확인 - 병원이름 클릭시 예약상세정보
+	@ResponseBody
+	@RequestMapping(value="/getDetail.sd", produces="text/plain;charset=UTF-8")
+	public String getDetail(HttpServletRequest request, MemberVO membervo) {
+		
+		
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		String userid = loginuser.getUserid();
+		
+		String reservSeq = request.getParameter("reservSeq");
+		 
+//		mav.addObject("userid", userid);
+//		mav.addObject("reservSeq", reservSeq);
+		
+		System.out.println(reservSeq);
+		
+		HashMap<String,String> paraMap = new HashMap<>();
+
+		paraMap.put("userid", userid);
+   		paraMap.put("reservSeq", reservSeq);
+		
+   		HashMap<String,String> reservationDetail = service.reservationDetailListSearchWithPaging(paraMap);
+   		// 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것)
+		
+   		JsonObject json = new JsonObject();
+   		
+   		json.addProperty("hpName", reservationDetail.get("hpName"));
+   		json.addProperty("hour", reservationDetail.get("hour"));
+   		json.addProperty("visitdate", reservationDetail.get("visitdate"));
+   		json.addProperty("status", reservationDetail.get("status"));
+   		json.addProperty("address", reservationDetail.get("address"));
+   		json.addProperty("phone", reservationDetail.get("phone"));
+   		json.addProperty("dept", reservationDetail.get("dept"));
+   		json.addProperty("reservSeq", reservSeq);
+   		
+   		
+		/*mav.addObject("reservationDetail",reservationDetail);
+		
+		mav.setViewName("myPage/reservation.tiles2");*/
+		
+		return json.toString();
+		
+	}
 	
 	
 	

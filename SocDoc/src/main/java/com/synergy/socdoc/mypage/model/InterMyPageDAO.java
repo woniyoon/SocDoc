@@ -49,6 +49,12 @@ public interface InterMyPageDAO {
 
 	List<HashMap<String, String>> historyListSearchWithPaging(HashMap<String, String> paraMap); // 진료이력조회
 
+	List<HashMap<String, String>> reviewListSearchWithPaging(HashMap<String, String> paraMap); // 내 후기
+
+	int getTotalCountReview(HashMap<String, String> paraMap); // 리뷰갯수
+
+	HashMap<String, String> reservationDetailListSearchWithPaging(HashMap<String, String> paraMap); // 예약확인 - 병원이름 클릭시 예약상세정보
+
 
 	// String getHourSeq(HashMap<String, String> paraMap); // 방문 예정시간 구하기
 

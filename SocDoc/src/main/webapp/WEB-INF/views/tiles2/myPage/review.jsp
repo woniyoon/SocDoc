@@ -114,9 +114,13 @@
    .checkTbl{
       width:5%;
    }
+   
+   .nameTbl{
+   	   width:25%;
+   }
 
    .starTbl{
-      width: 10%;
+      width: 20%;
    }
    
    .dateTbl{
@@ -124,7 +128,7 @@
    }
    
    .contentTbl{
-      width:50%;
+      width:35%;
    }
      
    div#notice_button_wrap{
@@ -197,13 +201,23 @@
 
    $(document).ready(function(){
       
-      
+		// 검색시 검색조건 및 검색어 값 유지시키기 
+	    if(${paraMap != null}) {
+	       $("#searchType").val("${paraMap.searchType}");
+	    }
+		
+		$("#searchType").change(function(){
+			searchType = $(this).val();
+			goSearch(searchType);
+		});
+	   
+	   
       $(".starRating").each(function(){
          $("#starRating3").addClass("on").prevAll("span").addClass("on");
          return false;
       })
    
-   })
+   });
 
    
    
@@ -212,6 +226,15 @@
       
          
    }
+   
+   function goSearch(searchType) {
+	    var frm = document.searchFrm;
+	    frm.searchType.value = searchType;
+	    
+	    frm.method = "GET";
+	    frm.action = "<%= request.getContextPath()%>/review.sd";
+	    frm.submit();
+	  }// end of function goSearch()-------------------------
    
 
 </script>
@@ -247,48 +270,55 @@
         
         <div id="contents">
 		   <h1 style="text-align: left;"><strong>내 후기</strong></h1>
-    <div>총 후기 : <span style="color: skyblue;">1</span></div>
+    <div>총 후기 : <span style="color: skyblue;">${totalCount}</span></div>
+    <div style="width:80%; display: inline-block; ">
+        	<form name="searchFrm">
+       			<select id="searchType" name="searchType" style="height:25px; float: right;" >
+  				<option id="searchType1" value="1" >전체</option>
+  				<option id="searchType2" value="2" >최신순</option>
+  				<option id="searchType3" value="3" >오래된순</option>
+  			</select>
+  			</form>
+       		</div>
     <div>
+    
+    <form name="noticeListFrm">
        <table style="margin-top: 30px;">
           <thead>
               <tr>
                  <th class="checkTbl"><input type="checkbox"/></th>
-                 <th >병원이름</th>
+                 <th class="nameTbl">기관이름</th>
                  <th class="starTbl">별점</th>
                  <th class="contentTbl">내용</th>
                  <th class="dateTbl">등록일</th>
               </tr>
           </thead>
           
+          <c:forEach var="reviewList" items="${reviewList}" varStatus="status">
           <tbody>
              <tr>
                 <td class="checkTbl"><input type="checkbox" /></td>
-                <td class="noticeTitle">똑닥병원</td>
+                <td class="noticeTitle">${reviewList.name}</td>
                 <td class="starTbl">
-                   <span class="starRating" id="starRating1">별1</span>
+                <c:if test="${reviewList.rating==5}">★★★★★</c:if>
+                <c:if test="${reviewList.rating==4}">★★★★</c:if>
+                <c:if test="${reviewList.rating==3}">★★★</c:if>
+                <c:if test="${reviewList.rating==2}">★★</c:if>
+                <c:if test="${reviewList.rating==1}">★</c:if>
+                   <!-- <span class="starRating" id="starRating1">별1</span>
                <span class="starRating" id="starRating2">별2</span>
                <span class="starRating" id="starRating3">별3</span>
                <span class="starRating" id="starRating4">별4</span>
-               <span class="starRating" id="starRating5">별5</span>
+               <span class="starRating" id="starRating5">별5</span> -->
+               
                 </td>
-                <td class="contentTbl">너무 좋은 병원입니다.너무 좋은 병원입니다.너무 좋은 병원입니다.너무 좋은 병원입니다.너무 좋은 병원입니다.너무 좋은 병원입니다.<br/>너무 좋은 병원입니다.<br/>너무 좋은 병원입니다.<br/></td>
-                <td class="dateTbl">2020-07-30</td>
+                <td class="contentTbl">${reviewList.content}</td>
+                <td class="dateTbl">${reviewList.regDate}</td>
               </tr>
-              <tr>
-                <td class="checkTbl"><input type="checkbox" /></td>
-                <td class="noticeTitle">어쩌고저쩌고약국</td>
-                <td class="starTbl">
-                   <span class="starRating" id="starRating1">별1</span>
-               <span class="starRating" id="starRating2">별2</span>
-               <span class="starRating" id="starRating3">별3</span>
-               <span class="starRating" id="starRating4">별4</span>
-               <span class="starRating" id="starRating5">별5</span>
-                </td>
-                <td class="contentTbl">또 가고 싶은 약국<br/></td>
-                <td class="dateTbl">2020-07-30</td>
-              </tr>
-          </tbody>               
+          </tbody> 
+          </c:forEach>              
        </table>
+    </form>
     </div>
     <div style="width: 80%;" align="right">
       <button type="button" class="btnDelete" onClick="goDelete();">삭제</button>

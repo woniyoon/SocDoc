@@ -168,6 +168,29 @@ public class MyPageDAO implements InterMyPageDAO {
 	}
 
 
+	// 내 후기
+	@Override
+	public List<HashMap<String, String>> reviewListSearchWithPaging(HashMap<String, String> paraMap) {
+		List<HashMap<String, String>> reviewList = sqlsession.selectList("mypage.reviewListSearchWithPaging",paraMap);
+		return reviewList;
+	}
+
+
+	@Override
+	public int getTotalCountReview(HashMap<String, String> paraMap) {
+		int n = sqlsession.selectOne("mypage.getTotalCountReview", paraMap);
+		return n;
+	}
+
+
+	// 예약확인 - 병원이름 클릭시 예약상세정보
+	@Override
+	public HashMap<String, String> reservationDetailListSearchWithPaging(HashMap<String, String> paraMap) {
+		HashMap<String, String> reservationDetail = sqlsession.selectOne("mypage.reservationDetailListSearchWithPaging",paraMap);
+		return reservationDetail;
+	}
+
+
 	
 
 

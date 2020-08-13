@@ -200,25 +200,26 @@
 	    
 	   <!-- == 예약확인 게시판의 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것) -->
 	   <resultMap type="HashMap" id="reservationMap">
-   		<result property="hpName" 				column="hpName" 			javaType="String"/>
-   		<result property="hour" 				column="hour" 				javaType="String"/>
-   		<result property="visitdate" 			column="visitdate" 			javaType="String"/>
-   		<result property="status" 				column="status" 			javaType="String"/>
-   		<result property="address" 				column="address" 			javaType="String"/>
-   		<result property="phone" 				column="phone" 				javaType="String"/>
-   		<result property="dept" 				column="dept" 				javaType="String"/>
+   		<result property="hpName" 					column="hpName" 				javaType="String"/>
+   		<result property="hour" 					column="hour" 					javaType="String"/>
+   		<result property="visitdate" 				column="visitdate" 				javaType="String"/>
+   		<result property="status" 					column="status" 				javaType="String"/>
+   		<result property="address" 					column="address" 				javaType="String"/>
+   		<result property="phone" 					column="phone" 					javaType="String"/>
+   		<result property="dept" 					column="dept" 					javaType="String"/>
+   		<result property="reservSeq" 				column="reservSeq" 				javaType="String"/>
 	   </resultMap>
 	   <select id="reservationListSearchWithPaging" parameterType="HashMap" resultMap="reservationMap">
-		  	select hpName, hourSeq, status, hour, to_char(visitdate, 'yyyy-mm-dd') as visitdate, address, phone, dept
+		  	select hpName, hourSeq, status, hour, to_char(visitdate, 'yyyy-mm-dd') as visitdate, address, phone, dept, reservSeq
 	        from
 		        (
-		            select rownum AS rno, hpName, hourSeq, status, hour, visitdate, address, phone, dept
+		            select rownum AS rno, hpName, hourSeq, status, hour, visitdate, address, phone, dept, reservSeq
 		            from
 		            (
-			            select hpName, status, T.hour, V.hourSeq, V.visitdate, V.address, V.phone, V.dept
+			            select reservSeq, hpName, status, T.hour, V.hourSeq, V.visitdate, V.address, V.phone, V.dept
 			            from 
 						(
-							select I.hpName, R.status, R.hourSeq, R.visitdate, I.address, I.phone, I.dept
+							select R.reservSeq, I.hpName, R.status, R.hourSeq, R.visitdate, I.address, I.phone, I.dept
 							from hospitalInfo I join reservation R 
 							on I.hpSeq = R.hpSeq
 							where userid = #{userid}
@@ -292,5 +293,92 @@
 			and R.userid = #{userid} 
 	  </select>
 	   -->
+	   
+	   
+	   <!-- == 예약확인 게시판의 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것) -->
+	   <resultMap type="HashMap" id="reviewMap">
+   		<result property="rno" 					column="rno" 					javaType="String"/>
+   		<result property="userid" 				column="userid" 				javaType="String"/>
+   		<result property="rating" 				column="rating" 				javaType="String"/>
+   		<result property="content" 				column="content" 				javaType="String"/>
+   		<result property="name" 				column="name" 					javaType="String"/>
+   		<result property="regDate" 				column="regDate" 				javaType="String"/>
+	   </resultMap>
+	   <select id="reviewListSearchWithPaging" parameterType="HashMap" resultMap="reviewMap">
+		  	select rno, userid, rating, content, name, regDate
+	        from
+		        (
+		             (
+		              select rno, userid, rating, content, hpName as name, to_char(regDate, 'yyyy-mm-dd') as regDate
+				      from
+				          (select rownum as rno, userid, rating, content, regDate, hpname
+				          from hospitalReview
+				          order by regDate desc)
+				      )
+				      union all
+				      (
+				      select rno, userid, rating, content, pharName, to_char(regDate, 'yyyy-mm-dd') as regDate
+				      from
+				          (select rownum as rno, userid, rating, content, regDate, pharName
+				          from pharmacyReview 
+				          order by regDate desc)
+				      )
+	    		) T
+	        where rno between #{startRno} and #{endRno}
+	        and userid = #{userid}
+	        <if test='searchType == "2"'>
+            order by regDate desc
+            </if>
+            <if test='searchType == "3"'>
+            order by regDate asc
+            </if>
+	  </select>   
+	  
+	  
+	   <!-- == 총 후기 건수(totalCount)를 구하기 == -->
+	   <select id="getTotalCountReview" parameterType="HashMap" resultType="int">
+	   	select sum(total) 
+		from (
+		select count (*) as total 
+		from hospitalReview 
+		where userid = #{userid}
+		union all 
+		select count (*) as total 
+		from pharmacyReview
+		where userid = #{userid}
+		)
+	   </select>
+	   
+	   
+	   <!-- == 예약확인 게시판의 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것) -->
+	   <resultMap type="HashMap" id="reservationDetailMap">
+   		<result property="hpName" 				column="hpName" 			javaType="String"/>
+   		<result property="hour" 				column="hour" 				javaType="String"/>
+   		<result property="visitdate" 			column="visitdate" 			javaType="String"/>
+   		<result property="status" 				column="status" 			javaType="String"/>
+   		<result property="address" 				column="address" 			javaType="String"/>
+   		<result property="phone" 				column="phone" 				javaType="String"/>
+   		<result property="dept" 				column="dept" 				javaType="String"/>
+	    <result property="reservSeq" 			column="reservSeq" 			javaType="String"/>
+	   </resultMap>
+	   <select id="reservationDetailListSearchWithPaging" parameterType="HashMap" resultMap="reservationDetailMap">
+		  	select hpName, hourSeq, status, hour, to_char(visitdate, 'yyyy-mm-dd') as visitdate, address, phone, dept
+	        from
+		        (
+		            select rownum AS rno, hpName, hourSeq, status, hour, visitdate, address, phone, dept
+		            from
+		            (
+			            select hpName, status, T.hour, V.hourSeq, V.visitdate, V.address, V.phone, V.dept
+			            from 
+						(
+							select I.hpName, R.status, R.hourSeq, R.visitdate, I.address, I.phone, I.dept
+							from hospitalInfo I join reservation R 
+							on I.hpSeq = R.hpSeq
+							where userid = #{userid} and reservSeq = #{reservSeq}
+						) V join timetable T 
+						    on V.hourSeq = T.hourSeq
+		        	) E
+	    		) T
+	  </select>   
 	
 </mapper>

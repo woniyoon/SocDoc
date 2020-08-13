@@ -283,6 +283,10 @@
 		
 		// 모달을 띄우기 위해 테이블 행 클릭 이벤트 추가
 	      $(".visitorRow").each(function() {
+	    	  
+	    	  //reservSeq = $("reservSeq").val();
+	    	  //goDetail();
+	    	  
 	         $(this).click(function(e) {
 	            // 체크박스 클릭시, 이벤트를 취소
 	            if (e.target.type == "checkbox") {
@@ -321,6 +325,98 @@
 	  function closeModal() {
 	      $(".modalContainer").addClass("hidden");
 	   }
+	  
+	  function goDetail(reservSeq) {
+		  <%-- var frm = document.reservationListFrm;
+		  
+		  frm.method = "GET";
+		  frm.action = "<%= request.getContextPath()%>/reservation.sd";
+		  frm.submit(); --%>
+		  
+		  $.ajax({
+	             url:"<%= request.getContextPath()%>/getDetail.sd",
+	             type:"GET",
+	             data:{"reservSeq":reservSeq},
+	             dataType:"JSON",
+	             success:function(json){
+	               // json결과가 오면 데이터를 동적으로 모달 안에 삽입.
+	               
+	               console.log(json);
+	            	var html = "";
+	 				if(json != null) {
+	 					html += "<table class='visitorDetail customTable'>";
+ 						html += "<tr align='center'>";
+ 						html += "<td>병원명</td>";
+ 						html += "<td>"+json.hpName+"</td>";
+ 						html += "</tr>";
+ 						html += "<tr align='center'>";
+ 						html += "<td>진료과목</td>";
+ 						html += "<td>"+json.dept+"</td>";
+ 						html += "</tr>";
+ 						html += "<tr align='center'>";
+ 						html += "<td>방문예정일</td>";
+ 						html += "<td>"+json.visitdate+"</td>";
+ 						html += "</tr>";
+ 						html += "<tr align='center'>";
+ 						html += "<td>방문예정시간</td>";
+ 						html += "<td>"+json.hour+"</td>";
+ 						html += "</tr>";
+ 						html += "<tr align='center'>";
+ 						html += "<td>전화번호</td>";
+ 						html += "<td>"+json.phone+"</td>";
+ 						html += "</tr>";
+ 						html += "<tr align='center'>";
+ 						html += "<td>주소</td>";
+ 						html += "<td>"+json.address+"</td>";
+ 						html += "</tr>";
+ 						html += "</table>";
+	 					
+	 				 /* $.each(json, function(index, item){
+	 						html += "<table class='visitorDetail customTable'>";
+	 						html += "<c:forEach var='reservationDetail' items='${reservationDetail}' varStatus='status'>";
+	 						html += "<tr align='center'>";
+	 						html += "<td>병원명</td>";
+	 						html += "<td>${reservationDetail.hpName}</td>";
+	 						html += "</tr>";
+	 						html += "<tr align='center'>";
+	 						html += "<td>진료과목</td>";
+	 						html += "<td>${reservationDetail.dept}</td>";
+	 						html += "</tr>";
+	 						html += "<tr align='center'>";
+	 						html += "<td>방문예정일</td>";
+	 						html += "<td>"++"</td>";
+	 						html += "</tr>";
+	 						html += "<tr align='center'>";
+	 						html += "<td>방문예정시간</td>";
+	 						html += "<td>${reservationDetail.hour}</td>";
+	 						html += "</tr>";
+	 						html += "<tr align='center'>";
+	 						html += "<td>전화번호</td>";
+	 						html += "<td>${reservationDetail.phone}</td>";
+	 						html += "</tr>";
+	 						html += "<tr align='center'>";
+	 						html += "<td>주소</td>";
+	 						html += "<td>";
+	 						html += "${reservationDetail.address}";
+	 						html += "</td>";
+	 						html += "</tr>";
+	 						html += "</c:forEach>";
+	 						html += "</table>";
+	 					}); */
+	 				}
+	 				else {
+	 					html += "<tr>";
+	 					html += "<td colspan='4' style='text-align: center;'>오류</td>";
+	 					html += "</tr>";
+	 				}
+	 				
+	 				$("#detail").html(html); 
+	             },
+	             error: function(request, status, error){
+	                      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	             }
+		  });
+	  }
   
 </script>
 
@@ -357,7 +453,7 @@
   			</select>
   		</form>
        </div>
-			<form name="noticeListFrm">
+			<form name="reservationListFrm">
 			<table style="margin-top: 30px;">
 				<thead>
 					 <tr>
@@ -375,7 +471,9 @@
 				<c:forEach var="reservationList" items="${reservationList}" varStatus="status">
 					<tr>
 					    <td class="notice_seq">${status.count}</td>
-						<td id="hospitalName" class="visitorRow"><a style="cursor: pointer;" class="btn" data-toggle="modal" data-target="#myModal">${reservationList.hpName}</a></td>
+<%-- 						<td id="hospitalName" class="visitorRow" ><a href="javascript:goDetail(${reservationList.reservSeq})" style="cursor: pointer;" class="btn">${reservationList.hpName}</a></td> --%>
+						<td id="hospitalName" class="visitorRow" onclick="goDetail(${reservationList.reservSeq})" style="cursor: pointer;">${reservationList.hpName}</td>
+						
 						<td>${reservationList.visitdate}</td>
 						<td>${reservationList.hour}</td>
 						<c:if test="${reservationList.status == 0}">
@@ -393,7 +491,7 @@
 				</tbody>	
 					
 			</table>
-				<input type="hidden" name=reservSeq value="${reservSeq}"/>	
+				<input type="hidden" id="reservSeq" name=reservSeq value="${reservSeq}"/>	
 			</form>
 			</br></br>
 			
@@ -451,38 +549,40 @@
 		               <span style="font-size: 1.2em; cursor: pointer;"
 		                  onclick="closeModal()">X</span>
 		            </div>
+		            <div id="detail">
 		            <!-- ajax를 이용해, 동적으로 생성 ⬇️-->
 		            <table class="visitorDetail customTable" >
-		            <c:forEach var="reservationList" items="${reservationList}" varStatus="status">
+		            <c:forEach var="reservationDetail" items="${reservationDetail}" varStatus="status">
 		               <tr align="center">
 		                  <td>병원명</td>
-		                  <td>${reservationList.hpName}</td>
+		                  <td>${reservationDetail.hpName}</td>
 		               </tr>
 		               <tr align="center">
 		                  <td>진료과목</td>
-		                  <td>${reservationList.dept}</td>
+		                  <td>${reservationDetail.dept}</td>
 		               </tr>
 		               <tr align="center">
 		                  <td>방문예정일</td>
-		                  <td>${reservationList.visitdate}</td>
+		                  <td>${reservationDetail.visitdate}</td>
 		               </tr>
 		               <tr align="center">
 		                  <td>방문예정시간</td>
-		                  <td>${reservationList.hour}</td>
+		                  <td>${reservationDetail.hour}</td>
 		               </tr>
 		               <tr align="center">
 		                  <td>전화번호</td>
-		                  <td>${reservationList.phone}</td>
+		                  <td>${reservationDetail.phone}</td>
 		               </tr>
 		               <tr align="center">
 		                  <td>주소</td>
 		                  <td>
-		                  	${reservationList.address}
+		                  	${reservationDetail.address}
 		                  </td>
 		               </tr>
 		                </c:forEach>
 		            </table>
 		            <!-- 동적으로 생성되는 부분-->
+		            </div>
 		            <div class="modal_footer" style="text-align: center; margin-top:15px; margin-bottom: 15px;">
 				      <button type="button" class="btn btn-primary">예약변경</button>
 				      <button type="button" class="btn btn-default myclose" data-dismiss="modal">예약취소</button>

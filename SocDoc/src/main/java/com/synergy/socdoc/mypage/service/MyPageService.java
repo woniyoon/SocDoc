@@ -196,6 +196,32 @@ public class MyPageService implements InterMyPageService {
 	}
 
 
+	// 내 후기
+	@Override
+	public List<HashMap<String, String>> reviewListSearchWithPaging(HashMap<String, String> paraMap) {
+		List<HashMap<String, String>> reviewList = dao.reviewListSearchWithPaging(paraMap);
+		return reviewList;
+	}
+
+
+	// 리뷰갯수
+	@Override
+	public int getTotalCountReview(HashMap<String, String> paraMap) {
+		int n = dao.getTotalCountReview(paraMap);
+		return n;
+	}
+
+
+	// 예약확인 - 병원이름 클릭시 예약상세정보
+	@Override
+	public HashMap<String, String> reservationDetailListSearchWithPaging(HashMap<String, String> paraMap) {
+		HashMap<String, String> reservationDetail = dao.reservationDetailListSearchWithPaging(paraMap);
+		return reservationDetail;
+	}
+
+	
+
+
 
 
 	/*// 방문 예정시간 구하기
