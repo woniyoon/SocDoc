@@ -40,6 +40,11 @@
 		//border: solid 1px blue;
 	}
    
+   	.textPrimary {
+   		margin-bottom: 5px;
+   		color: #454545; 
+   	}
+   	
 	/* 탭(개인회원/병원회원) */
 	#tab {
 		display: flex;
@@ -102,7 +107,7 @@
 		padding-right: 10px;
 		margin-top: 15px;
 	}
-	
+
 	.textPrimary {
 		margin-bottom: 5px;
 	}
@@ -304,6 +309,10 @@
 		<form name="loginFrm">
 			<div id="box">
 				<div class="individualMember">
+
+<!-- 					<div class="checkbox" style="font-size: 8.5pt;">
+						<label for="saveid"><input type="checkbox" id="saveid" name="saveid" style="vertical-align: top;" />&nbsp;&nbsp;아이디저장</label> -->
+<!-- 혹시 아니면 밑부분을 지우세요... -->
 					<div class="checkbox" style="vertical-align: middle; font-size: 9pt;">
 						<label for="saveid"><input type="checkbox" id="saveid" name="saveid" />&nbsp;&nbsp;아이디저장</label>
 					</div>
@@ -338,6 +347,10 @@
 		<form name="hpLoginFrm">
 			<div id="box">
 				<div class="hospitalMember">
+<!-- <<<<<<< HEAD
+					<div class="checkbox" style="font-size: 8.5pt;"	>
+						<label for="saveid"><input type="checkbox" id="saveid" name="saveid" style="vertical-align: top;" />&nbsp;&nbsp;아이디저장</label> -->
+<!-- 혹시 아니면 밑부분을 지우세요... -->
 					<div class="checkbox" style="vertical-align: top; font-size: 9pt;">
 						<label for="saveid"><input type="checkbox" id="saveid" name="saveid" />&nbsp;&nbsp;아이디저장</label>
 					</div>
