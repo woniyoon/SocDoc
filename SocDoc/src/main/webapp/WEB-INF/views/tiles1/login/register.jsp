@@ -1178,7 +1178,7 @@
 				
 				        <label for="agree">약관 동의 &nbsp;&nbsp;<input type="checkbox" id="agree" /> </label>
 				        <div style="text-align: center; vertical-align: middle;">
-				           <iframe src="../iframeAgree/agree.html" width="100%" height="150px" class="box" ></iframe>
+				           <iframe src="<%=ctxPath %>/resources/html/agree.html" width="100%" height="150px" class="box" ></iframe>
 				        </div>
 					</div>
 					
@@ -1235,7 +1235,7 @@
 						
 				        <label for="hpAgree">약관 동의 &nbsp;&nbsp;<input type="checkbox" id="hpAgree" /> </label>
 				        <div style="text-align: center; vertical-align: middle;">
-			            <iframe src="../iframeAgree/agree.html" width="100%" height="150px" class="box" ></iframe>
+			            <iframe src="<%=ctxPath %>/resources/html/agree.html" width="100%" height="150px" class="box" ></iframe>
 						</div>
 					</div>	 
 					
