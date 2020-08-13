@@ -12,7 +12,7 @@
 	
 	
 	<select id="hospital_select" resultType="com.synergy.socdoc.member.HpInfoVO"> 
-		select dept, hpName
+		select hpSeq,mainImg,hpName,info
 		from hospitalInfo
 	</select>
 	

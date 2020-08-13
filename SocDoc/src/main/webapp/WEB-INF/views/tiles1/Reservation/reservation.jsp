@@ -250,11 +250,6 @@ table.type05 td {
    cat2_name[16] = new Array('제천시','청주시 상당구','청주시 흥덕구','충주시','괴산군','단양군','보은군','영동군','옥천군','음성군','진천군','청원군');
    
    
-   var cat3_num = new Array(500,501,502,503,504,505,506,507,508,509);
-   var cat3_name = new Array('내과','이비인후과','정형외과','안과','산부인과','치과','외과','성형외과','정신건강의학과','피부과');
-   
-   
-   
    function cat1_change(key,sel){
    if(key == '') return;
    var name = cat2_name[key];
@@ -341,6 +336,15 @@ table.type05 td {
          alert("찾으시는 병원 정보를 선택해주세요.");
       }
    }// end of 검색 끝 =======================
+
+   
+   
+   
+	// ================ 진료과별로 나열하기 ================
+		$("select:option[class=dept]").click(function(){
+			$()	
+		});
+	// end of 진료과별로 나열하기 끝 =======================
    </script>
    
    <!-- 전체박스 -->
@@ -376,17 +380,26 @@ table.type05 td {
             <label>진료과목</label>
               <select id="h_area3" name="h_area3" style="width: 200px;">
               <option selected>전체</option>
-                    <option value='500'>내과</option>
-                  <option value='501'>이비인후과</option>
-                  <option value='502'>정형외과</option>
-                  <option value='503'>안과</option>
-                  <option value='504'>산부인과</option>
-                  <option value='505'>치과</option>
-                  <option value='506'>외과</option>
-                  <option value='507'>성형외과</option>
-                  <option value='508'>정신건강의학과</option>
-                  <option value='509'>피부과</option>
+                  <option value='내과' class="dept">내과</option>
+                  <option value='이비인후과' class="dept">이비인후과</option>
+                  <option value='정형외과' class="dept">정형외과</option>
+                  <option value='안과' class="dept">안과</option>
+                  <option value='산부인과' class="dept">산부인과</option>
+                  <option value='치과' class="dept">치과</option>
+                  <option value='외과' class="dept">외과</option>
+                  <option value='성형외과' class="dept">성형외과</option>
+                  <option value='정신건강의학과' class="dept">정신건강의학과</option>
+                  <option value='피부과' class="dept">피부과</option>
               </select>
+              <!--  D001:내과, 
+              	    D002:소아청소년과,
+					D004:정신건강의학과,  
+					D005:피부과,
+					D011:여성의학과,
+					D012:안과, 
+					D013:이비인후과, D014:비뇨기과, 
+					D022:가정의학과, 
+					D026:치과 -->
              <label>
              <br>
                   <a>
@@ -421,25 +434,36 @@ table.type05 td {
    <span>위에서 진료과 선택 또는 질병명/의료진명 검색을 먼저해주세요.</span>
    병원찾기전 끝 
    
-   <!-- 병원검색했을경우, 병원정보정렬 -->
+    <!-- 병원검색했을경우, 병원정보정렬 -->
    
    <div id="hospital" style="height: 300px;">
-      <div class="hspimg" style="float: left;">
-    
-      <!-- 병원사진 --><img width="150px;" height="140px;" src="<%= ctxPath%>/resources/images/피부과.jpg" /></div>
    <div class="hpsinfo" style="float: left; width:150px; margin-left: 6px;">
-      <ul>
+      <table>
+      <c:if test="${empty hpinfovoList}">
+         <tr>
+            <td>현재 등록된 병원이 없습니다.</td>
+         </tr>
+      </c:if>
+      
+      <c:if test="${not empty hpinfovoList}">
+      <tr>
       <c:forEach var="hpinfovoList" items="${hpinfovoList}" varStatus="status">
-      <!-- 병원이름 --><li style="font-size: 12pt; color: blue; font-weight: bold;">${hpinfovoList.hpName}</li>
-      <!-- 병원정보 --><li style="font-size: 9pt;"></li>
-      <!-- 리뷰보기 --><li style="font-weight: bold; cursor: pointer;"><a href="http://drsonyouna.com/">리뷰 및 상세보기</a></li>
+      <td>
+      <!-- 병원사진 -->
+      <a href='<%= ctxPath%>/socdoc/reserve.sd?hpSeq=${hpinfovoList.hpSeq}'><img width="150px;" height="140px;" src="<%= ctxPath%>/resources/images/${hpinfovoList.mainImg}"/></a>
+      <!-- 병원이름 -->${hpinfovoList.hpName}<br/>
+      <!-- 병원소개 -->${hpinfovoList.info}<br/>
+      <!-- 리뷰보기 --><a href="http://drsonyouna.com/">리뷰 및 상세보기</a><br/>
+      <c:if test="${(status.count)%2 == 0 }"></c:if>
+      </td>
+      
       </c:forEach>
-      </ul>
-      		
+      </tr>
+      </c:if> 
+      </table>
       </div>
       <!-- 리뷰보기 -->
    <!-- 병원검색했을경우, 병원정보정렬 끝 -->
-
    </div>
    </div>
    <!-- 병원목록 끝 -->
