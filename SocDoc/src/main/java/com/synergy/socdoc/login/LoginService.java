@@ -127,4 +127,16 @@ public class LoginService implements InterLoginService {
 		HpMemberVO hpIdFind = dao.hpIdFindResult(paraMap); // DB에 넘기자.
 		return hpIdFind;
 	}
+	
+	// 비밀번호 찾기,변경 //
+	@Override
+	public int pwdUpdate(HashMap<String, String> paraMap) {
+		int n = dao.pwdUpdate(paraMap); // DB에 넘기자.
+		return n;
+	}
+	@Override
+	public int checkMember(HashMap<String, String> paraMap) {
+		int n = dao.checkMember(paraMap);
+		return n;
+	}
 }

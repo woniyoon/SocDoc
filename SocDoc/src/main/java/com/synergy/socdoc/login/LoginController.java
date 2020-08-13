@@ -146,7 +146,14 @@ public class LoginController {
 	public ModelAndView logout(HttpServletRequest request, ModelAndView mav) {  //직접 세션해도 되고, HttpServletRequest request 해도 됨)
 		
 		HttpSession session = request.getSession();
-		session.invalidate();
+/*		session.removeAttribute("login");
+		session.invalidate();*/
+		Object object = session.getAttribute("loginuser");
+		if(object != null) {
+			session.removeAttribute("login");
+			session.invalidate();
+		}
+		
 		
 		String msg = "로그아웃 되었습니다.";
 		String loc = request.getContextPath()+"/index.sd";
@@ -207,7 +214,7 @@ public class LoginController {
 			loc = request.getContextPath() + "/index.sd";
 		} else {
 			msg = "다시 시도해주세요!";
-			loc = "history.back()";
+			loc = "javascript:history.back()";
 		}
 		request.setAttribute("msg", msg);
 		request.setAttribute("loc", loc);
@@ -493,22 +500,124 @@ public class LoginController {
 	
 	// === 비밀번호 찾기 === //
 	@RequestMapping("/pwdFind.sd")
-	public String pwdFind(HttpServletRequest request) {
-		
-		String ctxPath = request.getContextPath();
-		System.out.println(ctxPath+"/pwdFind.sd로 접속하셨습니다.");
-		
-		return "login/pwdFind.tiles1";
+	public ModelAndView pwdFind(ModelAndView mav) {
+		mav.setViewName("login/pwdFind.tiles1");
+		return mav;
+	}
+	@RequestMapping("/hpPwdFind.sd")
+	public ModelAndView hpPwdFind(ModelAndView mav) {
+		mav.setViewName("login/pwdFind.tiles1");
+		return mav;
 	}
 	
 	// === 비밀번호 재설정 === //
 	@RequestMapping("/pwdUpdate.sd")
-	public String pwdUpdate(HttpServletRequest request) {
+	public ModelAndView pwdUpdate(HttpServletRequest request, HttpSession session, MemberVO vo, ModelAndView mav) {
+//		service.pwdUpdate(vo);
+		String name = request.getParameter("name");
+		String userid = request.getParameter("userid");
+		String email = request.getParameter("email");
+		String code = request.getParameter("code");
+		System.out.println(name);
+		System.out.println(userid);
+		System.out.println(email);
+		System.out.println(code);
 		
-		String ctxPath = request.getContextPath();
-		System.out.println(ctxPath+"/pwdUpdate.sd로 접속하셨습니다.");
+		HashMap<String, String> paraMap = new HashMap<>();
+		paraMap.put("name", name);
+		paraMap.put("userid", userid);
+		paraMap.put("email", email);
+
+		int n = service.checkMember(paraMap);
+
+		if(n == 0) {
+			String msg = "입력하신 정보는 존재하지 않습니다.";
+			String loc = "javascript:history.back()";
+			
+			mav.addObject("msg", msg);
+			mav.addObject("loc", loc);
+			mav.setViewName("msg");
+			
+		} else {
+			mav.addObject("name", name);
+			mav.addObject("userid", userid);
+			mav.addObject("email", email);
+
+			mav.setViewName("login/pwdUpdate.tiles1");
+		}
 		
-		return "login/pwdUpdate.tiles1";
+		return mav;
+	}
+	@RequestMapping("/hpPwdUpdate.sd")
+	public ModelAndView hpPwdUpdate(HttpServletRequest request, HttpSession session, MemberVO vo, ModelAndView mav) {
+//		service.pwdUpdate(vo);
+		String name = request.getParameter("name");
+		String userid = request.getParameter("userid");
+		String email = request.getParameter("email");
+		String code = request.getParameter("code");
+		System.out.println(name);
+		System.out.println(userid);
+		System.out.println(email);
+		System.out.println(code);
+		
+		HashMap<String, String> paraMap = new HashMap<>();
+		paraMap.put("name", name);
+		paraMap.put("userid", userid);
+		paraMap.put("email", email);
+		
+
+		int n = service.checkMember(paraMap);
+
+		if(n == 0) {
+			String msg = "입력하신 정보는 존재하지 않습니다.";
+			String loc = "javascript:history.back()";
+			
+			mav.addObject("msg", msg);
+			mav.addObject("loc", loc);
+			mav.setViewName("msg");
+			
+		} else {
+			mav.addObject("name", name);
+			mav.addObject("userid", userid);
+			mav.addObject("email", email);
+
+			mav.setViewName("login/pwdUpdate.tiles1");
+		}
+		
+		return mav;
+	}
+	
+	@RequestMapping("/changePwd.sd")
+	public ModelAndView changePwd(HttpServletRequest request, HttpSession session, ModelAndView mav) {
+		String pwd = request.getParameter("pwd");
+		String pwd2 = request.getParameter("pwd2");
+		String userid = request.getParameter("userid");
+		String name = request.getParameter("name");
+		String email = request.getParameter("email");
+		
+		HashMap<String, String> paraMap = new HashMap<>();
+		paraMap.put("pwd", Sha256.encrypt(pwd));
+		paraMap.put("pwd2", Sha256.encrypt(pwd2));
+		paraMap.put("userid", userid);
+		paraMap.put("name", name);
+		paraMap.put("email", email);
+		
+		int n = service.pwdUpdate(paraMap);
+
+		String msg = "비밀번호가 성공적으로 변경됐습니다.";
+		String loc = request.getContextPath() + "/login.sd";
+
+		if(n == 0) {
+			msg = "다시 시도해주세요!";
+			loc = request.getContextPath() + "/pwdFind";
+		}
+		session.invalidate(); // 세션을 끊는다?
+
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("msg");
+		
+		return mav;
 	}
 	
 	// === 게시판 list === //

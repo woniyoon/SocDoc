@@ -258,7 +258,7 @@ $(window).ready(function(){
 						if(json.isbool){ // 메일 인증 성공
 							$("form[name=idFindFrm] #codeError").hide();
 							$("form[name=idFindFrm] input#code").removeClass("wrong");
-							alert("인증성공");
+							//alert("인증성공");
 							condition3 = true;
 						} else { // 메일 인증 실패
 							$("form[name=idFindFrm] #codeError").html("메일 인증 실패. 다시 시도해주세요.").show();
@@ -450,7 +450,7 @@ $(window).ready(function(){
 						if(json.isbool){ // 메일 인증 성공
 							$("form[name=hpIdFindFrm] #codeError").hide();
 							$("form[name=hpIdFindFrm] input#code").removeClass("wrong");
-							alert("인증성공");
+							//alert("인증성공");
 							hpCondition3 = true;
 						} else { // 메일 인증 실패
 							$("form[name=hpIdFindFrm] #codeError").html("메일 인증 실패. 다시 시도해주세요.").show();

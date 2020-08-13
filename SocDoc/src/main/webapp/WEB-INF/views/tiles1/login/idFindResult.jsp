@@ -159,7 +159,7 @@
 			      
 				<div class="btnJoin">
 					<input type="button" id="btnLogin" value="로그인" onClick="location.href='<%=ctxPath%>/login.sd'"  />
-					<input type="button" id="btnFind" value="비밀번호 찾기" onClick="location.href='<%=ctxPath%>/pwdFindResult.sd'" />
+					<input type="button" id="btnFind" value="비밀번호 찾기" onClick="location.href='<%=ctxPath%>/pwdFind.sd'" style="color: #ccc;"/>
 				</div> 
 			</div>	    
 		</form>

@@ -28,6 +28,12 @@ public interface InterLoginService {
 	public MemberVO idFindResult(HashMap<String, String> paraMap);
 	public HpMemberVO hpIdFindResult(HashMap<String, String> paraMap);
 	
+	// 비밀번호 찾기,변경 //
+	public int pwdUpdate(HashMap<String, String> paraMap);
+		
+	// 존재하는 회원인지 확인
+	public int checkMember(HashMap<String, String> paraMap);
+	
 	
 
 	

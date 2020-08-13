@@ -176,95 +176,124 @@ $(window).ready(function(){
 	var condition1 = false;
 	var condition2 = false;
 	var condition3 = false;
+	var condition4 = false;
+	var btnChange = false;
 	$(document).ready(function(){
 		
 		// ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 이름
-		$("span#nameError").hide();
+		$("form[name=pwdFindFrm] span#nameError").hide();
 	
-		$("#name").keyup(function(){
+		$("form[name=pwdFindFrm] #name").keyup(function(){
 		
-			if($("input#name").val().trim() == "") {	// 데이터가 없다면
-				$("span#nameError").show();
-				$("#name").addClass("wrong");
+			if($("form[name=pwdFindFrm] input#name").val().trim() == "") {	// 데이터가 없다면
+				$("form[name=pwdFindFrm] span#nameError").show();
+				$("form[name=pwdFindFrm] #name").addClass("wrong");
 			} else {	// 데이터가 있다면
 				// 정규표현식
 		        var regExp = /^[가-힣]{2,4}$/;	//  2~4글자 한글만 
 		        var bool = regExp.test($(this).val()); // 생성된 정규표현식 객체속에 데이터를 넣어서 검사하기
 				
 		        if(!bool) {  // 데이터가 조건에 맞지않으면
-					$("span#nameError").show();
-					$("input#name").addClass("wrong");
+					$("form[name=pwdFindFrm] span#nameError").show();
+					$("form[name=pwdFindFrm] input#name").addClass("wrong");
 					condition1 = false;
 					return;
 				} else {	// 데이터가 조건에 맞다면
-					$("input#name").removeClass("wrong");
+					$("form[name=pwdFindFrm] input#name").removeClass("wrong");
 					condition1 = true;
 				}
-				$("span#nameError").hide();
+				$("form[name=pwdFindFrm] span#nameError").hide();
 				$(":input").prop("disabled",false).removeClass("wrong"); 
 				return;
 			}
 		});
 		
-		
-		//  ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 이메일
-		$("form[name=idFindFrm] span#emailError").hide();
-		$("form[name=idFindFrm] #btnChkNext").hide();
-		$("form[name=idFindFrm] #email").keyup(function(){
+		// ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 아이디
+		$("form[name=pwdFindFrm] span#useridError").hide();
+	
+		$("form[name=pwdFindFrm] #userid").keyup(function(){
 			$(this).val( $(this).val().replace( /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '' ).trim() ); // 한글 막기
-			if($("form[name=idFindFrm] input#email").val().trim() == "") {	// 데이터가 없다면
-				$("form[name=idFindFrm] span#emailError").show();
-				$("form[name=idFindFrm] input#email").addClass("wrong");
+			if($("form[name=pwdFindFrm] input#userid").val().trim() == "") {	// 데이터가 없다면
+				$("form[name=pwdFindFrm] span#userid").hide();
+				$("form[name=pwdFindFrm] input#userid").addClass("wrong"); 
 			} else {	// 데이터가 있다면
 				// 정규표현식
-				var email = $("form[name=idFindFrm] #email").val();
+				var regExp = /^[A-Za-z0-9]{5,10}$/;	// 5자 이상 10글자 이하의 영문과 숫자를 조합
+		        var bool = regExp.test($(this).val()); // 생성된 정규표현식 객체속에 데이터를 넣어서 검사하기
+		        
+				if(!bool) {  // 데이터가 조건에 맞지않으면
+					$("form[name=pwdFindFrm] span#useridError").html("영문,숫자 조합으로 5~10자리만 입력 가능합니다.").show();
+					$("form[name=pwdFindFrm] input#userid").addClass("wrong");  
+					condition2 = false;
+					return;
+				} else {	// 데이터가 조건에 맞다면
+					$("form[name=pwdFindFrm] input#userid").removeClass("wrong");
+					condition2 = true;
+				}
+				$("form[name=pwdFindFrm] span#useridError").hide();
+				$(":input").prop("disabled",false).removeClass("wrong"); 
+				return;
+			}
+		});
+		
+		//  ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 이메일
+		$("form[name=pwdFindFrm] span#emailError").hide();
+		$("form[name=pwdFindFrm] #btnChkNext").hide();
+		$("form[name=pwdFindFrm] #email").keyup(function(){
+			$(this).val( $(this).val().replace( /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '' ).trim() ); // 한글 막기
+			if($("form[name=pwdFindFrm] input#email").val().trim() == "") {	// 데이터가 없다면
+				$("form[name=pwdFindFrm] span#emailError").show();
+				$("form[name=pwdFindFrm] input#email").addClass("wrong");
+			} else {	// 데이터가 있다면
+				// 정규표현식
+				var email = $("form[name=pwdFindFrm] #email").val();
 				var regExp_EMAIL = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 				var bool = regExp_EMAIL.test(email); // 생성된 정규표현식 객체속에 데이터를 넣어서 검사하기
 				
 				if(!bool) {  // 데이터가 조건에 맞지않으면
-					$("form[name=idFindFrm] span#emailError").html("이메일 형식에 맞게 입력해주세요.").show();
-					$("form[name=idFindFrm] input#email").addClass("wrong");  
-					condition2 = false;
+					$("form[name=pwdFindFrm] span#emailError").html("이메일 형식에 맞게 입력해주세요.").show();
+					$("form[name=pwdFindFrm] input#email").addClass("wrong");  
+					condition3 = false;
 					return;
 				} else {	// 데이터가 조건에 맞다면
 					console.log("개인회원 데이터 조건 맞음");
-					$("form[name=idFindFrm] input#email").removeClass("wrong");
-					condition2 = true;
+					$("form[name=pwdFindFrm] input#email").removeClass("wrong");
+					condition3 = true;
 				}
-				$("form[name=idFindFrm] span#emailError").hide();
+				$("form[name=pwdFindFrm] span#emailError").hide();
 				$(":input").prop("disabled",false).removeClass("wrong");
 				return;
 			}
 		}); 
 		
 		// 이메일 '인증하기' 버튼 눌렀을 때..////////////////////////////////
-		$("form[name=idFindFrm] #btnChk").click(sendVerificationCode);	
+		$("form[name=pwdFindFrm] #btnChk").click(sendVerificationCode);	
 		///////////////////////////////////////////////////////////
 		
 		//  ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 인증번호
-		$("form[name=idFindFrm] span#codeError").hide();
+		$("form[name=pwdFindFrm] span#codeError").hide();
 		
-		$("form[name=idFindFrm] #code").keyup(function(){
+		$("form[name=pwdFindFrm] #code").keyup(function(){
 			$(this).val( $(this).val().replace( /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '' ).trim() ); // 한글 막기
-			if($("form[name=idFindFrm] input#code").val().trim() == "") {	// 데이터가 없다면
-				$("form[name=idFindFrm] #codeError").show();
-				$("form[name=idFindFrm] input#code").addClass("wrong");	
+			if($("form[name=pwdFindFrm] input#code").val().trim() == "") {	// 데이터가 없다면
+				$("form[name=pwdFindFrm] #codeError").show();
+				$("form[name=pwdFindFrm] input#code").addClass("wrong");	
 			} else { // 데이터가 있다면(인증성공여부)
 				$.ajax({	
 					url:"<%= ctxPath%>/verifyCertificationFrm.sd",
 					type:"POST",
-					data:{"userCertificationCode" : $("form[name=idFindFrm] #code").val().trim()},
+					data:{"userCertificationCode" : $("form[name=pwdFindFrm] #code").val().trim()},
 					dataType:"json",
 					success:function(json){
 						if(json.isbool){ // 메일 인증 성공
-							$("form[name=idFindFrm] #codeError").hide();
-							$("form[name=idFindFrm] input#code").removeClass("wrong");
-							alert("인증성공");
-							condition3 = true;
+							$("form[name=pwdFindFrm] #codeError").hide();
+							$("form[name=pwdFindFrm] input#code").removeClass("wrong");
+							//alert("인증성공");
+							condition4 = true;
 						} else { // 메일 인증 실패
-							$("form[name=idFindFrm] #codeError").html("메일 인증 실패. 다시 시도해주세요.").show();
-							$("form[name=idFindFrm] input#code").addClass("wrong");
-							condition3 = false;
+							$("form[name=pwdFindFrm] #codeError").html("메일 인증 실패. 다시 시도해주세요.").show();
+							$("form[name=pwdFindFrm] input#code").addClass("wrong");
+							condition4 = false;
 						}
 					},
 					error: function(request, status, error){
@@ -278,65 +307,64 @@ $(window).ready(function(){
 	
 	// 이메일 '인증하기'버튼 눌렀을 때 
 	function sendVerificationCode(){
-		if(condition2 == true){
-			$("form[name=idFindFrm] #codeError").hide();
-			$("form[name=idFindFrm] #code").val(''); // 입력칸 비우기
-			$("form[name=idFindFrm] #code").focus();
-			disabled = false;
+		if(condition3 == true){
+			$("form[name=pwdFindFrm] #codeError").hide();
+			$("form[name=pwdFindFrm] #code").val(''); // 입력칸 비우기
+			$("form[name=pwdFindFrm] #code").focus();
 			$.ajax({	
 				url:"<%= ctxPath%>/emailCode.sd",
 				type:"POST",
-				data:{"email":$("form[name=idFindFrm] #email").val().trim()},
+				data:{"email":$("form[name=pwdFindFrm] #email").val().trim()},
 				dataType:"json",
 				success:function(json){
-					alert("입력하신 이메일("+$("form[name=idFindFrm] #email").val()+")로 인증번호가 발송되었습니다.\n전달받은 인증번호를 입력해주세요");					
+					alert("입력하신 이메일("+$("form[name=pwdFindFrm] #email").val()+")로 인증번호가 발송되었습니다.\n전달받은 인증번호를 입력해주세요");					
 					var btnChange = true;
 					if(btnChange == true){ // 발송되었다면 인증->재인증으로 바꾸자
-						$("form[name=idFindFrm] #btnChk").hide();
-						$("form[name=idFindFrm] #btnChkNext").show();
+						$("form[name=pwdFindFrm] #btnChk").hide();
+						$("form[name=pwdFindFrm] #btnChkNext").show();
 					} 
 				},
 				error: function(request, status, error){
 					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-					$("form[name=idFindFrm]input #email").addClass("wrong");
-					$("form[name=idFindFrm] #codeError").html("메일발송이 실패했습니다. 다시 시도해주세요.").show();
+					$("form[name=pwdFindFrm]input #email").addClass("wrong");
+					$("form[name=pwdFindFrm] #codeError").html("메일발송이 실패했습니다. 다시 시도해주세요.").show();
 				}
 			}); 
 		} else {
-			alert('이메일을 알맞게 입력해주세요.');	// 접속자가 많아 지연됩니다. 다시 시도해주세요.
-			$("form[name=idFindFrm] input#email").addClass("wrong");
-			$("form[name=idFindFrm] #email").focus();
+			alert('이메일을 알맞게 입력해주세요.');	
+			$("form[name=pwdFindFrm] input#email").addClass("wrong");
+			$("form[name=pwdFindFrm] #email").focus();
 		}
 	}
 	
 	
 	// 아이디 찾기 버튼 눌렀을 때
-	function goIdFind() {
+	function goPwdFind() {
 		var bFlag = false;
-		if($("form[name=idFindFrm] #name").val().trim()=="" || condition1 == false) {
+		if($("form[name=pwdFindFrm] #name").val().trim()=="" || condition1 == false) {
 			alert("이름을 확인하세요.");
-			$("form[name=idFindFrm] #name").focus();
+			$("form[name=pwdFindFrm] #name").focus();
 			return;
 		}
-		if($("form[name=idFindFrm] #email").val().trim()=="" || condition2 == false) {
+		if($("form[name=pwdFindFrm] #userid").val().trim()=="" || condition2 == false) {
+			alert("아이디를 확인하세요.");
+			$("form[name=pwdFindFrm] #userid").focus();
+			return;
+		}
+		if($("form[name=pwdFindFrm] #email").val().trim()=="" || condition3 == false) {
 			alert("이메일을 확인하세요.");
-			$("form[name=idFindFrm] #email").focus();
+			$("form[name=pwdFindFrm] #email").focus();
 			return;
 		}
- 		if($("form[name=idFindFrm] #btnChk").val().trim()=="") {
-			alert("이메일 인증을 완료하세요.");
-			$("form[name=idFindFrm] #email").focus();
-			return;
-		} 
- 		if($("form[name=idFindFrm] #code").val().trim()=="" || condition3 == false) {
+ 		if($("form[name=pwdFindFrm] #code").val().trim()=="" || condition4 == false) {
 			alert("인증번호를 확인하세요.");
-			$("form[name=idFindFrm] #code").focus();
+			$("form[name=pwdFindFrm] #code").focus();
 			return;
 		} 
 		
 		var bRequiredInfo = false;
 		var data="";
-		$("form[name=idFindFrm] .requiredInfo").each(function(){
+		$("form[name=pwdFindFrm] .requiredInfo").each(function(){
 			var data = $(this).val().trim();
 			if(data == "") {
 				bRequiredInfo = true;
@@ -349,7 +377,7 @@ $(window).ready(function(){
 		if(!bRequiredInfo) {
 			var frm = document.pwdFindFrm;
 			frm.method = "POST";
-			frm.action = "<%=ctxPath%>/idFindResult.sd";
+			frm.action = "<%=ctxPath%>/pwdUpdate.sd";
 			frm.submit();
 		}
 	}
@@ -362,97 +390,124 @@ $(window).ready(function(){
 	var hpCondition1 = false;
 	var hpCondition2 = false;
 	var hpCondition3 = false;
-	
-	$(document).ready(function(){
-	
-		// ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 이름
-		$("span#nameError").hide();
-	
-		$("#name").keyup(function(){
+	var hpCondition4 = false;
+	var btnChange = false;
+$(document).ready(function(){
 		
-			if($("input#name").val().trim() == "") {	// 데이터가 없다면
-				$("span#nameError").show();
-				$("#name").addClass("wrong");
+		// ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 이름
+		$("form[name=hpPwdFindFrm] span#nameError").hide();
+	
+		$("form[name=hpPwdFindFrm] #name").keyup(function(){
+		
+			if($("form[name=hpPwdFindFrm] input#name").val().trim() == "") {	// 데이터가 없다면
+				$("form[name=hpPwdFindFrm] span#nameError").show();
+				$("form[name=hpPwdFindFrm] #name").addClass("wrong");
 			} else {	// 데이터가 있다면
 				// 정규표현식
 		        var regExp = /^[가-힣]{2,4}$/;	//  2~4글자 한글만 
 		        var bool = regExp.test($(this).val()); // 생성된 정규표현식 객체속에 데이터를 넣어서 검사하기
 				
 		        if(!bool) {  // 데이터가 조건에 맞지않으면
-					$("span#nameError").show();
-					$("input#name").addClass("wrong");
-					condition1 = false;
+					$("form[name=hpPwdFindFrm] span#nameError").show();
+					$("form[name=hpPwdFindFrm] input#name").addClass("wrong");
+					hpCondition1 = false;
 					return;
 				} else {	// 데이터가 조건에 맞다면
-					$("input#name").removeClass("wrong");
-					condition1 = true;
+					$("form[name=hpPwdFindFrm] input#name").removeClass("wrong");
+					hpCondition1 = true;
 				}
-				$("span#nameError").hide();
+				$("form[name=hpPwdFindFrm] span#nameError").hide();
 				$(":input").prop("disabled",false).removeClass("wrong"); 
 				return;
 			}
 		});
 		
-		
-		//  ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 이메일
-		$("form[name=hpIdFindFrm] span#emailError").hide();
-		$("form[name=hpIdFindFrm] #btnChkNext").hide();
-		$("form[name=hpIdFindFrm] #email").keyup(function(){
+		// ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 아이디
+		$("form[name=hpPwdFindFrm] span#useridError").hide();
+	
+		$("form[name=hpPwdFindFrm] #userid").keyup(function(){
 			$(this).val( $(this).val().replace( /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '' ).trim() ); // 한글 막기
-			if($("form[name=hpIdFindFrm] input#email").val().trim() == "") {	// 데이터가 없다면
-				$("form[name=hpIdFindFrm] span#emailError").show();
-				$("form[name=hpIdFindFrm] input#email").addClass("wrong");
+			if($("form[name=hpPwdFindFrm] input#userid").val().trim() == "") {	// 데이터가 없다면
+				$("form[name=hpPwdFindFrm] span#userid").hide();
+				$("form[name=hpPwdFindFrm] input#userid").addClass("wrong"); 
 			} else {	// 데이터가 있다면
 				// 정규표현식
-				var email = $("form[name=hpIdFindFrm] #email").val();
+				var regExp = /^[A-Za-z0-9]{5,10}$/;	// 5자 이상 10글자 이하의 영문과 숫자를 조합
+		        var bool = regExp.test($(this).val()); // 생성된 정규표현식 객체속에 데이터를 넣어서 검사하기
+		        
+				if(!bool) {  // 데이터가 조건에 맞지않으면
+					$("form[name=hpPwdFindFrm] span#useridError").html("영문,숫자 조합으로 5~10자리만 입력 가능합니다.").show();
+					$("form[name=hpPwdFindFrm] input#userid").addClass("wrong");  
+					hpCondition2 = false;
+					return;
+				} else {	// 데이터가 조건에 맞다면
+					$("form[name=hpPwdFindFrm] input#userid").removeClass("wrong");
+					hpCondition2 = true;
+				}
+				$("form[name=hpPwdFindFrm] span#useridError").hide();
+				$(":input").prop("disabled",false).removeClass("wrong"); 
+				return;
+			}
+		});
+		
+		//  ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 이메일
+		$("form[name=hpPwdFindFrm] span#emailError").hide();
+		$("form[name=hpPwdFindFrm] #btnChkNext").hide();
+		$("form[name=hpPwdFindFrm] #email").keyup(function(){
+			$(this).val( $(this).val().replace( /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '' ).trim() ); // 한글 막기
+			if($("form[name=hpPwdFindFrm] input#email").val().trim() == "") {	// 데이터가 없다면
+				$("form[name=hpPwdFindFrm] span#emailError").show();
+				$("form[name=hpPwdFindFrm] input#email").addClass("wrong");
+			} else {	// 데이터가 있다면
+				// 정규표현식
+				var email = $("form[name=hpPwdFindFrm] #email").val();
 				var regExp_EMAIL = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 				var bool = regExp_EMAIL.test(email); // 생성된 정규표현식 객체속에 데이터를 넣어서 검사하기
 				
 				if(!bool) {  // 데이터가 조건에 맞지않으면
-					$("form[name=hpIdFindFrm] span#emailError").html("이메일 형식에 맞게 입력해주세요.").show();
-					$("form[name=hpIdFindFrm] input#email").addClass("wrong");  
-					hpCondition2 = false;
+					$("form[name=hpPwdFindFrm] span#emailError").html("이메일 형식에 맞게 입력해주세요.").show();
+					$("form[name=hpPwdFindFrm] input#email").addClass("wrong");  
+					hpCondition3 = false;
 					return;
 				} else {	// 데이터가 조건에 맞다면
-					$("form[name=hpIdFindFrm] input#email").removeClass("wrong");
-					hpCondition2 = true;
-					console.log("데이터가 조건에 맞음!!!!");
+					console.log("개인회원 데이터 조건 맞음");
+					$("form[name=hpPwdFindFrm] input#email").removeClass("wrong");
+					hpCondition3 = true;
 				}
-				$("form[name=hpIdFindFrm] span#emailError").hide();
+				$("form[name=hpPwdFindFrm] span#emailError").hide();
 				$(":input").prop("disabled",false).removeClass("wrong");
-
 				return;
 			}
 		}); 
 		
 		// 이메일 '인증하기' 버튼 눌렀을 때..////////////////////////////////
-		$("form[name=hpIdFindFrm] #btnChk").click(hpSendVerificationCode);	
+		$("form[name=hpPwdFindFrm] #btnChk").click(hpSendVerificationCode);	
 		///////////////////////////////////////////////////////////
 		
 		//  ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 인증번호
-		$("form[name=hpIdFindFrm] span#codeError").hide();
+		$("form[name=hpPwdFindFrm] span#codeError").hide();
 		
-		$("form[name=hpIdFindFrm] #code").keyup(function(){
+		$("form[name=hpPwdFindFrm] #code").keyup(function(){
 			$(this).val( $(this).val().replace( /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '' ).trim() ); // 한글 막기
-			if($("form[name=hpIdFindFrm] input#code").val().trim() == "") {	// 데이터가 없다면
-				$("form[name=hpIdFindFrm] #codeError").show();
-				$("form[name=hpIdFindFrm] input#code").addClass("wrong");	
+			if($("form[name=hpPwdFindFrm] input#code").val().trim() == "") {	// 데이터가 없다면
+				$("form[name=hpPwdFindFrm] #codeError").show();
+				$("form[name=hpPwdFindFrm] input#code").addClass("wrong");	
 			} else { // 데이터가 있다면(인증성공여부)
 				$.ajax({	
 					url:"<%= ctxPath%>/verifyCertificationFrm.sd",
 					type:"POST",
-					data:{"userCertificationCode" : $("form[name=hpIdFindFrm] #code").val().trim()},
+					data:{"userCertificationCode" : $("form[name=hpPwdFindFrm] #code").val().trim()},
 					dataType:"json",
 					success:function(json){
 						if(json.isbool){ // 메일 인증 성공
-							$("form[name=hpIdFindFrm] #codeError").hide();
-							$("form[name=hpIdFindFrm] input#code").removeClass("wrong");
-							alert("인증성공");
-							hpCondition3 = true;
+							$("form[name=hpPwdFindFrm] #codeError").hide();
+							$("form[name=hpPwdFindFrm] input#code").removeClass("wrong");
+							//alert("인증성공");
+							hpCondition4 = true;
 						} else { // 메일 인증 실패
-							$("form[name=hpIdFindFrm] #codeError").html("메일 인증 실패. 다시 시도해주세요.").show();
-							$("form[name=hpIdFindFrm] input#code").addClass("wrong");
-							hpCondition3 = false;
+							$("form[name=hpPwdFindFrm] #codeError").html("메일 인증 실패. 다시 시도해주세요.").show();
+							$("form[name=hpPwdFindFrm] input#code").addClass("wrong");
+							hpCondition4 = false;
 						}
 					},
 					error: function(request, status, error){
@@ -466,80 +521,79 @@ $(window).ready(function(){
 	
 	// 이메일 '인증하기'버튼 눌렀을 때 
 	function hpSendVerificationCode(){
-		console.log(hpCondition2);
-		if(hpCondition2 == true){
-			$("form[name=hpIdFindFrm] #codeError").hide();
-			$("form[name=hpIdFindFrm] #code").val(''); // 입력칸 비우기
-			$("form[name=hpIdFindFrm] #code").focus();
-			disabled = false;
+		if(hpCondition3 == true){
+			$("form[name=hpPwdFindFrm] #codeError").hide();
+			$("form[name=hpPwdFindFrm] #code").val(''); // 입력칸 비우기
+			$("form[name=hpPwdFindFrm] #code").focus();
 			$.ajax({	
 				url:"<%= ctxPath%>/emailCode.sd",
 				type:"POST",
-				data:{"email":$("form[name=hpIdFindFrm] #email").val().trim()},
+				data:{"email":$("form[name=hpPwdFindFrm] #email").val().trim()},
 				dataType:"json",
 				success:function(json){
-					alert("입력하신 이메일("+$("form[name=hpIdFindFrm] #email").val()+")로 인증번호가 발송되었습니다.\n전달받은 인증번호를 입력해주세요");					
+					alert("입력하신 이메일("+$("form[name=hpPwdFindFrm] #email").val()+")로 인증번호가 발송되었습니다.\n전달받은 인증번호를 입력해주세요");					
 					var btnChange = true;
 					if(btnChange == true){ // 발송되었다면 인증->재인증으로 바꾸자
-						$("form[name=hpIdFindFrm] #btnChk").hide();
-						$("form[name=hpIdFindFrm] #btnChkNext").show();
+						$("form[name=hpPwdFindFrm] #btnChk").hide();
+						$("form[name=hpPwdFindFrm] #btnChkNext").show();
 					} 
 				},
 				error: function(request, status, error){
 					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-					$("form[name=hpIdFindFrm]input #email").addClass("wrong");
-					$("form[name=hpIdFindFrm] #codeError").html("메일발송이 실패했습니다. 다시 시도해주세요.").show();
+					$("form[name=hpPwdFindFrm]input #email").addClass("wrong");
+					$("form[name=hpPwdFindFrm] #codeError").html("메일발송이 실패했습니다. 다시 시도해주세요.").show();
 				}
 			}); 
 		} else {
-			alert('이메일을 알맞게 입력해주세요.'); // 접속자가 많아 지연됩니다. 다시 시도해주세요.
-			$("form[name=hpIdFindFrm] input#email").addClass("wrong");
-			$("form[name=hpIdFindFrm] #email").focus();
+			alert('이메일을 알맞게 입력해주세요.');	
+			$("form[name=hpPwdFindFrm] input#email").addClass("wrong");
+			$("form[name=hpPwdFindFrm] #email").focus();
 		}
 	}
 	
 	
-	
-	
-	function goHpIdFind() {
+	// 아이디 찾기 버튼 눌렀을 때
+	function goHpPwdFind() {
 		var bFlag = false;
-		if($("form[name=hpIdFindFrm] #regId").val().trim()=="" || hpCondition1 == false) {
-			alert("사업자번호를 확인하세요.");
-			$("form[name=hpIdFindFrm] #regId").focus();
+		if($("form[name=hpPwdFindFrm] #name").val().trim()=="" || hpCondition1 == false) {
+			alert("이름을 확인하세요.");
+			$("form[name=hpPwdFindFrm] #name").focus();
 			return;
 		}
-		if($("form[name=hpIdFindFrm] #email").val().trim()=="" || hpCondition2 == false) {
+		if($("form[name=hpPwdFindFrm] #userid").val().trim()=="" || hpCondition2 == false) {
+			alert("아이디를 확인하세요.");
+			$("form[name=hpPwdFindFrm] #userid").focus();
+			return;
+		}
+		if($("form[name=hpPwdFindFrm] #email").val().trim()=="" || hpCondition3 == false) {
 			alert("이메일을 확인하세요.");
-			$("form[name=hpIdFindFrm] #email").focus();
+			$("form[name=hpPwdFindFrm] #email").focus();
 			return;
-		}
- 		if($("form[name=hpIdFindFrm] #btnChk").val().trim()=="") {
-			alert("이메일 인증을 완료하세요.");
-			$("form[name=hpIdFindFrm] #email").focus();
-			return;
-		} 
- 		if($("form[name=hpIdFindFrm] #code").val().trim()=="" || hpCondition3 == false) {
+ 		}
+ 		if($("form[name=hpPwdFindFrm] #code").val().trim()=="" || hpCondition4 == false) {
 			alert("인증번호를 확인하세요.");
-			$("form[name=hpIdFindFrm] #code").focus();
+			$("form[name=hpPwdFindFrm] #code").focus();
 			return;
 		} 
- 		
-		var bHpRequiredInfo = false;
-		$("form[name=hpIdFindFrm] .requiredInfo").each(function(){
+		
+		var bRequiredInfo = false;
+		var data="";
+		$("form[name=hpPwdFindFrm] .requiredInfo").each(function(){
 			var data = $(this).val().trim();
 			if(data == "") {
-				bHpRequiredInfo = true;
+				bRequiredInfo = true;
+				console.log($(this));
 				$(this).focus();
 				return false;
 			}
 		}); 
-
-		if(!bHpRequiredInfo) {
+		
+		if(!bRequiredInfo) {
 			var frm = document.hpPwdFindFrm;
-				frm.method = "POST";
-				frm.action = "<%=ctxPath%>/hpIdFindResult.sd";
-				frm.submit();
-		} 
+			frm.method = "POST";
+			frm.action = "<%=ctxPath%>/hpPwdUpdate.sd";
+			frm.submit();
+		}
 	}
 </script>
 
@@ -581,7 +635,7 @@ $(window).ready(function(){
 					</div>
 
 					<div class="btnJoin">
-						<input type="button" id="btnFind" value="아이디 찾기" onClick="goIdFind();" />
+						<input type="button" id="btnFind" value="비밀번호 찾기" onClick="goPwdFind();" />
 					</div> 
 				</div>
 			</div>
@@ -593,7 +647,6 @@ $(window).ready(function(){
 			<div id="box">
 				<div class="hospitalMember"> 
 					<div class="formGroup">
-					
 						<label for="name">담당자 이름</label>
 				        <input type="text" name="name" id="name" class="requiredInfo" autofocus /> 
 				        <span class="error" id="nameError">이름을 입력하세요.</span>
@@ -614,7 +667,7 @@ $(window).ready(function(){
 					</div>
 					
 					<div class="btnJoin">
-						<input type="button" id="btnFind" value="아이디 찾기" onClick="goHpIdFind();" />
+						<input type="button" id="btnFind" value="비밀번호 찾기" onClick="goHpPwdFind();" />
 					</div>  
 				 </div>	
 			</div>

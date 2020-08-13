@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<%
+	String ctxPath = request.getContextPath();
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +23,7 @@
 	}
 
 	.container { 
-		width: 35%;
+		width: 30%;
 		height: 150%;
 		margin: 100px auto 200px auto;
 		padding: 0;
@@ -78,6 +81,10 @@
 		color: red;
     }
 	
+	.textPrimary {
+		margin-bottom: 5px;
+	}
+	
 	.title {
 		background-color: #F8F8F8;
 	}
@@ -87,7 +94,7 @@
 		height: 35px;
 		padding-left: 10px;
 		box-sizing: border-box;
-		border: solid 1px #ddd;
+		border: solid 1px #ccc;
      }
      
     .btnJoin {
@@ -131,12 +138,10 @@ $(document).ready(function(){
 	$("span#pwdSuccess").hide();
 
 	$("#pwd").blur(function(){
-	
 		if($("input#pwd").val().trim() == "") {	// 데이터가 없다면
 			$("span#pwdSuccess").hide();
 			$("span#pwdError").show();
 			$("input#pwd").addClass("wrong");
-			
 		} else {	// 데이터가 있다면
 			// 정규표현식
 	        var regExp = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).*$/g;	//  8~15자리 이하의 숫자,문자,특수문자 조합 
@@ -146,16 +151,13 @@ $(document).ready(function(){
 				$("span#pwdSuccess").hide();
 				$("span#pwdError").html("숫자,문자,특수문자 조합으로 8~15자리만 입력 가능합니다.").show();
 				$("input#pwd").addClass("wrong");  
-				
 				return;
 			} else {	// 데이터가 조건에 맞다면
 				$("span#pwdSuccess").show();
 				$("input#pwd").removeClass("wrong");
 			}
-
 			$("span#pwdError").hide();
 			$(":input").prop("disabled",false).removeClass("wrong"); 
-			
 			return;
 		}
 	});
@@ -168,7 +170,6 @@ $(document).ready(function(){
 	$("span#pwdSuccess2").hide();
 
 	$("#pwd2").blur(function(){
-	
 		if($("input#pwd2").val().trim() == "") {	// 데이터가 없다면
 			$("span#pwdSuccess2").hide();
 			$("span#pwdError2").show();
@@ -177,25 +178,28 @@ $(document).ready(function(){
 		} else {	// 데이터가 있다면
 			var pwd = $("#pwd").val();
 	        var pwd2 = $(this).val();
-			
+	        
 	        if(pwd != pwd2) {  // 데이터가 조건에 맞지않으면
 				$("span#pwdSuccess2").hide();
 				$("span#pwdError2").html("비밀번호가 맞지 않습니다.").show();
 				$("input#pwd2").addClass("wrong");  
-				
 				return;
 			} else {	// 데이터가 조건에 맞다면
 				$("span#pwdSuccess2").show();
 				$("input#pwd2").removeClass("wrong");
 			}
-
 			$("span#pwdError2").hide();
 			$(":input").prop("disabled",false).removeClass("wrong"); 
-			
 			return;
 		}
 	});
 });		
+
+function changePwd(){
+	var form = document.changePwdFrm;
+	form.action = "<%=ctxPath%>/changePwd.sd";
+	form.submit();
+}
 </script>
 
 
@@ -204,39 +208,12 @@ $(document).ready(function(){
 
 <div class="container">
    
-   <h2 class="textPrimary">새 비밀번호 설정</h2>
+	<div class="bowl">
+		<h2 class="textPrimary">새 비밀번호 설정</h2>
    
    <!-- -------------------------------- 上 끝 ---------------------------------- -->
-
-<!--     
-   <form name="findFrm">
-    
-   	 <div id="box">
-   	 	
-     	 <table>
-	      	<tr>
-	      		<td class=title>비밀번호</td>
-	      		<td class="password1">   
-                     <input type="password" name="pwd" id="pwd" class="requiredInfo" placeholder="대소문자, 특수문자 조합하여 8자 이상으로 입력하세요" />               
-                     <span class="error" id="passwordError">비밀번호를 입력 하세요.</span>                          
-                </td>
-	      	</tr>
-	      	<tr>	
-	      		<td class=title>비밀번호 확인</td>
-	      		<td class="password2">
-                     <input type="password" name="pwdChk" id="pwdChk" class="requiredInfo" />
-                     <span class="error" id="passwordChkError">동일한 비밀번호를 입력해주세요.</span>
-                 </td>
-	      	</tr>
-	      
-	      </table>
-      
-	 </div>	 
-	 --> 
 	 
-	 
-	 <div class="bowl">
-		<form name="registerFrm">
+		<form name="changePwdFrm" method="post">
 	    	<div id="box">
 				<div class="formGroup">
 					<label for="pwd">비밀번호</label>
@@ -249,9 +226,11 @@ $(document).ready(function(){
 			        <span class="error" id="pwdError2">동일한 비밀번호를 입력하세요.</span>
 			        <span class="success" id="pwdSuccess2">비밀번호가 일치합니다.</span> 
 				</div>
-		  
+		  			<input type="hidden" name="name" value="${name}">
+		  			<input type="hidden" name="userid" value="${userid}">
+		  			<input type="hidden" name="email" value="${email}">
 				<div class="btnJoin">
-					<input type="button" id="btnFind" value="변경" onClick="goRegister();" />
+					<input type="button" id="btnFind" value="변경" onClick="changePwd();" />
 				</div> 
 			</div>       
 		</form>

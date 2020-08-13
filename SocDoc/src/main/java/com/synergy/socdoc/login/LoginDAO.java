@@ -85,6 +85,21 @@ public class LoginDAO implements InterLoginDAO {
 		return userid;
 	}
 	
+	// 비밀번호 찾기,변경 //
+	@Override
+	public int pwdUpdate(HashMap<String, String> paraMap) {
+		int n = sqlsession.update("newMem.pwdUpdate", paraMap);
+		return n;
+	}
+	
+	// 존재하는 회원인지 확인
+	@Override
+	public int checkMember(HashMap<String, String> paraMap) {
+		int n = sqlsession.selectOne("newMem.checkMember", paraMap);
+		return n;
+	}
+	
+	
 
 
 	

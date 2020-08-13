@@ -28,6 +28,13 @@ public interface InterLoginDAO {
 	public MemberVO idFindResult(HashMap<String, String> paraMap);
 	public HpMemberVO hpIdFindResult(HashMap<String, String> paraMap);
 	
+	// 비밀번호 변경 //
+	int pwdUpdate(HashMap<String, String> paraMap);
+	
+	// 존재하는 회원인지 확인
+	int checkMember(HashMap<String, String> paraMap);
+	
+	
 
 
 }
