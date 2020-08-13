@@ -83,16 +83,16 @@
 		height: 35px;
 		margin-bottom: 5px;
 		padding-left: 10px;
-		//border-right: solid 0px red; 
+		border: solid 1px #ccc; 
 	}
 
 	#btnLogin {
 		display: inline-block;
 		width: 30%;
-		height: 75.5px;
+		height: 75px;
 		padding: 0 10px;
 		background-color: #58ACFA;
-		border: solid 1px #ccc;
+		border: solid 0px #ccc;
 		color: white;
 		font-weight: bold; 
 	}
@@ -102,7 +102,11 @@
 		padding-right: 10px;
 		margin-top: 15px;
 	}
-
+	
+	.textPrimary {
+		margin-bottom: 5px;
+	}
+	
 	a {
 		text-decoration: none;
 	}
@@ -300,7 +304,7 @@
 		<form name="loginFrm">
 			<div id="box">
 				<div class="individualMember">
-					<div class="checkbox">
+					<div class="checkbox" style="vertical-align: middle; font-size: 9pt;">
 						<label for="saveid"><input type="checkbox" id="saveid" name="saveid" />&nbsp;&nbsp;아이디저장</label>
 					</div>
 			         
@@ -319,7 +323,7 @@
 					</div>
 			         
 					<div id="bottomBtn">
-						<ul id="input" class="bottom" style="width: 100%; font-size: 8pt;">
+						<ul id="input" class="bottom" style="font-size: 8.5pt;">
 							<li><a href="/socdoc/register.sd" class="bottom btnJoin" style="font-weight: bold;">회원가입</a></li>
 							<li>|</li>
 							<li><a href="/socdoc/idFind.sd" class="bottom btnSearchId">아이디 찾기</a></li>
@@ -334,7 +338,7 @@
 		<form name="hpLoginFrm">
 			<div id="box">
 				<div class="hospitalMember">
-					<div class="checkbox">
+					<div class="checkbox" style="vertical-align: top; font-size: 9pt;">
 						<label for="saveid"><input type="checkbox" id="saveid" name="saveid" />&nbsp;&nbsp;아이디저장</label>
 					</div>
 			         
@@ -353,7 +357,7 @@
 					</div>
 			         
 					<div id="hpBottomBtn">
-						<ul id="input" class="bottom" style="width: 100%; font-size: 8pt;">
+						<ul id="input" class="bottom" style="font-size: 8.5pt;">
 							<li><a href="/socdoc/register.sd" class="bottom btnJoin" style="font-weight: bold;">회원가입</a></li>
 							<li>|</li>
 							<li><a href="/socdoc/idFind.sd" class="bottom btnSearchId">아이디 찾기</a></li>
