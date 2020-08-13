@@ -179,7 +179,7 @@ public class MemberVO {
 	    int currentYear  = current.get(Calendar.YEAR);
 
 	    if(!this.birthDate.isEmpty()) {
-	    	age = currentYear - Integer.parseInt(this.birthDate.substring(0, 3)) + 1;
+	    	age = currentYear - Integer.parseInt(this.birthDate.substring(0, 4)) + 1;
 	    }
 		
 		return age;
