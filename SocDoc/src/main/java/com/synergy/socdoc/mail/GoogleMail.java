@@ -16,7 +16,7 @@ public class GoogleMail {
           
           // 2. SMTP 서버의 계정 설정 ( Simple Mail Transfer Protocoal) 서버의 계정 설정
              //    Google Gmail 과 연결할 경우 Gmail 의 email 주소를 지정 
-          prop.put("mail.smtp.host", "ckadhlzlffj@gmail.com");
+          prop.put("mail.smtp.host", "yahoho9090@gmail.com");
           
           // 3. SMTP 서버 정보 설정
           //    Google Gmail 인 경우  smtp.gmail.com
@@ -45,11 +45,11 @@ public class GoogleMail {
           MimeMessage msg = new MimeMessage(ses);
 
           // 제목 설정
-          String subject = "[속닥속닥] 이메일 인증번호를 입력해주세요."; // subjectCode;
+          String subject = "localhost:9090/MyMVC/index.up 회원님의 비밀번호를 찾기위한 인증코드 발송"; // subjectCode;
           msg.setSubject(subject);
                   
           // 보내는 사람의 메일주소
-          String sender = "ckadhlzlffj@gmail.com";
+          String sender = "yahoho9090@gmail.com";
           Address fromAddr = new InternetAddress(sender);
           msg.setFrom(fromAddr);
                   
@@ -58,7 +58,7 @@ public class GoogleMail {
           msg.addRecipient(Message.RecipientType.TO, toAddr);
                   
           // 메시지 본문의 내용과 형식, 캐릭터 셋 설정
-          msg.setContent("발송된 인증번호 : <span style='font-size:14pt; color:red;'>"+certificationCode+"</span>", "text/html;charset=UTF-8");
+          msg.setContent("발송된 인증코드 : <span style='font-size:14pt; color:red;'>"+certificationCode+"</span>", "text/html;charset=UTF-8");
                   
           // 메일 발송하기
           Transport.send(msg);

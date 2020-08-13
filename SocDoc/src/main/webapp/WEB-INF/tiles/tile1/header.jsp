@@ -1,231 +1,98 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<%
-	String ctxPath = request.getContextPath();
-%>
-    
+<%@ page import="java.net.InetAddress"%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<meta charset="UTF-8">
+<%-- ======= #27. tile1 중 header 페이지 만들기  ======= --%>
+<%
+	String ctxPath = request.getContextPath();
 
-<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
- <%-- 테이블 스타일을 위해 common.css 적용 --%>
-<link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/resources/css/common.css" />
+	// === #158. (웹채팅관련3) === 
+	// === 서버 IP 주소 알아오기   ===
+	InetAddress inet = InetAddress.getLocalHost(); 
+	String serverIP = inet.getHostAddress();
+	
+	//System.out.println("serverIP : " + serverIP);
+	// serverIP : 192.168.56.50
+	
+	serverIP = "192.168.50.65";
+	
+	// === 서버 포트번호 알아오기   ===
+	int portnumber = request.getServerPort();
+	//System.out.println("portnumber : " + portnumber);
+	// portnumber : 9090
+	
+	String serverName = "http://"+serverIP+":"+portnumber; 
+	//System.out.println("serverName : " + serverName);
+	//serverName : http://192.168.50.65:9090 
+%>
+<div align="center">
+	<ul class="nav nav-tabs mynav">
+		<li class="dropdown"><a class="dropdown-toggle"
+			data-toggle="dropdown" href="#">Home <span class="caret"></span></a>
+			<ul class="dropdown-menu">
+				<li><a href="<%=ctxPath%>/index.action">Home</a></li>
+				<li><a href="<%=ctxPath%>/deliciousStore.action">전국맛집</a></li>
+				<li><a href="<%= serverName%><%=ctxPath%>/chatting/multichat.action">웹채팅</a></li>
+			</ul></li>
+		<li class="dropdown"><a class="dropdown-toggle"
+			data-toggle="dropdown" href="#">게시판 <span class="caret"></span></a>
+			<ul class="dropdown-menu">
+				<li><a href="<%=ctxPath%>/list.action">목록보기</a></li>
+			<%-- 	<c:if test="${not empty sessionScope.loginuser}"> --%>
+					<li><a href="<%=ctxPath%>/add.action">글쓰기</a></li>
+			<%-- 	</c:if> --%>
+				<li><a href="#">Submenu 1-3</a></li>
+			</ul></li>
+		<li class="dropdown"><a class="dropdown-toggle"
+			data-toggle="dropdown" href="#">로그인 <span class="caret"></span></a>
+			<ul class="dropdown-menu">
+				<c:if test="${sessionScope.loginuser == null}">
+				<li><a href="#">회원가입</a></li>
+				<li><a href="<%=ctxPath%>/login.action">로그인</a></li>
+				</c:if>
+				
+				<c:if test="${sessionScope.loginuser != null}">
+				<li><a href="<%=ctxPath%>/myinfo.action">나의정보</a></li>
+				<li><a href="<%=ctxPath%>/logout.action">로그아웃</a></li>
+				</c:if>
+			</ul></li>
+		
+		<!-- === #169. 제품등록(다중파일첨부)및 제품정보 메뉴 추가하기 === -->		
+		<c:if test="${sessionScope.loginuser.gradelevel == 10 }">
+		<li class="dropdown"><a class="dropdown-toggle"
+			data-toggle="dropdown" href="#">제품등록(다중파일첨부) <span class="caret"></span></a>
+			<ul class="dropdown-menu">
+			    <li><a href="<%=ctxPath%>/product/addProduct.action">제품등록</a></li>
+				<li><a href="<%=ctxPath%>/product/storeProduct.action">제품입고</a></li>
+			</ul></li>
+		</c:if>
+		
+		<li class="dropdown"><a class="dropdown-toggle"
+			data-toggle="dropdown" href="#">인사관리 <span class="caret"></span></a>
+			<ul class="dropdown-menu">
+				<li><a href="<%=ctxPath%>/emp/empList.action">직원목록</a></li>
+				<li><a href="<%=ctxPath%>/emp/chart.action">통계차트</a></li>
+			</ul></li>
 
-
-<title>속닥속닥</title>
-
-<title>속닥속닥</title>
+		<li class="dropdown"><a class="dropdown-toggle"
+			data-toggle="dropdown" href="#">제품정보 <span class="caret"></span></a>
+			<ul class="dropdown-menu">
+				<li><a href="<%=ctxPath%>/product/listProduct.action">제품목록</a></li>
+			</ul></li>
+	
+	
+	<!-- === #49. 로그인이 성공되어지면 로그인되어진 사용자의 이메일 주소를 출력하기 === -->
+	<c:if test="${sessionScope.loginuser != null}">
+		<div style="float: right; margin-top: 0.5%; border: solid 0px red;">
+		  <span style="color: navy; font-weight: bold; font-size: 10pt;">${sessionScope.loginuser.email}</span> 님 로그인중.. 
+		</div>
+	</c:if>
+	
+	</ul>
+</div>    
     
-    <style>
-        
-        /* header START ---------------*/
-        
-        * {
-            padding: 0px;
-            margin: 0px;
-            box-sizing: border-box
-        }
-
-        ul,li {
-            list-style: none;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-        
-        .logo {
-            text-align: center;
-            height: 100px;
-        }
-
-        .miniTitle {
-            text-align: center;
-            margin-top: 20px;
-            font-weight: bolder;
-            font-size: 20px;
-        }
-        
-        .util {
-            position: absolute;
-            top: 0px;
-            right: 0px;
-        }
-
-        .util li{
-            float: left;
-        }
-        
-        ul.util {
-          padding-right: 50px;
-          list-style: none;
-        }
-        
-        ul.util li {
-          display: inline;
-          font-size: 16px;
-        }
-        
-        ul.util li+li:before {
-          padding: 8px;
-          color: black;
-          content: "/\00a0";
-        }
-        
-        ul.util li a {
-          text-decoration: none;
-        }
-        
-        ul.util li a:hover {
-          color: #4375DB;
-        }
-        
-        .menu:after {
-            content: '';
-            display: block;
-            clear: both;
-        }
-
-        .menu {
-            margin-top: 45px;
-            position: absolute;
-            right: 0px;
-            top: 0px;
-        }
-
-        .menu li{
-            float: left;
-            padding-left: 50px;
-        }
-        
-        .menu {
-          position: relative;
-          display: inline-block;
-        }
-
-        /* --------------------------------------------------- */
-       
-        body {
-          margin: 0;
-        }
-
-        .navbar {
-          overflow: hidden;
-          border: solid 1px #F6F6F6;
-          display: flex;
-          justify-content: center;
-        }
-        
-        .navbar a {
-          float: left;
-          font-size: 16px;
-          padding: 14px 16px;
-          text-decoration: none;
-          margin-left: 30px;
-        }
-
-        .subnav {
-          float: left;    
-          overflow: hidden;          
-        }
-
-        .subnav .subnavbtn {
-          font-size: 20px;  
-          border: none;
-          outline: none;
-          padding: 14px 16px;
-          background-color: inherit;
-          font-family: inherit;
-          margin: 0;
-          margin-left: 50px;
-        }
-
-        .navbar a:hover, .subnav:hover .subnavbtn {
-          color: white;
-          background-color: #4375DB;  
-        }
-
-        .subnav-content {
-          display: none;
-          position: absolute;
-          left: 0;
-          background-color: #4375DB;
-          width: 100%;
-          height: 85px;
-          z-index: 1;
-        }
-
-        .subnav-content a {
-          float: left;
-          color: white;
-          font-size: 18px;
-          text-decoration: none;
-        }
-
-        .subnav-content a:hover {
-          color: black;
-        }
-
-        .subnav:hover .subnav-content {
-          display: block;
-          display: flex;
-          justify-content: center;
-        }
-
-        /* header END ---------------*/
-</style>
-
-
-    <p class="logo"><img src="<%= ctxPath%>/resources/images/logo.jpg" width="150px" height="100px" class="logo" /></p>
-
-    <ul class="util">     
-    	<c:if test="${sessionScope.loginuser == null}">
-	        <li><a href="<%=ctxPath%>/login.sd">로그인</a></li>
-	    	<li><a href="<%=ctxPath%>/register.sd">회원가입</a></li>
-        </c:if>
-        <c:if test="${not empty sessionScope.loginuser}">
-	        <li><a href="<%=ctxPath%>/logout.sd">로그아웃</a></li>
-        </c:if>
-        <li><a href="#">마이페이지</a></li>
-        <li><a href="#">고객센터</a></li>
-    </ul>
-
-
-    <div class="navbar">
-      <div class="subnav">
-        <button class="subnavbtn">찾기<i class="fa fa-caret-down"></i></button>
-        <div class="subnav-content">
-          <a href="#"><img src="<%= ctxPath%>/resources/images/hospital.png"/>병원찾기</a>
-          <a href="#"><img src="<%= ctxPath%>/resources/images/pharmacy.png"/>약국찾기</a>
-        </div>
-      </div> 
-
-      <div class="subnav">
-        <button class="subnavbtn">예약<i class="fa fa-caret-down"></i></button>
-        <div class="subnav-content">
-          <a href="#"><img src="<%= ctxPath%>/resources/images/reservation.png"/>병원예약</a>
-        </div>
-      </div> 
-
-      <div class="subnav">
-        <button class="subnavbtn">후기<i class="fa fa-caret-down"></i></button>
-        <div class="subnav-content">
-          <a href="#"><img src="<%= ctxPath%>/resources/images/review.png"/>병원후기</a>
-          <a href="#"><img src="<%= ctxPath%>/resources/images/review2.png"/>약국후기</a>
-        </div>
-      </div> 
-
-      <div class="subnav">
-        <button class="subnavbtn">알림·소식<i class="fa fa-caret-down"></i></button>
-        <div class="subnav-content">
-          <a href="#"><img src="<%= ctxPath%>/resources/images/notice.png"/>공지사항</a>
-          <a href="#"><img src="<%= ctxPath%>/resources/images/health.png"/>건강정보</a>
-          <a href="#"><img src="<%= ctxPath%>/resources/images/question.png"/>Q&A</a>
-        </div>
-      </div>
-    </div>
+    
+    
