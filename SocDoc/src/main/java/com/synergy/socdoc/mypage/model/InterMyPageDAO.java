@@ -47,6 +47,9 @@ public interface InterMyPageDAO {
 
 	int goDelBM(String bookSeq); // 즐겨찾기에서 목록 삭제하기
 
+	List<HashMap<String, String>> historyListSearchWithPaging(HashMap<String, String> paraMap); // 진료이력조회
+
+
 	// String getHourSeq(HashMap<String, String> paraMap); // 방문 예정시간 구하기
 
 	

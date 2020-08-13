@@ -15,6 +15,15 @@
 <title>Page Title</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="<%=ctxPath %>/resources/css/reservationInfo.css" />
+<!-- Pignose 캘린더 라이브러리 임포트 -->
+<link rel="stylesheet" href="<%=ctxPath %>/resources/pg-calendar/dist//css/pignose.calendar.min.css">
+<link rel="stylesheet" href="<%=ctxPath %>/resources/pg-calendar/dist//css/pignose.calendar.css">
+<script src="<%=ctxPath %>/resources/pg-calendar/dist/js/pignose.calendar.min.js"></script>
+<script src="<%=ctxPath %>/resources/pg-calendar/dist/js/pignose.calendar.full.min.js"></script>
+<script src="<%=ctxPath %>/resources/pg-calendar/dist/js/pignose.calendar.full.js"></script>
+<script src="<%=ctxPath %>/resources/pg-calendar/dist/js/pignose.calendar.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
 <script src="main.js"></script>
 <style>
 
@@ -199,6 +208,59 @@
 		text-align: center;
 		
 	}
+	
+	/* 모달창 만들기 */
+
+	.hidden {
+	    display: none;
+	}
+	
+	.modalContainer {
+	    position: fixed;
+	    left: 0;
+	    top: 0;
+	    width: 100%;
+	    height: 100%;
+	    z-index: 1000;   /* 달력의 화살표가 튀어나오지 않게 방지 */
+	}
+	
+	.modalOverlay {
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+	    background-color: rgba(0, 0, 0, 0.2);
+	    width: 100%;
+	    height: 100%;
+	    position: absolute;
+	}
+	
+	.modalContent {
+	    background-color: white;
+	    width: 30%;
+	    /* min-height: 70%; */
+	    overflow-y: auto;
+	    /* max-height: 60%; */
+	    position: relative;
+	    padding: 30px;
+	    border: 1px solid rgb(230, 230, 230);
+	}
+	
+	.modalContentHeader {
+	    display: flex;
+	    flex-direction: row;
+	    justify-content: space-between;
+	}
+	
+	.visitorDetail {
+	   width: 90%;
+	   margin: 40px 0 0 0;   
+	}
+	
+	.visitorDetail tr, .visitorDetail td {
+	   border-top: 1px solid #dddddd;
+	   border-collapse: collapse;
+	   padding: 10px 0;   
+	}
 
 </style>
 
@@ -218,6 +280,20 @@
 			searchType = $(this).val();
 			goSearch(searchType);
 		});
+		
+		// 모달을 띄우기 위해 테이블 행 클릭 이벤트 추가
+	      $(".visitorRow").each(function() {
+	         $(this).click(function(e) {
+	            // 체크박스 클릭시, 이벤트를 취소
+	            if (e.target.type == "checkbox") {
+	               e.stopPropagation();
+	               console.log("event canceled!!");
+	            } else {
+	               $(".modalContainer").removeClass("hidden");
+	               console.log("event going on");
+	            }
+	         });
+	      });
 		
 		
 	});
@@ -241,6 +317,11 @@
 	    frm.submit();
 	  }// end of function goSearch()-------------------------
 
+	  
+	  function closeModal() {
+	      $(".modalContainer").addClass("hidden");
+	   }
+  
 </script>
 
 
@@ -271,8 +352,8 @@
         <form name="searchFrm">
   			<select id="searchType" name="searchType" style="height:25px; float: right;" >
   				<option id="searchType1" value="1" >전체</option>
-  				<option id="searchType2" value="2" >방문날짜 빠른순</option>
-  				<option id="searchType3" value="3" >방문날짜 느린순</option>
+  				<option id="searchType2" value="2" >최신순</option>
+  				<option id="searchType3" value="3" >오래된순</option>
   			</select>
   		</form>
        </div>
@@ -294,7 +375,7 @@
 				<c:forEach var="reservationList" items="${reservationList}" varStatus="status">
 					<tr>
 					    <td class="notice_seq">${status.count}</td>
-						<td id="hospitalName" class="noticeTitle"><a style="cursor: pointer;" class="btn" data-toggle="modal" data-target="#myModal">${reservationList.hpName}</a></td>
+						<td id="hospitalName" class="visitorRow"><a style="cursor: pointer;" class="btn" data-toggle="modal" data-target="#myModal">${reservationList.hpName}</a></td>
 						<td>${reservationList.visitdate}</td>
 						<td>${reservationList.hour}</td>
 						<c:if test="${reservationList.status == 0}">
@@ -343,6 +424,7 @@
 		</div>
 		
 		<!-- 모달 영역 -->
+		<!--  
    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-ladelledby="myModalLabel">
    <div class="modal-dialog" role="document">
    <div class="modal-content">
@@ -350,64 +432,71 @@
       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
       <h4 class="modal-title" id="myModalLabel" style="font-size: 18pt; font-weight: bold;">예약확인</h4>
       </div>
+      -->
       
-      <!-- 내용 -->
+      <!-- 내용 
       <div class="modal-body">
       <div id="container" style="text-align: center; margin-top: 30px; width: 100%; margin: 0 auto;">
-		<!-- 기본정보 변경 form시작 -->
+		<!-- 기본정보 변경 form시작 
 	    <div id="infoChange">
+	    -->
+	    
 		<form name="writeFrm" >
-			<table class="type05" style="border-top: solid 1px black; margin: 0 auto;">
-				<tbody>
-				<tr>
-			        <th scope="row" style="border: none;">병원명 </th>
-			        <td>
-					    똑딱병원
-					</td>
-			    </tr>
-			    <tr>
-			        <th scope="row" style="border: none;">진료과목 </th>
-			        <td>
-					      이비인후과
-					</td>
-			    </tr>
-			    <tr>
-			        <th scope="row" style="border: none;">방문예정일 </th>
-			        <td>
-					2020.0.18
-					</td>
-		        </tr>
-		        <tr>
-			        <th scope="row" style="border: none;">방문예정시간 </th>
-			        <td>
-			        	14:00
-					</td>
-				</tr>	
-				<tr>
-					<th scope="row" style="border: none;">전화번호</th> 
-					<td>
-					02-123-5567
-					</td>
-				</tr>			
-			    <tr>
-			        <th scope="row" style="border: none;">주소</th>
-			        <td>
-			        	서울특별시 중구 을지로 255, 기승빌딩 4층 (을지로6가)
-					</td>
-			    </tr>
-			    </tbody>
-			</table>
-		  
+		
+			<div class="modalContainer hidden">
+		      <div class="modalOverlay">
+		         <div class="modalContent" align="center">
+		            <div class="modalContentHeader">
+		               <h4 align="left">병원정보</h4>
+		               <span style="font-size: 1.2em; cursor: pointer;"
+		                  onclick="closeModal()">X</span>
+		            </div>
+		            <!-- ajax를 이용해, 동적으로 생성 ⬇️-->
+		            <table class="visitorDetail customTable" >
+		            <c:forEach var="reservationList" items="${reservationList}" varStatus="status">
+		               <tr align="center">
+		                  <td>병원명</td>
+		                  <td>${reservationList.hpName}</td>
+		               </tr>
+		               <tr align="center">
+		                  <td>진료과목</td>
+		                  <td>${reservationList.dept}</td>
+		               </tr>
+		               <tr align="center">
+		                  <td>방문예정일</td>
+		                  <td>${reservationList.visitdate}</td>
+		               </tr>
+		               <tr align="center">
+		                  <td>방문예정시간</td>
+		                  <td>${reservationList.hour}</td>
+		               </tr>
+		               <tr align="center">
+		                  <td>전화번호</td>
+		                  <td>${reservationList.phone}</td>
+		               </tr>
+		               <tr align="center">
+		                  <td>주소</td>
+		                  <td>
+		                  	${reservationList.address}
+		                  </td>
+		               </tr>
+		                </c:forEach>
+		            </table>
+		            <!-- 동적으로 생성되는 부분-->
+		            <div class="modal_footer" style="text-align: center; margin-top:15px; margin-bottom: 15px;">
+				      <button type="button" class="btn btn-primary">예약변경</button>
+				      <button type="button" class="btn btn-default myclose" data-dismiss="modal">예약취소</button>
+				    </div>
+		         </div>
+		      </div>
+		   </div>
 	  </form>
 	  </div>
    <!-- 기본정보 변경 form끝 -->
       </div>
       </div>
       
-      <div class="modal_footer" style="text-align: center; margin-bottom: 30px;">
-      <button type="button" class="btn btn-primary">예약변경</button>
-      <button type="button" class="btn btn-default myclose" data-dismiss="modal">예약취소</button>
-      </div>
+      
    </div>
    </div>
    </div>

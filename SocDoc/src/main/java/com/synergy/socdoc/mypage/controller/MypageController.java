@@ -822,16 +822,345 @@ public class MypageController {
 	
 	// === 최근 진료이력조회 페이지 === // 
 	@RequestMapping(value="/viewHistory.sd")
-	public String viewHistory() {
+	public ModelAndView viewHistory(HttpServletRequest request, ModelAndView mav, MemberVO membervo) {
 	
-		return "myPage/viewHistory.tiles2";
+		// List<ReservationVO> reservationList = null;
+		
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		String userid = loginuser.getUserid();
+		String name = loginuser.getName();
+		//String memberSeq = String.valueOf(loginuser.getMemberSeq());
+		
+		mav.addObject("userid", userid);
+		mav.addObject("name", name);
+		//mav.addObject("memberSeq", memberSeq);
+		
+		/*String searchType = request.getParameter("searchType");*/
+        String searchType = request.getParameter("searchType");
+        // System.out.println(searchWord);
+        String str_currentShowPageNo = request.getParameter("currentShowPageNo");
+        
+       /* if(searchType == null || searchType.trim().isEmpty()) {
+        	searchType = "";
+        }*/
+        
+        if(searchType == null) {
+        	searchType = "";
+         }
+        
+        membervo = service.viewMyHealth(userid);
+		
+		// List<MemberVO> memberList = service.viewMyHealthTest();
+		
+		mav.addObject("membervo", membervo);
+        
+        HashMap<String,String> paraMap = new HashMap<>();
+        paraMap.put("searchType", searchType); // "컬럼"
+       // paraMap.put("searchWord", searchWord); // 검색어를 담는다.
+        paraMap.put("userid", userid);
+        paraMap.put("name", name);
+        //paraMap.put("memberSeq", memberSeq);
+        
+        System.out.println(userid);
+        System.out.println(name);
+        
+        // 먼저 총 게시물 건수(totalCount)를 구해와야한다. 
+        // 총 게시물 건수(totalCount)는 검색조건이 있을때와 없는때로 나뉘어진다.
+        int totalCount = 0;              // 총 게시물 건수
+        int sizePerPage = 10;            // 한 페이지당 보여줄 게시물 건수
+        int currentShowPageNo = 0; 		 // 현재 보여주는 페이지 번호로서, 초기치로는 1페이지로 
+        int totalPage = 0;               // 총 페이지 수(웹브라우저상에 보여줄 총 페이지 갯수, 페이지바) 
+        
+        int startRno = 0;      			 // 시작 행번호
+        int endRno = 0;      			 // 끌 행번호
+        
+        // 현재 보여주는 페이지 번호로서, 초기치로는 1페이지로 설정한다. 
+        
+        // 총 게시물 건수(totalCount)
+        totalCount = service.getTotalCountReservation(paraMap);
+//		    	System.out.println("~~~~ 확인용 totalCount : " + totalCount);
+        
+        // 만약에 총 게시물 건수(totalCount)가 127개라면, 
+        // 총 페이지 수(totalPage)는 13개가 되어야 한다. 
+        totalPage = (int) Math.ceil( (double)totalCount/sizePerPage );	 // (double)127/10 ==> 12.7 ==> Math.ceil(12.7) ==> (int)13.0 ==> 13
+										 								 // (double)120/10 ==> 12.0 ==> Math.ceil(12.0) ==> (int)12.0 ==> 12
+        
+        if(str_currentShowPageNo == null) {
+        	// 게시판에 보여지는 초기화면
+        	
+        	currentShowPageNo = 1;
+        	// 즉, 초기화면인 /list.action 은 /list.action?currentShowPageNo=1 로 하겠다는 말이다.
+        }
+        else {
+	        try {
+	        	currentShowPageNo = Integer.parseInt(str_currentShowPageNo);
+	        	if( currentShowPageNo < 1 || currentShowPageNo > totalPage ) {
+	        		currentShowPageNo = 1;
+	        	}
+	        	
+	        } catch(NumberFormatException e) {
+	        	currentShowPageNo = 1;
+	        }
+        }
+        
+        startRno = ((currentShowPageNo - 1 ) * sizePerPage) + 1;
+   		endRno = startRno + sizePerPage - 1; 
+
+   		paraMap.put("startRno", String.valueOf(startRno));
+   		paraMap.put("endRno", String.valueOf(endRno));
+   		
+   		String hour = request.getParameter("hour");
+   		paraMap.put("hour", hour);
+   		mav.addObject("hour",hour);
+   		
+   		String visitdate = request.getParameter("visitdate");
+   		paraMap.put("visitdate", visitdate);
+   		mav.addObject("visitdate",visitdate);
+   		
+   		
+   		// String hourSeq = service.getHourSeq(paraMap);
+   		
+   		// paraMap.put("hourSeq", hourSeq);
+   		// addObject("hourSeq", hourSeq);
+   		
+   		List<HashMap<String,String>> historyList = service.historyListSearchWithPaging(paraMap);
+   		// 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것)
+		
+		if(!"".equals(searchType)) {
+			mav.addObject("paraMap", paraMap);
+		}
+		
+		
+		// === #119. 페이지바 만들기 === //
+		String pageBar = "<ul style='list-style: none;'>";
+        
+		int blockSize = 10;
+		
+		int loop = 1;
+		
+		int pageNo = ((currentShowPageNo - 1)/blockSize) * blockSize + 1;
+	
+		
+		String url = "reservation.sd";
+		
+		// === [이전] 만들기 === 
+		if(pageNo != 1) {
+			pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchType="+searchType+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
+		}
+	
+		while ( !(loop > blockSize || pageNo > totalPage) ) {
+
+			if(pageNo == currentShowPageNo) {
+				pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; text-align: center; border: solid 1px gray; color: red; padding: 2px 4px;'>"+pageNo+"</li>";
+			}
+			else {
+				pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; text-align: center;'><a href='"+url+"?searchType="+searchType+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
+			}
+			loop++;
+			pageNo++;
+			
+		}// end of while--------------------------------------
+		
+		
+		// === [다음] 만들기 === 
+		if( !(pageNo > totalPage) ) {
+			pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchType="+searchType+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
+		}
+		
+		pageBar += "</ul>";
+		
+		mav.addObject("pageBar", pageBar);
+		
+		////////////////////////////////////////////////////
+		String gobackURL = MyUtil.getCurrentURL(request);
+		
+		mav.addObject("gobackURL", gobackURL);
+		mav.addObject("totalCount", totalCount);
+
+		session = request.getSession();
+		session.setAttribute("readCountPermission", "yes");
+	
+		
+		mav.addObject("historyList",historyList);
+		
+		mav.setViewName("myPage/viewHistory.tiles2");
+		
+		return mav;
+		
 	}
 	
 	
 	// === 후기 페이지 보이기 === //  
 	@RequestMapping(value="/review.sd")
-	public String review() {
+	public String review(HttpServletRequest request, ModelAndView mav) {
 	
+		// List<ReservationVO> reservationList = null;
+		
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		String userid = loginuser.getUserid();
+		String name = loginuser.getName();
+		//String memberSeq = String.valueOf(loginuser.getMemberSeq());
+		
+		mav.addObject("userid", userid);
+		mav.addObject("name", name);
+		//mav.addObject("memberSeq", memberSeq);
+		
+		/*String searchType = request.getParameter("searchType");*/
+        String searchType = request.getParameter("searchType");
+        // System.out.println(searchWord);
+        String str_currentShowPageNo = request.getParameter("currentShowPageNo");
+        
+       /* if(searchType == null || searchType.trim().isEmpty()) {
+        	searchType = "";
+        }*/
+        
+        if(searchType == null) {
+        	searchType = "";
+         }
+        
+        membervo = service.viewMyHealth(userid);
+		
+		// List<MemberVO> memberList = service.viewMyHealthTest();
+		
+		mav.addObject("membervo", membervo);
+        
+        HashMap<String,String> paraMap = new HashMap<>();
+        paraMap.put("searchType", searchType); // "컬럼"
+       // paraMap.put("searchWord", searchWord); // 검색어를 담는다.
+        paraMap.put("userid", userid);
+        paraMap.put("name", name);
+        //paraMap.put("memberSeq", memberSeq);
+        
+        System.out.println(userid);
+        System.out.println(name);
+        
+        // 먼저 총 게시물 건수(totalCount)를 구해와야한다. 
+        // 총 게시물 건수(totalCount)는 검색조건이 있을때와 없는때로 나뉘어진다.
+        int totalCount = 0;              // 총 게시물 건수
+        int sizePerPage = 10;            // 한 페이지당 보여줄 게시물 건수
+        int currentShowPageNo = 0; 		 // 현재 보여주는 페이지 번호로서, 초기치로는 1페이지로 
+        int totalPage = 0;               // 총 페이지 수(웹브라우저상에 보여줄 총 페이지 갯수, 페이지바) 
+        
+        int startRno = 0;      			 // 시작 행번호
+        int endRno = 0;      			 // 끌 행번호
+        
+        // 현재 보여주는 페이지 번호로서, 초기치로는 1페이지로 설정한다. 
+        
+        // 총 게시물 건수(totalCount)
+        totalCount = service.getTotalCountReservation(paraMap);
+//				    	System.out.println("~~~~ 확인용 totalCount : " + totalCount);
+        
+        // 만약에 총 게시물 건수(totalCount)가 127개라면, 
+        // 총 페이지 수(totalPage)는 13개가 되어야 한다. 
+        totalPage = (int) Math.ceil( (double)totalCount/sizePerPage );	 // (double)127/10 ==> 12.7 ==> Math.ceil(12.7) ==> (int)13.0 ==> 13
+										 								 // (double)120/10 ==> 12.0 ==> Math.ceil(12.0) ==> (int)12.0 ==> 12
+        
+        if(str_currentShowPageNo == null) {
+        	// 게시판에 보여지는 초기화면
+        	
+        	currentShowPageNo = 1;
+        	// 즉, 초기화면인 /list.action 은 /list.action?currentShowPageNo=1 로 하겠다는 말이다.
+        }
+        else {
+	        try {
+	        	currentShowPageNo = Integer.parseInt(str_currentShowPageNo);
+	        	if( currentShowPageNo < 1 || currentShowPageNo > totalPage ) {
+	        		currentShowPageNo = 1;
+	        	}
+	        	
+	        } catch(NumberFormatException e) {
+	        	currentShowPageNo = 1;
+	        }
+        }
+        
+        startRno = ((currentShowPageNo - 1 ) * sizePerPage) + 1;
+   		endRno = startRno + sizePerPage - 1; 
+
+   		paraMap.put("startRno", String.valueOf(startRno));
+   		paraMap.put("endRno", String.valueOf(endRno));
+   		
+   		String hour = request.getParameter("hour");
+   		paraMap.put("hour", hour);
+   		mav.addObject("hour",hour);
+   		
+   		String visitdate = request.getParameter("visitdate");
+   		paraMap.put("visitdate", visitdate);
+   		mav.addObject("visitdate",visitdate);
+   		
+   		
+   		// String hourSeq = service.getHourSeq(paraMap);
+   		
+   		// paraMap.put("hourSeq", hourSeq);
+   		// addObject("hourSeq", hourSeq);
+   		
+   		List<HashMap<String,String>> historyList = service.historyListSearchWithPaging(paraMap);
+   		// 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것)
+		
+		if(!"".equals(searchType)) {
+			mav.addObject("paraMap", paraMap);
+		}
+		
+		
+		// === #119. 페이지바 만들기 === //
+		String pageBar = "<ul style='list-style: none;'>";
+        
+		int blockSize = 10;
+		
+		int loop = 1;
+		
+		int pageNo = ((currentShowPageNo - 1)/blockSize) * blockSize + 1;
+	
+		
+		String url = "reservation.sd";
+		
+		// === [이전] 만들기 === 
+		if(pageNo != 1) {
+			pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchType="+searchType+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
+		}
+	
+		while ( !(loop > blockSize || pageNo > totalPage) ) {
+
+			if(pageNo == currentShowPageNo) {
+				pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; text-align: center; border: solid 1px gray; color: red; padding: 2px 4px;'>"+pageNo+"</li>";
+			}
+			else {
+				pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; text-align: center;'><a href='"+url+"?searchType="+searchType+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
+			}
+			loop++;
+			pageNo++;
+			
+		}// end of while--------------------------------------
+		
+		
+		// === [다음] 만들기 === 
+		if( !(pageNo > totalPage) ) {
+			pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchType="+searchType+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
+		}
+		
+		pageBar += "</ul>";
+		
+		mav.addObject("pageBar", pageBar);
+		
+		////////////////////////////////////////////////////
+		String gobackURL = MyUtil.getCurrentURL(request);
+		
+		mav.addObject("gobackURL", gobackURL);
+		mav.addObject("totalCount", totalCount);
+
+		session = request.getSession();
+		session.setAttribute("readCountPermission", "yes");
+	
+		
+		mav.addObject("historyList",historyList);
+		
+		mav.setViewName("myPage/viewHistory.tiles2");
+		
+		return mav;
+		
 		return "myPage/review.tiles2";
 	}
 	

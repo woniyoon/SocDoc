@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -155,6 +158,65 @@
 	}
 
 </style>
+
+<script type="text/javascript" src="/StarbucksWeb/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="/StarbucksWeb/util/myutil.js"></script>
+
+<script type="text/javascript">
+
+	 $(document).ready(function() {
+		
+		// 검색시 검색조건 및 검색어 값 유지시키기 
+	    if(${paraMap != null}) {
+	       $("#searchType").val("${paraMap.searchType}");
+	    }
+		
+		$("#searchType").change(function(){
+			searchType = $(this).val();
+			goSearch(searchType);
+		});
+		
+	});
+	 
+	 
+	 function goSearch(searchType) {
+		    var frm = document.searchFrm;
+		    frm.searchType.value = searchType;
+		    
+		    frm.method = "GET";
+		    frm.action = "<%= request.getContextPath()%>/viewHistory.sd";
+		    frm.submit();
+		  }// end of function goSearch()-------------------------
+		  
+	function goPrint(title) {
+				
+			//(단위안주면 px)
+			var sw=screen.width;  // 화면 가로길이
+			var sh=screen.height; // 화면 세로길이
+			var popw=800; // 팝업창 가로길이 
+			var poph=600; // 팝업창 세로길이
+			var xpos=(sw-popw)/2; // 화면 중앙에 띄우도록 한다.
+			var ypos=(sh-poph)/2; // 화면 중앙에 띄우도록 한다.
+
+			var popWin=window.open("","print","width="+popw+",height="+poph+",top="+ypos+",left="+xpos+",status=yes,scrollbars=yes");
+			// 일단 내용이 없는 팝업윈도창을 만든다.
+			
+			popWin.document.open();  // 팝업윈도창에 내용을 넣을 수 있도록 열어주어야한다. (오픈한다.)
+
+			// 팝업윈도창에 내용을 입력한다.hpname
+			popWin.document.write("<html><head><style type='text/css'>*{hpname:width:50%;}{table:width:100%;}</style><bod onload='window.print()'>");
+			popWin.document.write(document.getElementById("print_page").innerHTML);
+			popWin.document.write("<br/>");
+			popWin.document.write("</body></html>");
+		
+			popWin.document.close(); // 팝업윈도창 문서를 닫는다.
+			
+			popWin.print(); // 팝업윈도창에 대한 인쇄창을 띄우고
+			popWin.close(); // 인쇄를 하던가 또는 취소를 누르면 팝업윈도창을 닫는다.
+			
+		}// end of function goPrint(title)-----------------------------------------------------	  
+		  
+</script>	 
 </head>
 <body>
     <main>
@@ -177,36 +239,45 @@
         </div>
         
         <div id="contents">
+        <div id="print_page">
         <h1 style="text-align: left;"><strong>진료이력조회</strong></h1>
-        <div><span style="color: skyblue;">주혜정</span> 님(환자번호:54037294)의 과거 1년간 수진이력입니다.</div>
+        
+        <div><span style="color: skyblue;">${membervo.name}</span> 님(환자번호:${membervo.memberSeq})의 과거 1년간 수진이력입니다.</div>
         <div style="width:80%; display: inline-block; ">
-       			<select style="height:25px; float: right;">
-       				<option>전체</option>
-       				<option>날짜별</option>
-       				<option>병원별</option>
-       			</select>
+        	<form name="searchFrm">
+       			<select id="searchType" name="searchType" style="height:25px; float: right;" >
+  				<option id="searchType1" value="1" >전체</option>
+  				<option id="searchType2" value="2" >최신순</option>
+  				<option id="searchType3" value="3" >오래된순</option>
+  			</select>
+  			</form>
        		</div>
+       		
 			<form name="noticeListFrm">
 			<table style="margin-top: 30px;">
 				<thead>
 					 <tr>
 					 	<th><input type="checkbox" /></th>
-					 	<th>병원이름</th>
+					 	<th>번호</th>
+					 	<th id="hpname">병원이름</th>
 					 	<th>진료과목</th>
 					 	<th>방문일</th>
 					 </tr>
 				</thead>
 				
+				
+				<c:forEach var="historyList" items="${historyList}" varStatus="status">
 				<tbody>
 					<tr>
 						<td><input type="checkbox" /></td>
-					    <td class="notice_seq">1</td>
-						<td class="noticeTitle">똑닥병원</td>
-						<td>2020-07-30</td>
+						<td>${status.count}</td>
+					    <td class="notice_seq">${historyList.hpName}</td>
+						<td class="">${historyList.dept}</td>
+						<td>${historyList.visitdate}</td>
 					</tr>
 				</tbody>	
-						
-
+				</c:forEach>		
+				
 				<!--  
 				<tbody>
 					<c:forEach var="feedback" items="${feedbackList}" >
@@ -225,6 +296,7 @@
 				-->
 			</table>
 			</form>
+			
 			</br></br>
 			
 			<div id="notice">
@@ -232,9 +304,9 @@
 					※ 1년 이전의 수진 이력은 조회되지 않습니다.
 				</span>
 			</div>
-			
+			</div>
 			<div style="width:80%; margin-top: 30px; text-align: right;">
-				<span><button id="printBtn" style="background-color: skyblue; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;">인쇄</button></span>
+				<span><button id="printBtn" style="background-color: skyblue; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" onclick="goPrint()">인쇄</button></span>
 			</div>
 			
 			

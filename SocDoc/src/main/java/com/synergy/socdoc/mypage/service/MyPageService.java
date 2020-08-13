@@ -188,6 +188,16 @@ public class MyPageService implements InterMyPageService {
 	}
 
 
+	// 진료이력조회
+	@Override
+	public List<HashMap<String, String>> historyListSearchWithPaging(HashMap<String, String> paraMap) {
+		List<HashMap<String, String>> historyList = dao.historyListSearchWithPaging(paraMap);
+		return historyList;
+	}
+
+
+
+
 	/*// 방문 예정시간 구하기
 	@Override
 	public String getHourSeq(HashMap<String, String> paraMap) {

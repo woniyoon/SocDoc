@@ -72,7 +72,7 @@
 	  
 	  <!-- === 내 건강 보기 === -->
 	  <select id="viewMyHealth" parameterType="String" resultType="com.synergy.socdoc.member.MemberVO">
-	    select height, weight, bloodType, allergy, history, medicine
+	    select name, memberSeq, height, weight, bloodType, allergy, history, medicine
 		from member
 		where userid = #{userid}
    	</select>
@@ -200,22 +200,25 @@
 	    
 	   <!-- == 예약확인 게시판의 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것) -->
 	   <resultMap type="HashMap" id="reservationMap">
-   		<result property="hpName" 		column="hpName" 		javaType="String"/>
-   		<result property="hour" 		column="hour" 			javaType="String"/>
-   		<result property="visitdate" 	column="visitdate" 		javaType="String"/>
-   		<result property="status" 		column="status" 		javaType="String"/>
+   		<result property="hpName" 				column="hpName" 			javaType="String"/>
+   		<result property="hour" 				column="hour" 				javaType="String"/>
+   		<result property="visitdate" 			column="visitdate" 			javaType="String"/>
+   		<result property="status" 				column="status" 			javaType="String"/>
+   		<result property="address" 				column="address" 			javaType="String"/>
+   		<result property="phone" 				column="phone" 				javaType="String"/>
+   		<result property="dept" 				column="dept" 				javaType="String"/>
 	   </resultMap>
 	   <select id="reservationListSearchWithPaging" parameterType="HashMap" resultMap="reservationMap">
-		  	select hpName, hourSeq, status, hour, to_char(visitdate, 'yyyy-mm-dd') as visitdate
+		  	select hpName, hourSeq, status, hour, to_char(visitdate, 'yyyy-mm-dd') as visitdate, address, phone, dept
 	        from
 		        (
-		            select rownum AS rno, hpName, hourSeq, status, hour, visitdate
+		            select rownum AS rno, hpName, hourSeq, status, hour, visitdate, address, phone, dept
 		            from
 		            (
-			            select hpName, status, T.hour, V.hourSeq, V.visitdate 
+			            select hpName, status, T.hour, V.hourSeq, V.visitdate, V.address, V.phone, V.dept
 			            from 
 						(
-							select I.hpName, R.status, R.hourSeq, R.visitdate
+							select I.hpName, R.status, R.hourSeq, R.visitdate, I.address, I.phone, I.dept
 							from hospitalInfo I join reservation R 
 							on I.hpSeq = R.hpSeq
 							where userid = #{userid}
@@ -225,10 +228,10 @@
 	    		) T
 	        where rno between #{startRno} and #{endRno}
 	        <if test='searchType == "2"'>
-            order by visitdate asc, hour asc
+            order by visitdate desc, hour desc
             </if>
             <if test='searchType == "3"'>
-            order by visitdate desc, hour desc
+            order by visitdate asc, hour asc
             </if>
 	        
 	  </select>   
@@ -238,6 +241,47 @@
 		   delete from bookmark
 		   where bookSeq= #{bookSeq}
 	  </delete>
+	  
+	  
+	  <!-- == 진료이력조회 게시판의 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것) -->
+	   <resultMap type="HashMap" id="historyMap">
+   		<result property="hpName" 				column="hpName" 			javaType="String"/>
+   		<result property="hour" 				column="hour" 				javaType="String"/>
+   		<result property="visitdate" 			column="visitdate" 			javaType="String"/>
+   		<result property="status" 				column="status" 			javaType="String"/>
+   		<result property="address" 				column="address" 			javaType="String"/>
+   		<result property="phone" 				column="phone" 				javaType="String"/>
+   		<result property="dept" 				column="dept" 				javaType="String"/>
+	   </resultMap>
+	   <select id="historyListSearchWithPaging" parameterType="HashMap" resultMap="historyMap">
+		  	select hpName, hourSeq, status, hour, to_char(visitdate, 'yyyy-mm-dd') as visitdate, address, phone, dept
+	        from
+		        (
+		            select rownum AS rno, hpName, hourSeq, status, hour, visitdate, address, phone, dept
+		            from
+		            (
+			            select hpName, status, T.hour, V.hourSeq, V.visitdate, V.address, V.phone, V.dept
+			            from 
+						(
+							select I.hpName, R.status, R.hourSeq, R.visitdate, I.address, I.phone, I.dept
+							from hospitalInfo I join reservation R 
+							on I.hpSeq = R.hpSeq
+							where userid = #{userid} and R.status=0
+						) V join timetable T 
+						    on V.hourSeq = T.hourSeq
+		        	) V
+	    		) T
+	        where rno between #{startRno} and #{endRno}
+	        and visitdate between to_char(add_months(sysdate,-12), 'yyyy-mm-dd') and sysdate
+	        <if test='searchType == "2"'>
+            order by visitdate desc
+            </if>
+            <if test='searchType == "3"'>
+            order by visitdate asc
+            </if>
+	        
+	  </select>   
+	  
 	  
 	  <!-- == 방문예정시간 구하기 == -->
 	  <!-- 
