@@ -48,13 +48,13 @@ public class MyUtil {
 		  	return baseUrl;
 	  }
 	  
-	  public static String createPageBar(int currentShowPageNo, int totalPage, String baseLink) {
+	  public static String createPageBar(int currentShowPageNo, int totalPage, int pagingSize, String baseLink) {
 		 	String pageBar = "";
 
 			// 페이지에서 보여지는 첫번째 페이지 번호
 			int pageNo = 1;
 			// 블럭당 보여지는 페이지 번호의 갯수
-			int blockSize = 10;
+			int blockSize = pagingSize;
 			// 1부터 증가해 1개 블럭을 이루는 페이지 번호의 갯수(10개)까지만 증가하는 용도
 			int loop = 1;
 					
