@@ -20,18 +20,7 @@
 
 	$(document).ready(function() {
 		console.log("document ready function");
-		$(".visitorRow").each(function() {
-			$(this).click(function(e) {
-				// 체크박스 클릭시, 이벤트를 취소
-				if (e.target.type == "checkbox") {
-					e.stopPropagation();
-					console.log("event canceled!!");
-				} else {
-					$(".modalContainer").removeClass("hidden");
-					console.log("event going on");
-				}
-			});
-		});
+		
 		
 	});
 
@@ -120,7 +109,7 @@
                			console.log(typeof item.hasVisited);
                			var checked = item.hasVisited ? "checked" : "unchecked";
                			
-               			html += "<tr>"
+               			html += "<tr onclick='popModal(event)'>"
                					+	"<td>"+num+"</td>"
                					+	"<td>"+item.hour+"</td>"
                					+	"<td>"+item.name+"</td>"
@@ -130,6 +119,7 @@
                					+	"<td><input onclick='updateVisitStatus(this,"+!item.hasVisited+")' id="+ item.reservSeq +" type='checkbox' "+checked+" /></td>"
                			 		+"</tr>";
                		});
+               		
                	} else {
                		html = "<tr> <td colspan='6'>내역이 없습니다.</td></tr>"
                	}
@@ -171,6 +161,18 @@
 		});
 	}
 
+	function popModal(e){
+		console.log("?!");
+
+		// 체크박스 클릭시, 이벤트를 취소
+		if (e.target.type == "checkbox") {
+			e.stopPropagation();
+			console.log("event canceled!!");
+		} else {
+			$(".modalContainer").removeClass("hidden");
+			console.log("event going on");
+		}
+	}
 	
 </script>
 
