@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.HpReviewVO;
+import com.synergy.socdoc.member.MemberVO;
 
 public interface InterHpMemDAO {
 
@@ -39,5 +40,8 @@ public interface InterHpMemDAO {
 
 	// 방문상태 업데이트
 	public int updateVisitStatus(HashMap<String, Integer> paraMap);
+
+	// 방문자 상세정보 가져오기
+	public MemberVO getVisitorDetail(String userid);
 
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.HpReviewVO;
+import com.synergy.socdoc.member.MemberVO;
 
 @Repository
 public class HpMemDAO implements InterHpMemDAO {
@@ -119,6 +120,13 @@ public class HpMemDAO implements InterHpMemDAO {
 	public int updateVisitStatus(HashMap<String, Integer> paraMap) {
 		int result = sqlsession.update("hpMem.updateVisitStatus", paraMap);
 		return result;
+	}
+
+	// 방문자 상세정보 가져오기
+	@Override
+	public MemberVO getVisitorDetail(String userid) {
+		MemberVO member = sqlsession.selectOne("hpMem.getVisitorDetail", userid);
+		return member;
 	}
 
 }

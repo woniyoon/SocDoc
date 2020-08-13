@@ -109,7 +109,7 @@
                			console.log(typeof item.hasVisited);
                			var checked = item.hasVisited ? "checked" : "unchecked";
                			
-               			html += "<tr onclick='popModal(event)'>"
+               			html += "<tr id='"+item.userid+"' onclick='popModal(event)'>"
                					+	"<td>"+num+"</td>"
                					+	"<td>"+item.hour+"</td>"
                					+	"<td>"+item.name+"</td>"
@@ -131,7 +131,6 @@
 			}
 		});
 	}
-	
 
 	function updateVisitStatus(target){
 		console.log(target);
@@ -169,8 +168,34 @@
 			e.stopPropagation();
 			console.log("event canceled!!");
 		} else {
-			$(".modalContainer").removeClass("hidden");
-			console.log("event going on");
+			var userid = e.target.parentElement.id;
+			
+			$.ajax({
+				url:"<%=ctxPath%>/ajax/getVisitorDetail.sd",
+				type:"POST",
+				data:{"userid": userid},
+				dataType: "JSON",
+	            success: function(json){
+	               console.log(json);
+	               
+	               var html = "<tr align='center'><td>성명</td><td>"+json.name+"</td></tr>"
+	               			+ "<tr align='center'><td>생년월일</td><td>"+json.birthDate+"</td></tr>"
+	               			+ "<tr align='center'><td>나이</td><td>"+json.age+"</td></tr>"
+	               			+ "<tr align='center'><td>성별</td><td>"+json.gender+"</td></tr>"
+	               			+ "<tr align='center'><td>연락처</td><td>"+json.phone+"</td></tr>"
+	               			+ "<tr align='center'><td>방문이력</td><td>^^;;;</td></tr>";
+				
+	               $(".visitorDetail").html(html);
+	               $(".modalContainer").removeClass("hidden");
+					console.log("event going on");
+	            },
+				error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+					target.checked = !newVisitStatus;
+				}
+			});
+			
+			
 		}
 	}
 	
@@ -251,7 +276,7 @@
 				</div>
 				<!-- ajax를 이용해, 동적으로 생성 ⬇️-->
 				<table class="visitorDetail customTable" >
-					<tr align="center">
+					<!-- <tr align="center">
 						<td>성명</td>
 						<td>김나나</td>
 					</tr>
@@ -275,7 +300,7 @@
 						<td>방문이력</td>
 						<td>^^)7
 						</td>
-					</tr>
+					</tr> -->
 				</table>
 				<!-- 동적으로 생성되는 부분 ⬆️-->
 			</div>

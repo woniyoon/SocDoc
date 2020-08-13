@@ -227,4 +227,11 @@
 		where reservSeq = #{reservSeq}
 	</update>
 	
+	<!-- 방문자 상세정보 가져오기 -->
+	<select id="getVisitorDetail" parameterType="String" resultType="com.synergy.socdoc.member.MemberVO">
+		select name, to_char(birthDate, 'yyyy-mm-dd') as birthDate, gender, phone
+		from member
+		where userid = #{userid}
+	</select>
+	
 </mapper>

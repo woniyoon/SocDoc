@@ -16,6 +16,7 @@ import com.google.gson.*;
 import com.synergy.socdoc.common.*;
 import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.HpReviewVO;
+import com.synergy.socdoc.member.MemberVO;
 
 @Component
 @Controller
@@ -354,6 +355,26 @@ public class HpMemController {
 		return obj.toString();
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/ajax/getVisitorDetail.sd", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
+	public String getVisitorDetail(HttpServletRequest request) {
+		
+		String userid = request.getParameter("userid");
+		
+		MemberVO member = service.getVisitorDetail(userid);
+		
+		
+		System.out.println(member.getName() + "의 나이 : " + member.getAge());
+		JsonObject obj = new JsonObject();
+		
+		obj.addProperty("name", member.getName());
+		obj.addProperty("birthDate", member.getBirthDate());
+		obj.addProperty("age", member.getAge());
+		obj.addProperty("gender", member.getGender());
+		obj.addProperty("phone", member.getPhone());
+		
+		return obj.toString();
+	}
 	
 	// 방문고객관리 w. 페이징
 	@RequestMapping(value = "/hpPanel/visitorsMng.sd", method = RequestMethod.GET)

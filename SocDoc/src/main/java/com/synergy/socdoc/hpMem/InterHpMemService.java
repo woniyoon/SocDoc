@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.HpReviewVO;
+import com.synergy.socdoc.member.MemberVO;
 
 @Service
 public interface InterHpMemService {
@@ -49,6 +50,9 @@ public interface InterHpMemService {
 
 	// 방문 상태 업데이트
 	public int updateVisitStatus(HashMap<String, Integer> paraMap);
+
+	// 방문자 상세 정보 가져오기
+	public MemberVO getVisitorDetail(String userid);
 
 	
 }

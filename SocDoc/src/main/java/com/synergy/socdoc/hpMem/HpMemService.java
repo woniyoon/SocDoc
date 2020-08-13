@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.HpReviewVO;
+import com.synergy.socdoc.member.MemberVO;
 
 @Service
 public class HpMemService implements InterHpMemService {
@@ -110,6 +111,13 @@ public class HpMemService implements InterHpMemService {
 	public int updateVisitStatus(HashMap<String, Integer> paraMap) {
 		int result = dao.updateVisitStatus(paraMap);
 		return result;
+	}
+
+	// 방문자 상세정보 가져오기
+	@Override
+	public MemberVO getVisitorDetail(String userid) {
+		MemberVO member = dao.getVisitorDetail(userid);
+		return member;
 	}
 	
 	
