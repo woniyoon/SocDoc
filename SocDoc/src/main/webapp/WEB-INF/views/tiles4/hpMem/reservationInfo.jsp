@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%-- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
 	String ctxPath = request.getContextPath();
@@ -65,6 +65,20 @@
 
 				// 선택된 날짜
 				console.log(context.current[0]._i);
+				var visitDate = context.current[0]._i;
+				
+				$.ajax({
+					url:"<%=ctxPath%>/hpPanel/reservationInfo.sd",
+					type:"GET",
+					data:{"visitDate": visitDate},
+		            success: function(){
+		                console.log("?!");
+		            },
+					error: function(request, status, error){
+						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+					}
+				});
+				
 			},
 			prev : function(info, context) {
 				// DB에서 이전 달 정보를 새로 가져온다
@@ -134,13 +148,13 @@
 					<th>예약자명</th>
 					<th>연락처</th>
 					<th>초진/재진</th>
-					<th>방문상태</th>
-					<th>방문여부설정</th>
+					<th>방문상태</th>
+					<th>방문여부설정</th>
 				</tr>
 			</thead>
 			<!-- 동적으로 생성되는 부분 ⬇️-->
 			<tbody>
-				<%-- <c:if test="${not empty visitorsList }">
+				<c:if test="${not empty visitorsList }">
 					<c:forEach var="map" items="${visitorsList }" varStatus="status">
 						<tr>
 							<td>${status.count }</td>
@@ -152,12 +166,12 @@
 							<td><input id="${map.reservSeq }" type="checkbox" /></td>
 						</tr>
 					</c:forEach>
-				</c:if> --%>
-				<%-- <c:if test="${empty visitorsList }">
-					<tr align="center">
-						<td colspan="7">예약자가 없습니다.</td>
-					</tr>
-				</c:if> --%>
+				</c:if>
+			 	<c:if test="${empty visitorsList }"> 
+			 		<tr>
+			 			<td colspan="7"> ㅠ</td>
+			 		</tr>
+			 	</c:if>
 				<!-- <tr class="visitorRow">
 					<td>1</td>
 					<td>9:00</td>
