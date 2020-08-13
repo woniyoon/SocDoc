@@ -40,13 +40,20 @@ public class LoginController {
 	// === 로그인 처리 === //
 	@RequestMapping(value="/loginEnd.sd", method= {RequestMethod.POST})
 	public ModelAndView loginEnd(HttpServletRequest request, ModelAndView mav) {
-		
 		String userid = request.getParameter("userid");
 		String pwd = request.getParameter("pwd");
+		String email = request.getParameter("email");
+		String name = request.getParameter("name");
+		String phone = request.getParameter("phone");
+		String birthDate = request.getParameter("birthDate");
 		
 		HashMap<String, String> paraMap = new HashMap<>();
 		paraMap.put("userid", userid);
 		paraMap.put("pwd", Sha256.encrypt(pwd)); // 암호화
+		paraMap.put("email", email);
+		paraMap.put("name", name);
+		paraMap.put("phone", phone);
+		paraMap.put("birthDate", birthDate);
 		
 		MemberVO loginuser = service.getLoginMember(paraMap);
 		
@@ -114,13 +121,22 @@ public class LoginController {
 	}
 	@RequestMapping(value="/hpLoginEnd.sd", method= {RequestMethod.POST})
 	public ModelAndView hpLoginEnd(HttpServletRequest request, ModelAndView mav) {
-		
 		String userid = request.getParameter("userid");
 		String pwd = request.getParameter("pwd");
+		String hpSeq = request.getParameter("hpSeq");
+		String email = request.getParameter("email");
+		String name = request.getParameter("name");
+		String phone = request.getParameter("phone");
+		String regId = request.getParameter("regId");
 		
 		HashMap<String, String> paraMap = new HashMap<>();
 		paraMap.put("userid", userid);
 		paraMap.put("pwd", Sha256.encrypt(pwd)); // 암호화
+		paraMap.put("hpSeq", hpSeq);
+		paraMap.put("email", email);
+		paraMap.put("name", name);
+		paraMap.put("phone", phone);
+		paraMap.put("regId", regId);
 		
 		HpMemberVO loginuser = service.getHpLoginMember(paraMap);
 	
@@ -153,8 +169,6 @@ public class LoginController {
 			session.removeAttribute("login");
 			session.invalidate();
 		}
-		
-		
 		String msg = "로그아웃 되었습니다.";
 		String loc = request.getContextPath()+"/index.sd";
 		mav.addObject("msg", msg);
@@ -166,8 +180,12 @@ public class LoginController {
 	public ModelAndView hpLogout(HttpServletRequest request, ModelAndView mav) {  //직접 세션해도 되고, HttpServletRequest request 해도 됨)
 		
 		HttpSession session = request.getSession();
-		session.invalidate();
-		
+		/*session.invalidate();*/
+		Object object = session.getAttribute("loginuser");
+		if(object != null) {
+			session.removeAttribute("login");
+			session.invalidate();
+		}
 		String msg = "로그아웃 되었습니다.";
 		String loc = request.getContextPath()+"/index.sd";
 		mav.addObject("msg", msg);
@@ -513,7 +531,7 @@ public class LoginController {
 	// === 비밀번호 재설정 === //
 	@RequestMapping("/pwdUpdate.sd")
 	public ModelAndView pwdUpdate(HttpServletRequest request, HttpSession session, MemberVO vo, ModelAndView mav) {
-//		service.pwdUpdate(vo);
+		// service.pwdUpdate(vo);
 		String name = request.getParameter("name");
 		String userid = request.getParameter("userid");
 		String email = request.getParameter("email");
@@ -550,7 +568,7 @@ public class LoginController {
 	}
 	@RequestMapping("/hpPwdUpdate.sd")
 	public ModelAndView hpPwdUpdate(HttpServletRequest request, HttpSession session, MemberVO vo, ModelAndView mav) {
-//		service.pwdUpdate(vo);
+		// service.pwdUpdate(vo);
 		String name = request.getParameter("name");
 		String userid = request.getParameter("userid");
 		String email = request.getParameter("email");
@@ -587,6 +605,7 @@ public class LoginController {
 		return mav;
 	}
 	
+	// 비밀번호 바꾸기 // 
 	@RequestMapping("/changePwd.sd")
 	public ModelAndView changePwd(HttpServletRequest request, HttpSession session, ModelAndView mav) {
 		String pwd = request.getParameter("pwd");
