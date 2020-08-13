@@ -8,6 +8,11 @@ public class NoticeVO {
 	private String regDate;
 	private int hit;
 	
+	private String preseq;
+	private String presubject;
+	private String nextseq;
+	private String nextsubject;
+	
 	public NoticeVO() {}
 	
 	public NoticeVO(int noticeSeq, String subject, String content, String regDate, int hit) {
@@ -58,5 +63,38 @@ public class NoticeVO {
 	public void setHit(int hit) {
 		this.hit = hit;
 	}
+
+	public String getPreseq() {
+		return preseq;
+	}
+
+	public void setPreseq(String preseq) {
+		this.preseq = preseq;
+	}
+
+	public String getPresubject() {
+		return presubject;
+	}
+
+	public void setPresubject(String presubject) {
+		this.presubject = presubject;
+	}
+
+	public String getNextseq() {
+		return nextseq;
+	}
+
+	public void setNextseq(String nextseq) {
+		this.nextseq = nextseq;
+	}
+
+	public String getNextsubject() {
+		return nextsubject;
+	}
+
+	public void setNextsubject(String nextsubject) {
+		this.nextsubject = nextsubject;
+	}
+	
 	
 }
