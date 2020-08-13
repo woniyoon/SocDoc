@@ -312,6 +312,9 @@ public class HpMemController {
 			object.addProperty("day", map.get("day"));
 			object.addProperty("hour", map.get("hour"));
 			
+			boolean hasVisited = "1".equals(map.get("status")) ? true : false;
+			object.addProperty("hasVisited", hasVisited);
+			
 			jsonArr.add(object);
 		}
 		

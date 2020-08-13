@@ -110,23 +110,26 @@
 			dataType: "JSON",
             success: function(json){
                 var html = "";
-               	
+               	console.log(json);
+                
                	if(json.length > 0) {
                		$.each(json, function(index, item){
                			var num = index + 1;
+               			console.log(typeof item.hasVisited);
+               			var checked = item.hasVisited ? "checked" : "unchecked";
                			
                			html += "<tr>"
                					+	"<td>"+num+"</td>"
                					+	"<td>"+item.hour+"</td>"
                					+	"<td>"+item.name+"</td>"
                					+	"<td>"+item.phone+"</td>"
-               					+	"<td>초진</td>"
-               					+	"<td>"+(item.status == 0?  "미방문" : "방문" ) +"</td>"
-               					+	"<td><input id="+ item.reservSeq +" type='checkbox' /></td>"
+/*                					+	"<td>초진</td>" */
+               					+	"<td>"+(item.hasVisited?  "방문" : "미방문" ) +"</td>"
+               					+	"<td><input id="+ item.reservSeq +" type='checkbox' "+checked+" /></td>"
                			 		+"</tr>";
                		});
                	} else {
-               		html = "<tr> <td colspan='7'>내역이 없습니다.</td></tr>"
+               		html = "<tr> <td colspan='6'>내역이 없습니다.</td></tr>"
                	}
                 	
                	$("#reservationList").html(html);
@@ -170,11 +173,11 @@
 		<table class="customTable" id="visitorTbl" align="center">
 			<thead>
 				<tr>
-					<th>번호</th>
+					<th></th>
 					<th>시간</th>
 					<th>예약자명</th>
 					<th>연락처</th>
-					<th>초진/재진</th>
+<!-- 					<th>초진/재진</th> -->
 					<th>방문상태</th>
 					<th>방문여부설정</th>
 				</tr>
@@ -188,7 +191,7 @@
 							<td>${map.hour}</td>
 							<td>${map.name }</td>
 							<td>${map.phone }</td>
-							<td>초진</td>
+							<!-- <td>초진</td> -->
 							<td>${map.status == 0 ? '미방문' : '방문' }</td>
 							<td><input id="${map.reservSeq }" type="checkbox" /></td>
 						</tr>
@@ -196,36 +199,9 @@
 				</c:if>
 			 	<c:if test="${empty visitorsList }"> 
 			 		<tr>
-			 			<td colspan="7"> ㅠ</td>
+			 			<td colspan="6"> ㅠ</td>
 			 		</tr>
 			 	</c:if>
-				<!-- <tr class="visitorRow">
-					<td>1</td>
-					<td>9:00</td>
-					<td>김무명</td>
-					<td>010-0000-0000</td>
-					<td>초진</td>
-					<td>방문</td>
-					<td><input type="checkbox" /></td>
-				</tr>
-				<tr class="visitorRow">
-					<td>2</td>
-					<td>10:00</td>
-					<td>이무명</td>
-					<td>010-0000-0000</td>
-					<td>재진</td>
-					<td>예정</td>
-					<td><input type="checkbox" /></td>
-				</tr>
-				<tr class="visitorRow">
-					<td>3</td>
-					<td>10:00</td>
-					<td>박무명</td>
-					<td>010-0000-0000</td>
-					<td>초진</td>
-					<td>예정</td>
-					<td><input type="checkbox" /></td>
-				</tr> -->
 			</tbody>
 			<!-- 동적으로 생성되는 부분 ⬆️-->
 		</table>
