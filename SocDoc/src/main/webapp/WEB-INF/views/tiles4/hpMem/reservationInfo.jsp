@@ -49,6 +49,7 @@
 				var $calendar = context.calendar;
 
 				console.log("test");
+				getReservationList();
 			},
 			click : function(event, context) {
 				// This is clicked button Element.
@@ -67,17 +68,8 @@
 				console.log(context.current[0]._i);
 				var visitDate = context.current[0]._i;
 				
-				$.ajax({
-					url:"<%=ctxPath%>/hpPanel/reservationInfo.sd",
-					type:"GET",
-					data:{"visitDate": visitDate},
-		            success: function(){
-		                console.log("?!");
-		            },
-					error: function(request, status, error){
-						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-					}
-				});
+				getReservationList(visitDate);
+				
 				
 			},
 			prev : function(info, context) {
@@ -108,6 +100,41 @@
 
 	function closeModal() {
 		$(".modalContainer").addClass("hidden");
+	}
+	
+	function getReservationList(visitDate){
+		$.ajax({
+			url:"<%=ctxPath%>/ajax/reservationList.sd",
+			type:"GET",
+			data:{"visitDate": visitDate},
+			dataType: "JSON",
+            success: function(json){
+                var html = "";
+               	
+               	if(json.length > 0) {
+               		$.each(json, function(index, item){
+               			var num = index + 1;
+               			
+               			html += "<tr>"
+               					+	"<td>"+num+"</td>"
+               					+	"<td>"+item.hour+"</td>"
+               					+	"<td>"+item.name+"</td>"
+               					+	"<td>"+item.phone+"</td>"
+               					+	"<td>초진</td>"
+               					+	"<td>"+(item.status == 0?  "미방문" : "방문" ) +"</td>"
+               					+	"<td><input id="+ item.reservSeq +" type='checkbox' /></td>"
+               			 		+"</tr>";
+               		});
+               	} else {
+               		html = "<tr> <td colspan='7'>내역이 없습니다.</td></tr>"
+               	}
+                	
+               	$("#reservationList").html(html);
+            },
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
 	}
 </script>
 
@@ -153,7 +180,7 @@
 				</tr>
 			</thead>
 			<!-- 동적으로 생성되는 부분 ⬇️-->
-			<tbody>
+			<tbody id="reservationList">
 				<c:if test="${not empty visitorsList }">
 					<c:forEach var="map" items="${visitorsList }" varStatus="status">
 						<tr>

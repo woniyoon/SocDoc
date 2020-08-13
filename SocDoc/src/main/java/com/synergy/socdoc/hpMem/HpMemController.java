@@ -265,6 +265,16 @@ public class HpMemController {
 		// TODO: 나중에는 이 부분을 이용해서 병원정보 가져오기
 //		String hpSeq = request.getSession().getAttribute("hpSeq");
 		String hpSeq = "2";
+		return "hpMem/reservationInfo.tiles4";
+	}
+
+	
+	@ResponseBody
+	@RequestMapping(value = "/ajax/reservationList.sd", method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
+	public String getReservationList(HttpServletRequest request) {
+		// TODO: 나중에는 이 부분을 이용해서 병원정보 가져오기
+//		String hpSeq = request.getSession().getAttribute("hpSeq");
+		String hpSeq = "2";
 		
 		// 방문예정자 리스트 뽑아오기
 		String visitDate = request.getParameter("visitDate");
@@ -285,17 +295,31 @@ public class HpMemController {
 		
 		List<HashMap<String, String>> visitorsList = service.getVisitorsList(paraMap);
 		
-		for(HashMap<String,String> map : visitorsList) {
+		JsonArray jsonArr = new JsonArray();
+	
+		for(int i=0; i<visitorsList.size(); i++) {
+			JsonObject object = new JsonObject();
+			HashMap<String, String> map = visitorsList.get(i);
+			
 			System.out.println(map.get("name"));
+
+			object.addProperty("name", map.get("name"));
+			object.addProperty("phone", map.get("phone"));
+			object.addProperty("reservSeq", map.get("reservSeq"));
+			object.addProperty("userid", map.get("userid"));
+			object.addProperty("visitDate", map.get("visitDate"));
+			object.addProperty("status", map.get("status"));
+			object.addProperty("day", map.get("day"));
+			object.addProperty("hour", map.get("hour"));
+			
+			jsonArr.add(object);
 		}
 		
-		request.setAttribute("visitorsList", visitorsList);
+		return jsonArr.toString();
 		
-		
-		
-		return "hpMem/reservationInfo.tiles4";
 	}
-
+	
+	
 	// 방문고객관리 w. 페이징
 	@RequestMapping(value = "/hpPanel/visitorsMng.sd", method = RequestMethod.GET)
 	public String visitorsMng(HttpServletRequest request) {
