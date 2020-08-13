@@ -20,6 +20,7 @@ public class HpInfoVO {
 	private int status;
 	private String submitId;
 	private String uploadDate;
+	private String distance;
 	
 	
 	public HpInfoVO() {
@@ -27,7 +28,7 @@ public class HpInfoVO {
 	}	
 	
 	public HpInfoVO(String hpSeq, String dept, String hpName, String address, String phone, String info,
-			double latitude, double longitude, int open, int close, String mainImg, String subImg1, String subImg2, int status, String submitId, String uploadDate) {
+			double latitude, double longitude, int open, int close, String mainImg, String subImg1, String subImg2, int status, String submitId, String uploadDate, String distance) {
 		super();
 		this.hpSeq = hpSeq;
 		this.dept = dept;
@@ -45,6 +46,7 @@ public class HpInfoVO {
 		this.status = status;
 		this.submitId = submitId;
 		this.uploadDate = uploadDate;
+		this.distance = distance;
 	}
 
 	public String getHpSeq() {
@@ -174,5 +176,16 @@ public class HpInfoVO {
 	public void setUploadDate(String uploadDate) {
 		this.uploadDate = uploadDate;
 	}
+
+	public String getDistance() {
+		return distance;
+	}
+
+	public void setDistance(String distance) {
+		this.distance = distance;
+	}
+	
+	
+	
 	
 }
