@@ -1,6 +1,7 @@
 package com.synergy.socdoc.login;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
@@ -145,7 +146,14 @@ public class LoginController {
 	public ModelAndView logout(HttpServletRequest request, ModelAndView mav) {  //직접 세션해도 되고, HttpServletRequest request 해도 됨)
 		
 		HttpSession session = request.getSession();
-		session.invalidate();
+/*		session.removeAttribute("login");
+		session.invalidate();*/
+		Object object = session.getAttribute("loginuser");
+		if(object != null) {
+			session.removeAttribute("login");
+			session.invalidate();
+		}
+		
 		
 		String msg = "로그아웃 되었습니다.";
 		String loc = request.getContextPath()+"/index.sd";
@@ -206,21 +214,14 @@ public class LoginController {
 			loc = request.getContextPath() + "/index.sd";
 		} else {
 			msg = "다시 시도해주세요!";
-			loc = "history.back()";
+			loc = "javascript:history.back()";
 		}
 		request.setAttribute("msg", msg);
 		request.setAttribute("loc", loc);
 		return "msg";
 	}
-	// 병원 회원가입 //
 	@RequestMapping(value="/hpRegisterEnd.sd", method= {RequestMethod.POST})
 	public String hpRegisterEnd(HpMemberVO vo, HttpServletRequest request) {
-		/*System.out.println("회원가입 성공??");
-		System.out.println(" 이름 :" + vo.getName());
-		System.out.println(" 아이디 " + vo.getUserid());
-		System.out.println(" 비번 : " + vo.getPwd());
-		System.out.println(" 이메일 : " + vo.getEmail());
-		System.out.println(" 사업자 : " + vo.getRegId());*/
 		
 		HashMap<String, String> paraMap = new HashMap<>();
 		String pwd = Sha256.encrypt(vo.getPwd());
@@ -244,7 +245,7 @@ public class LoginController {
 		return "msg";
 	}
 	
-	// === 회원가입 회원 이메일 인증키 난수 만들기 === //
+	// === 회원가입 이메일 인증키 난수 만들기 === //
 	@ResponseBody
 	@RequestMapping(value="/emailCode.sd", method = {RequestMethod.POST})
 	public String emailCode(HttpServletRequest request) {
@@ -277,7 +278,6 @@ public class LoginController {
         json.put("isSent", isSent);
         return json.toString();  
 	}
-	// === 회원가입 병원 이메일 인증키 난수 만들기 === //
 	@ResponseBody
 	@RequestMapping(value="/hpEmailCode.sd", method = {RequestMethod.POST})
 	public String hpEmailCode(HttpServletRequest request) {
@@ -311,7 +311,7 @@ public class LoginController {
         return json.toString();  
 	}
 	
-	// === 회원가입 회원 이메일 인증확인 === //
+	// === 회원가입 이메일 인증확인 === //
 	@ResponseBody
 	@RequestMapping(value="/verifyCertificationFrm.sd", method={RequestMethod.POST}, produces="text/plain;charset=UTF-8")
 	public String verifyCertification(HttpServletRequest request) {
@@ -341,93 +341,63 @@ public class LoginController {
         json.put("isbool", isbool);
         return json.toString();  
 	}
-	// === 회원가입 병원 이메일 인증확인 === //
-		@ResponseBody
-		@RequestMapping(value="/hpVerifyCertificationFrm.sd", method={RequestMethod.POST}, produces="text/plain;charset=UTF-8")
-		public String hpVerifyCertificationFrm(HttpServletRequest request) {
-			
-			String hpUserCertificationCode = request.getParameter("hpUserCertificationCode");
-
-			HttpSession session = request.getSession();
-			String hpCertificationCode = (String)session.getAttribute("hpCertificationCode");
+	@ResponseBody
+	@RequestMapping(value="/hpVerifyCertificationFrm.sd", method={RequestMethod.POST}, produces="text/plain;charset=UTF-8")
+	public String hpVerifyCertificationFrm(HttpServletRequest request) {
 		
-			System.out.println("hpUserCertificationCode 인증 코드 : "+hpUserCertificationCode);
-			System.out.println("hpCertificationCode 인증 코드 : "+hpCertificationCode);
-			
-			boolean isbool=false;
-			if( hpCertificationCode.equals(hpUserCertificationCode) ) {
-				isbool=true;
-				System.out.println("인증코드 맞음");
-			}
-			else {
-				isbool=false;
-				System.out.println("인증코드 안 맞음");
-			}
-			/*
-			request.setAttribute("msg", msg);
-			request.setAttribute("loc", loc);*/
-			
-			// !!! 중요 !!! //
-			// 세션에 저장된 인증코드 삭제하기 !!!!
-			//session.removeAttribute("certificationCode");
-			JSONObject json = new JSONObject();
-	        json.put("isbool", isbool);
-	        return json.toString();  
+		String hpUserCertificationCode = request.getParameter("hpUserCertificationCode");
+
+		HttpSession session = request.getSession();
+		String hpCertificationCode = (String)session.getAttribute("hpCertificationCode");
+	
+		System.out.println("hpUserCertificationCode 인증 코드 : "+hpUserCertificationCode);
+		System.out.println("hpCertificationCode 인증 코드 : "+hpCertificationCode);
+		
+		boolean isbool=false;
+		if( hpCertificationCode.equals(hpUserCertificationCode) ) {
+			isbool=true;
+			System.out.println("인증코드 맞음");
 		}
+		else {
+			isbool=false;
+			System.out.println("인증코드 안 맞음");
+		}
+		JSONObject json = new JSONObject();
+        json.put("isbool", isbool);
+        return json.toString();  
+	}
 
-
-	// === 회원가입 회원 아이디 중복검사 === //
+	// === 회원가입 아이디 중복검사 === //
 	@ResponseBody
 	@RequestMapping(value="/idChk.sd", method= {RequestMethod.POST})
 	public String idChk(HttpServletRequest request) {
 		String userid= request.getParameter("userid");
 		
 		boolean isUse = service.idChk(userid);
-		//System.out.println("isUse 값 : " + isUse);
-		/*String ctxPath = request.getContextPath();*/
 		JSONObject json = new JSONObject();
 		json.put("isUse", isUse);
 		
 		return json.toString();
 	}
-	
-	// === 회원가입 병원 아이디 중복검사 === //
 	@ResponseBody
 	@RequestMapping(value="/hpIdChk.sd", method= {RequestMethod.POST})
 	public String hpIdChk(HttpServletRequest request) {
 		String userid = request.getParameter("userid");
 		
 		boolean isUse = service.hpIdChk(userid);
-		//System.out.println("isUse 값 : " + isUse);
-		/*String ctxPath = request.getContextPath();*/
 		JSONObject json = new JSONObject();
 		json.put("isUse", isUse);
 		
 		return json.toString();
 	}
 	
-	// === 회원가입 회원 이메일 중복검사 === //
+	// === 회원가입 이메일 중복검사 === //
 	@ResponseBody
 	@RequestMapping(value="/emailChk.sd", method= {RequestMethod.POST})
 	public String emailChk(HttpServletRequest request) {
 		String email= request.getParameter("email");
 		
 		boolean isUse = service.emailChk(email);
-		//System.out.println("emailChk 값 : " + isUse);
-		/*String ctxPath = request.getContextPath();*/
-		JSONObject json = new JSONObject();
-		json.put("isUse", isUse);
-		
-		return json.toString();
-	}
-	
-	// === 회원가입 병원 이메일 중복검사 === //
-	@ResponseBody
-	@RequestMapping(value="/hpEmailChk.sd", method= {RequestMethod.POST})
-	public String hpEmailChk(HttpServletRequest request) {
-		String email = request.getParameter("email");
-		
-		boolean isUse = service.hpEmailChk(email);
 		//System.out.println("isUse 값 : " + isUse);
 		/*String ctxPath = request.getContextPath();*/
 		JSONObject json = new JSONObject();
@@ -435,45 +405,219 @@ public class LoginController {
 		
 		return json.toString();
 	}
+	@ResponseBody
+	@RequestMapping(value="/hpEmailChk.sd", method= {RequestMethod.POST})
+	public String hpEmailChk(HttpServletRequest request) {
+		String email = request.getParameter("email");
+		
+		boolean isUse = service.hpEmailChk(email);
+		JSONObject json = new JSONObject();
+		json.put("isUse", isUse);
+		
+		return json.toString();
+	}
 	
+
 	// === 아이디 찾기 === //
 	@RequestMapping("/idFind.sd")
-	public String idFind(HttpServletRequest request) {
-		
-		String ctxPath = request.getContextPath();
-		//System.out.println(ctxPath+"/idFind.sd로 접속하셨습니다.");
-		
-		return "login/idFind.tiles1";
+	public ModelAndView idFind(ModelAndView mav) {
+		mav.setViewName("login/idFind.tiles1");
+		return mav;
+	}
+	@RequestMapping("/hpIdFind.sd")
+	public ModelAndView hpIdFind(ModelAndView mav) {
+		mav.setViewName("login/idFind.tiles1");
+		return mav;
 	}
 	
 	// === 아이디 찾기 결과 === //
 	@RequestMapping("/idFindResult.sd")
-	public String idFindResult(HttpServletRequest request) {
+	public ModelAndView idFindResult(HttpServletRequest request, ModelAndView mav) {
+		String name = request.getParameter("name");
+		String email = request.getParameter("email");
+		System.out.println(name);
+		System.out.println(email);
 		
-		String ctxPath = request.getContextPath();
-		//System.out.println(ctxPath+"/idFindResult.sd로 접속하셨습니다.");
+		HashMap<String, String> paraMap = new HashMap<>();
+		paraMap.put("name", name);
+		paraMap.put("email", email);
 		
-		return "login/idFindResult.tiles1";
+		MemberVO member = service.idFindResult(paraMap);
+		
+		int check = 0;
+		if(member == null) {			
+			String msg = "입력하신 정보는 존재하지 않습니다.";
+			String loc = request.getContextPath() + "/idFind.sd";
+			mav.addObject("msg", msg);
+			mav.addObject("loc", loc);
+			mav.setViewName("msg");
+		} else {
+			mav.addObject("userid",member.getUserid());
+			mav.addObject("registerDate", member.getRegisterDate());
+			
+			mav.setViewName("login/idFindResult.tiles1");
+			check = 1;
+		}
+
+		mav.addObject("check", check);
+
+		
+		return mav;
 	}
+	@RequestMapping("/hpIdFindResult.sd")
+	public ModelAndView hpIdFindResult(HttpServletRequest request, ModelAndView mav) {
+		String regId = request.getParameter("regId");
+		String email = request.getParameter("email");
+		System.out.println(regId);
+		System.out.println(email);
+		
+		HashMap<String, String> paraMap = new HashMap<>();
+		paraMap.put("regId", regId);
+		paraMap.put("email", email);
+		
+		HpMemberVO hpMember = service.hpIdFindResult(paraMap);
+		int check = 0;
+		if(hpMember == null) {			
+			String msg = "입력하신 정보는 존재하지 않습니다.";
+			String loc = request.getContextPath() + "/idFind.sd";
+			mav.addObject("msg", msg);
+			mav.addObject("loc", loc);
+			mav.setViewName("msg");
+
+		} else {
+			mav.addObject("userid",hpMember.getUserid());
+			mav.addObject("registerDate", hpMember.getRegisterDate());
+
+			mav.setViewName("login/idFindResult.tiles1");
+			check = 2;
+		}
+		
+		mav.addObject("check", check);
+		
+		return mav;
+	}	
+	
 	
 	// === 비밀번호 찾기 === //
 	@RequestMapping("/pwdFind.sd")
-	public String pwdFind(HttpServletRequest request) {
-		
-		String ctxPath = request.getContextPath();
-		System.out.println(ctxPath+"/pwdFind.sd로 접속하셨습니다.");
-		
-		return "login/pwdFind.tiles1";
+	public ModelAndView pwdFind(ModelAndView mav) {
+		mav.setViewName("login/pwdFind.tiles1");
+		return mav;
+	}
+	@RequestMapping("/hpPwdFind.sd")
+	public ModelAndView hpPwdFind(ModelAndView mav) {
+		mav.setViewName("login/pwdFind.tiles1");
+		return mav;
 	}
 	
 	// === 비밀번호 재설정 === //
 	@RequestMapping("/pwdUpdate.sd")
-	public String pwdUpdate(HttpServletRequest request) {
+	public ModelAndView pwdUpdate(HttpServletRequest request, HttpSession session, MemberVO vo, ModelAndView mav) {
+//		service.pwdUpdate(vo);
+		String name = request.getParameter("name");
+		String userid = request.getParameter("userid");
+		String email = request.getParameter("email");
+		String code = request.getParameter("code");
+		System.out.println(name);
+		System.out.println(userid);
+		System.out.println(email);
+		System.out.println(code);
 		
-		String ctxPath = request.getContextPath();
-		System.out.println(ctxPath+"/pwdUpdate.sd로 접속하셨습니다.");
+		HashMap<String, String> paraMap = new HashMap<>();
+		paraMap.put("name", name);
+		paraMap.put("userid", userid);
+		paraMap.put("email", email);
+
+		int n = service.checkMember(paraMap);
+
+		if(n == 0) {
+			String msg = "입력하신 정보는 존재하지 않습니다.";
+			String loc = "javascript:history.back()";
+			
+			mav.addObject("msg", msg);
+			mav.addObject("loc", loc);
+			mav.setViewName("msg");
+			
+		} else {
+			mav.addObject("name", name);
+			mav.addObject("userid", userid);
+			mav.addObject("email", email);
+
+			mav.setViewName("login/pwdUpdate.tiles1");
+		}
 		
-		return "login/pwdUpdate.tiles1";
+		return mav;
+	}
+	@RequestMapping("/hpPwdUpdate.sd")
+	public ModelAndView hpPwdUpdate(HttpServletRequest request, HttpSession session, MemberVO vo, ModelAndView mav) {
+//		service.pwdUpdate(vo);
+		String name = request.getParameter("name");
+		String userid = request.getParameter("userid");
+		String email = request.getParameter("email");
+		String code = request.getParameter("code");
+		System.out.println(name);
+		System.out.println(userid);
+		System.out.println(email);
+		System.out.println(code);
+		
+		HashMap<String, String> paraMap = new HashMap<>();
+		paraMap.put("name", name);
+		paraMap.put("userid", userid);
+		paraMap.put("email", email);
+		
+
+		int n = service.checkMember(paraMap);
+
+		if(n == 0) {
+			String msg = "입력하신 정보는 존재하지 않습니다.";
+			String loc = "javascript:history.back()";
+			
+			mav.addObject("msg", msg);
+			mav.addObject("loc", loc);
+			mav.setViewName("msg");
+			
+		} else {
+			mav.addObject("name", name);
+			mav.addObject("userid", userid);
+			mav.addObject("email", email);
+
+			mav.setViewName("login/pwdUpdate.tiles1");
+		}
+		
+		return mav;
+	}
+	
+	@RequestMapping("/changePwd.sd")
+	public ModelAndView changePwd(HttpServletRequest request, HttpSession session, ModelAndView mav) {
+		String pwd = request.getParameter("pwd");
+		String pwd2 = request.getParameter("pwd2");
+		String userid = request.getParameter("userid");
+		String name = request.getParameter("name");
+		String email = request.getParameter("email");
+		
+		HashMap<String, String> paraMap = new HashMap<>();
+		paraMap.put("pwd", Sha256.encrypt(pwd));
+		paraMap.put("pwd2", Sha256.encrypt(pwd2));
+		paraMap.put("userid", userid);
+		paraMap.put("name", name);
+		paraMap.put("email", email);
+		
+		int n = service.pwdUpdate(paraMap);
+
+		String msg = "비밀번호가 성공적으로 변경됐습니다.";
+		String loc = request.getContextPath() + "/login.sd";
+
+		if(n == 0) {
+			msg = "다시 시도해주세요!";
+			loc = request.getContextPath() + "/pwdFind";
+		}
+		session.invalidate(); // 세션을 끊는다?
+
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("msg");
+		
+		return mav;
 	}
 	
 	// === 게시판 list === //
