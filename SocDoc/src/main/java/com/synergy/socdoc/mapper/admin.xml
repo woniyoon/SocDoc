@@ -208,32 +208,44 @@
 	
 	<!-- 후기관리 목록 (페이징) -->
 	<select id="reviewTotalCount" parameterType="HashMap" resultType="int">
-		select count(*)
-		from hospitalReview
-		where hpseq is not null
-			<if test='searchWord != ""'>
-				and lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
-			</if>
+		select sum(total) 
+		from (
+		select count (*) as total from hospitalReview 
+		union all 
+		select count (*) as total from pharmacyReview
+		)
 	</select>
-	<select id="reviewListPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpReviewVO">
-		select rno, T.userid, T.rating, T.content, T.hpName, T.regDate
-		from
-		(
-		select rno, V.userid, V.rating, V.content, V.hpName, V.regDate
-		from
-		    (	select rownum as rno, R.userid, R.rating, R.content, H.hpname, to_char(R.regDate,'yyyy-mm-dd') AS regDate
-		        from hospitalReview R join hospitalInfo H
-		    	on R.hpseq is not null 
-		    	<if test='searchWord != ""'>
-		    		and ${searchType} like  '%' || #{searchWord} || '%' 
-		    		and R.hpSeq = H.hpSeq
-		    	</if>
-		    	order by R.regDate desc
-		    ) V
-		order by rno
-		)T
-		where rno between #{startRno} and #{endRno}
-	</select>
+    <resultMap type="HashMap" id="reviewMap">
+       <result property="rno"                column="rno"                javaType="String"/>
+       <result property="userid"             column="userid"             javaType="String"/>
+       <result property="rating"             column="rating"             javaType="String"/>
+       <result property="content"            column="content"            javaType="String"/>
+       <result property="name"             	 column="name"               javaType="String"/>
+       <result property="regDate"            column="regDate"            javaType="String"/>
+    </resultMap>
+    <select id="reviewListPaging" parameterType="HashMap" resultMap="reviewMap">
+         select rno, userid, rating, content, name, regDate
+         from
+            (
+                 (
+                  select rno, userid, rating, content, hpName as name, to_char(regDate, 'yyyy-mm-dd') as regDate
+                from
+                    (select rownum as rno, userid, rating, content, regDate, hpname
+                    from hospitalReview
+                    order by regDate desc)
+                )
+                union all
+                (
+                select rno, userid, rating, content, pharName, to_char(regDate, 'yyyy-mm-dd') as regDate
+                from
+                    (select rownum as rno, userid, rating, content, regDate, pharName
+                    from pharmacyReview 
+                    order by regDate desc)
+                )
+           ) T
+         where rno between #{startRno} and #{endRno}
+         order by rno
+   </select> 
 	
 	
 	<!-- 공지사항 글쓰기, 삭제하기, 수정하기 -->

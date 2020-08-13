@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+	<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -116,7 +116,7 @@
 	            </select>
             </form>
             
-            <p>전체 회원 수 : ${totalCount}명</p>
+            <p>전체 후기: ${totalCount}개</p>
 			
 			<table class="table table-hover" style="text-align: center;">
                 <thead>
@@ -124,6 +124,7 @@
                         <th>선택</th>
                         <th>기관명</th>
                         <th>내용</th>
+                        <th>별점</th>
                         <th>작성자</th>
                         <th>작성일</th>
                      </tr>
@@ -131,8 +132,9 @@
 				<c:forEach var="reviewvo" items="${reviewvoList}">
                     <tr>
                         <td><input type="checkbox" /></td>
-                        <td></td>
+                        <td>${reviewvo.name}</td>
                         <td>${reviewvo.content}</td>
+                        <td>${reviewvo.rating}</td>
                         <td>${reviewvo.userid}</td>
                         <td>${reviewvo.regDate}</td>
                     </tr>

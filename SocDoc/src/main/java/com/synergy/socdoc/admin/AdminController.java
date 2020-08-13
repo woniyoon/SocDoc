@@ -3,7 +3,6 @@ package com.synergy.socdoc.admin;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,7 +27,6 @@ import com.synergy.socdoc.member.CommentVO;
 import com.synergy.socdoc.member.FaqBoardVO;
 import com.synergy.socdoc.member.HealthInfoVO;
 import com.synergy.socdoc.member.HpMemberVO;
-import com.synergy.socdoc.member.HpReviewVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.NoticeVO;
 import com.synergy.socdoc.member.QnaBoardVO;
@@ -812,8 +810,6 @@ public class AdminController {
 	@RequestMapping(value = "/reviewMng.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	public ModelAndView reviewMng(HttpServletRequest request, ModelAndView mav) {
 		
-		List<HpReviewVO> reviewvoList = null;
-		
 		String searchType = request.getParameter("searchType");
 		String searchWord = request.getParameter("searchWord");
 		
@@ -867,7 +863,7 @@ public class AdminController {
  
 	//	System.out.println(searchType+"/"+searchWord+"/"+startRno+"/"+endRno);
 		
-		reviewvoList = service.reviewListPaging(paraMap);
+		List<HashMap<String,String>> reviewvoList = service.reviewListPaging(paraMap);
 		
 		if(!"".equals(searchWord)) {
 			mav.addObject("paraMap", paraMap);
@@ -881,7 +877,7 @@ public class AdminController {
 		
 		int pageNo = ((currentShowPageNo -1)/blockSize) * blockSize + 1;
 		
-		String url = "adminMemberMng.sd";
+		String url = "reviewMng.sd";
 		
 		// === [이전] 만들기 ===
 		if(pageNo != 1) {

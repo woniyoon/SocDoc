@@ -14,7 +14,6 @@ import com.synergy.socdoc.member.CommentVO;
 import com.synergy.socdoc.member.FaqBoardVO;
 import com.synergy.socdoc.member.HealthInfoVO;
 import com.synergy.socdoc.member.HpMemberVO;
-import com.synergy.socdoc.member.HpReviewVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.NoticeVO;
 import com.synergy.socdoc.member.QnaBoardVO;
@@ -164,8 +163,8 @@ public class AdminService implements InterAdminService {
 	}
 	// 후기관리 글 목록 (페이징처리)
 	@Override
-	public List<HpReviewVO> reviewListPaging(HashMap<String, String> paraMap) {
-		List<HpReviewVO> reviewvoList = dao.reviewListPaging(paraMap);
+	public List<HashMap<String, String>> reviewListPaging(HashMap<String, String> paraMap) {
+		List<HashMap<String, String>> reviewvoList = dao.reviewListPaging(paraMap);
 		return reviewvoList;
 	}
 
