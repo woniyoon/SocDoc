@@ -105,39 +105,42 @@
 	            </select>
             </form>
             
-            <p>전체 회원 수 : ${totalCount}명</p>		
-			<table class="table" style="text-align: center;">
-				<tr>
-					<th>선택</th>
-					<th>아이디</th>
-					<th>이름</th>
-					<th>생년월일</th>
-					<th>이메일</th>
-					<th>전화번호</th>
-					<th>가입일자</th>
-					<th>상태</th>
-				</tr>
-				<c:forEach var="membervo" items="${membervoList}">
+            <p>전체 회원 수 : ${totalCount}명</p>
+            
+            <form name="updateFrm">		
+				<table class="table" style="text-align: center;">
 					<tr>
-						<td><input type="checkbox" /></td>		
-						<td>${membervo.userid}</td>			
-						<td>${membervo.name}</td>			
-						<td>${membervo.birthDate}</td>			
-						<td>${membervo.email}</td>			
-						<td>${membervo.phone}</td>			
-						<td>${membervo.registerDate}</td>	
-						<c:choose>
-							<c:when test="${membervo.status eq 1}">
-								<td style="font-weight:bold;">회원</td>	
-							</c:when>
-							<c:when test="${membervo.status eq 0}">
-								<td style="font-weight:bold; color:red;">탈퇴</td>	
-							</c:when>
-						</c:choose>		
+						<th>선택</th>
+						<th>아이디</th>
+						<th>이름</th>
+						<th>생년월일</th>
+						<th>이메일</th>
+						<th>전화번호</th>
+						<th>가입일자</th>
+						<th>상태</th>
 					</tr>
-				</c:forEach>
-				
-			</table>
+					<c:forEach var="membervo" items="${membervoList}">
+						<tr>
+							<td><input type="checkbox" name="memck" class="memck" value="${membervo.userid}" /></td>		
+							<td>${membervo.userid}</td>			
+							<td>${membervo.name}</td>			
+							<td>${membervo.birthDate}</td>			
+							<td>${membervo.email}</td>			
+							<td>${membervo.phone}</td>			
+							<td>${membervo.registerDate}</td>	
+							<c:choose>
+								<c:when test="${membervo.status eq 1}">
+									<td style="font-weight:bold;">회원</td>	
+								</c:when>
+								<c:when test="${membervo.status eq 0}">
+									<td style="font-weight:bold; color:red;">탈퇴</td>	
+								</c:when>
+							</c:choose>		
+						</tr>
+					</c:forEach>
+				</table>
+				<input type="hidden" id="memJoin" name="memJoin" />
+			</form>
 			
 			<div align="right">
 		      <button type="button" id="deleteBtn" class="deleteBtn"> 탈퇴 </button>   
@@ -145,7 +148,8 @@
 		   
 		   <div align="center">
 				${pageBar}
-			</div>
+		   </div>
+		   
 		</div>
 		
 	</div>
@@ -166,6 +170,14 @@
 			$("#searchWord").val("${paraMap.searchWord}");
 		}
 		
+		$("#deleteBtn").click(function(){
+			goUpdate();
+		})
+		
+		$("#memck").click(function(){
+			alert("userid:"+$("input:checkbox[name=memck]").val());
+		});
+		
 	});
 	
 	
@@ -175,5 +187,51 @@
 			frm.action = "<%= request.getContextPath()%>/adminMemberMng.sd";
 			frm.submit();
 	}
+	
+	function goUpdate() {
+        
+		var cnt = $("input[name='memck']:checked").length;
+	        
+        var arr = new Array();
+       
+        $("input[name='memck']:checked").each(function() {
+            arr.push($(this).attr('id'));
+        });
+        
+        if(cnt == 0){
+            alert("선택된 회원이 없습니다.");
+        }
+        else{
+        	
+           var con = confirm("탈퇴시키겠습니까?");
+           
+           var allCnt = $("input[name='memck']").length;
+           
+           var memArr = new Array();
+           
+           for(var i=0; i<allCnt; i++) {
+        	   
+        	   if($("input:checkbox[class=memck]").eq(i).is(":checked")) {
+        		   	memArr.push($("input:checkbox[class=memck]").eq(i).val());   
+        	   }
+           }
+
+           var memJoin = memArr.join();
+           
+           $("#memJoin").val(memJoin);
+           
+           if(con == true) {
+              var frm = document.updateFrm;
+              frm.method = "GET";
+              frm.action = "<%= request.getContextPath()%>/updateStatus.sd"
+              frm.submit();
+           }
+           else if(con == false){ 
+              location.href="history.back()";
+
+           }
+        } 
+     }
+	
 
 </script>	

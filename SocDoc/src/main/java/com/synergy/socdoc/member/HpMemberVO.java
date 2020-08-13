@@ -16,13 +16,11 @@ public class HpMemberVO {
 	private int infoStatus;
 	private HpInfoVO hpinfo;
 	
-	private String hpName; // 내가 임의로 추가한 객체
-	
 	
 	public HpMemberVO() {}
 
 	public HpMemberVO(String userid, String pwd, String email, String name, String phone, int hpSeq, String regId,
-			String registerDate, int status, int infoStatus, String hpName) {
+			String registerDate, int status, int infoStatus) {
 		super();
 		this.userid = userid;
 		this.pwd = pwd;
@@ -34,7 +32,6 @@ public class HpMemberVO {
 		this.registerDate = registerDate;
 		this.status = status;
 		this.infoStatus = infoStatus;
-		this.hpName = hpName;
 	}
 
 	public String getUserid() {
@@ -116,14 +113,5 @@ public class HpMemberVO {
 	public void setInfoStatus(int infoStatus) {
 		this.infoStatus = infoStatus;
 	}
-
-	public String getHpName() {
-		return hpName;
-	}
-
-	public void setHpName(String hpName) {
-		this.hpName = hpName;
-	}
-	
 	
 }

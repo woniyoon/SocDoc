@@ -134,7 +134,13 @@
                         <td><input type="checkbox" /></td>
                         <td>${reviewvo.name}</td>
                         <td>${reviewvo.content}</td>
-                        <td>${reviewvo.rating}</td>
+                   		<td>
+	                        <c:if test="${reviewvo.rating==5}">★★★★★</c:if>
+			                <c:if test="${reviewvo.rating==4}">★★★★</c:if>
+			                <c:if test="${reviewvo.rating==3}">★★★</c:if>
+			                <c:if test="${reviewvo.rating==2}">★★</c:if>
+			                <c:if test="${reviewvo.rating==1}">★</c:if>
+		                </td>
                         <td>${reviewvo.userid}</td>
                         <td>${reviewvo.regDate}</td>
                     </tr>

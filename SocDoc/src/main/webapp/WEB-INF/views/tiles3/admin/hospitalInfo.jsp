@@ -70,20 +70,75 @@
 		clear: both;
 		display: block;
 	}
+	
+	/* 모달창 만들기 */
+	.hidden {
+	    display: none;
+	}
+	
+	.modalContainer {
+	    position: fixed;
+	    left: 0;
+	    top: 0;
+	    width: 100%;
+	    height: 100%;
+	    z-index: 1000;	/* 달력의 화살표가 튀어나오지 않게 방지 */
+	}
+	
+	.modalOverlay {
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+	    background-color: rgba(0, 0, 0, 0.2);
+	    width: 100%;
+	    height: 100%;
+	    position: absolute;
+	}
+	
+	.modalContent {
+	    background-color: white;
+	    width: 30%;
+	    height: auto;
+	    min-height: 50%;
+	    max-height: 60%;
+	    position: relative;
+	    padding: 30px;
+	    border: 1px solid rgb(230, 230, 230);
+	}
+	
+	.modalContentHeader {
+	    display: flex;
+	    flex-direction: row;
+	    justify-content: space-between;
+	}
 
 	th {
 		text-align: center;
 	}
 	
     #updateBtn {
-		float: right;
-		margin-top: 30px;
      	margin-right: 10px;
+     	float: right;
+		margin-top: 30px;
+        background-color: #efefef;
+        cursor: pointer;   
+      	border: 1px solid #dddddd;       
+      	padding: 0.25em .75em;    
+      	border-radius: .25em;       
+      	font-weight: 500;
+      	font-size: 10pt;  
 	}
 	
 	#deleteBtn {
 		float: right;
 		margin-top: 30px;
+        background-color: #efefef;
+        cursor: pointer;   
+      	border: 1px solid #dddddd;       
+      	padding: 0.25em .75em;    
+      	border-radius: .25em;       
+      	font-weight: 500;
+      	font-size: 10pt;  
 	}
 
 </style>
@@ -100,7 +155,7 @@
 	            <select id="searchType" name="searchType">
 	                <option selected="selected" value="userid">아이디</option>
 	                <option value="regId">사업자번호</option>
-	                <option value="">병원명</option>
+	                <option value="hpName">병원명</option>
 	            </select>
             </form>
             
@@ -117,18 +172,18 @@
 				</tr>
 				
 				<c:forEach var="hpvo" items="${hpinfovoList}">
-				<tr>
+				<tr class="detailRow">
                     <td><input type="checkbox"/></td>	
 					<td>${hpvo.userid}</td>			
 					<td>${hpvo.regId}</td>			
 					<td>${hpvo.name}</td>			
-					<td>강남병원</td>	
+					<td>${hpvo.hpName}</td>	
 					<c:choose>
 						<c:when test="${hpvo.infoStatus eq 1}">
-							<td style="color:red; font-weight:bold;">신청</td>
+							<td style="color:red; font-weight:bold;">대기</td>
 						</c:when>			
 						<c:when test="${hpvo.infoStatus eq 3}">
-							<td style="color:green; font-weight:bold;">수정</td>
+							<td style="color:blue; font-weight:bold;">수정</td>
 						</c:when>			
 					</c:choose>
 				</tr>
@@ -144,8 +199,25 @@
 			${pageBar}
 		</div>
 		
+		<div class="modalContainer hidden">
+		<div class="modalOverlay">
+			<div class="modalContent" align="center">
+				<div class="modalContentHeader">
+					<h4 align="left">환자정보</h4>
+					<span style="font-size: 1.2em; cursor: pointer;"
+						onclick="closeModal()">X</span>
+				</div>
+				<table class="hospitalDetail customTable" >
+					병원상세정보
+				</table>
+				</div>
+			</div>
+		</div>
+		
+		
 	</div>
 	
+
 <script type="text/javascript">
 	$(document).ready(function(){
 		
@@ -160,6 +232,19 @@
 			$("#searchWord").val("${paraMap.searchWord}");
 		}
 		
+		$(".detailRow").each(function() {
+			$(this).click(function(e) {
+				// 체크박스 클릭시, 이벤트를 취소
+				if (e.target.type == "checkbox") {
+					e.stopPropagation();
+					console.log("event canceled!!");
+				} else {
+					$(".modalContainer").removeClass("hidden");
+					console.log("event going on");
+				}
+			});
+		});
+		
 	});
 	
 	
@@ -168,6 +253,10 @@
 			frm.method = "GET";
 			frm.action = "<%= request.getContextPath()%>/hospitalInfo.sd";
 			frm.submit();
+	}
+	
+	function closeModal() {
+		$(".modalContainer").addClass("hidden");
 	}
 
 </script>	

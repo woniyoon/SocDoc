@@ -127,8 +127,8 @@ public class AdminService implements InterAdminService {
 	}
 	// 병원등록 목록 (페이징처리)
 	@Override
-	public List<HpMemberVO> hpInfoListPaging(HashMap<String, String> paraMap) {
-		List<HpMemberVO> hpInfoList = dao.hpInfoListPaging(paraMap);
+	public List<HashMap<String, String>> hpInfoListPaging(HashMap<String, String> paraMap) {
+		List<HashMap<String, String>> hpInfoList = dao.hpInfoListPaging(paraMap);
 		return hpInfoList;
 	}
 
@@ -223,6 +223,13 @@ public class AdminService implements InterAdminService {
 	@Override
 	public void updateStatus(String parentSeq) {
 		dao.updateStatus(parentSeq);
+	}
+
+	
+	// 회원 탈퇴 시키기
+	@Override
+	public void updateMember(String userid) {
+		dao.updateMember(userid);
 	}
 	
 

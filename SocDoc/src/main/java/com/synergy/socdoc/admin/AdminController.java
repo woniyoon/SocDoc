@@ -162,6 +162,26 @@ public class AdminController {
 		return mav;
 		
 	}
+	/* 회원 탈퇴 시키기 */
+	@RequestMapping(value="/updateStatus.sd", method = RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView updateMember(@RequestParam("memck") String[] memck, ModelAndView mav, HttpServletRequest request) {
+		
+		String memJoin = request.getParameter("memJoin");
+		
+		String[] memArr = memJoin.split(",");
+		
+		for(int i=0; i<memArr.length; i++) {
+			service.updateMember(memArr[i]);
+		}
+		
+        mav.addObject("loc",request.getContextPath()+"/adminMemberMng.sd");
+      
+        mav.setViewName("msg");
+      
+        return mav;
+        
+	}
 	
 
 	/* 병원회원관리 */	
@@ -284,7 +304,7 @@ public class AdminController {
 	@RequestMapping(value = "/hospitalInfo.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	public ModelAndView hospitalInfo(HttpServletRequest request, ModelAndView mav) {
 		
-		List<HpMemberVO> hpinfovoList = null;
+	//	List<HpMemberVO> hpinfovoList = null;
 		
 		String searchType = request.getParameter("searchType");
 		String searchWord = request.getParameter("searchWord");
@@ -337,7 +357,7 @@ public class AdminController {
 		paraMap.put("startRno", String.valueOf(startRno));
 		paraMap.put("endRno", String.valueOf(endRno));
  
-		hpinfovoList = service.hpInfoListPaging(paraMap);
+		List<HashMap<String, String>> hpinfovoList = service.hpInfoListPaging(paraMap);
 		
 		if(!"".equals(searchWord)) {
 			mav.addObject("paraMap", paraMap);

@@ -34,7 +34,7 @@ public interface InterAdminService {
 	List<HpMemberVO> hpmemberListPaging(HashMap<String, String> paraMap); // 병원회원 목록 (페이징처리)
 	
 	int hpInfoCount(HashMap<String, String> paraMap); // 병원(정보)등록 총 게시물 건수 구하기
-	List<HpMemberVO> hpInfoListPaging(HashMap<String, String> paraMap); // 병원등록 목록 (페이징처리)
+	List<HashMap<String, String>> hpInfoListPaging(HashMap<String, String> paraMap); // 병원등록 목록 (페이징처리)
 	
 	int qnaListCount(HashMap<String, String> paraMap); // 문의관리 총 게시물 건수 구하기
 	List<QnaBoardVO> qnaListPaging(HashMap<String, String> paraMap); // 문의관리 글 목록 (페이징처리)
@@ -54,5 +54,7 @@ public interface InterAdminService {
 	int addComment(CommentVO commentvo); // 댓글쓰기
 	List<CommentVO> getCommentList(String parentSeq); // 게시물에 딸린 댓글 조회하기
 	void updateStatus(String parentSeq);  // 문의글에 답변 상태 변경하기
+	
+	void updateMember(String userid); // 회원 탈퇴 시키기
 
 }

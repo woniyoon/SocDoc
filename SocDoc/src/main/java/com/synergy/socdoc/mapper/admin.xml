@@ -56,6 +56,11 @@
 		)T
 		where rno between #{startRno} and #{endRno}
 	</select>
+	<!-- 회원탈퇴 -->
+	<update id="updateMember" parameterType="HashMap">
+		update member set status = 0
+    	where userid = #{userid}
+	</update>
 	
 
 	<!-- 공지사항 글 목록 (페이징처리) -->
@@ -152,25 +157,33 @@
 	</select>
 	
 	
-	<!-- 병원(정보)등록 목록 (페이징처리) -->
+	<!-- 병원(정보)등록 목록 (페이징처리) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 	<select id="hpInfoCount" parameterType="HashMap" resultType="int">
 		select count(*)
 		from hpMember
-		where infoStatus in (1,0)
+		where infoStatus in (1,3)
 			<if test='searchWord != ""'>
 				and lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
 			</if>
 	</select>
-	<select id="hpInfoListPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpMemberVO">
-		select rno, userid, regId, name, infoStatus
+	<resultMap type="HashMap" id="hpinfoMap">
+       <result property="rno"                column="rno"                javaType="String"/>
+       <result property="userid"             column="userid"             javaType="String"/>
+       <result property="regId"              column="regId"              javaType="String"/>
+       <result property="name"             	 column="name"               javaType="String"/>
+       <result property="infoStatus"         column="infoStatus"         javaType="String"/>
+       <result property="hpName"         	 column="hpName"         	 javaType="String"/>
+    </resultMap>
+	<select id="hpInfoListPaging" parameterType="HashMap" resultMap="hpinfoMap">
+		select rno, userid, regId, name, infoStatus, hpName
 		from
 	    ( 
-	        select rownum as rno, userid, regId, name, infoStatus
+	        select rownum as rno, userid, regId, name, infoStatus, hpName
 			from 
 			(
-				select userid, regId, name, infoStatus
-				from hpMember
-				where infoStatus in (1,0)
+	            select m.userid, m.regId, m.name, m.infoStatus, h.hpName
+	            from hpMember m, hospitalinfo h
+	            where h.hpSeq = m.hpSeq and m.infoStatus in (1,3)
 				<if test='searchWord != ""'>
 					and ${searchType} like '%' || #{searchWord} || '%'
 				</if>
@@ -178,6 +191,7 @@
 		)T
 		where rno between #{startRno} and #{endRno}
 	</select>
+	
 	
 	<!-- 문의관리 목록 (페이징) -->
 	<select id="qnaListCount" parameterType="HashMap" resultType="int">
@@ -210,9 +224,9 @@
 	<select id="reviewTotalCount" parameterType="HashMap" resultType="int">
 		select sum(total) 
 		from (
-		select count (*) as total from hospitalReview 
-		union all 
-		select count (*) as total from pharmacyReview
+			select count (*) as total from hospitalReview 
+			union all 
+			select count (*) as total from pharmacyReview
 		)
 	</select>
     <resultMap type="HashMap" id="reviewMap">
@@ -304,5 +318,6 @@
 		update qnaBoard set status = '1'
 		where qnaSeq = #{parentSeq}
 	</update>
+	
 	
 </mapper>

@@ -123,8 +123,8 @@ public class AdminDAO implements InterAdminDAO {
 	}
 	// 병원등록 목록 (페이징처리)
 	@Override
-	public List<HpMemberVO> hpInfoListPaging(HashMap<String, String> paraMap) {
-		List<HpMemberVO> hpInfoList = sqlsession.selectList("admin.hpInfoListPaging", paraMap);
+	public List<HashMap<String, String>> hpInfoListPaging(HashMap<String, String> paraMap) {
+		List<HashMap<String, String>> hpInfoList = sqlsession.selectList("admin.hpInfoListPaging", paraMap);
 		return hpInfoList;
 	}
 	
@@ -214,6 +214,11 @@ public class AdminDAO implements InterAdminDAO {
 	@Override
 	public void updateStatus(String parentSeq) {
 		sqlsession.update("admin.updateStatus", parentSeq);
+	}
+	// 회원 탈퇴 시키기
+	@Override
+	public void updateMember(String userid) {
+		sqlsession.update("admin.updateMember", userid);
 	}
 	
 	

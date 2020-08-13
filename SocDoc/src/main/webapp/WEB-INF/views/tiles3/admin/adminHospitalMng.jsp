@@ -77,58 +77,57 @@
 
 
 	/* 모달창 만들기 */
-
-.hidden {
-    display: none;
-}
-
-.modalContainer {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1000;	/* 달력의 화살표가 튀어나오지 않게 방지 */
-}
-
-.modalOverlay {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0, 0, 0, 0.2);
-    width: 100%;
-    height: 100%;
-    position: absolute;
-}
-
-.modalContent {
-    background-color: white;
-    width: 30%;
-    height: auto;
-    min-height: 50%;
-    max-height: 60%;
-    position: relative;
-    padding: 30px;
-    border: 1px solid rgb(230, 230, 230);
-}
-
-.modalContentHeader {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.hospitalDetail {
-	width: 90%;
-	margin: 40px 0 0 0;	
-}
-
-.hospitalDetail tr, .hospitalDetail td {
-	border-top: 1px solid #dddddd;
-	border-collapse: collapse;
-	padding: 10px 0;	
-}
+	.hidden {
+	    display: none;
+	}
 	
+	.modalContainer {
+	    position: fixed;
+	    left: 0;
+	    top: 0;
+	    width: 100%;
+	    height: 100%;
+	    z-index: 1000;	/* 달력의 화살표가 튀어나오지 않게 방지 */
+	}
+	
+	.modalOverlay {
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+	    background-color: rgba(0, 0, 0, 0.2);
+	    width: 100%;
+	    height: 100%;
+	    position: absolute;
+	}
+	
+	.modalContent {
+	    background-color: white;
+	    width: 30%;
+	    height: auto;
+	    min-height: 50%;
+	    max-height: 60%;
+	    position: relative;
+	    padding: 30px;
+	    border: 1px solid rgb(230, 230, 230);
+	}
+	
+	.modalContentHeader {
+	    display: flex;
+	    flex-direction: row;
+	    justify-content: space-between;
+	}
+	
+	.hospitalDetail {
+		width: 90%;
+		margin: 40px 0 0 0;	
+	}
+	
+	.hospitalDetail tr, .hospitalDetail td {
+		border-top: 1px solid #dddddd;
+		border-collapse: collapse;
+		padding: 10px 0;	
+	}
+		
 </style>
 
 
