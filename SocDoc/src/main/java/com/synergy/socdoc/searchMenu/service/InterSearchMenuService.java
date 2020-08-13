@@ -11,7 +11,7 @@ public interface InterSearchMenuService {
 	List<HpInfoVO> searchHospitalSelect();
 	
 	//민간구급차 API
-	String getAmList(String city);
+	HashMap<String,String> getAmList(String city);
 
 	List<HpInfoVO> hospitalListSearchWithPaging(HashMap<String, String> paraMap);
 

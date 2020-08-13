@@ -23,7 +23,7 @@ public class SearchMenuService implements InterSearchMenuService {
 	}
 	
 	@Override
-	public String getAmList(String city) {
+	public HashMap<String,String> getAmList(String city) {
 		return dao.getAmList(city);
 	}
 

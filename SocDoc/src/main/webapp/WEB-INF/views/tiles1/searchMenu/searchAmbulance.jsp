@@ -96,20 +96,24 @@
 
 
 
+
 <script type="text/javascript">
+
+	 var currentPage = 1;
+	 
 	 $(document).ready(function(){
 		 
-		 showAmList();	 
+		 showAmList(currentPage);	 
 		 
 	 })
 
-	 function showAmList(){
+	 function showAmList(currentPage){
 		 
 		 var html = "";
 
 		 $.ajax({
 			 url: "<%= ctxPath %>/api/amList.sd",
-	         type: "GET",
+			 data:{"city":$("#city").val(),"currentPage":currentPage}
 	         dataType: "JSON",
 	         success: function(json){	
 	        		
@@ -126,7 +130,7 @@
 				})		
 					        	
 				$("#ambulanceTblBody").html(html);
-	        	 
+				$("#pageBar").html(pagebar);	        	 
 	         },
 	         error: function(request, status, error){
 	            alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);

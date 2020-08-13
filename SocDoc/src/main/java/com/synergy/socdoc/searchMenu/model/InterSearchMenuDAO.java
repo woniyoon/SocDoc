@@ -10,7 +10,7 @@ public interface InterSearchMenuDAO {
 	List<HpInfoVO> searchHospitalSelect();
 	
 	//민간구급차 API AJax List
-	String getAmList(String city);
+	HashMap<String,String> getAmList(String city);
 
 	List<HpInfoVO> hospitalListSearchWithPaging(HashMap<String, String> paraMap);
 

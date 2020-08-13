@@ -286,7 +286,7 @@ $(document).ready(function(){
 	 
 	//후기별점 
 	$(".starRating").each(function(){
-		$("#starRating3").addClass("on").prevAll("span").addClass("on");
+		$("#starRating2").addClass("on").prevAll("span").addClass("on");
 		return false;
 	})
 		 

@@ -259,6 +259,8 @@
 				var longitude = position.coords.longitude; //경도	
 				var locPosition = new kakao.maps.LatLng(latitude, longitude);
 				printMap(mapobj,locPosition);
+				goSearch(mCurrentPage, latitude,longitude);
+
 			});
 		}
 		else {
@@ -267,6 +269,7 @@
 			var longitude = 126.98265938959321;	   	
 			var locPosition = new kakao.maps.LatLng(latitude, longitude);
 			printMap(mapobj,locPosition);
+			goSearch(mCurrentPage, latitude,longitude);
 
 		} 
 		
@@ -277,12 +280,10 @@
 		
 		var markerHere = new kakao.maps.Marker({ 
 			map:mapobj,
-		    position: mapobj.getCenter(),
 		    image:markerImageHere
-		}); 
+		});
 		
 		
-		goSearch(mCurrentPage);
 		
  		kakao.maps.event.addListener(mapobj, 'click', function(mouseEvent) {        
 		    
@@ -433,7 +434,7 @@
 	 
 	
 	// 검색
-	function goSearch(mCurrentPage){
+	function goSearch(mCurrentPage,latitude,longitude){
 		 
 		 var content = "";
 		 var pagebarM="";
@@ -444,7 +445,8 @@
 				url: "/socdoc/mapHospitalList.sd",
 				data:{"city":$('#cityM').val(),"county":$('#countyM').val(),"district":$('#districtM').val()
 					,"dept":$('#deptM').val()
-					,"searchWord":$('#searchWordM').val(),"currentPage":mCurrentPage,"totalPage":mTotalPage},				
+					,"searchWord":$('#searchWordM').val(),"currentPage":mCurrentPage,"totalPage":mTotalPage
+					,"latitudeHere":latitude,"longitudeHere":longitude},				
 				dataType: "JSON",
 				success: function(json){ 
 					
@@ -455,7 +457,7 @@
 					
 						content += "<tr><td>"
 				      			+		"<div id='mHospitalName' class='mHospitalName'>"+item.hpName+"</div>"
-				      			+		"<div id='mHospitaldept'>"+item.hpDept+"</div>"
+				      			+		"<div id='mHospitaldept'>"+item.hpDept+"<span>"+item.distance+"</span></div>"
 				      			+		"<div id='mHospitalTel'>"+item.phone+"</div>"
 				      			+		"<div id='mHospitalAddress'>"+item.address+"</div>"
 				      			+	"</td><tr>";

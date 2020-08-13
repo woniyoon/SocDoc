@@ -116,43 +116,65 @@ select count(*)
             
             
             
-            
-            
-CREATE OR REPLACE FUNCTION RADIANS(nDegrees IN NUMBER) 
-RETURN NUMBER DETERMINISTIC 
-IS
-BEGIN
-  /*
-  -- radians = degrees / (180 / pi)
-  -- RETURN nDegrees / (180 / ACOS(-1)); but 180/pi is a constant, so...
-  */
-  RETURN nDegrees / 57.29577951308232087679815481410517033235;
-END RADIANS;
+--            
+--          
+--CREATE OR REPLACE FUNCTION RADIANS(nDegrees IN NUMBER) 
+--RETURN NUMBER DETERMINISTIC 
+--IS
+--BEGIN
+--  /*
+--  -- radians = degrees / (180 / pi)
+--  -- RETURN nDegrees / (180 / ACOS(-1)); but 180/pi is a constant, so...
+--  */
+--  RETURN nDegrees / 57.29577951308232087679815481410517033235;
+--END RADIANS;
+--
+---- 
+--create or replace function DISTNACE_WGS84( H_LAT in NUMBER, H_LNG in NUMBER, T_LAT in NUMBER, T_LNG in NUMBER)
+--return number deterministic
+--is
+--begin
+--  return ( 6371.0 * acos(  
+--          cos( radians( H_LAT ) )*cos( radians( T_LAT  ) )
+--          *cos( radians( T_LNG  )-radians( H_LNG ) )
+--          +
+--          sin( radians( H_LAT ) )*sin( radians( T_LAT  ) )        
+--         ));
+--end DISTNACE_WGS84;
+--
+--
+--drop function DISTNACE_WGS84;
 
- 
-create or replace function DISTNACE_WGS84( H_LAT in NUMBER(3,7), H_LNG in NUMBER(3,7), T_LAT in NUMBER(3,7), T_LNG in NUMBER(3,7))
-return number deterministic
-is
-begin
-  return ( 6371.0 * acos(  
-          cos( radians( H_LAT ) )*cos( radians( T_LAT /* 위도 */ ) )
-          *cos( radians( T_LNG /* 경도 */ )-radians( H_LNG ) )
-          +
-          sin( radians( H_LAT ) )*sin( radians( T_LAT /* 위도 */ ) )        
-         ));
-end DISTNACE_WGS84;
+select DISTNACE_WGS84(37.53435601627652, 127.13619958327628, 37.55796921118739, 37.55796921118739) from hospitalInfo;
+
+desc hospitalinfo;
+
+select DISTNACE_WGS84(37.53435601627652, 127.13619958327628, latitude, longitude)
+from hospitalinfo where latitude != 37.53435601627652 and longitude != 127.13619958327628; 
+
+select * from hospitalinfo where latitude != 37.53435601627652 ;
+
+select   from dual;
+
+select acos(cos(radians(37.53435601627652)) * cos(radians(37.53435601627652))) - cos(radians(127.13619958327628) - radians(127.13619958327628)) from dual;
 
 
-drop function DISTNACE_WGS84;
-
-select DISTNACE_WGS84(33.504274, 126.529182, 33.524383, 126.544333) from dual;
-
-select*
+select *
 from hospitalinfo;
 
 select * 
 from (
-    select hpName, substr(DISTNACE_WGS84(37.53435601627652, 127.13619958327628, latitude, longitude),1,instr(DISTNACE_WGS84(37.53435601627652, 127.13619958327628, latitude, longitude), '.', 1,1)+2) as DISTANCE
+    select hpName, dept,address, phone, latitude, longitude,
+    substr(DISTNACE_WGS84(37.53435601627652, 127.13619958327628, latitude, longitude),1,instr(DISTNACE_WGS84(37.53435601627652, 127.13619958327628, latitude,  longitude), '.', 1,1)+2) as DISTANCE
     from hospitalInfo
+    where latitude != 37.53435601627652 and longitude != 127.13619958327628
     order by DISTANCE) TMP; 
 
+
+select hpName, substr(DISTNACE_WGS84(37.53435601627652, 127.13619958327628, latitude, longitude),1,instr(DISTNACE_WGS84(37.53435601627652, 127.13619958327628, latitude,  longitude), '.', 1,1)+2) as DISTANCE
+    from hospitalInfo
+    order by DISTANCE;
+    
+
+select*
+from PHARMACYINFO;

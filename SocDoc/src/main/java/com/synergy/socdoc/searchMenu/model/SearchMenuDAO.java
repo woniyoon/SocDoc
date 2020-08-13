@@ -38,7 +38,10 @@ public class SearchMenuDAO implements InterSearchMenuDAO {
 	
 	//민간 구급차 API
 	@Override
-	public String getAmList(String city) {
+	public HashMap<String,String> getAmList(String city) {
+		
+		HashMap<String,String> amMap = new HashMap<>();
+		
 		String amList = "";
 		try {
 			StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B552657/AmblInfoInqireService/getAmblListInfoInqire"); /* URL */
@@ -92,9 +95,16 @@ public class SearchMenuDAO implements InterSearchMenuDAO {
 			JsonParser parser = new JsonParser();
 			JsonElement el= parser.parse(amList);
 			JsonObject body = el.getAsJsonObject().getAsJsonObject("response").getAsJsonObject("body");
+			int totalCount = body.getAsJsonObject("totalCount").getAsInt();
 			JsonArray result = body.getAsJsonObject("items").getAsJsonArray("item");
 			
-			return result.toString();
+			String strTotalCount = String.valueOf(totalCount);
+			String strResult = result.toString();
+			
+			amMap.put("strTotalCount", strTotalCount);
+			amMap.put("strResult", strResult);
+			
+			return amMap;
 			
 		} catch (Exception e) {
 			e.printStackTrace();
