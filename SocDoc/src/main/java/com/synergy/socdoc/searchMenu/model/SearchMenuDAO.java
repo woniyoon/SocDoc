@@ -19,6 +19,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.synergy.socdoc.member.HpInfoVO;
+import com.synergy.socdoc.member.PharmacyVO;
 
 @Repository
 public class SearchMenuDAO implements InterSearchMenuDAO {
@@ -26,17 +27,33 @@ public class SearchMenuDAO implements InterSearchMenuDAO {
 	@Autowired	
 	private SqlSessionTemplate sqlsession;
 		
+	
+	
+	// 병원 지도
 	@Override
 	public List<HpInfoVO> searchHospitalSelect() {
-		List<HpInfoVO> hpMap = sqlsession.selectList("searchMenu.hpMapSelect");
+		List<HpInfoVO> hpMap = sqlsession.selectList("searchMenu.searchHospitalSelect");
 		return hpMap;
+	}
+	
+	@Override
+	public List<HpInfoVO> mapHospitalListSearchWithPaging(HashMap<String, String> paraMap) {
+		List<HpInfoVO> mapHpList = sqlsession.selectList("searchMenu.mapHospitalListSearchWithPaging",paraMap);
+		return mapHpList;
+	}
+
+
+	@Override
+	public int getTotalCountMapHp(HashMap<String, String> paraMap) {
+		int totalCount = sqlsession.selectOne("searchMenu.getTotalCountMapHp",paraMap);
+		return totalCount;
 	}
 		
 	
+	
+	// 민간 구급차 API
 	private String apiKey = "s9xg9Bp9ErcnSizOyrS0DSPvXB%2B1rKUHXQLztWL6s3RshEh5dVwOutBsMoRcIUcTjHXGPFB%2F%2B2%2FoU1rkIYi8gA%3D%3D";
 
-	
-	//민간 구급차 API
 	@Override
 	public HashMap<String,String> getAmList(String city) {
 		
@@ -113,12 +130,12 @@ public class SearchMenuDAO implements InterSearchMenuDAO {
 	}
 
 
+	// 병원 일반
 	@Override
 	public List<HpInfoVO> hospitalListSearchWithPaging(HashMap<String, String> paraMap) {
 		List<HpInfoVO> hpList = sqlsession.selectList("searchMenu.hospitalListSearchWithPaging",paraMap);
 		return hpList;
 	}
-
 
 	@Override
 	public int getTotalCount(HashMap<String, String> paraMap) {
@@ -127,17 +144,14 @@ public class SearchMenuDAO implements InterSearchMenuDAO {
 	}
 
 
-	@Override
-	public List<HpInfoVO> mapHospitalListSearchWithPaging(HashMap<String, String> paraMap) {
-		List<HpInfoVO> mapHpList = sqlsession.selectList("searchMenu.mapHospitalListSearchWithPaging",paraMap);
-		return mapHpList;
-	}
+	
 
 
+	//약국 지도
 	@Override
-	public int getTotalCountMapHp(HashMap<String, String> paraMap) {
-		int totalCount = sqlsession.selectOne("searchMenu.getTotalCountMapHp",paraMap);
-		return totalCount;
+	public List<PharmacyVO> searchPharmacySelect() {
+		List<PharmacyVO> phList = sqlsession.selectList("searchMenu.searchPharmacySelect");
+		return null;
 	}
 
 }

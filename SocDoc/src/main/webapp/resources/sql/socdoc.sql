@@ -99,6 +99,7 @@ select r.userid, r.content, v.avg
 from (select hpseq, avg(rating) as avg from hospitalreview group by hpseq having hpseq=2) v join hospitalreview r
 on v.hpseq = r.hpseq;
 
+
 select*
 from hospitalinfo;
 
@@ -159,22 +160,55 @@ select   from dual;
 select acos(cos(radians(37.53435601627652)) * cos(radians(37.53435601627652))) - cos(radians(127.13619958327628) - radians(127.13619958327628)) from dual;
 
 
-select *
-from hospitalinfo;
-
-select * 
-from (
-    select hpName, dept,address, phone, latitude, longitude,
-    substr(DISTNACE_WGS84(37.53435601627652, 127.13619958327628, latitude, longitude),1,instr(DISTNACE_WGS84(37.53435601627652, 127.13619958327628, latitude,  longitude), '.', 1,1)+2) as DISTANCE
-    from hospitalInfo
-    where latitude != 37.53435601627652 and longitude != 127.13619958327628
-    order by DISTANCE) TMP; 
+select pharmseq, name, address, phone, latitude, longitude
+from PHARMACYINFO;
 
 
-select hpName, substr(DISTNACE_WGS84(37.53435601627652, 127.13619958327628, latitude, longitude),1,instr(DISTNACE_WGS84(37.53435601627652, 127.13619958327628, latitude,  longitude), '.', 1,1)+2) as DISTANCE
-    from hospitalInfo
-    order by DISTANCE;
-    
+select hpseq, hpname, address, phone, dept, latitude, longitude, distance
+from 
+(
+    select rownum AS rno
+         , hpseq, hpname, address, phone, dept, latitude, longitude, distance
+    from
+    (
+        select hpseq, hpname, address, phone, dept, latitude, longitude
+            ,substr(DISTNACE_WGS84(37.508024781100004, 37, latitude, longitude),1,instr(DISTNACE_WGS84(37, 37, latitude,  longitude), '.', 1,1)+1) as DISTANCE
+        from hospitalinfo
+        where 1 = 1
+            and address like '%'|| '' ||'%'
+            and address like '%'|| '' ||'%'
+            and address like '%'|| '' ||'%'				
+            and dept like '%'|| '' ||'%'				
+            and hpname like '%'|| '' ||'%'	 
+        order by distance    
+    ) V
+) T
+where rno between 11 and 20;
+
+
+
+select h.hpseq, h.hpname, h.address, h.phone, h.dept, h.info, h.mainimg, h.subimg1, h.subimg2, avg(r.rating)
+from hospitalreview r join hospitalInfo h
+where hpseq=2;
+
+select avg(rating) as avg 
+from hospitalreview 
+where hpseq=2;
 
 select*
-from PHARMACYINFO;
+from hospitalreview;
+
+
+select*
+from hospitalinfo;
+
+select hpseq
+from bookmark
+where userid='kimmm'
+and hpseq = 4;
+
+select*
+from user_sequences;
+
+insert into bookmark(bookseq, userid,hpseq) values(bookmarkseq.nextval,'kimmm',5);\
+

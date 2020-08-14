@@ -73,6 +73,17 @@
 		height:70%;
 	}
 	
+	.hospitalRatingStar {
+		background: url('/socdoc/resources/images/icoReview.png') no-repeat right 0;
+		background-size: auto 100%;
+		width: 20px;
+		height: 20px;
+		display: inline-block;
+		text-indent: -9999px;
+		cursor: pointer;
+		margin-bottom: 10px;
+	}
+	
 	.guide{
 		background-color: #f2f2f2;
 		color: red;
@@ -156,7 +167,6 @@
 	.reviewTable td{
 		padding:15px;
 	}
-	
 	
 	.starRating{
 		background: url('/socdoc/resources/images/icoReview.png') no-repeat right 0;
@@ -282,6 +292,13 @@ $(document).ready(function(){
 	});
 	 
 	 
+	
+	//병원별점 
+	$(".hospitalRatingStar").each(function(){
+		$("#hospitalRatingStar"+"${hpDetail.avg}").addClass("on").prevAll("span").addClass("on");
+		return false;
+	})
+	 
 	 
 	 
 	//후기별점 
@@ -309,12 +326,11 @@ $(document).ready(function(){
 
 
 
-/* 
-$(function() {
-	$(".heart").on("click", function() {
-		$(this).toggleClass("is-active");
-	});
-}); */
+
+
+
+
+
 
 </script>
 
@@ -323,7 +339,7 @@ $(function() {
 	
 	<div class="content">
 		<div>
-			<span class="hospitalName">닥터손유나의원/피부과</span>
+			<span class="hospitalName">${hpDetail.hpName}</span>
 			<div class="heart"></div>
 			<span class="btns">
 				<button type="button" class="btnTop" onClick="goReservation();">예약하기</button>
@@ -335,9 +351,13 @@ $(function() {
   				<div class="swiper-container">
            
 		            <div class="swiper-wrapper">		               
-		                <div class="swiper-slide"><img src="<%= ctxPath%>/resources/images/slide1.jpg"></div>
-		                <div class="swiper-slide"><img src="<%= ctxPath%>/resources/images/slide2.jpg"></div>
-		                <div class="swiper-slide"><img src="<%= ctxPath%>/resources/images/츄.jpg"></div>
+		                <div class="swiper-slide"><img src="<%= ctxPath%>/resources/images/${hpDetail.mainImg}"></div>
+		                <c:if test="${not empty hpDetail.subImg1 }">
+		                	<div class="swiper-slide"><img src="<%= ctxPath%>/resources/images/${hpDetail.subImg1}"></div>
+		                </c:if>
+		                <c:if test="${not empty hpDetail.subImg2 }">
+		                	<div class="swiper-slide"><img src="<%= ctxPath%>/resources/images/${hpDetail.subImg2}"></div>
+		                </c:if>
 			        </div>
 			        
 		            <!-- 네비게이션 -->
@@ -346,8 +366,13 @@ $(function() {
 		  			<div class="swiper-pagination"></div>
 	  			</div>	  				
   				
-				<div class="hospitalRating" style="border:1px solid blue; height:40px;">★★★★★
-					<span class="hospitalRatingNum">0</span><span>.0</span>
+				<div class="hospitalRating" style="border:1px solid blue; height:40px;">
+					<span class="hospitalRatingStar" id="hospitalRatingStar1">별1</span>
+					<span class="hospitalRatingStar" id="hospitalRatingStar2">별2</span>
+					<span class="hospitalRatingStar" id="hospitalRatingStar3">별3</span>
+					<span class="hospitalRatingStar" id="hospitalRatingStar4">별4</span>
+					<span class="hospitalRatingStar" id="hospitalRatingStar5">별5</span>
+					<span class="hospitalRatingNum">${hpDetail.avg}</span><span>.0</span>
 				</div>			
 				<div class="guide">
 					<p><strong>법정공휴일</strong> : 신정, 설, 삼일절, 어린이날, 석가탄신일, 현충일, 광복절, 추석, 개천절, 한글날, 크리스마스</p>
@@ -358,22 +383,19 @@ $(function() {
 				<table class="infoTable">
 					<tr>
 						<th>주소</th>
-						<td>서울특별시 중구 을지로 255, 기승빌딩 4층</td>
+						<td>${hpDetail.address}</td>
 					</tr>
 					<tr>
 						<th>대표전화</th>
-						<td>02-1234-5678</td>
+						<td>${hpDetail.phone}</td>
 					</tr>
 					<tr>
 						<th>기관</th>
-						<td>내과</td>
+						<td>${hpDetail.dept}</td>
 					</tr>
 					<tr>
 						<th>소개</th>
-						<td>한 번 가면 또 가고 싶은 엄청난 병원<br/>
-						한 번 가면 또 가고 싶은 엄청난 병원<br/>
-						한 번 가면 또 가고 싶은 엄청난 병원<br/>
-						한 번 가면 또 가고 싶은 엄청난 병원</td>
+						<td>${hpDetail.info}</td>
 					</tr>
 					<tr>
 						<th>진료시간</th>

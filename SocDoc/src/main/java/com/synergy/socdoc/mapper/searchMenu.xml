@@ -4,65 +4,33 @@
 
 <mapper namespace="searchMenu">
 
-	<select id="hpMapSelect" resultType="com.synergy.socdoc.member.HpInfoVO">
+	<!-- 병원 지도  -->
+	<select id="searchHospitalSelect" resultType="com.synergy.socdoc.member.HpInfoVO">
 		select hpseq, hpName, address, phone, latitude, longitude
 		from hospitalinfo
 		order by hpseq desc
 	</select>
 	
 	
-	<select id="hospitalListSearchWithPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpInfoVO">		
-		
-		select hpseq, hpname, address, phone, dept, distance
-		from 
-		(
-		    select rownum AS rno, hpseq, hpname, address, phone, dept, distance
-		    from
-		    (
-		        select hpseq, hpname, address, phone, dept
-		        	,substr(DISTNACE_WGS84(#{latitudeHere}, #{longitudeHere}, latitude, longitude),1,instr(DISTNACE_WGS84(#{latitudeHere}, #{longitudeHere}, latitude,  longitude), '.', 1,1)+1) as DISTANCE 
-		        from hospitalinfo
-		        where 1 = 1
-		     		and address like '%'|| #{city} ||'%'
-		     		and address like '%'|| #{county} ||'%'
-		     		and address like '%'|| #{district} ||'%'				
-		     		and dept like '%'|| #{dept} ||'%'				
-		     		and hpname like '%'|| #{searchWord} ||'%'	
-		     	order by distance 			
-		    ) V
-		) T
-		where rno between #{startRno} and #{endRno}
-				
-	</select>   
-	
-	<select id="getTotalCount" parameterType="HashMap" resultType="int">
-		select count(*)
-		from hospitalinfo	
-		where 1=1
-		<if test='searchWord != ""'>
-		     and lower(${searchType}) like '%'|| lower(#{searchWord}) ||'%'
-		</if>		
-	</select>  
-	
-	
-	
 	<select id="mapHospitalListSearchWithPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpInfoVO">		
 		
-		select hpseq, hpname, address, phone, dept, latitude, longitude
+		select hpseq, hpname, address, phone, dept, latitude, longitude, distance
 		from 
 		(
 		    select rownum AS rno
-		         , hpseq, hpname, address, phone, dept,latitude, longitude
+		         , hpseq, hpname, address, phone, dept, latitude, longitude, distance
 		    from
 		    (
 		        select hpseq, hpname, address, phone, dept, latitude, longitude
+		        	,substr(DISTNACE_WGS84(#{latitudeHere}, #{longitudeHere}, latitude, longitude),1,instr(DISTNACE_WGS84(#{latitudeHere}, #{longitudeHere}, latitude,  longitude), '.', 1,1)+1) as DISTANCE
 		        from hospitalinfo
 		        where 1 = 1
 		     		and address like '%'|| #{city} ||'%'
 		     		and address like '%'|| #{county} ||'%'
 		     		and address like '%'|| #{district} ||'%'				
 		     		and dept like '%'|| #{dept} ||'%'				
-		     		and hpname like '%'|| #{searchWord} ||'%'				
+		     		and hpname like '%'|| #{searchWord} ||'%'
+		     		order by distance	
 		    ) V
 		) T
 		where rno between #{startRno} and #{endRno}
@@ -79,6 +47,47 @@
      		and dept like '%'|| #{dept} ||'%'				
      		and hpname like '%'|| #{searchWord} ||'%'			
 	</select>  
+	
+	
+	
+	<!-- 병원 일반 -->
+	<select id="hospitalListSearchWithPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpInfoVO">		
+		
+		select hpseq, hpname, address, phone, dept
+		from 
+		(
+		    select rownum AS rno, hpseq, hpname, address, phone, dept
+		    from
+		    (
+		        select hpseq, hpname, address, phone, dept 
+		        from hospitalinfo
+		        where 1 = 1
+		     		and address like '%'|| #{city} ||'%'
+		     		and address like '%'|| #{county} ||'%'
+		     		and address like '%'|| #{district} ||'%'				
+		     		and dept like '%'|| #{dept} ||'%'				
+		     		and hpname like '%'|| #{searchWord} ||'%'	
+		    ) V
+		) T
+		where rno between #{startRno} and #{endRno}
+				
+	</select>   
+	
+	<select id="getTotalCount" parameterType="HashMap" resultType="int">
+		select count(*)
+		from hospitalinfo	
+		where 1=1
+		<if test='searchWord != ""'>
+		     and lower(${searchType}) like '%'|| lower(#{searchWord}) ||'%'
+		</if>		
+	</select>  
+	
+	
+	<!-- 약국 지도 -->
+	<select id="searchPharmacySelect" resultType="com.synergy.socdoc.member.PharmacyVO">
+		select pharmseq, name, address, phone, latitude, longitude
+		from pharmacyinfo
+	</select>
 	
 
 </mapper>

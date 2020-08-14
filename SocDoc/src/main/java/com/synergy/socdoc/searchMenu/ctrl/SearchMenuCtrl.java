@@ -53,6 +53,7 @@ public class SearchMenuCtrl {
 			for(HpInfoVO hpMapVO : hpMap) {
 				JSONObject jsonObj = new JSONObject();
 							
+				String hpSeq = hpMapVO.getHpSeq();
 				String hpName = hpMapVO.getHpName();
 				String address = hpMapVO.getAddress();
 				String phone = hpMapVO.getPhone();
@@ -60,6 +61,7 @@ public class SearchMenuCtrl {
 	            double latitude = hpMapVO.getLatitude();
 	            double longitude = hpMapVO.getLongitude();
 
+	            jsonObj.put("hpSeq", hpSeq);
 	            jsonObj.put("hpName", hpName);
 	            jsonObj.put("address", address);
 	            jsonObj.put("phone", phone);
@@ -95,11 +97,15 @@ public class SearchMenuCtrl {
 		String latitudeHere = request.getParameter("latitudeHere");
 		String longitudeHere = request.getParameter("longitudeHere");
 
-
 		if (searchWord == null || searchWord.trim().isEmpty()) {
 			searchWord = "";
-		}		
-		
+		}
+		if(latitudeHere==null) {
+			latitudeHere = "37.56602747782394";
+		}
+		if(longitudeHere==null) {
+			longitudeHere= "126.98265938959321";					
+		}
 		
 		HashMap<String, String> paraMap = new HashMap<>();
 		paraMap.put("city", city);
@@ -127,12 +133,11 @@ public class SearchMenuCtrl {
 		
 		try {
 			
-			currentShowPageNo = Integer.parseInt(currentPage);
+			currentShowPageNo = Integer.parseInt(currentPage);			
 			if(currentShowPageNo<1||currentShowPageNo>totalPage) {
 				currentShowPageNo = 1;
-				
 			}
-
+			
 		} catch (NumberFormatException e) {
 			currentShowPageNo = 1;
 
@@ -149,14 +154,14 @@ public class SearchMenuCtrl {
 	    
 	    // [이전]
  	 	if(pageNo != 1) {
- 	 		pageBarM += " &nbsp; <span style='cursor:pointer;' onclick='goSearch("+(pageNo-sizePerPage)+")'>이전</span> &nbsp"; 
+ 	 		pageBarM += " &nbsp; <span style='cursor:pointer;' onclick='goSearch("+(pageNo-sizePerPage)+","+latitudeHere+","+longitudeHere+")'>이전</span> &nbsp"; 
  	 	}
  	    
  	    while (!(loop > blockSize || pageNo > totalPage )) {
  	         if(pageNo==currentShowPageNo){
  	        	pageBarM += " &nbsp; <span style='color:#0080ff; padding:2px 4px;'>"+pageNo+"</span> &nbsp";
  	    	 }else {
- 	    		pageBarM += " &nbsp; <span style='cursor:pointer;' onclick='goSearch("+pageNo+")'>"+pageNo+"</span> &nbsp"; 
+ 	    		pageBarM += " &nbsp; <span style='cursor:pointer;' onclick='goSearch("+pageNo+","+latitudeHere+","+longitudeHere+")'>"+pageNo+"</span> &nbsp"; 
  	    	 }
  	    	
  	 		 loop ++;
@@ -165,7 +170,7 @@ public class SearchMenuCtrl {
  	    
  	    // [다음]
  	    if( !(pageNo > totalPage) ) {
- 	    	pageBarM += " &nbsp; <span style='cursor:pointer;' onclick='goSearch("+(pageNo+sizePerPage)+")'>다음</span> &nbsp"; 
+ 	    	pageBarM += " &nbsp; <span style='cursor:pointer;' onclick='goSearch("+(pageNo+sizePerPage)+","+latitudeHere+","+longitudeHere+")'>다음</span> &nbsp"; 
 
  		}
 
@@ -177,22 +182,27 @@ public class SearchMenuCtrl {
 				
 				JSONObject jsonObj = new JSONObject();
 			
+				String hpSeq = hpMapVO.getHpSeq();
 				String hpName = hpMapVO.getHpName();
 				String address = hpMapVO.getAddress();
 				String phone = hpMapVO.getPhone();
 				String hpDept = hpMapVO.getDept();
 				String latitude = String.valueOf(hpMapVO.getLatitude());
 				String longitude = String.valueOf(hpMapVO.getLongitude());
-
+				String distance = hpMapVO.getDistance();
 				
+				System.out.println(distance);
+				
+	            jsonObj.put("hpSeq", hpSeq);
 	            jsonObj.put("hpName", hpName);
 	            jsonObj.put("address", address);
 	            jsonObj.put("phone", phone);
 	            jsonObj.put("hpDept", hpDept);
 	            jsonObj.put("latitude", latitude);
 	            jsonObj.put("longitude", longitude);
+	            jsonObj.put("distance", distance);
 	            jsonObj.put("pageBarM", pageBarM);
-	            
+	            	            
 	            jsonArr.put(jsonObj);	            
 				
 			}
@@ -206,126 +216,128 @@ public class SearchMenuCtrl {
 	
 	
 	//일반 리스트
-		@ResponseBody
-		@RequestMapping(value="/generalHospital.sd", produces="text/plain;charset=UTF-8")
-		public String generalHospital(HttpServletRequest request, ModelAndView mav) {
-			
-			List<HpInfoVO> hpList = null;
-			
-			
-			String city = request.getParameter("city");
-			String county = request.getParameter("county");
-			String district = request.getParameter("district");
-			String dept = request.getParameter("dept");
-			String searchWord = request.getParameter("searchWord");
-			String currentPage = request.getParameter("currentPage");
-
-			if (searchWord == null || searchWord.trim().isEmpty()) {
-				searchWord = "";
-			}		
-			
-			HashMap<String, String> paraMap = new HashMap<>();
-			paraMap.put("city", city);
-			paraMap.put("county", county);
-			paraMap.put("district", district);
-			paraMap.put("dept", dept);
-			paraMap.put("searchWord", searchWord);
-
-			int totalCount = 0;
-			int sizePerPage = 10;
-			int currentShowPageNo = Integer.parseInt(currentPage);
-			int totalPage = 0;
-
-			int startRno = ((currentShowPageNo - 1 ) * sizePerPage) + 1;
-			int endRno = startRno + sizePerPage - 1;
+	@ResponseBody
+	@RequestMapping(value="/generalHospital.sd", produces="text/plain;charset=UTF-8")
+	public String generalHospital(HttpServletRequest request, ModelAndView mav) {
 		
-			paraMap.put("startRno", String.valueOf(startRno));
-			paraMap.put("endRno", String.valueOf(endRno));
-			
-			totalCount = service.getTotalCountHp(paraMap);
-			totalPage = (int) Math.ceil((double) totalCount / sizePerPage);
-			
-			
-			try {
-				
-				currentShowPageNo = Integer.parseInt(currentPage);
-				if(currentShowPageNo<1||currentShowPageNo>totalPage) {
-					currentShowPageNo = 1;
-					
-				}
+		List<HpInfoVO> hpList = null;
+		
+		
+		String city = request.getParameter("city");
+		String county = request.getParameter("county");
+		String district = request.getParameter("district");
+		String dept = request.getParameter("dept");
+		String searchWord = request.getParameter("searchWord");
+		String currentPage = request.getParameter("currentPage");
 
-			} catch (NumberFormatException e) {
+		if (searchWord == null || searchWord.trim().isEmpty()) {
+			searchWord = "";
+		}		
+		
+		HashMap<String, String> paraMap = new HashMap<>();
+		paraMap.put("city", city);
+		paraMap.put("county", county);
+		paraMap.put("district", district);
+		paraMap.put("dept", dept);
+		paraMap.put("searchWord", searchWord);
+
+		int totalCount = 0;
+		int sizePerPage = 10;
+		int currentShowPageNo = Integer.parseInt(currentPage);
+		int totalPage = 0;
+
+		int startRno = ((currentShowPageNo - 1 ) * sizePerPage) + 1;
+		int endRno = startRno + sizePerPage - 1;
+	
+		paraMap.put("startRno", String.valueOf(startRno));
+		paraMap.put("endRno", String.valueOf(endRno));
+		
+		totalCount = service.getTotalCountHp(paraMap);
+		totalPage = (int) Math.ceil((double) totalCount / sizePerPage);
+		
+		
+		try {
+			
+			currentShowPageNo = Integer.parseInt(currentPage);
+			if(currentShowPageNo<1||currentShowPageNo>totalPage) {
 				currentShowPageNo = 1;
-
-			}
-			
-			
-			hpList = service.hospitalListSearchWithPaging(paraMap);
-			
-			String pageBar = "";	       
-		    int blockSize = 10; 
-		    int loop = 1;
-		    
-		    int pageNo = ((currentShowPageNo - 1)/blockSize) * blockSize + 1;	
-		    
-		    // [이전]
-	 	 	if(pageNo != 1) {
-	 	 	
-	 	 		pageBar += " &nbsp; <span style='cursor:pointer;' onclick='printGeneral("+(pageNo-sizePerPage)+")'>이전</span> &nbsp"; 
-	 	 	}
-	 	    
-	 	    while (!(loop > blockSize || pageNo > totalPage )) {
-	 	         
-	 	    	 if(pageNo==currentShowPageNo){
-	 	    		 pageBar += " &nbsp; <span style='color:#0080ff; padding:2px 4px;'>"+pageNo+"</span> &nbsp";
-	 	    	 }else {
-	 	 	 		 pageBar += " &nbsp; <span style='cursor:pointer;' onclick='printGeneral("+pageNo+")'>"+pageNo+"</span> &nbsp"; 
-	 	    	 }
-	 	    	
-	 	 		 loop ++;
-	 	         pageNo ++;	         
-	 	    }
-	 	    
-	 	    // [다음]
-	 	    if( !(pageNo > totalPage) ) {
-	 		
-		 		 pageBar += " &nbsp; <span style='cursor:pointer;' onclick='printGeneral("+(pageNo+sizePerPage)+")'>다음</span> &nbsp"; 
-
-	 		}
-
-			
-			JSONArray jsonArr = new JSONArray(); 		
-			
-			if(hpList.size()>0) {
-				for(HpInfoVO hpMapVO : hpList) {
-					
-					JSONObject jsonObj = new JSONObject();
 				
-					String hpName = hpMapVO.getHpName();
-					String address = hpMapVO.getAddress();
-					String phone = hpMapVO.getPhone();
-					String hpdept = hpMapVO.getDept();
-					
-		            jsonObj.put("hpName", hpName);
-		            jsonObj.put("address", address);
-		            jsonObj.put("phone", phone);
-		            jsonObj.put("hpdept", hpdept);
-		            jsonObj.put("pageBar", pageBar);
-		            
-		            jsonArr.put(jsonObj);	            
-					
-				}
-			}		
-			
-			String json = jsonArr.toString();
+			}
 
-			return json;
-			
+		} catch (NumberFormatException e) {
+			currentShowPageNo = 1;
+
 		}
 		
 		
+		hpList = service.hospitalListSearchWithPaging(paraMap);
+		
+		String pageBar = "";	       
+	    int blockSize = 10; 
+	    int loop = 1;
+	    
+	    int pageNo = ((currentShowPageNo - 1)/blockSize) * blockSize + 1;	
+	    
+	    // [이전]
+ 	 	if(pageNo != 1) {
+ 	 	
+ 	 		pageBar += " &nbsp; <span style='cursor:pointer;' onclick='printGeneral("+(pageNo-sizePerPage)+")'>이전</span> &nbsp"; 
+ 	 	}
+ 	    
+ 	    while (!(loop > blockSize || pageNo > totalPage )) {
+ 	         
+ 	    	 if(pageNo==currentShowPageNo){
+ 	    		 pageBar += " &nbsp; <span style='color:#0080ff; padding:2px 4px;'>"+pageNo+"</span> &nbsp";
+ 	    	 }else {
+ 	 	 		 pageBar += " &nbsp; <span style='cursor:pointer;' onclick='printGeneral("+pageNo+")'>"+pageNo+"</span> &nbsp"; 
+ 	    	 }
+ 	    	
+ 	 		 loop ++;
+ 	         pageNo ++;	         
+ 	    }
+ 	    
+ 	    // [다음]
+ 	    if( !(pageNo > totalPage) ) {
+ 		
+	 		 pageBar += " &nbsp; <span style='cursor:pointer;' onclick='printGeneral("+(pageNo+sizePerPage)+")'>다음</span> &nbsp"; 
+
+ 		}
+
+		
+		JSONArray jsonArr = new JSONArray(); 		
+		
+		if(hpList.size()>0) {
+			for(HpInfoVO hpMapVO : hpList) {
+				
+				JSONObject jsonObj = new JSONObject();
+			
+				String hpSeq = hpMapVO.getHpSeq();
+				String hpName = hpMapVO.getHpName();
+				String address = hpMapVO.getAddress();
+				String phone = hpMapVO.getPhone();
+				String hpdept = hpMapVO.getDept();
+				
+	            jsonObj.put("hpSeq", hpSeq);
+	            jsonObj.put("hpName", hpName);
+	            jsonObj.put("address", address);
+	            jsonObj.put("phone", phone);
+	            jsonObj.put("hpdept", hpdept);
+	            jsonObj.put("pageBar", pageBar);
+	            
+	            jsonArr.put(jsonObj);	            
+				
+			}
+		}		
+		
+		String json = jsonArr.toString();
+
+		return json;
+		
+	}
+	
 		
 		
+//---------------------------------------------------------------------------------------------		
 		
 		// 약국찾기메뉴
 		@RequestMapping(value = "/searchPharmacy.sd")
@@ -335,7 +347,7 @@ public class SearchMenuCtrl {
 
 			return mav;
 		}
-	/*	
+		
 		
 		
 		// 지도 약국
@@ -353,13 +365,14 @@ public class SearchMenuCtrl {
 				for(PharmacyVO phMapVO : phMap) {
 					JSONObject jsonObj = new JSONObject();
 								
-					String phName = phMapVO.getHpName();
+					int phSeq = phMapVO.getPharmSeq();
+					String phName = phMapVO.getName();
 					String address = phMapVO.getAddress();
 					String phone = phMapVO.getPhone();
-
 		            double latitude = phMapVO.getLatitude();
 		            double longitude = phMapVO.getLongitude();
 
+		            jsonObj.put("phSeq", phSeq);
 		            jsonObj.put("phName", phName);
 		            jsonObj.put("address", address);
 		            jsonObj.put("phone", phone);
@@ -376,7 +389,7 @@ public class SearchMenuCtrl {
 			return json;
 		}
 		
-
+/*
 		
 		// 지도 약국 리스트
 		@ResponseBody
@@ -495,10 +508,10 @@ public class SearchMenuCtrl {
 			return json;
 			
 		}
-	
 	*/
+	
+		
 	/*
-	 * 
 	
 	@ResponseBody
 	@RequestMapping(value = "/map.sd", produces="application/text;charset=utf-8")

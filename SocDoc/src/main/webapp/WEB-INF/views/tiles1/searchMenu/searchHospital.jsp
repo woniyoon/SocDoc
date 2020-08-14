@@ -169,19 +169,9 @@
 		border: 1px solid #999999; 
 	}
 	
-	.info{
+	.infoG{
 		margin:0px;
 	}
-	
-	
-	.infoWindowCSS{
-		padding:10px;
-		border-radius: .25em;
-		border: 1px solid #999999;  
-		font-size: 9pt;
-		background-color: #fff;
-	}
-	
 	
 	.hospitalListJSON{
 		padding:10px;
@@ -229,6 +219,8 @@
 	var mTotalPage = 1;
 	var gCurrentPage = 1;
 	var gTotalPage = 1;
+	var latitude= 37.56602747782394;
+	var longitude = 126.98265938959321;	   	
 	
 	$(document).ready(function(){
 		
@@ -265,8 +257,6 @@
 		}
 		else {
 
-			var latitude= 37.56602747782394;
-			var longitude = 126.98265938959321;	   	
 			var locPosition = new kakao.maps.LatLng(latitude, longitude);
 			printMap(mapobj,locPosition);
 			goSearch(mCurrentPage, latitude,longitude);
@@ -294,11 +284,35 @@
 			
 			markerHere.setPosition(locPosition);
 			mapobj.panTo(locPosition);
- 
+			goSearch(mCurrentPage,latitude,longitude);
+			
 		});
 		
  		var distanceKiloMeter = getDistance(37.504198, 127.047967, 37.501025, 127.037701, "kilometer");
 		 
+	    $(document).on("click","#tabMap",function(){
+	    	$('ul.tabs li').removeClass('current');
+			$('.tab-content').removeClass('current');
+			
+			$('#tabMap').addClass('current');
+			$('#contentMapTab').addClass('current');
+			
+			printMap(mapobj,locPosition);
+			goSearch(mCurrentPage,latitude,longitude);
+ 	   	})
+ 	   	
+ 	   	$(document).on("click","#tabGeneral",function(){
+	 	   	$('ul.tabs li').removeClass('current');
+			$('.tab-content').removeClass('current');
+			
+			$('#tabGeneral').addClass('current');
+			$('#contentGeneralTab').addClass('current');
+			
+			printGeneral(gCurrentPage);
+ 	   		
+ 	   	});
+ 	   	
+ 		/* 
 		$('#tabMap').click(function(){
 			$('ul.tabs li').removeClass('current');
 			$('.tab-content').removeClass('current');
@@ -306,8 +320,8 @@
 			$('#tabMap').addClass('current');
 			$('#contentMapTab').addClass('current');
 			
-			printMap(mapobj);
-			goSearch(mapobj,mCurrentPage);
+			printMap(mapobj,locPosition);
+			goSearch(mCurrentPage,latitude,longitude);
 			
 		})
 		
@@ -322,7 +336,7 @@
 			printGeneral(gCurrentPage);
 			
 		})
-		
+		 */
 		
 	})
 	
@@ -333,7 +347,7 @@
 	// 지도
 	function printMap(mapobj,locPosition){
 		
-		mapobj.setCenter(locPosition);      
+		mapobj.panTo(locPosition);      
 
 		$.ajax({ 
 			url: "/socdoc/mapHospital.sd",
@@ -411,6 +425,7 @@
 		marker.ov = overlay;
 		
  	    mapobj.setCenter(locPosition);   
+ 	    
  	    kakao.maps.event.addListener(marker, 'click', function() {
  			overlay.setMap(mapobj);
  			
@@ -420,6 +435,7 @@
  				}
  			}) 
  			mapobj.panTo(this.k);
+ 		//	goSearch(mCurrentPage,this.k,longitude)
  		});		
  	 
  	   $(document).on("click",".close",function(){
@@ -450,6 +466,12 @@
 				dataType: "JSON",
 				success: function(json){ 
 					
+					test = json.sort(function(i1, i2){
+						return i1.distance - i2.distance;
+					});
+					
+					console.log(test);
+					
 					$.each(json, function(index, item){ 					
 						/* 
 						var latitude = item.latitude;
@@ -457,7 +479,7 @@
 					
 						content += "<tr><td>"
 				      			+		"<div id='mHospitalName' class='mHospitalName'>"+item.hpName+"</div>"
-				      			+		"<div id='mHospitaldept'>"+item.hpDept+"<span>"+item.distance+"</span></div>"
+				      			+		"<div id='mHospitaldept'>"+item.hpDept+"<span>&nbsp;&nbsp;"+item.distance+"</span></div>"
 				      			+		"<div id='mHospitalTel'>"+item.phone+"</div>"
 				      			+		"<div id='mHospitalAddress'>"+item.address+"</div>"
 				      			+	"</td><tr>";
@@ -535,9 +557,9 @@
 				
 				 	html+="<div class='hospitalListJSON'><span class='hospitalName'>"+item.hpName+"</span>"
 				 		+"<button type='button' class='btnDetail' onClick='goDetail();'>상세보기</button>"
-				 		+'<p class="info">'+item.hpdept+'</p>'
-						+'<p class="info">'+item.phone+'</p>'
-						+'<p class="info">'+item.address+'</p></div>';
+				 		+'<p class="infoG">'+item.hpdept+'</p>'
+						+'<p class="infoG">'+item.phone+'</p>'
+						+'<p class="infoG">'+item.address+'</p></div>';
 						
 					if(index  == 0) {
 						pagebar = item.pageBar;		
@@ -642,22 +664,47 @@
 			<div id="contentGeneralTab" class="tab-content">
 				<div>
 					<div class="box1">
-						<select id="cityG" name="city" class="select">
-							<option value="">시</option>
+						<select id="cityG" name="cityG" class="select" onChange="cat1_change(this.value,countyG)">
+							<option value="">시도</option>  
+							<option value='서울'>서울</option>
+							<option value='부산'>부산</option>
+							<option value='대구'>대구</option>
+							<option value='인천'>인천</option>
+							<option value='광주'>광주</option>
+							<option value='대전'>대전</option>
+							<option value='울산'>울산</option>
+							<option value='강원'>강원</option>
+							<option value='경기'>경기</option>
+							<option value='경남'>경남</option>
+							<option value='경북'>경북</option>
+							<option value='전남'>전남</option>
+							<option value='전북'>전북</option>
+							<option value='제주'>제주</option>
+							<option value='충남'>충남</option>
+							<option value='충북'>충북</option>				
 						</select>
-						<select id="countyG" name="county" class="select">
-							<option value="">군</option>
-						</select>
-						<select id="districtG" name="district" class="select">
+						<select id="countyG" name="countyG" class="select" onChange="cat2_change(this.value, districtG)">
 							<option value="">구</option>
+						</select>
+						<select id="districtG" name="districtG" class="select">
+							<option value="">동</option>
 						</select>
 					</div>
 					<div>
-						<select id="deptG" name="dept" class="select">
-							<option value="">진료과목</option>
+						<select id="deptG" name="deptG" class="select">
+							<option value="">진료과</option> 
+				            <option value="내과">내과</option> 
+				            <option value="이비인후과">이비인후과</option>
+				            <option value="정형외과">정형외과</option>
+				            <option value="안과">안과</option>
+				            <option value="치과">치과</option> 
+				            <option value="외과">외과</option> 
+				            <option value="성형외과">성형외과</option>   
+				            <option value="정신건강의학과">정신건강의학과</option>
+				            <option value="피부과">피부과</option>       
 						</select>
 						<input type="text" id ="searchWordG" name="searchWordG" class="select"/>	
-						<button type="button" class="btnSearch" onclick="goSearch();">검색</button>
+						<button type="button" class="btnSearch" onclick="printGeneral(gCurrentPage);">검색</button>
 					</div>					
 				</div>
 				
