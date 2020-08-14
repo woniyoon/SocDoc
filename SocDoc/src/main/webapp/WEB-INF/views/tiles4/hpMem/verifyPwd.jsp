@@ -56,7 +56,7 @@
 
 		 var frm = document.infoLoginFrm;
 		 
-		 frm.action = "<%=ctxPath%>/infoEdit2.sd";
+		 frm.action = "<%=ctxPath%>/accountSettingEnd.sd";
 		 frm.method = "POST";
 		 frm.submit();
 		 

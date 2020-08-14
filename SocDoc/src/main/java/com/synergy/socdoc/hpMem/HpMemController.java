@@ -656,6 +656,13 @@ public class HpMemController {
 		return "hpMem/hpStats.tiles4";
 	}
 
+	// 계정관리 가기 전
+	@RequestMapping(value = "/hpPanel/verifyPwd.sd", method = RequestMethod.GET)
+	public String verifyPwd(HttpServletRequest request) {
+		
+		return "hpMem/verifyPwd.tiles4";
+	}
+	
 	// 계정관리
 	@RequestMapping(value = "/hpPanel/accountSetting.sd", method = RequestMethod.GET)
 	public String accountSetting(HttpServletRequest request) {
