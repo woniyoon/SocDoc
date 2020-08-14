@@ -134,6 +134,13 @@ public class HpMemService implements InterHpMemService {
 		return numOfRecords;
 	}
 
+	// 선택한 날짜 시간대별 방문자수
+	@Override
+	public List<HashMap<String, String>> getNumPerHour(HashMap<String, String> paraMap) {
+		List<HashMap<String, String>> list = dao.getNumPerHour(paraMap);
+		return list;
+	}
+
 	
 	
 

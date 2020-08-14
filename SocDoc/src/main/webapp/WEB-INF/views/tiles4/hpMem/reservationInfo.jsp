@@ -60,7 +60,7 @@
 				var visitDate = context.current[0]._i;
 				
 				getReservationList(visitDate);
-				
+				getTimetable(visitDate);
 				
 			},
 			prev : function(info, context) {
@@ -74,19 +74,36 @@
 		// SUN (0), SAT (6)
 		});
 
-		getTimetable();
 		console.log("this should be printed");
 	});
 
-	function getTimetable() {
-		var html = "<table class='timetable'>";
+	// 선택한 날짜의 예약 현황 확인
+	function getTimetable(visitDate) {
+		
+		$.ajax({
+			url:"<%=ctxPath%>/ajax/getNumPerHour.sd",
+			type:"POST",
+			data:{"visitDate": visitDate},
+			dataType: "JSON",
+            success: function(json){
+            	console.log(json);
+            	var html = "<table class='timetable'>";
+				
+            	console.log(typeof json);
+            	$.each(json, function(index, item){
+            		console.log("?????");
+            		html += "<tr><th>" + item.hour + "</th><td>"+ item.cnt +" / 6 명</td></tr>";
+           		
+           		});
 
-		for (var i = 9; i <= 18; i++) {
-			html += "<tr><th>" + i + ":00</th><td>0/6 명</td></tr>";
-		}
-
-		html += "</table>";
-		$(".timetableContainer").html(html);
+        		html += "</table>";
+        		$(".timetableContainer").html(html);
+            },
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				target.checked = !newVisitStatus;
+			}
+		});
 	}
 
 	function closeModal() {
@@ -220,7 +237,7 @@
 			<div class="calendar"></div>
 <!-- 		</div> -->
 		<div class="timetableContainer">
-			<table>
+			<!-- <table>
 				<tr>
 					<th>9:00</th>
 					<td>0/6 명</td>
@@ -237,7 +254,7 @@
 					<th>9:00</th>
 					<td>0/6 명</td>
 				</tr>
-			</table>
+			</table> -->
 		</div>
 	</div>
 	<div class="reservationPanel">

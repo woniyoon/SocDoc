@@ -60,5 +60,8 @@ public interface InterHpMemService {
 	// 방문이력 개수 가져오기
 	public int getNumOfRecords(HashMap<String, String> paraMap);
 
+	// 선택한 날짜 시간대별 방문자수
+	public List<HashMap<String, String>> getNumPerHour(HashMap<String, String> paraMap);
+
 	
 }

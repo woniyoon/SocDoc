@@ -36,6 +36,20 @@ h2 {
     width: 100%;
 }
 
+.timetable {
+	width: 80%;
+	margin: 10px;
+	line-height: 2em;
+    font-size: 1.2em;
+    border-collapse: collapse;
+}
+   
+.timetable th {
+	background-color: #efefef;
+	border-right: 1px solid lightgray;
+}   
+   
+   
 /* 모달창 만들기 */
 
 .hidden {

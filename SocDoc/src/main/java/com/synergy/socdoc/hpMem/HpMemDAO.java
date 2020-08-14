@@ -129,17 +129,25 @@ public class HpMemDAO implements InterHpMemDAO {
 		return member;
 	}
 
-	@Override
-	public List<String> getVisitRecord(HashMap<String, String> paraMap) {
-		List<String> record = sqlsession.selectList("hpMem.getVisitRecord", paraMap);
-		return record;
-	}
-
+	
 	@Override
 	public int getNumOfRecords(HashMap<String, String> paraMap) {
 		int numOfRecords = sqlsession.selectOne("hpMem.getNumOfRecords", paraMap);
 		return numOfRecords;
 	}
 
+	
+	@Override
+	public List<String> getVisitRecord(HashMap<String, String> paraMap) {
+		List<String> record = sqlsession.selectList("hpMem.getVisitRecord", paraMap);
+		return record;
+	}
+
+	// 선택한 날짜 시간대별 방문자수
+	@Override
+	public List<HashMap<String, String>> getNumPerHour(HashMap<String, String> paraMap) {
+		List<HashMap<String, String>> list = sqlsession.selectList("hpMem.getNumPerHour", paraMap);
+		return list;
+	}
 
 }

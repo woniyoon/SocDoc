@@ -244,4 +244,19 @@
 		select count(*) from reservation where userid= #{userid} and hpSeq = ${hpSeq}
 	</select>
 
+	<!-- 선택한 날짜 시간대별 방문자수 -->
+	<resultMap type="HashMap" id="numPerHour">
+		<result property="hour" column="hour" javaType="String"></result>
+		<result property="cnt" column="cnt" javaType="String"></result>
+	</resultMap>
+	<select id="getNumPerHour" parameterType="HashMap" resultMap="numPerHour">
+		select T.hour, nvl(cnt, 0) as cnt from
+		(SELECT hourSeq, count(hourSeq) as cnt
+		FROM reservation
+		WHERE hpSeq = #{hpSeq} and to_char(visitDate, 'yyyy-mm-dd') = #{visitDate}
+		GROUP BY hourSeq
+		order by hourSeq) V right join timeTable T
+		on V.hourSeq = T.hourSeq
+		order by hour
+	</select>
 </mapper>

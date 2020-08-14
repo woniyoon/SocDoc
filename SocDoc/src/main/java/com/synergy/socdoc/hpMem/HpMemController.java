@@ -458,12 +458,35 @@ public class HpMemController {
 		return obj.toString();
 	}
 	
-	// 방문이력만 가져오기
+	// 날짜별 방문자 수 구하기
 	@ResponseBody
-	@RequestMapping(value = "/ajax/getVisitorRecord.sd", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
-	public String getVisitorRecord(HttpServletRequest request) {
-	
-		return "";
+	@RequestMapping(value = "/ajax/getNumPerHour.sd", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
+	public String getNumPerHour(HttpServletRequest request) {
+		
+		// TODO: 나중에는 이 부분을 이용해서 병원정보 가져오기
+//		String hpSeq = request.getSession().getAttribute("hpSeq");
+		String visitDate = request.getParameter("visitDate");
+		String hpSeq = "2";
+		
+		HashMap<String, String> paraMap = new HashMap<>();
+		paraMap.put("visitDate", visitDate);
+		paraMap.put("hpSeq", hpSeq);
+		
+		JsonArray jsonArr = new JsonArray();
+		
+		List<HashMap<String, String>> list = service.getNumPerHour(paraMap);
+		
+		for(int i=0; i<list.size(); i++) {
+			JsonObject object = new JsonObject();
+			HashMap<String, String> map = list.get(i);
+			
+			object.addProperty("hour", map.get("hour"));
+			object.addProperty("cnt", map.get("cnt"));
+			
+			jsonArr.add(object);
+		}
+		
+		return jsonArr.toString();
 	}
 	
 	
