@@ -1,5 +1,6 @@
 package com.synergy.socdoc.reservation.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ public class ReserveService implements InterReserveService {
 		MemberVO membervo = dao.viewMyinfo(userid);
 	      return membervo;
 	}
+
 
 
 }

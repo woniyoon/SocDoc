@@ -1,5 +1,6 @@
 package com.synergy.socdoc.reservation.model;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -27,6 +28,8 @@ public class ReserveDAO implements InterReserveDAO {
 		List<HpInfoVO> hpinfovoList = sqlsession.selectList("test.hospital_select");
 		return hpinfovoList;
 	}
+	
+	
 
 	@Override
 	public MemberVO viewMyinfo(String userid) {

@@ -23,5 +23,6 @@
        from member
        where userid = #{userid}
       </select>
+
 	
 </mapper>

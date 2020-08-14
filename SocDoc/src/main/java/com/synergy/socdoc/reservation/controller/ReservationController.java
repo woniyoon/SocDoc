@@ -1,5 +1,6 @@
 package com.synergy.socdoc.reservation.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.mail.Session;
@@ -33,8 +34,11 @@ public class ReservationController {
 	    
 		   List<HpInfoVO> hpinfovoList = service.hospital_select();
 
+		   
+	
 		   HttpSession session = request.getSession();
-		      MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		     
+		   MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		      
 		      
 		      if(loginuser != null) {
@@ -44,7 +48,11 @@ public class ReservationController {
 		      MemberVO membervo = service.viewMyinfo(userid);
 		      mav.addObject("membervo", membervo);
 		      }
+		      
+		   
+		   
 		   mav.addObject("hpinfovoList", hpinfovoList);
+
 		   mav.setViewName("Reservation/reservation.tiles1");
 		   
 		   
