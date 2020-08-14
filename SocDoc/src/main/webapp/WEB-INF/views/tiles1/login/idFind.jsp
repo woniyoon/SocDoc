@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%	String ctxPath = request.getContextPath();	%>
+<% String ctxPath = request.getContextPath(); %>
 
 <!DOCTYPE html>
 <html>
@@ -38,7 +38,12 @@
 		padding: 0;
 		//border: solid 1px blue;
 	}
-   
+   	
+   	.textPrimary {
+   		margin-bottom: 5px;
+   		color: #454545; 
+   	}
+   	
 	/* 탭(개인회원/병원회원) */
 	#tab {
 		display: flex;
@@ -77,7 +82,7 @@
 	}
     
     label {
-		display: block;
+		display: inline-block;
 		padding: 5px 0;
 		margin-top: 10px;
     }
@@ -93,11 +98,7 @@
 		color: red;
 	}
 	
-	.textPrimary {
-		margin-bottom: 5px;
-	}
-	
-    .requiredInfo {
+    .requiredInfo, .hpRequiredInfo {
 		width: 100%;
 		height: 35px;
 		padding-left: 10px;
@@ -105,7 +106,7 @@
 		border: solid 1px #ccc;
      }
      
-    .btnJoin {
+    .btnJoin, .hpBtnJoin {
     	width: 100%;
     	margin: 20px auto;
     	text-align: center;
@@ -172,39 +173,63 @@ $(window).ready(function(){
 </script>
 
 <script type="text/javascript">
+
+	// 데이터 조건 여부
 	var condition1 = false;
 	var condition2 = false;
 	var condition3 = false;
+	
 	$(document).ready(function(){
 		
-		// ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 이름
-		$("span#nameError").hide();
+		// ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 아이디
+		$("span#useridError").hide();
 	
-		$("#name").keyup(function(){
-		
-			if($("input#name").val().trim() == "") {	// 데이터가 없다면
-				$("span#nameError").show();
-				$("#name").addClass("wrong");
+		$("form[name=findFrm] #userid").blur(function(){
+			$(this).val( $(this).val().replace( /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '' ).trim() ); // 한글 막기
+			if($("form[name=findFrm] input#userid").val().trim() == "") {	// 데이터가 없다면
+				$("span#useridError").show();
+				$("form[name=findFrm] input#userid").addClass("wrong"); 				
 			} else {	// 데이터가 있다면
 				// 정규표현식
-		        var regExp = /^[가-힣]{2,4}$/;	//  2~4글자 한글만 
+		        var regExp = /^[A-Za-z0-9]{5,10}$/;	// 5자 이상 10글자 이하의 영문과 숫자를 조합
 		        var bool = regExp.test($(this).val()); // 생성된 정규표현식 객체속에 데이터를 넣어서 검사하기
 				
-		        if(!bool) {  // 데이터가 조건에 맞지않으면
-					$("span#nameError").show();
-					$("input#name").addClass("wrong");
+				if(!bool) {  // 데이터가 조건에 맞지않으면
+					$("span#useridError").html("영문,숫자 조합으로 5~10자리만 입력 가능합니다.").show();
+					$("form[name=findFrm] input#userid").addClass("wrong");  
 					condition1 = false;
 					return;
 				} else {	// 데이터가 조건에 맞다면
-					$("input#name").removeClass("wrong");
+					$("form[name=findFrm] input#userid").removeClass("wrong");
 					condition1 = true;
+					
+					$.ajax({
+						url:"<%=ctxPath%>/idFind.sd",
+						type:"POST",
+						data:{"userid":$("form[name=findFrm] #userid").val()},
+						dataType:"json",
+						success:function(json){
+							if(json.isUse) {	// X 데이터가 중복된다면 X false
+								if(condition1 == true) {
+									$("span#useridError").hide();
+								}
+							} else {	// O 데이터가 중복되지않는다면 O true
+								$("span#useridError").html($("이미 사용 중이거나, 탈퇴한 아이디로 사용 불가능합니다.").show();
+							}
+						},
+						error: function(request, status, error){
+							alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+						}
+					});
 				}
-				$("span#nameError").hide();
+				
+				$("span#useridError").hide();
+
 				$(":input").prop("disabled",false).removeClass("wrong"); 
 				return;
 			}
 		});
-		
+
 		
 		//  ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 이메일
 		$("form[name=idFindFrm] span#emailError").hide();
@@ -563,7 +588,6 @@ $(window).ready(function(){
 	   
 		<form name="idFindFrm">
 			<div id="box">
-			
 				<div class="individualMember"> 
 					<div class="formGroup">
 						<label for="name">이름</label>
@@ -589,7 +613,7 @@ $(window).ready(function(){
 		</form>		
 		  
 		<!-- -------------------------------- 일반고객 아이디찾기 끝 ---------------------------------- --> 	
-		
+
 		<form name="hpIdFindFrm">
 			<div id="box">
 				<div class="hospitalMember"> 

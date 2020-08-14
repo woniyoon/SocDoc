@@ -23,6 +23,7 @@ public class HpInfoVO {
 	private int status;
 	private String submitId;
 	private String uploadDate;
+	private String distance;
 	
 	private String orgMainImg; // 진짜 파일명(예)강아지.png)
 	private String orgSubImg1; // 진짜 파일명(예)강아지.png)
@@ -39,7 +40,7 @@ public class HpInfoVO {
 	}	
 	
 	public HpInfoVO(String hpSeq, String dept, String hpName, String address, String phone, String info,
-			double latitude, double longitude, int open, int close, String mainImg, String subImg1, String subImg2, int status, String submitId, String uploadDate, String reason) {
+			double latitude, double longitude, int open, int close, String mainImg, String subImg1, String subImg2, int status, String submitId, String uploadDate, String distance, String reason) {
 		super();
 		this.hpSeq = hpSeq;
 		this.dept = dept;
@@ -58,6 +59,7 @@ public class HpInfoVO {
 		this.submitId = submitId;
 		this.uploadDate = uploadDate;
 		this.reason = reason;
+		this.distance = distance;
 	}
 
 	public String getHpSeq() {
@@ -243,5 +245,14 @@ public class HpInfoVO {
 //	public void setAttachSub2(MultipartFile attachSub2) {
 //		this.attachSub2 = attachSub2;
 //	}
+	
+	public String getDistance() {
+		return distance;
+	}
+
+	public void setDistance(String distance) {
+		this.distance = distance;
+	}
+	
 	
 }

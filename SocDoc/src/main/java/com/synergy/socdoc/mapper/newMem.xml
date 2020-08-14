@@ -13,12 +13,12 @@
 	
 	<!-- 로그인 처리 -->
 	<select id="getLoginMember" parameterType="HashMap" resultType="com.synergy.socdoc.member.MemberVO">
-		select userid, pwd
+		select userid, pwd, email, name, phone, birthDate
 		from member
 		where userid=#{userid} and pwd=#{pwd}
 	</select>
 	<select id="getHpLoginMember" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpMemberVO">
-		select userid, pwd, hpSeq
+		select userid, pwd, hpSeq, email, name, regId 
 		from hpMember
 		where userid=#{userid} and pwd=#{pwd}
 	</select>

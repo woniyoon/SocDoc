@@ -83,6 +83,7 @@
 	
 	.textPrimary {
 		margin-bottom: 5px;
+		color: #585858;
 	}
 	
 	.title {
