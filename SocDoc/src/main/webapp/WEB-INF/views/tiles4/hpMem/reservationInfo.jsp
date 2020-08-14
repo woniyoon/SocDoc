@@ -233,28 +233,9 @@
 <div class="container" align="center">
 	<h3 align="left">예약관리</h3>
 	<div class="schedulePanel">
-<!-- 		<div class="calendarContainer"> -->
-			<div class="calendar"></div>
-<!-- 		</div> -->
-		<div class="timetableContainer">
-			<!-- <table>
-				<tr>
-					<th>9:00</th>
-					<td>0/6 명</td>
-				</tr>
-				<tr>
-					<th>9:00</th>
-					<td>0/6 명</td>
-				</tr>
-				<tr>
-					<th>9:00</th>
-					<td>0/6 명</td>
-				</tr>
-				<tr>
-					<th>9:00</th>
-					<td>0/6 명</td>
-				</tr>
-			</table> -->
+		<div class="calendar"></div>
+		<div class="timetableContainer" align="center">
+			<span>날짜를 선택해주세요.</span>
 		</div>
 	</div>
 	<div class="reservationPanel">
@@ -271,28 +252,8 @@
 					<th>방문여부설정</th>
 				</tr>
 			</thead>
-			<!-- 동적으로 생성되는 부분 ⬇️-->
 			<tbody id="reservationList">
-				<%-- <c:if test="${not empty visitorsList }">
-					<c:forEach var="map" items="${visitorsList }" varStatus="status">
-						<tr>
-							<td>${status.count }</td>
-							<td>${map.hour}</td>
-							<td>${map.name }</td>
-							<td>${map.phone }</td>
-							<!-- <td>초진</td> -->
-							<td>${map.status == 0 ? '미방문' : '방문' }</td>
-							<td><input id="${map.reservSeq }" type="checkbox" /></td>
-						</tr>
-					</c:forEach>
-				</c:if>
-			 	<c:if test="${empty visitorsList }"> 
-			 		<tr>
-			 			<td colspan="6"> ㅠ</td>
-			 		</tr>
-			 	</c:if> --%>
 			</tbody>
-			<!-- 동적으로 생성되는 부분 ⬆️-->
 		</table>
 	</div>
 	<div class="modalContainer hidden">
@@ -303,35 +264,8 @@
 					<span style="font-size: 1.2em; cursor: pointer;"
 						onclick="closeModal()">X</span>
 				</div>
-				<!-- ajax를 이용해, 동적으로 생성 ⬇️-->
 				<table class="visitorDetail customTable" >
-					<!-- <tr align="center">
-						<td>성명</td>
-						<td>김나나</td>
-					</tr>
-					<tr align="center">
-						<td>생년월일</td>
-						<td>1999.02.02</td>
-					</tr>
-					<tr align="center">
-						<td>나이</td>
-						<td>만 20세</td>
-					</tr>
-					<tr align="center">
-						<td>성별</td>
-						<td>여자</td>
-					</tr>
-					<tr align="center">
-						<td>연락처</td>
-						<td>010-4012-3123</td>
-					</tr>
-					<tr align="center">
-						<td>방문이력</td>
-						<td>^^)7
-						</td>
-					</tr> -->
 				</table>
-				<!-- 동적으로 생성되는 부분 ⬆️-->
 			</div>
 		</div>
 	</div>
