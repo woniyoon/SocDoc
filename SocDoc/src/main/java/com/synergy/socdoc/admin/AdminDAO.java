@@ -215,10 +215,30 @@ public class AdminDAO implements InterAdminDAO {
 	public void updateStatus(String parentSeq) {
 		sqlsession.update("admin.updateStatus", parentSeq);
 	}
+	
 	// 회원 탈퇴 시키기
 	@Override
 	public void updateMember(String userid) {
 		sqlsession.update("admin.updateMember", userid);
+	}
+	
+	// 후기 글삭제
+	@Override
+	public void delReview(String rno) {
+		sqlsession.delete("admin.delReview", rno);
+	}
+	
+	// FAQ 글쓰기
+	@Override
+	public int faqInsert(HashMap<String, String> paraMap) {
+		int n = sqlsession.insert("admin.faqInsert", paraMap);
+		return n;
+	}
+	
+	// FAQ 글삭제
+	@Override
+	public void delFAQ(String faqSeq) {
+		sqlsession.delete("admin.delFAQ", faqSeq);
 	}
 	
 	

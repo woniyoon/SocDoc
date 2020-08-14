@@ -59,4 +59,10 @@ public interface InterAdminDAO {
 
 	void updateMember(String userid); // 회원 탈퇴 시키기
 
+	void delReview(String rno);	// 후기 글삭제
+
+	int faqInsert(HashMap<String, String> paraMap); // FAQ 글쓰기
+
+	void delFAQ(String faqSeq); // FAQ 글삭제
+
 }

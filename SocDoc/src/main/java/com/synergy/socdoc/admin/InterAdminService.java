@@ -56,5 +56,10 @@ public interface InterAdminService {
 	void updateStatus(String parentSeq);  // 문의글에 답변 상태 변경하기
 	
 	void updateMember(String userid); // 회원 탈퇴 시키기
+	
+	void delReview(String rno); // 후기 글삭제
+	
+	int faqInsert(HashMap<String, String> paraMap); // FAQ 글쓰기
+	void delFAQ(String faqSeq); // FAQ 글삭제 
 
 }

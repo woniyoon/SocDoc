@@ -942,6 +942,28 @@ public class AdminController {
 		return mav;
 		
 	}
+	/* 후기 글삭제 */
+	@RequestMapping(value="/reviewDel.sd" ,method = RequestMethod.POST)
+	@ResponseBody
+	public ModelAndView delReview(@RequestParam("reviewck") String[] reviewck, ModelAndView mav, HttpServletRequest request) throws Exception {
+		
+		String reviewJoin = request.getParameter("reviewJoin");
+		
+		String[] reviewArr = reviewJoin.split(",");
+	
+		for(int i=0; i<reviewArr.length; i++) {
+			service.delReview(reviewArr[i]);
+		}
+		
+        // 목록 페이지로 이동
+        mav.addObject("loc",request.getContextPath()+"/reviewMng.sd");
+      
+        mav.setViewName("msg");
+      
+        return mav;
+
+	}
+	
 	
 	
 	/* 문의관리 */
@@ -1143,6 +1165,45 @@ public class AdminController {
 		
 		return "admin/faqWrite.tiles3";
 	}
+	/* FAQ 글쓰기 요청 */
+	@RequestMapping(value = "/faqWriteEnd.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+	public String faqWriteEnd(HttpServletRequest request) {
+		
+		String question = request.getParameter("question");
+		String answer = request.getParameter("answer");
+		
+		HashMap<String, String> paraMap = new HashMap<>();
+		paraMap.put("question", question);
+		paraMap.put("answer", answer);
+		
+		int n = service.faqInsert(paraMap);
+		
+		if(n>0) {
+			return "redirect:/faqMng.sd";
+		}
+		else {
+			return "redirect:/faqWrite.sd";
+		}
+		
+	}
+   /* FAQ 글삭제  */
+   @RequestMapping(value="/faqDel.sd" ,method = RequestMethod.POST)
+   @ResponseBody
+   public ModelAndView delFAQ(@RequestParam("faqck") String[] faqck, ModelAndView mav, HttpServletRequest request) {
 	
+		String faqJoin = request.getParameter("faqJoin");
+		
+		String[] faqArr = faqJoin.split(",");
+		
+		for(int i=0; i<faqArr.length; i++) {
+			service.delFAQ(faqArr[i]);
+		}
+	    mav.addObject("loc",request.getContextPath()+"/faqMng.sd");
+	      
+	    mav.setViewName("msg");
+	     
+	    return mav;
+
+	}	
 	
 }

@@ -77,7 +77,8 @@
       padding: 0.25em .75em;    
       border-radius: .25em;       
       font-weight: 500;
-      font-size: 10pt;   
+      font-size: 10pt;  
+      margin-bottom: 30px; 
    }
    
    .deleteBtn {
@@ -111,20 +112,23 @@
 		<div id="faqList">
 		
 		   <h2>FAQ관리</h2>
-				
-		   <table class="faqTbl">
-		      <c:forEach var="faqvo" items="${faqvoList}">
-			      <tr class="question">
-			         <td><input type="checkbox" /></td>
-			         <td >${faqvo.question}</td>
-			      </tr>
-		      
-			      <tr class="answer">
-			         <td></td>
-			         <td>${faqvo.answer}</td>
-			      </tr>
-			 </c:forEach>          
-		   </table>
+			
+		   <form name="deleteFrm">	
+			   <table class="faqTbl">
+			      <c:forEach var="faqvo" items="${faqvoList}">
+				      <tr class="question">
+				         <td><input type="checkbox" name="faqck" class="faqck" value="${faqvo.faqSeq}" /></td>
+				         <td >${faqvo.question}</td>
+				      </tr>
+			      
+				      <tr class="answer">
+				         <td></td>
+				         <td>${faqvo.answer}</td>
+				      </tr>
+				 </c:forEach>          
+			   </table>
+			   	<input type="hidden" id="faqJoin" name="faqJoin" />
+           </form>
 		   
 		   <button type="button" id="ckAll" class="ckAll"> 전체선택 </button>
 		   
@@ -134,6 +138,78 @@
 		   </div>
             
 		</div>
-
 	
 	</div>
+	
+	
+<script type="text/javascript">
+	$(document).ready(function($){	
+		
+		$("#ckAll").click(function(){
+			
+			if($("input:checkbox[name=faqck]").is(":checked")==true) {
+	
+				$("input[name=faqck]:checkbox").attr("checked", false);
+			}
+			else {
+				$("input[name=faqck]:checkbox").attr("checked", true);
+			}
+			
+		});
+		
+		$("#deleteBtn").click(function() {
+			goDel();
+		});
+		
+		
+	});	 // end of $(document).ready(function($){}) ----------------------------
+	
+	
+	function goDel() {
+	    
+	    var cnt = $("input[name='faqck']:checked").length;
+	    
+	    var arr = new Array();
+	   
+	    $("input[name='faqck']:checked").each(function() {
+	        arr.push($(this).attr('id'));
+	    });
+	    
+	    if(cnt == 0){
+	        alert("선택된 글이 없습니다.");
+	    }
+	    else{
+	       var con = confirm("삭제하시겠습니까?");
+	       
+	       var allCnt = $("input[name='faqck']").length;
+	       
+	       var faqArr = new Array();
+	       
+	       for(var i=0; i<allCnt; i++) {
+	    	   
+	    	   if($("input:checkbox[class=faqck]").eq(i).is(":checked")) {
+	    		   	faqArr.push($("input:checkbox[class=faqck]").eq(i).val());   
+	    	   }
+	       }
+	
+	       var faqJoin = faqArr.join();
+	       
+	       $("#faqJoin").val(faqJoin);
+	       
+	    // alert(faqJoin);
+	       
+	       if(con == true) {
+	          var frm = document.deleteFrm;
+	          frm.method = "POST";
+	          frm.action = "<%= request.getContextPath()%>/faqDel.sd"
+	          frm.submit();
+	       }
+	       else if(con == false){ 
+	          location.href="history.back()";
+	
+	       }
+	    } 
+	       
+	 }
+
+</script>

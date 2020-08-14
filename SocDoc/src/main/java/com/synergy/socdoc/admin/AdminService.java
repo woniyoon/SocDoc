@@ -231,6 +231,27 @@ public class AdminService implements InterAdminService {
 	public void updateMember(String userid) {
 		dao.updateMember(userid);
 	}
+
+	
+	// 후기 글삭제
+	@Override
+	public void delReview(String rno) {
+		dao.delReview(rno);
+	}
+
+
+	// FAQ 글쓰기
+	@Override
+	public int faqInsert(HashMap<String, String> paraMap) {
+		int n = dao.faqInsert(paraMap);
+		return n;
+	}
+	
+	// FAQ 글삭제 
+	@Override
+	public void delFAQ(String faqSeq) {
+		dao.delFAQ(faqSeq);
+	}
 	
 
 	

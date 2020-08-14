@@ -66,7 +66,8 @@
       padding: 0.25em .75em;    
       border-radius: .25em;       
       font-weight: 500;
-      font-size: 10pt;   
+      font-size: 10pt;
+      margin-bottom: 30px;   
    }
    
    .btnCancel{
@@ -91,12 +92,12 @@
       <table class="faqTbl">
          <tr>
             <th><span>Q .</span><span class="bar">│</span></th>
-            <td class="tblSubject"><textarea id="subject" name="subject" class="subject" maxlength="50" autofocus></textarea>
+            <td class="tblSubject"><textarea id="subject" name="question" class="subject" maxlength="50" autofocus></textarea>
             <span id="bytesSubject">0</span>/50자</td>
          </tr>
          <tr>      
             <th><span>A .</span><span class="bar">│</span></th>               
-            <td ><textarea id="content" name="content" class="content" maxlength="1500"></textarea>
+            <td ><textarea id="content" name="answer" class="content" maxlength="1500"></textarea>
                 <span id="bytesContent">0</span>/1500자
             </td>
          </tr>   
@@ -138,7 +139,7 @@
          }
          
       });
-   
+      
    
    })
 
@@ -159,7 +160,7 @@
       
       var frm = document.faqFrm;
       frm.method = "GET";
-      frm.action = "";
+      frm.action = "<%= ctxPath%>/faqWriteEnd.sd";
       frm.submit();
       
       alert("자주 찾는 질문이 등록되었습니다");

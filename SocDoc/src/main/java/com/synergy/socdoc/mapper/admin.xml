@@ -243,7 +243,7 @@
             (
                  (
                   select rno, userid, rating, content, hpName as name, to_char(regDate, 'yyyy-mm-dd') as regDate
-                from
+                  from
                     (select rownum as rno, userid, rating, content, regDate, hpname
                     from hospitalReview
                     order by regDate desc)
@@ -314,10 +314,26 @@
 		from qnaComment
 		where parentSeq = #{parentSeq}
 	</select>
+	
+	
 	<update id="updateStatus" parameterType="String">
 		update qnaBoard set status = '1'
 		where qnaSeq = #{parentSeq}
 	</update>
 	
+	<delete id="delReview" parameterType="String">
+		 delete from noticeBoard
+         where noticeSeq = #{noticeSeq}
+	</delete>
+	
+	<insert id="faqInsert" parameterType="HashMap">
+		insert into faqboard (faqSeq, question, answer)
+		values(faqSeq.nextval, #{question}, #{answer})
+	</insert>
+	
+	<delete id="delFAQ" parameterType="String">
+		delete from faqboard
+		where faqSeq = #{faqSeq}
+	</delete>
 	
 </mapper>
