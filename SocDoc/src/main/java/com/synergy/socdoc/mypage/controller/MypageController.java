@@ -3,11 +3,13 @@ package com.synergy.socdoc.mypage.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.JsonObject;
 import com.synergy.socdoc.common.MyUtil;
+import com.synergy.socdoc.common.Sha256;
+import com.synergy.socdoc.mail.GoogleMail;
+import com.synergy.socdoc.mail.GoogleMail2;
 import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.QnaBoardVO;
@@ -50,10 +55,106 @@ public class MypageController {
 
 	// === 회원정보 수정 페이지2 - 기본정보변경 & 비밀번호 변경 페이지 === // 
 	@RequestMapping(value="/infoEdit2.sd")
-	public String infoEdit2() {
+	public ModelAndView infoEdit2(HttpServletRequest request, ModelAndView mav) {
 	
-		return "myPage/infoEdit2.tiles2";
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		String userid = loginuser.getUserid();
+		
+		// String userid = request.getParameter("userid");
+		String pwd = request.getParameter("pwd");
+		
+		HashMap<String, String> paraMap = new HashMap<>();
+		paraMap.put("userid", userid);
+		paraMap.put("pwd", Sha256.encrypt(pwd));
+		
+		loginuser = service.loginInfoEdit(paraMap);
+		
+		if(loginuser == null) {
+			String msg = "암호가 일치하지 않습니다.";
+			String loc = "javascript:history.back()";
+			mav.addObject("msg", msg);
+			mav.addObject("loc", loc);
+			mav.setViewName("msg"); 
+		} else {
+			
+			mav.setViewName("myPage/infoEdit2.tiles2"); 
+			session.setAttribute("loginuser", loginuser);
+		}	
+		
+		return mav;
 	}
+	
+	// === 회원가입 이메일 인증키 난수 만들기 === //
+	@ResponseBody
+	@RequestMapping(value="/hpEmailCode2.sd", method = {RequestMethod.POST})
+	public String emailCode(HttpServletRequest request) {
+		
+		String email = request.getParameter("email");
+		Random rnd = new Random();	// 인증키를 랜덤하게 생성하도록 한다.
+		String certificationCode = "";
+		
+		int randnum = 0;
+		for(int i=0; i<7; i++) {
+			randnum = rnd.nextInt(9 - 0 + 1) + 0;
+			certificationCode += randnum;
+		}
+		
+		// 랜덤하게 생성한 인증코드(certificationCode)를 비밀번호 찾기를 하고자 하는 사용자의 email로 전송시킨다.
+		GoogleMail2 mail = new GoogleMail2();
+        HttpSession session = request.getSession();
+		
+        boolean isSent;
+        try {
+        	System.out.println("~~~~~~~~~~~~~~~~ 메일전송  시작 ~~~~~~~~~~~~~~~~");
+			mail.sendmail(email, certificationCode);
+			session.setAttribute("certificationCode", certificationCode);
+			isSent = true;
+        } catch (Exception e) {
+			e.printStackTrace();
+			isSent= false;
+		}
+        JSONObject json = new JSONObject();
+        json.put("isSent", isSent);
+        return json.toString();  
+	}
+	
+	
+	
+	
+	// === 회원가입 이메일 인증확인 === //
+	@ResponseBody
+	@RequestMapping(value="/verifyCertificationFrm2.sd", method={RequestMethod.POST}, produces="text/plain;charset=UTF-8")
+	public String verifyCertification(HttpServletRequest request) {
+		
+		String userCertificationCode = request.getParameter("userCertificationCode");
+
+		HttpSession session = request.getSession();
+		String certificationCode = (String)session.getAttribute("certificationCode");
+	
+		System.out.println("userCertificationCode 인증 코드 : "+userCertificationCode);
+		System.out.println("certificationCode 인증 코드 : "+certificationCode);
+		
+		boolean isbool=false;
+		if( certificationCode.equals(userCertificationCode) ) {
+			isbool=true;
+			System.out.println("인증코드 맞음");
+		}
+		else {
+			isbool=false;
+			System.out.println("인증코드 안 맞음");
+		}
+		/*
+		request.setAttribute("msg", msg);
+		request.setAttribute("loc", loc);*/
+		//session.removeAttribute("certificationCode"); // 세션에 저장된 인증코드 삭제하기
+		JSONObject json = new JSONObject();
+        json.put("isbool", isbool);
+        return json.toString();  
+	}
+	
+	
 	
 	// === 문의내역 페이지 === // 
 	@RequestMapping(value="/askList.sd")

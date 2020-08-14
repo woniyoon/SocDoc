@@ -189,14 +189,14 @@
 		<div id="box1">
 			<img id="findPW" src="<%= ctxPath%>/resources/images/findPW.png" />
 			<h2>회원정보를 수정하시려면 비밀번호를 입력해 주세요.</h2>
-			 <div><span style="color: skyblue;">주혜정</span> 회원님의 소중한 개인정보의 보호를 위하여 비밀번호를 한번 더 입력하여 주시기 바랍니다.</div>
+			 <div><span style="color: skyblue;"></span> 회원님의 소중한 개인정보의 보호를 위하여 비밀번호를 한번 더 입력하여 주시기 바랍니다.</div>
 		</div>
 		<!-- <div id="box2" style="margin-top:10px;  border-left: none; border-right: none;">
 			<span style="font-size: 15pt;">비밀번호<input type="password" style="margin-left: 30px; margin-top: 50px; width: 300px; height: 40px;"/></span>
 		</div> -->
 		<form name="infoLoginFrm">
 		<div id="box3" style="margin-top:35px;  border-left: none; border-right: none;">
-			<span style="font-size: 15pt;">비밀번호<input id="pwd" type="password" style="margin-left: 30px; margin-top: 25px; width: 300px; height: 40px;"/></span><br/>
+			<span style="font-size: 15pt;">비밀번호<input id="pwd" name="pwd" type="password" style="margin-left: 30px; margin-top: 25px; width: 300px; height: 40px;"/></span><br/>
 		</div>
 		</form>
 		<div style="text-align: center; margin-top: 30px;"><button type="button" id="ok" style="background-color: skyblue; color:white; width: 150px; height: 50px; margin-right:350px; border-radius: 4px; border: none; font-size: 14pt;">확인</button></div>

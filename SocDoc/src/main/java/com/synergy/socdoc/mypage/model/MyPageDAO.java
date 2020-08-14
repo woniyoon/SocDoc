@@ -191,6 +191,14 @@ public class MyPageDAO implements InterMyPageDAO {
 	}
 
 
+	// 회원정보수정 로그인
+	@Override
+	public MemberVO loginInfoEdit(HashMap<String, String> paraMap) {
+		MemberVO loginuser = sqlsession.selectOne("mypage.loginInfoEdit", paraMap);
+		return loginuser;
+	}
+
+
 	
 
 

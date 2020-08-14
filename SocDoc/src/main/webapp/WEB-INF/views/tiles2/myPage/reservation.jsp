@@ -583,7 +583,7 @@
 		            </table>
 		            <!-- 동적으로 생성되는 부분-->
 		            </div>
-		            <div class="modal_footer" style="text-align: center; margin-top:15px; margin-bottom: 15px;">
+		            <div class="modal_footer" style="text-align: center; margin-top:30px; margin-bottom: 15px;">
 				      <button type="button" class="btn btn-primary">예약변경</button>
 				      <button type="button" class="btn btn-default myclose" data-dismiss="modal">예약취소</button>
 				    </div>

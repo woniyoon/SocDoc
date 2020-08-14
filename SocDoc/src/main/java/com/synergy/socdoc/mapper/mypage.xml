@@ -380,5 +380,12 @@
 		        	) E
 	    		) T
 	  </select>   
+	  
+	  
+	  <select id="loginInfoEdit" parameterType="HashMap" resultType="com.synergy.socdoc.member.MemberVO">
+		select userid, pwd, name, gender,  to_char(birthDate, 'yyyy-mm-dd') as birthDate, phone, email
+		from member
+		where userid=#{userid} and pwd=#{pwd}
+	</select>
 	
 </mapper>

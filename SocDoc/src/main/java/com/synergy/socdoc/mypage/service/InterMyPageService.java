@@ -57,6 +57,8 @@ public interface InterMyPageService {
 
 	HashMap<String, String> reservationDetailListSearchWithPaging(HashMap<String, String> paraMap); // 예약확인 - 병원이름 클릭시 예약상세정보
 
+	MemberVO loginInfoEdit(HashMap<String, String> paraMap); // 회원정보수정 로그인
+
 
 	// String getHourSeq(HashMap<String, String> paraMap); // 방문예정 시간 구하기
 

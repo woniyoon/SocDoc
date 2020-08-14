@@ -219,6 +219,14 @@ public class MyPageService implements InterMyPageService {
 		return reservationDetail;
 	}
 
+
+	// 회원정보수정 로그인
+	@Override
+	public MemberVO loginInfoEdit(HashMap<String, String> paraMap) {
+		MemberVO loginuser = dao.loginInfoEdit(paraMap);
+		return loginuser;
+	}
+
 	
 
 
