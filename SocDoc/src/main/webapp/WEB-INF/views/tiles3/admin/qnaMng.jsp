@@ -120,9 +120,8 @@
 			<table class="table table-hover" style="text-align: center;">
                 <thead>
                      <tr>
-                        <th>선택</th>
-                        <th>제목</th>
                         <th>작성자</th>
+                        <th>제목</th>
                         <th>작성일</th>
                         <th>답변상태</th>
                      </tr>
@@ -130,9 +129,8 @@
 
                 <c:forEach var="qnavo" items="${qnavoList}">
                     <tr>
-                        <td><input type="checkbox" /></td>
-                        <td class="qnaTitle" onclick="goView('${qnavo.qnaSeq}')">${qnavo.subject}</td>
                         <td>${qnavo.userid}</td>
+                        <td class="qnaTitle" onclick="goView('${qnavo.qnaSeq}')">${qnavo.subject}</td>
                         <td>${qnavo.regDate}</td>
                         <c:choose>
                         	<c:when test="${qnavo.status eq 1}">
@@ -147,12 +145,9 @@
 
             </table>
             
-            <button id="ckAll">전체선택</button>
-            <button id="deleteBtn">삭제</button>
-            
 		</div>
 	
-		<div align="center">
+		<div align="center" style="margin-top: 30px;">
 			${pageBar}
 		</div>	
 		
