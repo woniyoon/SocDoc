@@ -184,8 +184,8 @@
 	               			+ "<tr align='center'><td>나이</td><td>"+json.age+"</td></tr>"
 	               			+ "<tr align='center'><td>성별</td><td>"+json.gender+"</td></tr>"
 	               			+ "<tr align='center'><td>연락처</td><td>"+json.phone+"</td></tr>"
-/* 	               			+ "<tr align='center'><td>방문이력</td><td>"+json.record+"</td></tr>";
- */	               			+ "<tr align='center'><td>방문이력</td><td><table class='recordTbl' align='center'></table><div align='center'>"+json.pageBar+"</div></td></tr>";
+/*  	               			+ "<tr align='center'><td>방문이력</td><td>"+json.record+"</td></tr>"; */
+ 	               			+ "<tr align='center'><td>방문이력</td><td><table class='recordTbl' align='center'></table></td></tr>";
 				
 	               $(".visitorDetail").html(html);
 	               
@@ -195,6 +195,7 @@
 	            	   recordHtml += "<tr><td>" + recordArr[i].visitDate + "</td></tr>";
 	               }
 	               
+	               console.log(recordHtml);
 	               $(".recordTbl").html(recordHtml);
 	               
 	               $(".modalContainer").removeClass("hidden");
