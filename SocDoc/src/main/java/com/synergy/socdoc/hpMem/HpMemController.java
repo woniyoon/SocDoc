@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.*;
 
@@ -34,8 +35,7 @@ public class HpMemController {
 	@RequestMapping(value = "/hpPanel/main.sd", method = RequestMethod.GET)
 	public String main(HttpServletRequest request) {
 
-		// TODO: 나중에는 이 부분을 이용해서 병원정보 가져오기
-		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("loginuser");
+		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
 		String hpSeq = String.valueOf(hpMember.getHpSeq());
 		
 		// 병원 영업시간 가져오기
@@ -54,10 +54,8 @@ public class HpMemController {
 	@RequestMapping(value = "/hpPanel/hpInfo.sd", method = RequestMethod.GET)
 	public String test_hpInfo(HttpServletRequest request) {
 		
-		// TODO: 나중에는 이 부분을 이용해서 병원정보 가져오기
-//		String hpSeq = (String) request.getSession().getAttribute("hpSeq");
-//		HpInfoVO hpInfo = service.getHpInfo(hpSeq);
-		String hpSeq = "17";
+		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
+		String hpSeq = String.valueOf(hpMember.getHpSeq());
 		
 		String table = "hpApplication";
 		HashMap<String, String> paraMap = new HashMap<>();
@@ -138,8 +136,9 @@ public class HpMemController {
 		// HpInfoVO에 포함 안 되는 스케줄만 따로 받아옴
 		String schedule = mrequest.getParameter("schedule");
 		
-		// TODO: 나중에는 hpSeq는 session에서 읽어옴
-		hpInfoVO.setHpSeq("17");
+		HpMemberVO hpMember = (HpMemberVO) mrequest.getSession().getAttribute("hpLoginuser");
+		String hpSeq = String.valueOf(hpMember.getHpSeq());
+		hpInfoVO.setHpSeq(hpSeq);
 			
 		// 새로 신청하는 경우에만(status == 1) 파일 업로드
 		if(hpInfoVO.getStatus() == 1) {
@@ -262,9 +261,6 @@ public class HpMemController {
 	@RequestMapping(value = "/hpPanel/reservationInfo.sd", method = RequestMethod.GET)
 	public String reservationInfo(HttpServletRequest request) {
 		
-		// TODO: 나중에는 이 부분을 이용해서 병원정보 가져오기
-//		String hpSeq = request.getSession().getAttribute("hpSeq");
-		String hpSeq = "2";
 		return "hpMem/reservationInfo.tiles4";
 	}
 
@@ -272,9 +268,9 @@ public class HpMemController {
 	@ResponseBody
 	@RequestMapping(value = "/ajax/reservationList.sd", method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
 	public String getReservationList(HttpServletRequest request) {
-		// TODO: 나중에는 이 부분을 이용해서 병원정보 가져오기
-//		String hpSeq = request.getSession().getAttribute("hpSeq");
-		String hpSeq = "2";
+		
+		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
+		String hpSeq = String.valueOf(hpMember.getHpSeq());
 		
 		// 방문예정자 리스트 뽑아오기
 		String visitDate = request.getParameter("visitDate");
@@ -359,8 +355,9 @@ public class HpMemController {
 	@RequestMapping(value = "/ajax/getVisitorDetail.sd", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
 	public String getVisitorDetail(HttpServletRequest request) {
 		
-//		String hpSeq = request.getSession().getAttribute("hpSeq");
-		String hpSeq = "2";
+		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
+		String hpSeq = String.valueOf(hpMember.getHpSeq());
+		
 		String userid = request.getParameter("userid");
 		String currentShowPageNoStr = request.getParameter("currentShowPageNoStr");
 		int sizePerPage = 3;
@@ -463,10 +460,9 @@ public class HpMemController {
 	@RequestMapping(value = "/ajax/getNumPerHour.sd", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
 	public String getNumPerHour(HttpServletRequest request) {
 		
-		// TODO: 나중에는 이 부분을 이용해서 병원정보 가져오기
-//		String hpSeq = request.getSession().getAttribute("hpSeq");
+		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
+		String hpSeq = String.valueOf(hpMember.getHpSeq());
 		String visitDate = request.getParameter("visitDate");
-		String hpSeq = "2";
 		
 		HashMap<String, String> paraMap = new HashMap<>();
 		paraMap.put("visitDate", visitDate);
@@ -494,12 +490,13 @@ public class HpMemController {
 	// 방문고객관리 w. 페이징
 	@RequestMapping(value = "/hpPanel/visitorsMng.sd", method = RequestMethod.GET)
 	public String visitorsMng(HttpServletRequest request) {
-		// TODO: 나중에는 이 부분을 이용해서 병원정보 가져오기
-//		String hpSeq = request.getSession().getAttribute("hpSeq");
+		
+		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
+		String hpSeq = String.valueOf(hpMember.getHpSeq());
 		String currentShowPageNoStr = request.getParameter("currentShowPageNoStr");
 		String searchWord = request.getParameter("searchWord");
-		String hpSeq = "2";
 		int sizePerPage = 10;
+		
 		HashMap<String, String> paraMap = new HashMap<>();
 
 		// 검색어가 없을 때 공백으로 초기화
@@ -557,9 +554,8 @@ public class HpMemController {
 	@RequestMapping(value = "/hpPanel/hpReviews.sd", method = RequestMethod.GET)
 	public String hpReviews(HttpServletRequest request) {
 		
-		// TODO: 나중에는 이 부분을 이용해서 병원정보 가져오기
-//		String hpSeq = request.getSession().getAttribute("hpSeq");
-		String hpSeq = "2";
+		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
+		String hpSeq = String.valueOf(hpMember.getHpSeq());
 
 		String table = "hospitalReview";
 		String searchType = request.getParameter("searchType");
@@ -652,6 +648,8 @@ public class HpMemController {
 	// 통계관리
 	@RequestMapping(value = "/hpPanel/hpStats.sd", method = RequestMethod.GET)
 	public String hpStats(HttpServletRequest request) {
+		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
+		String hpSeq = String.valueOf(hpMember.getHpSeq());
 		
 		return "hpMem/hpStats.tiles4";
 	}
@@ -662,12 +660,52 @@ public class HpMemController {
 		
 		return "hpMem/verifyPwd.tiles4";
 	}
-	
+
+//	// 계정관리 가기 전
+//	@RequestMapping(value = "/hpPanel/verifyPwdEnd.sd", method = RequestMethod.POST)
+//	public String verifyPwd(HttpServletRequest request) {
+//		
+//		return "hpMem/verifyPwd.tiles4";
+//	}
+
 	// 계정관리
-	@RequestMapping(value = "/hpPanel/accountSetting.sd", method = RequestMethod.GET)
-	public String accountSetting(HttpServletRequest request) {
+	@RequestMapping(value = "/hpPanel/accountSetting.sd", method = RequestMethod.POST)
+	public ModelAndView accountSetting(HttpServletRequest request, ModelAndView mav) {
+		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
+		String hpSeq = String.valueOf(hpMember.getHpSeq());
 		
-		return "hpMem/accountSetting.tiles4";
+		String pwd = request.getParameter("pwd");
+		System.out.println(pwd + "   ");
+		String encryptedPwd = Sha256.encrypt(pwd);
+		System.out.println(encryptedPwd + "   ");
+		System.out.println(hpSeq + "   ");
+
+		
+		HashMap<String, String> paraMap = new HashMap<>();
+		
+		paraMap.put("pwd", encryptedPwd);
+		paraMap.put("hpSeq", hpSeq);
+		
+		int n = service.verifyPwd(paraMap);
+		
+		if(n == 0) {
+			System.out.println("틀림~~");
+			System.out.println("틀림~~" + n);
+			
+			String msg = "비밀번호가 유효하지 않습니다! 다시 시도해주세요!";
+			String loc = request.getContextPath()+"/hpPanel/verifyPwd.sd";
+			
+			mav.addObject("msg", msg);
+			mav.addObject("loc", loc);
+			
+			mav.setViewName("msg");
+		} else {
+			System.out.println("?!?!!?");
+			mav.addObject("hpMember", hpMember);
+			mav.setViewName("hpMem/accountSetting.tiles4");
+		}
+		
+		return mav;
 	}
 
 }

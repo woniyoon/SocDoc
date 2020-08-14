@@ -150,4 +150,11 @@ public class HpMemDAO implements InterHpMemDAO {
 		return list;
 	}
 
+	// 비밀번호 확인
+	@Override
+	public int verifyPwd(HashMap<String, String> paraMap) {
+		int result = sqlsession.selectOne("hpMem.verifyPwd", paraMap);
+		return result;
+	}
+
 }

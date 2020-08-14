@@ -259,4 +259,9 @@
 		on V.hourSeq = T.hourSeq
 		order by hour
 	</select>
+	
+	<!-- 비밀번호 확인하기 -->
+	<select id="verifyPwd" parameterType="HashMap" resultType="int">
+		select count(userid) from hpmember where pwd = #{pwd} and hpSeq = #{hpSeq}
+	</select>
 </mapper>

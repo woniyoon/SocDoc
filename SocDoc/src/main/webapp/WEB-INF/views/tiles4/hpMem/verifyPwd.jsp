@@ -56,11 +56,11 @@
 
 		 var frm = document.infoLoginFrm;
 		 
-		 frm.action = "<%=ctxPath%>/accountSettingEnd.sd";
+		 frm.action = "<%=ctxPath%>/hpPanel/accountSetting.sd";
 		 frm.method = "POST";
 		 frm.submit();
 		 
-    } // end of function func_Login(event)-----------------------------
+    }
      
 </script>
 
@@ -77,7 +77,7 @@
 		<form name="infoLoginFrm" align="center">
 			<div class="inputContainer" style="margin-top:35px;  border-left: none; border-right: none;" align="center">
 				<div>
-					<label for="password" style="font-size: 1.3em;">비밀번호&nbsp;</label><input id="pwd" name="password" type="password" style="margin: 10px; width: 300px; height: 40px;"/>
+					<label for="password" style="font-size: 1.3em;">비밀번호&nbsp;</label><input id="pwd" name="pwd" type="password" style="margin: 10px; width: 300px; height: 40px;"/>
 				</div>
 				<button type="button" id="ok" style="background-color: skyblue; color:white; width: 150px; height: 50px; border-radius: 4px; border: none; font-size: 14pt;">확인</button>
 			</div>

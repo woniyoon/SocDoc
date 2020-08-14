@@ -63,5 +63,8 @@ public interface InterHpMemService {
 	// 선택한 날짜 시간대별 방문자수
 	public List<HashMap<String, String>> getNumPerHour(HashMap<String, String> paraMap);
 
+	// 비밀번호 확인 
+	public int verifyPwd(HashMap<String, String> paraMap);
+
 	
 }
