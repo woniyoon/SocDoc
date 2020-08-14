@@ -126,7 +126,6 @@ public class LoginController {
 		String hpSeq = request.getParameter("hpSeq");
 		String email = request.getParameter("email");
 		String name = request.getParameter("name");
-		String phone = request.getParameter("phone");
 		String regId = request.getParameter("regId");
 		
 		HashMap<String, String> paraMap = new HashMap<>();
@@ -135,12 +134,11 @@ public class LoginController {
 		paraMap.put("hpSeq", hpSeq);
 		paraMap.put("email", email);
 		paraMap.put("name", name);
-		paraMap.put("phone", phone);
 		paraMap.put("regId", regId);
 		
-		HpMemberVO loginuser = service.getHpLoginMember(paraMap);
+		HpMemberVO hpLoginuser = service.getHpLoginMember(paraMap);
 	
-		if(loginuser == null) {
+		if(hpLoginuser == null) {
 			String msg = "아이디 또는 암호가 틀립니다.";
 			String loc = "javascript:history.back()";
 			mav.addObject("msg", msg);
@@ -153,7 +151,7 @@ public class LoginController {
 			mav.addObject("loc", loc);
 			mav.setViewName("msg"); 
 			HttpSession session = request.getSession();
-			session.setAttribute("loginuser", loginuser);
+			session.setAttribute("hpLoginuser", hpLoginuser);
 		}	
 		return mav;
 	}	
@@ -166,7 +164,7 @@ public class LoginController {
 		session.invalidate();*/
 		Object object = session.getAttribute("loginuser");
 		if(object != null) {
-			session.removeAttribute("login");
+			session.removeAttribute("loginuser");
 			session.invalidate();
 		}
 		String msg = "로그아웃 되었습니다.";
@@ -181,9 +179,9 @@ public class LoginController {
 		
 		HttpSession session = request.getSession();
 		/*session.invalidate();*/
-		Object object = session.getAttribute("loginuser");
+		Object object = session.getAttribute("hpLoginuser");
 		if(object != null) {
-			session.removeAttribute("login");
+			session.removeAttribute("hpLoginuser");
 			session.invalidate();
 		}
 		String msg = "로그아웃 되었습니다.";
