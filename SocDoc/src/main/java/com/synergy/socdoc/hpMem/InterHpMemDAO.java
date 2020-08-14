@@ -44,4 +44,10 @@ public interface InterHpMemDAO {
 	// 방문자 상세정보 가져오기
 	public MemberVO getVisitorDetail(String userid);
 
+	// 특정 회원의 방문이력 가져오기 
+	public List<String> getVisitRecord(HashMap<String, String> paraMap);
+
+	// 방문이력 개수 가져오기
+	public int getNumOfRecords(HashMap<String, String> paraMap);
+
 }

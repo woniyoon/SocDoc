@@ -234,4 +234,19 @@
 		where userid = #{userid}
 	</select>
 	
+	<!-- 특정 회원의 방문이력 가져오기 -->
+	<select id="getVisitRecord" parameterType="HashMap" resultType="String">
+		select rno, visitDate
+		from 
+		(select rownum as rno, to_char(visitDate,'yyyy-mm-dd') as visitDate from reservation 
+		where userid= #{userid} and hpSeq = #{hpSeq}
+		order by visitDate desc)
+		where rno between #{startRNO} and #{endRNO}
+	</select>
+	
+	<!-- 방문이력 개수 가져오기 -->
+	<select id="getNumOfRecords" parameterType="HashMap" resultType="int">
+		select count(*) from reservation where userid= #{userid} and hpSeq = ${hpSeq}
+	</select>
+
 </mapper>

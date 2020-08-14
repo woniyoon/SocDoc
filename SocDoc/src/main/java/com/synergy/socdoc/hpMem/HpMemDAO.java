@@ -129,4 +129,17 @@ public class HpMemDAO implements InterHpMemDAO {
 		return member;
 	}
 
+	@Override
+	public List<String> getVisitRecord(HashMap<String, String> paraMap) {
+		List<String> record = sqlsession.selectList("hpMem.getVisitRecord", paraMap);
+		return record;
+	}
+
+	@Override
+	public int getNumOfRecords(HashMap<String, String> paraMap) {
+		int numOfRecords = sqlsession.selectOne("hpMem.getNumOfRecords", paraMap);
+		return numOfRecords;
+	}
+
+
 }

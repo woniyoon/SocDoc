@@ -119,7 +119,21 @@ public class HpMemService implements InterHpMemService {
 		MemberVO member = dao.getVisitorDetail(userid);
 		return member;
 	}
+
+	// 특정 회원의 방문이력 가져오기 
+	@Override
+	public List<String> getVisitRecord(HashMap<String, String> paraMap) {
+		List<String> record = dao.getVisitRecord(paraMap);
+		return record;
+	}
 	
+	// 방문이력 개수 가져오기
+	@Override
+	public int getNumOfRecords(HashMap<String, String> paraMap) {
+		int numOfRecords = dao.getNumOfRecords(paraMap);
+		return numOfRecords;
+	}
+
 	
 	
 

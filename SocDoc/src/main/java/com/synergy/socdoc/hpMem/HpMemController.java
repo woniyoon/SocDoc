@@ -15,6 +15,7 @@ import com.google.gson.*;
 
 import com.synergy.socdoc.common.*;
 import com.synergy.socdoc.member.HpInfoVO;
+import com.synergy.socdoc.member.HpMemberVO;
 import com.synergy.socdoc.member.HpReviewVO;
 import com.synergy.socdoc.member.MemberVO;
 
@@ -34,17 +35,15 @@ public class HpMemController {
 	public String main(HttpServletRequest request) {
 
 		// TODO: 나중에는 이 부분을 이용해서 병원정보 가져오기
-//		String hpSeq = (String) request.getSession().getAttribute("hpSeq");
-		String hpSeq = "2";
+		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("loginuser");
+		String hpSeq = String.valueOf(hpMember.getHpSeq());
 		
 		// 병원 영업시간 가져오기
 		List<HashMap<String, String>> openingHours = service.getOpeningHours(hpSeq);
 
 		// 병원 후기 가져오기
 		List<HashMap<String, String>> reviewList = service.getRecentReviews(hpSeq);
-		
-		System.out.println(openingHours.get(0).get("close"));
-		
+				
 		request.setAttribute("openingHours", openingHours);
 		request.setAttribute("reviewList", reviewList);
 		
@@ -92,6 +91,7 @@ public class HpMemController {
 		
 		int startRNO = ((currentShowPageNo - 1) * sizePerPage) + 1;
 		int endRNO = startRNO + sizePerPage - 1;
+		int blockSize = 10;
 		
 		paraMap.put("startRNO", String.valueOf(startRNO));
 		paraMap.put("endRNO", String.valueOf(endRNO));
@@ -101,8 +101,7 @@ public class HpMemController {
 		List<HpInfoVO> infoUpdateList = service.getInfoUpdateList(paraMap);
 		
 		String baseUrl = MyUtil.getBaseURL(request);
-
-		String pageBar = MyUtil.createPageBar(currentShowPageNo, totalPage, baseUrl);
+		String pageBar = MyUtil.createPageBar(currentShowPageNo, totalPage, blockSize, baseUrl);
 
 		
 		request.setAttribute("infoUpdateList", infoUpdateList);
@@ -355,16 +354,97 @@ public class HpMemController {
 		return obj.toString();
 	}
 	
+	// 모달에 띄울 방문자 상세 정보 가져오기
 	@ResponseBody
 	@RequestMapping(value = "/ajax/getVisitorDetail.sd", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
 	public String getVisitorDetail(HttpServletRequest request) {
 		
+//		String hpSeq = request.getSession().getAttribute("hpSeq");
+		String hpSeq = "2";
 		String userid = request.getParameter("userid");
+		String currentShowPageNoStr = request.getParameter("currentShowPageNoStr");
+		int sizePerPage = 3;
 		
+		int currentShowPageNo = 0;
+		
+		// 현재 페이지 번호 설정
+		if(currentShowPageNoStr == null) {
+			currentShowPageNo = 1;
+		}
+
+		int startRNO = ((currentShowPageNo - 1) * sizePerPage) + 1;
+		int endRNO = startRNO + sizePerPage - 1;
+
+		HashMap<String, String> paraMap = new HashMap<>();
+		
+		paraMap.put("startRNO", String.valueOf(startRNO));
+		paraMap.put("endRNO", String.valueOf(endRNO));
+		paraMap.put("hpSeq", hpSeq);
+		paraMap.put("userid", userid);
+		
+		
+		// 방문이력 총 개수
+		int numOfRecords = service.getNumOfRecords(paraMap);
+		
+		int totalPage = (int) Math.ceil((double) numOfRecords / sizePerPage);
+		
+		
+		// 현재페이지 문자열을 숫자파싱
+		try {
+			currentShowPageNo = Integer.parseInt(currentShowPageNoStr);
+			if (currentShowPageNo < 1 || currentShowPageNo > totalPage) {
+				currentShowPageNo = 1;
+			}
+		} catch (NumberFormatException e) {
+			currentShowPageNo = 1;
+		}
+		
+		
+		// 방문자 개인정보 가져오기
 		MemberVO member = service.getVisitorDetail(userid);
 		
+		// 방문이력 가져오기
+		List<String> visitRecord = service.getVisitRecord(paraMap);
 		
-		System.out.println(member.getName() + "의 나이 : " + member.getAge());
+
+		int blockSize = 5;
+		int pageNo = 1;
+		int loop = 1;
+					
+		String pageBar = "";
+		
+		pageNo = ((currentShowPageNo-1)/blockSize) * blockSize + 1;
+					
+		if(pageNo != 1) {
+			pageBar += "&nbsp;<a onclick='callRecord("+userid+","+(pageNo-1)+");'>[이전]</a>&nbsp;";		  		  
+		}
+					
+					while(!(loop > blockSize || pageNo > totalPage)) {
+						  
+						if(pageNo == currentShowPageNo) {
+							pageBar += "&nbsp;<a class='active'>" + pageNo + "</a>&nbsp;";			  
+						} else {			  
+							pageBar += "&nbsp;<a onclick='callRecord("+userid+","+pageNo+");'>"+pageNo+"</a>&nbsp;";
+						}
+
+						pageNo++;
+						loop++;
+					}
+					
+					if(!(pageNo > totalPage)) {
+					  pageBar += "&nbsp;<a onclick='callRecord("+userid+","+pageNo+");'>[다음]</a>&nbsp;";		  
+					}
+		
+		
+		
+		JsonArray jsonArr = new JsonArray();
+		
+		for(int i=0; i<visitRecord.size(); i++) {
+			JsonObject json = new JsonObject();
+			json.addProperty("visitDate", visitRecord.get(i));
+			jsonArr.add(json);
+		}
+		
 		JsonObject obj = new JsonObject();
 		
 		obj.addProperty("name", member.getName());
@@ -372,9 +452,21 @@ public class HpMemController {
 		obj.addProperty("age", member.getAge());
 		obj.addProperty("gender", member.getGender());
 		obj.addProperty("phone", member.getPhone());
+		obj.addProperty("record", jsonArr.toString());
+		obj.addProperty("pageBar", pageBar);
 		
 		return obj.toString();
 	}
+	
+	// 방문이력만 가져오기
+	@ResponseBody
+	@RequestMapping(value = "/ajax/getVisitorRecord.sd", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
+	public String getVisitorRecord(HttpServletRequest request) {
+	
+		return "";
+	}
+	
+	
 	
 	// 방문고객관리 w. 페이징
 	@RequestMapping(value = "/hpPanel/visitorsMng.sd", method = RequestMethod.GET)
@@ -418,6 +510,8 @@ public class HpMemController {
 		
 		int startRNO = ((currentShowPageNo - 1) * sizePerPage) + 1;
 		int endRNO = startRNO + sizePerPage - 1;
+		int blockSize = 10;
+
 		
 		paraMap.put("startRNO", String.valueOf(startRNO));
 		paraMap.put("endRNO", String.valueOf(endRNO));
@@ -426,8 +520,7 @@ public class HpMemController {
 		List<HashMap<String, String>> visitorsList = service.getVisitors(paraMap);
 		
 		String baseUrl = MyUtil.getBaseURL(request);
-		
-		String pageBar = MyUtil.createPageBar(currentShowPageNo, totalPage, baseUrl);
+		String pageBar = MyUtil.createPageBar(currentShowPageNo, totalPage, blockSize, baseUrl);
 		
 		request.setAttribute("numOfVisitors", numOfVisitors);
 		request.setAttribute("pageBar", pageBar);
@@ -501,6 +594,7 @@ public class HpMemController {
 		
 		int startRNO = ((currentShowPageNo - 1) * sizePerPage) + 1;
 		int endRNO = startRNO + sizePerPage - 1;
+		int blockSize = 10;
 		
 		paraMap.put("startRNO", String.valueOf(startRNO));
 		paraMap.put("endRNO", String.valueOf(endRNO));
@@ -516,8 +610,8 @@ public class HpMemController {
 
 		
 		// 페이지바 생성
-		String baseUrl = MyUtil.getBaseURL(request);
-		String pageBar = MyUtil.createPageBar(currentShowPageNo, totalPage, baseUrl);
+		String baseLink = MyUtil.getBaseURL(request);
+		String pageBar = MyUtil.createPageBar(currentShowPageNo, totalPage, blockSize, baseLink);
 
 		
 		request.setAttribute("reviewList", reviewList);

@@ -173,7 +173,8 @@
 			$.ajax({
 				url:"<%=ctxPath%>/ajax/getVisitorDetail.sd",
 				type:"POST",
-				data:{"userid": userid},
+				data:{"userid": userid, 
+					  "currentShowPageNoStr": 1},
 				dataType: "JSON",
 	            success: function(json){
 	               console.log(json);
@@ -183,9 +184,19 @@
 	               			+ "<tr align='center'><td>나이</td><td>"+json.age+"</td></tr>"
 	               			+ "<tr align='center'><td>성별</td><td>"+json.gender+"</td></tr>"
 	               			+ "<tr align='center'><td>연락처</td><td>"+json.phone+"</td></tr>"
-	               			+ "<tr align='center'><td>방문이력</td><td>^^;;;</td></tr>";
+/* 	               			+ "<tr align='center'><td>방문이력</td><td>"+json.record+"</td></tr>";
+ */	               			+ "<tr align='center'><td>방문이력</td><td><table class='recordTbl' align='center'></table><div align='center'>"+json.pageBar+"</div></td></tr>";
 				
 	               $(".visitorDetail").html(html);
+	               
+	               var recordArr = JSON.parse(json.record);
+	               var recordHtml;
+	               for(var i=0; i<recordArr.length; i++) {
+	            	   recordHtml += "<tr><td>" + recordArr[i].visitDate + "</td></tr>";
+	               }
+	               
+	               $(".recordTbl").html(recordHtml);
+	               
 	               $(".modalContainer").removeClass("hidden");
 					console.log("event going on");
 	            },
