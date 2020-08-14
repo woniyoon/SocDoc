@@ -651,9 +651,16 @@ public class HpMemController {
 
 	// 통계관리
 	@RequestMapping(value = "/hpPanel/hpStats.sd", method = RequestMethod.GET)
-	public String getHpStats(HttpServletRequest request) {
+	public String hpStats(HttpServletRequest request) {
 		
 		return "hpMem/hpStats.tiles4";
+	}
+
+	// 계정관리
+	@RequestMapping(value = "/hpPanel/accountSetting.sd", method = RequestMethod.GET)
+	public String accountSetting(HttpServletRequest request) {
+		
+		return "hpMem/accountSetting.tiles4";
 	}
 
 }
