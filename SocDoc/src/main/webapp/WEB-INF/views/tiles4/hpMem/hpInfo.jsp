@@ -37,7 +37,7 @@
 	<table class="customTable" style="width: 100%;">
 		<tr>
 			<th></th>
-			<th>접수아이디</th>
+			<th>신청번호</th>
 			<th>병원명</th>
 			<th>신청일</th>
 			<th>상태</th>
