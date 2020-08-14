@@ -117,36 +117,40 @@
             </form>
             
             <p>전체 후기: ${totalCount}개</p>
-			
-			<table class="table table-hover" style="text-align: center;">
-                <thead>
-                     <tr>
-                        <th>선택</th>
-                        <th>기관명</th>
-                        <th>내용</th>
-                        <th>별점</th>
-                        <th>작성자</th>
-                        <th>작성일</th>
-                     </tr>
-                </thead>
-				<c:forEach var="reviewvo" items="${reviewvoList}">
-                    <tr>
-                        <td><input type="checkbox" /></td>
-                        <td>${reviewvo.name}</td>
-                        <td>${reviewvo.content}</td>
-                   		<td>
-	                        <c:if test="${reviewvo.rating==5}">★★★★★</c:if>
-			                <c:if test="${reviewvo.rating==4}">★★★★</c:if>
-			                <c:if test="${reviewvo.rating==3}">★★★</c:if>
-			                <c:if test="${reviewvo.rating==2}">★★</c:if>
-			                <c:if test="${reviewvo.rating==1}">★</c:if>
-		                </td>
-                        <td>${reviewvo.userid}</td>
-                        <td>${reviewvo.regDate}</td>
-                    </tr>
-				</c:forEach>
-
-            </table>
+            
+			<form name="deleteFrm">
+				<table class="table table-hover" style="text-align: center;">
+	                <thead>
+	                     <tr>
+	                        <th>선택</th>
+	                        <th>기관명</th>
+	                        <th>내용</th>
+	                        <th>별점</th>
+	                        <th>작성자</th>
+	                        <th>작성일</th>
+	                     </tr>
+	                </thead>
+	                
+					<c:forEach var="reviewvo" items="${reviewvoList}">
+	                    <tr>
+	                        <td><input type="checkbox" name="reviewck" class="reviewck" value="${reviewvo.rno}" /></td>
+	                        <td>${reviewvo.name}</td>
+	                        <td>${reviewvo.content}</td>
+	                   		<td>
+		                        <c:if test="${reviewvo.rating==5}">★★★★★</c:if>
+				                <c:if test="${reviewvo.rating==4}">★★★★</c:if>
+				                <c:if test="${reviewvo.rating==3}">★★★</c:if>
+				                <c:if test="${reviewvo.rating==2}">★★</c:if>
+				                <c:if test="${reviewvo.rating==1}">★</c:if>
+			                </td>
+	                        <td>${reviewvo.userid}</td>
+	                        <td>${reviewvo.regDate}</td>
+	                    </tr>
+					</c:forEach>
+	
+	            </table>
+					<input type="hidden" id="reviewJoin" name="reviewJoin" />	
+            </form>
             
             <button id="ckAll">전체선택</button>
             <button id="deleteBtn">삭제</button>
@@ -176,6 +180,11 @@
 			$("#searchWord").val("${paraMap.searchWord}");
 		}
 		
+		$("#deleteBtn").click(function() {
+			goDel();
+		});
+		
+		
 	});
 	
 	
@@ -186,4 +195,50 @@
 			frm.submit();
 	}
 
+	function goDel() {
+        
+        var cnt = $("input[name='reviewck']:checked").length;
+        
+        var arr = new Array();
+       
+        $("input[name='reviewck']:checked").each(function() {
+            arr.push($(this).attr('id'));
+        });
+        
+        if(cnt == 0){
+            alert("선택된 글이 없습니다.");
+        }
+        else{
+           var con = confirm("리뷰를 삭제하시겠습니까?");
+           
+           var allCnt = $("input[name='reviewck']").length;
+           
+           var reviewArr = new Array();
+           
+           for(var i=0; i<allCnt; i++) {
+        	   
+        	   if($("input:checkbox[class=reviewck]").eq(i).is(":checked")) {
+        		   	reviewArr.push($("input:checkbox[class=reviewck]").eq(i).val());   
+        	   }
+           }
+
+           var reviewJoin = reviewArr.join();
+           
+           $("#reviewJoin").val(reviewJoin);
+           
+        // alert(reviewJoin);
+           
+           if(con == true) {
+              var frm = document.deleteFrm;
+              frm.method = "POST";
+              frm.action = "<%= request.getContextPath()%>/reviewDel.sd"
+              frm.submit();
+           }
+           else if(con == false){ 
+              location.href="history.back()";
+
+           }
+        } 
+           
+     }
 </script>		
