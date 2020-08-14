@@ -43,7 +43,16 @@
 		where V.rno between #{startRno} and #{endRno}
  	</select>
  	
- 	
+ 	<select id="infoList" parameterType="HashMap" resultType="com.synergy.socdoc.member.HealthInfoVO">
+		select V.rno, V.infoseq, V.subject, V.content, V.img, V.regDate from
+		(select rownum as rno, infoseq, subject, content, img, to_char(regDate, 'yyyy-mm-dd') as regDate
+				from infoboard
+		<if test="!searchWord.equals('')">
+			where content LIKE '%'||#{searchWord}||'%'
+		</if>
+		order by infoseq desc) V
+		where V.rno between #{startRno} and #{endRno}
+ 	</select>
  	
 	<select id="healthinfo" resultType="com.synergy.socdoc.member.HealthInfoVO">
 		select infoseq, subject, content, img, to_char(regDate, 'yyyy-mm-dd') as regDate

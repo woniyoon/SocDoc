@@ -41,11 +41,11 @@ public class BoardDAO implements InterBoardDAO {
 //		List<NoticeVO> noticeList = sqlsession.selectList("board.noticeList");
 //		return noticeList;
 //	}
-	@Override
+/*	@Override
 	public List<HealthInfoVO> healthinfo(){
 		List<HealthInfoVO> healthinfo = sqlsession.selectList("board.healthinfo");
 		return healthinfo;
-	}
+	}*/
 	@Override
 	public int getTotalNoticeList(HashMap<String, String> paraMap) {
 		int result = sqlsession.selectOne("board.getTotalNoticeList", paraMap);
@@ -55,5 +55,10 @@ public class BoardDAO implements InterBoardDAO {
 	public List<NoticeVO> noticeList(HashMap<String, String> paraMap) {
 		List<NoticeVO> noticeList = sqlsession.selectList("board.noticeList", paraMap);
 		return noticeList;
+	}
+	@Override
+	public List<HealthInfoVO> infoList(HashMap<String, String> paraMap) {
+		List<HealthInfoVO> infoList = sqlsession.selectList("board.infoList", paraMap);
+		return infoList;
 	}
 }

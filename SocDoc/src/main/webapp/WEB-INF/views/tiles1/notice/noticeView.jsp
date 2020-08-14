@@ -459,11 +459,11 @@ $(window).ready(function(){
 							<tbody>
 								<tr>
 									<th scope="row" style="border: none;">제목 </th>
-                                	<td style="border: none;"> 문의 남깁니다;;</td>
+                                	<td style="border: none;">${noticevo.subject}</td>
 								</tr>
                             	<tr>
 	                                <th scope="row" style="border: none;">작성일 </th>
-	                                <td style="border: none;">2020.07.01</td>
+	                                <td style="border: none;">${noticevo.regDate}</td>
                              	</tr>
 							</tbody>
 						</table>
@@ -474,11 +474,11 @@ $(window).ready(function(){
 			<tbody>
 				<tr>
 					<td>
-						비밀번호 설정을 못하겠습니다.
+						${noticevo.content}
 						<br/><br/><br/><br/><br/>
-                        <div id="comment">
+<!--                         <div id="comment">
                         	<strong>관리자 ｜ 2020.07.01</strong><br/> 비밀번호 설정은 마이페이지에서 가능합니다.<br/> 비밀번호를 잊으신 경우에는 고객센터로 연락 주시어 개인 정보가 포함된 자료를 송부하여 주시기 바랍니다.<br/>
-                        </div>
+                        </div> -->
                     </td>
                </tr>
            	</tbody>

@@ -21,7 +21,8 @@ public interface InterBoardDAO {
 	
 	// 게시물 목록 조회
 	public List<NoticeVO> noticeList(HashMap<String, String> paraMap);
-	public List<HealthInfoVO> healthinfo();
+	public List<HealthInfoVO> infoList(HashMap<String, String> paraMap);
+	//public List<HealthInfoVO> healthinfo();
 	public int getTotalNoticeList(HashMap<String, String> paraMap);
 	
 }

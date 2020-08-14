@@ -19,11 +19,13 @@ public interface InterBoardService {
 	
 	// 게시물 목록 조회
 	public List<NoticeVO> noticeList(HashMap<String, String> paraMap);
+	public List<HealthInfoVO> infoList(HashMap<String, String> paraMap);
 	
 //	public List<HealthInfoVO> healthinfo();
 	
 	// 전체 목록 개수 가져오기
 	public int getTotalNoticeList(HashMap<String, String> paraMap);
+
 	
 //	List<NoticeVO> noticeList();
 }

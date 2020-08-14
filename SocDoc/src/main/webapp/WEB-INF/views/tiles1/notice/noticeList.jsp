@@ -187,7 +187,7 @@
 	
 	////
 	
-	tr > td > .subject {
+	td.subject:hover {
 		cursor: pointer;
 	}
    	
@@ -207,6 +207,16 @@ $(window).ready(function(){
 		$(this).addClass('current');
 		$("#"+tab_id).addClass('current');
 	});
+	
+	$("#noticeSearchWord").keydown(function(event) {
+		
+		console.log($(this).prop("value"));
+		 if(event.keyCode == 13) {
+			 // 엔터를 했을 경우
+			 getNoticeBoard(1, $(this).prop("value"));
+		 }
+	  });
+     
 });		
 
 </script>
@@ -219,33 +229,40 @@ $(window).ready(function(){
 	// 건강정보
 	$(".tab2").click(getHealthInfoBoard);
 	
-	getNoticeBoard();
-	getHealthInfoBoard();
+	getNoticeBoard(1, "");
+//	getHealthInfoBoard();
 });		
 
-function getNoticeBoard(){
+function getNoticeBoard(currentShowPageNo, searchWord){
 	console.log("공지사항 클릭");
+	
 	$.ajax({	
 		url:"<%= ctxPath%>/ajax/noticeBoard.sd",
 		type:"get",
-		data:{"searchWord":$("#subject").val()
-			 ,"currentShowPageNo": 1},
+		data:{"searchWord":searchWord
+			 ,"currentShowPageNo": currentShowPageNo},
 		dataType:"json",
 		success:function(json){
 			console.log(json);		
 			var html = "";
 			var jsonArr = JSON.parse(json.list);
 			
-			$.each(jsonArr, function(index, item){
-				html += "<tr>"
-						+ "<td class='noticeSeq'>"+item.noticeSeq+"</td>"
-						+ "<td class='subject'>"+item.subject+"</td>"
-						+ "<td class='content'>"+item.regDate+"</td>"
-						+ "</tr>";
-			});
+			if(jsonArr.length > 0) {
+				$.each(jsonArr, function(index, item){
+					html += "<tr>"
+							+ "<td class='noticeSeq'>"+item.noticeSeq+"</td>"
+							+ "<td class='subject'>"+item.subject+"</td>"
+							+ "<td class='content'>"+item.regDate+"</td>"
+							+ "</tr>";
+				});
+			
+			} else {
+				$(".infoBoard").html("<tr align='center'><td colspan='3'>검색 결과가 없습니다!</td></tr>");
+			}
 			
 			$(".noticeList").html(html);
 			$(".noticePagination").html(json.pageBar);
+			
 		},
 		error: function(request, status, error){
 			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -255,20 +272,45 @@ function getNoticeBoard(){
 
 function getHealthInfoBoard(){
 	console.log("건강정보 클릭");
-	$.ajax({
-		url:"<%= ctxPath%>/noticeList.sd",
+	$.ajax({	
+		url:"<%= ctxPath%>/ajax/infoBoard.sd",
 		type:"get",
-		data:{"searchWord":$("#subject").val()
-			 ,"content":$("#content").val()
-			 ,"img":$("#img").val()},
+		data:/* {"searchWord":$("#subject").val()
+			 ,"currentShowPageNo": 1}, */
+			 {"searchWord":searchWord
+				,"currentShowPageNo": currentShowPageNo},
 		dataType:"json",
 		success:function(json){
-			console.log("qweqwe");
+			console.log(json);		
+			var html = "";
+			var jsonArr = JSON.parse(json.list);
+			
+			if(jsonArr.length > 0) {
+				$.each(jsonArr, function(index, item){
+					html += "<tr>"
+							+ "<td class='noticeSeq'>"+item.noticeSeq+"</td>"
+							+ "<td class='subject'>"+item.subject+"</td>"
+							+ "<td class='content'>"+item.regDate+"</td>"
+							+ "<td class='img'>"+item.img+"</td>"
+							+ "</tr>";
+				});
+				
+			} else {
+				$(".infoBoard").html("<tr align='center'><td colspan='3'>검색 결과가 없습니다!</td></tr>");
+			}
+				$(".infoBoard").html(html);
+				$(".noticePagination").html(json.pageBar);
 		},
 		error: function(request, status, error){
 			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 	 	}
 	}); 
+}
+
+function goSearch(){
+	console.log("?!?!?");
+	console.log($("#noticeSearchWord").prop("value"));
+	getNoticeBoard(1, $("#noticeSearchWord").prop("value"));	
 }
 
 </script>
@@ -393,7 +435,6 @@ $(document).ready(function(){
 		}
 	}); */
 
-
 </script> 
 </head>
 
@@ -401,7 +442,7 @@ $(document).ready(function(){
 
 	<div class="bowl">
 		<ul class="tabs">
-			<li class="tab-link current tab1" data-tab="tab-1" onclick="getNoticeBoard()">공지사항</li>
+			<li class="tab-link current tab1" data-tab="tab-1" onclick="getNoticeBoard(1, '')">공지사항</li>
 			<li class="tab-link tab2" data-tab="tab-2" onclick="getHealthInfoBoard()">건강정보</li>
 		</ul>
 	
@@ -410,17 +451,17 @@ $(document).ready(function(){
 		
 		<div class="notice">
 			<header>
-				<form name="seachFrm">
+<!-- 				<form name="seachFrm"> -->
 					<div id="search_header">
 						<div id="search_bar">
 							<div id="search_bar_left" class="total">전체 n건</div>
 							<div id="search_bar_right">
-								<input id="searchWord" name="searchWord" type="text" placeholder="검색어를 입력해 주세요." />
+								<input id="noticeSearchWord" name="searchWord" type="text" placeholder="검색어를 입력해 주세요." />
 								<input id="search_button" onclick="goSearch();" type="button" value="검색" /> 
 							</div>
 						</div>
 					</div>	
-				</form>
+<!-- 				</form> -->
 			</header>
 		
 		<!-- -------------------------------- 헤더 끝 ---------------------------------- -->
@@ -462,9 +503,9 @@ $(document).ready(function(){
 				<div id="tab-2" class="tab-content">
 					<div class="grid_container">
 						<c:forEach var="healthinfovo" items="${healthinfo}">
-							<div id="${healthinfovo.subject}" align='center'>
-								<img width='310px' height='280px' src='${healthinfovo.img}' />
-								${healthinfovo.subject}
+							<div id="${infoBoard.subject}" align='center'>
+								<img width='310px' height='280px' src='${infoBoard.img}' />
+								${infoBoard.subject}
 							</div>
 		       			</c:forEach>
 		       		</div>			
