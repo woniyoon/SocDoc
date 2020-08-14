@@ -24,5 +24,7 @@ public interface InterBoardDAO {
 	public List<HealthInfoVO> infoList(HashMap<String, String> paraMap);
 	//public List<HealthInfoVO> healthinfo();
 	public int getTotalNoticeList(HashMap<String, String> paraMap);
+	//글보기
+	public NoticeVO getView(String noticeSeq);
 	
 }

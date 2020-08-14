@@ -187,7 +187,7 @@
 	
 	////
 	
-	td.subject:hover {
+	tr > td > .subject:hover {
 		cursor: pointer;
 	}
    	
@@ -269,7 +269,15 @@ function getNoticeBoard(currentShowPageNo, searchWord){
 	 	}
 	}); 
 }
-
+function goView(noticeSeq) {
+	//	console.log(noticeSeq);
+ 		var frm = document.goViewFrm;
+		frm.noticeSeq.value = noticeSeq; 
+		
+		frm.method = "GET";
+		frm.action = "<%=ctxPath%>/noticeView.sd";
+		frm.submit();
+	}
 function getHealthInfoBoard(){
 	console.log("건강정보 클릭");
 	$.ajax({	
@@ -513,7 +521,9 @@ $(document).ready(function(){
 			</form>
 			
 		<!-- -------------------------------- 건강정보 게시글 끝 ---------------------------------- -->	
-		
+		<form name="goViewFrm">
+        	<input type="hidden" name="noticeSeq" />
+        </form>
 		</div>	
 	</div>
 </div>

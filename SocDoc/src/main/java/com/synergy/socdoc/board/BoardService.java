@@ -59,4 +59,12 @@ public class BoardService implements InterBoardService {
 		return result;
 	}
 	
+	
+	// 글보기
+	@Override
+	public NoticeVO getView(String noticeSeq) {
+		NoticeVO noticevo = dao.getView(noticeSeq);
+		return noticevo;
+	}
+	
 }

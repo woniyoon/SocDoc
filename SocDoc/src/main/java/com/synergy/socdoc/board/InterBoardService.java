@@ -25,6 +25,9 @@ public interface InterBoardService {
 	
 	// 전체 목록 개수 가져오기
 	public int getTotalNoticeList(HashMap<String, String> paraMap);
+	
+	// 글 보기
+	public NoticeVO getView(String noticeSeq);
 
 	
 //	List<NoticeVO> noticeList();

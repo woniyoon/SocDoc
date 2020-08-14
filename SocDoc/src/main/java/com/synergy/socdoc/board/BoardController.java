@@ -449,10 +449,27 @@ public class BoardController {
 		return jsonObj.toString();
 	}
 	
-	
-	
-	
-	
+	// 공지사항 글보기  //
+	@RequestMapping(value = "/noticeView.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+	public ModelAndView noticeView(HttpServletRequest request, ModelAndView mav) {
+		
+		String noticeSeq = request.getParameter("noticeSeq");
+		
+		System.out.println("공지사항 seq 잘오나? : " + noticeSeq);
+		
+		String gobackURL = request.getParameter("gobackURL");
+		mav.addObject("gobackURL", gobackURL);
+
+		NoticeVO noticevo = null;
+
+		noticevo = service.getView(noticeSeq);
+		
+		mav.addObject("noticevo", noticevo);
+		mav.setViewName("admin/adminNoticeView.tiles3");
+		
+		return mav;
+		
+	}
 	
 	
 	
