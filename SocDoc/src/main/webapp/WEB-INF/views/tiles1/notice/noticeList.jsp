@@ -372,19 +372,19 @@ $(document).ready(function(){
 						
 						<tbody>
 		<!-- 					<c:forEach var="notice" items="${noticeList}">
+									<tr>
+										<td name="rno">${notice.rno}</td>
+										<td class="notice_seq">${notice.notice_seq}</td>
+										<td class="noticeTitle">${notice.title}</td>
+										<td>${notice.write_day}</td>
+										<td>${notice.hit}</td>
+									</tr>
+								</c:forEach> -->
 							<tr>
-								<td name="rno">${notice.rno}</td>
-								<td class="notice_seq">${notice.notice_seq}</td>
-								<td class="noticeTitle">${notice.title}</td>
-								<td>${notice.write_day}</td>
-								<td>${notice.hit}</td>
-							</tr>
-							</c:forEach> -->
-							<tr>
-								<td class="notice_seq">1</td>
-								<td class="noticeTitle">공지사항</td>
-								<td>2020-02-02</td>
-								<td>1</td>
+								<td class="notice_seq">${noticevo.notice_seq}</td>
+								<td class="subject" onclick="goView('${noticevo.subject}')">${notice.subject}</td>
+								<td class="regDate">${noticevo.regDate}</td>
+								<td class="hit">${noticevo.hit}</td>
 							</tr>
 							
 						</tbody>
@@ -402,10 +402,10 @@ $(document).ready(function(){
 		
 			<div id="tab-2" class="tab-content">
 				<div class="grid_container">
+						<!-- <div id="photo" align='center'><img width='310px' height='280px' src='/images/1.jpg' />감기</div>	   
 						<div id="photo" align='center'><img width='310px' height='280px' src='/images/1.jpg' />감기</div>	   
 						<div id="photo" align='center'><img width='310px' height='280px' src='/images/1.jpg' />감기</div>	   
-						<div id="photo" align='center'><img width='310px' height='280px' src='/images/1.jpg' />감기</div>	   
-						<div id="photo" align='center'><img width='310px' height='280px' src='/images/1.jpg' />감기</div>	   
+						<div id="photo" align='center'><img width='310px' height='280px' src='/images/1.jpg' />감기</div>	    -->
 	       		</div>			
 			</div>
 		</div>
