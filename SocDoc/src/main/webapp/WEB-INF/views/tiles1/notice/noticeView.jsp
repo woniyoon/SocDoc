@@ -484,23 +484,17 @@ $(window).ready(function(){
            	</tbody>
 		</table>
 
-		<p id="listBtn"><a href="adminNotice.sd" class="notice_view">목록</a></p>
-		
-		<p id="deleteBtn"><a href="noticeList.sb" class="notice_view">삭제</a></p>             
-		
-		<p id="modifyBtn"><a href="noticeList.sb" class="notice_view">수정</a></p>
+		<p id="listBtn"><a href="#" onclick="javascript:location.href='${gobackURL}'" class="notice_view">목록</a></p>
                 
         <div>
             <table>
                 <tr>
                     <th class="next_post th">이전글</th>
-                    <!-- <td class="noticeNO" ></td>
-                    <td class="noticeNO postrno" ></td> -->
-                    <td class="next_post postNotice titlePointer" style="padding-left: 10px;">윗글 제목이 보일 예정</td>
+                    <td class="next_post postNotice titlePointer">${noticevo.presubject}</td>
                 </tr>
                 <tr>
                     <th class="pre_post th">다음글</th>
-                    <td class="pre_post preNotice titlePointer" style="padding-left: 10px;">아랫글 제목이 보일 예정</td>
+                    <td class="pre_post preNotice titlePointer">${noticevo.nextsubject}</td>
                 </tr>
             </table>
    		</div>

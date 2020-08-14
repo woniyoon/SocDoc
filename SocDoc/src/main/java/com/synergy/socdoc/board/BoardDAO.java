@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.synergy.socdoc.member.HealthInfoVO;
 import com.synergy.socdoc.member.NoticeVO;
 
 
@@ -35,11 +36,24 @@ public class BoardDAO implements InterBoardDAO {
 	
 	
 	// 게시물 목록 조회
+//	@Override
+//	public List<NoticeVO> noticeList(){
+//		List<NoticeVO> noticeList = sqlsession.selectList("board.noticeList");
+//		return noticeList;
+//	}
 	@Override
-	public List<NoticeVO> noticeList(){
-	
-		return sqlsession.selectList("board.noticeList");
-
+	public List<HealthInfoVO> healthinfo(){
+		List<HealthInfoVO> healthinfo = sqlsession.selectList("board.healthinfo");
+		return healthinfo;
 	}
-
+	@Override
+	public int getTotalNoticeList(HashMap<String, String> paraMap) {
+		int result = sqlsession.selectOne("board.getTotalNoticeList", paraMap);
+		return result;
+	}
+	@Override
+	public List<NoticeVO> noticeList(HashMap<String, String> paraMap) {
+		List<NoticeVO> noticeList = sqlsession.selectList("board.noticeList", paraMap);
+		return noticeList;
+	}
 }

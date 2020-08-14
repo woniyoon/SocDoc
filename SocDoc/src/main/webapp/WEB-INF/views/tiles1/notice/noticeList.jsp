@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <% String ctxPath = request.getContextPath(); %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
@@ -183,6 +184,12 @@
 	    grid-row-gap: 50px;
 	    grid-template-columns: auto auto auto;
 	}
+	
+	////
+	
+	tr > td > .subject {
+		cursor: pointer;
+	}
    	
 </style>
 
@@ -200,8 +207,69 @@ $(window).ready(function(){
 		$(this).addClass('current');
 		$("#"+tab_id).addClass('current');
 	});
-	
 });		
+
+</script>
+
+<script type="text/javascript">
+
+$(window).ready(function(){
+	// 공지사항
+	$(".tab1").click(getNoticeBoard);
+	// 건강정보
+	$(".tab2").click(getHealthInfoBoard);
+	
+	getNoticeBoard();
+	getHealthInfoBoard();
+});		
+
+function getNoticeBoard(){
+	console.log("공지사항 클릭");
+	$.ajax({	
+		url:"<%= ctxPath%>/ajax/noticeBoard.sd",
+		type:"get",
+		data:{"searchWord":$("#subject").val()
+			 ,"currentShowPageNo": 1},
+		dataType:"json",
+		success:function(json){
+			console.log(json);		
+			var html = "";
+			var jsonArr = JSON.parse(json.list);
+			
+			$.each(jsonArr, function(index, item){
+				html += "<tr>"
+						+ "<td class='noticeSeq'>"+item.noticeSeq+"</td>"
+						+ "<td class='subject'>"+item.subject+"</td>"
+						+ "<td class='content'>"+item.regDate+"</td>"
+						+ "</tr>";
+			});
+			
+			$(".noticeList").html(html);
+			$(".noticePagination").html(json.pageBar);
+		},
+		error: function(request, status, error){
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	 	}
+	}); 
+}
+
+function getHealthInfoBoard(){
+	console.log("건강정보 클릭");
+	$.ajax({
+		url:"<%= ctxPath%>/noticeList.sd",
+		type:"get",
+		data:{"searchWord":$("#subject").val()
+			 ,"content":$("#content").val()
+			 ,"img":$("#img").val()},
+		dataType:"json",
+		success:function(json){
+			console.log("qweqwe");
+		},
+		error: function(request, status, error){
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	 	}
+	}); 
+}
 
 </script>
 
@@ -333,8 +401,8 @@ $(document).ready(function(){
 
 	<div class="bowl">
 		<ul class="tabs">
-			<li class="tab-link current" data-tab="tab-1">공지사항</li>
-			<li class="tab-link" data-tab="tab-2">건강정보</li>
+			<li class="tab-link current tab1" data-tab="tab-1" onclick="getNoticeBoard()">공지사항</li>
+			<li class="tab-link tab2" data-tab="tab-2" onclick="getHealthInfoBoard()">건강정보</li>
 		</ul>
 	
 		
@@ -357,60 +425,54 @@ $(document).ready(function(){
 		
 		<!-- -------------------------------- 헤더 끝 ---------------------------------- -->
 		
-			
-			<div id="tab-1" class="tab-content current">
-				<form name="noticeListFrm">
+			<form name="tab1">	
+				<div id="tab-1" class="tab-content current">
 					<table>
 						<thead>
 							<tr>
 								<th>NO</th>
 							 	<th>제목</th>
 							 	<th>날짜</th>
-							 	<th>조회수</th>
 							</tr>
 						</thead>
 						
-						<tbody>
-		<!-- 					<c:forEach var="notice" items="${noticeList}">
-									<tr>
-										<td name="rno">${notice.rno}</td>
-										<td class="notice_seq">${notice.notice_seq}</td>
-										<td class="noticeTitle">${notice.title}</td>
-										<td>${notice.write_day}</td>
-										<td>${notice.hit}</td>
-									</tr>
-								</c:forEach> -->
-							<tr>
-								<td class="notice_seq">${noticevo.notice_seq}</td>
-								<td class="subject" onclick="goView('${noticevo.subject}')">${notice.subject}</td>
-								<td class="regDate">${noticevo.regDate}</td>
-								<td class="hit">${noticevo.hit}</td>
-							</tr>
-							
+						<tbody class="noticeList">
+							<%-- <c:forEach var="noticevo" items="${noticeList}">
+								<tr>
+									<td class="noticeSeq">${noticevo.noticeSeq}</td>
+									<td class="subject" onclick="goView('${noticevo.subject}')">${noticevo.subject}</td>
+									<td class="regDate">${noticevo.regDate}</td>
+									<td class="hit">${noticevo.hit}</td>
+								</tr>
+							</c:forEach> --%>
 						</tbody>
 					
 					</table>
-				</form>
-				
-				<!-- ${totalPage} -->
-				<div class="pagination" id="pageBar">
-					<!-- ${pageBar} -->
+					
+					<!-- ${totalPage} -->
+					<div class="noticePagination" id="pageBar">
+						<!-- ${pageBar} -->
+					</div>
 				</div>
-			</div>
-		
-		<!-- -------------------------------- 공지사항 게시글 끝 ---------------------------------- -->	
-		
-			<div id="tab-2" class="tab-content">
-				<div class="grid_container">
-						<!-- <div id="photo" align='center'><img width='310px' height='280px' src='/images/1.jpg' />감기</div>	   
-						<div id="photo" align='center'><img width='310px' height='280px' src='/images/1.jpg' />감기</div>	   
-						<div id="photo" align='center'><img width='310px' height='280px' src='/images/1.jpg' />감기</div>	   
-						<div id="photo" align='center'><img width='310px' height='280px' src='/images/1.jpg' />감기</div>	    -->
-	       		</div>			
-			</div>
-		</div>
-		
-		<!-- -------------------------------- 건강정보 게시글 끝 ---------------------------------- -->	
+			</form>
 			
+		<!-- -------------------------------- 공지사항 게시글 끝 ---------------------------------- -->	
+			
+			<form name="tab2">
+				<div id="tab-2" class="tab-content">
+					<div class="grid_container">
+						<c:forEach var="healthinfovo" items="${healthinfo}">
+							<div id="${healthinfovo.subject}" align='center'>
+								<img width='310px' height='280px' src='${healthinfovo.img}' />
+								${healthinfovo.subject}
+							</div>
+		       			</c:forEach>
+		       		</div>			
+				</div>
+			</form>
+			
+		<!-- -------------------------------- 건강정보 게시글 끝 ---------------------------------- -->	
+		
+		</div>	
 	</div>
 </div>

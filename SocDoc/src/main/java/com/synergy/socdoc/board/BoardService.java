@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.synergy.socdoc.member.HealthInfoVO;
 import com.synergy.socdoc.member.NoticeVO;
 
 @Service
@@ -30,10 +31,25 @@ public class BoardService implements InterBoardService {
 
 	
 	// 게시물 목록 조회
+//	@Override
+//	public List<NoticeVO> noticeList() {
+//		List<NoticeVO> noticeList = dao.noticeList();
+//		return noticeList;
+//	}
+//	@Override
+//	public List<HealthInfoVO> healthinfo() {
+//		List<HealthInfoVO> healthinfo = dao.healthinfo();
+//		return healthinfo;
+//	}
 	@Override
-	public List<NoticeVO> noticeList() {
-
-		return dao.noticeList();
+	public List<NoticeVO> noticeList(HashMap<String, String> paraMap) {
+		List<NoticeVO> noticeList = dao.noticeList(paraMap);
+		return noticeList;
+	}
+	@Override
+	public int getTotalNoticeList(HashMap<String, String> paraMap) {
+		int result = dao.getTotalNoticeList(paraMap);
+		return result;
 	}
 	
 }

@@ -3,6 +3,7 @@ package com.synergy.socdoc.board;
 import java.util.HashMap;
 import java.util.List;
 
+import com.synergy.socdoc.member.HealthInfoVO;
 import com.synergy.socdoc.member.NoticeVO;
 
 public interface InterBoardDAO {
@@ -19,6 +20,8 @@ public interface InterBoardDAO {
 	
 	
 	// 게시물 목록 조회
-	public List<NoticeVO> noticeList();
+	public List<NoticeVO> noticeList(HashMap<String, String> paraMap);
+	public List<HealthInfoVO> healthinfo();
+	public int getTotalNoticeList(HashMap<String, String> paraMap);
 	
 }
