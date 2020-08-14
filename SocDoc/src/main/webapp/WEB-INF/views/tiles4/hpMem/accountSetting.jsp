@@ -144,6 +144,8 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
 		$("#box2").hide();
 		$("#box3").hide();
 		
+		$(".disabledValue").css({"background-color":"#efefef", "border-radius": "5px"});
+		
 	});
 	
 	function changePWD() {
@@ -191,25 +193,25 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
 				<tr>
 			        <th scope="row">아이디 </th>
 			        <td>
-					    <input value="${hpMember.userid }" readonly/>
+					    <input class="disabledValue" value="${hpMember.userid }" readonly/>
 					</td>
 			    </tr>
 			    <tr>
 			        <th scope="row">담당자 </th>
 			        <td>
-					    <input value="${hpMember.name }" readonly/>
+					    <input name="name" value="${hpMember.name }" />
 					</td>
 			    </tr>
 				<tr>
 					<th scope="row">사업자등록번호</th> 
 					<td>
-						<input value="${hpMember.regId }" readonly/>
+						<input class="disabledValue" value="${hpMember.regId }" readonly/>
 					</td>
 				</tr>			
 			    <tr>
 			        <th scope="row">이메일</th>
 			        <td>
-						<input value="${hpMember.email }"/>
+						<input name="email" value="${hpMember.email }"/>
 						<button type="button" style="margin-left:10px; background-color: skyblue; color:white; width: 40px; height: 25px; border-radius: 4px; border: none; font-size: 10pt;">인증</button>
 					</td>
 			    </tr>
