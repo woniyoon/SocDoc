@@ -50,6 +50,22 @@
 	    justify-content: space-between; */
 	    margin: 10px;
 	}
+	
+	.hospitalRatingStar {
+      background: url('/socdoc/resources/images/starsBlue.png') no-repeat right 0;
+      background-size: auto 100%;
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      text-indent: -9999px;
+      cursor: pointer;
+      margin-bottom: 10px;
+   }
+
+	.on{
+      background-position:0 0;
+   }    
+      
 </style>
 
 <script type="text/javascript">
@@ -61,6 +77,10 @@
 	    	  $("#searchWord").val("${searchWord}");
 	      }
 		
+	      $(".hospitalRatingStar").each(function(){
+		      $("#hospitalRatingStar"+"${avgRating}").addClass("on").prevAll("span").addClass("on");
+		      return false;
+		  });
 	});
 	
 	function search(){
@@ -70,13 +90,21 @@
 		form.submit();
 	}
 	
+	
+
 </script>
 
 <div class="reviewsContainer">
 	<h3 align="left">후기</h3>
 	<section>
-		<div> ⭐️⭐️⭐️⭐️⭐️ </div>
-		<div> 총 <span>${numOfReviews} / ${totalNum }</span> 후기 | 평균 ${avgRating} </div>
+		<div class="hospitalRating" style="border:1px solid blue; height:40px;">
+               <span class="hospitalRatingStar" id="hospitalRatingStar1">별1</span>
+               <span class="hospitalRatingStar" id="hospitalRatingStar2">별2</span>
+               <span class="hospitalRatingStar" id="hospitalRatingStar3">별3</span>
+               <span class="hospitalRatingStar" id="hospitalRatingStar4">별4</span>
+               <span class="hospitalRatingStar" id="hospitalRatingStar5">별5</span>
+        </div>      
+		<div> 총 <span>${numOfReviews} / ${totalNum }</span> 후기 | 평균 ${avgRating}<span>.0</span></div>
 	</section>
 	<div class="searchContainer" align="right">
 		<form name="reviewSearchFrm">
