@@ -80,7 +80,16 @@
 					<c:forEach var="review" items="${reviewList }" varStatus="status">
 						<tr>
 							<td>${review.userid}</td>
-							<td>${review.rating}</td>
+							<td>
+								<c:forEach var="i" begin="1" end="5">
+								   <c:if test="${review.rating >= i}">
+								   		<span class="reviewStar on" id="hospitalRatingStar${i}">별</span>
+								   </c:if>
+								   <c:if test="${review.rating < i}">
+								   		<span class="reviewStar" id="hospitalRatingStar${i}">별</span>
+								   </c:if>
+								</c:forEach>
+							</td>
 							<td>${review.content}</td>
 							<td>${review.regDate }</td>
 						</tr>
@@ -92,10 +101,10 @@
 					</tr>
 				</c:if>
 			</tbody>
-			<%-- <tfoot>
+			<tfoot>
 				<tr>
 					<td colspan="4" align="right"><span style="cursor: pointer" onclick="location.href='<%=ctxPath %>/hpPanel/hpReviews.sd'">더보기</span></td>
 				</tr>
-			</tfoot> --%>
+			</tfoot>
 		</table>
 	</section>

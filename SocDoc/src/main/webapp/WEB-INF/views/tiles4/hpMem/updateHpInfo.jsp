@@ -19,17 +19,17 @@
 		
 					<!-- Full-width images with number and caption text -->
 					<div class="mySlides fade">
-						<div class="numbertext">1 / 3</div>
+<!-- 						<div class="numbertext">1 / 3</div> -->
 						<img src="<%=ctxPath %>/resources/files/${hpInfo.mainImg}" style="width: 100%; height: 100%;">
 					</div>
 		
 					<div class="mySlides fade">
-						<div class="numbertext">2 / 3</div>
+<!-- 						<div class="numbertext">2 / 3</div> -->
 						<img src="<%=ctxPath %>/resources/files/${hpInfo.subImg1}" style="width: 100%; height: 100%;">
 					</div>
 		
 					<div class="mySlides fade">
-						<div class="numbertext">3 / 3</div>
+<!-- 						<div class="numbertext">3 / 3</div> -->
 						<img src="<%=ctxPath %>/resources/files/${hpInfo.subImg2}" style="width: 100%; height: 100%;">
 					</div>
 		
@@ -224,13 +224,17 @@
 		$("input[type=file]").each(function() {
 				$(this).hide();
 					
-				$(this).on("change", function() {
+				
+				$(this).on("change", function(e) {
 					console.log("change 펑션!");
+					console.log(e.target);
 
 					// 이미지 파일명만 추출후, 보여주기
 					var filename = $(this).val().split('/').pop().split('\\').pop();
 					
 					$(this).siblings().prev().prop("value", filename);
+					
+					
 				});
 		});
 		

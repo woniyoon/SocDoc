@@ -54,8 +54,8 @@
 	.hospitalRatingStar {
       background: url('/socdoc/resources/images/starsBlue.png') no-repeat right 0;
       background-size: auto 100%;
-      width: 20px;
-      height: 20px;
+      width: 50px;
+      height: 50px;
       display: inline-block;
       text-indent: -9999px;
       cursor: pointer;
@@ -65,8 +65,8 @@
 	.reviewStar {
       background: url('/socdoc/resources/images/starsYellow.png') no-repeat right 0;
       background-size: auto 100%;
-      width: 10px;
-      height: 10px;
+      width: 20px;
+      height: 20px;
       display: inline-block;
       text-indent: -9999px;
       cursor: pointer;
@@ -108,7 +108,7 @@
 <div class="reviewsContainer">
 	<h3 align="left">후기</h3>
 	<section>
-		<div class="hospitalRating" style="height:40px;">
+		<div class="hospitalRating" style="height:40px; margin: 30px;">
                <span class="hospitalRatingStar" id="hospitalRatingStar1">별1</span>
                <span class="hospitalRatingStar" id="hospitalRatingStar2">별2</span>
                <span class="hospitalRatingStar" id="hospitalRatingStar3">별3</span>

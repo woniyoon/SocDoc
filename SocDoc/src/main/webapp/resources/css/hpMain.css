@@ -1,16 +1,16 @@
 .hpMainSection {
-	margin: 20px auto;
+	margin: 50px auto;
 	width: 50vw;
 }
 
 .scheduleTbl, .scheduleTbl thead, .scheduleTbl tbody, .scheduleTbl td {
-	width: 40vw;
+	width: 50vw;
 	border: 2px solid #c0c0c0;
 	border-collapse: collapse;
 }
 
 .reviewBoard, .reviewBoard thead, .reviewBoard tfoot {
-	width: 40vw;
+	width: 50vw;
 	border: 2px solid #c0c0c0;
 	border-collapse: collapse;
 }
@@ -21,13 +21,51 @@
 }
 
 td {
-	padding: 10px 20px;
+	padding: 10px;
 }
 
 th {
-	padding: 10px;
+	padding: 0 10px;
 }
 
 .scheduleTbl td {
 	line-height: 2;
 }
+
+.scheduleTbl th, .reviewBoard th {
+	background-color: cornflowerblue;
+	color: white;
+}
+
+.reviewTd {
+	display: flex;
+	flex-direction: row;
+}
+
+<!-- 리뷰별 -->	
+
+.hospitalRatingStar {
+     background: url('/socdoc/resources/images/starsBlue.png') no-repeat right 0;
+     background-size: auto 100%;
+     width: 20px;
+     height: 20px;
+     display: inline-block;
+     text-indent: -9999px;
+     cursor: pointer;
+     margin-bottom: 10px;
+  }
+
+.reviewStar {
+     background: url('/socdoc/resources/images/starsYellow.png') no-repeat right 0;
+     background-size: auto 100%;
+     width: 10px;
+     height: 10px;
+     display: inline-block;
+     text-indent: -9999px;
+     cursor: pointer;
+     margin-bottom: 10px;
+  }
+
+.on{
+     background-position:0 0;
+  }    
