@@ -160,7 +160,7 @@ public class LoginController {
 //			mav.addObject("loc", loc);
 			mav.setViewName("login/loginEnd.tiles1"); 
 			HttpSession session = request.getSession();
-			session.setAttribute("loginuser", hpLoginuser);
+			session.setAttribute("hpLoginuser", hpLoginuser);
 			
 			if(session.getAttribute("gobackURL") != null) {
 	    		// 세션에 저장된 돌아갈 페이지 주소(gobackURL)가 있다라면 

@@ -86,7 +86,7 @@ public class SocdocAOP {
 		   System.out.println("현재 servletContext : " + request.getServletContext());
 		   
 		   HttpSession session = request.getSession();
-		   HpMemberVO hpMember = (HpMemberVO) session.getAttribute("loginuser");
+		   HpMemberVO hpMember = (HpMemberVO) session.getAttribute("hpLoginuser");
 		   
 		   String msg = "로그인이 필요한 페이지입니다!";
 		   String loc = "";
