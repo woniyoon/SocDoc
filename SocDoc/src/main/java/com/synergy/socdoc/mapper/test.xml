@@ -23,6 +23,17 @@
        from member
        where userid = #{userid}
       </select>
+      
+	<select id="deptList" resultType="String">
+		select distinct nvl(dept,-9999) as dept
+		from hospitalInfo
+		order by dept
+	</select>
+	
+	<!-- <select id="hpinfovoList" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpInfoVO"> 
+		select hpSeq,dept,mainImg,hpName,info
+		from hospitalInfo
+	</select> -->
 
 	
 </mapper>

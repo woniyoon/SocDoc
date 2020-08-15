@@ -29,11 +29,27 @@ public class ReserveService implements InterReserveService {
 		return hpinfovoList;
 	}
 
+	// 환자정보가져오기
 	@Override
 	public MemberVO viewMyinfo(String userid) {
 		MemberVO membervo = dao.viewMyinfo(userid);
 	      return membervo;
 	}
+
+	@Override
+	public List<String> deptList() {
+		List<String> deptList = dao.deptList();
+		return deptList;
+	}
+
+	/*@Override
+	public List<HashMap<String, String>> hpinfovoList(HashMap<String, Object> paraMap) {
+		List<HashMap<String, String>> hpinfovoList = dao.hpinfovoList(paraMap);
+		return hpinfovoList;
+	}*/
+
+
+
 
 
 

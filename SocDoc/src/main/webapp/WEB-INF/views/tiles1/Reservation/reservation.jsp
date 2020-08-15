@@ -8,6 +8,9 @@
 %>
 <link rel="stylesheet" type="text/css" media="screen" href="<%=ctxPath %>/resources/css/reservationInfo.css" />
 <!-- Pignose 캘린더 라이브러리 임포트 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 <link rel="stylesheet" href="<%=ctxPath %>/resources/pg-calendar/dist//css/pignose.calendar.min.css">
 <link rel="stylesheet" href="<%=ctxPath %>/resources/pg-calendar/dist//css/pignose.calendar.css">
 <script src="<%=ctxPath %>/resources/pg-calendar/dist/js/pignose.calendar.min.js"></script>
@@ -16,6 +19,7 @@
 <script src="<%=ctxPath %>/resources/pg-calendar/dist/js/pignose.calendar.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
 <script src="<%=ctxPath %>/resources/js/util/common.js"></script>
+ 
 
 <style type="text/css">
 /* body {
@@ -189,6 +193,14 @@ table.type05 td {
 	background-color: white;
 	cursor: pointer;
 }
+.selecthospital:focus{
+	border: solid 1px black;
+	font-size: 10pt;
+	width: 110px;
+	height: 40px;
+	background-color: skyblue;
+	cursor: pointer;
+}
 .selecthospital:hover{
 	border: solid 1px black;
 	font-size: 10pt;
@@ -297,8 +309,31 @@ table.type05 td {
 	   
 	   
 	// ================ 진료과별로 나열하기 ===============
-		
+		function Searchgo(){
+			//alert('ㅇㅇ');
+			var arrDeptId = new Array(); // 체크값들의 저장소가 될 배열을 생성 
+			
+			$("input:radio[name=dept]").each(function(){
+				var bool = $(this).is(":checked");
+				if(bool==true){
+					// 체크박스에 체크가 되었으면 배열속에 체크된 값을 저장한다. 
+					arrDeptId.push($(this).val()); // 배열속에 넣는 방식 push를 사용 
+				}
+				
+				var sDeptIdes = arrDeptId.join(); // 배열을 join을 통해서 문자열로 만든다. 
+				// console.log("~~~~~~ 확인용 sDeptIdes =>" + sDeptIdes);
+				// 결과물: ~~~~~~ 확인용 sDeptIdes =>이비인후과
+				
+				var frm = document.searchFrm;
+				frm.sDeptIdes.value = sDeptIdes;
+				
+				frm.method = "GET";
+				frm.action = "reserve.sd"; // 앞에 슬레시"/"가 없으면 상대경로로, 자기에게 보내는 것이다. 
+				frm.submit();
+			});
+		}
 	// end of 진료과별로 나열하기 끝 =======================
+		
 
    
    /* function postnTr(){
@@ -314,9 +349,25 @@ table.type05 td {
 	// ================ 달력 ==================
    $(function() {
 	    $('.calendar').pignoseCalendar();
+	    
 	});// end of 달력 끝 =======================
-
 		
+	
+	
+
+	$(function() {
+	    $("#time1").timepicker({
+	        timeFormat: 'h:mm p',
+	        interval: 60,
+	        minTime: '10',
+	        maxTime: '6:00pm',
+	        defaultTime: '11',
+	        startTime: '10:00',
+	        dynamic: false,
+	        dropdown: true,
+	        scrollbar: true        
+	    });
+	});	
 		
 		
 		
@@ -369,12 +420,11 @@ table.type05 td {
 	   
 	   if(isNaN(Number(selecthospital))){
 		   alert("병원을 선택하세요");
-	   	   return;
+	   	  return;
 	   }
    }// end of 예약버튼 끝 =======================
  
-	   
-	   
+ 
 	 
 	   
    	// ============== 병원선택 
@@ -389,11 +439,24 @@ table.type05 td {
 	   
 	   var hpanddept = document.getElementById("hpanddept");
 	   hpanddept.innerText = name + " / " + dept;
-	  
+	   
+
    }// end of 병원 선택 끝 ========================
       
-      
-   
+
+   $('#stime')
+       .timepicker({timeFormat:'H:i','minTime':'06:00','maxTime':'23:00','scrollDefaultNow': true }) //stime 시작 기본 설정
+       .on('changeTime',function() {                           //stime 을 선택한 후 동작
+           var from_time = $("input[name='stime']").val(); //stime 값을 변수에 저장
+           $('#etime').timepicker('option','minTime', from_time);//etime의 mintime 지정
+           if ($('#etime').val() && $('#etime').val() < from_time) {
+               $('#etime').timepicker('setTime', from_time);
+   //etime을 먼저 선택한 경우 그리고 etime시간이 stime시간보다 작은경우 etime시간 변경
+           }  
+       });
+    
+   $('#etime').timepicker({timeFormat:'H:i','minTime':'06:00','maxTime':'23:00'});//etime 시간 기본 설정
+ 
    
    
 	// ================ 병원 검색 ================  
@@ -409,9 +472,10 @@ table.type05 td {
          
       //}else{
       //   alert("찾으시는 병원 정보를 선택하거나 입력해주세요.");
-     // }
- //  }// end of 병원 검색 끝 ========================
-	
+      // }
+ 	  //  }// end of 병원 검색 끝 ========================
+
+	 
 		
    </script>
    
@@ -463,37 +527,35 @@ table.type05 td {
             <br/>
             <!-- 진료과목 선택-->
             <label class="feFoRadio" for="feFor">
-               <input type="checkbox" name="dept" value="내과"><span>내과</span>
+               <input type="radio" name="dept" value="내과"><span>내과</span>
             </label>
             <label class="feFoRadio" for="feFor">
-               <input type="checkbox" name="dept" value="이비인후과"><span>이비인후과</span>
+               <input type="radio" name="dept" value="이비인후과"><span>이비인후과</span>
             </label>
             <label class="feFoRadio" for="feFor">
-               <input type="checkbox" name="dept" value="정형외과"><span>정형외과</span>
+               <input type="radio" name="dept" value="정형외과"><span>정형외과</span>
             </label>
             <label class="feFoRadio" for="feFor">
-               <input type="checkbox" name="dept" value="안과"><span>안과</span>
+               <input type="radio" name="dept" value="안과"><span>안과</span>
             </label>
             <label class="feFoRadio" for="feFor">
-               <input type="checkbox" name="dept" value="산부인과"><span>산부인과</span>
+               <input type="radio" name="dept" value="산부인과"><span>산부인과</span>
             </label>
             <label class="feFoRadio" for="feFor">
-               <input type="checkbox" name="dept" value="치과"><span>치과</span>
+               <input type="radio" name="dept" value="치과"><span>치과</span>
             </label>
             <label class="feFoRadio" for="feFor">
-               <input type="checkbox" name="dept" value="외과"><span>외과</span>
+               <input type="radio" name="dept" value="외과"><span>외과</span>
             </label>
             <label class="feFoRadio" for="feFor">
-               <input type="checkbox" name="dept" value="성형외과"><span>성형외과</span>
+               <input type="radio" name="dept" value="성형외과"><span>성형외과</span>
             </label>
             <label class="feFoRadio" for="feFor">
-               <input type="checkbox" name="dept" value="정신건강의학과"><span>정신건강의학과</span>
+               <input type="radio" name="dept" value="정신건강의학과"><span>정신건강의학과</span>
             </label>
             <label class="feFoRadio" for="feFor">
-               <input type="checkbox" name="dept" value="피부과"><span>피부과</span>
+               <input type="radio" name="dept" value="피부과"><span>피부과</span>
             </label>
-            <input type="hidden" name="sDeptIdes"/>
-            <!-- 진료과목 선택 끝 -->
               </form>
    </div>
    <!-- 시/군구/진료과목/병원검색 container 끝 -->
@@ -572,17 +634,8 @@ table.type05 td {
       
       </c:forEach>
       </c:if>
-      
       </table>
-      
-      <!-- 페이지바 -->
-      <div class="paging" align="left">
-      	<div>${pageBar}</div>
       </div>
-      
-      
-      </div>
-      <!-- 리뷰보기 -->
    	   <!-- 병원검색했을경우, 병원정보정렬 끝 -->
    </div>
    </div>
@@ -602,6 +655,9 @@ table.type05 td {
    
    <!-- [달력/시간]설정하기 -->
    <div class="calendar"></div>
+   <label for="time">시간 선택</label>
+	<input type="text" id="time1" name="time1" class="form-control" style="width:200px;">
+ 
    <!-- 예약확정하기 -->
    <div id="reverse_set" style="margin-left: 13%;">
    <a style="cursor: pointer;" class="setbtn" data-toggle="modal" data-target="#myModal">
@@ -610,6 +666,10 @@ table.type05 td {
    </div><!--  [달력/시간]설정하기 end -->
    
    
+   <!-- 페이지바 -->
+   <div class="paging" align="left">
+   <div>${pageBar}</div>
+   </div>
    
    
    <div class="container" align="center">

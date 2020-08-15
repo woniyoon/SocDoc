@@ -32,32 +32,32 @@ public class ReservationController {
 	   @RequestMapping(value="/reserve.sd")
 	   public ModelAndView reserve(HttpServletRequest request,ModelAndView mav) {
 	    
-		   List<HpInfoVO> hpinfovoList = service.hospital_select();
+		 
+		   // 병원정보 가져오기 
+	         List<HpInfoVO> hpinfovoList = service.hospital_select();
+	        
+	         HttpSession session = request.getSession();
+	         
+	         
+	         MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+	            if(loginuser != null) {
+	            String userid = loginuser.getUserid();
+	         
+	            mav.addObject("userid",userid);
+	            MemberVO membervo = service.viewMyinfo(userid);
+	            mav.addObject("membervo", membervo);
+	            }
+	            
+	        
+	         
+	         mav.addObject("hpinfovoList", hpinfovoList);
+	         mav.setViewName("Reservation/reservation.tiles1");
+	         
+	         
+	         return mav;
+	      }
+	     
 
-		   
-	
-		   HttpSession session = request.getSession();
-		     
-		   MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-		      
-		      
-		      if(loginuser != null) {
-		      String userid = loginuser.getUserid();
-		   
-		      mav.addObject("userid",userid);
-		      MemberVO membervo = service.viewMyinfo(userid);
-		      mav.addObject("membervo", membervo);
-		      }
-		      
-		   
-		   
-		   mav.addObject("hpinfovoList", hpinfovoList);
-
-		   mav.setViewName("Reservation/reservation.tiles1");
-		   
-		   
-		   return mav;
-	   }
 	  
 	   
 	   // === 예약자명 정보 보여주기 요청페이지 === // 

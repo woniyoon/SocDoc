@@ -22,7 +22,7 @@ public class ReserveDAO implements InterReserveDAO {
 		return content;
 	}
 
-	// 병원 정렬하기 
+	// 병원 정렬하기 (전체)
 	@Override
 	public List<HpInfoVO> hospital_select() {
 		List<HpInfoVO> hpinfovoList = sqlsession.selectList("test.hospital_select");
@@ -30,11 +30,28 @@ public class ReserveDAO implements InterReserveDAO {
 	}
 	
 	
-
+	// 환자정보 가져오기(내자신)
 	@Override
 	public MemberVO viewMyinfo(String userid) {
 		MemberVO membervo = sqlsession.selectOne("test.viewMyinfo", userid);
 	      return membervo;
 	}
+
+	@Override
+	public List<String> deptList() {
+		List<String> deptList = sqlsession.selectList("test.deptList");
+		return deptList;
+	}
+
+	/*@Override
+	public List<HashMap<String, String>> hpinfovoList(HashMap<String, Object> paraMap) {
+		List<HashMap<String, String>> hpinfovoList = sqlsession.selectList("test.hpinfovoList",paraMap);
+		return hpinfovoList;
+	}*/
+
+
+
+	
+	
 
 }
