@@ -786,8 +786,7 @@ public class HpMemController {
 		String email = request.getParameter("email");
 		String verificationCode = request.getParameter("verificationCode");
 		
-		HttpSession session = request.getSession();
-		String sentVerificationCode = (String) session.getAttribute("verificationCode");
+		String sentVerificationCode = (String) request.getSession().getAttribute("verificationCode");
 		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
 		String hpSeq = String.valueOf(hpMember.getHpSeq());
 	
@@ -824,6 +823,52 @@ public class HpMemController {
 		JSONObject json = new JSONObject();
 		json.put("msg", msg);
         
+		return json.toString();
+	}
+
+	
+	// 비밀번호 업데이트
+	@ResponseBody
+	@RequestMapping(value = "/ajax/updateHpPwd.sd", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
+	public String updateHpPwd(HttpServletRequest request) {
+		
+		String oldPwd = Sha256.encrypt(request.getParameter("oldPwd"));
+		String newPwd = Sha256.encrypt(request.getParameter("newPwd"));
+		
+		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
+		String hpSeq = String.valueOf(hpMember.getHpSeq());
+		
+		HashMap<String, String> paraMap = new HashMap<>();
+		paraMap.put("pwd", oldPwd);
+		paraMap.put("newPwd", newPwd);
+		paraMap.put("hpSeq", hpSeq);
+		
+		System.out.println(newPwd);
+		
+		String msg = "";
+		boolean needsRefresh = false;
+		
+		int n = service.verifyPwd(paraMap);
+			
+		if(n == 0) {
+			msg = "비밀번호가 틀렸습니다!";
+			
+		} else {
+			int result = service.updateHpPwd(paraMap);
+		
+			if(result == 1) {
+				msg = "비밀번호가 변경됐습니다!";
+				needsRefresh = true;
+			} else {
+				msg = "다시 시도해주세요!";
+			}
+			
+		}
+		
+		JSONObject json = new JSONObject();
+		json.put("msg", msg);
+		json.put("needsRefresh", needsRefresh);
+		
 		return json.toString();
 	}
 	

@@ -155,6 +155,13 @@ public class HpMemService implements InterHpMemService {
 		return result;
 	}
 
+	// 병원 회원 정보 업데이트(비밀번호)
+	@Override
+	public int updateHpPwd(HashMap<String, String> paraMap) {
+		int result = dao.updateHpPwd(paraMap);
+		return result;
+	}
+
 	
 	
 

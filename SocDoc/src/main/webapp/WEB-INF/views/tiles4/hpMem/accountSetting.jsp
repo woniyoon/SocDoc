@@ -233,6 +233,37 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
 		});
 		
 		
+		$("#updatePwd").click(function(){
+			
+			var oldPwd = $("#oldPwd").prop("value");
+			var newPwd = $("#newPwd").prop("value");
+			
+			if(oldPwd.trim() == "" || newPwd.trim() == "") {
+				alert("모두 다 기입해주셔야 합니다!");
+				return;
+			}
+			
+			$.ajax({
+				url:"<%=ctxPath%>/ajax/updateHpPwd.sd",
+				type:"POST",
+				data:{"oldPwd": oldPwd,
+					 "newPwd" : newPwd},
+				dataType: "JSON",
+	            success: function(json){
+	                var html = "";
+	                
+	                alert(json.msg);
+	                
+	                if(json.needsRefresh) {
+		                history.go(0);	                	
+	                }
+	            },
+				error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			});
+		});
+		
 	});
 	
 	function changePWD() {
@@ -260,11 +291,11 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
 		<div id="box1">
 			<div class="tabmenu">
 			  	<ul>
-				    <li id="tab1" class="btnCon" onclick="changeInfo()"> <input type="radio" checked name="tabmenu"  id="tabmenu1">
+				    <li id="tab1" class="btnCon" onclick="changeInfo();"> <input type="radio" checked name="tabmenu"  id="tabmenu1">
 				      <label for="tabmenu1">기본정보 변경</label>
 				      <!-- <div class="tabCon" >내용</div> -->
 				    </li>
-				    <li id="tab2" class="btnCon" onclick="changePWD()"><input type="radio" name="tabmenu" id="tabmenu2">
+				    <li id="tab2" class="btnCon" onclick="changePWD();"><input type="radio" name="tabmenu" id="tabmenu2">
 				      <label for="tabmenu2">비밀번호 변경</label>
 				      <!-- <div class="tabCon" >내용</div> -->
 				    </li>    
@@ -336,7 +367,7 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
 		
 			<!-- <span style="font-size: 15pt;">현재 비밀번호<input type="password" style="margin-left: 30px; margin-top: 25px; width: 300px; height: 40px;"/></span><br/>
 			<span style="font-size: 15pt;">변경할 비밀번호<input type="password" style="margin-left: 30px; margin-top: 20px; width: 300px; height: 40px;"/></span><br/> -->
-			<div align="right"><button type="button" class="blueBtn" id="updatePwd">업데이트</button></div>
+			<div style="margin-top:30px;" align="right"><button type="button" class="blueBtn" id="updatePwd">업데이트</button></div>
 		</div>
 	<!-- 비밀번호 변경탭 끝-->
 	    

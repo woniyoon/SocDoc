@@ -265,9 +265,15 @@
 		select count(userid) from hpmember where pwd = #{pwd} and hpSeq = #{hpSeq}
 	</select>
 	
-	
+	<!-- 병원 회원 정보 업데이트(이름/이메일) -->
 	<update id="updateAccountInfo" parameterType="HashMap">
 		update hpmember set name = #{name}, email = #{email}
+		where hpSeq = #{hpSeq}
+	</update>
+	
+	<!-- 병원 회원 정보 업데이트(패스워드) -->
+	<update id="updateHpPwd" parameterType="HashMap">
+		update hpmember set pwd = #{newPwd}
 		where hpSeq = #{hpSeq}
 	</update>
 </mapper>
