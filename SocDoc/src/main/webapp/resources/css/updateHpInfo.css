@@ -15,6 +15,16 @@
     margin: 10px;
 }
 
+.sliderBtnContainer {
+	display: flex; 
+	flex-direction: row; 
+	justify-content: space-between;
+}
+
+.prev, .next {
+	font-size: 30px;
+}
+
 #hpDetail {
     flex: 1;
 /*     border: 1px solid green; */
