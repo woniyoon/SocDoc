@@ -10,7 +10,7 @@
 <style>
 	#container {
 		margin: 20px;
-		width: 60%;
+		width: 80%;
 		border: 1px solid red;
 	}
 
@@ -97,7 +97,7 @@
 	}
 	
 	table.type05 th {
-	    width: 20%;
+	    width: 30%;
 	    padding: 10px;
 	    font-weight: bold;
 	    vertical-align: middle;
@@ -106,10 +106,17 @@
 	}
 	
 	table.type05 td {
-	    width: 80%;
+	    width: 70%;
 	    padding: 10px;
 	    vertical-align: top;
 	    border-bottom: 1px solid #ccc;
+	}
+	
+	table.type05 input {
+		display: inline-block;
+		width: 200px;
+		height: 30px;
+		padding-left: 10px;
 	}
 	
 	.form-control-tel {
@@ -314,12 +321,22 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
 		<div id="box2" style="margin-top:15px;  border-left: none; border-right: none;">
 			<img id="findPW" src="<%= ctxPath%>/resources/images/findPW.png" style="margin-top:10px;" width=50px height=60px/>
 			<h2 style="margin: 0;">비밀번호 변경</h2>
-			<p style="margin-top: 10px;">주혜정 회원님의 소중한 개인정보의 보호를 위하여 비밀번호를 한번 더 입력하여 주시기 바랍니다.</p>
+			<p style="margin-top: 10px;">${hpMember.name} 회원님의 소중한 개인정보의 보호를 위하여 비밀번호를 한번 더 입력하여 주시기 바랍니다.</p>
 		</div> 
 		<div id="box3" style="margin-top:35px;  border-left: none; border-right: none;">
-			<span style="font-size: 15pt;">현재 비밀번호<input type="password" style="margin-left: 30px; margin-top: 25px; width: 300px; height: 40px;"/></span><br/>
-			<span style="font-size: 15pt;">변경할 비밀번호<input type="password" style="margin-left: 30px; margin-top: 20px; width: 300px; height: 40px;"/></span><br/>
-		<div style="text-align:right; margin-top: 30px; width: 70%;"><button type="button" style="background-color: skyblue; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;">저장</button></div>
+			<ul>
+				<li>
+					<label for="password" style="font-size: 1.3em; display: inline-block; width: 140px">현재 비밀번호 : </label><input id="oldPwd" name="oldPwd" type="password" style="margin: 10px; width: 300px; height: 40px;"/>
+				</li>
+				<li>
+					<label for="password" style="font-size: 1.3em; display: inline-block; width: 140px">새 비밀번호 : </label><input id="newPwd" name="newPwd" type="password" style="margin: 10px; width: 300px; height: 40px;"/>
+				</li>
+			</ul>
+		
+		
+			<!-- <span style="font-size: 15pt;">현재 비밀번호<input type="password" style="margin-left: 30px; margin-top: 25px; width: 300px; height: 40px;"/></span><br/>
+			<span style="font-size: 15pt;">변경할 비밀번호<input type="password" style="margin-left: 30px; margin-top: 20px; width: 300px; height: 40px;"/></span><br/> -->
+			<div align="right"><button type="button" class="blueBtn" id="updatePwd">업데이트</button></div>
 		</div>
 	<!-- 비밀번호 변경탭 끝-->
 	    
