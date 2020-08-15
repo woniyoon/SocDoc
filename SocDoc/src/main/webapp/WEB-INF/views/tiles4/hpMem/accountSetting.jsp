@@ -120,6 +120,16 @@
 		width: 69%;
 	}
 	
+	.verifyBtn {
+		margin-left:10px; 
+		background-color: skyblue; 
+		color:white; 
+		width: 40px; 
+		height: 25px; 
+		border-radius: 4px; 
+		border: none; 
+		font-size: 10pt;
+	}
 </style>
 
 
@@ -145,6 +155,38 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
 		$("#box3").hide();
 		
 		$(".disabledValue").css({"background-color":"#efefef", "border-radius": "5px"});
+		
+		
+		// 인증버튼시, 코드 전송 요청 
+		$(".verifyBtn").click(function(){
+
+			$.ajax({
+				url:"<%=ctxPath%>/ajax/isEmailValid.sd",
+				type:"POST",
+				data:{"email": $("#email").prop("value")},
+				dataType: "JSON",
+	            success: function(json){
+	                var html = "";
+	                
+	                $("#msg").text(json.msg);
+	            	$("#msg").css({"color": "red", "font-size": "0.8em"});
+
+	                
+	                if(json.isSent) {
+		            	$(".codeInput").css("display", "");
+	                }
+	            	
+	                console.log(json);
+	            },
+				error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			});
+			
+		});
+		
+		
+		
 		
 	});
 	
@@ -211,13 +253,21 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
 			    <tr>
 			        <th scope="row">이메일</th>
 			        <td>
-						<input name="email" value="${hpMember.email }"/>
-						<button type="button" style="margin-left:10px; background-color: skyblue; color:white; width: 40px; height: 25px; border-radius: 4px; border: none; font-size: 10pt;">인증</button>
+						<input id="email" name="email" value="${hpMember.email }"/>
+						<button class="verifyBtn" type="button" >인증</button>
+						<br>
+						<span id="msg"></span>
 					</td>
+			    </tr>
+			    <tr class="codeInput" style="display: none;">
+			    	<th scope="row">인증코드</th>
+			    	<td>
+			    		<input name="verificationCode" />
+			    	</td>
 			    </tr>
 			    </tbody>
 			</table>
-		  
+		  <div style="text-align:right; margin-top: 30px; width: 70%;"><button type="button" class="blueBtn" id="updateInfo">업데이트</button></div>
 	  </form>
 	  </div>
    <!-- 기본정보 변경 form끝 -->

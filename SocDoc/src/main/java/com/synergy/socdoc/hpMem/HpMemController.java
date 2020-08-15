@@ -6,6 +6,7 @@ import java.util.*;
 
 import javax.servlet.http.*;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.*;
 
 import com.synergy.socdoc.common.*;
+import com.synergy.socdoc.login.InterLoginService;
+import com.synergy.socdoc.mail.GoogleMail;
 import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.HpMemberVO;
 import com.synergy.socdoc.member.HpReviewVO;
@@ -26,6 +29,9 @@ public class HpMemController {
 	
 	@Autowired
 	private InterHpMemService service;
+	
+	@Autowired
+	private InterLoginService loginService;
 	
 	@Autowired
 	private FileManager fileManager;
@@ -708,4 +714,67 @@ public class HpMemController {
 		return mav;
 	}
 
+	
+	// 이메일 유효한지 확인
+	@ResponseBody
+	@RequestMapping(value = "/ajax/isEmailValid.sd", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
+	public String isEmailValid(HttpServletRequest request) {
+		
+		String email = request.getParameter("email");
+		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
+		String memEmail = hpMember.getEmail();
+		boolean isExisting = loginService.hpEmailChk(email);	// 이메일과 동일한 값을 가진 행이 1개
+		String msg = "";
+		boolean isSent = false;
+		
+		JSONObject json = new JSONObject();
+		
+		
+		
+		if(isExisting && !email.equals(memEmail)) {
+		
+			msg = "이미 존재하는 이메일입니다!";
+			isSent = false;
+			
+		} else {
+			// 자기 자신의 이메일이거나, 새로 변경하는 경우
+			
+			Random rnd = new Random();	// 인증키를 랜덤하게 생성하도록 한다.
+			String certificationCode = "";
+			
+			int randnum = 0;
+			for(int i=0; i<7; i++) {
+				randnum = rnd.nextInt(9 - 0 + 1) + 0;
+				certificationCode += randnum;
+			}
+			
+			// 랜덤하게 생성한 인증코드(certificationCode)를 비밀번호 찾기를 하고자 하는 사용자의 email로 전송시킨다.
+			GoogleMail mail = new GoogleMail();
+			HttpSession session = request.getSession();
+			
+			
+			try {
+				System.out.println("~~~~~~~~~~~~~~~~ 메일전송  시작 ~~~~~~~~~~~~~~~~");
+				mail.sendmail(email, certificationCode);
+				session.setAttribute("certificationCode", certificationCode);
+				
+				msg = "인증코드가 전송됐습니다!";
+				isSent = true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				msg = "다시 한 번 시도해주세요!";
+				isSent= false;
+			}
+			
+		}
+		
+		
+		json.put("isSent", isSent);
+		json.put("msg", msg);
+		
+		return json.toString();
+		
+	}
+
+	
 }
