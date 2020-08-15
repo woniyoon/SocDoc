@@ -197,13 +197,17 @@
 	               console.log(json);
 	               
 	               var html = "<tr align='center'><td>성명</td><td>"+json.name+"</td></tr>"
-	               			+ "<tr align='center'><td>생년월일</td><td>"+json.birthDate+"</td></tr>"
-	               			+ "<tr align='center'><td>나이</td><td>"+json.age+"</td></tr>"
-	               			+ "<tr align='center'><td>성별</td><td>"+json.gender+"</td></tr>"
-	               			+ "<tr align='center'><td>연락처</td><td>"+json.phone+"</td></tr>"
-/*  	               			+ "<tr align='center'><td>방문이력</td><td>"+json.record+"</td></tr>"; */
- 	               			+ "<tr align='center'><td>방문이력</td><td><table class='recordTbl' align='center'></table></td></tr>";
-				
+          			+ "<tr align='center'><td>생년월일</td><td>"+json.birthDate+"</td></tr>"
+          			+ "<tr align='center'><td>나이</td><td>"+json.age+"</td></tr>"
+          			+ "<tr align='center'><td>성별</td><td>"+json.gender+"</td></tr>"
+          			+ "<tr align='center'><td>연락처</td><td>"+json.phone+"</td></tr>"
+          			+ "<tr align='center'><td>키</td><td>"+(json.height != -1 ? json.height : "정보없음")+"</td></tr>"
+          			+ "<tr align='center'><td>몸무게</td><td>"+(json.weight != -1 ? json.weight : "정보없음")+"</td></tr>"
+          			+ "<tr align='center'><td>혈액형</td><td>"+json.bloodType+"</td></tr>"
+          			+ "<tr align='center'><td>알레르기</td><td>"+json.allergy+"</td></tr>"
+          			+ "<tr align='center'><td>병력</td><td>"+json.history+"</td></tr>"
+          			+ "<tr align='center'><td>복용약</td><td>"+json.medicine+"</td></tr>";
+          			
 	               $(".visitorDetail").html(html);
 	               
 	               var recordArr = JSON.parse(json.record);

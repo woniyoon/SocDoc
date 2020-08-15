@@ -44,6 +44,60 @@
 	.excelBtnContainer {
 		margin: 10px;
 	}
+	
+	
+	/* 모달창 만들기 */
+	
+	.hidden {
+	    display: none;
+	}
+	
+	.modalContainer {
+	    position: fixed;
+	    left: 0;
+	    top: 0;
+	    width: 100%;
+	    height: 100%;
+	    z-index: 1000;	/* 달력의 화살표가 튀어나오지 않게 방지 */
+	}
+	
+	.modalOverlay {
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+	    background-color: rgba(0, 0, 0, 0.2);
+	    width: 100%;
+	    height: 100%;
+	    position: absolute;
+	}
+	
+	.modalContent {
+	    background-color: white;
+	    width: 30%;
+	    /* min-height: 70%; */
+	    overflow-y: auto;
+	    /* max-height: 60%; */
+	    position: relative;
+	    padding: 30px;
+	    border: 1px solid rgb(230, 230, 230);
+	}
+	
+	.modalContentHeader {
+	    display: flex;
+	    flex-direction: row;
+	    justify-content: space-between;
+	}
+	
+	.visitorDetail {
+		width: 90%;
+		margin: 40px 0 0 0;	
+	}
+	
+	.visitorDetail tr, .visitorDetail td {
+		border-top: 1px solid #dddddd;
+		border-collapse: collapse;
+		padding: 10px 0;	
+	}
 </style>
 
 <script type="text/javascript">
@@ -62,6 +116,61 @@
 		location.href = "<%=ctxPath%>/hpPanel/visitorsMng.sd?currentShowPageNoStr=1&searchWord=" + searchWord;
 	}
 
+	function displayInfoModal(userid){
+		
+
+		$.ajax({
+			url:"<%=ctxPath%>/ajax/getVisitorDetail.sd",
+			type:"POST",
+			data:{"userid": userid },
+			dataType: "JSON",
+            success: function(json){
+               console.log(json);
+               
+               console.log("???????");
+               console.log(json.height);
+               
+               
+               var html = "<tr align='center'><td>성명</td><td>"+json.name+"</td></tr>"
+               			+ "<tr align='center'><td>생년월일</td><td>"+json.birthDate+"</td></tr>"
+               			+ "<tr align='center'><td>나이</td><td>"+json.age+"</td></tr>"
+               			+ "<tr align='center'><td>성별</td><td>"+json.gender+"</td></tr>"
+               			+ "<tr align='center'><td>연락처</td><td>"+json.phone+"</td></tr>"
+               			+ "<tr align='center'><td>키</td><td>"+(json.height != -1 ? json.height : "정보없음")+"</td></tr>"
+               			+ "<tr align='center'><td>몸무게</td><td>"+(json.weight != -1 ? json.weight : "정보없음")+"</td></tr>"
+               			+ "<tr align='center'><td>혈액형</td><td>"+json.bloodType+"</td></tr>"
+               			+ "<tr align='center'><td>알레르기</td><td>"+json.allergy+"</td></tr>"
+               			+ "<tr align='center'><td>병력</td><td>"+json.history+"</td></tr>"
+               			+ "<tr align='center'><td>복용약</td><td>"+json.medicine+"</td></tr>";
+             
+/*  	               			+ "<tr align='center'><td>방문이력</td><td>"+json.record+"</td></tr>"; */
+/* 	               			+ "<tr align='center'><td>방문이력</td><td><table class='recordTbl' align='center'></table></td></tr>" */
+			
+               $(".visitorDetail").html(html);
+               
+               var recordArr = JSON.parse(json.record);
+               var recordHtml;
+               for(var i=0; i<recordArr.length; i++) {
+            	   recordHtml += "<tr><td>" + recordArr[i].visitDate + "</td></tr>";
+               }
+               
+               console.log(recordHtml);
+               $(".recordTbl").html(recordHtml);
+               
+               $(".modalContainer").removeClass("hidden");
+				console.log("event going on");
+            },
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				target.checked = !newVisitStatus;
+			}
+		});
+		
+	}
+	
+	function closeModal() {
+		$(".modalContainer").addClass("hidden");
+	}
 </script>
 
 <div class="visitorsListContainer">
@@ -84,7 +193,7 @@
 			</tr>
 			<c:if test="${not empty visitorsList }">
 				<c:forEach var="map" items="${visitorsList }">
-					<tr id="${map.memberSeq }">
+					<tr id="${map.memberSeq }" onclick="displayInfoModal('${map.userid}')">
 						<td>${map.rno}</td>
 						<td>${map.name}</td>
 						<td>${map.birthDate}</td>
@@ -100,6 +209,18 @@
 				</tr>
 			</c:if>
 	</table>
+	<div class="modalContainer hidden">
+		<div class="modalOverlay">
+			<div class="modalContent" align="center">
+				<div class="modalContentHeader">
+					<h4 align="left">환자정보</h4>
+					<span style="font-size: 1.2em; cursor: pointer;" onclick="closeModal()">X</span>
+				</div>
+				<table class="visitorDetail customTable" >
+				</table>
+			</div>
+		</div>
+	</div>
 	<div class="excelBtnContainer" align="right">
 		<button class="blueBtn" type="button">엑셀로 내보내기</button>
 	</div>

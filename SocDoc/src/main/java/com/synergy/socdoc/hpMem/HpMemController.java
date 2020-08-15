@@ -406,6 +406,10 @@ public class HpMemController {
 		// 방문자 개인정보 가져오기
 		MemberVO member = service.getVisitorDetail(userid);
 		
+		
+		System.out.println(member.getAllergy());
+		System.out.println(member.getHeight());
+		
 		// 방문이력 가져오기
 		List<String> visitRecord = service.getVisitRecord(paraMap);
 		
@@ -455,6 +459,12 @@ public class HpMemController {
 		obj.addProperty("age", member.getAge());
 		obj.addProperty("gender", member.getGender());
 		obj.addProperty("phone", member.getPhone());
+		obj.addProperty("height", member.getHeight());
+		obj.addProperty("weight", member.getWeight());
+		obj.addProperty("bloodType", member.getBloodType());
+		obj.addProperty("history", member.getHistory());
+		obj.addProperty("medicine", member.getMedicine());
+		obj.addProperty("allergy", member.getAllergy());
 		obj.addProperty("record", jsonArr.toString());
 		obj.addProperty("pageBar", pageBar);
 		
