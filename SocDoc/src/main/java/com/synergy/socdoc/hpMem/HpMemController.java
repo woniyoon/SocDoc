@@ -39,7 +39,7 @@ public class HpMemController {
 	// 병원회원 페이지 
 	// 홈
 	@RequestMapping(value = "/hpPanel/main.sd", method = RequestMethod.GET)
-	public String main(HttpServletRequest request) {
+	public String requiredLoginHp_main(HttpServletRequest request, HttpServletResponse response) {
 
 		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
 		String hpSeq = String.valueOf(hpMember.getHpSeq());
@@ -58,7 +58,7 @@ public class HpMemController {
 
 	// 병원정보관리
 	@RequestMapping(value = "/hpPanel/hpInfo.sd", method = RequestMethod.GET)
-	public String test_hpInfo(HttpServletRequest request) {
+	public String requiredLoginHp_hpInfo(HttpServletRequest request, HttpServletResponse response) {
 		
 		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
 		String hpSeq = String.valueOf(hpMember.getHpSeq());
@@ -117,7 +117,7 @@ public class HpMemController {
 	
 	// 병원 정보 관리에서 각 신청 정보를 확인
 	@RequestMapping(value = "/hpPanel/updateHpInfo.sd", method = RequestMethod.GET)
-	public String test_updateHpInfo(HttpServletRequest request) {
+	public String requiredLoginHp_updateHpInfo(HttpServletRequest request, HttpServletResponse response) {
 		String submitId = request.getParameter("submitId");
 		
 		if(submitId != null) {
@@ -138,7 +138,7 @@ public class HpMemController {
 	
 	// 새 병원상세정보 업데이트
 	@RequestMapping(value = "/hpPanel/submitInfo.sd", method = RequestMethod.POST)
-	public String submitInfo(HpInfoVO hpInfoVO, MultipartHttpServletRequest mrequest) {
+	public String requiredLoginHp_submitInfo(HttpServletRequest request, HttpServletResponse response, MultipartHttpServletRequest mrequest, HpInfoVO hpInfoVO) {
 		// HpInfoVO에 포함 안 되는 스케줄만 따로 받아옴
 		String schedule = mrequest.getParameter("schedule");
 		
@@ -265,7 +265,7 @@ public class HpMemController {
 
 	// 예약관리
 	@RequestMapping(value = "/hpPanel/reservationInfo.sd", method = RequestMethod.GET)
-	public String reservationInfo(HttpServletRequest request) {
+	public String requiredLoginHp_reservationInfo(HttpServletRequest request, HttpServletResponse response) {
 		
 		return "hpMem/reservationInfo.tiles4";
 	}
@@ -273,7 +273,7 @@ public class HpMemController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/ajax/reservationList.sd", method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
-	public String getReservationList(HttpServletRequest request) {
+	public String requiredLoginHp_getReservationList(HttpServletRequest request, HttpServletResponse response) {
 		
 		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
 		String hpSeq = String.valueOf(hpMember.getHpSeq());
@@ -327,7 +327,7 @@ public class HpMemController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/ajax/updateVisitStatus.sd", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
-	public String updatevisitStatus(HttpServletRequest request) {
+	public String requiredLoginHp_updatevisitStatus(HttpServletRequest request, HttpServletResponse response) {
 	
 		String reservSeqStr = request.getParameter("reservSeq");
 		String statusStr = request.getParameter("status");
@@ -359,7 +359,7 @@ public class HpMemController {
 	// 모달에 띄울 방문자 상세 정보 가져오기
 	@ResponseBody
 	@RequestMapping(value = "/ajax/getVisitorDetail.sd", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
-	public String getVisitorDetail(HttpServletRequest request) {
+	public String requiredLoginHp_getVisitorDetail(HttpServletRequest request, HttpServletResponse response) {
 		
 		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
 		String hpSeq = String.valueOf(hpMember.getHpSeq());
@@ -474,7 +474,7 @@ public class HpMemController {
 	// 날짜별 방문자 수 구하기
 	@ResponseBody
 	@RequestMapping(value = "/ajax/getNumPerHour.sd", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
-	public String getNumPerHour(HttpServletRequest request) {
+	public String requiredLoginHp_getNumPerHour(HttpServletRequest request, HttpServletResponse response) {
 		
 		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
 		String hpSeq = String.valueOf(hpMember.getHpSeq());
@@ -505,7 +505,7 @@ public class HpMemController {
 	
 	// 방문고객관리 w. 페이징
 	@RequestMapping(value = "/hpPanel/visitorsMng.sd", method = RequestMethod.GET)
-	public String visitorsMng(HttpServletRequest request) {
+	public String requiredLoginHp_visitorsMng(HttpServletRequest request, HttpServletResponse response) {
 		
 		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
 		String hpSeq = String.valueOf(hpMember.getHpSeq());
@@ -568,7 +568,7 @@ public class HpMemController {
 	
 	// 후기보기
 	@RequestMapping(value = "/hpPanel/hpReviews.sd", method = RequestMethod.GET)
-	public String hpReviews(HttpServletRequest request) {
+	public String requiredLoginHp_hpReviews(HttpServletRequest request, HttpServletResponse response) {
 		
 		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
 		String hpSeq = String.valueOf(hpMember.getHpSeq());
@@ -663,7 +663,7 @@ public class HpMemController {
 
 	// 통계관리
 	@RequestMapping(value = "/hpPanel/hpStats.sd", method = RequestMethod.GET)
-	public String hpStats(HttpServletRequest request) {
+	public String requiredLoginHp_hpStats(HttpServletRequest request, HttpServletResponse response) {
 		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
 		String hpSeq = String.valueOf(hpMember.getHpSeq());
 		
@@ -672,21 +672,21 @@ public class HpMemController {
 
 	// 계정관리 가기 전
 	@RequestMapping(value = "/hpPanel/verifyPwd.sd", method = RequestMethod.GET)
-	public String verifyPwd(HttpServletRequest request) {
+	public String requiredLoginHp_verifyPwd(HttpServletRequest request, HttpServletResponse response) {
 		
 		return "hpMem/verifyPwd.tiles4";
 	}
 
 //	// 계정관리 가기 전
 //	@RequestMapping(value = "/hpPanel/verifyPwdEnd.sd", method = RequestMethod.POST)
-//	public String verifyPwd(HttpServletRequest request) {
+//	public String verifyPwd(HttpServletRequest request, HttpServletResponse response) {
 //		
 //		return "hpMem/verifyPwd.tiles4";
 //	}
 
 	// 계정관리
 	@RequestMapping(value = "/hpPanel/accountSetting.sd", method = RequestMethod.POST)
-	public ModelAndView accountSetting(HttpServletRequest request, ModelAndView mav) {
+	public ModelAndView requiredLoginHp_accountSetting(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
 		String hpSeq = String.valueOf(hpMember.getHpSeq());
 		
@@ -728,7 +728,7 @@ public class HpMemController {
 	// 이메일 유효한지 확인
 	@ResponseBody
 	@RequestMapping(value = "/ajax/isEmailValid.sd", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
-	public String isEmailValid(HttpServletRequest request) {
+	public String requiredLoginHp_isEmailValid(HttpServletRequest request, HttpServletResponse response) {
 		
 		String email = request.getParameter("email");
 		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
@@ -790,7 +790,7 @@ public class HpMemController {
 	// 이메일 유효한지 확인
 	@ResponseBody
 	@RequestMapping(value = "/ajax/updateAccountInfo.sd", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
-	public String updateAccountInfo(HttpServletRequest request) {
+	public String requiredLoginHp_updateAccountInfo(HttpServletRequest request, HttpServletResponse response) {
 
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
@@ -840,7 +840,7 @@ public class HpMemController {
 	// 비밀번호 업데이트
 	@ResponseBody
 	@RequestMapping(value = "/ajax/updateHpPwd.sd", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
-	public String updateHpPwd(HttpServletRequest request) {
+	public String requiredLoginHp_updateHpPwd(HttpServletRequest request, HttpServletResponse response) {
 		
 		String oldPwd = Sha256.encrypt(request.getParameter("oldPwd"));
 		String newPwd = Sha256.encrypt(request.getParameter("newPwd"));
