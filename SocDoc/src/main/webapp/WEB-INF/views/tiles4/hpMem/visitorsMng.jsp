@@ -171,6 +171,15 @@
 	function closeModal() {
 		$(".modalContainer").addClass("hidden");
 	}
+
+	function exportAsExcel(){
+		
+		var test = $(".header").values();
+		console.log(test);
+		
+		
+	}
+	
 </script>
 
 <div class="visitorsListContainer">
@@ -184,22 +193,22 @@
 	</div>
 	<table class="customTable" style="width: 100%;">
 			<tr>
-				<th>순번</th>
-				<th>이름</th>
-				<th>생년월일</th>
-				<th>나이</th>
-				<th>연락처</th>
-				<th>마지막방문일</th>
+				<th class="header">순번</th>
+				<th class="header">이름</th>
+				<th class="header">생년월일</th>
+				<th class="header">나이</th>
+				<th class="header">연락처</th>
+				<th class="header">마지막방문일</th>
 			</tr>
 			<c:if test="${not empty visitorsList }">
 				<c:forEach var="map" items="${visitorsList }">
 					<tr id="${map.memberSeq }" onclick="displayInfoModal('${map.userid}')">
-						<td>${map.rno}</td>
-						<td>${map.name}</td>
-						<td>${map.birthDate}</td>
-						<td>${map.age}</td>
-						<td>${map.phone}</td>
-						<td>${map.visitDate}</td>
+						<td class="rno">${map.rno}</td>
+						<td class="name">${map.name}</td>
+						<td class="birthDate">${map.birthDate}</td>
+						<td class="age">${map.age}</td>
+						<td class="phone">${map.phone}</td>
+						<td class="visitDate">${map.visitDate}</td>
 					</tr>
 				</c:forEach>
 			</c:if>
@@ -222,7 +231,7 @@
 		</div>
 	</div>
 	<div class="excelBtnContainer" align="right">
-		<button class="blueBtn" type="button">엑셀로 내보내기</button>
+		<button class="blueBtn" type="button" onclick="exportAsExcel();">엑셀로 내보내기</button>
 	</div>
 	<div class="pageContainer" align="center">
 		<span>${pageBar }</span>
