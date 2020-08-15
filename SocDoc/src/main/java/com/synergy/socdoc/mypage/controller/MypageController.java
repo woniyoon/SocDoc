@@ -363,6 +363,76 @@ public class MypageController {
 		
 	}
 	
+	
+	// === 회원정보수정하기 (기본정보변경) === // 
+	@RequestMapping(value="/infoStore.sd", method= {RequestMethod.POST})
+	public String infoStore(MemberVO vo, HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		String userid = loginuser.getUserid();
+		
+		String pwd = request.getParameter("pwd");
+		
+		String phone = request.getParameter("phone");
+		String email = request.getParameter("email");
+		
+		vo.setPhone(phone);
+		vo.setEmail(email);
+		vo.setUserid(userid);
+		vo.setPwd(Sha256.encrypt(pwd));
+		
+		int n = service.updateInfo(vo);
+		
+		System.out.println(pwd);
+	
+		String msg = "";
+		String loc = "";
+		if(n==1) {
+			session.setAttribute("loginuser", vo);
+			msg = "정보가 수정되었습니다.";
+			loc = request.getContextPath() + "/infoEdit.sd";
+		} else {
+			msg = "다시 시도해주세요!";
+			loc = "javascript:history.back()";
+		}
+		request.setAttribute("msg", msg);
+		request.setAttribute("loc", loc);
+		return "msg";
+	}
+	
+	
+	// === 비밀번호 재설정 === //
+	@RequestMapping(value="/goUpdatePwd.sd")
+	public String goUpdatePwd(MemberVO vo, HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		String userid = loginuser.getUserid();
+		String pwd = request.getParameter("pwd");
+		
+		vo.setUserid(userid);
+		vo.setPwd(Sha256.encrypt(pwd));
+		
+		int n = service.goUpdatePwd(vo);
+	
+		String msg = "";
+		String loc = "";
+		if(n==1) {
+			session.setAttribute("loginuser", vo);
+			msg = "비밀번호가 수정되었습니다.";
+			loc = request.getContextPath() + "/infoEdit.sd";
+		} else {
+			msg = "다시 시도해주세요!";
+			loc = "javascript:history.back()";
+		}
+		request.setAttribute("msg", msg);
+		request.setAttribute("loc", loc);
+		return "msg";
+	}
+	
 	// === 문의하기 페이지 === // 
 	@RequestMapping(value="/ask.sd")
 	public ModelAndView ask(HttpServletRequest request, ModelAndView mav) {

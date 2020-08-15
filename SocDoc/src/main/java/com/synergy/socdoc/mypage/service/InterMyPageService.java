@@ -59,6 +59,10 @@ public interface InterMyPageService {
 
 	MemberVO loginInfoEdit(HashMap<String, String> paraMap); // 회원정보수정 로그인
 
+	int updateInfo(MemberVO vo); // 회원정보수정(기본정보 변경)
+
+	int goUpdatePwd(MemberVO vo); // 비밀번호 재설정 
+
 
 	// String getHourSeq(HashMap<String, String> paraMap); // 방문예정 시간 구하기
 

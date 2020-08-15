@@ -199,6 +199,22 @@ public class MyPageDAO implements InterMyPageDAO {
 	}
 
 
+	// 회원정보수정(기본정보 변경)
+	@Override
+	public int updateInfo(MemberVO vo) {
+		int n = sqlsession.update("mypage.updateInfo", vo);
+		return n;
+	}
+
+
+	// 비밀번호 재설정 
+	@Override
+	public int goUpdatePwd(MemberVO vo) {
+		int n = sqlsession.update("mypage.goUpdatePwd", vo);
+		return n;
+	}
+
+
 	
 
 

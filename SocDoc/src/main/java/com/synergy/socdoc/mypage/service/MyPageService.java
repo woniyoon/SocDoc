@@ -227,6 +227,22 @@ public class MyPageService implements InterMyPageService {
 		return loginuser;
 	}
 
+
+	// 회원정보수정(기본정보 변경)
+	@Override
+	public int updateInfo(MemberVO vo) {
+		int n = dao.updateInfo(vo);
+		return n;
+	}
+
+
+	// 비밀번호 재설정 
+	@Override
+	public int goUpdatePwd(MemberVO vo) {
+		int n = dao.goUpdatePwd(vo);
+		return n;
+	}
+
 	
 
 

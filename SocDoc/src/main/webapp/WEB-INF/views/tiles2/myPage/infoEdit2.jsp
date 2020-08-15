@@ -113,7 +113,7 @@
 	div#box3 {
 		width: 70%;
 		/* margin: 0 auto; */
-		height: 230px;
+		height: 170px;
 		border: 2px solid gray; 
 		text-align: center;
 	}
@@ -234,7 +234,7 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
 		$("#hpBtnFind2").hide();
 		$("#hpBtnFind3").hide();
 		
-		
+		$("#btnChgPwd").hide();
 		
 		var phoneAll = $("#phone").val();
 		var phone = phoneAll.split("-");
@@ -372,13 +372,76 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
 			$("form[name=writeFrm] #hpDivBtnFind").show();
 		}
 		
-	});
+		// ------------ 비밀번호 ------------ // 
+		
+		$("#pwdError").hide();
+		$("#pwdSuccess").hide();
+		$("#pwdError2").hide();
+		$("#pwdSuccess2").hide();
+		
+
+		$("#pwd").blur(function(){
+			
+			var data = $("#pwd").val().trim();
+			
+			if(data == "") {
+				// 입력하지 않거나 공백만 입력했을 경우
+				$("#pwdSuccess").hide();
+				$("#pwdError").show();
+			}
+
+			else{
+				// 공백이 아닌 글자를 입력했을 경우
+				
+				// 비밀번호 정규식 : 숫자,영문자,특수문자가 포함된 형태의 8~15글자 이내로 입력하세요.
+				var regExp = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).*$/g;	//  8~15자리 이하의 숫자,문자,특수문자 조합 
+				var bool = regExp.test($(this).val()); 
+
+				if(!bool) { 
+					// 조건에 맞지않으면
+					$("#pwdSuccess").hide();
+					$("#pwdError").html("숫자,문자,특수문자 조합으로 8~15자리만 입력 가능합니다.").show();
+					return;
+				} 
+				
+				$("#pwdError").hide();
+		
+				
+				
+				$("#pwd2").blur(function(){
+					var passwd = $("#pwd").val();
+					var passwdCheck = $(this).val();
+					
+					if(passwd != passwdCheck) { // 암호와 암호확인값이 틀린 경우 
+						$("#pwdError2").show();
+					}
+					else { // 암호와 암호확인값이 같은 경우 
+						$("#pwdError2").hide();
+					}
+			
+		});// end of $("#pwdcheck").blur()--------------
+	}
+			
+}); // end of $("#password").blur(function()------------------------	 
+		
+		
+		
+		
+		
+	});////////////////////////////////////////////////////////////////////////
 	
 	function changePWD() {
 		
 		$("#infoChange").hide();
 		$("#box2").show();
 		$("#box3").show();
+		$("#btnChgPwd").show();
+		
+		$("#btnChgPwd").click(function(){
+			
+			goUpdatePwd();
+	
+		});
 		
 	}
 	
@@ -387,6 +450,7 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
 		$("#infoChange").show();
 		$("#box2").hide();
 		$("#box3").hide();
+		$("#btnChgPwd").hide();
 	}
 	
 	
@@ -410,32 +474,6 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
 	       //결과 표시
 	      document.getElementById( "age").innerHTML = age;
 	}
-	
-	function goStore() {
-		
-		var emailInput = $("#email").val();
-		var emailOrigin = $("#emailOrigin").val();		
-		
-		console.log(emailInput);
-		console.log(emailOrigin);
-		
-		if(emailInput != emailOrigin) {
-			
-			var Success = $("#SuccessAut").show();
-			
-			if(!Success) {
-				alert("이메일 인증이 필요합니다.");
-			} 
-			
-			
-		}
-		
-		var frm = document.writeFrm;
-		frm.method = "POST";
-		frm.action = "infoStore.sd";
-		frm.submit();
-	}
-	
 	
 	function goAuthentication() {
 		
@@ -515,6 +553,43 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
 	
 	}
 
+	
+	function goStore() {
+		
+		var emailInput = $("#email").val();
+		var emailOrigin = $("#emailOrigin").val();		
+		
+		//console.log(emailInput);
+		//console.log(emailOrigin);
+		
+		
+		if(emailInput != emailOrigin) {
+			
+			var userCertificationCode = $("#hpEmail2").val().trim();
+			
+			console.log(userCertificationCode);
+			
+			if(userCertificationCode == "" || userCertificationCode == null) {
+				alert("이메일 인증이 필요합니다.");
+			} 
+			
+			
+		}
+		
+		var frm = document.writeFrm;
+		frm.method = "POST";
+		frm.action = "infoStore.sd";
+		frm.submit(); 
+	}
+	
+	
+	function goUpdatePwd() {
+		
+		var form = document.updatePWDfrm;
+		form.action = "<%=ctxPath%>/goUpdatePwd.sd";
+		document.updatePWDfrm.submit(); 
+		
+	} 
 	
 </script>
 </head>
@@ -632,7 +707,7 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
 			    	 <div id="hpDivBtnFind" style="width:100%;">
 			    	 		 <input style="width: 260px; height: 28px; padding-left: 5px; margin-bottom:10px;" class="hpRequiredInfo" name="hpEmail2" id="hpEmail2" type="text" maxlength="7" placeholder="E-mail로 발송된 인증번호를 입력하세요"/>
 							<button type="button" id="hpBtnFind2" disabled="disabled" style="margin-left:10px; background-color: skyblue; color:white; width: 90px; height: 25px; border-radius: 4px; border: none; font-size: 10pt;" onclick="goFinal()">인증확인하기</button>
-							<button type="button" id="hpBtnFind3"  style="margin-left:10px; background-color: skyblue; color:white; width: 90px; height: 25px; border-radius: 4px; border: none; font-size: 10pt;">인증완료</button>
+							<button type="button" id="hpBtnFind3" class="finish"  style="margin-left:10px; background-color: skyblue; color:white; width: 90px; height: 25px; border-radius: 4px; border: none; font-size: 10pt;">인증완료</button>
 							
 					</div>
 					<span id="Error2" ></span> 
@@ -642,8 +717,12 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
 			</table>
 		  <input type="hidden" id="birthDate" name="birthDate" value="${loginuser.birthDate}">
 		  <input type="hidden" id="emailOrigin" name="emailOrigin" value="${loginuser.email}">
+		  <input type="hidden" name="userCertificationCode" />
+		  <input type="hidden" id="pwdHidden" name="pwd" value="${loginuser.pwd}">
 	  </form>
-	  </div>
+	  		<div style="text-align:right; margin-top: 30px; width: 100%;"><button type="button" style="background-color: skyblue; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" onclick="goStore()">저장</button></div>
+        </div>
+	  
    <!-- 기본정보 변경 form끝 -->
    
     <!-- 비밀번호 변경탭 시작-->
@@ -652,20 +731,28 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
 			<h2 style="margin: 0;">비밀번호 변경</h2>
 			<p style="margin-top: 10px;">주혜정 회원님의 소중한 개인정보의 보호를 위하여 비밀번호를 한번 더 입력하여 주시기 바랍니다.</p>
 		</div> 
+		<form name="updatePWDfrm">
 		<div id="box3" style="margin-top:35px;  border-left: none; border-right: none;">
-			<span style="font-size: 15pt;">현재 비밀번호<input type="password" style="margin-left: 30px; margin-top: 25px; width: 300px; height: 40px;"/></span><br/>
-			<span style="font-size: 15pt;">현재 비밀번호<input type="password" style="margin-left: 30px; margin-top: 20px; width: 300px; height: 40px;"/></span><br/>
-			<span style="font-size: 15pt;">현재 비밀번호<input type="password" style="margin-left: 30px; margin-top: 20px; width: 300px; height: 40px;"/></span><br/>
+			<span style="font-size: 15pt;">새 비밀번호<input type="password" name="pwd" id="pwd" style="margin-left: 72px; margin-top: 30px; width: 300px; height: 40px;" placeholder="대소문자, 특수문자 조합하여 8자 이상으로 입력하세요"/></span><br/>
+			<span style="margin-top: 10px; margin-left: 20px;"  class="error" id="pwdError">비밀번호를 입력하세요.</span>
+			<span style="margin-top: 10px; margin-left: 20px;"  class="success" id="pwdSuccess">사용 가능한 비밀번호 입니다.</span> 
+			<br/>
+			<span style="font-size: 15pt;">새 비밀번호 확인<input type="password" name="pwd2" id="pwd2" style="margin-left: 30px; margin-top: 20px; width: 300px; height: 40px;" placeholder="대소문자, 특수문자 조합하여 8자 이상으로 입력하세요"/></span><br/>
+			<span style="margin-top: 10px; margin-left: 20px;" class="error" id="pwdError2">동일한 비밀번호를 입력하세요.</span>
+		    <span style="margin-top: 10px; margin-left: 20px;" class="success" id="pwdSuccess2">비밀번호가 일치합니다.</span> 
 		</div>
+		
+		<div id="btnChgPwd" style="text-align:right; margin-top: 30px; width: 70%;"><button type="button" style="background-color: skyblue; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" >저장</button></div>
+		</form>
 	<!-- 비밀번호 변경탭 끝-->
 	    
-		<div style="text-align:right; margin-top: 30px; width: 70%;"><button type="button" style="background-color: skyblue; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" onclick="goStore()">저장</button></div>
+		
         </div>
         
         
      <form name="verifyCertificationFrm2">
 			<input type="hidden" name="userid" />
-			<input type="hidden" name="userCertificationCode" />
+			<input type="hidden" id="userCertificationCode"  name="userCertificationCode" />
 	</form>
 	<form name="hpVerifyCertificationFrm">
 		<input type="hidden" name="hpUserid" />
