@@ -7,13 +7,14 @@
 	var loginuser = "${sessionScope.loginuser}";
 	var gobackURL = "${requestScope.gobackURL}";
 	
+	
 	if(loginuser != null && (gobackURL != null && gobackURL != "")) {  
 		alert( "${sessionScope.loginuser.name} 님 로그인 성공했습니다. "); 
-		location.href="<%= ctxPath%>/"+gobackURL; // 돌아갈 페이지 
+		location.href="<%= ctxPath%>/"+gobackURL;
 	}
 	else if(loginuser != null && (gobackURL == null || gobackURL == "")) { 
 		alert( "${sessionScope.loginuser.name} 님 로그인 성공했습니다. ");
-		location.href="<%= ctxPath%>/index.action";	// 시작페이지로 ㄱㄱ
+		location.href="<%= ctxPath%>/index.sd";	// 시작페이지로 ㄱㄱ
 	}
 	
 	
