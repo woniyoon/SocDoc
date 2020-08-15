@@ -740,12 +740,12 @@ public class HpMemController {
 			// 자기 자신의 이메일이거나, 새로 변경하는 경우
 			
 			Random rnd = new Random();	// 인증키를 랜덤하게 생성하도록 한다.
-			String certificationCode = "";
+			String verificationCode = "";
 			
 			int randnum = 0;
 			for(int i=0; i<7; i++) {
 				randnum = rnd.nextInt(9 - 0 + 1) + 0;
-				certificationCode += randnum;
+				verificationCode += randnum;
 			}
 			
 			// 랜덤하게 생성한 인증코드(certificationCode)를 비밀번호 찾기를 하고자 하는 사용자의 email로 전송시킨다.
@@ -755,8 +755,8 @@ public class HpMemController {
 			
 			try {
 				System.out.println("~~~~~~~~~~~~~~~~ 메일전송  시작 ~~~~~~~~~~~~~~~~");
-				mail.sendmail(email, certificationCode);
-				session.setAttribute("certificationCode", certificationCode);
+				mail.sendmail(email, verificationCode);
+				session.setAttribute("verificationCode", verificationCode);
 				
 				msg = "인증코드가 전송됐습니다!";
 				isSent = true;
@@ -776,5 +776,56 @@ public class HpMemController {
 		
 	}
 
+	
+	// 이메일 유효한지 확인
+	@ResponseBody
+	@RequestMapping(value = "/ajax/updateAccountInfo.sd", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
+	public String updateAccountInfo(HttpServletRequest request) {
+
+		String name = request.getParameter("name");
+		String email = request.getParameter("email");
+		String verificationCode = request.getParameter("verificationCode");
+		
+		HttpSession session = request.getSession();
+		String sentVerificationCode = (String) session.getAttribute("verificationCode");
+		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
+		String hpSeq = String.valueOf(hpMember.getHpSeq());
+	
+		System.out.println("hpUserCertificationCode 인증 코드 : "+verificationCode);
+		System.out.println("hpCertificationCode 인증 코드 : "+sentVerificationCode);
+		
+		String msg = "";
+		
+		if( sentVerificationCode.equals(verificationCode) ) {
+			System.out.println("인증코드 맞음");
+			
+			HashMap<String, String> paraMap = new HashMap<>();
+			
+			paraMap.put("hpSeq", hpSeq);
+			paraMap.put("name", name);
+			paraMap.put("email", email);
+
+			int n = service.updateAccountInfo(paraMap);
+			
+			if(n==1) {
+				hpMember.setEmail(email);
+				hpMember.setName(name);
+				
+				msg = "성공적으로 변경됐습니다!";
+			} else {
+				msg = "다시 시도해주세요!";
+			}
+		} else {
+			System.out.println("인증코드 안 맞음");
+			msg = "인증코드가 틀렸습니다!";			
+		}
+			
+		
+		JSONObject json = new JSONObject();
+		json.put("msg", msg);
+        
+		return json.toString();
+	}
+	
 	
 }

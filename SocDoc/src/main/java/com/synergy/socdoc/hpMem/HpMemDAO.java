@@ -157,4 +157,11 @@ public class HpMemDAO implements InterHpMemDAO {
 		return result;
 	}
 
+	// 병원 회원 정보 업데이트(담당자명/이메일)
+	@Override
+	public int updateAccountInfo(HashMap<String, String> paraMap) {
+		int result = sqlsession.update("hpMem.updateAccountInfo", paraMap);
+		return result;
+	}
+
 }

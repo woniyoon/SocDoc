@@ -56,4 +56,7 @@ public interface InterHpMemDAO {
 	// 비밀번호 확인
 	public int verifyPwd(HashMap<String, String> paraMap);
 
+	// 병원 회원 정보 업데이트(담당자명/이메일)
+	public int updateAccountInfo(HashMap<String, String> paraMap);
+
 }

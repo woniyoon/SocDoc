@@ -264,4 +264,10 @@
 	<select id="verifyPwd" parameterType="HashMap" resultType="int">
 		select count(userid) from hpmember where pwd = #{pwd} and hpSeq = #{hpSeq}
 	</select>
+	
+	
+	<update id="updateAccountInfo" parameterType="HashMap">
+		update hpmember set name = #{name}, email = #{email}
+		where hpSeq = #{hpSeq}
+	</update>
 </mapper>

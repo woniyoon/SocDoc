@@ -160,6 +160,8 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
 		// 인증버튼시, 코드 전송 요청 
 		$(".verifyBtn").click(function(){
 
+            $("#msg").text("");
+
 			$.ajax({
 				url:"<%=ctxPath%>/ajax/isEmailValid.sd",
 				type:"POST",
@@ -185,7 +187,43 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
 			
 		});
 		
-		
+		$("#updateInfo").click(function(){
+			
+			var verificationCode = $("#verificationCode").prop("value");
+			var name = $("#name").prop("value");
+			
+			
+			if(name.trim() == "") {
+				alert("이름에 공백을 기입할 수 없습니다!");
+				return;
+			}
+
+			if(verificationCode.trim() == "") {
+				alert("인증코드를 입력해주세요!");
+				return;
+			}
+			
+			
+			$.ajax({
+				url:"<%=ctxPath%>/ajax/updateAccountInfo.sd",
+				type:"POST",
+				data:{"email": $("#email").prop("value"),
+					 "name" : name,
+					 "verificationCode" : verificationCode},
+				dataType: "JSON",
+	            success: function(json){
+	                var html = "";
+	                
+	                alert(json.msg);
+	                
+	                history.go(0);
+	            },
+				error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			});
+			
+		});
 		
 		
 	});
@@ -241,7 +279,7 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
 			    <tr>
 			        <th scope="row">담당자 </th>
 			        <td>
-					    <input name="name" value="${hpMember.name }" />
+					    <input id="name" name="name" value="${hpMember.name }" />
 					</td>
 			    </tr>
 				<tr>
@@ -262,12 +300,12 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
 			    <tr class="codeInput" style="display: none;">
 			    	<th scope="row">인증코드</th>
 			    	<td>
-			    		<input name="verificationCode" />
+			    		<input id="verificationCode" />
 			    	</td>
 			    </tr>
 			    </tbody>
 			</table>
-		  <div style="text-align:right; margin-top: 30px; width: 70%;"><button type="button" class="blueBtn" id="updateInfo">업데이트</button></div>
+		  <div style="margin-top: 30px;" align="right"><button type="button" class="blueBtn" id="updateInfo">업데이트</button></div>
 	  </form>
 	  </div>
    <!-- 기본정보 변경 form끝 -->
@@ -280,10 +318,9 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
 		</div> 
 		<div id="box3" style="margin-top:35px;  border-left: none; border-right: none;">
 			<span style="font-size: 15pt;">현재 비밀번호<input type="password" style="margin-left: 30px; margin-top: 25px; width: 300px; height: 40px;"/></span><br/>
-			<span style="font-size: 15pt;">현재 비밀번호<input type="password" style="margin-left: 30px; margin-top: 20px; width: 300px; height: 40px;"/></span><br/>
-			<span style="font-size: 15pt;">현재 비밀번호<input type="password" style="margin-left: 30px; margin-top: 20px; width: 300px; height: 40px;"/></span><br/>
+			<span style="font-size: 15pt;">변경할 비밀번호<input type="password" style="margin-left: 30px; margin-top: 20px; width: 300px; height: 40px;"/></span><br/>
+		<div style="text-align:right; margin-top: 30px; width: 70%;"><button type="button" style="background-color: skyblue; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;">저장</button></div>
 		</div>
 	<!-- 비밀번호 변경탭 끝-->
 	    
-		<div style="text-align:right; margin-top: 30px; width: 70%;"><button type="button" style="background-color: skyblue; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;">저장</button></div>
         </div>
