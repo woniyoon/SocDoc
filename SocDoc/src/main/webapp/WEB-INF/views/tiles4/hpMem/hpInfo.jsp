@@ -60,6 +60,9 @@
 							<c:when test="${item.status == 3}">
 								<span>수정</span>
 							</c:when>
+							<c:when test="${item.status == 4}">
+								<span>취소</span>
+							</c:when>
 							<c:otherwise>
 								<span>승인</span>
 							</c:otherwise>
