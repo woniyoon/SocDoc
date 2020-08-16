@@ -171,4 +171,9 @@ public class HpMemDAO implements InterHpMemDAO {
 		return result;
 	}
 
+	@Override
+	public void cancelPrevSubmission(String hpSeq) {
+		sqlsession.update("hpMem.cancelPrevSubmission", hpSeq);
+	}
+
 }

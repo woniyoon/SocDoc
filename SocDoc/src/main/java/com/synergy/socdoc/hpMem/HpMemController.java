@@ -50,7 +50,7 @@ public class HpMemController {
 		boolean isExisting = true;
 		
 		// 영업시간이 비어있으면 미등록 상태임을 전달
-		if(openingHours.get(0) == null) {
+		if(openingHours.size() == 0 || openingHours.get(0) == null) {
 			isExisting = false;
 		}
 		
@@ -147,7 +147,7 @@ public class HpMemController {
 	
 	// 새 병원상세정보 업데이트
 	@RequestMapping(value = "/hpPanel/submitInfo.sd", method = RequestMethod.POST)
-	public String requiredLoginHp_submitInfo(HttpServletRequest request, HttpServletResponse response, MultipartHttpServletRequest mrequest, HpInfoVO hpInfoVO) {
+	public String requiredLoginHp_submitInfo_cancelPrevSubmission(HttpServletRequest request, HttpServletResponse response, MultipartHttpServletRequest mrequest, HpInfoVO hpInfoVO) {
 		// HpInfoVO에 포함 안 되는 스케줄만 따로 받아옴
 		String schedule = mrequest.getParameter("schedule");
 		

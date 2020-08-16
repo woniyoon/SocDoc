@@ -72,5 +72,8 @@ public interface InterHpMemService {
 	// 병원 회원 정보 업데이트(비밀번호)
 	public int updateHpPwd(HashMap<String, String> paraMap);
 
+	// 이전 신청 내역들 취소하기
+	public void cancelPrevSubmission(String hpSeq);
+
 	
 }

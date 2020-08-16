@@ -45,19 +45,25 @@
 							<input type="text" name="orgMainImg" value="${hpInfo.orgMainImg }" readonly required />
 							<button class="greyBtn findFile" type="button" >찾기</button> 
 							<input type="file" name="attachMain" id="mainImgFile" accept="image/*" />
-							<input type="hidden" name="mainImg" value="${hpInfo.mainImg != null ? hpInfo.mainImg : ' '}" />
+							<c:if test="${ not empty hpInfo.mainImg }">
+								<input type="hidden" name="mainImg" value="${hpInfo.mainImg}" />
+							</c:if>
 						</li>
 						<li>
 							<input type="text" id="subImg1File" name="orgSubImg1" value="${hpInfo.orgSubImg1 }" readonly />
 							<button class="greyBtn findFile" type="button">찾기</button> 
 							<input type="file" name="attachMain" id="subImg1File" accept="image/*" />
-							<input type="hidden" name="subImg1" value="${hpInfo.subImg1 != null ? hpInfo.subImg1 : ' '}" />
+							<c:if test="${ not empty hpInfo.subImg1 }">
+								<input type="hidden" name="subImg1" value="${hpInfo.subImg1}" />
+							</c:if>
 						</li>
 						<li>
 							<input type="text" id="subImg2File" name="orgSubImg2" value="${hpInfo.orgSubImg2 }" readonly />
 							<button class="greyBtn findFile" type="button">찾기</button> 
 							<input type="file" name="attachMain" id="subImg2File" accept="image/*" />
-							<input type="hidden" name="subImg2" value="${hpInfo.subImg2 != null ? hpInfo.subImg2 : ' '}" />
+							<c:if test="${ not empty hpInfo.subImg2 }">
+								<input type="hidden" name="subImg2" value="${hpInfo.subImg2}" />
+							</c:if>
 						</li>
 					</ul>
 					<table class="hpTextInfo">

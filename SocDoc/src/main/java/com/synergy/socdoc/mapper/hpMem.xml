@@ -288,4 +288,10 @@
 		update hpmember set pwd = #{newPwd}
 		where hpSeq = #{hpSeq}
 	</update>
+	
+	<!-- 이전 신청 내역들 취소하기 -->
+	<update id="cancelPrevSubmission" parameterType="String">
+		update hpApplication set status = 4
+		where hpSeq = #{hpSeq} and status in (1,3)
+	</update>
 </mapper>

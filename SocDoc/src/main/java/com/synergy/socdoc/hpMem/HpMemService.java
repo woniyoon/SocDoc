@@ -162,6 +162,12 @@ public class HpMemService implements InterHpMemService {
 		return result;
 	}
 
+	// 이전 신청 내역들 취소하기
+	@Override
+	public void cancelPrevSubmission(String hpSeq) {
+		dao.cancelPrevSubmission(hpSeq);
+	}
+
 	
 	
 
