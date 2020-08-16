@@ -209,32 +209,35 @@
 <script type="text/javascript">
 	$(window).ready(function(){
 		$(".noticeNo").hide();
-		// 윗글 보기 
-		$(".postNotice").click(function(){ 
-			var noticeSeq = $(this).prev().prev().text();
-			 var rno = $(this).prev().text();
-			 rno = parseInt(rno);
-			 
-			// seq가 없는 경우 클릭 지우기
-			if ( $(".postNotice").val() == null ) {
-				$(this).removeClass('titlePointer');
-				disabled= true;
-			}
-			location.href="?noticeSeq="+${noticevo.preseq}
-		});
-		
-		// 아랫글 보기
-		$(".preNotice").click(function(){ 
-			var noticeSeq = $(this).prev().prev().text();
-			var rno = $(this).prev().prev().text();
-			rno = parseInt(rno);
-			// seq가 없는 경우 클릭 지우기
-			if ( $(".preNotice").val() == null ) {
-				$(this).removeClass('titlePointer');
-			}
-			location.href="?noticeSeq="+${noticevo.nextseq}
-		});
 	});
+	
+	// 이전글
+ 	function goPostNotice(e){
+		var noticeSeq = $(this).prev().prev().text();
+		var rno = $(this).prev().text();
+		rno = parseInt(rno);
+	 
+		// seq가 없는 경우 클릭 지우기
+		if ( $(".postNotice").text() == "" ) {
+			$(this).removeClass('titlePointer');		
+		} else {
+			location.href="?noticeSeq="+'${noticevo.preseq}';
+		}	
+	} 
+ 	
+ 	// 다음글
+ 	function goPreNotice(e){
+		var noticeSeq = $(this).prev().prev().text();
+		var rno = $(this).prev().text();
+		rno = parseInt(rno);
+	 
+		// seq가 없는 경우 클릭 지우기
+		if ( $(".preNotice").text() == "" ) {
+			$(this).removeClass('titlePointer');		
+		} else {
+			location.href="?noticeSeq="+'${noticevo.nextseq}';
+		}	
+	} 
 </script>
 
 </head>
@@ -351,11 +354,11 @@
                 </tr> --%>
                 <tr>
                     <th class="next_post th">이전글</th>
-                    <td class="next_post postNotice titlePointer" style="border-bottom: solid 1px #ccc;" onclick="javascript:location.href='noticeView.sd?noticeSeq=${noticevo.preseq}'">${noticevo.presubject}</td>
+                    <td class="next_post postNotice titlePointer" style="border-bottom: solid 1px #ccc;" onclick="goPostNotice(this);" >${noticevo.presubject}</td>
                 </tr>
                 <tr>
                     <th class="pre_post th">다음글</th>
-                    <td class="pre_post preNotice titlePointer" onclick="javascript:location.href='noticeView.sd?noticeSeq=${noticevo.nextseq}'">${noticevo.nextsubject}</td>
+                    <td class="pre_post preNotice titlePointer" style="border-bottom: solid 1px #ccc;" onclick="goPreNotice(this);" >${noticevo.nextsubject}</td>
                 </tr>
             </table>
    		</div>
