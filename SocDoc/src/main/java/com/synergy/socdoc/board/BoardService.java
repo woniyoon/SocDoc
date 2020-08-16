@@ -58,13 +58,22 @@ public class BoardService implements InterBoardService {
 		int result = dao.getTotalNoticeList(paraMap);
 		return result;
 	}
-	
+	@Override
+	public int getTotalInfoList(HashMap<String, String> paraMap) {
+		int result = dao.getTotalInfoList(paraMap);
+		return result;
+	}
 	
 	// 글보기
 	@Override
-	public NoticeVO getView(String noticeSeq) {
-		NoticeVO noticevo = dao.getView(noticeSeq);
+	public NoticeVO getView(String seq) {
+		NoticeVO noticevo = dao.getView(seq);
 		return noticevo;
+	}
+	@Override
+	public HealthInfoVO getInfoView(String seq) {
+		HealthInfoVO infovo = dao.getInfoView(seq);
+		return infovo;
 	}
 	
 }

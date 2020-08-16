@@ -202,6 +202,7 @@
       	border-radius: 4px;
    	}
     
+    
 </style>
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
@@ -218,7 +219,6 @@
 			// seq가 없는 경우 클릭 지우기
 			if ( $(".postNotice").val() == null ) {
 				$(this).removeClass('titlePointer');
-				disabled= true;
 			}
 			location.href="?noticeSeq="+${noticevo.preseq}
 		});
@@ -242,7 +242,7 @@
 <div class="container">
 
 	<header>
-		<h1 class="textPrimary"><strong>공지사항</strong></h1>
+		<h1 class="textPrimary"><strong>건강정보</strong></h1>
 	</header>
 			
 	<!-- -------------------------------- 上 끝 ---------------------------------- -->
@@ -310,15 +310,15 @@
 			<thead>
 				<tr>
 					<th>
-						<table class="type05" style="margin: 0 auto;">
+						<table class="type05" style= " margin: 0 auto;">
 							<tbody>
-								<tr>
+                             	<tr>
 									<th scope="row" style="border: none;">제목 </th>
-                                	<td style="border-bottom: solid 1px #ccc;">${noticevo.subject}</td>
+                                	<td style="border-bottom: solid 1px #ccc;">${infovo.subject}</td>
 								</tr>
                             	<tr>
 	                                <th scope="row" style="border: none;">작성일 </th>
-	                                <td style="border: none;">${noticevo.regDate}</td>
+	                                <td style="border: none;">${infovo.regDate}</td>
                              	</tr>
 							</tbody>
 						</table>
@@ -329,7 +329,7 @@
 			<tbody>
 				<tr>
 					<td style="border-bottom: solid 1px #ccc; padding: 30px 0 200px 0;">
-						${noticevo.content}
+						${infovo.content}
                     </td>
                </tr>
            	</tbody>
@@ -339,27 +339,16 @@
                 
         <div>
             <table class="type06" style="margin: 0 auto;">
-                <%-- <tr>
+                <tr>
                     <th class="next_post th">이전글</th>
-                    <td class="next_post postNotice noticeNo">${noticevo.preseq}</td>
-                    <td class="next_post postNotice titlePointer" style="border-bottom: solid 1px #ccc;">${noticevo.presubject}</td>
+                    <td class="next_post postNotice titlePointer" style="border-bottom: solid 1px #ccc;" onclick="javascript:location.href='infoView.sd?infoSeq=${infovo.preseq}'">${infovo.presubject}</td>
                 </tr>
                 <tr>
                     <th class="pre_post th">다음글</th>
-                    <td class="next_post postNotice noticeNo">${noticevo.nextseq}</td>
-                    <td class="pre_post preNotice titlePointer">${noticevo.nextsubject}</td>
-                </tr> --%>
-                <tr>
-                    <th class="next_post th">이전글</th>
-                    <td class="next_post postNotice titlePointer" style="border-bottom: solid 1px #ccc;" onclick="javascript:location.href='noticeView.sd?noticeSeq=${noticevo.preseq}'">${noticevo.presubject}</td>
-                </tr>
-                <tr>
-                    <th class="pre_post th">다음글</th>
-                    <td class="pre_post preNotice titlePointer" onclick="javascript:location.href='noticeView.sd?noticeSeq=${noticevo.nextseq}'">${noticevo.nextsubject}</td>
+                    <td class="pre_post preNotice titlePointer" onclick="javascript:location.href='infoView.sd?infoSeq=${infovo.nextseq}'">${infovo.nextsubject}</td>
                 </tr>
             </table>
    		</div>
 		<br/><br/><br/>
 	</section>
-	
 </div>

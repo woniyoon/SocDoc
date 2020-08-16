@@ -30,7 +30,13 @@
 			where content LIKE '%'||#{searchWord}||'%'
 		</if>
  	</select>
- 
+ 	<select id="getTotalInfoList" parameterType="HashMap" resultType="int">
+ 		select count(*) from infoboard
+ 		<if test="!searchWord.equals('')">
+			where content LIKE '%'||#{searchWord}||'%'
+		</if>
+ 	</select>
+ 	 
  	<!-- 게시물 목록 조회 -->
  	<select id="noticeList" parameterType="HashMap" resultType="com.synergy.socdoc.member.NoticeVO">
  		select V.rno, V.noticeSeq, V.subject, V.content, V.regDate from
@@ -44,38 +50,55 @@
  	</select>
  	
  	<select id="infoList" parameterType="HashMap" resultType="com.synergy.socdoc.member.HealthInfoVO">
-		select V.rno, V.infoseq, V.subject, V.content, V.img, V.regDate from
-		(select rownum as rno, infoseq, subject, content, img, to_char(regDate, 'yyyy-mm-dd') as regDate
+		select V.rno, V.infoseq, V.subject, V.content, V.imgName, V.regDate from
+		(select rownum as rno, infoseq, subject, content, imgName, to_char(regDate, 'yyyy-mm-dd') as regDate
 				from infoboard
 		<if test="!searchWord.equals('')">
 			where content LIKE '%'||#{searchWord}||'%'
 		</if>
 		order by infoseq desc) V
-		where V.rno between #{startRno} and #{endRno}
+ 		where V.rno between #{startRno} and #{endRno}
  	</select>
  	
-	<select id="healthinfo" resultType="com.synergy.socdoc.member.HealthInfoVO">
+<!-- 	<select id="healthinfo" resultType="com.synergy.socdoc.member.HealthInfoVO">
 		select infoseq, subject, content, img, to_char(regDate, 'yyyy-mm-dd') as regDate
 		from infoboard
 		order by infoseq desc
 	</select>
-	
+	 -->
 	<!-- 공지사항 상세 글보기 -->
 	<select id="getView" parameterType="String" resultType="com.synergy.socdoc.member.NoticeVO">
 		select  preseq, presubject, 
-		        noticeseq, subject, content, regDate
-		        nextseq, nextsubject
+        noticeseq, subject, content, regDate,
+        nextseq, nextsubject
 		from 
 		(
 		    select lag(noticeseq, 1) over(order by noticeseq desc)  as preseq
 		            , lag(subject, 1) over(order by noticeseq desc) as presubject
-		            , noticeseq, subject, content
-		            , to_char(regDate, 'yyyy-mm-dd') as regDate
 		           
-		            , lead(noticeseq, 1) over(order by noticeseq desc) as nextseq
+		            , noticeseq, subject, content, to_char(regDate, 'yyyy-mm-dd') as regDate
+		            
+		            , lead(noticeseq, 1) over(order by noticeseq desc)  as nextseq
 		            , lead(subject, 1) over(order by noticeseq desc) as nextsubject
 		    from noticeBoard
 		) V
 		where V.noticeSeq = #{noticeSeq}
-	</select>	
+	</select>
+	<select id="getInfoView" parameterType="String" resultType="com.synergy.socdoc.member.HealthInfoVO">
+		select  preseq, presubject, 
+		        infoseq, subject, content, regDate,
+		        nextseq, nextsubject
+		from 
+		(
+		    select lag(infoseq, 1) over(order by infoseq desc)  as preseq
+		            , lag(subject, 1) over(order by infoseq desc) as presubject
+		           
+		            , infoseq, subject, content, to_char(regDate, 'yyyy-mm-dd') as regDate
+		            
+		            , lead(infoseq, 1) over(order by infoseq desc)  as nextseq
+		            , lead(subject, 1) over(order by infoseq desc) as nextsubject
+		    from infoBoard
+		) V
+		where V.infoSeq = #{infoSeq}
+	</select>
 </mapper>

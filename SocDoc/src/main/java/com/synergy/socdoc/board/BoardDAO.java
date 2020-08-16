@@ -52,6 +52,11 @@ public class BoardDAO implements InterBoardDAO {
 		return result;
 	}
 	@Override
+	public int getTotalInfoList(HashMap<String, String> paraMap) {
+		int result = sqlsession.selectOne("board.getTotalInfoList", paraMap);
+		return result;
+	}
+	@Override
 	public List<NoticeVO> noticeList(HashMap<String, String> paraMap) {
 		List<NoticeVO> noticeList = sqlsession.selectList("board.noticeList", paraMap);
 		return noticeList;
@@ -61,10 +66,16 @@ public class BoardDAO implements InterBoardDAO {
 		List<HealthInfoVO> infoList = sqlsession.selectList("board.infoList", paraMap);
 		return infoList;
 	}
+	
 	// 글보기
 	@Override
 	public NoticeVO getView(String noticeSeq) {
-		NoticeVO noticevo = sqlsession.selectOne("admin.getView", noticeSeq);
+		NoticeVO noticevo = sqlsession.selectOne("board.getView", noticeSeq);
 		return noticevo;
+	}
+	@Override
+	public HealthInfoVO getInfoView(String infoSeq) {
+		HealthInfoVO infovo = sqlsession.selectOne("board.getInfoView", infoSeq);
+		return infovo;
 	}
 }
