@@ -1,5 +1,7 @@
 package com.synergy.socdoc.member;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class HpInfoVO {
 
 	private String hpSeq;
@@ -13,6 +15,7 @@ public class HpInfoVO {
 	// 필요한지 모르겠음; 
 	private int open;
 	private int close;
+	// WAS에 저장될 파일명, 날짜 + 나노초.png
 	private String mainImg;
 	private String subImg1;
 	private String subImg2;
@@ -23,6 +26,15 @@ public class HpInfoVO {
 	private String distance;
 	private String avg;
 	
+	private String orgMainImg; // 진짜 파일명(예)강아지.png)
+	private String orgSubImg1; // 진짜 파일명(예)강아지.png)
+	private String orgSubImg2; // 진짜 파일명(예)강아지.png)
+
+	private MultipartFile[] attachMain;
+	
+	// 반려 사유
+	private String reason;
+	
 	
 	public HpInfoVO() {
 		
@@ -30,8 +42,7 @@ public class HpInfoVO {
 	
 
 	public HpInfoVO(String hpSeq, String dept, String hpName, String address, String phone, String info,
-			double latitude, double longitude, int open, int close, String mainImg, String subImg1, String subImg2,
-			int status, String submitId, String uploadDate, String distance, String avg) {
+			double latitude, double longitude, int open, int close, String mainImg, String subImg1, String subImg2, int status, String submitId, String uploadDate, String distance, String avg, String reason) {
 		super();
 		this.hpSeq = hpSeq;
 		this.dept = dept;
@@ -49,6 +60,7 @@ public class HpInfoVO {
 		this.status = status;
 		this.submitId = submitId;
 		this.uploadDate = uploadDate;
+		this.reason = reason;
 		this.distance = distance;
 		this.avg = avg;
 	}
@@ -181,6 +193,62 @@ public class HpInfoVO {
 		this.uploadDate = uploadDate;
 	}
 
+	public MultipartFile[] getAttachMain() {
+		return attachMain;
+	}
+
+	public void setAttachMain(MultipartFile[] attachMain) {
+		this.attachMain = attachMain;
+	}
+
+	public String getOrgMainImg() {
+		return orgMainImg;
+	}
+
+	public void setOrgMainImg(String orgMainImg) {
+		this.orgMainImg = orgMainImg;
+	}
+
+	public String getOrgSubImg1() {
+		return orgSubImg1;
+	}
+
+	public void setOrgSubImg1(String orgSubImg1) {
+		this.orgSubImg1 = orgSubImg1;
+	}
+
+	public String getOrgSubImg2() {
+		return orgSubImg2;
+	}
+
+	public void setOrgSubImg2(String orgSubImg2) {
+		this.orgSubImg2 = orgSubImg2;
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
+//	public MultipartFile getAttachSub1() {
+//		return attachSub1;
+//	}
+//
+//	public void setAttachSub1(MultipartFile attachSub1) {
+//		this.attachSub1 = attachSub1;
+//	}
+//
+//	public MultipartFile getAttachSub2() {
+//		return attachSub2;
+//	}
+//
+//	public void setAttachSub2(MultipartFile attachSub2) {
+//		this.attachSub2 = attachSub2;
+//	}
+	
 	public String getDistance() {
 		return distance;
 	}
@@ -196,8 +264,6 @@ public class HpInfoVO {
 	public void setAvg(String avg) {
 		this.avg = avg;
 	}
-	
-	
 	
 	
 }

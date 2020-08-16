@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ==== #29. mapper 기본설정 ==== -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- ==== #29. 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체내에서 유일해야 한다.) ==== -->
+<mapper namespace="hpMem">
+	<select id="getHpInfo" parameterType="String" resultType="com.synergy.socdoc.member.HpInfoVO">
+		select hpname, dept, address, phone, info, latitude, longitude from hospitalInfo where hpSeq = #{hpSeq}
+	</select>
+
+	<!-- 업데이트 목록 가져오기 -->
+	<select id="getInfoUpdateList" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpInfoVO">
+		select RNO, T.submitId, T.hpName, T.status, T.uploadDate from
+		(select rownum AS RNO, V.submitId, V.hpName, V.status, V.uploadDate
+		  from 
+		    (
+		        select submitId, hpName, status, to_char(uploadDate, 'yyyy-mm-dd') as uploadDate 
+                from hpApplication where hpseq = #{hpSeq}
+                order by uploadDate
+		    ) V
+		 ) T
+		where RNO between #{startRNO} and #{endRNO} 
+	</select>
+	
+	<!-- 업데이트 목록 총 개수 가져오기 -->
+	<select id="getNumOfUpdates" parameterType="String" resultType="int">
+		select count(*) from hpApplication where hpseq = #{hpSeq}
+	</select>
+
+	<!-- 병원 상세 정보 가져오기 -->
+	<select id="getHpInfoDetail" parameterType="String" resultType="com.synergy.socdoc.member.HpInfoVO">
+		select submitId, hpname, dept, address, phone, info, latitude, longitude, mainImg, orgMainImg, subImg1, orgSubImg1, subImg2, orgSubImg2, reason from hpApplication where submitId = #{submitId}
+	</select>
+	
+	<!-- 병원의 영업시간 가져오기 -->
+	<resultMap type="HashMap" id="openingHours">
+		<result property="day" column="day" javaType="String"></result>
+		<result property="open" column="open" javaType="String"></result>
+		<result property="close" column="close" javaType="String"></result>
+		
+	</resultMap>
+	
+	<select id="getOpeningHours" parameterType="String" resultMap="openingHours">
+		select nvl2(s.open, s.day, null) as day, nvl(s.open, null) as open, nvl2(s.open, t.hour, null) as close
+		from
+		(select s.day, s.close, t.hour as open
+		from schedule s left join
+		     timetable t
+		     on s.open = t.hourSeq and s.hpSeq = #{hpSeq}
+		)s
+		join timetable t
+		on s.close = t.hourSeq
+		order by day asc
+	</select>
+	
+	<!-- 오픈/클로즈 시간 가져오기 -->
+	<resultMap type="HashMap" id="scheduleTbl">
+		<result property="day" column="day" javaType="String"></result>
+		<result property="open" column="open" javaType="String"></result>
+		<result property="close" column="close" javaType="String"></result>
+		
+	</resultMap>
+	
+	
+	<select id="getScheduleTbl" parameterType="String" resultMap="scheduleTbl">
+		select nvl2(s.open, s.day, null) as day, nvl(s.open, null) as open, nvl2(s.open, t.hour, null) as close
+		from
+		(select s.day, s.close, t.hour as open
+		from scheduleEdit s left join
+		     timetable t
+		     on s.open = t.hourSeq and s.submitid = #{submitId}
+		)s
+		join timetable t
+		on s.close = t.hourSeq
+		order by day asc
+	</select>
+
+	<!-- 후기 목록 가져오기 -->
+	<resultMap type="HashMap" id="recentReviews">
+		<result property="userid" column="userid" javaType="String"></result>
+		<result property="rating" column="rating" javaType="String"></result>
+		<result property="content" column="content" javaType="String"></result>
+		<result property="regDate" column="regDate" javaType="String"></result>
+		
+	</resultMap>
+	
+	<select id="getRecentReviews" parameterType="String" resultMap="recentReviews">
+		select rno, userid, rating, content, to_char(regDate, 'yyyy-mm-dd') as regDate
+		from 
+		(select rownum as rno, V.userid, V.rating, V.content, V.regDate
+		from
+		(select userid, rating, content, regDate from hospitalReview 
+		where hpSeq = #{hpSeq}
+		order by regDate desc) V
+		order by rno)
+		where <![CDATA[ ROWNUM <= 3 ]]>
+	</select>
+
+	<!-- 방문자 목록 가져오기 -->
+	<resultMap type="HashMap" id="visitorsList">
+		<result property="rno" column="rno" javaType="String"></result>
+		<result property="memberSeq" column="memberSeq" javaType="String"></result>
+		<result property="name" column="name" javaType="String"></result>
+		<result property="birthDate" column="birthDate" javaType="String"></result>
+		<result property="phone" column="phone" javaType="String"></result>
+		<result property="age" column="age" javaType="String"></result>
+		<result property="visitDate" column="visitDate" javaType="String"></result>
+		
+	</resultMap>
+	
+	<select id="getVisitors" parameterType="HashMap" resultMap="visitorsList">
+		select RNO, memberSeq, name, birthDate, visitDate, age, phone from
+		(select rownum AS RNO, V.memberSeq, V.name, V.birthDate, V.visitDate, V.age, V.phone
+		  from 
+		    (
+		        select distinct M.memberSeq, M.name, to_char(M.birthDate, 'yyyy-mm-dd') as birthDate, to_char(R.visitDate, 'yyyy-mm-dd') as visitDate
+		        , (extract(year from sysdate)) - extract(year from birthDate) + 1 as age, M.phone
+		        from reservation R join member M
+		        on R.status = 1 and R.hpSeq = #{hpSeq} and R.userid = M.userid
+		        order by visitDate desc
+		    ) V
+		    <if test="!searchWord.equals('')">
+        		where name LIKE '%'|| #{searchWord} ||'%'
+      		</if>
+		 ) T
+		where RNO between #{startRNO} and #{endRNO} 
+	</select>
+	
+	<!-- 총 방문자수 가져오기 -->
+	<select id="getNumOfVisitors" parameterType="HashMap" resultType="int">
+		<!-- select count(*) from reservation
+		where status = 1 and hpSeq = #{hpSeq}
+		<if test="!searchWord.equals('')">
+        	and name LIKE '%'|| #{searchWord} ||'%'
+      	</if> -->
+      	
+      	select count(*)
+		from 
+		(select userid 
+		from member
+		<if test="!searchWord.equals('')">
+			where name LIKE '%'|| #{searchWord} ||'%'
+		</if>
+		) M join reservation R
+		on R.status = 1 and R.hpSeq = #{hpSeq} and R.userid = M.userid
+	</select>
+	
+	<insert id="submitInfo" parameterType="com.synergy.socdoc.member.HpInfoVO">
+		<choose>
+            <when test="subImg1 == null and subImg2 == null">
+				INSERT INTO hpApplication(address,hpName,phone,hpSeq,info,latitude,longitude, mainImg, orgMainImg, status, uploadDate, submitId, dept) 
+				VALUES (#{address}, #{hpName}, #{phone}, #{hpSeq}, #{info}, #{latitude}, #{longitude}, #{mainImg}, #{orgMainImg}, #{status}, sysdate, #{submitId}, #{dept})
+            </when>
+            <when test="subImg1 != null and subImg2 == null">
+				INSERT INTO hpApplication(address,hpName,phone,hpSeq,info,latitude,longitude, mainImg, orgMainImg, status, uploadDate, submitId, dept,subImg1, orgSubImg1) 
+				VALUES (#{address}, #{hpName}, #{phone}, #{hpSeq}, #{info}, #{latitude}, #{longitude}, #{mainImg}, #{orgMainImg}, #{status}, sysdate, #{submitId}, #{dept}, #{subImg1}, #{orgSubImg1})		
+            </when>
+            <otherwise>
+				INSERT INTO hpApplication(address,hpName,phone,hpSeq,info,latitude,longitude, mainImg, orgMainImg, status, uploadDate, submitId, dept,subImg1, orgSubImg1,subImg2, orgSubImg2) 
+				VALUES (#{address}, #{hpName}, #{phone}, #{hpSeq}, #{info}, #{latitude}, #{longitude}, #{mainImg}, #{orgMainImg}, #{status}, sysdate, #{submitId}, #{dept}, #{subImg1}, #{orgSubImg1}, #{subImg2}, #{orgSubImg2})		
+            </otherwise>
+        </choose>
+	</insert>
+	
+	<insert id="submitSchedule" parameterType="HashMap">
+		insert into scheduleEdit (submitId, hpSeq, day, open, close)
+		values (#{submitId}, #{hpSeq}, #{day}, #{open}-8, #{close}-8)
+	</insert>
+	
+	
+	<!-- 테이블의 행의 총 개수 가져오기 -->
+	<select id="getNumOfItems" parameterType="HashMap" resultType="int">
+		select count(*) from ${table}
+		<if test="@com.synergy.socdoc.common.MyUtil@notEmpty(hpSeq)">
+			where hpSeq = #{hpSeq}
+		</if>
+		<if test="@com.synergy.socdoc.common.MyUtil@notEmpty(searchWord)">
+			and ${searchType} LIKE '%'|| #{searchWord} ||'%'
+		</if>
+	</select>
+	
+	<!-- 병원 리뷰 목록 가져오기 -->
+	<select id="getHpReviews" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpReviewVO">
+		
+		select RNO, userid, hpSeq, content, regDate, rating, avgRating from
+			(select rownum AS RNO, L.userid, L.hpSeq, L.content, L.regDate, L.rating, L.avgRating
+				  from 
+				    (
+		                select r.hpseq, to_char(r.regDate, 'yyyy-mm-dd') as regDate, r.userid, r.content, rating, floor(v.avg) as avgRating
+							from (select hpseq, avg(rating) as avg from hospitalreview group by hpseq having hpseq= #{hpSeq}) v join hospitalreview r
+							on v.hpseq = r.hpseq
+				    ) L
+		    <if test="!searchWord.equals('')">
+		        where ${searchType} LIKE '%'|| #{searchWord} ||'%'
+		    </if>
+		) T
+		where RNO between #{startRNO} and #{endRNO} 
+	</select>
+	
+	<!-- 병원방문예정자 목록 가져오기 -->
+	<resultMap type="HashMap" id="visitorsListPerDate">
+		<result property="name" column="name" javaType="String"></result>
+		<result property="phone" column="phone" javaType="String"></result>
+		<result property="reservSeq" column="reservSeq" javaType="String"></result>
+		<result property="userid" column="userid" javaType="String"></result>
+		<result property="visitDate" column="visitDate" javaType="String"></result>
+		<result property="status" column="status" javaType="String"></result>
+		<result property="day" column="day" javaType="String"></result>
+		<result property="hour" column="hour" javaType="String"></result>
+	</resultMap>
+	<select id="getVisitorsList" parameterType="HashMap" resultMap="visitorsListPerDate">
+		select M.name, M.phone, A.reservSeq, A.userid, A.visitDate, A.status, A.hour
+		from
+		(select R.reservSeq, R.userid, R.visitDate, R.status, T.hour
+		from
+		(select reservSeq, userid, hourSeq, to_char(visitDate, 'yyyy-mm-dd') as visitDate, status from reservation
+		where hpSeq = #{hpSeq} and visitDate= to_date(#{visitDate}, 'yyyy-mm-dd')) R join timetable T
+		on R.hourSeq = T.hourSeq) A join member M
+		on A.userid = M.userid
+	</select>
+	
+</mapper>
