@@ -10,8 +10,6 @@ public class HpMemberVO {
 	private int hpSeq;
 	private String regId;
 	private String registerDate;
-	// 가입 상태
-	private int status;
 	// 상세정보 등록 상태
 	private int infoStatus;
 	private HpInfoVO hpinfo;
@@ -20,7 +18,7 @@ public class HpMemberVO {
 	public HpMemberVO() {}
 
 	public HpMemberVO(String userid, String pwd, String email, String name, String phone, int hpSeq, String regId,
-			String registerDate, int status, int infoStatus) {
+			String registerDate, int infoStatus) {
 		super();
 		this.userid = userid;
 		this.pwd = pwd;
@@ -30,7 +28,6 @@ public class HpMemberVO {
 		this.hpSeq = hpSeq;
 		this.regId = regId;
 		this.registerDate = registerDate;
-		this.status = status;
 		this.infoStatus = infoStatus;
 	}
 
@@ -96,14 +93,6 @@ public class HpMemberVO {
 
 	public void setRegisterDate(String registerDate) {
 		this.registerDate = registerDate;
-	}
-
-	public int getStatus() {
-		return status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
 	}
 
 	public int getInfoStatus() {

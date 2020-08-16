@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ==== #29. mapper 기본설정 ==== -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- ==== #29. 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체내에서 유일해야 한다.) ==== -->
+<mapper namespace="board">
+<!-- 	
+	총 게시물 건수(totalCount) 구하기 검색조건이 있을 때와 없을 때로 나뉘어진다. 
+	<select id="getTotalCount" parameterType="HashMap" resultType="int">
+       select count(*)
+      from noticeboard
+    </select>
+    
+    페이징 처리한 글목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것)  
+	<select id="boardListSearchWithPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.NoticeVO">
+    	select noticeSeq, subject, content, to_char(regDate, 'yyyy-mm-dd') as regDate
+		from noticeboard
+		order by noticeSeq desc
+    </select>
+    
+ -->
+ 
+ 
+ 
+ 
+ 
+ 	<select id="noticeList" resultType="com.synergy.socdoc.member.NoticeVO">
+ 		select noticeSeq, subject, content, to_char(regDate, 'yyyy-mm-dd') as regDate
+		from noticeboard
+		order by noticeSeq desc
+ 	</select>
+</mapper>
