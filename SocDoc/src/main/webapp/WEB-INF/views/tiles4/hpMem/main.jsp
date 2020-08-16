@@ -25,7 +25,6 @@
 					<c:if test="${isExisting}">
 						<c:forEach var="map" items="${openingHours }" varStatus="status">
 							<div>
-							${status.index }
 							<c:choose>
 						         <c:when test = "${status.index == 0}">
 						            월요일
