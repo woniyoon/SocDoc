@@ -18,7 +18,7 @@
 		    (
 		        select submitId, hpName, status, to_char(uploadDate, 'yyyy-mm-dd') as uploadDate 
                 from hpApplication where hpseq = #{hpSeq}
-                order by uploadDate
+                order by uploadDate desc
 		    ) V
 		 ) T
 		where RNO between #{startRNO} and #{endRNO} 
