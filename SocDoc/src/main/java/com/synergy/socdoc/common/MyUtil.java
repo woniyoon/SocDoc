@@ -41,11 +41,10 @@ public class MyUtil {
 			String ctxPath = request.getContextPath();
 
 		  	int beginIndex = currentURL.indexOf(ctxPath) + ctxPath.length();
-			String baseUrl = currentURL.substring(beginIndex + 1);
+			String baseUrl = currentURL.substring(beginIndex);
 
-			
 			System.out.println("MyUtil 안에 있는 baseUrl : " + baseUrl);
-		  	return baseUrl;
+		  	return ctxPath + baseUrl;
 	  }
 	  
 	  public static String createPageBar(int currentShowPageNo, int totalPage, int pagingSize, String baseLink) {
