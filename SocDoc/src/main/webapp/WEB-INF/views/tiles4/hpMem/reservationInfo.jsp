@@ -59,8 +59,11 @@
 				console.log(context.current[0]._i);
 				var visitDate = context.current[0]._i;
 				
+				// 선택된 날짜의 요일
+		        var day = context.current[0]._d.getDay();
+				
 				getReservationList(visitDate);
-				getTimetable(visitDate);
+				getTimetable(visitDate, day);
 				
 			},
 			prev : function(info, context) {
@@ -78,22 +81,35 @@
 	});
 
 	// 선택한 날짜의 예약 현황 확인
-	function getTimetable(visitDate) {
-		
+	function getTimetable(visitDate, day) {
+				
 		$.ajax({
 			url:"<%=ctxPath%>/ajax/getNumPerHour.sd",
 			type:"POST",
-			data:{"visitDate": visitDate},
+			data:{"visitDate": visitDate, "day": (day-1)},
 			dataType: "JSON",
             success: function(json){
             	console.log(json);
+            	
+            	var open = Number(json.hours.open.substring(0,2));
+            	var close = Number(json.hours.close.substring(0,2));
+
+            	console.log(open, close);
+            	
             	var html = "<table class='timetable'>";
 				
             	console.log(typeof json);
-            	$.each(json, function(index, item){
+            	$.each(json.counter, function(index, item){
+            		var counterHour = Number(item.hour.substring(0,2));
+            		console.log(counterHour);
+            		
+            		if(counterHour >= open && counterHour <= close) {
+	            		html += "<tr><th>" + item.hour + "</th><td>"+ item.cnt +" / 6 명</td></tr>";
+            		} else {
+            			return;
+            		}
+            		
             		console.log("?????");
-            		html += "<tr><th>" + item.hour + "</th><td>"+ item.cnt +" / 6 명</td></tr>";
-           		
            		});
 
         		html += "</table>";
@@ -126,7 +142,7 @@
                			console.log(typeof item.hasVisited);
                			var checked = item.hasVisited ? "checked" : "unchecked";
                			
-               			html += "<tr id='"+item.userid+"' onclick='popModal(event)'>"
+               			html += "<tr id='"+item.userid+"'>"
                					+	"<td>"+num+"</td>"
                					+	"<td>"+item.hour+"</td>"
                					+	"<td>"+item.name+"</td>"

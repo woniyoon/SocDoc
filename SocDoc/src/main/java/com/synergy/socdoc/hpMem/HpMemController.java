@@ -488,6 +488,7 @@ public class HpMemController {
 		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
 		String hpSeq = String.valueOf(hpMember.getHpSeq());
 		String visitDate = request.getParameter("visitDate");
+		int day = Integer.parseInt(request.getParameter("day"));
 		
 		HashMap<String, String> paraMap = new HashMap<>();
 		paraMap.put("visitDate", visitDate);
@@ -496,6 +497,11 @@ public class HpMemController {
 		JsonArray jsonArr = new JsonArray();
 		
 		List<HashMap<String, String>> list = service.getNumPerHour(paraMap);
+		
+		List<HashMap<String, String>> openingHours = service.getOpeningHours(hpSeq);
+
+		JsonObject json = new JsonObject();
+		JsonObject hours = new JsonObject();
 		
 		for(int i=0; i<list.size(); i++) {
 			JsonObject object = new JsonObject();
@@ -507,7 +513,16 @@ public class HpMemController {
 			jsonArr.add(object);
 		}
 		
-		return jsonArr.toString();
+		json.add("counter", jsonArr);
+		
+
+		if(openingHours.get(day) != null) {
+			hours.addProperty("open", openingHours.get(day).get("open"));			
+			hours.addProperty("close", openingHours.get(day).get("close"));		
+			json.add("hours", hours);
+		}
+		
+		return json.toString();
 	}
 	
 	
