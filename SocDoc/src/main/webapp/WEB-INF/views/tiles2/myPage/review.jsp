@@ -318,11 +318,17 @@
           </tbody> 
           </c:forEach>              
        </table>
-    </form>
+    
     </div>
     <div style="width: 80%;" align="right">
       <button type="button" class="btnDelete" onClick="goDelete();">삭제</button>
    </div>
+   
+   <!-- 페이지바 -->
+	<div id="center" style="width: 30%; border: solid 0px gray; margin: 20px auto;">
+		${pageBar}
+	</div>
+	</form>
         </div>
     </body>
  </html>

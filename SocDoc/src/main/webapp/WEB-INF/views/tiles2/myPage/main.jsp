@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" isELIgnored="false"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
@@ -191,6 +191,20 @@
 		border-radius: 4px;
 	}
 </style>
+
+<script type="text/javascript">
+	<%-- var loginuser = "${sessionScope.loginuser}";
+	
+	if(loginuser == null) {
+		alert("로그인이 필요한 서비스입니다.");
+		location.href="<%= ctxPath%>/+login.sd";
+	}
+	else if(loginuser != null) {
+		location.href="<%= ctxPath%>/mypage.sd";
+	} --%>
+</script>
+
+
 </head>
 <body>
    <!--  <header>
@@ -244,12 +258,15 @@
 				</thead>
 				
 				<tbody>
+				 <c:forEach var="reservationList" items="${reservationList}" varStatus="status">
 					<tr>
-						<td id="hospitalName" class="noticeTitle">똑닥병원</td>
-						<td>2020-07-30</td>
-						<td>14:00</td>
+						<td id="hospitalName" class="noticeTitle">${reservationList.hpName}</td>
+						<td>${reservationList.visitdate}</td>
+						<td>${reservationList.hour}</td>
 					</tr>
+				</c:forEach>
 				</tbody>	
+				
 			</table>
 			</form>
 			<!-- 테이블 -->
@@ -276,19 +293,14 @@
 					</thead>
 					
 					<tbody>
+					 <c:forEach var="historyList" items="${historyList}" varStatus="status" begin="1" end="3">
 						<tr>
-							<td id="hospitalName" class="noticeTitle" style="padding: 10px 0;">똑닥병원</td>
-							<td style="padding: 10px 0;">2020-07-30</td>
+							<td id="hospitalName" class="noticeTitle" style="padding: 10px 0;">${historyList.hpName}</td>
+							<td style="padding: 10px 0;">${historyList.visitdate}</td>
 						</tr>
-						<tr>
-							<td id="hospitalName" class="noticeTitle" style="padding: 10px 0;">kh병원</td>
-							<td style="padding: 10px 0;">2020-07-25</td>
-						</tr>
-						<tr>
-							<td id="hospitalName" class="noticeTitle" style="padding: 10px 0;">영학병원</td>
-							<td style="padding: 10px 0;">2020-07-20</td>
-						</tr>
+					</c:forEach>
 					</tbody>	
+					
 				</table>
 				</form>
 				<!-- 테이블 -->
@@ -310,17 +322,47 @@
 						 		키<br/>
 								몸무게<br/>
 								혈액형<br/>
-								병력사항<br/>
-								복욕약<br/>
 								알레르기<br/>
+								병력사항<br/>
+								복용약<br/>
 						 	</th>
 						 	<th style="padding: 25px 0; border: none; font-weight: bolder; text-align: left;">
-						 		164cm<br/>
-								55kg<br/>
-								O형<br/>
-								없음<br/>
-								없음<br/>
-								땅콩알레르기<br/>
+						 		<c:if test="${not empty (membervo.height)}">
+						 			${membervo.height}<br/>
+						 		</c:if>		
+						 		<c:if test="${empty (membervo.height)}">
+						 			미입력<br/>
+						 		</c:if>	
+						 		<c:if test="${not empty (membervo.weight)}">
+						 			${membervo.weight}<br/>
+						 		</c:if>		
+						 		<c:if test="${empty (membervo.weight)}">
+						 			미입력<br/>
+						 		</c:if>	
+						 		<c:if test="${not empty (membervo.bloodType)}">
+						 			${membervo.bloodType} 형<br/>
+						 		</c:if>		
+						 		<c:if test="${empty (membervo.bloodType)}">
+						 			미입력<br/>
+						 		</c:if>	
+						 		<c:if test="${not empty (membervo.allergy)}">
+						 			${membervo.allergy}<br/>
+						 		</c:if>		
+						 		<c:if test="${empty (membervo.allergy)}">
+						 			미입력<br/>
+						 		</c:if>
+						 		<c:if test="${not empty (membervo.history)}">
+						 			${membervo.history}<br/>
+						 		</c:if>		
+						 		<c:if test="${empty (membervo.history)}">
+						 			미입력<br/>
+						 		</c:if>
+						 		<c:if test="${not empty (membervo.medicine)}">
+						 			${membervo.medicine}<br/>
+						 		</c:if>		
+						 		<c:if test="${empty (membervo.medicine)}">
+						 			미입력<br/>
+						 		</c:if>
 						 	</th>
 						 </tr>
 					</thead>
@@ -354,12 +396,14 @@
 						 		<img id="findPW" src="<%= ctxPath%>/resources/images/hsim.jpg" width="150" height="180"/>
 							</th>
 						 	<th style="width: 60%; padding: 10px 0; border: none; font-weight: normal; text-align: left; vertical-align: text-top;">
-						 		<strong style="font-size: 14pt; font-weight: bold;">똑닥병원</strong><br/>
+						 	<c:forEach var="bookMarkList" items="${bookMarkList}" varStatus="status" begin="1" end="1">
+						 		<strong style="font-size: 14pt; font-weight: bold;">${bookMarkList.hpName}</strong><br/>
 						 		<br/>
 						 		<br/>
-						 		내과전문<br/>
-								위치 : 종각역 2번출구에서 200m이내<br/>
-								전화: 02) 555-1234<br/>
+						 		유형: ${bookMarkList.dept}<br/>
+								위치: ${bookMarkList.address}<br/>
+								전화: ${bookMarkList.phone}<br/>
+								</c:forEach>
 						 	</th>
 						 </tr>
 					</thead>
@@ -368,7 +412,7 @@
 				<!-- 테이블 -->
 				<!-- 더보기 -->
 				<div id="more" style="text-align: right; margin-right: 15px;">
-						<a href="<%= request.getContextPath()%>/reservation.sd" style="font-size: 9pt;">더보기></a>
+						<a href="<%= request.getContextPath()%>/bookMark.sd" style="font-size: 9pt;">더보기></a>
 				</div>
 				<!-- 더보기 -->
 			</div>
@@ -403,20 +447,25 @@
 					</thead>
 					
 					<tbody>
+					<c:forEach var="reviewList" items="${reviewList}" varStatus="status" end="3">
 						<tr>
-							<td style="padding: 10px 0; font-size: 8pt;">★★★★</td>
-							<td id="hospitalName" class="noticeTitle" style="padding: 10px 0; font-size: 8pt;">똑닥병원</td>
-							<td style="padding: 10px 0; font-size: 8pt;">친절하고 과잉진료 없어요^^</td>
+							<td id="hospitalName" class="noticeTitle" style="padding: 10px 0; font-size: 8pt;">${reviewList.name}</td>
+							<td style="padding: 10px 0; font-size: 8pt;">
+								<c:if test="${reviewList.rating==5}">★★★★★</c:if>
+				                <c:if test="${reviewList.rating==4}">★★★★</c:if>
+				                <c:if test="${reviewList.rating==3}">★★★</c:if>
+				                <c:if test="${reviewList.rating==2}">★★</c:if>
+				                <c:if test="${reviewList.rating==1}">★</c:if>
+							</td>
+							<td style="padding: 10px 0; font-size: 8pt;">${reviewList.content}</td>
 						</tr>
-						<tr>
-							<td style="padding: 10px 0; font-size: 8pt;">★</td>
-							<td id="hospitalName" class="noticeTitle" style="padding: 10px 0; font-size: 8pt;">kh병원</td>
-							<td style="padding: 10px 0; font-size: 8pt;">관리자에 의해 규제된 게시물입니다.</td>
-						</tr>
+					</c:forEach>
 					</tbody>	
 				</table>
 				</form>
 				<!-- 테이블 -->
+				</div>
+				
 		</div>
 	</div>
         </div>

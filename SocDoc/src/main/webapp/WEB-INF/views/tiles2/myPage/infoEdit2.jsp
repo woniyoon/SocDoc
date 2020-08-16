@@ -234,7 +234,7 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
 		$("#hpBtnFind2").hide();
 		$("#hpBtnFind3").hide();
 		
-		$("#btnChgPwd").hide();
+		$("#btnChgPwd2").hide();
 		
 		var phoneAll = $("#phone").val();
 		var phone = phoneAll.split("-");
@@ -436,8 +436,9 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
 		$("#box2").show();
 		$("#box3").show();
 		$("#btnChgPwd").show();
+		$("#btnChgPwd2").show();
 		
-		$("#btnChgPwd").click(function(){
+		$("#btnChgPwd2").click(function(){
 			
 			goUpdatePwd();
 	
@@ -729,20 +730,22 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
 		<div id="box2" style="margin-top:15px;  border-left: none; border-right: none;">
 			<img id="findPW" src="<%= ctxPath%>/resources/images/findPW.png" style="margin-top:10px;" width=50px height=60px/>
 			<h2 style="margin: 0;">비밀번호 변경</h2>
-			<p style="margin-top: 10px;">주혜정 회원님의 소중한 개인정보의 보호를 위하여 비밀번호를 한번 더 입력하여 주시기 바랍니다.</p>
+			<p style="margin-top: 10px;">회원님의 소중한 개인정보의 보호를 위하여 비밀번호를 한번 더 입력하여 주시기 바랍니다.</p>
+			<span style="margin-top: 10px; color: red;"  class="error" id="pwdError" >비밀번호를 입력하세요.</span>
+			<span style="margin-top: 10px; color: blue;"  class="success" id="pwdSuccess">사용 가능한 비밀번호 입니다.</span> 
+			<span style="margin-top: 10px; color: red;" class="error" id="pwdError2">동일한 비밀번호를 입력하세요.</span>
+		    <span style="margin-top: 10px; color: blue;" class="success" id="pwdSuccess2">비밀번호가 일치합니다.</span> 
 		</div> 
 		<form name="updatePWDfrm">
 		<div id="box3" style="margin-top:35px;  border-left: none; border-right: none;">
 			<span style="font-size: 15pt;">새 비밀번호<input type="password" name="pwd" id="pwd" style="margin-left: 72px; margin-top: 30px; width: 300px; height: 40px;" placeholder="대소문자, 특수문자 조합하여 8자 이상으로 입력하세요"/></span><br/>
-			<span style="margin-top: 10px; margin-left: 20px;"  class="error" id="pwdError">비밀번호를 입력하세요.</span>
-			<span style="margin-top: 10px; margin-left: 20px;"  class="success" id="pwdSuccess">사용 가능한 비밀번호 입니다.</span> 
+		
 			<br/>
-			<span style="font-size: 15pt;">새 비밀번호 확인<input type="password" name="pwd2" id="pwd2" style="margin-left: 30px; margin-top: 20px; width: 300px; height: 40px;" placeholder="대소문자, 특수문자 조합하여 8자 이상으로 입력하세요"/></span><br/>
-			<span style="margin-top: 10px; margin-left: 20px;" class="error" id="pwdError2">동일한 비밀번호를 입력하세요.</span>
-		    <span style="margin-top: 10px; margin-left: 20px;" class="success" id="pwdSuccess2">비밀번호가 일치합니다.</span> 
+			<span style="font-size: 15pt;">새 비밀번호 확인<input type="password" name="pwd2" id="pwd2" style="margin-left: 30px; margin-top: 10px; width: 300px; height: 40px;" placeholder="대소문자, 특수문자 조합하여 8자 이상으로 입력하세요"/></span><br/>
+			
 		</div>
 		
-		<div id="btnChgPwd" style="text-align:right; margin-top: 30px; width: 70%;"><button type="button" style="background-color: skyblue; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" >저장</button></div>
+		<div id="btnChgPwd" style="text-align:right; margin-top: 30px; width: 70%;"><button type="button" id="btnChgPwd2" style="background-color: skyblue; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" >저장</button></div>
 		</form>
 	<!-- 비밀번호 변경탭 끝-->
 	    

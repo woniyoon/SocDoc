@@ -180,13 +180,22 @@
    		<result property="bookSeq" 	column="bookSeq" 	javaType="String"/>
 	   </resultMap>
 	   <select id="bookMarkListSearchWithPaging" parameterType="HashMap" resultMap="hpInfoMap">
-	 	   select B.bookSeq AS bookSeq
-	 	   	    , H.dept AS dept
-	      		, H.hpName AS hpName
-	      		, H.phone AS phone
-	 		from bookmark B join hospitalInfo H 
-	 		on B.hpSeq = H.hpSeq
-	 		where B.userid = #{userid}
+	 	   select bookSeq,dept,hpName,phone
+	 	   from
+		 	   (
+		 	   select rownum AS rno, bookSeq,dept,hpName,phone
+		       from
+			        (
+				 	   select B.bookSeq AS bookSeq
+				 	   	    , H.dept AS dept
+				      		, H.hpName AS hpName
+				      		, H.phone AS phone
+				 		from bookmark B join hospitalInfo H 
+				 		on B.hpSeq = H.hpSeq
+				 		where B.userid = #{userid}
+				    ) V
+			  )T	    
+	        where rno between #{startRno} and #{endRno}	
 	   </select> 
 	   
 	   
@@ -404,5 +413,133 @@
 		set pwd = #{pwd}
 		where userid = #{userid}
 	</update>
+	
+	
+	<!-- 마이페이지 메인-->
+	
+	  <!-- 즐겨찾기 목록 가져오기 --> 
+	   <resultMap type="HashMap" id="hpInfoMap2">
+   		<result property="dept" 	column="dept" 		javaType="String"/>
+   		<result property="hpName" 	column="hpName" 	javaType="String"/>
+   		<result property="phone" 	column="phone" 		javaType="String"/>
+   		<result property="bookSeq" 	column="bookSeq" 	javaType="String"/>
+   		<result property="address" 	column="address" 	javaType="String"/>
+	   </resultMap>
+	   <select id="bookMarkList" parameterType="HashMap" resultMap="hpInfoMap2">
+	 	   select bookSeq,dept,hpName,phone, address, mainimg
+	       from
+		        (
+			 	   select B.bookSeq AS bookSeq
+			 	   	    , H.dept AS dept
+			      		, H.hpName AS hpName
+			      		, H.phone AS phone
+			      		, H.address AS address
+			      		, H.mainimg as mainimg
+			 		from bookmark B join hospitalInfo H 
+			 		on B.hpSeq = H.hpSeq
+			 		where B.userid = #{userid}
+			 	) V
+	   </select> 
+	   
+	   <!-- == 예약확인 게시판의 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것) -->
+	   <resultMap type="HashMap" id="reservationMap2">
+   		<result property="hpName" 					column="hpName" 				javaType="String"/>
+   		<result property="hour" 					column="hour" 					javaType="String"/>
+   		<result property="visitdate" 				column="visitdate" 				javaType="String"/>
+   		<result property="status" 					column="status" 				javaType="String"/>
+   		<result property="address" 					column="address" 				javaType="String"/>
+   		<result property="phone" 					column="phone" 					javaType="String"/>
+   		<result property="dept" 					column="dept" 					javaType="String"/>
+   		<result property="reservSeq" 				column="reservSeq" 				javaType="String"/>
+   		<!-- <result property="rankNo" 					column="rankNo" 				javaType="Integer"/> -->
+	   </resultMap>
+	   <select id="reservationList" parameterType="HashMap" resultMap="reservationMap2">
+		  	select hpName, hourSeq, status, hour, to_char(visitdate, 'yyyy-mm-dd') as visitdate, address, phone, dept, reservSeq, rankNo
+	        from
+		        (
+		            select rownum AS rno, hpName, hourSeq, status, hour, visitdate, address, phone, dept, reservSeq
+		            	 , ROW_NUMBER() OVER (ORDER BY reservSeq asc) AS rankNo
+		            from
+		            (
+			            select reservSeq, hpName, status, T.hour, V.hourSeq, V.visitdate, V.address, V.phone, V.dept
+			            from 
+						(
+							select R.reservSeq, I.hpName, R.status, R.hourSeq, R.visitdate, I.address, I.phone, I.dept
+							from hospitalInfo I join reservation R 
+							on I.hpSeq = R.hpSeq
+							where userid = #{userid}
+						) V join timetable T 
+						    on V.hourSeq = T.hourSeq
+		        	) V
+	    		) T
+	     where rankNo = 1
+	        
+	  </select>   
+	
+	
+	 <!-- == 진료이력조회 게시판의 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것) -->
+	   <resultMap type="HashMap" id="historyMap2">
+   		<result property="hpName" 				column="hpName" 			javaType="String"/>
+   		<result property="hour" 				column="hour" 				javaType="String"/>
+   		<result property="visitdate" 			column="visitdate" 			javaType="String"/>
+   		<result property="status" 				column="status" 			javaType="String"/>
+   		<result property="address" 				column="address" 			javaType="String"/>
+   		<result property="phone" 				column="phone" 				javaType="String"/>
+   		<result property="dept" 				column="dept" 				javaType="String"/>
+	   </resultMap>
+	   <select id="historyList" parameterType="HashMap" resultMap="historyMap2">
+		  	select hpName, hourSeq, status, hour, to_char(visitdate, 'yyyy-mm-dd') as visitdate, address, phone, dept, reservSeq, RankNo
+	        from
+		        (
+		            select rownum AS rno, hpName, hourSeq, status, hour, visitdate, address, phone, dept, reservSeq
+                          , ROW_NUMBER() OVER (ORDER BY reservSeq asc) AS RankNo
+		            from
+		            (
+			            select hpName, status, T.hour, V.hourSeq, V.visitdate, V.address, V.phone, V.dept, reservSeq
+			            from 
+						(
+							select I.hpName, R.status, R.hourSeq, R.visitdate, I.address, I.phone, I.dept, R.reservSeq
+							from hospitalInfo I join reservation R 
+							on I.hpSeq = R.hpSeq
+							where userid = #{userid} and R.status=0
+						) V join timetable T 
+						    on V.hourSeq = T.hourSeq
+		        	) V
+	    		) T
+      where RankNo Between 1 and 3
+	  </select>   
+	  
+	  
+	   <!-- == 예약확인 게시판의 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것) -->
+	   <resultMap type="HashMap" id="reviewMap2">
+   		<result property="rno" 					column="rno" 					javaType="String"/>
+   		<result property="userid" 				column="userid" 				javaType="String"/>
+   		<result property="rating" 				column="rating" 				javaType="String"/>
+   		<result property="content" 				column="content" 				javaType="String"/>
+   		<result property="name" 				column="name" 					javaType="String"/>
+   		<result property="regDate" 				column="regDate" 				javaType="String"/>
+	   </resultMap>
+	   <select id="reviewList" parameterType="HashMap" resultMap="reviewMap2">
+		  	select rno, userid, rating, content, name, regDate
+	        from
+		        (
+		             (
+		              select rno, userid, rating, content, hpName as name, to_char(regDate, 'yyyy-mm-dd') as regDate
+				      from
+				          (select rownum as rno, userid, rating, content, regDate, hpname
+				          from hospitalReview
+				          order by regDate desc)
+				      )
+				      union all
+				      (
+				      select rno, userid, rating, content, pharName, to_char(regDate, 'yyyy-mm-dd') as regDate
+				      from
+				          (select rownum as rno, userid, rating, content, regDate, pharName
+				          from pharmacyReview 
+				          order by regDate desc)
+				      )
+	    		) T
+	    	where userid = #{userid}	
+	  </select>   
 	
 </mapper>

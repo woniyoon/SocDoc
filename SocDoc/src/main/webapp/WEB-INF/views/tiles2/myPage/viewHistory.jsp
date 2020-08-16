@@ -240,7 +240,7 @@
         
         <div id="contents">
         <div id="print_page">
-        <h1 style="text-align: left;"><strong>진료이력조회</strong></h1>
+        <h1 style="text-align: left;"><strong>최근 진료이력조회</strong></h1>
         
         <div><span style="color: skyblue;">${membervo.name}</span> 님(환자번호:${membervo.memberSeq})의 과거 1년간 수진이력입니다.</div>
         <div style="width:80%; display: inline-block; ">
@@ -311,7 +311,7 @@
 			
 			
 			<!-- 페이지바 -->
-			<div id="center" style="width: 70%; border: solid 0px gray; margin: 20px auto;">
+			<div id="center" style="width: 30%; border: solid 0px gray; margin: 20px auto;">
 				${pageBar}
 			</div>
 			

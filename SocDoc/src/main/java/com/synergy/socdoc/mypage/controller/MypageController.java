@@ -41,9 +41,57 @@ public class MypageController {
 	
 	// === 마이페이지 메인 페이지 요청 === // 
 	@RequestMapping(value="/mypage.sd")
-	public String mypage() {
+	public ModelAndView mypage(HttpServletRequest request, ModelAndView mav) {
+		
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		
+		/*if( loginuser.getUserid().trim() == null) {
+			String msg = "로그인이 필요한 서비스입니다.";
+			String loc = request.getContextPath()+"/login.sd";
+			request.setAttribute("msg", msg);
+			request.setAttribute("loc", loc);
+			
+			mav.setViewName("msg");
+		}*/
+		
+		
+		
+		String userid = loginuser.getUserid();
+		mav.addObject("userid",userid);
+		
+		HashMap<String,String> paraMap = new HashMap<>();
+		paraMap.put("userid", userid);
+		
+		///////////////////////////////////////////////////////내 건강
+		
+		MemberVO membervo = service.viewMyHealth(userid);
+		mav.addObject("membervo", membervo);
+		
+		////////////////////////////////////////////////////////즐겨찾기
+		
+		List<HashMap<String,String>> bookMarkList = service.bookMarkList(paraMap);
+		mav.addObject("bookMarkList",bookMarkList);
+		
+		////////////////////////////////////////////////////////예약확인
+		
+		List<HashMap<String,String>> reservationList = service.reservationList(paraMap);
+		mav.addObject("reservationList",reservationList);
+		
+		////////////////////////////////////////////////////////진료이력
+		
+		List<HashMap<String,String>> historyList = service.historyList(paraMap);
+		mav.addObject("historyList",historyList);
+		
+		////////////////////////////////////////////////////////내후기
+		
+		List<HashMap<String,String>> reviewList = service.reviewList(paraMap);
+		mav.addObject("reviewList",reviewList);
+		
+		mav.setViewName("myPage/main.tiles2");
 	
-		return "myPage/main.tiles2";
+		return mav;
 	}
 	
 	// === 회원정보 수정 페이지 - 비밀번호 입력 페이지 === // 

@@ -215,6 +215,36 @@ public class MyPageDAO implements InterMyPageDAO {
 	}
 
 
+	//////////////////////////////////////////////////////////////
+	
+	@Override
+	public List<HashMap<String, String>> bookMarkList(HashMap<String, String> paraMap) {
+		List<HashMap<String, String>> bookMarkList = sqlsession.selectList("mypage.bookMarkList",paraMap);
+		return bookMarkList;
+	}
+
+
+	@Override
+	public List<HashMap<String, String>> reservationList(HashMap<String, String> paraMap) {
+		List<HashMap<String, String>> reservationList = sqlsession.selectList("mypage.reservationList",paraMap);
+		return reservationList;
+	}
+
+
+	@Override
+	public List<HashMap<String, String>> historyList(HashMap<String, String> paraMap) {
+		List<HashMap<String, String>> historyList = sqlsession.selectList("mypage.historyList",paraMap);
+		return historyList;
+	}
+
+
+	@Override
+	public List<HashMap<String, String>> reviewList(HashMap<String, String> paraMap) {
+		List<HashMap<String, String>> reviewList = sqlsession.selectList("mypage.reviewList",paraMap);
+		return reviewList;
+	}
+
+
 	
 
 

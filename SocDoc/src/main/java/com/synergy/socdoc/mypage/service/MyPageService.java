@@ -243,8 +243,39 @@ public class MyPageService implements InterMyPageService {
 		return n;
 	}
 
-	
 
+	//////////////////////////////////////////////
+	
+	//
+	@Override
+	public List<HashMap<String, String>> bookMarkList(HashMap<String, String> paraMap) {
+		List<HashMap<String, String>> bookMarkList = dao.bookMarkList(paraMap);
+		return bookMarkList;
+	}
+
+
+	@Override
+	public List<HashMap<String, String>> reservationList(HashMap<String, String> paraMap) {
+		List<HashMap<String, String>> reservationList = dao.reservationList(paraMap);
+		return reservationList;
+	}
+
+
+	@Override
+	public List<HashMap<String, String>> historyList(HashMap<String, String> paraMap) {
+		List<HashMap<String, String>> historyList = dao.historyList(paraMap);
+		return historyList;
+	}
+
+
+	@Override
+	public List<HashMap<String, String>> reviewList(HashMap<String, String> paraMap) {
+		List<HashMap<String, String>> reviewList = dao.reviewList(paraMap);
+		return reviewList;
+	}
+
+	
+	/////////////////////////////////////////////////
 
 
 

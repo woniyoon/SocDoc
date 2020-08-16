@@ -63,6 +63,15 @@ public interface InterMyPageService {
 
 	int goUpdatePwd(MemberVO vo); // 비밀번호 재설정 
 
+	//////////////////////////////마이페이지
+	List<HashMap<String, String>> bookMarkList(HashMap<String, String> paraMap);
+
+	List<HashMap<String, String>> reservationList(HashMap<String, String> paraMap);
+
+	List<HashMap<String, String>> historyList(HashMap<String, String> paraMap);
+
+	List<HashMap<String, String>> reviewList(HashMap<String, String> paraMap);
+
 
 	// String getHourSeq(HashMap<String, String> paraMap); // 방문예정 시간 구하기
 
