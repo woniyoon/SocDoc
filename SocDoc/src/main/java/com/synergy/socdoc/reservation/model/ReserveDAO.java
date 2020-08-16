@@ -23,11 +23,11 @@ public class ReserveDAO implements InterReserveDAO {
 	}
 
 	// 병원 정렬하기 (전체)
-	@Override
+	/*@Override
 	public List<HpInfoVO> hospital_select() {
 		List<HpInfoVO> hpinfovoList = sqlsession.selectList("test.hospital_select");
 		return hpinfovoList;
-	}
+	}*/
 	
 	
 	// 환자정보 가져오기(내자신)
@@ -37,19 +37,36 @@ public class ReserveDAO implements InterReserveDAO {
 	      return membervo;
 	}
 
-	@Override
-	public List<String> deptList() {
-		List<String> deptList = sqlsession.selectList("test.deptList");
-		return deptList;
-	}
-
 	/*@Override
-	public List<HashMap<String, String>> hpinfovoList(HashMap<String, Object> paraMap) {
-		List<HashMap<String, String>> hpinfovoList = sqlsession.selectList("test.hpinfovoList",paraMap);
+	public List<HpInfoVO> hpinfovoList() {
+		List<HpInfoVO> hpinfovoList = sqlsession.selectList("test.hpinfovoList");
 		return hpinfovoList;
 	}*/
 
+	@Override
+	public List<String> deptIdList() {
+		List<String> deptIdList = sqlsession.selectList("test.deptIdList");
+		return deptIdList;
+	}
 
+
+	@Override
+	public List<HashMap<String, String>> hpinfovoList(HashMap<String, Object> paraMap) {
+		List<HashMap<String, String>> hpinfovoList = sqlsession.selectList("test.hpinfovoList",paraMap);
+		return hpinfovoList;
+	}
+
+	@Override
+	public int getTotalCount(HashMap<String, String> paraMap) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	/*@Override
+	public int getTotalCount(HashMap<String, String> paraMap) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+*/
 
 	
 	

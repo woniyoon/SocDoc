@@ -11,10 +11,10 @@
 	</select>
 	
 	
-	<select id="hospital_select" resultType="com.synergy.socdoc.member.HpInfoVO"> 
+	<!-- <select id="hospital_select" resultType="com.synergy.socdoc.member.HpInfoVO"> 
 		select hpSeq,dept,mainImg,hpName,info
 		from hospitalInfo
-	</select>
+	</select> -->
 	
 	<select id="viewMyinfo" parameterType="String" resultType="com.synergy.socdoc.member.MemberVO">
        select userid, email, name, phone, height, weight, bloodType, bloodType, allergy, history, medicine, memberSeq
@@ -24,16 +24,43 @@
        where userid = #{userid}
       </select>
       
-	<select id="deptList" resultType="String">
+	<!-- <select id="deptList" resultType="String">
 		select distinct nvl(dept,-9999) as dept
 		from hospitalInfo
 		order by dept
-	</select>
+	</select> -->
 	
 	<!-- <select id="hpinfovoList" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpInfoVO"> 
 		select hpSeq,dept,mainImg,hpName,info
 		from hospitalInfo
 	</select> -->
+
+	<select id="deptIdList" resultType="String">
+      select distinct dept
+      from hospitalInfo
+      order by dept
+   </select>
+
+	<!-- <select id="hpinfovoList" resultType="com.synergy.socdoc.member.HpInfoVO"> 
+		select hpSeq,dept,mainImg,hpName,info
+		from hospitalInfo
+	</select>  -->
+	
+	<select id="hpinfovoList" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpInfoVO">
+       select hpSeq,dept,mainImg,hpName,info
+      from hospitalInfo
+      where 1=1
+      <if test="deptIdArr != null">
+      and nvl(dept, '-9999') in 
+         <foreach collection="deptIdArr" index="i" open="(" separator="," close=")">   <!-- collection명 또는 배열명  -->
+               '${deptIdArr[i]}'
+         </foreach>
+      </if>
+      <!-- <if test="gender!=null">
+         and func_gender(E.jubun) = #{gender}
+      </if> -->
+      order by hpSeq
+   </select> 
 
 	
 </mapper>

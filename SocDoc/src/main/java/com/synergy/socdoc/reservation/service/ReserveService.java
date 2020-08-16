@@ -21,34 +21,59 @@ public class ReserveService implements InterReserveService {
 		String content = dao.getContent();
 		return content;
 	}
-
-	// 병원정보가져오기
-	@Override
-	public List<HpInfoVO> hospital_select() {
-		List<HpInfoVO> hpinfovoList = dao.hospital_select();
-		return hpinfovoList;
-	}
-
-	// 환자정보가져오기
+	
+	// === 환자정보가져오기(내자신) ===
 	@Override
 	public MemberVO viewMyinfo(String userid) {
 		MemberVO membervo = dao.viewMyinfo(userid);
 	      return membervo;
 	}
 
+	// === 진료과목가져오기 ===
 	@Override
-	public List<String> deptList() {
-		List<String> deptList = dao.deptList();
-		return deptList;
+	public List<String> deptIdList() {
+		List<String> deptIdList = dao.deptIdList();
+		return deptIdList;
 	}
 
-	/*@Override
+	/*// === 병원목록 가져오기 ===
+	@Override
 	public List<HashMap<String, String>> hpinfovoList(HashMap<String, Object> paraMap) {
 		List<HashMap<String, String>> hpinfovoList = dao.hpinfovoList(paraMap);
 		return hpinfovoList;
 	}*/
 
+	/*@Override
+	public int getTotalCount(HashMap<String, String> paraMap) {
+		int n = dao.getTotalCount(paraMap);
+		return n;
+	}*/
 
+
+	@Override
+	public List<HashMap<String, String>> hpinfovoList(HashMap<String, Object> paraMap) {
+		List<HashMap<String, String>> hpinfovoList = dao.hpinfovoList(paraMap);
+		return hpinfovoList;
+	}
+
+/*	@Override
+	public List<HpInfoVO> hpinfovoListSearchWithPaging(HashMap<String, String> paraMap) {
+		List<HpInfoVO> hpinfovoList = dao.hpinfovoListSearchWithPaging(paraMap);
+		return hpinfovoList;
+	}
+
+	@Override
+	public List<HashMap<String, String>> hpinfovoList(HashMap<String, String> paraMap) {
+		List<HashMap<String, String>> hpinfovoList = dao.hpinfovoList(paraMap);
+		return hpinfovoList;
+	}
+
+	@Override
+	public List<HpInfoVO> searchWithPaging(HashMap<String, String> paraMap) {
+		List<HpInfoVO> hpinfovoList = dao.hpinfovoListSearchWithPaging(paraMap);
+		return hpinfovoList;
+	}
+*/
 
 
 
