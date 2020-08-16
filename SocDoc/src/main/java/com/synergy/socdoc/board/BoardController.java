@@ -175,18 +175,18 @@ public class BoardController {
 		paraMap.put("searchWord", searchWord);
 		
 		int totalCount = 0; // 총게시물 건수
-		int sizePerPage = 10; // 한페이지당 보여줄 게시물 건수
+		int sizePerPage = 6; // 한페이지당 보여줄 게시물 건수
 		int currentShowPageNO = 0;// 현재 보여주는 페이지 번호로서, 초기치로는 1페이지로  설정함.
 		int totalPage = 0;// 총페이지 수(웹브라우저상에 보여줄 총 페이지 개수, 페이지바)
 		
 		totalCount = service.getTotalInfoList(paraMap);   // 이 파라맵이 해쉬맵이다
+		System.out.println("총페이지 건수"+totalCount);
 		
 		totalPage = (int) Math.ceil((double)totalCount/sizePerPage); 
 		
 		if(currentShowPageNoStr == null) { // 게시판에 보여지는 초기화면이 비어있다면
 			currentShowPageNO = 1;
-		}
-		else {
+		} else {
 			try{
 				currentShowPageNO = Integer.parseInt(currentShowPageNoStr);
 				if( currentShowPageNO < 1 || currentShowPageNO > totalPage ) {
@@ -222,7 +222,56 @@ public class BoardController {
 			jsonArr.add(obj);
 		}
 		
+		
+		
+		//////
+		String pageBar = "<ul style='list-style: none;'>";
+	    
+	    int blockSize = 6;
+	    int loop = 1; // 몇번 반복할래	    
+	    // loop는 1부터 증가하여 1개 블럭을 이루는 페이지 번호의 개수(지금은 10개(== blockSize)) 10개 까지만 증가하는 용도다.
+	    
+		int pageNo = ((currentShowPageNO - 1)/blockSize) * blockSize + 1;
+/*	      
+		// === [이전] 만들기 === //
+	    if(pageNo != 1) { // 1이 아니라면 2번째부터 만들어라??? ㅅㅂ
+	       pageBar += "<li style='display:inline-block; width:50px; font-size:12pt;'><a href='javascript:getHealthInfoBoard("+(pageNo-1)+","+searchWord+")'>[이전]</a></li>";
+	    }
+*/	    
+	    // 페이징 만들기 
+	    while (!(loop > blockSize || pageNo > totalPage )) { 
+	         
+	         if(pageNo == currentShowPageNO) {
+	        	pageBar += "<li style='display:inline-block; width:100px; font-size: 12pt; border: solid 1px grey; color: red; padding: 2px 4px;'>"
+	        			+ "<a href='javascript:getHealthInfoBoard("+pageNo+","+searchWord+")'>"
+	        			+ "더보기</a></li>";
+	         }
+	        /* else {
+	        	pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt;'>"
+							+ "<a href='javascript:getHealthInfoBoard("+pageNo+","+searchWord+")'>"
+							+ pageNo+"</a></li>";	         
+	        	}*/
+	         
+	         loop++;
+	         pageNo++;
+	         
+	    } 
+	      
+/*	    if( !(pageNo > totalPage) ) {
+	      
+	    	  pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'>"
+						+ "<a href='javascript:getHealthInfoBoard("+pageNo+","+searchWord+")'>[다음]</a></li>";      
+	      
+	    }*/
+	      
+	    pageBar += "</ul>"; //페이지바를 뷰단으로 넘겨야 한다.		
+		//////
+	    
+	    
+	    
+	    
 	    JsonObject jsonObj = new JsonObject();
+	    jsonObj.addProperty("pageBar", pageBar);
 	    if(searchWord.trim() != "") {
 	    	jsonObj.addProperty("searchWord", searchWord);	    	
 	    }
@@ -268,4 +317,22 @@ public class BoardController {
 		return mav;
 	}
 	
+	
+	@RequestMapping(value = "/photo.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+	public ModelAndView photo(HttpServletRequest request, ModelAndView mav) {
+		
+		String infoSeq = request.getParameter("infoSeq");
+		String gobackURL = request.getParameter("gobackURL");
+		
+		mav.addObject("gobackURL", gobackURL);
+
+		HealthInfoVO healthinfovo = null;
+
+		healthinfovo = service.getInfoView(infoSeq);
+		
+		mav.addObject("infovo", healthinfovo);
+		mav.setViewName("notice/noticeList.tiles1");
+		
+		return mav;
+	}
 }

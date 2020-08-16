@@ -185,7 +185,7 @@
 	    padding: 0px;
 	    margin-bottom: 80px;
 	    grid-row-gap: 50px;
-	    grid-template-columns: auto auto auto;
+	    grid-template-columns: 33% 33% 33%;
 	}	
 	
 	div > img {
@@ -223,88 +223,114 @@ $(window).ready(function(){
 			 // 엔터를 했을 경우
 			 getNoticeBoard(1, $(this).prop("value"));
 		 }
-	  });
+	});
+	
+	$("#noticeSearchWord2").keydown(function(event) {
+		console.log($(this).prop("value"));
+		 if(event.keyCode == 13) {
+			 // 엔터를 했을 경우
+			 getHealthInfoBoard(1, $(this).prop("value"));
+		 }
+	});
 });		
 
 </script>
 
 <script type="text/javascript">
 
-	var lenHIT = 6;
-	var start = 1;
-	
 	$(window).ready(function(){
 		// 공지사항
 		$(".tab1").click(getNoticeBoard);
 		// 건강정보
 		$(".tab2").click(getHealthInfoBoard);
 		
+		// 글 검색
 		getNoticeBoard(1, "");
-	//	getHealthInfoBoard();
+		getHealthInfoBoard(1, "");
 		
-	
-	
-		// 더보기
-		function photo(start){
-			$.ajax({
-				url:"<%= ctxPath%>/photo.sd",
-				type:"GET",
-				data:{"start":start
-					
-				},
-				dataType:"JSON",
-				success:function(json){
-					
-					var html = "";
-					if(start=="1" && json.length == 0) { // null쓰는게 아니라 요소가 없으면 ==0으로 해야함.
-						// 처음부터 데이터가 존재하지 않는 경우
-			    		// !!! 주의 !!!
-			    		// if(json == null) 이 아님!!!
-			    		// if(json.length == 0) 으로 해야함!!
-			    		html += "건강 정보 게시글 준비 중~";
-			    		
-			    		// HIT 상품 결과를 출력하기
-			    		$("#photo").html(html);
-
-					} else {
-						// 데이터가 존재하는 경우
-
-						$.each(json, function(index, item){
-							
-							html += "<div align='center' id="+item.subject+"  onclick='goInfoView("+item.infoSeq+")'>"
-								/* + "<img width='310px' height='280px' onclick='goInfoView("+item.infoSeq+")' src='/socdoc/resources/files/"+item.imgName+"'/>" */
-								+ "<img src='/socdoc/resources/files/"+item.imgName+"'/>"
-								+ item.subject
-								+ "</div>";;
-					          
-							if((index+1) % 3 == 0){
-								html += "<br/>";
-							}
-							
-						});
-						
-						//HIT 상품 결과를 출력하기
-						$("+item.subject+").append(html);				
-						
-			    		//countHIT에 지금까지 출력된 상품의 개수를 누적해서 기록한다.
-			    		$("+item.subject+").text( Number($("#countHIT").text()) + json.length );	//<span>태그의 텍스트
-			    		
-			    		// 더보기... 버튼을 계속해서 클릭하여 countHIT 값과 totalHITCount 값이 일치하는 경우 
-						if($("#countHIT").text() == $("#totalHITCount").text() ){
-							$("#end").html("더이상 조회할 제품이 없습니다.");
-						}
-			    		// header.jsp 의 하단에 표신된 div content의 height값을 구해서, header.jsp의 div sideinfo의 height값으로 설정하기
-						func_height(); // footer.jsp에 있음.
-					}
-				},
-				error: function(request, status, error){
-					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-				}
-			});
-		}
-
+		// 더보기 초기값
+		infoBoard("1");
+		$("#photo").click(function(){
+			if($(this).text()=="처음으로"){
+				$("#photo").empty();
+				$("#end").empty();
+				infoBoard("1");
+				$(this).text("더보기");
+			} else {
+				infoBoard($(this).val());
+			}
+		});
 	});		
 
+	
+	
+
+/////  더 보 기 ////////////////////////////////////////////
+function infoBoard(start){ 
+	var lenHIT = 6;
+	var start = 1;
+	$.ajax({
+		url:"<%= ctxPath%>/photo.sd",
+		type:"GET",
+		data:{"start":start, "len":lenHIT},
+		dataType:"JSON",
+		success:function(json){
+			var html = "";
+			if(start=="1" && json.length == 0) { // 데이터가 없다면
+	    		html += "건강 정보 게시글 준비 중~";
+	    		$(".infoBoard").html(html);
+	    		$("#photo").attr("disabled", true).css("cursor","not-allowed");
+			} else {
+				// 데이터가 있다면
+				$.each(json, function(index, item){
+					html += "<div align='center' id="+item.subject+" onclick='goInfoView("+item.infoSeq+")'>"
+						+ "<img src='/socdoc/resources/files/"+item.imgName+"'/>"
+						+ item.subject
+						+ "</div>";
+					if((index+1) % 3 == 0){
+						html += "<br/>";
+					}
+				});
+				
+				//게시글 결과 출력하기
+				$(".infoBoard").append(html);				
+				
+	    		//countHIT에 지금까지 출력된 상품의 개수를 누적해서 기록한다.
+	    		$("#countHIT").text( Number($("#countHIT").text()) + json.length );	//<span>태그의 텍스트
+	    		
+	    		// ★ 더보기 버튼 value 값 지정
+	    		$("#photo").val(Number(start) + lenHIT);
+	    		// 출력된 상품 개수 누적
+                $("#countHIT").text(Number($("#countHIT").text())+(json.length));
+            	// 더이상 보여줄 제품이 없음
+                if($("#countHIT").text()==$("#totalCount").text()){
+                   $("#end").html("더이상 조회할 항목이 없습니다.")
+                   $("#photo").text("처음으로");
+                   $("#countHIT").text("0");
+                }
+	    		
+	    		// 더보기... 버튼을 계속해서 클릭하여 countHIT 값과 totalHITCount 값이 일치하는 경우 
+				if($("#countHIT").text() == $("#totalCount").text() ){
+					$("#end").html("더이상 조회할 제품이 없습니다.");
+				}
+	    		// header.jsp 의 하단에 표신된 div content의 height값을 구해서, header.jsp의 div sideinfo의 height값으로 설정하기
+				//func_height(); // footer.jsp에 있음.
+			}
+		},
+		error: function(request, status, error){
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		}
+	});
+}
+////////////////////////////////////////////
+	
+	
+	
+	
+	
+	
+	
+// 공지사항 탭 클릭	
 function getNoticeBoard(currentShowPageNo, searchWord){
 	console.log("공지사항 클릭");
 	$.ajax({	
@@ -336,6 +362,8 @@ function getNoticeBoard(currentShowPageNo, searchWord){
 	 	}
 	}); 
 }
+
+// 공지사항 게시글 클릭
 function goView(noticeSeq) {
 	//	console.log(noticeSeq);
  		var frm = document.goViewFrm;
@@ -346,7 +374,15 @@ function goView(noticeSeq) {
 		frm.submit();
 }
 
-
+function goSearch(noticeSeq){
+		var frm = document.goViewFrm;
+		frm.noticeSeq.value = noticeSeq; 
+		
+		frm.method = "GET";
+		frm.action = "<%=ctxPath%>/noticeList.sd";
+		frm.submit();
+}
+// 건강정보 탭 클릭
 function getHealthInfoBoard(currentShowPageNo, searchWord){
 	console.log("건강정보 클릭");
 	$.ajax({	
@@ -372,12 +408,15 @@ function getHealthInfoBoard(currentShowPageNo, searchWord){
 				$(".infoBoard").html("검색 결과가 없습니다!");
 			}
 			$(".infoBoard").html(html);
+			$(".infoPagination").html(json.pageBar);
 		},
 		error: function(request, status, error){
 			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 	 	}
 	}); 
 }
+
+// 건강정보 게시글 클릭
 function goInfoView(infoSeq) {
  		var frm = document.goInfoFrm;
 		frm.infoSeq.value = infoSeq; 
@@ -386,7 +425,6 @@ function goInfoView(infoSeq) {
 		frm.action = "<%=ctxPath%>/infoView.sd";
 		frm.submit();
 }
-
 </script>
 
 <!-- 
@@ -472,27 +510,38 @@ function goInfoView(infoSeq) {
 		<!-- -------------------------------- 上 끝 ---------------------------------- -->
 		
 		<div class="notice">
-			<header>
-<!-- 				<form name="seachFrm"> -->
-					<div id="search_header">
-						<div id="search_bar">
-							<div id="search_bar_left" class="total">전체 ${totalCount}건</div>
-							<%-- <c:forEach var="noticevo" items="${noticeList}">
-								<div id="search_bar_left" class="total">전체 {totalCount}건</div>
-							</c:forEach> --%>
-							<div id="search_bar_right">
-								<input id="noticeSearchWord" name="searchWord" type="text" placeholder="검색어를 입력해 주세요." />
-								<input id="search_button" onclick="goSearch();" type="button" value="검색" /> 
-							</div>
+			<%-- <header>
+				<div id="search_header">
+					<div id="search_bar">
+						<div id="search_bar_left" class="total">전체 ${totalCount}건</div>
+						<c:forEach var="noticevo" items="${noticeList}">
+							<div id="search_bar_left" class="total">전체 {totalCount}건</div>
+						</c:forEach>
+						<div id="search_bar_right">
+							<input id="noticeSearchWord" name="searchWord" type="text" placeholder="검색어를 입력해 주세요." />
+							<input id="search_button" onclick="goSearch();" type="button" value="검색" /> 
 						</div>
-					</div>	
-<!-- 				</form> -->
-			</header>
+					</div>
+				</div>	
+			</header> --%>
 		
 		<!-- -------------------------------- 헤더 끝 ---------------------------------- -->
 		
 			<form name="tab1">	
 				<div id="tab-1" class="tab-content current">
+				
+				<div id="search_header">
+					<div id="search_bar">
+						<div id="search_bar_left" class="total">전체 ${totalCount}건</div>
+						<div id="search_bar_right">
+							<input id="noticeSearchWord" name="searchWord" type="text" placeholder="검색어를 입력해 주세요." />
+							<input id="search_button" onclick="goSearch();" type="button" value="검색" /> 
+						</div>
+					</div>
+				</div>	
+				
+				
+				
 					<table>
 						<thead>
 							<tr>
@@ -501,18 +550,9 @@ function goInfoView(infoSeq) {
 							 	<th>날짜</th>
 							</tr>
 						</thead>
-						
 						<tbody class="noticeList">
-							<%-- <c:forEach var="noticevo" items="${noticeList}">
-								<tr>
-									<td class="noticeSeq">${noticevo.noticeSeq}</td>
-									<td class="subject" onclick="goView('${noticevo.subject}')">${noticevo.subject}</td>
-									<td class="regDate">${noticevo.regDate}</td>
-									<td class="hit">${noticevo.hit}</td>
-								</tr>
-							</c:forEach> --%>
+							<%-- 공지사항 게시글 들어감 --%>
 						</tbody>
-					
 					</table>
 					
 					<!-- ${totalPage} -->
@@ -526,16 +566,38 @@ function goInfoView(infoSeq) {
 			
 			<form name="tab2">
 				<div id="tab-2" class="tab-content">
+				
+				<div id="search_header">
+					<div id="search_bar">
+						<div id="search_bar_left" class="total">전체 ${infovo.totalCount}건</div>
+						<div id="search_bar_right">
+							<input id="noticeSearchWord2" name="searchWord" type="text" placeholder="검색어를 입력해 주세요." />
+							<input id="search_button" onclick="goSearch2();" type="button" value="검색" /> 
+						</div>
+					</div>
+				</div>	
+				
+				
+				
 					<div class="infoBoard">
-						<%-- <c:forEach var="healthinfovo" items="${healthinfo}">
-							<div id="${infoBoard.subject}" align='center'>
-								<img width='310px' height='280px' src='${infoBoard.img}' />
-								${infoBoard.subject}
-							</div>
-		       			</c:forEach> --%>
+						<%-- 건강정보 게시글 들어감 --%>
 		       		</div>			
+				
+					<%-- 더보기 버튼 --%>
+			       	<div style="margin: 20px 0;">
+			         	<span id="end" style="font-size: 16pt; font-weight: bold; color: red;"></span>
+			         	<button type="button" id="photo" value="">더보기</button>
+			         	<span id="totalCount">${totalCount}</span>   
+			         	<span id="countHIT">0</span>
+			       	</div>
+		       
+		       
 				</div>
-				<input id="photo" onclick="photo(1);" type="button" value="더보기" /> 
+				<!-- <input id="photo" onclick="photo();" type="button" value="더보기" /> -->
+				
+				<!-- ${totalPage} -->
+				<!-- <div class="infoPagination" id="pageBar"></div>-->
+				<!-- ${pageBar} -->
 			</form>
 			
 		<!-- -------------------------------- 건강정보 게시글 끝 ---------------------------------- -->	
