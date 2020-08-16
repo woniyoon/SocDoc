@@ -24,8 +24,6 @@ public interface InterSearchMenuDAO {
 	List<PharmacyVO> searchPharmacySelect();
 	
 	
-	
-	
 	//민간구급차 API AJax List
 	HashMap<String,String> getAmList(String city);
 

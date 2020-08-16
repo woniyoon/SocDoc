@@ -172,7 +172,7 @@ from
     from
     (
         select hpseq, hpname, address, phone, dept, latitude, longitude
-            ,substr(DISTNACE_WGS84(37.508024781100004, 37, latitude, longitude),1,instr(DISTNACE_WGS84(37, 37, latitude,  longitude), '.', 1,1)+1) as DISTANCE
+            ,substr(DISTNACE_WGS84(37.563398, 126.98633090000001, latitude, longitude),1,instr(DISTNACE_WGS84(37.563398, 126.98633090000001, latitude, longitude), '.', 1,1)+1) as DISTANCE
         from hospitalinfo
         where 1 = 1
             and address like '%'|| '' ||'%'
@@ -180,27 +180,28 @@ from
             and address like '%'|| '' ||'%'				
             and dept like '%'|| '' ||'%'				
             and hpname like '%'|| '' ||'%'	 
-        order by distance    
+        order by distance;        
     ) V
+    order by distance 
 ) T
-where rno between 11 and 20;
+where rno between 1 and 20
+order by distance ;
 
 
+select h.hpseq, h.hpname, h.address, h.phone, h.dept,h.info, h.mainimg, h.subimg1, h.subimg2, r.avg
+		from hospitalInfo h join (select hpseq, trunc(avg(rating)) as avg from hospitalreview group by hpseq) r
+		on h.hpseq = r.hpseq 
+		where h.hpseq=6;
 
-select h.hpseq, h.hpname, h.address, h.phone, h.dept, h.info, h.mainimg, h.subimg1, h.subimg2, avg(r.rating)
-from hospitalreview r join hospitalInfo h
+
+select hpseq, hpname, address, phone, dept, info, mainimg, subimg1, subimg2
+from hospitalinfo
 where hpseq=2;
 
 select avg(rating) as avg 
 from hospitalreview 
-where hpseq=2;
+where hpseq=6;
 
-select*
-from hospitalreview;
-
-
-select*
-from hospitalinfo;
 
 select hpseq
 from bookmark
@@ -210,5 +211,143 @@ and hpseq = 4;
 select*
 from user_sequences;
 
-insert into bookmark(bookseq, userid,hpseq) values(bookmarkseq.nextval,'kimmm',5);\
+insert into bookmark(bookseq, userid,hpseq) values(bookmarkseq.nextval,'kimmm',5);
+
+select userid, content, regdate, rating
+from hospitalreview;
+
+insert into hospitalreview(hpreviewseq,userid,hpseq,content,rating,hpname)
+values(hpreviewseq.nextval,'dongdong' , 2 , '좋은병원입니다.<br/>이렇게 하면 엔터 되던가 됐으면 좋겠는데.' , 5 , '(의)미래의료재단리드림의원');
+
+
+select*
+from hospitalinfo;
+
+
+select*
+from member;
+
+
+delete from hospitalreview;
+
+select userid, content, regdate, rating 
+     		from
+	     	(select row_number() over (order by hpreviewseq desc) as rno,
+	     		userid, content, regDate, rating 
+	     	from hospitalreview
+	     	where hpseq=2
+	     	)V
+     	where V.rno between 1 and 5;
+        
+
+
+
+select*
+from HPAPPLICATION;
+
+select rownum as rno, userid, regId, name, infoStatus, hpName
+from 
+(
+    select m.userid, m.regId, m.name, m.infoStatus, h.hpName
+    from hpMember m, hospitalinfo h
+    where h.hpSeq = m.hpSeq and m.infoStatus in (1,3)
+) V;
+
+select*
+from hpapplication;
+
+
+select *
+from SCHEDULEEDIT
+where submitid = 'gpavtpjw5db';
+and day = 1;
+
+select nvl2(s.open, s.day, null) as day, nvl(s.open, null) as open, nvl2(s.open, t.hour, null) as close
+		from
+		(select s.submitid, s.day, s.close, t.hour as open
+		 from SCHEDULEEDIT s left join timetable t
+         on s.open = t.hourSeq where s.submitid = 'gpavtpjw5db'
+        )s join timetable t
+		on s.close = t.hourSeq
+		order by day asc;
+        
+
+select nvl2(s.open, s.day, null) as day, nvl(s.open, null) as open, nvl2(s.open, t.hour, null) as close
+		from
+		(select s.day, s.close, t.hour as open
+		 from schedule s left join timetable t
+         on s.open = t.hourSeq and s.hpSeq = 2
+        )s
+		join timetable t
+		on s.close = t.hourSeq
+		order by day asc;
+        
+        
+select userid, content, regdate, rating 
+     		from
+	     	(select row_number() over (order by hpreviewseq desc) as rno,
+	     		userid, content, regDate, rating 
+	     	from hospitalreview
+	     	where hpseq=2
+	     	)V
+     	where V.rno between 1 and 5;        
+        
+select*
+from hospitalinfo;
+
+commit;
+
+select*
+from user_tab_columns
+where table_name ='HOSPITALREVIEW';
+
+select*
+from member;
+
+
+
+
+select rownum as rno, userid, regId, name, status, hpName, submitId
+from 
+(
+    select m.userid, m.regId, m.name, h.status , h.hpName, h.submitId,h.uploaddate
+    from hpMember m, hpApplication h
+    where h.hpSeq = m.hpSeq and h.status in (1,3)
+    order by h.uploaddate desc
+) V
+where rownum between 1 and 10;
+
+
+ select department_id, count(*)
+    from employees
+    group by department_id
+    having count(*) >=10;
+    
+    
+    select*
+    from member;
+    
+    select*
+    from infoboard;
+
+select*
+from hospitalreview;
+
+insert into hospitalreview(hpreviewseq,userid,hpseq,content,rating,hpname)
+values(hpreviewseq.nextval,'leenn' , 2 , '얄<br/>리<br/>얄<br/>리<br/>얄라성<br/>얄라리얄라' , 4 , '(의)미래의료재단리드림의원');
+
+commit;
+
+            
+
+select h.status , m.userid, m.regId, m.name,  h.hpName, h.submitId
+from hpMember m, hpApplication h
+where h.hpSeq = m.hpSeq and h.status in (1,3)
+order by h.uploaddate desc;
+
+select count(*)
+		from hospitalreview
+		where hpseq = 2;
+
+
 

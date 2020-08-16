@@ -470,7 +470,6 @@
 						return i1.distance - i2.distance;
 					});
 					
-					console.log(test);
 					
 					$.each(json, function(index, item){ 					
 						/* 

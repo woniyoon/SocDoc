@@ -84,6 +84,11 @@
 		margin-bottom: 10px;
 	}
 	
+	.hospitalRatingNum{
+		margin-left:10px;
+		font-weight: bolder;
+	}
+	
 	.guide{
 		background-color: #f2f2f2;
 		color: red;
@@ -158,6 +163,12 @@
 		outline: none; 
 	}
 	
+	.reviewTableMe{
+		width:100%;
+		margin: 20px 0;
+		font-size: 10pt;
+	}
+	
 	.reviewTable{
 		width:100%;
 		margin: 20px 0;
@@ -169,7 +180,7 @@
 	}
 	
 	.starRating{
-		background: url('/socdoc/resources/images/icoReview.png') no-repeat right 0;
+		background: url('/socdoc/resources/images/starsYellow.png') no-repeat right 0;
 		background-size: auto 100%;
 		width: 10px;
 		height: 10px;
@@ -229,14 +240,71 @@
         max-width: 100%;
         max-height:100%;
     }	 
-		
+    
+    .page_wrap {
+		text-align:center;
+		font-size:0;
+	}
+	
+	.page_nation {
+		display:inline-block;
+	}
+	.page_nation .none {
+		display:none;
+	}
+	.page_nation a {
+		display:block;
+		margin:0 3px;
+		float:left;
+		border:1px solid #e6e6e6;
+		width:28px;
+		height:28px;
+		line-height:28px;
+		text-align:center;
+		background-color:#fff;
+		font-size:13px;
+		color:#999999;
+		text-decoration:none;
+	}
+	
+	.page_nation .arrow {
+		border:1px solid #ccc;
+	}
+	
+	.page_nation .prev {
+		background:#f8f8f8 url('/socdoc/resources/images/page_prev.png') no-repeat center center;
+		margin-right:7px;
+	}
+	.page_nation .next {
+		background:#f8f8f8 url('/socdoc/resources/images/page_next.png') no-repeat center center;
+		margin-left:7px;
+	}
+	.page_nation a.active {
+		background-color:#42454c;
+		color:#fff;
+		border:1px solid #42454c;
+	}
+	
+    
+    
+    
 
 </style>
 
 
 <script type="text/javascript">
 
+
+var currentShowPageNo = 1;
+
 $(document).ready(function(){
+	
+	if('${loginuser}' != null){
+		console.log('머야');
+		readReviewMe("${loginuser.userid}");
+	}
+	
+	readReview(currentShowPageNo);
 	
 	$(".heart").on("click", function() {
 		$(this).toggleClass("is-active");
@@ -253,24 +321,6 @@ $(document).ready(function(){
 		}
 		
 	});
-	/* 
-	//이미지 슬라이드
-	var bxSlider = $(".bxslider").bxSlider({
-		
-		auto:false,
-		speed:500,
-		pause:5000,
-		mode:'horizontal',
-		autoControls:false,
-		pager:true,
-		infinitelLoop:false,
-		adaptiveHeight:true
-		
-	});
-	
-	bxSlider.stopAuto();
-	
-	 */
 	 
 	 
 	 new Swiper('.swiper-container', {
@@ -295,11 +345,10 @@ $(document).ready(function(){
 	
 	//병원별점 
 	$(".hospitalRatingStar").each(function(){
-		$("#hospitalRatingStar"+"${hpDetail.avg}").addClass("on").prevAll("span").addClass("on");
+		$("#hospitalRatingStar"+"${hospitalRating}").addClass("on").prevAll("span").addClass("on");
 		return false;
 	})
-	 
-	 
+	
 	 
 	//후기별점 
 	$(".starRating").each(function(){
@@ -322,9 +371,165 @@ $(document).ready(function(){
 	});
 	
 	
+	
+	
 })
 
 
+
+//----------------------------------------------------------------------------------
+
+function readReviewMe(loginuserId){
+	
+	var htmlMe="";
+	
+	$.ajax({
+		url:"<%= ctxPath%>/getHpReviewMe.sd",	
+		data:{"hpSeq":"${hpDetail.hpSeq}"},
+		dataType:"JSON",
+		success:function(json){
+
+			console.log(json);
+			
+			htmlMe+= '<tr><td style="background-color: #e6f5ff;;">'
+				    +'	<div style="display:inline-block; width:90%;">'
+					+'		<div>';
+				
+				for(var i=1; i<=5; i++) {
+					if(i<=json.reviewRating) {
+						htmlMe += '				<span class="starRating on" id="starRating'+i+'">별1</span>';								
+					} else {
+						htmlMe += '				<span class="starRating " id="starRating'+i+'">별2</span>';
+					}
+				}
+			htmlMe+='		</div>'
+					+'		<div class="reviewContents" id="reviewContentsMe">'+json.content+'</div>'
+					+'		<span class="name">'+json.userid+'</span><span class="registerDate">'+json.regDate+'</span>'
+					+'	</div>'
+					+'	<div style="display:inline-block; width:8%; float:right;">'
+					+'		<button type="button" id="delete" class="reviewBtn">삭제</button>'
+					+'	</div>'
+					+'</td></tr>';
+					
+			$(".reviewTableMe").html(htmlMe);
+			
+		},error: function(request, status, error){
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		}
+	})
+	
+}
+
+
+function readReview(currentShowPageNo){
+	
+	
+	$.ajax({
+		url:"<%= ctxPath%>/getHpReview.sd",	
+		data:{"hpSeq":"${hpDetail.hpSeq}","currentShowPageNo":currentShowPageNo},
+		dataType:"JSON",
+		success:function(json){
+			
+			var html="";
+			
+			if(json.length==0){
+				html += '<tr><td style="text-align: center; padding:20px !important; font-weight: bolder;">후기가 없습니다.</td></tr>';
+			}
+			else if(json.length>0){
+				$.each(json,function(index,item){
+				
+					html+='<tr><td>';
+					html+='		<div style="display:inline-block; width:90%;">';
+					html+='			<div>';
+						
+						for(var i=1; i<=5; i++) {
+							if(i<=item.reviewRating) {
+								html += '				<span class="starRating on" id="starRating'+i+'">별1</span>';								
+							} else {
+								html += '				<span class="starRating " id="starRating'+i+'">별2</span>';
+							}
+						}						
+						
+				 	html+='			</div>';
+				 	html+='			<div class="reviewContents">'+item.content+'</div>';
+				 	html+='				<span class="name">'+item.userid+'</span><span class="registerDate">'+item.regDate+'</span>';
+				 	html+='			</div>';
+				 	html+='</td></tr>';
+					
+				})
+				
+			}
+			
+			$(".reviewTable").html(html);
+			// 페이지바
+			makeReviewPageBar(currentShowPageNo);
+		},
+		error: function(request, status, error){
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		}
+	
+	
+	})
+	
+}
+
+
+function makeReviewPageBar(currentShowPageNo){
+	$.ajax({
+		url:"<%=request.getContextPath()%>/getReviewTotalPage.sd",
+		data: {"hpSeq":"${hpDetail.hpSeq}","sizePerPage":"5","currentShowPageNo":currentShowPageNo},
+		dataType:"JSON" ,
+		success:function(json){
+			
+			if(json.totalPage>0){
+				var totalPage = json.totalPage;
+	            var pageBarHTML = "<ul style='list-style: none;'>";
+				var blockSize = 10;
+				var loop = 1;
+								
+				if(typeof currentShowPageNo =="string"){
+					currentShowPageNo = Number(currentShowPageNo);
+				}
+				
+				var pageNo = Math.floor((currentShowPageNo -1)/blockSize)*blockSize+1
+				
+			
+				// === [이전] 만들기 ===
+               if(pageNo != 1) {
+                  pageBarHTML += "<a class='arrow prev' href='javascript:readReview(\""+(pageNo-1)+"\")'></a>";
+               }
+               
+               while (!(loop > blockSize || pageNo > json.totalPage )) {
+            	   
+                  if(pageNo == currentShowPageNo) {
+                     pageBarHTML += "<a class='active'>" + pageNo + "</a>";
+                  }
+                  else {
+                     pageBarHTML += "<a href='javascript:readReview(\""+pageNo+"\")'>"+pageNo+"</a>";
+                  }                  
+                  loop ++;
+                  pageNo ++;                  
+               } 
+               
+               // === [다음] 만들기 ===
+               if( !(pageNo > totalPage) ) {               
+                  pageBarHTML += "<a class='arrow next' href='javascript:readReview(\""+pageNo+"\")'></a>";  
+               }
+               
+               pageBarHTML += "</ul>";               
+               $("#pageBar").html(pageBarHTML);
+               pageBarHTML = "";
+	                     
+            } else{
+				$("#pageBar").empty();
+			}
+			
+		},
+		error: function(request, status, error){
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		}
+	});
+}
 
 
 
@@ -339,6 +544,7 @@ $(document).ready(function(){
 	
 	<div class="content">
 		<div>
+			<input type="hidden" name="hpSeq" value="${hpDetail.hpSeq}">
 			<span class="hospitalName">${hpDetail.hpName}</span>
 			<div class="heart"></div>
 			<span class="btns">
@@ -366,13 +572,13 @@ $(document).ready(function(){
 		  			<div class="swiper-pagination"></div>
 	  			</div>	  				
   				
-				<div class="hospitalRating" style="border:1px solid blue; height:40px;">
+				<div class="hospitalRating" style="padding-top:10px; height:40px;">
 					<span class="hospitalRatingStar" id="hospitalRatingStar1">별1</span>
 					<span class="hospitalRatingStar" id="hospitalRatingStar2">별2</span>
 					<span class="hospitalRatingStar" id="hospitalRatingStar3">별3</span>
 					<span class="hospitalRatingStar" id="hospitalRatingStar4">별4</span>
 					<span class="hospitalRatingStar" id="hospitalRatingStar5">별5</span>
-					<span class="hospitalRatingNum">${hpDetail.avg}</span><span>.0</span>
+					<span class="hospitalRatingNum">${hospitalRating}.0</span>
 				</div>			
 				<div class="guide">
 					<p><strong>법정공휴일</strong> : 신정, 설, 삼일절, 어린이날, 석가탄신일, 현충일, 광복절, 추석, 개천절, 한글날, 크리스마스</p>
@@ -411,60 +617,35 @@ $(document).ready(function(){
 		</div>
 		
 		<div><span class="reviewName">후기</span></div>
+		
+		<table class="reviewTableMe">
+		</table>
 		<table class="reviewTable">
-			<tr>
-				<td style="text-align: center; padding:20px !important; font-weight: bolder;">후기가 없습니다.</td>
-			</tr>
-			<tr>
-				<td style="background-color: #e6f5ff;;">
-					<div style="display:inline-block; width:90%;">
-						<div>
-							<span class="starRating" id="starRating1">별1</span>
-							<span class="starRating" id="starRating2">별2</span>
-							<span class="starRating" id="starRating3">별3</span>
-							<span class="starRating" id="starRating4">별4</span>
-							<span class="starRating" id="starRating5">별5</span>
-						</div>
-						<div class="reviewContents">최고의 병원 추천합니다.</div>
-						<span class="name">nana</span><span class="registerDate">2020.07.19</span>
-					</div>
-					<div style="display:inline-block; width:8%; float:right;">
-						<button type="button" id="modify" class="reviewBtn">수정</button>
-						<button type="button" id="delete" class="reviewBtn">삭제</button>
-					</div>
-				</td>
-			</tr>
-			<tr>	
-				<td>
-					<div>
-						<span class="starRating" id="starRating1">별1</span>
-						<span class="starRating" id="starRating2">별2</span>
-						<span class="starRating" id="starRating3">별3</span>
-						<span class="starRating" id="starRating4">별4</span>
-						<span class="starRating" id="starRating5">별5</span>
-					</div>
-					<div class="reviewContents">예약하고 갔는데도 너무 오래 기다렸어요... 피부과가 원래 그렇다고 하지만 너어어어어무 오래 기다려서 좀 힘들었습니다. 악의적인 내용은 아니고 그냥 후기인데 ㄱㅊ하죠? 저는 사실 200자를 채우고 싶어서 이렇게 구구절절 하고 있습니다. 오늘 너무 졸립고 피곤하네요 하하하 50자 남았는데 그냥 끝낸다. </div>
-					<span class="name">mimi</span><span class="registerDate">2020.07.19</span>	
-				</td>
-			</tr>
 		</table>
 		
-		
-		<div>
-			<div> 
-				<span class="stars on">별1</span>
-				<span class="stars">별2</span>
-				<span class="stars">별3</span>
-				<span class="stars">별4</span>
-				<span class="stars">별5</span>
-				<span class="starsNum" style="margin-left: 5px;">0</span><span>.0</span>
-			</div>
-			<textarea id="review" name="review" class="review" maxlength="199" placeholder="관련없는 내용이나 악의적인 후기는 삭제될 수 있습니다."></textarea>
-			<div>
-				<span id="bytesReview">0</span>자 / 200자
-				<button type="button" class="btnRegister" onclick="goRegister();">등록</button>
-			</div>
+		<div class="page_wrap">
+			<div class="page_nation" id="pageBar"></div>
 		</div>
+		
+		<c:if test="${sessionScope.loginuser!=null }">
+			<div>
+				<div> 
+					<span class="stars on">별1</span>
+					<span class="stars">별2</span>
+					<span class="stars">별3</span>
+					<span class="stars">별4</span>
+					<span class="stars">별5</span>
+					<span class="starsNum" style="margin-left: 5px;">0</span><span>.0</span>
+				</div>
+				<textarea id="review" name="review" class="review" maxlength="199" placeholder="관련없는 내용이나 악의적인 후기는 삭제될 수 있습니다."></textarea>
+				<div>
+					<span id="bytesReview">0</span>자 / 200자
+					<button type="button" class="btnRegister" onclick="goRegister();">등록</button>
+				</div>
+			</div>
+		</c:if>
+		
+		
 	
 	
 	</div>

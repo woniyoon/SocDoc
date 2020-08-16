@@ -4,10 +4,38 @@
 <mapper namespace="detail">
 
 	<select id="hospitalDetail" parameterType="String" resultType="com.synergy.socdoc.member.HpInfoVO">
-		select h.hpseq, h.hpname, h.address, h.phone, h.dept,h.info, h.mainimg, h.subimg1, h.subimg2, r.avg
-		from hospitalInfo h join (select hpseq, trunc(avg(rating)) as avg from hospitalreview group by hpseq) r
-		on h.hpseq = r.hpseq 
-		where h.hpseq=#{hpSeq}
+		select hpseq, hpname, address, phone, dept, info, mainimg, subimg1, subimg2
+		from hospitalinfo
+		where hpseq=#{hpseq}
 	</select>
+	
+	<select id="hospitalRating" parameterType="String" resultType="String">
+		select trunc(avg(rating)) as avg 
+		from hospitalreview 
+		where hpseq=#{hpseq}
+	</select>
+	
+	<select id="getHpReviewMe" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpReviewVO"> 
+		select userid, content, regDate, rating 
+     	from hospitalreview
+     	where hpseq=#{hpSeq} and userid = #{loginuserId}
+    </select>
 
+	<select id="getHpReview" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpReviewVO"> 
+		select userid, content, regdate, rating 
+     		from
+	     	(select row_number() over (order by regDate desc) as rno,
+	     		userid, content, regDate, rating 
+	     	from hospitalreview
+	     	where hpseq=#{hpSeq} and userid != #{loginuserId}
+	     	)V
+     	where V.rno between #{startRno} and #{endRno}
+    </select>
+	
+	<select id="getReviewTotalCount" parameterType="HashMap" resultType="int">
+		select count(*)
+		from hospitalreview
+		where hpseq = #{hpSeq}
+	</select>
+	
 </mapper>

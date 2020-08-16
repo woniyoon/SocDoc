@@ -140,7 +140,6 @@ public class SearchMenuCtrl {
 			
 		} catch (NumberFormatException e) {
 			currentShowPageNo = 1;
-
 		}
 		
 		

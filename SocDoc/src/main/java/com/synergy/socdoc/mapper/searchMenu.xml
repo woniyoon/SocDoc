@@ -22,7 +22,7 @@
 		    from
 		    (
 		        select hpseq, hpname, address, phone, dept, latitude, longitude
-		        	,substr(DISTNACE_WGS84(#{latitudeHere}, #{longitudeHere}, latitude, longitude),1,instr(DISTNACE_WGS84(#{latitudeHere}, #{longitudeHere}, latitude,  longitude), '.', 1,1)+1) as DISTANCE
+		        	,to_number(substr(DISTNACE_WGS84(#{latitudeHere}, #{longitudeHere}, latitude, longitude),1,instr(DISTNACE_WGS84(#{latitudeHere}, #{longitudeHere}, latitude,  longitude), '.', 1,1)+1)) as DISTANCE
 		        from hospitalinfo
 		        where 1 = 1
 		     		and address like '%'|| #{city} ||'%'
@@ -34,6 +34,7 @@
 		    ) V
 		) T
 		where rno between #{startRno} and #{endRno}
+		
 				
 	</select>   
 	
@@ -78,7 +79,7 @@
 		from hospitalinfo	
 		where 1=1
 		<if test='searchWord != ""'>
-		     and lower(${searchType}) like '%'|| lower(#{searchWord}) ||'%'
+		     and hpname like '%'|| lower(#{searchWord}) ||'%'
 		</if>		
 	</select>  
 	
