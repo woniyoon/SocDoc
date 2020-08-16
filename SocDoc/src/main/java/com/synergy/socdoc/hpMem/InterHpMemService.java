@@ -73,7 +73,10 @@ public interface InterHpMemService {
 	public int updateHpPwd(HashMap<String, String> paraMap);
 
 	// 이전 신청 내역들 취소하기
-	public void cancelPrevSubmission(String hpSeq);
+	public int cancelPrevSubmission(String hpSeq);
+
+	// 현재 선택한 신청 내역 취소하기
+	public int cancelCurrentSubmission(String submitId);
 
 	
 }

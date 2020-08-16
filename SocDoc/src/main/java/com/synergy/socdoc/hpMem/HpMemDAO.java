@@ -171,9 +171,18 @@ public class HpMemDAO implements InterHpMemDAO {
 		return result;
 	}
 
+	// 이전 신청 내역들 취소하기
 	@Override
-	public void cancelPrevSubmission(String hpSeq) {
-		sqlsession.update("hpMem.cancelPrevSubmission", hpSeq);
+	public int cancelPrevSubmission(String hpSeq) {
+		int result = sqlsession.update("hpMem.cancelPrevSubmission", hpSeq);
+		return result;
+	}
+
+	// 현재 선택한 신청 내역 취소하기
+	@Override
+	public int cancelCurrentSubmission(String submitId) {
+		int result = sqlsession.update("hpMem.cancelCurrentSubmission", submitId);
+		return result;
 	}
 
 }

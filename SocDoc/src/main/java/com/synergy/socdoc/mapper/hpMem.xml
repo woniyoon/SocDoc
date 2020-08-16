@@ -31,7 +31,7 @@
 
 	<!-- 병원 상세 정보 가져오기 -->
 	<select id="getHpInfoDetail" parameterType="String" resultType="com.synergy.socdoc.member.HpInfoVO">
-		select submitId, hpname, dept, address, phone, info, latitude, longitude, mainImg, orgMainImg, subImg1, orgSubImg1, subImg2, orgSubImg2, reason from hpApplication where submitId = #{submitId}
+		select submitId, status, hpname, dept, address, phone, info, latitude, longitude, mainImg, orgMainImg, subImg1, orgSubImg1, subImg2, orgSubImg2, reason from hpApplication where submitId = #{submitId}
 	</select>
 	
 	<!-- 병원의 영업시간 가져오기 -->
@@ -293,5 +293,11 @@
 	<update id="cancelPrevSubmission" parameterType="String">
 		update hpApplication set status = 4
 		where hpSeq = #{hpSeq} and status in (1,3)
+	</update>
+	
+	<!--  현재 선택한 신청 내역 취소하기 -->
+	<update id="cancelCurrentSubmission" parameterType="String">
+		update hpApplication set status = 4
+		where submitId = #{submitId}
 	</update>
 </mapper>

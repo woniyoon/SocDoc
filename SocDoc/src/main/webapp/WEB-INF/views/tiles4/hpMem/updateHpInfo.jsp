@@ -201,8 +201,13 @@
 		<input type="hidden" name="status" value="3"/>
 		</form>	
 		<div style="margin: 10px 0;" align="right">
-			<button class="blueBtn" id="submitBtn" onclick="submit()">승인 신청</button>
-		</div>
+			<c:if test="${hpInfo.status == 1 || hpInfo.status == 3}">
+				<button class="blueBtn" id="submitBtn" onclick="submit()">승인 신청</button>
+			</c:if>
+			<c:if test="${ hpInfo.status == 3}">
+				<button class="blueBtn" id="cancelBtn" onclick="cancel('${hpInfo.submitId}')">취소</button>
+			</c:if>
+		</div>		
 	</div>
 
 <script>
@@ -427,5 +432,12 @@
 		form.submit();
 		
 	}
+	
+	function cancel(submitId){
+		console.log(submitId);
+		
+		location.href="<%=ctxPath%>/hpPanel/cancelSubmission.sd?submitId="+submitId;
+	}
+	
 	
 </script>

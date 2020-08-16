@@ -164,8 +164,16 @@ public class HpMemService implements InterHpMemService {
 
 	// 이전 신청 내역들 취소하기
 	@Override
-	public void cancelPrevSubmission(String hpSeq) {
-		dao.cancelPrevSubmission(hpSeq);
+	public int cancelPrevSubmission(String hpSeq) {
+		int result = dao.cancelPrevSubmission(hpSeq);
+		return result;
+	}
+
+	// 현재 선택한 신청 내역 취소하기
+	@Override
+	public int cancelCurrentSubmission(String submitId) {
+		int result = dao.cancelCurrentSubmission(submitId);
+		return result;
 	}
 
 	

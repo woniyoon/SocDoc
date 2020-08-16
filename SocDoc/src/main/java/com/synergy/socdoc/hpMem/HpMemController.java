@@ -516,7 +516,7 @@ public class HpMemController {
 		json.add("counter", jsonArr);
 		
 
-		if(openingHours.get(day) != null) {
+		if(openingHours != null && openingHours.get(day) != null) {
 			hours.addProperty("open", openingHours.get(day).get("open"));			
 			hours.addProperty("close", openingHours.get(day).get("close"));		
 			json.add("hours", hours);
@@ -899,6 +899,8 @@ public class HpMemController {
 			
 		}
 		
+		
+		
 		JSONObject json = new JSONObject();
 		json.put("msg", msg);
 		json.put("needsRefresh", needsRefresh);
@@ -906,5 +908,25 @@ public class HpMemController {
 		return json.toString();
 	}
 	
-	
+	// 현재 선택한 신청 내역 취소하기
+	@RequestMapping(value = "/hpPanel/cancelSubmission.sd", method = RequestMethod.GET)
+	public ModelAndView requiredLoginHp_cancelSubmission(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+		String submitId = request.getParameter("submitId");
+		
+		int result = service.cancelCurrentSubmission(submitId);
+		
+		String msg = "신청이 취소됐습니다!";
+		String loc = request.getContextPath() + "/hpPanel/hpInfo.sd";
+		
+		if(result == 0) {
+			msg = "다시 시도해주세요!";
+			loc = "history.back();";
+		}
+		
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("msg");
+		
+		return mav;
+	}
 }
