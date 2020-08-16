@@ -46,11 +46,11 @@
 		select nvl2(s.open, s.day, null) as day, nvl(s.open, null) as open, nvl2(s.open, t.hour, null) as close
 		from
 		(select s.day, s.close, t.hour as open
-		from schedule s left join
+		from schedule s join
 		     timetable t
 		     on s.open = t.hourSeq and s.hpSeq = #{hpSeq}
 		)s
-		join timetable t
+		left join timetable t
 		on s.close = t.hourSeq
 		order by day asc
 	</select>
