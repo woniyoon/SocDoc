@@ -30,11 +30,11 @@
 	}
 	
 	.select{
-		width: 250px;
+		width: 100px;
 		height: 30px;
 		border: 1px solid #999999;
 		border-radius: .25em; 
-		margin-right: 10px;
+		margin-right: 3px;
 		margin-bottom: 5px;
 	}
 	
@@ -45,10 +45,9 @@
 		cursor: pointer; 
 		border: 1px solid #999999; 
 		border-radius: .25em; 
-		margin-left: -10px;	
 	}
 	
-	img{
+	.repImage{
 		width:280px;
 		height:140px;
 	}
@@ -122,7 +121,11 @@
 
 <script type="text/javascript">
 
+var currentShowPage = 1;
+
 	$(document).ready(function(){
+		
+		readReview(currentShowPage);
 		
 		var length=18;
 		
@@ -134,13 +137,43 @@
 		})
 		
 		//후기별점 
-	$(".starRating").each(function(){
-		$("#starRating3").addClass("on").prevAll("span").addClass("on");
-		return false;
-	})
-		
+		$(".starRating").each(function(){
+			$("#starRating3").addClass("on").prevAll("span").addClass("on");
+			return false;
+		})
+			
 	
 	})
+	
+	
+	
+	function readReview(currentShowPage){
+		
+		var city = $("#city").val();
+		var dept = $("#dept").val();
+		
+		$.ajax({
+			url:"<%= request.getContextPath()%>/readReview.sd",
+			data:{"city":city,"dept":dept,"currentShowPage":currentShowPage},
+			dataType:"JSON",
+			success:function(json){
+				
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+		
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+	
 
 </script>    
 
@@ -148,14 +181,44 @@
 
 <div class="container">
 
-	<div class="one">		
-		<input type="text" id ="searchWord" name="searchWord" class="select"/>	
-		<button type="button" class="btnSearch" onclick="goSearch();">검색</button>
+	<div class="one">
+		<select id="city" name="city" class="select">
+	        <option value="">시도</option>  
+			<option value='서울'>서울</option>
+			<option value='부산'>부산</option>
+			<option value='대구'>대구</option>
+			<option value='인천'>인천</option>
+			<option value='광주'>광주</option>
+			<option value='대전'>대전</option>
+			<option value='울산'>울산</option>
+			<option value='강원'>강원</option>
+			<option value='경기'>경기</option>
+			<option value='경남'>경남</option>
+			<option value='경북'>경북</option>
+			<option value='전남'>전남</option>
+			<option value='전북'>전북</option>
+			<option value='제주'>제주</option>
+			<option value='충남'>충남</option>
+			<option value='충북'>충북</option>				                                           
+        </select>
+        <select id="dept" name="dept" class="select">
+	        <option value="">진료과</option> 
+	        <option value="내과">내과</option> 
+	        <option value="이비인후과">이비인후과</option>
+	        <option value="정형외과">정형외과</option>
+	        <option value="안과">안과</option>
+	        <option value="치과">치과</option> 
+	        <option value="외과">외과</option> 
+	        <option value="성형외과">성형외과</option>   
+	        <option value="정신건강의학과">정신건강의학과</option>
+	        <option value="피부과">피부과</option>                              
+        </select>		
+		<button type="button" class="btnSearch" onclick="goSearch();">정렬</button>
 	</div>	
 	
 	<div class="two" align="center">
 		<div class="reviewList">
-			<div class="img"><img src="<%= ctxPath%>/resources/images/slide1.jpg"></div>
+			<div class="img"><img class="repImage" src="<%= ctxPath%>/resources/images/slide1.jpg"></div>
 			<div class="name">어쩌고 병원</div>
 			<div class="hospitalRating">
 				<span class="starRating" id="starRating1">별1</span>
@@ -184,7 +247,7 @@
 		</div>
 		
 		<div class="reviewList">
-			<div class="img"><img src="<%= ctxPath%>/resources/images/츄.jpg"></div>		
+			<div class="img"><img class="repImage" src="<%= ctxPath%>/resources/images/츄.jpg"></div>		
 			<div class="name">저쩌고 병원</div>
 			<div class="hospitalRating">★★★★★</div>
 			<div class="reviews">
@@ -198,7 +261,7 @@
 		</div>
 		
 		<div class="reviewList">
-			<div class="img"><img src=""></div>		
+			<div class="img"><img class="repImage" src=""></div>		
 			<div class="name">무슨 약국</div>
 			<div class="hospitalRating">★★★★★</div>
 			<div class="reviews">
@@ -212,7 +275,7 @@
 		</div>
 		
 		<div class="reviewList">
-			<div class="img"><img src=""></div>		
+			<div class="img"><img class="repImage" src=""></div>		
 			<div class="name">무슨 약국</div>
 			<div class="hospitalRating">★★★★★</div>
 			<div class="reviews">
@@ -226,7 +289,7 @@
 		</div>
 		
 		<div class="reviewList">
-			<div class="img"><img src=""></div>		
+			<div class="img"><img class="repImage" src=""></div>		
 			<div class="name">무슨 약국</div>
 			<div class="hospitalRating">★★★★★</div>
 			<div class="reviews">

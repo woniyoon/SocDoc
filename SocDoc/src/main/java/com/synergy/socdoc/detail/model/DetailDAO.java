@@ -27,7 +27,34 @@ public class DetailDAO implements InterDetailDAO {
 		String hospitalRating = sqlsession.selectOne("detail.hospitalRating",hpSeq);
 		return hospitalRating;
 	}
+	
+	// 즐겨찾기
+	@Override
+	public int readBookMark(HashMap<String, String> paraMap) {
+		int n = sqlsession.selectOne("detail.readBookMark",paraMap);
+		return n;
+	}
+	
+	@Override
+	public int delBookMark(HashMap<String, String> paraMap) {
+		int n = sqlsession.delete("detail.delBookMark",paraMap);
+		return n;
+	}
 
+	@Override
+	public int addBookMark(HashMap<String, String> paraMap) {
+		int n = sqlsession.insert("detail.addBookMark",paraMap);
+		return n;
+	}
+	
+	// 내리뷰
+	@Override
+	public HpReviewVO getHpReviewMe(HashMap<String, String> paraMap) {
+		HpReviewVO reviewMe = sqlsession.selectOne("detail.getHpReviewMe", paraMap);
+		return reviewMe;
+	}
+
+	// 리뷰 읽어오기
 	@Override
 	public List<HpReviewVO> getHpReview(HashMap<String, String> paraMap) {
 		List<HpReviewVO> getHpReview = sqlsession.selectList("detail.getHpReview",paraMap);
@@ -40,10 +67,21 @@ public class DetailDAO implements InterDetailDAO {
 		return reviewTotalCount;
 	}
 
+	//리뷰 삭제
 	@Override
-	public HpReviewVO getHpReviewMe(HashMap<String, String> paraMap) {
-		HpReviewVO reviewMe = sqlsession.selectOne("detail.getHpReviewMe", paraMap);
-		return reviewMe;
+	public int reviewDelete(HashMap<String, String> paraMap) {
+		int n = sqlsession.delete("detail.reviewDelete", paraMap);
+		return n;
 	}
+
+	@Override
+	public int addReview(HashMap<String, String> paraMap) {
+		int n = sqlsession.insert("detail.addReview", paraMap);
+		return n;
+	}
+
+	
+
+	
 
 }

@@ -28,7 +28,27 @@ public class DetailService implements InterDetailService {
 		String hospitalRating = dao.hospitalRating(hpSeq);
 		return hospitalRating;
 	}
+	
+	// 즐겨찾기
+	@Override
+	public int readBookMark(HashMap<String, String> paraMap) {
+		int n = dao.readBookMark(paraMap);
+		return n;
+	}
+	
+	@Override
+	public int delBookMark(HashMap<String, String> paraMap) {
+		int n = dao.delBookMark(paraMap);
+		return n;
+	}
 
+	@Override
+	public int addBookMark(HashMap<String, String> paraMap) {
+		int n = dao.addBookMark(paraMap);
+		return n;
+	}
+
+	// 리뷰
 	@Override
 	public List<HpReviewVO> getHpReview(HashMap<String, String> paraMap) {
 		List<HpReviewVO> getHpReview = dao.getHpReview(paraMap);
@@ -46,5 +66,21 @@ public class DetailService implements InterDetailService {
 		HpReviewVO reviewMe = dao.getHpReviewMe(paraMap);
 		return reviewMe;
 	}
+
+	@Override
+	public int reviewDelete(HashMap<String, String> paraMap) {
+		int n = dao.reviewDelete(paraMap);
+		return n;
+	}
+
+	@Override
+	public int addReview(HashMap<String, String> paraMap) {
+		int n = dao.addReview(paraMap);
+		return n;
+	}
+
+	
+
+	
 
 }

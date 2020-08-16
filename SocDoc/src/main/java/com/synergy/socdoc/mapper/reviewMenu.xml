@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="reviewMenu">
+
+	<select id="getHpList" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpInfoVO">
+		select rownum AS rno, hpseq, hpname, mainimg
+		from(
+		        select hpseq, hpname, address, phone, mainimg
+		        from hospitalinfo
+		        where 1 = 1
+		     		and address like '%'|| #{city} ||'%'			
+		     		and dept like '%'|| #{dept} ||'%'			
+		    ) V
+		where rnwnum between #{startRno} and #{endRno}				
+	</select>
+
+
+
+
+
+
+
+
+
+
+</mapper>

@@ -15,6 +15,23 @@
 		where hpseq=#{hpseq}
 	</select>
 	
+	<!-- 즐겨찾기 -->
+	<select id="readBookMark" parameterType="HashMap" resultType="int">
+		select count(*)
+		from bookmark
+		where userid = #{loginuserId} and hpseq = #{hpSeq}
+	</select>
+	
+    <delete id="delBookMark" parameterType="HashMap">
+		delete bookmark where userid = #{loginuserId} and hpseq =#{hpSeq}
+	</delete>
+	
+	<insert id="addBookMark" parameterType="HashMap">
+    	insert into bookmark(bookseq,userid,hpseq) values(bookmarkseq.nextval, #{loginuserId},#{hpSeq})
+    </insert>
+	
+	
+	<!-- 리뷰 -->
 	<select id="getHpReviewMe" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpReviewVO"> 
 		select userid, content, regDate, rating 
      	from hospitalreview
@@ -27,7 +44,7 @@
 	     	(select row_number() over (order by regDate desc) as rno,
 	     		userid, content, regDate, rating 
 	     	from hospitalreview
-	     	where hpseq=#{hpSeq} and userid != #{loginuserId}
+	     	where hpseq=#{hpSeq}
 	     	)V
      	where V.rno between #{startRno} and #{endRno}
     </select>
@@ -37,5 +54,15 @@
 		from hospitalreview
 		where hpseq = #{hpSeq}
 	</select>
+	
+	<delete id="reviewDelete" parameterType="HashMap">
+		delete hospitalreview where hpseq=#{hpSeq} and userid=#{userid}
+	</delete>
+	
+	<insert id="addReview" parameterType="HashMap">
+    	insert into hospitalreview(hpreviewseq,userid,hpseq,content,rating, hpname)
+		values(hpreviewseq.nextval, #{userid}, #{hpSeq}, #{reviewContent}, #{rating}, #{hpName})
+    </insert>
+	
 	
 </mapper>

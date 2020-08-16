@@ -35,7 +35,7 @@ public class CenterCtrl {
 	
 	
 	@RequestMapping(value = "/inquiry.sd")
-	public ModelAndView inquiry(ModelAndView mav) {
+	public ModelAndView requiredLogin_inquiry(ModelAndView mav) {
 
 		mav.setViewName("center/inquiry.tiles5");
 

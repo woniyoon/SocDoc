@@ -34,7 +34,15 @@ from
 where rno between 1 and 10;
 
 
+select noticeSeq, subject, content, to_char(regDate, 'yyyy-mm-dd') as regDate
+		from noticeboard
+		order by noticeSeq desc;
 
+select *
+from hospitalreview;
+
+insert into bookmark(bookseq,userid, hpseq) values(bookmarkseq.nextval,'jwjw1',6);
+commit;
 
 
 select hpseq, hpname, address, phone, dept
@@ -95,7 +103,7 @@ INSERT INTO hospitalInfo(address,hpName,phone,hpSeq,info,dept,latitude,longitude
 INSERT INTO hospitalInfo(address,hpName,phone,hpSeq,info,dept,latitude,longitude) VALUES ('서울특별시 강북구 삼양로 424 (수유동)','강북서울이비인후과의원','02-996-0029',21,'최.고.의.이.비.인.후.과.','이비인후과',37.64144264314901,127.01714001517318);
     
 
-select r.userid, r.content, v.avg
+select r.userid, r.content, r.hpname, v.avg
 from (select hpseq, avg(rating) as avg from hospitalreview group by hpseq having hpseq=2) v join hospitalreview r
 on v.hpseq = r.hpseq;
 
@@ -211,22 +219,17 @@ and hpseq = 4;
 select*
 from user_sequences;
 
-insert into bookmark(bookseq, userid,hpseq) values(bookmarkseq.nextval,'kimmm',5);
+insert into bookmark(bookseq, userid,hpseq) values(bookmarkseq.nextval,'jwjw1',2);
+delete bookmark where userid = 'jwjw1' and hpseq =2;
 
 select userid, content, regdate, rating
 from hospitalreview;
 
 insert into hospitalreview(hpreviewseq,userid,hpseq,content,rating,hpname)
-values(hpreviewseq.nextval,'dongdong' , 2 , '좋은병원입니다.<br/>이렇게 하면 엔터 되던가 됐으면 좋겠는데.' , 5 , '(의)미래의료재단리드림의원');
-
+values(hpreviewseq.nextval,'jwjw1' , 2 , '친절하고 좋았어요 보배언니한테도 소개시켜주려고 합니다 ㅎ_ㅎ' , 5 , '(의)미래의료재단리드림의원');
 
 select*
 from hospitalinfo;
-
-
-select*
-from member;
-
 
 delete from hospitalreview;
 
@@ -351,3 +354,24 @@ select count(*)
 
 
 
+select h.hpseq, h.hpname, h.dept, h.mainimg, nvl(r.avg,null) as avg
+from hospitalInfo h join (select hpseq, trunc(avg(rating)) as avg from hospitalreview group by hpseq) r
+on h.hpseq = r.hpseq 
+order by avg;
+        
+select hpseq, hpname
+from hospitalInfo
+where 1=1;
+
+select hpseq, trunc(avg(nvl(rating,0))) as avg from hospitalreview group by hpseq;        
+
+
+select rownum AS rno, hpseq, hpname, mainimg
+from(
+        select hpseq, hpname, address, phone, mainimg
+        from hospitalinfo
+        where 1 = 1
+            and address like '%'|| '' ||'%'			
+            and dept like '%'|| '' ||'%'			
+    ) V
+where rownum between 1 and 6;

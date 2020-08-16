@@ -222,6 +222,7 @@
 	var latitude= 37.56602747782394;
 	var longitude = 126.98265938959321;	   	
 	
+	
 	$(document).ready(function(){
 		
 		//지도
@@ -250,7 +251,7 @@
 				var latitude = position.coords.latitude;   //위도
 				var longitude = position.coords.longitude; //경도	
 				var locPosition = new kakao.maps.LatLng(latitude, longitude);
-				printMap(mapobj,locPosition);
+				printMap(locPosition,mapobj);
 				goSearch(mCurrentPage, latitude,longitude);
 
 			});
@@ -258,7 +259,7 @@
 		else {
 
 			var locPosition = new kakao.maps.LatLng(latitude, longitude);
-			printMap(mapobj,locPosition);
+			printMap(locPosition,mapobj);
 			goSearch(mCurrentPage, latitude,longitude);
 
 		} 
@@ -297,7 +298,7 @@
 			$('#tabMap').addClass('current');
 			$('#contentMapTab').addClass('current');
 			
-			printMap(mapobj,locPosition);
+			printMap(locPosition,mapobj);
 			goSearch(mCurrentPage,latitude,longitude);
  	   	})
  	   	
@@ -311,32 +312,17 @@
 			printGeneral(gCurrentPage);
  	   		
  	   	});
+	    
+	    
+	    $(document).on("click","#mHospitalName",function(){
+	    	
+	    	var latitude= $(this).siblings(".mlatitude").val();
+		    var longitude= $(this).siblings(".mlongitude").val();
+			var locPosition = new kakao.maps.LatLng(latitude, longitude);
+			
+			printMap(locPosition,mapobj);
+ 	   	});
  	   	
- 		/* 
-		$('#tabMap').click(function(){
-			$('ul.tabs li').removeClass('current');
-			$('.tab-content').removeClass('current');
-			
-			$('#tabMap').addClass('current');
-			$('#contentMapTab').addClass('current');
-			
-			printMap(mapobj,locPosition);
-			goSearch(mCurrentPage,latitude,longitude);
-			
-		})
-		
-		
-		$('#tabGeneral').click(function(){
-			$('ul.tabs li').removeClass('current');
-			$('.tab-content').removeClass('current');
-			
-			$('#tabGeneral').addClass('current');
-			$('#contentGeneralTab').addClass('current');
-			
-			printGeneral(gCurrentPage);
-			
-		})
-		 */
 		
 	})
 	
@@ -345,9 +331,10 @@
 	
 
 	// 지도
-	function printMap(mapobj,locPosition){
+	function printMap(locPosition, mapobj){
+
+		mapobj.panTo(locPosition);   
 		
-		mapobj.panTo(locPosition);      
 
 		$.ajax({ 
 			url: "/socdoc/mapHospital.sd",
@@ -420,7 +407,7 @@
 		    content: content,
 		    position: locPosition,  
 		    clickable: true
-		}); 
+		});
 		
 		marker.ov = overlay;
 		
@@ -435,8 +422,8 @@
  				}
  			}) 
  			mapobj.panTo(this.k);
- 		//	goSearch(mCurrentPage,this.k,longitude)
- 		});		
+
+ 	    });		
  	 
  	   $(document).on("click",".close",function(){
  	    	overlay.setMap(null);
@@ -456,6 +443,7 @@
 		 var pagebarM="";
 		 var latitude0="";
 		 var longitude0="";
+		 var locPosition0="";
 			
 		 $.ajax({ 
 				url: "/socdoc/mapHospitalList.sd",
@@ -466,18 +454,16 @@
 				dataType: "JSON",
 				success: function(json){ 
 					
-					test = json.sort(function(i1, i2){
-						return i1.distance - i2.distance;
-					});
-					
-					
 					$.each(json, function(index, item){ 					
 						/* 
-						var latitude = item.latitude;
-						var longitude = item.longitude;	 */
+						var latitude = this.latitude;
+						var longitude = this.longitude;
+						var locPosition = new kakao.maps.LatLng(latitude, longitude); */
 					
 						content += "<tr><td>"
 				      			+		"<div id='mHospitalName' class='mHospitalName'>"+item.hpName+"</div>"
+				      			+		"<input type='hidden' class='mlatitude' value='"+item.latitude+"'>"
+				      			+		"<input type='hidden' class='mlongitude' value='"+item.longitude+"'>"
 				      			+		"<div id='mHospitaldept'>"+item.hpDept+"<span>&nbsp;&nbsp;"+item.distance+"</span></div>"
 				      			+		"<div id='mHospitalTel'>"+item.phone+"</div>"
 				      			+		"<div id='mHospitalAddress'>"+item.address+"</div>"
@@ -487,12 +473,12 @@
 							pagebarM = item.pageBarM;
 							latitude0 = item.latitude;
 							longitude0 = item.longitude;
+							locPosition0 = new kakao.maps.LatLng(latitude, longitude);
+
 						}
 		      			
 					});	
 					
-					var locPosition = new kakao.maps.LatLng(latitude0, longitude0);
-				//	printMap(mapobj,locPosition);
 					$(".mabListTable").html(content);
 					$('#pageBarM').html(pagebarM);
 					
@@ -624,10 +610,10 @@
 							<option value='충북'>충북</option>				                                           
 				         </select>
 				         <select id="countyM" name="countyM" class="selectMap" onChange="cat2_change(this.value,districtM)">
-				            <option value="">군</option>                                 
+				            <option value="">구군</option>                                 
 				         </select>      
 				         <select id="districtM" name="districtM" class="selectMap">
-				            <option value="">구</option>                                 
+				            <option value="">동</option>                                 
 				         </select>
 				         <select id="deptM" name="deptM" class="selectMap">
 				            <option value="">진료과</option> 

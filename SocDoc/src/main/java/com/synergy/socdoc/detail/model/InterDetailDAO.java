@@ -11,6 +11,13 @@ public interface InterDetailDAO {
 	HpInfoVO hospitalDetail(String hpSeq);
 
 	String hospitalRating(String hpSeq);
+	
+	// 즐겨찾기
+	int readBookMark(HashMap<String, String> paraMap);
+	
+	int delBookMark(HashMap<String, String> paraMap);
+
+	int addBookMark(HashMap<String, String> paraMap);
 
 	// 리뷰
 	HpReviewVO getHpReviewMe(HashMap<String, String> paraMap);
@@ -18,6 +25,13 @@ public interface InterDetailDAO {
 	List<HpReviewVO> getHpReview(HashMap<String, String> paraMap);
 
 	int getReviewTotalCount(HashMap<String, String> paraMap);
+
+	int reviewDelete(HashMap<String, String> paraMap);
+
+	int addReview(HashMap<String, String> paraMap);
+
+	
+
 
 
 }

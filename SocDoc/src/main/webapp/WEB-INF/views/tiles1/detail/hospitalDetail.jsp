@@ -271,21 +271,45 @@
 		border:1px solid #ccc;
 	}
 	
+	.page_nation .pprev {
+		background:#f8f8f8 url('/socdoc/resources/images/page_pprev.png') no-repeat center center;
+		margin-left:0;
+	}
+	
 	.page_nation .prev {
 		background:#f8f8f8 url('/socdoc/resources/images/page_prev.png') no-repeat center center;
 		margin-right:7px;
 	}
+	
 	.page_nation .next {
 		background:#f8f8f8 url('/socdoc/resources/images/page_next.png') no-repeat center center;
 		margin-left:7px;
 	}
+	
+	.page_nation .nnext {
+		background:#f8f8f8 url('/socdoc/resources/images/page_nnext.png') no-repeat center center;
+		margin-left:7px;
+	}
+	
 	.page_nation a.active {
 		background-color:#42454c;
 		color:#fff;
 		border:1px solid #42454c;
 	}
 	
-    
+    .noReview {
+		background: url('/socdoc/resources/images/noReview1.png') no-repeat center ;
+		background-size: contain; 
+		width:100%;
+		height:150px;
+	}
+	/* 
+	.noReview {
+		background: url('/socdoc/resources/images/noLogin.png') no-repeat center ;
+		background-size: contain; 
+		width:100%;
+		height:150px;
+	} */
     
     
 
@@ -299,17 +323,24 @@ var currentShowPageNo = 1;
 
 $(document).ready(function(){
 	
-	if('${loginuser}' != null){
-		console.log('머야');
-		readReviewMe("${loginuser.userid}");
-	}
-	
+	console.log('${loginuser}')
 	readReview(currentShowPageNo);
 	
+	if('${loginuser}'.trim() != ''){
+		console.log('머야');
+		readReviewMe();
+		readBookMark();
+	}
+	
+	
 	$(".heart").on("click", function() {
-		$(this).toggleClass("is-active");
+		if($(this).hasClass("is-active")){
+			modifyBookMark();
+		}
+		else{
+			modifyBookMark();
+		}
 	});
-		
 	
 	$("#review").keyup(function(){
 		cntReview = $("#review").val().length;
@@ -366,6 +397,8 @@ $(document).ready(function(){
 		  
 		  starsNum = $(".stars.on").length;
 		  $(".starsNum").text(starsNum);
+		  $("input[name='rating']").val(starsNum);
+		  console.log('음? : '+$("input[name='rating']").val());
 		  
 		  return false;
 	});
@@ -379,7 +412,54 @@ $(document).ready(function(){
 
 //----------------------------------------------------------------------------------
 
-function readReviewMe(loginuserId){
+function readBookMark(){		
+	
+	$.ajax({
+		url:"<%= ctxPath%>/readBookMark.sd",	
+		data:{"hpSeq":"${hpDetail.hpSeq}","loginuserId":"${loginuser.userid}"},
+		dataType:"JSON",
+		success:function(json){
+			
+			if(json.n==1){
+				$(".heart").addClass("is-active");	
+			}
+			
+		},error: function(request, status, error){
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		}
+	})
+	
+}
+
+
+function modifyBookMark(){
+	
+	var isBookMark = $(".heart").hasClass("is-active");
+	
+	$.ajax({
+		url:"<%= ctxPath%>/modifyBookMark.sd",	
+		data:{"hpSeq":"${hpDetail.hpSeq}","loginuserId":"${loginuser.userid}","isBookMark":isBookMark},
+		dataType:"JSON",
+		success:function(json){
+			
+			console.log('성공');
+			if(json.result==1){
+				$(".heart").addClass("is-active");
+			}else{
+				$(".heart").removeClass("is-active");
+			}
+			
+		},error: function(request, status, error){
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		}
+	})
+	
+} 
+
+
+var reviewMe = 0;
+
+function readReviewMe(){
 	
 	var htmlMe="";
 	
@@ -388,30 +468,39 @@ function readReviewMe(loginuserId){
 		data:{"hpSeq":"${hpDetail.hpSeq}"},
 		dataType:"JSON",
 		success:function(json){
-
-			console.log(json);
-			
-			htmlMe+= '<tr><td style="background-color: #e6f5ff;;">'
-				    +'	<div style="display:inline-block; width:90%;">'
-					+'		<div>';
-				
-				for(var i=1; i<=5; i++) {
-					if(i<=json.reviewRating) {
-						htmlMe += '				<span class="starRating on" id="starRating'+i+'">별1</span>';								
-					} else {
-						htmlMe += '				<span class="starRating " id="starRating'+i+'">별2</span>';
+						
+			if(json.content !=""){
+				htmlMe+= '<tr><td style="background-color: #e6f5ff;;">'
+					    +'	<div style="display:inline-block; width:90%;">'
+						+'		<div>';
+					
+					for(var i=1; i<=5; i++) {
+						if(i<=json.reviewRating) {
+							htmlMe += '				<span class="starRating on" id="starRating'+i+'">별1</span>';								
+						} else {
+							htmlMe += '				<span class="starRating " id="starRating'+i+'">별2</span>';
+						}
 					}
-				}
-			htmlMe+='		</div>'
-					+'		<div class="reviewContents" id="reviewContentsMe">'+json.content+'</div>'
-					+'		<span class="name">'+json.userid+'</span><span class="registerDate">'+json.regDate+'</span>'
-					+'	</div>'
-					+'	<div style="display:inline-block; width:8%; float:right;">'
-					+'		<button type="button" id="delete" class="reviewBtn">삭제</button>'
-					+'	</div>'
-					+'</td></tr>';
+				htmlMe+='		</div>'
+						+'		<div class="reviewContents" id="reviewContentsMe">'+json.content+'</div>'
+						+'		<span class="name">'+json.userid+'</span><span class="registerDate">'+json.regDate+'</span>'
+						+'	</div>'
+						+'	<div style="display:inline-block; width:8%; float:right;">'
+						+'		<button type="button" id="delete" class="reviewBtn" onClick="goDelete()">삭제</button>'
+						+'	</div>'
+						+'</td></tr>';
+				reviewMe = 1;		
+			}else{
+				htmlMe+= '<tr><td style="background-color: #e6f5ff;;">'
+					    +'	<div style="width:100%;">'
+						+'		<div class="noReview"></div>'
+						+'	</div>'
+						+'</td></tr>';
+				reviewMe = 0;
+			}
 					
 			$(".reviewTableMe").html(htmlMe);
+			
 			
 		},error: function(request, status, error){
 			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -484,7 +573,7 @@ function makeReviewPageBar(currentShowPageNo){
 			if(json.totalPage>0){
 				var totalPage = json.totalPage;
 	            var pageBarHTML = "<ul style='list-style: none;'>";
-				var blockSize = 10;
+				var blockSize = 2;
 				var loop = 1;
 								
 				if(typeof currentShowPageNo =="string"){
@@ -496,6 +585,7 @@ function makeReviewPageBar(currentShowPageNo){
 			
 				// === [이전] 만들기 ===
                if(pageNo != 1) {
+            	  pageBarHTML += "<a class='arrow pprev' href='javascript:readReview(1)'></a>";
                   pageBarHTML += "<a class='arrow prev' href='javascript:readReview(\""+(pageNo-1)+"\")'></a>";
                }
                
@@ -514,6 +604,7 @@ function makeReviewPageBar(currentShowPageNo){
                // === [다음] 만들기 ===
                if( !(pageNo > totalPage) ) {               
                   pageBarHTML += "<a class='arrow next' href='javascript:readReview(\""+pageNo+"\")'></a>";  
+                  pageBarHTML += "<a class='arrow nnext' href='javascript:readReview(\""+totalPage+"\")'></a>";  
                }
                
                pageBarHTML += "</ul>";               
@@ -529,6 +620,66 @@ function makeReviewPageBar(currentShowPageNo){
 			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 		}
 	});
+}
+
+
+function goDelete(){
+	
+	if(confirm("후기를 삭제하시겠습니까?") == true){
+		
+		$.ajax({
+			url:"<%=request.getContextPath()%>/reviewDelete.sd",
+			data: {"userid":"${loginuser.userid}","hpSeq":"${hpDetail.hpSeq}"},
+			dataType:"JSON" ,
+			success:function(json){
+				alert('후기가 삭제되었습니다.');
+				reviewMe=0;
+				history.go(0);
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		})
+		
+    }
+    else{
+        return ;
+    }
+
+}
+
+
+function goRegister(){
+	
+	var reviewContent = $('#review').val().trim();
+	var rating = $("input[name='rating']").val();
+	console.log('rating : '+rating);
+	if(reviewContent=="") {
+		alert("후기를 한 글자 이상 입력해주세요.");
+		$('#review').focus();
+		return;
+	}else if(reviewMe==1){
+		alert('후기는 한 병원당 하나만 등록할 수 있습니다. \n새 후기를 등록하고 싶거나 내용을 변경하고 싶으면 \n삭제 후 재등록 해주세요.');
+		return;
+	}else{
+		$.ajax({
+			url:"<%= request.getContextPath()%>/addReview.sd",
+			data:{"userid":"${loginuser.userid}","hpSeq":"${hpDetail.hpSeq}","reviewContent":reviewContent
+				,"rating":rating,"hpName":"${hpDetail.hpName}"},
+			type:"POST",
+			dataType:"JSON",
+			success:function(json){
+				if(json.n == 1) {
+					alert('병원에 대한 후기가 등록되었습니다. \n내가 작성한 후기는 [마이페이지]-[내 후기]에서 확인할 수 있습니다.');
+					history.go(0);		
+				}
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+	}
+	
 }
 
 
@@ -635,7 +786,8 @@ function makeReviewPageBar(currentShowPageNo){
 					<span class="stars">별3</span>
 					<span class="stars">별4</span>
 					<span class="stars">별5</span>
-					<span class="starsNum" style="margin-left: 5px;">0</span><span>.0</span>
+					<span class="starsNum" style="margin-left: 5px;">1</span><span>.0</span>
+					<input type="hidden" class="rating" id="rating" name="rating" value="1">
 				</div>
 				<textarea id="review" name="review" class="review" maxlength="199" placeholder="관련없는 내용이나 악의적인 후기는 삭제될 수 있습니다."></textarea>
 				<div>
@@ -644,10 +796,11 @@ function makeReviewPageBar(currentShowPageNo){
 				</div>
 			</div>
 		</c:if>
+		<c:if test="${sessionScope.loginuser==null }">
+			<div class="noLogin">
+			</div>
+		</c:if>
 		
-		
-	
-	
 	</div>
 		
 </div>
