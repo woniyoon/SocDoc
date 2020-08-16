@@ -121,8 +121,18 @@
 				and ${searchType} like '%' || #{searchWord} || '%'
 			</if>
 	</select>
-	<select id="hpmemberListPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpMemberVO">
-		
+	<resultMap type="HashMap" id="hpmemberMap">
+       <result property="rno"                column="rno"                javaType="String"/>
+       <result property="userid"             column="userid"             javaType="String"/>
+       <result property="regId"              column="regId"              javaType="String"/>
+       <result property="name"             	 column="name"               javaType="String"/>
+       <result property="email"        	 	 column="email"         	 javaType="String"/>
+       <result property="phname"         	 column="phname"         	 javaType="String"/>
+       <result property="registerDate"       column="registerDate"       javaType="String"/>
+       <result property="infoStatus"         column="infoStatus"         javaType="String"/>
+    </resultMap>
+	<select id="hpmemberListPaging" parameterType="HashMap" resultMap="hpmemberMap">
+		<!-- 
 		select rno, userid, regId, name, email, registerDate, infoStatus
 		from
 	    ( 
@@ -138,30 +148,32 @@
 			) V
 		)T
 		where rno between #{startRno} and #{endRno}
+		-->
 		
-		<!-- 
-		select rno, userid, regId, name, email, to_char(registerDate,'yyyy-mm-dd') AS registerDate, infoStatus, nvl(b.hpname, '미등록')
+		select rno, userid, regId, name, email, phname, registerDate, infoStatus
 		from 
 		(
-			select rownum as rno, userid, regId, name, email, to_char(registerDate,'yyyy-mm-dd') AS registerDate, infoStatus, nvl(b.hpname, '미등록')
+			select rownum as rno, userid, regId, name, email, phname, registerDate, infoStatus
 			from
 				(
-				select  userid, regId, name, email, to_char(registerDate,'yyyy-mm-dd') AS registerDate, infoStatus, nvl(b.hpname, '미등록')
-				from hpMember A left join hospitalinfo B
-				on a.hpseq = b.hpseq
+					select userid, regId, name, email, nvl(b.hpname, '미등록') as phname, to_char(registerDate,'yyyy-mm-dd') AS registerDate, infoStatus
+					from hpMember A left join hospitalinfo B
+					on a.hpseq = b.hpseq
+					where infoStatus in (1,0)
+					<if test='searchWord != ""'>
+						and ${searchType} like '%' || #{searchWord} || '%'
+					</if>
 				)V
 			)T
 		where rno between #{startRno} and #{endRno}
-		
-		 -->
 	</select>
 	
 	
-	<!-- 병원(정보)등록 목록 (페이징처리) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+	<!-- 병원(정보)등록 목록 (페이징처리) -->
 	<select id="hpInfoCount" parameterType="HashMap" resultType="int">
 		select count(*)
-		from hpMember
-		where infoStatus in (1,3)
+		from hpApplication
+		where status in (1,3)
 			<if test='searchWord != ""'>
 				and lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
 			</if>
@@ -171,19 +183,21 @@
        <result property="userid"             column="userid"             javaType="String"/>
        <result property="regId"              column="regId"              javaType="String"/>
        <result property="name"             	 column="name"               javaType="String"/>
-       <result property="infoStatus"         column="infoStatus"         javaType="String"/>
+       <result property="status"        	 column="status"         	 javaType="String"/>
        <result property="hpName"         	 column="hpName"         	 javaType="String"/>
+       <result property="submitId"         	 column="submitId"         	 javaType="String"/>
+       <result property="hpSeq"         	 column="hpSeq"         	 javaType="int"/>
     </resultMap>
 	<select id="hpInfoListPaging" parameterType="HashMap" resultMap="hpinfoMap">
-		select rno, userid, regId, name, infoStatus, hpName
+		select rno, userid, regId, name, status, hpName, submitId, hpSeq
 		from
 	    ( 
-	        select rownum as rno, userid, regId, name, infoStatus, hpName
+	        select rownum as rno, userid, regId, name, status, hpName, submitId, hpSeq
 			from 
 			(
-	            select m.userid, m.regId, m.name, m.infoStatus, h.hpName
-	            from hpMember m, hospitalinfo h
-	            where h.hpSeq = m.hpSeq and m.infoStatus in (1,3)
+	            select m.userid, m.regId, m.name, h.status, h.hpName, h.submitId, h.hpSeq
+	            from hpMember m, hpApplication h
+	            where h.hpSeq = m.hpSeq and h.status in (1,3)
 				<if test='searchWord != ""'>
 					and ${searchType} like '%' || #{searchWord} || '%'
 				</if>
@@ -191,8 +205,18 @@
 		)T
 		where rno between #{startRno} and #{endRno}
 	</select>
+	<!-- 병원정보 수정 승인 -->
+	<update id="updateInfoStatus" parameterType="String">
+		update hpApplication set status = 5
+    	where submitId = #{submitId}
+	</update>
+	<!-- 병원회원 상태 변경 -->
+	<update id="updateHpMemStatus" parameterType="int">
+		update hpMember set infoStatus = 1
+		where hpSeq = #{hpSeq}
+	</update>
 	
-	
+
 	<!-- 문의관리 목록 (페이징) -->
 	<select id="qnaListCount" parameterType="HashMap" resultType="int">
 		select count(*)
@@ -336,4 +360,101 @@
 		where faqSeq = #{faqSeq}
 	</delete>
 	
+	<!-- 병원(정보)등록 상세정보 불러오기 -->
+ 	<resultMap type="HashMap" id="hpDetailMap">
+    	<result property="hpSeq" 				column="hpSeq" 			javaType="String"/>
+  		<result property="hpName" 				column="hpName" 		javaType="String"/>
+  		<result property="mainImg" 				column="mainImg" 		javaType="String"/>
+  		<result property="address" 				column="address" 		javaType="String"/>
+  		<result property="phone" 				column="phone" 			javaType="String"/>
+  		<result property="dept" 				column="dept" 			javaType="String"/>
+  		<result property="info" 				column="info" 			javaType="String"/>
+  		<result property="submitId" 			column="submitId" 		javaType="String"/>
+   	</resultMap>
+   	<select id="getHpInfoDetail" parameterType="HashMap" resultMap="hpDetailMap">
+		select hpSeq, hpName, mainImg, address, phone, dept, info, submitId 
+		from hpApplication where submitId = #{submitId}
+  	</select>   
+  	
+  	<select id="getHpApplication" parameterType="String" resultType="com.synergy.socdoc.member.HpInfoVO">
+  		select hpSeq, hpName, address, phone, info, latitude, longitude, mainImg, subImg1, subImg2, dept, orgMainImg, orgsubimg1, orgsubimg2  
+  		from hpApplication  where submitId = #{submitId} 
+  	</select>
+  	  	
+  	<update id="updateHpApplication" parameterType="com.synergy.socdoc.member.HpInfoVO" >
+        <![CDATA[
+        	MERGE INTO 
+			    hospitalInfo  
+			USING DUAL 
+			    ON (hpSeq = #{hpSeq})
+			    WHEN MATCHED THEN     
+			        UPDATE SET     
+		]]>
+		<if test="subImg1 != null and orgSubImg1 != null">
+			   subImg1 = #{subImg1}, 
+			   orgSubImg1 = #{orgSubImg1}, 		
+		</if>
+		<if test="subImg2 != null and orgSubImg2 != null">
+			   subImg2 = #{subImg2}, 
+			   orgSubImg2 = #{orgSubImg2},           
+		</if>
+		<![CDATA[		        
+			            hpName = #{hpName}, 
+			            address = #{address}, 
+			            phone = #{phone},
+			            info = #{info}, 
+			            latitude = #{latitude},
+			            longitude = #{longitude},
+			            mainImg = #{mainImg}, 
+			            dept = #{dept}, 
+			            orgMainImg = #{orgMainImg} 
+		]]>
+		<if test="subImg1 == null and subImg2 == null and orgSubImg1 == null and orgSubImg2 == null">
+			<![CDATA[	        
+				    WHEN NOT MATCHED THEN
+				        INSERT (hpSeq, hpName, address,  phone, info, latitude, longitude, mainImg, dept, orgMainImg)
+				        VALUES(#{hpSeq}, #{hpName}, #{address}, #{phone},#{info},#{latitude},#{longitude},#{mainImg},#{dept},#{orgMainImg})
+	        ]]>		
+		</if>
+		<if test="orgSubImg1 != null and orgSubImg2 == null">
+			<![CDATA[	        
+				    WHEN NOT MATCHED THEN
+				        INSERT (hpSeq, hpName, address,  phone, info, latitude, longitude, mainImg, dept, orgMainImg, subImg1, orgSubImg1)
+				        VALUES(#{hpSeq}, #{hpName}, #{address}, #{phone},#{info},#{latitude},#{longitude},#{mainImg},#{dept},#{orgMainImg}, #{subImg1}, #{orgSubImg1})
+	        ]]>		
+		</if>
+		<if test="orgSubImg1 != null and orgSubImg2 != null">
+			<![CDATA[	        
+				    WHEN NOT MATCHED THEN
+				        INSERT (hpSeq, hpName, address,  phone, info, latitude, longitude, mainImg, dept, orgMainImg, subImg1, orgSubImg1, subImg2, orgSubImg2)
+				        VALUES(#{hpSeq}, #{hpName}, #{address}, #{phone},#{info},#{latitude},#{longitude},#{mainImg},#{dept},#{orgMainImg}, #{subImg1}, #{orgSubImg1}, #{subImg2}, #{orgSubImg2})
+	        ]]>		
+		</if>
+		
+    </update>
+
+  	
+  	<!-- 
+  	병원 영업시간 가져오기
+  	<resultMap type="HashMap" id="openingHours">
+		<result property="day" column="day" javaType="String"></result>
+		<result property="open" column="open" javaType="String"></result>
+		<result property="close" column="close" javaType="String"></result>
+		
+	</resultMap>
+  	<select id="getOpeningHours" parameterType="String" resultMap="openingHours">
+		select nvl2(s.open, s.day, null) as day, nvl(s.open, null) as open, nvl2(s.open, t.hour, null) as close
+		from
+		(select s.day, s.close, t.hour as open
+		from schedule s left join
+		     timetable t
+		     on s.open = t.hourSeq and s.hpSeq = #{hpSeq}
+		)s
+		join timetable t
+		on s.close = t.hourSeq
+		order by day asc
+	</select>
+	 -->
+	
+	 
 </mapper>

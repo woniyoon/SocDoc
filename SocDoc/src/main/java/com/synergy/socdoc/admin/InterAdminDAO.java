@@ -6,6 +6,7 @@ import java.util.List;
 import com.synergy.socdoc.member.CommentVO;
 import com.synergy.socdoc.member.FaqBoardVO;
 import com.synergy.socdoc.member.HealthInfoVO;
+import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.HpMemberVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.NoticeVO;
@@ -64,5 +65,14 @@ public interface InterAdminDAO {
 	int faqInsert(HashMap<String, String> paraMap); // FAQ 글쓰기
 
 	void delFAQ(String faqSeq); // FAQ 글삭제
+
+	HashMap<String, String> getHpInfoDetail(HashMap<String, String> paraMap); // 병원 상세정보 모달로 보기
+	List<HashMap<String, String>> getOpeningHours(String hpSeq); // 병원 영업시간 가져오기
+	void updateInfoStatus(String submitId); // 병원정보 수정 승인
+	void updateHpMemStatus(int hpSeq); // 병원회원 상태 변경
+
+	HpInfoVO getHpApplication(String hpSeq);
+
+	int updateHpApplication(HpInfoVO hvo);
 
 }

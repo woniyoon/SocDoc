@@ -167,10 +167,10 @@
 						<td>${hpvo.regId}</td>			
 						<td>${hpvo.name}</td>			
 						<td>${hpvo.email}</td>			
-						<td></td>			
+						<td>${hpvo.phname}</td>			
 						<td>${hpvo.registerDate}</td>	
 						<c:choose>
-							<c:when test="${hpvo.infoStatus eq 4}">
+							<c:when test="${hpvo.infoStatus eq 1}">
 								<td style="color:blue; font-weight:bold;">Y</td>			
 							</c:when>
 							<c:otherwise>
@@ -182,7 +182,7 @@
 
 			</table>
 			
-			<div align="center">
+			<div align="center" style="margin-top: 30px;">
 				${pageBar}
 			</div>
 			
@@ -197,7 +197,7 @@
 					<span style="font-size: 1.2em; cursor: pointer;"
 						onclick="closeModal()">X</span>
 				</div>
-				<table class="hospitalDetail customTable" >
+				<table class="hospitalDetail customTable">
 					병원상세정보
 				</table>
 				</div>

@@ -229,8 +229,8 @@
            else if(con == false){ 
               location.href="history.back()";
 
-           }
-        } 
+	           }
+	     } 
      }
 	
 

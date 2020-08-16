@@ -52,7 +52,6 @@ public class HomeController {
 		
 //		request.setAttribute("content", content);
 
-
 		HashMap<String, List<NoticeVO>> map = service.selectNoticeList();
 		request.setAttribute("noticevoList", map.get("noticevoList"));
 		

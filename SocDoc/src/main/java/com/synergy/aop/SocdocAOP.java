@@ -1,6 +1,7 @@
 package com.synergy.aop;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,12 +10,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.synergy.socdoc.admin.InterAdminService;
 import com.synergy.socdoc.common.MyUtil;
+import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.HpMemberVO;
 
 @Aspect
@@ -116,5 +121,42 @@ public class SocdocAOP {
 			   
 		   }
 	   }
+	   
+	   @Autowired
+	   InterAdminService service;
+		
+		@Pointcut("execution(public * com.synergy..*Controller.confirmUpdate_*(..) )")
+		public void confirmUpdate() {}
+		
+		@SuppressWarnings("unchecked")  // 앞으로는 노란줄 경고 표시 하지 않겠다는 뜻
+		@After("confirmUpdate()")
+		public void updateInfo(JoinPoint joinPoint) {
+			// JoinPoint joinPoint는 포인트컷 되어진 주업무의 메소드이다.
+			
+			HttpServletRequest request = (HttpServletRequest) joinPoint.getArgs()[0]; 
+			String submitIDs = request.getParameter("infoJoin");
+			String[] sArr = submitIDs.split(",");
+
+			int count = 0;
+			for(int i=0; i<sArr.length; i++) {
+				HpInfoVO hvo = service.getHpApplication(sArr[i]);
+				
+				System.out.println(hvo.getHpName());
+				System.out.println(hvo.getHpSeq());
+				System.out.println(hvo.getDept());
+				int n = service.updateHpApplication(hvo);
+				count += n;
+			}
+			
+			if(count != sArr.length) {
+				System.out.println("에러 ㅎㅎ..;;;");
+			} else {
+				System.out.println("성공적인듯 ㅎㅎㅎㅎ;;;");
+				
+			}
+		}
+	   
+	   
+	   //_confirmUpdate
 	   
 }

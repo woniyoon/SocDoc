@@ -97,10 +97,10 @@
 	
 	.modalContent {
 	    background-color: white;
-	    width: 30%;
+	    width: 70%;
 	    height: auto;
-	    min-height: 50%;
-	    max-height: 60%;
+	    min-height: 80%;
+	    max-height: 80%;
 	    position: relative;
 	    padding: 30px;
 	    border: 1px solid rgb(230, 230, 230);
@@ -141,14 +141,108 @@
       	font-size: 10pt;  
 	}
 
-</style>
+      
+/* =========================================================================== */
+   
+   .hospitalDetail{
+      margin:0px auto;
+   }
+   
+   .hospitalName{
+      font-size : 15pt;
+      font-weight: 900;
+   }   
 
+   .info{
+      margin-top:10px;
+   }
+   
+   .one {
+      display:inline-block;
+      width:55%;
+      height:450px;
+      padding-right:10px;      
+   }
+   
+   .two{
+      float:right;
+      width:45%;
+      height:300px;
+   }
+   
+   .infoTable{
+      width:100%;
+      font-size: 10pt;
+      height:100%;
+   }
+   
+   .infoTable th, td{
+      padding:10px !important;
+      border-top: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+   }
+   
+   .infoTable th{
+      background-color: #f2f2f2;
+      width:80px;
+      height:25px;
+   }
+   
+   .review{
+      width:100%;
+      height:70px;
+      margin-bottom: 5px;
+      border: 1px solid #999999;    
+      border-radius: .25em;       
+      font-size: 10pt;
+      padding:5px;   
+      resize: none;
+      padding-bottom: 30px;
+   }
+   
+   textarea:focus{
+      outline: none; 
+   }
+   
+   .name{
+      margin-right: 10px;
+      font-weight: bolder;
+   }
+
+   #okBtn {
+ 	  float: right;
+	  margin-top: 10px;
+      background-color: #0080ff;
+      color:#fff;
+      cursor: pointer;   
+      border: 1px solid #dddddd;       
+      padding: 0.25em .75em;    
+      border-radius: .25em;       
+      font-weight: 500;
+      font-size: 10pt;  
+   }
+
+   #noBtn {
+ 	  float: right;
+	  margin-top: 10px;
+	  margin-right: 10px;	  
+      background-color: #efefef;
+      cursor: pointer;   
+      border: 1px solid #dddddd;       
+      padding: 0.25em .75em;    
+      border-radius: .25em;       
+      font-weight: 500;
+      font-size: 10pt;  
+   }
+
+</style>
 
 	<div id="container" style="min-height: 70vh;">
 		
 		<div id="hospitalInfoList">
 			<h2>병원등록</h2>
-			 
+			
+			<%--  
 			<form name="searchFrm">  
 	            <button class="searchBtn" onclick="goSearch()">검색</button>
 	            <input type="text" class="searchWord" id="searchWord" name="searchWord" placeholder="검색어를 입력하세요">
@@ -161,37 +255,45 @@
             
             <p>전체 등록 수 : ${totalCount}명</p>		
 			
-			<table class="table table-hover" style="text-align: center;">
-				<tr>
-					<th>선택</th>
-					<th>아이디</th>
-					<th>사업자번호</th>
-					<th>담당자</th>
-					<th>병원명</th>
-					<th>상태</th>
-				</tr>
-				
-				<c:forEach var="hpvo" items="${hpinfovoList}">
-				<tr class="detailRow">
-                    <td><input type="checkbox"/></td>	
-					<td>${hpvo.userid}</td>			
-					<td>${hpvo.regId}</td>			
-					<td>${hpvo.name}</td>			
-					<td>${hpvo.hpName}</td>	
-					<c:choose>
-						<c:when test="${hpvo.infoStatus eq 1}">
-							<td style="color:red; font-weight:bold;">대기</td>
-						</c:when>			
-						<c:when test="${hpvo.infoStatus eq 3}">
-							<td style="color:blue; font-weight:bold;">수정</td>
-						</c:when>			
-					</c:choose>
-				</tr>
-				</c:forEach>
-			</table>
-			
-			<button id="deleteBtn">반려</button>
-            <button id="updateBtn" data-toggle="modal" data-target="#myModal">승인</button> 
+			 --%>
+			<form name="updateFrm">
+				<table class="table table-hover" style="text-align: center;">
+					<tr>
+						<th>선택</th>
+						<th>아이디</th>
+						<th>사업자번호</th>
+						<th>담당자</th>
+						<th>병원명</th>
+						<th>상태</th>
+					</tr>
+					
+					<c:forEach var="hpvo" items="${hpinfovoList}">
+					<tr class="detailRow" onclick="goDetail('${hpvo.hpSeq}','${hpvo.submitId}')">
+	                    <td>
+ 	                    <%--<input type="checkbox" name="infock" class="infock" value="${hpvo.submitId}" onclick="saveIds();" /> --%>
+	                    	<input type="checkbox" name="infock" class="infock" value="${hpvo.submitId}" />
+	                    	<input class="hiddenValue" type="hidden" value="${hpvo.hpSeq}" />
+	                    </td>	
+						<td>${hpvo.submitId}</td>			
+						<td>${hpvo.regId}</td>			
+						<td>${hpvo.name}</td>			
+						<td>${hpvo.hpName}</td>	
+						<c:choose>
+							<c:when test="${hpvo.status eq 1}">
+								<td style="color:red; font-weight:bold;">대기</td>
+							</c:when>			
+							<c:when test="${hpvo.status eq 3}">
+								<td style="color:blue; font-weight:bold;">수정</td>
+							</c:when>			
+						</c:choose>
+					</tr>
+					</c:forEach>
+				</table>
+					<input type="hidden" id="infoJoin" name="infoJoin" />
+					<input type="hidden" id="hpSeq" name="hpSeq" />
+        <%--<button id="updateBtn" onclick="goUpdate('${hpvo.hpSeq}')" data-toggle="modal" data-target="#myModal">승인</button> --%> 
+            <button id="updateBtn" data-toggle="modal" data-target="#myModal">승인</button>
+		</form>
             
 		</div>
 		
@@ -199,23 +301,76 @@
 			${pageBar}
 		</div>
 		
+		
+		<!-- Modal section -->
 		<div class="modalContainer hidden">
 		<div class="modalOverlay">
 			<div class="modalContent" align="center">
 				<div class="modalContentHeader">
-					<h4 align="left">환자정보</h4>
+					<h4 align="left">병원정보</h4>
 					<span style="font-size: 1.2em; cursor: pointer;"
 						onclick="closeModal()">X</span>
 				</div>
-				<table class="hospitalDetail customTable" >
-					병원상세정보
-				</table>
+				
+				   <div class="hospitalDetail customTable">
+				      
+				      <div>
+				         <span class="hospitalName">${hpDetail.hpName}</span>
+					  </div>
+				      <div class="info">
+				         <div class="one">      
+				              	${hpDetail.mainImg}
+				         </div>
+				         <div class="two">
+				         
+				            <%-- 
+				            <table class="infoTable">
+				               <tr>
+				                  <th>주소</th>
+				                  <td>${hpDetail.address}</td>
+				               </tr>
+				               <tr>
+				                  <th>대표전화</th>
+				                  <td>${hpDetail.phone}</td>
+				               </tr>
+				               <tr>
+				                  <th>기관</th>
+				                  <td>${hpDetail.dept}</td>
+				               </tr>
+				               <tr>
+				                  <th>소개</th>
+				                  <td>${hpDetail.info}</td>
+				               </tr>
+				               <tr>
+				                  <th>진료시간</th>
+				                  <td>월요일<br/>
+							                   화요일<br/>
+							                   수요일<br/>
+							                   목요일<br/>
+							                   금요일<br/>
+							                   토요일<br/></td>
+							   </tr>
+				            </table>
+				            --%>    
+				                   
+				         </div>
+				      </div>
+						      
+				      <div>
+				         <textarea id="review" name="review" class="review" maxlength="199" placeholder="반려사유 작성란"></textarea>
+				      </div>
+				      
+					</div>
+				
+					<button id="okBtn" class="okBtn" data-toggle="modal" data-target="#myModal">승인</button>
+					<button id="noBtn" class="noBtn" data-toggle="modal" data-target="#myModal">반려</button>
+					
+				</div>
+					
 				</div>
 			</div>
 		</div>
 		
-		
-	</div>
 	
 
 <script type="text/javascript">
@@ -245,18 +400,218 @@
 			});
 		});
 		
+
+		$("#updateBtn").click(function() {
+//			goUpdate(hpSeq);
+			saveIds();
+		});
+		
 	});
 	
-	
+	<%-- 
 	function goSearch() {
 		var frm = document.searchFrm;
 			frm.method = "GET";
 			frm.action = "<%= request.getContextPath()%>/hospitalInfo.sd";
 			frm.submit();
 	}
+	--%>
 	
 	function closeModal() {
 		$(".modalContainer").addClass("hidden");
 	}
+	
+	function goDetail(hpSeq, submitId) {
+		
+		console.log(submitId);
+		
+		  $.ajax({
+	             url:"<%= request.getContextPath()%>/detailInfo.sd",
+	             type:"GET",
+	             data:{"hpSeq":hpSeq, "submitId": submitId},
+	             dataType:"JSON",
+	             success:function(json){
+	               // json결과가 오면 데이터를 동적으로 모달 안에 삽입.
+	            	var html = "";
+
+	                if(json != null) {
+	               console.log(json.address);
+	                	/* 
+	               		html += "<div class='hospitalDetail customTable'>";
+	               		html += "<div>";
+ 	               		html += "<span class='hospitalName'>"+json.hpName+"</span>";
+	               		html += "</div>";
+	               		html += "<div class='info'>";
+	               		html += "<div class='one'>"+json.mainImg+"</div>";
+	               		html += "<div class='two'>";
+	               		*/
+	               			
+	                	html += "<table class='infoTable'>";
+	                	html += "<tr>";
+	                	html += "<th>주소</th>";
+	                	html += "<td>"+json.address+"</td>";
+	                	html += "</tr>";
+	                	html += "<tr>";
+	                	html += "<th>대표전화</th>";
+	                	html += "<td>"+json.phone+"</td>";
+	                	html += "</tr>";
+	                	html += "<tr>";
+	                	html += "<th>기관</th>";
+	                	html += "<td>"+json.dept+"</td>";
+	                	html += "</tr>";
+	                	html += "<tr>";
+	                	html += "<th>소개</th>";
+	                	html += "<td>"+json.info+"</td>";
+	                	html += "</tr>";
+	                	html += "<tr>";
+	                	html += "<th>진료시간</th>";
+	                	html += "<td>월요일<br/>";
+	                	html += "화요일<br/>";
+	                	html += "수요일<br/>";
+	                	html += "목요일<br/>";
+	                	html += "금요일<br/>";
+	                	html += "토요일<br/></td>";
+	                	html += "</tr>";
+	                	html += "</table>";
+						
+	                	/* 
+						html += "</div>"
+	                	html += "</div>"
+	                	html += "</div>"
+	                	 */
+	 				}
+	 				
+	 				$(".two").html(html); 
+	             },
+	             error: function(request, status, error){
+	                      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	             }
+		  });
+	}
+	
+	<%-- 
+	function goUpdate(hpSeq) {
+
+		var cnt = $("input[name='infock']:checked").length;
+        
+        var arr = new Array();
+    
+        $("input[name='infock']:checked").each(function() {
+            arr.push($(this).attr('id'));
+        });
+        
+        if(cnt == 0){
+            alert("선택된 승인 목록이 없습니다.");
+        }
+        else{
+           	 
+           var con = confirm("승인하겠습니까?");
+           
+           var allCnt = $("input[name='infock']").length;
+           
+           var infoArr = new Array();
+           
+           for(var i=0; i<allCnt; i++) {
+        	   
+        	   if($("input:checkbox[class=infock]").eq(i).is(":checked")) {
+        		   	infoArr.push($("input:checkbox[class=infock]").eq(i).val());   
+        	   }
+           }
+
+           var infoJoin = infoArr.join();
+           
+           $("#infoJoin").val(infoJoin);
+           $("#hpSeq").val(hpSeq);
+           
+           if(con == true) {
+        	   var frm = document.updateFrm;
+               frm.method = "GET";
+               frm.action = "<%= request.getContextPath()%>/updateInfoStatus.sd"
+               frm.submit();
+           }
+          /*  else if(con == false){ 
+              location.href="history.back()";
+	       } */
+	     
+        } 		
+		
+     }--%>	
+	 
+	function saveIds(){
+		<%-- 
+		
+	//	console.log(submitId, hpSeq);
+		var test = "";
+		
+		$("input[type=checkbox]").each(function(){
+			if($(this).prop("checked")) {
+				var element = $(this).siblings();
+			//	console.log(element);
+				test += element.prop("value") + " ";
+			}
+		});
+
+		$("input#hpSeq").prop("value", test);
+		
+		var frm = document.updateFrm;
+        frm.method = "GET";
+        frm.action = "<%= request.getContextPath()%>/updateMemStatus.sd"
+        frm.submit();
+        
+         --%>
+         
+         var cnt = $("input[name='infock']:checked").length;
+         
+         var arr = new Array();
+     
+         $("input[name='infock']:checked").each(function() {
+             arr.push($(this).attr('id'));
+         });
+         
+         if(cnt == 0){
+             alert("선택된 승인 목록이 없습니다.");
+         }
+         else{
+            	 
+            var con = confirm("승인하겠습니까?");
+            
+            var allCnt = $("input[name='infock']").length;
+            
+            var infoArr = new Array();
+            var hpSeqArr = new Array(); 
+           
+            
+            for(var i=0; i<allCnt; i++) {
+         	   
+         	   if($("input:checkbox[class=infock]").eq(i).is(":checked")) {
+         		   	infoArr.push($("input:checkbox[class=infock]").eq(i).val());   
+         		   	hpSeqArr.push($("input:checkbox[class=infock]").eq(i).siblings().val());
+         	   }
+            }
+
+            
+            console.log(hpSeqArr);
+            var infoJoin = infoArr.join();
+            var hpSeq = hpSeqArr.join();
+            
+            $("#infoJoin").val(infoJoin);
+            $("#hpSeq").val(hpSeq);
+            
+            alert(con);
+            
+            if(con == true) {
+         	   var frm = document.updateFrm;
+                frm.method = "GET";
+                frm.action = "<%= request.getContextPath()%>/updateMemStatus.sd"
+                frm.submit();
+            }
+           	else if(con == false){ 
+               //location.href="history.back()";
+               return;
+ 	       }
+ 	     
+         }	 
+         
+	}	
 
 </script>	

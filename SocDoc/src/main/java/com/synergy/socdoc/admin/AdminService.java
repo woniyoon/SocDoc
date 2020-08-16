@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.synergy.socdoc.member.CommentVO;
 import com.synergy.socdoc.member.FaqBoardVO;
 import com.synergy.socdoc.member.HealthInfoVO;
+import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.HpMemberVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.NoticeVO;
@@ -252,8 +253,44 @@ public class AdminService implements InterAdminService {
 	public void delFAQ(String faqSeq) {
 		dao.delFAQ(faqSeq);
 	}
-	
 
+	// 병원 상세정보 모달로 보기
+	@Override
+	public HashMap<String, String> getHpInfoDetail(HashMap<String, String> paraMap) {
+		HashMap<String, String> hpinfoDetail = dao.getHpInfoDetail(paraMap);
+		return hpinfoDetail;
+	}
+	// 병원 영업시간 가져오기
+	@Override
+	public List<HashMap<String, String>> getOpeningHours(String hpSeq) {
+		List<HashMap<String, String>> openingHours = dao.getOpeningHours(hpSeq);
+		return openingHours;
+	}
+
+	// 병원정보 수정 승인
+	@Override
+	public void updateInfoStatus(String submitId) {
+		dao.updateInfoStatus(submitId);
+	}
+
+	// 병원회원 상태 변경
+	@Override
+	public void updateHpMemStatus(int hpSeq) {
+		dao.updateHpMemStatus(hpSeq);
+	}
+
+	// 병원 정보 신청테이블에서 셀렉트
+	@Override
+	public HpInfoVO getHpApplication(String hpSeq) {
+		HpInfoVO hvo = dao.getHpApplication(hpSeq);
+		return hvo;
+	}
+
+	@Override
+	public int updateHpApplication(HpInfoVO hvo) {
+		int n = dao.updateHpApplication(hvo);
+		return n;
+	}
 	
 	
 

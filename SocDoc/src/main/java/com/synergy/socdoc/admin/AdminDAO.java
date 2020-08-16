@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.synergy.socdoc.member.CommentVO;
 import com.synergy.socdoc.member.FaqBoardVO;
 import com.synergy.socdoc.member.HealthInfoVO;
+import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.HpMemberVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.NoticeVO;
@@ -241,6 +242,38 @@ public class AdminDAO implements InterAdminDAO {
 		sqlsession.delete("admin.delFAQ", faqSeq);
 	}
 	
+	// 병원 상세정보 모달로 보기
+	@Override
+	public HashMap<String, String> getHpInfoDetail(HashMap<String, String> paraMap) {
+		HashMap<String, String> hpinfoDetail = sqlsession.selectOne("admin.getHpInfoDetail", paraMap);
+		return hpinfoDetail;
+	}
+	// 병원 영업시간 가져오기
+	@Override
+	public List<HashMap<String, String>> getOpeningHours(String hpSeq) {
+		List<HashMap<String, String>> openingHours = sqlsession.selectOne("admin.getOpeningHours", hpSeq);
+		return openingHours;
+	}
+	// 병원정보 수정 승인
+	@Override
+	public void updateInfoStatus(String submitId) {
+		sqlsession.update("admin.updateInfoStatus", submitId);
+	}
+	// 병원회원 상태 변경
+	@Override
+	public void updateHpMemStatus(int hpSeq) {
+		sqlsession.update("admin.updateHpMemStatus", hpSeq);
+	}
+	@Override
+	public HpInfoVO getHpApplication(String hpSeq) {
+		HpInfoVO hvo = sqlsession.selectOne("admin.getHpApplication", hpSeq);
+		return hvo;
+	}
+	@Override
+	public int updateHpApplication(HpInfoVO hvo) {
+		int n = sqlsession.update("admin.updateHpApplication", hvo);
+		return n;
+	}
 	
 	
 

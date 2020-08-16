@@ -21,11 +21,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.JsonObject;
 import com.synergy.socdoc.common.FileManager;
 import com.synergy.socdoc.common.MyUtil;
 import com.synergy.socdoc.member.CommentVO;
 import com.synergy.socdoc.member.FaqBoardVO;
 import com.synergy.socdoc.member.HealthInfoVO;
+import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.HpMemberVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.NoticeVO;
@@ -300,6 +302,7 @@ public class AdminController {
 		return mav;
 	}
 	
+	
 	/* 병원등록 */
 	@RequestMapping(value = "/hospitalInfo.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	public ModelAndView hospitalInfo(HttpServletRequest request, ModelAndView mav) {
@@ -358,7 +361,7 @@ public class AdminController {
 		paraMap.put("endRno", String.valueOf(endRno));
  
 		List<HashMap<String, String>> hpinfovoList = service.hpInfoListPaging(paraMap);
-		
+
 		if(!"".equals(searchWord)) {
 			mav.addObject("paraMap", paraMap);
 		}
@@ -414,8 +417,88 @@ public class AdminController {
 		
 		return mav;
 	}
-	
+	// 병원 상세정보 모달로 보기
+	@ResponseBody
+	@RequestMapping(value="/detailInfo.sd", produces="text/plain;charset=UTF-8")
+	public String detailInfo(HttpServletRequest request, HpInfoVO hpinfovo) {
+		
+		String hpSeq = request.getParameter("hpSeq");
+		String submitId = request.getParameter("submitId");
+		
+		HashMap<String,String> paraMap = new HashMap<>();
+		
+		// 병원 영업시간 가져오기
+	//	List<HashMap<String, String>> openingHours = service.getOpeningHours(submitID);
 
+   		paraMap.put("hpSeq", hpSeq);
+   		paraMap.put("submitId", submitId);
+		
+   		HashMap<String,String> hpDetail = service.getHpInfoDetail(paraMap);
+   		// 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것)
+		
+   		JsonObject json = new JsonObject();
+   		
+   		json.addProperty("hpSeq", hpSeq);
+   		json.addProperty("hpName", hpDetail.get("hpName"));
+   		json.addProperty("mainImg", hpDetail.get("mainImg"));
+   		json.addProperty("address", hpDetail.get("address"));
+   		json.addProperty("phone", hpDetail.get("phone"));
+   		json.addProperty("dept", hpDetail.get("dept"));
+   		json.addProperty("info", hpDetail.get("info"));
+   		json.addProperty("submitId", hpDetail.get("submitId"));
+		
+		return json.toString();
+		
+	}
+	/* 병원정보 수정 승인 */
+/*	@RequestMapping(value="/updateInfoStatus.sd", method = RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView updateInfo(@RequestParam("infock") String[] infock, ModelAndView mav, HttpServletRequest request) {
+		
+		String infoJoin = request.getParameter("infoJoin"); 
+	//	String hpSeq = request.getParameter("hpSeq");
+		
+		String[] infoArr = infoJoin.split(",");
+	//	System.out.println(infoJoin);
+		
+		for(int i=0; i<infoArr.length; i++) {
+			service.updateInfoStatus(infoArr[i]); // 병원등록에서 update하기
+		}
+		
+	//	service.updateHpMemStatus(hpSeq); // 병원회원관리에서 update하기
+		
+        mav.addObject("loc",request.getContextPath()+"/hospitalInfo.sd");
+        mav.setViewName("msg");
+      
+        return mav;
+	}*/
+	/* 병원정보 수정 승인 후 병원회원 상태 변경 */
+	@RequestMapping(value="/updateMemStatus.sd", method = RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView confirmUpdate_updateMemStatus(HttpServletRequest request, @RequestParam("infock") String[] infock, ModelAndView mav) {
+		
+	//	String hpSeq = request.getParameter("hpSeq");
+		String infoJoin = request.getParameter("infoJoin");
+		String hpSeq = request.getParameter("hpSeq");
+		
+		String[] infoArr = infoJoin.split(",");
+		String[] hpArr = hpSeq.split(",");
+		System.out.println(infoArr);
+		System.out.println(hpSeq);
+		
+		for(int i=0; i<infoArr.length; i++) {
+			service.updateInfoStatus(infoArr[i]); // 병원회원관리에서 update하기
+			service.updateHpMemStatus(Integer.parseInt(hpArr[i])); // 병원등록에서 update하기
+		}
+		
+		mav.addObject("loc",request.getContextPath()+"/hospitalInfo.sd");
+		mav.setViewName("msg");
+		
+		return mav;
+	}
+
+	
+	
 	/* 공지사항관리 */
 	@RequestMapping(value = "/adminNoticeMng.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	public ModelAndView adminNoticeMng(HttpServletRequest request, ModelAndView mav) {
