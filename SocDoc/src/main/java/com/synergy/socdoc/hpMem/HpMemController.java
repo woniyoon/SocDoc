@@ -47,11 +47,20 @@ public class HpMemController {
 		// 병원 영업시간 가져오기
 		List<HashMap<String, String>> openingHours = service.getOpeningHours(hpSeq);
 
+		boolean isExisting = true;
+		
+		// 영업시간이 비어있으면 미등록 상태임을 전달
+		if(openingHours.get(0) == null) {
+			isExisting = false;
+		}
+		
+		
 		// 병원 후기 가져오기
 		List<HashMap<String, String>> reviewList = service.getRecentReviews(hpSeq);
 				
 		request.setAttribute("openingHours", openingHours);
 		request.setAttribute("reviewList", reviewList);
+		request.setAttribute("isExisting", isExisting);
 		
 		return "hpMem/main.tiles4";
 	}

@@ -22,7 +22,7 @@
 				<!-- 동적으로 생성되는 부분 ⬇️-->
 				<tr>
 					<td id="weekdaySchedule" rowspan="5">
-					<c:if test="${ not empty openingHours }">
+					<c:if test="${isExisting}">
 						<c:forEach var="map" items="${openingHours }" varStatus="status">
 							<div>
 							<c:choose>
@@ -47,6 +47,10 @@
 						      </c:choose>
 							&emsp;<span>${map.open}</span> ~ <span>${map.close}</span></div>
 						</c:forEach>
+					</c:if>
+					<c:if test="${!isExisting }">
+						<span>정보가 아직 등록되있지 않습니다!</span><br>
+						<span style="cursor:pointer;" onclick="location.href='<%=ctxPath%>/hpPanel/updateHpInfo.sd'">신청하러 가기!</span>
 					</c:if>
 					</td>
 				</tr>
