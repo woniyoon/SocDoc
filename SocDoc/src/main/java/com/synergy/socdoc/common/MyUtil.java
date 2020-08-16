@@ -60,7 +60,7 @@ public class MyUtil {
 			pageNo = ((currentShowPageNo-1)/blockSize) * blockSize + 1;
 			
 			if(pageNo != 1) {
-			  pageBar += "&nbsp;<a href='"+baseLink+"?currentShowPageNo="+(pageNo-1)+"'>[이전]</a>&nbsp;";		  		  
+			  pageBar += "&nbsp;<a href='"+baseLink+"?currentShowPageNoStr="+(pageNo-1)+"'>[이전]</a>&nbsp;";		  		  
 			}
 			
 			while(!(loop > blockSize || pageNo > totalPage)) {
@@ -68,7 +68,7 @@ public class MyUtil {
 				if(pageNo == currentShowPageNo) {
 					pageBar += "&nbsp;<a class='active'>" + pageNo + "</a>&nbsp;";			  
 				} else {			  
-					pageBar += "&nbsp;<a href='"+baseLink+"?currentShowPageNo="+pageNo+"'>"+pageNo+"</a>&nbsp;";
+					pageBar += "&nbsp;<a href='"+baseLink+"?currentShowPageNoStr="+pageNo+"'>"+pageNo+"</a>&nbsp;";
 				}
 
 				pageNo++;
@@ -76,7 +76,7 @@ public class MyUtil {
 			}
 			
 			if(!(pageNo > totalPage)) {
-			  pageBar += "&nbsp;<a href='"+baseLink+"?currentShowPageNo="+pageNo+"'>[다음]</a>&nbsp;";		  
+			  pageBar += "&nbsp;<a href='"+baseLink+"?currentShowPageNoStr="+pageNo+"'>[다음]</a>&nbsp;";		  
 			}		
 			
 		 return pageBar;
