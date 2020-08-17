@@ -15,7 +15,7 @@
 		<h3 align="left">병원 정보 관리</h3>
 		<form id="hpInfoForm" name="hpInfoForm" enctype="multipart/form-data">
 		<section id="infoContainer">
-				<div class="slideshow-container">
+				<div class="slideshow-container" style="display: flex; justify-content: center; align-items: center;">
 		
 					<!-- Full-width images with number and caption text -->
 					<c:if test="${not empty hpInfo.mainImg }">
