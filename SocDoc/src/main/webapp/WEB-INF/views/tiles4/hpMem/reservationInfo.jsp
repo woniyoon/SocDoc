@@ -89,19 +89,14 @@
 			data:{"visitDate": visitDate, "day": (day-1)},
 			dataType: "JSON",
             success: function(json){
-            	console.log(json);
             	
             	var open = Number(json.hours.open.substring(0,2));
             	var close = Number(json.hours.close.substring(0,2));
 
-            	console.log(open, close);
-            	
             	var html = "<table class='timetable'>";
 				
-            	console.log(typeof json);
             	$.each(json.counter, function(index, item){
             		var counterHour = Number(item.hour.substring(0,2));
-            		console.log(counterHour);
             		
             		if(counterHour >= open && counterHour <= close) {
 	            		html += "<tr><th>" + item.hour + "</th><td>"+ item.cnt +" / 6 명</td></tr>";
@@ -109,7 +104,6 @@
             			return;
             		}
             		
-            		console.log("?????");
            		});
 
         		html += "</table>";
@@ -139,16 +133,16 @@
                	if(json.length > 0) {
                		$.each(json, function(index, item){
                			var num = index + 1;
-               			console.log(typeof item.hasVisited);
+
                			var checked = item.hasVisited ? "checked" : "unchecked";
                			
-               			html += "<tr id='"+item.userid+"' onclick='popModal(event);'>"
-               					+	"<td>"+num+"</td>"
-               					+	"<td>"+item.hour+"</td>"
-               					+	"<td>"+item.name+"</td>"
-               					+	"<td>"+item.phone+"</td>"
+               			html += "<tr id='"+item.userid+"'>"
+               					+	"<td onclick='popModal(event)'>"+num+"</td>"
+               					+	"<td onclick='popModal(event)'>"+item.hour+"</td>"
+               					+	"<td onclick='popModal(event)'>"+item.name+"</td>"
+               					+	"<td onclick='popModal(event)'>"+item.phone+"</td>"
 /*                					+	"<td>초진</td>" */
-               					+	"<td id='visitStatus"+item.reservSeq+"'>"+(item.hasVisited?  "방문" : "미방문" ) +"</td>"
+               					+	"<td onclick='popModal(event)' id='visitStatus"+item.reservSeq+"'>"+(item.hasVisited?  "방문" : "미방문" ) +"</td>"
                					+	"<td><input onclick='updateVisitStatus(this,"+!item.hasVisited+")' id="+ item.reservSeq +" type='checkbox' "+checked+" /></td>"
                			 		+"</tr>";
                		});
@@ -197,10 +191,10 @@
 		console.log("?!");
 
 		// 체크박스 클릭시, 이벤트를 취소
-		if (e.target.type == "checkbox") {
+/* 		if (e.target.type == "checkbox") {
 			e.stopPropagation();
 			console.log("event canceled!!");
-		} else {
+		} else { */
 			var userid = e.target.parentElement.id;
 			
 			$.ajax({
@@ -244,8 +238,8 @@
 				}
 			});
 			
-			
-		}
+			/* 
+		} */
 	}
 	
 </script>
