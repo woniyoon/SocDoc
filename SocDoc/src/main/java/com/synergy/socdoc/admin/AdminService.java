@@ -254,7 +254,7 @@ public class AdminService implements InterAdminService {
 		dao.delFAQ(faqSeq);
 	}
 
-	// 병원 상세정보 모달로 보기
+	// 병원 수정내용 상세정보 모달로 보기
 	@Override
 	public HashMap<String, String> getHpInfoDetail(HashMap<String, String> paraMap) {
 		HashMap<String, String> hpinfoDetail = dao.getHpInfoDetail(paraMap);
@@ -296,6 +296,32 @@ public class AdminService implements InterAdminService {
 	@Override
 	public void updateRejectInfo(String submitId) {
 		dao.updateRejectInfo(submitId);
+	}
+
+	// 병원회원 상세 정보 가져오기
+	@Override
+	public HashMap<String, String> detailInfo(HashMap<String, String> paraMap) {
+		HashMap<String, String> hpinfoDetail = dao.detailInfo(paraMap);
+		return hpinfoDetail;
+	}
+	// 병원회원 상세 영업시간 가져오기
+	@Override
+	public List<HashMap<String, String>> getTimeTbl(HashMap<String, String> paraMap) {
+		List<HashMap<String, String>> openingHours = dao.getTimeTbl(paraMap);
+		return openingHours;
+	}
+
+	// 
+	@Override
+	public List<HashMap<String, String>> getAllScheduleEdit(HashMap<String, String> paraMap) {
+		List<HashMap<String, String>> schedule = dao.getAllScheduleEdit(paraMap);
+		return schedule;
+	}
+
+	@Override
+	public int updateHpSchedule(List<HashMap<String, String>> scheduleList) {
+		int result = dao.updateHpSchedule(scheduleList);
+		return result;
 	}
 	
 	

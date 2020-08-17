@@ -167,6 +167,38 @@
 			)T
 		where rno between #{startRno} and #{endRno}
 	</select>
+	<!-- 병원(정보)등록 상세정보 불러오기 -->
+ 	<resultMap type="HashMap" id="detailHpInfoMap">
+    	<result property="hpSeq" 				column="hpSeq" 			javaType="String"/>
+  		<result property="hpName" 				column="hpName" 		javaType="String"/>
+  		<result property="mainImg" 				column="mainImg" 		javaType="String"/>
+  		<result property="address" 				column="address" 		javaType="String"/>
+  		<result property="phone" 				column="phone" 			javaType="String"/>
+  		<result property="dept" 				column="dept" 			javaType="String"/>
+  		<result property="info" 				column="info" 			javaType="String"/>
+   	</resultMap>
+   	<select id="detailInfo" parameterType="HashMap" resultMap="detailHpInfoMap">
+		select hpSeq, hpName, mainImg, address, phone, dept, info
+		from hospitalInfo where hpSeq = #{hpSeq}
+  	</select>   
+  	<!-- 병원 영업시간 가져오기 -->
+  	<resultMap type="HashMap" id="timeInfoMap">
+		<result property="day" column="day" javaType="String"></result>
+		<result property="open" column="open" javaType="String"></result>
+		<result property="close" column="close" javaType="String"></result>
+	</resultMap>
+  	<select id="getTimeTbl" parameterType="HashMap" resultMap="timeInfoMap">
+		select nvl2(s.open, s.day, null) as day, nvl(s.open, null) as open, nvl2(s.open, t.hour, null) as close
+		from
+		(
+		    select s.submitid, s.day, s.close, t.hour as open
+		    from SCHEDULEEDIT s left join timetable t
+		    on s.open = t.hourSeq where s.hpSeq = #{hpSeq}
+		)s join timetable t
+		on s.close = t.hourSeq
+		order by day asc
+	</select>
+	
 	
 	
 	<!-- 병원(정보)등록 목록 (페이징처리) -->
@@ -396,14 +428,15 @@
   	
   	<!-- 병원 영업시간 가져오기 -->
   	<resultMap type="HashMap" id="openingHours">
+		<result property="hpSeq" column="hpSeq" javaType="String"></result>
 		<result property="day" column="day" javaType="String"></result>
 		<result property="open" column="open" javaType="String"></result>
 		<result property="close" column="close" javaType="String"></result>
 	</resultMap>
   	<select id="getOpeningHours" parameterType="HashMap" resultMap="openingHours">
-		select nvl2(s.open, s.day, null) as day, nvl(s.open, null) as open, nvl2(s.open, t.hour, null) as close
+		select hpSeq, nvl2(s.open, s.day, null) as day, nvl(s.open, null) as open, nvl2(s.open, t.hour, null) as close
 		from
-		(select s.day, s.close, t.hour as open
+		(select s.hpSeq, s.day, s.close, t.hour as open
 		from scheduleEdit s join
 		     timetable t
 		     on s.open = t.hourSeq and submitId = #{submitId}
@@ -474,6 +507,33 @@
 			update hpApplication set status = 2
 	    	where submitId = #{submitId}
 	</update>
-  	
+	
+	<resultMap type="HashMap" id="updatedSchedule">
+		<result property="hpSeq" column="hpSeq" javaType="String"></result>
+		<result property="day" column="day" javaType="String"></result>
+		<result property="open" column="open" javaType="String"></result>
+		<result property="close" column="close" javaType="String"></result>
+	</resultMap>
+	<select id="getAllScheduleEdit" parameterType="HashMap" resultMap="updatedSchedule">
+		select hpSeq, day, open, close
+		from scheduleEdit
+		where submitId = #{submitId}
+	</select>
+	 
+	 <update id="updateHpSchedule" parameterType="HashMap">
+	 	 <![CDATA[
+        	MERGE INTO 
+			    schedule  
+			USING DUAL 
+			    ON (hpSeq = #{hpSeq} and day = #{day})
+			    WHEN MATCHED THEN     
+			        UPDATE SET     
+			    		open = #{open}, 
+			    		close = #{close}	        
+				WHEN NOT MATCHED THEN
+			 		insert (hpSeq, day, open, close)
+				        VALUES(#{hpSeq}, #{day}, #{open}, #{close})
+	        ]]>		
+	 </update>
 	 
 </mapper>

@@ -117,12 +117,12 @@
 	    justify-content: space-between;
 	}
 	
-	.hospitalDetail {
+	.detailHpInfo {
 		width: 90%;
 		margin: 40px 0 0 0;	
 	}
 	
-	.hospitalDetail tr, .hospitalDetail td {
+	.detailHpInfo tr, .detailHpInfo td {
 		border-top: 1px solid #dddddd;
 		border-collapse: collapse;
 		padding: 10px 0;	
@@ -162,7 +162,7 @@
 				</tr>
 				
 				<c:forEach var="hpvo" items="${hospitalvoList}">
-					<tr class="detailRow">
+					<tr class="detailRow" onclick="showDetail('${hpvo.hpSeq}')">
 						<td>${hpvo.userid}</td>			
 						<td>${hpvo.regId}</td>			
 						<td>${hpvo.name}</td>			
@@ -193,12 +193,12 @@
 		<div class="modalOverlay">
 			<div class="modalContent" align="center">
 				<div class="modalContentHeader">
-					<h4 align="left">환자정보</h4>
+					<h4 align="left">병원회원 정보</h4>
 					<span style="font-size: 1.2em; cursor: pointer;"
 						onclick="closeModal()">X</span>
 				</div>
-				<table class="hospitalDetail customTable">
-					병원상세정보
+				<table class="detailHpInfo customTable">
+					
 				</table>
 				</div>
 			</div>
@@ -247,5 +247,71 @@
 	function closeModal() {
 		$(".modalContainer").addClass("hidden");
 	}
+	
+	function showDetail(hpSeq) {
+		
+		  $.ajax({
+	             url:"<%= request.getContextPath()%>/showDetail.sd",
+	             type:"GET",
+	             data:{"hpSeq":hpSeq},
+	             dataType:"JSON",
+	             success:function(json){
+	               // json결과가 오면 데이터를 동적으로 모달 안에 삽입.
+	            	var html = "";
+
+	               	console.log(json);
+	               	
+	                if(json != null) {
+
+	                	html += "<div>";
+ 	               		html += "<span class='hospitalName'>"+json.hpName+"</span>";
+	               		html += "</div>";
+	               		html += "<div class='info'>";
+	               		html += "<div class='one'>"+json.mainImg+"</div>";
+	               		html += "<div class='two'>";
+	               			
+	                	html += "<table class='infoTable'>";
+	                	html += "<tr>";
+	                	html += "<th>주소</th>";
+	                	html += "<td>"+json.address+"</td>";
+	                	html += "</tr>";
+	                	html += "<tr>";
+	                	html += "<th>대표전화</th>";
+	                	html += "<td>"+json.phone+"</td>";
+	                	html += "</tr>";
+	                	html += "<tr>";
+	                	html += "<th>기관</th>";
+	                	html += "<td>"+json.dept+"</td>";
+	                	html += "</tr>";
+	                	html += "<tr>";
+	                	html += "<th>소개</th>";
+	                	html += "<td>"+json.info+"</td>";
+	                	html += "</tr>";
+	                	html += "<tr>";
+	                	html += "<th>진료시간</th>";
+	                	/* 
+	                	html += "<td>월요일: "+json.openingHours[0].open+"~"+json.openingHours[0].close+"<br/>";
+	                	html += "화요일: "+json.openingHours[1].open+"~"+json.openingHours[1].close+"<br/>";
+	                	html += "수요일: "+json.openingHours[2].open+"~"+json.openingHours[2].close+"<br/>";
+	                	html += "목요일: "+json.openingHours[3].open+"~"+json.openingHours[3].close+"<br/>";
+	                	html += "금요일: "+json.openingHours[4].open+"~"+json.openingHours[4].close+"<br/>";
+	                	html += "토요일: "+json.openingHours[5].open+"~"+json.openingHours[5].close+"<br/></td>";
+	                	 */
+	                	html += "</tr>";
+	                	html += "</table>";
+	                	html += "</div>";
+	                	html += "</div>";
+	                	
+	 				}
+	 				
+	 				$(".detailHpInfo").html(html); 
+	             },
+	             error: function(request, status, error){
+	                      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	             }
+		  });
+	}
+	
+	
 	
 </script> 	

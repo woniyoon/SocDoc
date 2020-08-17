@@ -302,7 +302,46 @@ public class AdminController {
 		
 		return mav;
 	}
-	
+	// 병원회원 상세정보 모달로 보기
+	@ResponseBody
+	@RequestMapping(value="/showDetail.sd", produces="text/plain;charset=UTF-8")
+	public String detailInfo(HttpServletRequest request, HpMemberVO hpmemvo) {
+		
+		String hpSeq = request.getParameter("hpSeq");
+		
+		HashMap<String,String> paraMap = new HashMap<>();
+   		paraMap.put("hpSeq", hpSeq);
+		
+   		HashMap<String,String> hpInfoDetail = service.detailInfo(paraMap); // 병원상세 정보 가져오기
+   	
+   		JsonObject result = new JsonObject();
+   		
+   		result.addProperty("hpSeq", hpSeq);
+   		result.addProperty("hpName", hpInfoDetail.get("hpName"));
+   		result.addProperty("mainImg", hpInfoDetail.get("mainImg"));
+   		result.addProperty("address", hpInfoDetail.get("address"));
+   		result.addProperty("phone", hpInfoDetail.get("phone"));
+   		result.addProperty("dept", hpInfoDetail.get("dept"));
+   		result.addProperty("info", hpInfoDetail.get("info"));
+   		
+		// 병원 영업시간 가져오기
+   		JsonArray scheduleArr = new JsonArray();
+		List<HashMap<String, String>> getTime = service.getTimeTbl(paraMap);
+
+		request.setAttribute("openingHours", getTime);
+		for(int i=0; i<getTime.size(); i++) {
+			JsonObject obj = new JsonObject();
+			obj.addProperty("open", getTime.get(i).get("open"));
+			obj.addProperty("close", getTime.get(i).get("close"));
+			scheduleArr.add(obj);
+		}
+		
+		result.add("openingHours", scheduleArr);
+		
+		return result.toString();
+			
+	}
+		
 	
 	/* 병원등록 */
 	@RequestMapping(value = "/hospitalInfo.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
@@ -418,7 +457,7 @@ public class AdminController {
 		
 		return mav;
 	}
-	// 병원 상세정보 모달로 보기
+	// 수정된 병원 상세정보 모달로 보기
 	@ResponseBody
 	@RequestMapping(value="/detailInfo.sd", produces="text/plain;charset=UTF-8")
 	public String detailInfo(HttpServletRequest request, HpInfoVO hpinfovo) {
@@ -466,7 +505,7 @@ public class AdminController {
 	/* 병원정보 수정 & 승인 후 병원회원 상태 변경 */
 	@RequestMapping(value="/updateMemStatus.sd", method = RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView confirmUpdate_updateMemStatus(HttpServletRequest request, @RequestParam("infock") String[] infock, ModelAndView mav) {
+	public ModelAndView confirmUpdate_updateMemStatus_updateSchedule(HttpServletRequest request, @RequestParam("infock") String[] infock, ModelAndView mav) {
 		
 	//	String hpSeq = request.getParameter("hpSeq");
 		String infoJoin = request.getParameter("infoJoin");

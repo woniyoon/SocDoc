@@ -2,6 +2,7 @@ package com.synergy.aop;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -160,4 +161,47 @@ public class SocdocAOP {
 	   
 	   //_confirmUpdate
 	   
+		@Pointcut("execution(public * com.synergy..*Controller.*_updateSchedule(..) )")
+		public void updateSchedule() {
+		}
+		
+		@After("updateSchedule()")
+		public void updateHpSchedule(JoinPoint joinPoint) {
+			
+			HttpServletRequest request = (HttpServletRequest) joinPoint.getArgs()[0];
+			
+			String hpSeq = request.getParameter("hpSeq");
+			String submitIds = request.getParameter("infoJoin");
+				
+			String[] submitIdArr = submitIds.split(",");
+			
+			HashMap<String, String> paraMap = new HashMap<String, String>();
+			
+			int result = 0;
+			for(int i=0; i<submitIdArr.length; i++) {
+				
+				paraMap.put("submitId", submitIdArr[i]);
+				// submitId 통해서 스케줄 가져옴
+				List<HashMap<String, String>> scheduleList = service.getAllScheduleEdit(paraMap);
+
+				System.out.println(scheduleList.size());
+				System.out.println(scheduleList.get(i).get("hpSeq"));
+				System.out.println(scheduleList.get(i).get("day"));
+
+				System.out.println(scheduleList.get(i).get("open"));
+				System.out.println(scheduleList.get(i).get("close"));
+
+				// 가져온 스케줄을 Schedule에 업데이트
+				result += service.updateHpSchedule(scheduleList);
+			}
+			
+			if (result == (submitIdArr.length * 6)) {
+				System.out.println("성공적인듯 ㅎㅎㅎㅎ;;;");
+			} else {
+				System.out.println("안 성공적 ㅠ ㅎㅎㅎㅎ;;;");
+
+			}
+			
+			
+		}
 }

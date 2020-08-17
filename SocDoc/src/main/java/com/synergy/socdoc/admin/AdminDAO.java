@@ -280,6 +280,34 @@ public class AdminDAO implements InterAdminDAO {
 		sqlsession.update("admin.updateRejectInfo", submitId);
 	}
 	
+	// 병원회원 상세 정보 가져오기
+	@Override
+	public HashMap<String, String> detailInfo(HashMap<String, String> paraMap) {
+		HashMap<String, String> hpinfoDetail = sqlsession.selectOne("admin.detailInfo", paraMap);
+		return hpinfoDetail;
+	}
+	// 병원회원 상세 영업시간 가져오기
+	@Override
+	public List<HashMap<String, String>> getTimeTbl(HashMap<String, String> paraMap) {
+		List<HashMap<String, String>> openingHours = sqlsession.selectList("admin.getTimeTbl", paraMap);
+		return openingHours;
+	}
+	@Override
+	public List<HashMap<String, String>> getAllScheduleEdit(HashMap<String, String> paraMap) {
+		List<HashMap<String,String>> schedule = sqlsession.selectList("admin.getAllScheduleEdit", paraMap);
+		return schedule;
+	}
+	@Override
+	public int updateHpSchedule(List<HashMap<String, String>> scheduleList) {
+		int n = 0;
+		
+		for(int i=0; i<scheduleList.size(); i++) {
+			n += sqlsession.update("admin.updateHpSchedule", scheduleList.get(i));
+		}
+	
+		return n;
+	}
+	
 	
 
 }

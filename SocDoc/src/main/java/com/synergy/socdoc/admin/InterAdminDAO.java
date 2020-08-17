@@ -70,11 +70,15 @@ public interface InterAdminDAO {
 	List<HashMap<String, String>> getOpeningHours(HashMap<String, String> paraMap); // 병원 영업시간 가져오기
 	void updateInfoStatus(String submitId); // 병원정보 수정 승인
 	void updateHpMemStatus(int hpSeq); // 병원회원 상태 변경
-
 	HpInfoVO getHpApplication(String hpSeq);
-
 	int updateHpApplication(HpInfoVO hvo);
-
 	void updateRejectInfo(String submitId); // 병원정보 신청 반려
+
+	HashMap<String, String> detailInfo(HashMap<String, String> paraMap); // 병원회원 상세 정보 가져오기
+	List<HashMap<String, String>> getTimeTbl(HashMap<String, String> paraMap); // 병원회원 상세 영업시간 가져오기
+
+	List<HashMap<String, String>> getAllScheduleEdit(HashMap<String, String> paraMap);
+
+	int updateHpSchedule(List<HashMap<String, String>> scheduleList);
 
 }
