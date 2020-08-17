@@ -173,7 +173,7 @@ public class HpMemController {
 					HttpSession session = mrequest.getSession();
 					String root = session.getServletContext().getRealPath("/");
 				
-					String path = root + "resources" + File.separator + "files";
+					String path = root + "resources" + File.separator + "images";
 					
 					// path = 첨부파일 저장될 WAS의 폴더
 		
