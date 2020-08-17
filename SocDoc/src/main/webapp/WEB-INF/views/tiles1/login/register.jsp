@@ -23,7 +23,7 @@
 	}
 
 	.container { 
-		width: 30%;
+		width: 35%;
 		height: 150%;
 		margin: 100px auto 200px auto;
 		padding: 0;
@@ -154,7 +154,7 @@
 	
 	.birthDate input[type=text] {
 		float: left;
-	    width: 100px;
+	    width: 90px;
 	    height: 35px;
 	    padding-left:4px;
 	    text-align: center;
@@ -1268,9 +1268,9 @@
 						<span class="success" id="hpEmailCkSuccess">사용 가능한 이메일 입니다.</span>
 					   
 						
-				        <label for="hpAgree">약관 동의 &nbsp;&nbsp;<input type="checkbox" id="hpAgree" /> </label>
+				        <label for="hpAgree">약관 동의 &nbsp;&nbsp;<input type="checkbox" id="hpAgree"/> </label>
 				        <div style="text-align: center; vertical-align: middle;">
-			            <iframe src="<%=ctxPath %>/resources/html/agree.html" width="100%" height="150px" class="box" ></iframe>
+			            <iframe src="<%=ctxPath %>/resources/html/agree.html" width="100%" height="150px" class="box"></iframe>
 						</div>
 					</div>	 
 					

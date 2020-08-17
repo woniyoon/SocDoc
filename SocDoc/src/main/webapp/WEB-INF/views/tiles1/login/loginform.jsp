@@ -22,7 +22,7 @@
 	}
 
 	.container { 
-		width: 30%;
+		width: 35%;
 		height: 150%;
 		margin: 100px auto 200px auto;
 		padding: 0;
@@ -118,8 +118,8 @@
 	}
     
 	.bottom {
+		//width: fit-content;
 		list-style: none;
-		width: fit-content;
 		padding-left: 0;
 	}
     
@@ -186,11 +186,11 @@
 		    $("form[name=loginFrm] #userid").val(key); 
 		     
 		    if($("form[name=loginFrm] #userid").val() != ""){ // 그 전에 ID를 저장해서 처음 페이지 로딩 시, 입력 칸에 저장된 ID가 표시된 상태라면,
-		        $("form[name=loginFrm] #saveid").attr("checked", true); // ID 저장하기를 체크 상태로 두기.
+		        $("#saveid").attr("checked", true); // ID 저장하기를 체크 상태로 두기.
 		    }
 		     
-		    $("form[name=loginFrm] #saveid").change(function(){ // 체크박스에 변화가 있다면,
-		        if($("form[name=loginFrm] #saveid").is(":checked")){ // ID 저장하기 체크했을 때,
+		    $("#saveid").change(function(){ // 체크박스에 변화가 있다면,
+		        if($("#saveid").is(":checked")){ // ID 저장하기 체크했을 때,
 		        	console.log("아이디저장 체크");
 		            setCookie("key", $("form[name=loginFrm] #userid").val(), 7); // 7일 동안 쿠키 보관
 		        } else { // ID 저장하기 체크 해제 시,
@@ -201,7 +201,7 @@
 		     
 		    // ID 저장하기를 체크한 상태에서 ID를 입력하는 경우, 이럴 때도 쿠키 저장.
 		    $("form[name=loginFrm] #userid").keyup(function(){ // ID 입력 칸에 ID를 입력할 때,
-		        if($("form[name=loginFrm] #saveid").is(":checked")){ // ID 저장하기를 체크한 상태라면,
+		        if($("#saveid").is(":checked")){ // ID 저장하기를 체크한 상태라면,
 		            setCookie("key", $("form[name=loginFrm] #userid").val(), 7); // 7일 동안 쿠키 보관
 		        } else {
 		        	deleteCookie("key", $("form[name=loginFrm] #userid").val());
@@ -314,11 +314,11 @@
 	    $("form[name=hpLoginFrm] #userid").val(key2); 
 	     
 	    if($("form[name=hpLoginFrm] #userid").val() != ""){ // 그 전에 ID를 저장해서 처음 페이지 로딩 시, 입력 칸에 저장된 ID가 표시된 상태라면,
-	        $("form[name=hpLoginFrm] #saveid").attr("checked", true); // ID 저장하기를 체크 상태로 두기.
+	        $("#hpSaveid").attr("checked", true); // ID 저장하기를 체크 상태로 두기.
 	    }
 	     
-	    $("form[name=hpLoginFrm] #saveid").change(function(){ // 체크박스에 변화가 있다면,
-	        if($("form[name=hpLoginFrm] #saveid").is(":checked")){ // ID 저장하기 체크했을 때,
+	    $("#hpSaveid").change(function(){ // 체크박스에 변화가 있다면,
+	        if($("#hpSaveid").is(":checked")){ // ID 저장하기 체크했을 때,
 	        	console.log("hp아이디저장 체크");
 	            setHpCookie("key2", $("form[name=hpLoginFrm] #userid").val(), 7); // 7일 동안 쿠키 보관
 	        } else { // ID 저장하기 체크 해제 시,
@@ -329,7 +329,7 @@
 	     
 	    // ID 저장하기를 체크한 상태에서 ID를 입력하는 경우, 이럴 때도 쿠키 저장.
 	    $("form[name=hpLoginFrm] #userid").keyup(function(){ // ID 입력 칸에 ID를 입력할 때,
-	        if($("form[name=hpLoginFrm] #saveid").is(":checked")){ // ID 저장하기를 체크한 상태라면,
+	        if($("#hpSaveid").is(":checked")){ // ID 저장하기를 체크한 상태라면,
 	            setHpCookie("key2", $("form[name=hpLoginFrm] #userid").val(), 7); // 7일 동안 쿠키 보관
 	        } else { 
 	            deleteHpCookie("key2", $("form[name=hpLoginFrm] #userid").val());
@@ -460,7 +460,7 @@
 						<label for="saveid"><input type="checkbox" id="saveid" name="saveid" style="vertical-align: top;" />&nbsp;&nbsp;아이디저장</label> -->
 <!-- 혹시 아니면 밑부분을 지우세요... -->
 					<div class="checkbox" style="vertical-align: top; font-size: 9pt;">
-						<label for="saveid"><input type="checkbox" id="saveid" name="saveid" />&nbsp;&nbsp;아이디저장</label>
+						<label for="hpSaveid"><input type="checkbox" id="hpSaveid" name="hpSaveid" />&nbsp;&nbsp;아이디저장</label>
 					</div>
 			         
 					<div class="hpFormGroup">

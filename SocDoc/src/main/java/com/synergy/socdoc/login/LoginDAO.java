@@ -16,7 +16,7 @@ public class LoginDAO implements InterLoginDAO {
 	@Autowired
 	private SqlSessionTemplate sqlsession;
 	
-	// 로그인 처리 //
+	// === 로그인 처리 === //
 	@Override
 	public MemberVO getLoginMember(HashMap<String, String> paraMap) {
 		MemberVO loginuser = sqlsession.selectOne("newMem.getLoginMember", paraMap);
@@ -64,7 +64,7 @@ public class LoginDAO implements InterLoginDAO {
 		return result;
 	}
 	
-	// 회원가입 //
+	// === 회원가입 === //
 	@Override
 	public int register(MemberVO vo) {
 		int n = sqlsession.insert("newMem.register", vo);
@@ -76,12 +76,13 @@ public class LoginDAO implements InterLoginDAO {
 		return n;
 	}
 	
-	// 아이디 찾기 // 
+	// 누구세요? 뭐지? ㅠ
 	@Override
 	public List<MemberVO> idFind(MemberVO vo) {
 		return sqlsession.selectList("newMem.idFind", vo);
 	}
 	
+	// === 아이디 찾기 === // 
 	@Override
 	public MemberVO idFindResult(HashMap<String, String> paraMap) {
 		MemberVO userid = sqlsession.selectOne("newMem.idFindResult", paraMap);
@@ -93,20 +94,29 @@ public class LoginDAO implements InterLoginDAO {
 		return userid;
 	}
 	
-	// 비밀번호 찾기,변경 //
+	// === 비밀번호 찾기,변경 === //
 	@Override
 	public int pwdUpdate(HashMap<String, String> paraMap) {
 		int n = sqlsession.update("newMem.pwdUpdate", paraMap);
 		return n;
 	}
+	@Override
+	public int hpPwdUpdate(HashMap<String, String> paraMap) {
+		int n = sqlsession.update("newMem.hpPwdUpdate", paraMap);
+		return n;
+	}
 	
-	// 존재하는 회원인지 확인
+	// === 존재하는 회원인지 확인 === //
 	@Override
 	public int checkMember(HashMap<String, String> paraMap) {
 		int n = sqlsession.selectOne("newMem.checkMember", paraMap);
 		return n;
 	}
-	
+	@Override
+	public int hpCheckMember(HashMap<String, String> paraMap) {
+		int n = sqlsession.selectOne("newMem.hpCheckMember", paraMap);
+		return n;
+	}
 	
 
 

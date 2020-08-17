@@ -113,7 +113,7 @@ public class LoginService implements InterLoginService {
 		return result;
 	}
 	
-	// 회원가입 //
+	// === 회원가입 === //
 	@Override
 	public int register(MemberVO vo) {
 		int n = dao.register(vo);
@@ -125,11 +125,13 @@ public class LoginService implements InterLoginService {
 		return n;
 	}
 	
-	// 아이디 찾기 //
+	// 누구세요? 뭐지? ㅠ
 	@Override
 	public List<MemberVO> idFind(MemberVO vo) {
 		return dao.idFind(vo);
 	}
+	
+	// === 아이디 찾기 === //
 	@Override
 	public MemberVO idFindResult(HashMap<String, String> paraMap) {
 		MemberVO idFind = dao.idFindResult(paraMap); // DB에 넘기자.
@@ -141,15 +143,27 @@ public class LoginService implements InterLoginService {
 		return hpIdFind;
 	}
 	
-	// 비밀번호 찾기,변경 //
+	// === 비밀번호 찾기,변경 ===//
 	@Override
 	public int pwdUpdate(HashMap<String, String> paraMap) {
 		int n = dao.pwdUpdate(paraMap); // DB에 넘기자.
 		return n;
 	}
 	@Override
+	public int hpPwdUpdate(HashMap<String, String> paraMap) {
+		int n = dao.hpPwdUpdate(paraMap); // DB에 넘기자.
+		return n;
+	}
+	
+	// === 존재하는 회원인지 확인 === //
+	@Override
 	public int checkMember(HashMap<String, String> paraMap) {
 		int n = dao.checkMember(paraMap);
+		return n;
+	}
+	@Override
+	public int hpCheckMember(HashMap<String, String> paraMap) {
+		int n = dao.hpCheckMember(paraMap);
 		return n;
 	}
 }

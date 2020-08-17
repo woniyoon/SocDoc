@@ -22,20 +22,24 @@ public interface InterLoginDAO {
 	// === 회원가입 사업자번호 중복검사 === //
 	int regIdChk(String regId);
 	
-	// 회원가입 //
+	// === 회원가입 === //
 	int register(MemberVO vo);
 	int hpRegister(HpMemberVO vo);
 	
-	// 아이디 찾기 //
+	// 누구세요? 뭐지? ㅠ
 	public List<MemberVO> idFind(MemberVO vo);
+	
+	// === 아이디 찾기 === //
 	public MemberVO idFindResult(HashMap<String, String> paraMap);
 	public HpMemberVO hpIdFindResult(HashMap<String, String> paraMap);
 	
-	// 비밀번호 변경 //
+	// === 비밀번호 변경 === //
 	int pwdUpdate(HashMap<String, String> paraMap);
+	int hpPwdUpdate(HashMap<String, String> paraMap);
 	
-	// 존재하는 회원인지 확인
+	// === 존재하는 회원인지 확인 === //
 	int checkMember(HashMap<String, String> paraMap);
+	int hpCheckMember(HashMap<String, String> paraMap);
 	
 	
 

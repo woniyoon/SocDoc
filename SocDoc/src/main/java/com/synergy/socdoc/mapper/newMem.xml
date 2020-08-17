@@ -88,17 +88,30 @@
     	update member set pwd=#{pwd}
     	where userid=#{userid} and name=#{name} and email=#{email}
     </update>
-
-	<!-- 비밀번호 업데이트 -->
-	<update id = "pwdUpdate" parameterType="hashMap">
-    	update member set pwd=#{newPwd}
+	<update id = "hpPwdFind" parameterType="hashMap">
+    	update hpMember set pwd=#{pwd}
     	where userid=#{userid} and name=#{name} and email=#{email}
     </update>
     
+	<!-- 비밀번호 업데이트 -->
+	<update id = "pwdUpdate" parameterType="hashMap">
+    	update member set pwd=#{pwd}
+    	where userid=#{userid} and name=#{name} and email=#{email}
+    </update>
+	<update id = "hpPwdUpdate" parameterType="hashMap">
+    	update hpMember set pwd=#{pwd}
+    	where userid=#{userid} and name=#{name} and email=#{email}
+    </update>
+        
     <!-- 회원인지 확인 -->
 	<select id="checkMember" parameterType="HashMap" resultType="int">
 		select count(*)
 		from member
+		where userid=#{userid} and name=#{name} and email=#{email}
+	</select>	
+	<select id="hpCheckMember" parameterType="HashMap" resultType="int">
+		select count(*)
+		from hpMember
 		where userid=#{userid} and name=#{name} and email=#{email}
 	</select>	
 </mapper>

@@ -594,7 +594,7 @@ public class LoginController {
 		paraMap.put("email", email);
 		
 
-		int n = service.checkMember(paraMap);
+		int n = service.hpCheckMember(paraMap);
 
 		if(n == 0) {
 			String msg = "입력하신 정보는 존재하지 않습니다.";
@@ -618,8 +618,8 @@ public class LoginController {
 	// 비밀번호 바꾸기 // 
 	@RequestMapping("/changePwd.sd")
 	public ModelAndView changePwd(HttpServletRequest request, HttpSession session, ModelAndView mav) {
-		String oldPwd = Sha256.encrypt(request.getParameter("oldPwd"));
-		String newPwd = Sha256.encrypt(request.getParameter("newPwd"));
+		/*String oldPwd = Sha256.encrypt(request.getParameter("oldPwd"));
+		String newPwd = Sha256.encrypt(request.getParameter("newPwd"));*/
 		
 		String pwd = request.getParameter("pwd");
 		String pwd2 = request.getParameter("pwd2");
@@ -628,8 +628,8 @@ public class LoginController {
 		String email = request.getParameter("email");
 		
 		HashMap<String, String> paraMap = new HashMap<>();
-		paraMap.put("pwd", oldPwd);
-		paraMap.put("newPwd", newPwd);
+		/*paraMap.put("pwd", oldPwd);
+		paraMap.put("newPwd", newPwd);*/
 		
 		paraMap.put("pwd", Sha256.encrypt(pwd));
 		paraMap.put("pwd2", Sha256.encrypt(pwd2));
@@ -639,7 +639,7 @@ public class LoginController {
 		
 		String msg = "";
 		String loc = "";
-		boolean needsRefresh = false;
+		/*boolean needsRefresh = false;*/
 		
 		int n = service.pwdUpdate(paraMap);
 
@@ -658,34 +658,46 @@ public class LoginController {
 		
 		return mav;
 	}
-/*	
-	// === 게시판 list === //
-	@RequestMapping("/noticeList.sd")
-	public String noticeList(HttpServletRequest request) {
+	@RequestMapping("/hpChangePwd.sd")
+	public ModelAndView hpChangePwd(HttpServletRequest request, HttpSession session, ModelAndView mav) {
+		/*String oldPwd = Sha256.encrypt(request.getParameter("oldPwd"));
+		String newPwd = Sha256.encrypt(request.getParameter("newPwd"));*/
 		
-		String ctxPath = request.getContextPath();
-		System.out.println(ctxPath+"/noticeList.sd로 접속하셨습니다.");
+		String pwd = request.getParameter("pwd");
+		String pwd2 = request.getParameter("pwd2");
+		String userid = request.getParameter("userid");
+		String name = request.getParameter("name");
+		String email = request.getParameter("email");
 		
-		return "notice/noticeList.tiles1";
+		HashMap<String, String> paraMap = new HashMap<>();
+		/*paraMap.put("pwd", oldPwd);
+		paraMap.put("newPwd", newPwd);*/
+		
+		paraMap.put("pwd", Sha256.encrypt(pwd));
+		paraMap.put("pwd2", Sha256.encrypt(pwd2));
+		paraMap.put("userid", userid);
+		paraMap.put("name", name);
+		paraMap.put("email", email);
+		
+		String msg = "";
+		String loc = "";
+		/*boolean needsRefresh = false;*/
+		
+		int n = service.hpPwdUpdate(paraMap);
+
+		msg = "비밀번호가 성공적으로 변경됐습니다.";
+		loc = request.getContextPath() + "/login.sd";
+
+		if(n == 0) {
+			msg = "다시 시도해주세요!";
+			loc = request.getContextPath() + "/pwdFind";
+		}
+		session.invalidate(); // 세션을 끊는다?
+
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("msg");
+		
+		return mav;
 	}
-	
-	// === 게시판 view === //
-	@RequestMapping("/noticeView.sd")
-	public String noticeView(HttpServletRequest request) {
-		
-		String ctxPath = request.getContextPath();
-		System.out.println(ctxPath+"/noticeView.sd로 접속하셨습니다.");
-		
-		return "notice/noticeView.tiles1";
-	}
-	
-	// === 게시판 write === //
-	@RequestMapping("/noticeWrite.sd")
-	public String noticeWrite(HttpServletRequest request) {
-		
-		String ctxPath = request.getContextPath();
-		System.out.println(ctxPath+"/noticeWrite.sd로 접속하셨습니다.");
-		
-		return "notice/noticeWrite.tiles1";
-	}*/
 }
