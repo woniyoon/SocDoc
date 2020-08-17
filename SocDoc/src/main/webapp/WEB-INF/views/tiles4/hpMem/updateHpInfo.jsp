@@ -16,11 +16,14 @@
 		<form id="hpInfoForm" name="hpInfoForm" enctype="multipart/form-data">
 		<section id="infoContainer">
 				<div class="slideshow-container" style="display: flex; justify-content: center; align-items: center;">
-		
+					<c:if test="${hpInfo.submitId == null}">
+						<div class="mySlides fade" id="mainImgFileSlide"></div>
+						<div class="mySlides fade" id="subImg1FileSlide"></div>
+						<div class="mySlides fade" id="subImg2FileSlide"></div>
+					</c:if>
 					<!-- Full-width images with number and caption text -->
 					<c:if test="${not empty hpInfo.mainImg }">
 						<div class="mySlides fade">
-	<!-- 						<div class="numbertext">1 / 3</div> -->
 							<img src="<%=ctxPath %>/resources/images/${hpInfo.mainImg}" style="width: 100%; height: 100%;">
 						</div>
 					</c:if>
@@ -245,9 +248,30 @@
 					
 				
 				$(this).on("change", function(e) {
-					console.log("change 펑션!");
-					console.log(e.target);
+					
+					 var files = e.target.files;
+				        var filesArr = Array.prototype.slice.call(files);
+				        var sliderImgId = "#" + $(this).prop("id") + "Slide";
+				        
+				        filesArr.forEach(function(f) {
+				            if(!f.type.match("image.*")) {
+				                alert("확장자는 이미지 확장자만 가능합니다.");
+				                return;
+				            }
 
+				            sel_file = f;
+
+				            var reader = new FileReader();
+				            reader.onload = function(e) {
+					            var html = "<img src='"+e.target.result+"' style='width: 100%; height: 100%;'>";
+					            $(sliderImgId).html(html);
+
+				                console.log(e.target.result);
+				            }
+				            reader.readAsDataURL(f);
+				        });
+
+					
 					// 이미지 파일명만 추출후, 보여주기
 					var filename = $(this).val().split('/').pop().split('\\').pop();
 					
