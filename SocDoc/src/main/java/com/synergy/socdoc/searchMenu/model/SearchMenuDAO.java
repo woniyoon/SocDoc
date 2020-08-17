@@ -29,11 +29,17 @@ public class SearchMenuDAO implements InterSearchMenuDAO {
 		
 	
 	
-	// 병원 지도
+	//병원 - 지도
 	@Override
 	public List<HpInfoVO> searchHospitalSelect() {
 		List<HpInfoVO> hpMap = sqlsession.selectList("searchMenu.searchHospitalSelect");
 		return hpMap;
+	}
+	
+	@Override
+	public int getTotalCountMapHp(HashMap<String, String> paraMap) {
+		int totalCount = sqlsession.selectOne("searchMenu.getTotalCountMapHp",paraMap);
+		return totalCount;
 	}
 	
 	@Override
@@ -42,13 +48,57 @@ public class SearchMenuDAO implements InterSearchMenuDAO {
 		return mapHpList;
 	}
 
-
+	
+	//병원 - 일반
 	@Override
-	public int getTotalCountMapHp(HashMap<String, String> paraMap) {
-		int totalCount = sqlsession.selectOne("searchMenu.getTotalCountMapHp",paraMap);
+	public int getTotalCountHp(HashMap<String, String> paraMap) {
+		int totalCount = sqlsession.selectOne("searchMenu.getTotalCountHp",paraMap);
 		return totalCount;
 	}
-		
+	
+	@Override
+	public List<HpInfoVO> hospitalListSearchWithPaging(HashMap<String, String> paraMap) {
+		List<HpInfoVO> hpList = sqlsession.selectList("searchMenu.hospitalListSearchWithPaging",paraMap);
+		return hpList;
+	}
+
+	
+
+	//약국 - 지도
+	@Override
+	public List<PharmacyVO> searchPharmacySelect() {
+		List<PharmacyVO> phList = sqlsession.selectList("searchMenu.searchPharmacySelect");
+		return phList;
+	}
+
+	@Override
+	public int getTotalCountMapPh(HashMap<String, String> paraMap) {
+		int totalCount = sqlsession.selectOne("searchMenu.getTotalCountMapPh",paraMap);
+		return totalCount;
+	}
+
+	@Override
+	public List<PharmacyVO> mapPharmacyListSearchWithPaging(HashMap<String, String> paraMap) {
+		List<PharmacyVO> mapPhList = sqlsession.selectList("searchMenu.mapPharmacyListSearchWithPaging",paraMap);
+		return mapPhList;
+	}
+
+	//약국 - 일반
+	@Override
+	public int getTotalCountPh(HashMap<String, String> paraMap) {
+		int totalCount = sqlsession.selectOne("searchMenu.getTotalCountPh",paraMap);
+		return totalCount;
+	}
+
+	@Override
+	public List<PharmacyVO> pharmacyListSearchWithPaging(HashMap<String, String> paraMap) {
+		List<PharmacyVO> phList = sqlsession.selectList("searchMenu.pharmacyListSearchWithPaging",paraMap);
+		return phList;
+	}
+
+	
+	
+	
 	
 	
 	// 민간 구급차 API
@@ -130,28 +180,6 @@ public class SearchMenuDAO implements InterSearchMenuDAO {
 	}
 
 
-	// 병원 일반
-	@Override
-	public List<HpInfoVO> hospitalListSearchWithPaging(HashMap<String, String> paraMap) {
-		List<HpInfoVO> hpList = sqlsession.selectList("searchMenu.hospitalListSearchWithPaging",paraMap);
-		return hpList;
-	}
-
-	@Override
-	public int getTotalCount(HashMap<String, String> paraMap) {
-		int totalCount = sqlsession.selectOne("searchMenu.getTotalCount",paraMap);
-		return totalCount;
-	}
-
-
-	
-
-
-	//약국 지도
-	@Override
-	public List<PharmacyVO> searchPharmacySelect() {
-		List<PharmacyVO> phList = sqlsession.selectList("searchMenu.searchPharmacySelect");
-		return null;
-	}
+		
 
 }

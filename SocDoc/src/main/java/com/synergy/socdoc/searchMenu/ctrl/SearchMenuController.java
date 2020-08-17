@@ -87,7 +87,6 @@ public class SearchMenuController {
 		
 		List<HpInfoVO> mapHpList = null;
 		
-		
 		String city = request.getParameter("city");
 		String county = request.getParameter("county");
 		String district = request.getParameter("district");
@@ -385,6 +384,7 @@ public class SearchMenuController {
 			
 			JSONArray jsonArr = new JSONArray(); 
 			
+			
 			if(phMap.size()>0) {
 				for(PharmacyVO phMapVO : phMap) {
 					JSONObject jsonObj = new JSONObject();
@@ -415,7 +415,7 @@ public class SearchMenuController {
 			return json;
 		}
 		
-/*
+
 		
 		// 지도 약국 리스트
 		@ResponseBody
@@ -587,7 +587,7 @@ public class SearchMenuController {
 			paraMap.put("startRno", String.valueOf(startRno));
 			paraMap.put("endRno", String.valueOf(endRno));
 			
-			totalCount = service.getTotalCountHp(paraMap);
+			totalCount = service.getTotalCountPh(paraMap);
 			totalPage = (int) Math.ceil((double) totalCount / sizePerPage);
 			
 			
@@ -670,7 +670,7 @@ public class SearchMenuController {
 		
 		
 		
-		*/
+
 		
 		
 		

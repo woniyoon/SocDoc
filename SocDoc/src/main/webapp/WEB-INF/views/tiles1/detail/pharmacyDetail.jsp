@@ -169,7 +169,12 @@
 
 <script type="text/javascript">
 
+
+var currentShowPageNo = 1;
+
 $(document).ready(function(){
+	
+	readReview(currentShowPageNo);
 	
 	
 	$("#review").keyup(function(){
@@ -182,56 +187,6 @@ $(document).ready(function(){
 		}
 		
 	});
-	/* 
-	//이미지 슬라이드
-	var bxSlider = $(".bxslider").bxSlider({
-		
-		auto:false,
-		speed:500,
-		pause:5000,
-		mode:'horizontal',
-		autoControls:false,
-		pager:true,
-		infinitelLoop:false,
-		adaptiveHeight:true
-		
-	});
-	
-	bxSlider.stopAuto();
-	
-	 */
-	 
-	 
-	 new Swiper('.swiper-container', {
-
-			slidesPerView : 1, // 동시에 보여줄 슬라이드 갯수
-			spaceBetween : 30, // 슬라이드간 간격
-			slidesPerGroup : 1, // 그룹으로 묶을 수
-
-			loop : true, // 무한 반복
-
-			pagination : { // 페이징
-				el : '.swiper-pagination',
-				clickable : true, // 페이징을 클릭하면 해당 영역으로 이동, 필요시 지정해 줘야 기능 작동
-			},
-			navigation : { // 네비게이션
-				nextEl : '.swiper-button-next', // 다음 버튼 클래스명
-				prevEl : '.swiper-button-prev', // 이번 버튼 클래스명
-			},
-	});
-	 
-	
-	
-	//후기별점 
-	$(".starRating").each(function(){
-		$("#starRating3").addClass("on").prevAll("span").addClass("on");
-		return false;
-	})
-	
-	  
-	
-	 
-	
 	
 	
 	//별점주기
@@ -241,21 +196,83 @@ $(document).ready(function(){
 		  
 		  starsNum = $(".stars.on").length;
 		  $(".starsNum").text(starsNum);
+		  $("input[name='rating']").val(starsNum);
 		  
 		  return false;
 	});
 	
+
+	//약국별점 
+	$(".pharmacyRatingStar").each(function(){
+		$("#pharmacyRatingStar"+"${pharmacyRating}").addClass("on").prevAll("span").addClass("on");
+		return false;
+	})
 	
 })
 
 
 
-/* 
-$(function() {
-	$(".heart").on("click", function() {
-		$(this).toggleClass("is-active");
-	});
-}); */
+//------------------------------------------------------------------
+var reviewMe = 0;
+
+function readReviewMe(){
+	
+	var htmlMe="";
+	
+	$.ajax({
+		url:"<%= ctxPath%>/getPhReviewMe.sd",	
+		data:{"hpSeq":"${hpDetail.hpSeq}"},
+		dataType:"JSON",
+		success:function(json){
+						
+			if(json.content !=""){
+				htmlMe+= '<tr><td style="background-color: #e6f5ff;;">'
+					    +'	<div style="display:inline-block; width:90%;">'
+						+'		<div>';
+					
+					for(var i=1; i<=5; i++) {
+						if(i<=json.reviewRating) {
+							htmlMe += '				<span class="starRating on" id="starRating'+i+'">별1</span>';								
+						} else {
+							htmlMe += '				<span class="starRating " id="starRating'+i+'">별2</span>';
+						}
+					}
+				htmlMe+='		</div>'
+						+'		<div class="reviewContents" id="reviewContentsMe">'+json.content+'</div>'
+						+'		<span class="name">'+json.userid+'</span><span class="registerDate">'+json.regDate+'</span>'
+						+'	</div>'
+						+'	<div style="display:inline-block; width:8%; float:right;">'
+						+'		<button type="button" id="delete" class="reviewBtn" onClick="goDelete()">삭제</button>'
+						+'	</div>'
+						+'</td></tr>';
+				reviewMe = 1;		
+			}else{
+				htmlMe+= '<tr><td style="background-color: #e6f5ff;;">'
+					    +'	<div style="width:100%;">'
+						+'		<div class="noReview"></div>'
+						+'	</div>'
+						+'</td></tr>';
+				reviewMe = 0;
+			}
+					
+			$(".reviewTableMe").html(htmlMe);
+			
+			
+		},error: function(request, status, error){
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		}
+	})
+	
+}
+
+
+
+
+
+
+
+
+
 
 </script>
 

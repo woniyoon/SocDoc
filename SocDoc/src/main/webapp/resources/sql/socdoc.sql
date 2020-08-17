@@ -421,3 +421,34 @@ from(
     order by avg desc nulls last
     ) V
 where rownum between 1 and 20;
+
+select*
+from pharmacyinfo;
+
+select *
+		from pharmacyinfo;
+        
+        
+        select*
+        from PHARMACYREVIEW;
+     
+     delete from PHARMACYREVIEW;
+     
+insert into pharmacyreview(phReviewSeq,userid,pharmseq,content,rating, pharname)
+values(phReviewSeq.nextval, 'jwjw1', 2, '약국 뻐꾹', 5, '13층약국');
+insert into pharmacyreview(phReviewSeq,userid,pharmseq,content,rating, pharname)
+values(phReviewSeq.nextval, 'dong1', 2, '13층에 있어서 엘리베이터를 탑니다.', 1, '13층약국');
+insert into pharmacyreview(phReviewSeq,userid,pharmseq,content,rating, pharname)
+values(phReviewSeq.nextval, 'dongdong', 20, '무난쓰무난쓰 무난무난', 3, '2층써밋약국');
+insert into pharmacyreview(phReviewSeq,userid,pharmseq,content,rating, pharname)
+values(phReviewSeq.nextval, 'heohaeming', 20, '일요일에도 영업한다는 것이 큰 장점', 5, '2층써밋약국');
+        
+        commit;
+
+     select trunc(avg(rating)) as avg 
+		from PHARMACYREVIEW 
+		where pharmseq=1;
+
+select userid, content, regDate, rating 
+     	from pharmacyreview
+     	where pharmseq=1;

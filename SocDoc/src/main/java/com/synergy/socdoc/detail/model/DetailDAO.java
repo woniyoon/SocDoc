@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.HpReviewVO;
+import com.synergy.socdoc.member.PharReviewVO;
+import com.synergy.socdoc.member.PharmacyVO;
 
 @Repository
 public class DetailDAO implements InterDetailDAO {
@@ -77,6 +79,51 @@ public class DetailDAO implements InterDetailDAO {
 	@Override
 	public int addReview(HashMap<String, String> paraMap) {
 		int n = sqlsession.insert("detail.addReview", paraMap);
+		return n;
+	}
+
+	
+	
+	// -------------- 약국
+	@Override
+	public PharmacyVO pharmacyDetail(String phSeq) {
+		PharmacyVO phDetail = sqlsession.selectOne("detail.pharmacyDetail",phSeq);
+		return phDetail;
+	}
+
+	@Override
+	public String pharmacyRating(String phSeq) {
+		String pharmacyRating = sqlsession.selectOne("detail.pharmacyRating",phSeq);
+		return pharmacyRating;
+	}
+
+	@Override
+	public PharReviewVO getPhReviewMe(HashMap<String, String> paraMap) {
+		PharReviewVO reviewMe = sqlsession.selectOne("detail.getPhReviewMe", paraMap);
+		return reviewMe;
+	}
+
+	@Override
+	public List<PharReviewVO> getPhReview(HashMap<String, String> paraMap) {
+		List<PharReviewVO> PharReviewVO = sqlsession.selectList("detail.PharReviewVO",paraMap);
+		return PharReviewVO;
+	}
+
+	@Override
+	public int getReviewTotalCountPh(HashMap<String, String> paraMap) {
+		int reviewTotalCount = sqlsession.selectOne("detail.getReviewTotalCountPh",paraMap);
+		return reviewTotalCount;
+	}
+
+	@Override
+	public int reviewDeletePh(HashMap<String, String> paraMap) {
+		int n = sqlsession.delete("detail.reviewDeletePh", paraMap);
+		return n;
+	}
+
+	@Override
+	public int addReviewPh(HashMap<String, String> paraMap) {
+		int n = sqlsession.insert("detail.addReviewPh", paraMap);
 		return n;
 	}
 

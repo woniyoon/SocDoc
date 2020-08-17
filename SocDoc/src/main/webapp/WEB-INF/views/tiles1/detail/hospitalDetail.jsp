@@ -316,7 +316,6 @@ var currentShowPageNo = 1;
 
 $(document).ready(function(){
 	
-	console.log('${loginuser}')
 	readReview(currentShowPageNo);
 	
 	if('${loginuser}'.trim() != ''){
@@ -373,13 +372,13 @@ $(document).ready(function(){
 		return false;
 	})
 	
-	 
+	/*  
 	//후기별점 
 	$(".starRating").each(function(){
 		$("#starRating2").addClass("on").prevAll("span").addClass("on");
 		return false;
 	})
-		 
+		  */
 	
 	
 	
@@ -391,7 +390,6 @@ $(document).ready(function(){
 		  starsNum = $(".stars.on").length;
 		  $(".starsNum").text(starsNum);
 		  $("input[name='rating']").val(starsNum);
-		  console.log('음? : '+$("input[name='rating']").val());
 		  
 		  return false;
 	});

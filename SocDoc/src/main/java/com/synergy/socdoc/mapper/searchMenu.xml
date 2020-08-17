@@ -11,9 +11,18 @@
 		order by hpseq desc
 	</select>
 	
+	<select id="getTotalCountMapHp" parameterType="HashMap" resultType="int">
+		select count(*)
+		from hospitalinfo	
+		where 1=1
+	    and address like '%'|| #{city} ||'%'
+   		and address like '%'|| #{county} ||'%'
+   		and address like '%'|| #{district} ||'%'				
+   		and dept like '%'|| #{dept} ||'%'				
+   		and hpname like '%'|| #{searchWord} ||'%'			
+	</select>  
 	
-	<select id="mapHospitalListSearchWithPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpInfoVO">		
-		
+	<select id="mapHospitalListSearchWithPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpInfoVO">
 		select hpseq, hpname, address, phone, dept, latitude, longitude, distance
 		from 
 		(
@@ -33,25 +42,21 @@
 		     		order by distance	
 		    ) V
 		) T
-		where rno between #{startRno} and #{endRno}
-		
-				
-	</select>   
+		where rno between #{startRno} and #{endRno}	
+	</select>   	
 	
-	<select id="getTotalCountMapHp" parameterType="HashMap" resultType="int">
+	<!-- 병원 일반 -->
+	<select id="getTotalCountHp" parameterType="HashMap" resultType="int">
 		select count(*)
 		from hospitalinfo	
 		where 1=1
-		    and address like '%'|| #{city} ||'%'
-     		and address like '%'|| #{county} ||'%'
-     		and address like '%'|| #{district} ||'%'				
-     		and dept like '%'|| #{dept} ||'%'				
-     		and hpname like '%'|| #{searchWord} ||'%'			
-	</select>  
+		and address like '%'|| #{city} ||'%'
+   		and address like '%'|| #{county} ||'%'
+   		and address like '%'|| #{district} ||'%'				
+   		and dept like '%'|| #{dept} ||'%'				
+   		and hpname like '%'|| #{searchWord} ||'%'	
+	</select>
 	
-	
-	
-	<!-- 병원 일반 -->
 	<select id="hospitalListSearchWithPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpInfoVO">		
 		
 		select hpseq, hpname, address, phone, dept
@@ -71,24 +76,80 @@
 		    ) V
 		) T
 		where rno between #{startRno} and #{endRno}
-				
 	</select>   
 	
-	<select id="getTotalCount" parameterType="HashMap" resultType="int">
-		select count(*)
-		from hospitalinfo	
-		where 1=1
-		<if test='searchWord != ""'>
-		     and hpname like '%'|| lower(#{searchWord}) ||'%'
-		</if>		
-	</select>  
+	  
 	
 	
 	<!-- 약국 지도 -->
 	<select id="searchPharmacySelect" resultType="com.synergy.socdoc.member.PharmacyVO">
-		select pharmseq, name, address, phone, latitude, longitude, img
+		select pharmseq, name, address, phone, latitude, longitude
 		from pharmacyinfo
 	</select>
+	
+	
+	<select id="getTotalCountMapPh" parameterType="HashMap" resultType="int">
+		select count(*)
+		from pharmacyinfo	
+		where 1=1
+	    and address like '%'|| #{city} ||'%'
+   		and address like '%'|| #{county} ||'%'
+   		and address like '%'|| #{district} ||'%'				
+   		and name like '%'|| #{searchWord} ||'%'			
+	</select>  
+	
+	<select id="mapPharmacyListSearchWithPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.PharmacyVO">
+		select pharmseq, name, address, phone, latitude, longitude, distance
+		from 
+		(
+		    select rownum AS rno
+		         , pharmseq, name, address, phone, latitude, longitude, distance
+		    from
+		    (
+		        select pharmseq, name, address, phone, latitude, longitude
+		        	,to_number(substr(DISTNACE_WGS84(#{latitudeHere}, #{longitudeHere}, latitude, longitude),1,instr(DISTNACE_WGS84(#{latitudeHere}, #{longitudeHere}, latitude,  longitude), '.', 1,1)+1)) as DISTANCE
+		        from pharmacyinfo
+		        where 1 = 1
+	     		and address like '%'|| #{city} ||'%'
+	     		and address like '%'|| #{county} ||'%'
+	     		and address like '%'|| #{district} ||'%'				
+	     		and name like '%'|| #{searchWord} ||'%'
+	     		order by distance	
+		    ) V
+		) T
+		where rno between #{startRno} and #{endRno}	
+	</select>   	
+	
+	<!-- 약국 일반 -->
+	<select id="getTotalCountPh" parameterType="HashMap" resultType="int">
+		select count(*)
+		from pharmacyinfo	
+		where 1=1
+		and address like '%'|| #{city} ||'%'
+   		and address like '%'|| #{county} ||'%'
+   		and address like '%'|| #{district} ||'%'				
+   		and name like '%'|| #{searchWord} ||'%'	
+	</select>
+	
+	<select id="pharmacyListSearchWithPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.PharmacyVO">		
+		
+		select pharmseq, name, address, phone
+		from 
+		(
+		    select rownum AS rno, pharmseq, name, address, phone
+		    from
+		    (
+		        select pharmseq, name, address, phone
+		        from pharmacyinfo
+		        where 1 = 1
+	     		and address like '%'|| #{city} ||'%'
+	     		and address like '%'|| #{county} ||'%'
+	     		and address like '%'|| #{district} ||'%'				
+	     		and name like '%'|| #{searchWord} ||'%'	
+		    ) V
+		) T
+		where rno between #{startRno} and #{endRno}
+	</select>   
 	
 
 </mapper>
