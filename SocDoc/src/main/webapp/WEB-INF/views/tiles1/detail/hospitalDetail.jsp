@@ -303,14 +303,7 @@
 		width:100%;
 		height:150px;
 	}
-	/* 
-	.noReview {
-		background: url('/socdoc/resources/images/noLogin.png') no-repeat center ;
-		background-size: contain; 
-		width:100%;
-		height:150px;
-	} */
-    
+	
     
 
 </style>
@@ -572,7 +565,7 @@ function makeReviewPageBar(currentShowPageNo){
 			
 			if(json.totalPage>0){
 				var totalPage = json.totalPage;
-	            var pageBarHTML = "<ul style='list-style: none;'>";
+	            var pageBarHTML = "";
 				var blockSize = 2;
 				var loop = 1;
 								
@@ -607,7 +600,6 @@ function makeReviewPageBar(currentShowPageNo){
                   pageBarHTML += "<a class='arrow nnext' href='javascript:readReview(\""+totalPage+"\")'></a>";  
                }
                
-               pageBarHTML += "</ul>";               
                $("#pageBar").html(pageBarHTML);
                pageBarHTML = "";
 	                     

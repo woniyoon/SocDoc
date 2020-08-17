@@ -23,7 +23,7 @@ import com.synergy.socdoc.member.MemberVO;
 
 @Component
 @Controller
-public class DetailCtrl {
+public class DetailController {
 	
 	
 	@Autowired

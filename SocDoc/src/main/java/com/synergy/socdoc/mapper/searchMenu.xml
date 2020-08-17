@@ -86,7 +86,7 @@
 	
 	<!-- 약국 지도 -->
 	<select id="searchPharmacySelect" resultType="com.synergy.socdoc.member.PharmacyVO">
-		select pharmseq, name, address, phone, latitude, longitude
+		select pharmseq, name, address, phone, latitude, longitude, img
 		from pharmacyinfo
 	</select>
 	

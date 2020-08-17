@@ -178,12 +178,6 @@
 		border-bottom: solid 1px #999999;
 	}
 	
-	
-	
-	
-	
-	
-	
 	.wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
     .wrap * {padding: 0;margin: 0;}
     .wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
@@ -199,6 +193,62 @@
     .info .link {color: #5085BB;}
     
     
+    
+    .page_wrap {
+		text-align:center;
+		font-size:0;
+	}
+	
+	.page_nation {
+		display:inline-block;
+	}
+	.page_nation .none {
+		display:none;
+	}
+	.page_nation a {
+		display:block;
+		margin:0 3px;
+		float:left;
+		border:1px solid #e6e6e6;
+		width:28px;
+		height:28px;
+		line-height:28px;
+		text-align:center;
+		background-color:#fff;
+		font-size:13px;
+		color:#999999;
+		text-decoration:none;
+	}
+	
+	.page_nation .arrow {
+		border:1px solid #ccc;
+	}
+	
+	.page_nation .pprev {
+		background:#f8f8f8 url('/socdoc/resources/images/page_pprev.png') no-repeat center center;
+		margin-left:0;
+	}
+	
+	.page_nation .prev {
+		background:#f8f8f8 url('/socdoc/resources/images/page_prev.png') no-repeat center center;
+		margin-right:7px;
+	}
+	
+	.page_nation .next {
+		background:#f8f8f8 url('/socdoc/resources/images/page_next.png') no-repeat center center;
+		margin-left:7px;
+	}
+	
+	.page_nation .nnext {
+		background:#f8f8f8 url('/socdoc/resources/images/page_nnext.png') no-repeat center center;
+		margin-left:7px;
+	}
+	
+	.page_nation a.active {
+		background-color:#42454c;
+		color:#fff;
+		border:1px solid #42454c;
+	}
     
     
     
@@ -320,7 +370,8 @@
 		    var longitude= $(this).siblings(".mlongitude").val();
 			var locPosition = new kakao.maps.LatLng(latitude, longitude);
 			
-			printMap(locPosition,mapobj);
+			mapobj.panTo(locPosition); 
+			
  	   	});
  	   	
 		
@@ -414,8 +465,9 @@
  	    mapobj.setCenter(locPosition);   
  	    
  	    kakao.maps.event.addListener(marker, 'click', function() {
- 			overlay.setMap(mapobj);
- 			
+ 	    	
+  			overlay.setMap(mapobj);
+  			
  			$.each(markers, function(index, item){
  				if(item != marker){
  					item.ov.setMap(null);
@@ -427,14 +479,46 @@
  	 
  	   $(document).on("click",".close",function(){
  	    	overlay.setMap(null);
- 	   	})
-		
+ 	   })
+ 	   
+ 	    /* 
+ 	   $(document).on("click","#mHospitalName",function(){
+ 			
+		    var longitude= $(this).siblings(".mlongitude").val();
+		    overlay.setMap(mapobj);
+		    
+		    $.each(overlay, function(index, item){
+ 				if(item != overlay){
+ 					overlay.setMap(null);
+ 				}
+ 			}) 
+ 			
+			/* 
+			$.each(overlay, function(index, item){
+				
+ 
+				var getPosition = overlay.getPosition().Ga;
+				if(getPosition  = longitude){
+					console.log(overlay.getPosition().Ga);
+					console.log("음 : "+longitude);
+					overlay.setMap(mapobj);
+				}
+					
+			}) 
+			
+			
+ 	   }) 
+		 */
 
  	    
  	
 	} 
 	
-	 
+	/* 
+	function overlayOpen(mapobj, overlay){
+		overlay.setMap(mapobj);		
+	}
+	  */
 	
 	// 검색
 	function goSearch(mCurrentPage,latitude,longitude){
@@ -640,7 +724,10 @@
 				      <div class="mapList">
 				      		<table class="mabListTable">				      			
 				      		</table>	
-				      		<div id="pageBarM" class="pageBar"></div>			      
+<!-- 				      		<div id="pageBarM" class="pageBar"></div>	
+ -->				      	<div class="page_wrap">
+								<div class="page_nation" id="pageBarM"></div>
+							</div>		      
 				      </div>
 				 </div>				
 			</div>
@@ -698,8 +785,11 @@
 				<div class="hospitalList">
 								
 				</div>
-				
-				<div id="pageBar" class="pageBar">${pageBar}</div>
+				<%-- 
+				<div id="pageBar" class="pageBar">${pageBar}</div> --%>
+				<div class="page_wrap">
+					<div class="page_nation" id="pageBar"></div>
+				</div>
 				
 			</div>
 			

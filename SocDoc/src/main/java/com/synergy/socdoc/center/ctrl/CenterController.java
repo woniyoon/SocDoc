@@ -2,6 +2,9 @@ package com.synergy.socdoc.center.ctrl;
 
 import java.util.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -12,7 +15,7 @@ import com.synergy.socdoc.center.service.InterCenterService;
 
 @Component
 @Controller
-public class CenterCtrl {
+public class CenterController {
 	
 	
 	@Autowired
@@ -35,7 +38,7 @@ public class CenterCtrl {
 	
 	
 	@RequestMapping(value = "/inquiry.sd")
-	public ModelAndView requiredLogin_inquiry(ModelAndView mav) {
+	public ModelAndView requiredLogin_inquiry(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 
 		mav.setViewName("center/inquiry.tiles5");
 

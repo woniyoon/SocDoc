@@ -354,24 +354,70 @@ select count(*)
 
 
 
-select h.hpseq, h.hpname, h.dept, h.mainimg, nvl(r.avg,null) as avg
-from hospitalInfo h join (select hpseq, trunc(avg(rating)) as avg from hospitalreview group by hpseq) r
-on h.hpseq = r.hpseq 
-order by avg;
+select hpseq, content, rating
+		from(
+			select rownum, hpseq, content, rating
+			from hospitalreview
+			where hpseq = 2
+			order by regDate desc
+		)
+		where rownum between 1 and 3;
+
+
+select rno, hpseq, hpname, dept, address, mainimg, avg
+from
+(
+select rownum AS rno, hpseq, hpname, dept, address, mainimg, avg
+from(
+    select h.hpseq, h.hpname, h.dept, h.address, h.mainimg, r.avg as avg
+    from hospitalInfo h full join (select hpseq, trunc(avg(rating)) as avg from hospitalreview group by hpseq) r
+    on h.hpseq = r.hpseq
+    where 1=1 
+    and h.address like ''||'%'
+    and h.dept like ''||'%'
+    order by avg desc nulls last
+    ) V
+)T    
+where rno between 1 and 12;
+
+
+
+
+select hpseq, hpname, address, phone, dept
+from 
+(
+    select rownum AS rno
+         , hpseq, hpname, address, phone, dept
+    from
+    (
+        select hpseq, hpname, address, phone, dept 
+        from hospitalinfo
+        where 1 = 1
+        and address like '%'|| '서울' ||'%'
+        and hpname like '%'|| '성광' ||'%'
+    ) V
+) T
+where rno between 1 and 10;
+
+
+
+
         
-select hpseq, hpname
-from hospitalInfo
+select count(*)
+from hospitalInfo;
 where 1=1;
 
 select hpseq, trunc(avg(nvl(rating,0))) as avg from hospitalreview group by hpseq;        
 
 
-select rownum AS rno, hpseq, hpname, mainimg
+select rownum AS rno, hpseq, hpname, dept, mainimg, avg
 from(
-        select hpseq, hpname, address, phone, mainimg
-        from hospitalinfo
-        where 1 = 1
-            and address like '%'|| '' ||'%'			
-            and dept like '%'|| '' ||'%'			
+    select h.hpseq, h.hpname, h.dept, h.address, h.mainimg, r.avg as avg
+    from hospitalInfo h full join (select hpseq, trunc(avg(rating)) as avg from hospitalreview group by hpseq) r
+    on h.hpseq = r.hpseq
+    where 1=1 
+    and h.address like ''||'%'
+    and h.dept like '%'||''
+    order by avg desc nulls last
     ) V
-where rownum between 1 and 6;
+where rownum between 1 and 20;
