@@ -4,6 +4,5 @@ public interface InterApiService {
 
 	String getCovidStats();
 
-	String getCoronaStats();
-
+	String getCoronaStats(String startCreateDt, String endCreateDt);
 }

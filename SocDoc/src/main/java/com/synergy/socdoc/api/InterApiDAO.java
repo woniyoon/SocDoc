@@ -4,6 +4,5 @@ public interface InterApiDAO {
 
 	String getCovidStats();
 
-	String getCoronaStats();
-
+	String getCoronaStats(String startCreateDt, String endCreateDt);	
 }

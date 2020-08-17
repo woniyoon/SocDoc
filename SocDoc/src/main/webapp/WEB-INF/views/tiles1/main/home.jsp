@@ -483,14 +483,15 @@ function goView(noticeSeq) {
 
 /* corona19 chart */
 function coronaList() {
+
+	var today = new Date();
+	var todayDate = today.getFullYear()  + "년 " + (today.getMonth()+ 1) + "월 " + today.getDate() + "일 기준";
 	
 	$.ajax({
 		
 		url:"<%= ctxPath%>/api/corona.sd",
 		dataType: "JSON",
 		success:function(json) {
-
-		//	console.log(json);
 		 
 			var resultArr = [];
 			var data = [];
@@ -503,7 +504,7 @@ function coronaList() {
 				//	console.log(resultArr[i].gubunEn);
 					var obj = new Object();
 					
-					obj["name"] = resultArr[i].gubunEn;
+					obj["name"] = resultArr[i].gubun;
 					obj["low"] = resultArr[i].localOccCnt;
 					
 					data.push(obj);
@@ -528,7 +529,7 @@ function coronaList() {
 			    },
 
 			    subtitle: {
-			        text: '2020'
+			        text: todayDate
 			    },
 
 			    title: {
