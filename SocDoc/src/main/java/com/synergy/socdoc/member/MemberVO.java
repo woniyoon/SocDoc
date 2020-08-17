@@ -1,5 +1,7 @@
 package com.synergy.socdoc.member;
 
+import java.util.Calendar;
+
 public class MemberVO {
 
 	private String userid;
@@ -170,5 +172,17 @@ public class MemberVO {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
+	
+	public int getAge() {
+		int age = 0;
+		Calendar current = Calendar.getInstance();
+	    int currentYear  = current.get(Calendar.YEAR);
 
+	    if(!this.birthDate.isEmpty()) {
+	    	age = currentYear - Integer.parseInt(this.birthDate.substring(0, 3)) + 1;
+	    }
+		
+		return age;
+	}
+	
 }

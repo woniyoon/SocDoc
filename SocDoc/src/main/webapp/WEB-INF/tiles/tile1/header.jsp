@@ -185,12 +185,21 @@
 
     <ul class="util">     
 
-    	<c:if test="${sessionScope.loginuser == null}">
+    	<c:if test="${sessionScope.loginuser == null && sessionScope.hpLoginuser == null}">
 	        <li><a href="<%=ctxPath%>/login.sd">로그인</a></li>
 	    	<li><a href="<%=ctxPath%>/register.sd">회원가입</a></li>
+	    	<li><a href="#">마이페이지</a></li>
         </c:if>
         <c:if test="${not empty sessionScope.loginuser}">
+        	<li>환영합니다! <a href="#"><span style="color: blue;">${loginuser.name}</span>님의 마이페이지</a></li>
 	        <li><a href="<%=ctxPath%>/logout.sd">로그아웃</a></li>
+	        <c:if test="${sessionScope.loginuser.userid == 'admin'}">
+	        	<li><a href="#">관리자 페이지</a></li>
+	        </c:if>
+        </c:if>
+        <c:if test="${not empty sessionScope.hpLoginuser}">
+	        <li><a href="#"><span style="color: blue;">${hpLoginuser.name}</span>의 마이페이지</a></li>
+	        <li><a href="<%=ctxPath%>/hpLogout.sd">로그아웃</a></li>
         </c:if>
         <li><a href="<%=ctxPath%>/mypage.sd">마이페이지</a></li>
         <li><a href="#">고객센터</a></li>

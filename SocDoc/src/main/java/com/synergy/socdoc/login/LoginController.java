@@ -40,13 +40,20 @@ public class LoginController {
 	// === 로그인 처리 === //
 	@RequestMapping(value="/loginEnd.sd", method= {RequestMethod.POST})
 	public ModelAndView loginEnd(HttpServletRequest request, ModelAndView mav) {
-		
 		String userid = request.getParameter("userid");
 		String pwd = request.getParameter("pwd");
+		String email = request.getParameter("email");
+		String name = request.getParameter("name");
+		String phone = request.getParameter("phone");
+		String birthDate = request.getParameter("birthDate");
 		
 		HashMap<String, String> paraMap = new HashMap<>();
 		paraMap.put("userid", userid);
 		paraMap.put("pwd", Sha256.encrypt(pwd)); // 암호화
+		paraMap.put("email", email);
+		paraMap.put("name", name);
+		paraMap.put("phone", phone);
+		paraMap.put("birthDate", birthDate);
 		
 		MemberVO loginuser = service.getLoginMember(paraMap);
 		
@@ -59,11 +66,20 @@ public class LoginController {
 		} else {
 			String msg = "속닥 로그인 성공 희희바리~~ 건강한 하루 보내세요 ^~^";
 			String loc = request.getContextPath() + "/index.sd";
-			mav.addObject("msg", msg);
-			mav.addObject("loc", loc);
-			mav.setViewName("msg"); 
+//			mav.addObject("msg", msg);
+//			mav.addObject("loc", loc);
+			mav.setViewName("login/loginEnd.tiles1"); 
 			HttpSession session = request.getSession();
 			session.setAttribute("loginuser", loginuser);
+			
+			if(session.getAttribute("gobackURL") != null) {
+	    		// 세션에 저장된 돌아갈 페이지 주소(gobackURL)가 있다라면 
+	    		
+	    		String gobackURL = (String) session.getAttribute("gobackURL");
+	    		mav.addObject("gobackURL", gobackURL); // request 영역에 저장시키는 것이다.
+	    		
+	    		session.removeAttribute("gobackURL");  // 중요!!!!
+	    	}
 		}	
 		
 			/*else {
@@ -114,30 +130,47 @@ public class LoginController {
 	}
 	@RequestMapping(value="/hpLoginEnd.sd", method= {RequestMethod.POST})
 	public ModelAndView hpLoginEnd(HttpServletRequest request, ModelAndView mav) {
-		
 		String userid = request.getParameter("userid");
 		String pwd = request.getParameter("pwd");
+		String hpSeq = request.getParameter("hpSeq");
+		String email = request.getParameter("email");
+		String name = request.getParameter("name");
+		String regId = request.getParameter("regId");
 		
 		HashMap<String, String> paraMap = new HashMap<>();
 		paraMap.put("userid", userid);
 		paraMap.put("pwd", Sha256.encrypt(pwd)); // 암호화
+		paraMap.put("hpSeq", hpSeq);
+		paraMap.put("email", email);
+		paraMap.put("name", name);
+		paraMap.put("regId", regId);
 		
-		HpMemberVO loginuser = service.getHpLoginMember(paraMap);
+		HpMemberVO hpLoginuser = service.getHpLoginMember(paraMap);
 	
-		if(loginuser == null) {
+		if(hpLoginuser == null) {
 			String msg = "아이디 또는 암호가 틀립니다.";
 			String loc = "javascript:history.back()";
 			mav.addObject("msg", msg);
 			mav.addObject("loc", loc);
 			mav.setViewName("msg"); 
 		} else {
-			String msg = "속닥 로그인 성공 희희바리~~ 건강한 하루 보내세요 ^~^";
-			String loc = request.getContextPath() + "/index.sd";
-			mav.addObject("msg", msg);
-			mav.addObject("loc", loc);
-			mav.setViewName("msg"); 
+//			String msg = "속닥 로그인 성공 희희바리~~ 건강한 하루 보내세요 ^~^";
+//			String loc = request.getContextPath() + "/index.sd";
+//			mav.addObject("msg", msg);
+//			mav.addObject("loc", loc);
+			mav.setViewName("login/loginEnd.tiles1"); 
 			HttpSession session = request.getSession();
-			session.setAttribute("loginuser", loginuser);
+			session.setAttribute("hpLoginuser", hpLoginuser);
+			
+			if(session.getAttribute("gobackURL") != null) {
+	    		// 세션에 저장된 돌아갈 페이지 주소(gobackURL)가 있다라면 
+	    		
+	    		String gobackURL = (String) session.getAttribute("gobackURL");
+	    		mav.addObject("gobackURL", gobackURL); // request 영역에 저장시키는 것이다.
+	    		
+	    		session.removeAttribute("gobackURL");  // 중요!!!!
+	    	}
+			
 		}	
 		return mav;
 	}	
@@ -150,11 +183,9 @@ public class LoginController {
 		session.invalidate();*/
 		Object object = session.getAttribute("loginuser");
 		if(object != null) {
-			session.removeAttribute("login");
+			session.removeAttribute("loginuser");
 			session.invalidate();
 		}
-		
-		
 		String msg = "로그아웃 되었습니다.";
 		String loc = request.getContextPath()+"/index.sd";
 		mav.addObject("msg", msg);
@@ -166,8 +197,12 @@ public class LoginController {
 	public ModelAndView hpLogout(HttpServletRequest request, ModelAndView mav) {  //직접 세션해도 되고, HttpServletRequest request 해도 됨)
 		
 		HttpSession session = request.getSession();
-		session.invalidate();
-		
+		/*session.invalidate();*/
+		Object object = session.getAttribute("hpLoginuser");
+		if(object != null) {
+			session.removeAttribute("hpLoginuser");
+			session.invalidate();
+		}
 		String msg = "로그아웃 되었습니다.";
 		String loc = request.getContextPath()+"/index.sd";
 		mav.addObject("msg", msg);
@@ -513,7 +548,7 @@ public class LoginController {
 	// === 비밀번호 재설정 === //
 	@RequestMapping("/pwdUpdate.sd")
 	public ModelAndView pwdUpdate(HttpServletRequest request, HttpSession session, MemberVO vo, ModelAndView mav) {
-//		service.pwdUpdate(vo);
+		// service.pwdUpdate(vo);
 		String name = request.getParameter("name");
 		String userid = request.getParameter("userid");
 		String email = request.getParameter("email");
@@ -550,7 +585,7 @@ public class LoginController {
 	}
 	@RequestMapping("/hpPwdUpdate.sd")
 	public ModelAndView hpPwdUpdate(HttpServletRequest request, HttpSession session, MemberVO vo, ModelAndView mav) {
-//		service.pwdUpdate(vo);
+		// service.pwdUpdate(vo);
 		String name = request.getParameter("name");
 		String userid = request.getParameter("userid");
 		String email = request.getParameter("email");
@@ -587,6 +622,7 @@ public class LoginController {
 		return mav;
 	}
 	
+	// 비밀번호 바꾸기 // 
 	@RequestMapping("/changePwd.sd")
 	public ModelAndView changePwd(HttpServletRequest request, HttpSession session, ModelAndView mav) {
 		String pwd = request.getParameter("pwd");
@@ -619,7 +655,7 @@ public class LoginController {
 		
 		return mav;
 	}
-	
+/*	
 	// === 게시판 list === //
 	@RequestMapping("/noticeList.sd")
 	public String noticeList(HttpServletRequest request) {
@@ -648,5 +684,5 @@ public class LoginController {
 		System.out.println(ctxPath+"/noticeWrite.sd로 접속하셨습니다.");
 		
 		return "notice/noticeWrite.tiles1";
-	}
+	}*/
 }
