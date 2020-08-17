@@ -300,4 +300,9 @@
 		update hpApplication set status = 4
 		where submitId = #{submitId}
 	</update>
+	
+	<!-- 병원 상세 정보 업데이트 여부 확인하기 -->
+	<select id="checkInfoStatus" parameterType="String" resultType="int">
+		select infoStatus from hpmember where hpSeq = #{hpSeq}
+	</select>
 </mapper>

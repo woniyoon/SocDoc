@@ -142,7 +142,7 @@
                			console.log(typeof item.hasVisited);
                			var checked = item.hasVisited ? "checked" : "unchecked";
                			
-               			html += "<tr id='"+item.userid+"'>"
+               			html += "<tr id='"+item.userid+"' onclick='popModal(event);'>"
                					+	"<td>"+num+"</td>"
                					+	"<td>"+item.hour+"</td>"
                					+	"<td>"+item.name+"</td>"

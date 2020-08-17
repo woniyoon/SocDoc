@@ -275,6 +275,21 @@ public class HpMemController {
 	// 예약관리
 	@RequestMapping(value = "/hpPanel/reservationInfo.sd", method = RequestMethod.GET)
 	public String requiredLoginHp_reservationInfo(HttpServletRequest request, HttpServletResponse response) {
+		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
+		String hpSeq = String.valueOf(hpMember.getHpSeq());
+		
+		// 병원 상세 정보 업데이트 여부 확인하기
+		int status = service.checkInfoStatus(hpSeq);
+		
+		if(status == 0) {
+			String msg = "병원 상세정보 업데이트 및 승인 후 이용 가능한 서비스입니다!";
+			String loc = request.getContextPath() + "/hpPanel/updateHpInfo.sd";
+			
+			request.setAttribute("msg", msg);
+			request.setAttribute("loc", loc);
+			
+			return "msg";
+		}
 		
 		return "hpMem/reservationInfo.tiles4";
 	}

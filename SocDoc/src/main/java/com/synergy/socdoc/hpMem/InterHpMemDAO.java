@@ -68,4 +68,7 @@ public interface InterHpMemDAO {
 	// 현재 선택한 신청 내역 취소하기
 	public int cancelCurrentSubmission(String submitId);
 
+	// 병원 상세 정보 업데이트 여부 확인하기
+	public int checkInfoStatus(String hpSeq);
+
 }

@@ -185,4 +185,11 @@ public class HpMemDAO implements InterHpMemDAO {
 		return result;
 	}
 
+	// 병원 상세 정보 업데이트 여부 확인하기
+	@Override
+	public int checkInfoStatus(String hpSeq) {
+		int result = sqlsession.selectOne("hpMem.checkInfoStatus", hpSeq);
+		return result;
+	}
+
 }

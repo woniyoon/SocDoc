@@ -176,6 +176,13 @@ public class HpMemService implements InterHpMemService {
 		return result;
 	}
 
+	// 병원 상세 정보 업데이트 여부 확인하기
+	@Override
+	public int checkInfoStatus(String hpSeq) {
+		int status = dao.checkInfoStatus(hpSeq);
+		return status;
+	}
+
 	
 	
 
