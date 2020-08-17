@@ -19,6 +19,9 @@ public interface InterLoginDAO {
 	int emailChk(String email);
 	int hpEmailChk(String email);
 	
+	// === 회원가입 사업자번호 중복검사 === //
+	int regIdChk(String regId);
+	
 	// 회원가입 //
 	int register(MemberVO vo);
 	int hpRegister(HpMemberVO vo);

@@ -48,7 +48,14 @@
 		from hpMember
 		where email = #{hpEmail}
 	</select>
-
+	
+	<!-- 회원가입 사업자번호 중복검사 -->
+	<select id="regIdChk" resultType="int">
+		select count(*)
+		from hpMember
+		where regId = #{regId}
+	</select>
+	
 	<!-- 회원가입 -->
 	<insert id="register" parameterType="com.synergy.socdoc.member.MemberVO">
 		insert into member(userid, pwd, email, name, phone, memberSeq, birthDate, gender) 
@@ -84,7 +91,7 @@
 
 	<!-- 비밀번호 업데이트 -->
 	<update id = "pwdUpdate" parameterType="hashMap">
-    	update member set pwd=#{pwd}
+    	update member set pwd=#{newPwd}
     	where userid=#{userid} and name=#{name} and email=#{email}
     </update>
     

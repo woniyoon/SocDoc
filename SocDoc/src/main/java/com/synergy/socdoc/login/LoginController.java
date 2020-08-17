@@ -433,7 +433,19 @@ public class LoginController {
 		return json.toString();
 	}
 	
-
+	// === 회원가입 사업자번호 중복검사 === //
+	@ResponseBody
+	@RequestMapping(value="/regIdChk.sd", method= {RequestMethod.POST})
+	public String regIdChk(HttpServletRequest request) {
+		String regId = request.getParameter("regId");
+		
+		boolean isUse = service.regIdChk(regId);
+		JSONObject json = new JSONObject();
+		json.put("isUse", isUse);
+		
+		return json.toString();
+	}
+	
 	// === 아이디 찾기 === //
 	@RequestMapping("/idFind.sd")
 	public ModelAndView idFind(ModelAndView mav) {
@@ -526,7 +538,7 @@ public class LoginController {
 		return mav;
 	}
 	
-	// === 비밀번호 재설정 === //
+	// === 비밀번호 재설정 전 확인 === //
 	@RequestMapping("/pwdUpdate.sd")
 	public ModelAndView pwdUpdate(HttpServletRequest request, HttpSession session, MemberVO vo, ModelAndView mav) {
 		// service.pwdUpdate(vo);
@@ -606,6 +618,9 @@ public class LoginController {
 	// 비밀번호 바꾸기 // 
 	@RequestMapping("/changePwd.sd")
 	public ModelAndView changePwd(HttpServletRequest request, HttpSession session, ModelAndView mav) {
+		String oldPwd = Sha256.encrypt(request.getParameter("oldPwd"));
+		String newPwd = Sha256.encrypt(request.getParameter("newPwd"));
+		
 		String pwd = request.getParameter("pwd");
 		String pwd2 = request.getParameter("pwd2");
 		String userid = request.getParameter("userid");
@@ -613,16 +628,23 @@ public class LoginController {
 		String email = request.getParameter("email");
 		
 		HashMap<String, String> paraMap = new HashMap<>();
+		paraMap.put("pwd", oldPwd);
+		paraMap.put("newPwd", newPwd);
+		
 		paraMap.put("pwd", Sha256.encrypt(pwd));
 		paraMap.put("pwd2", Sha256.encrypt(pwd2));
 		paraMap.put("userid", userid);
 		paraMap.put("name", name);
 		paraMap.put("email", email);
 		
+		String msg = "";
+		String loc = "";
+		boolean needsRefresh = false;
+		
 		int n = service.pwdUpdate(paraMap);
 
-		String msg = "비밀번호가 성공적으로 변경됐습니다.";
-		String loc = request.getContextPath() + "/login.sd";
+		msg = "비밀번호가 성공적으로 변경됐습니다.";
+		loc = request.getContextPath() + "/login.sd";
 
 		if(n == 0) {
 			msg = "다시 시도해주세요!";

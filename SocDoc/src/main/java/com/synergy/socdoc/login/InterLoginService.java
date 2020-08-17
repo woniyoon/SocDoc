@@ -18,7 +18,10 @@ public interface InterLoginService {
 	// === 회원가입 이메일 중복검사 === //
 	public boolean emailChk(String email);
 	public boolean hpEmailChk(String email);
-
+	
+	// === 회원가입 사업자번호 중복검사 === //
+	public boolean regIdChk(String regId);
+	
 	// 회원 회원가입 //
 	public int register(MemberVO vo);
 	public int hpRegister(HpMemberVO vo);

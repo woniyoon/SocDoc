@@ -55,7 +55,15 @@ public class LoginDAO implements InterLoginDAO {
 		//System.out.println(result);
 		return result;
 	}
-
+	
+	// === 회원가입 사업자번호 중복검사 === //
+	@Override
+	public int regIdChk(String regId) {
+		int result = sqlsession.selectOne("newMem.regIdChk", regId);
+		//System.out.println(result);
+		return result;
+	}
+	
 	// 회원가입 //
 	@Override
 	public int register(MemberVO vo) {

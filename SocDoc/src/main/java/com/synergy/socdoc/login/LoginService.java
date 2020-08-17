@@ -100,6 +100,19 @@ public class LoginService implements InterLoginService {
 		return result;
 	}	
 	
+	// === 회원가입 사업자번호 중복검사 === //
+	@Override
+	public boolean regIdChk(String regId) {
+		int n = dao.regIdChk(regId);
+		boolean result;
+		if(n==0) {
+			result = false;
+		} else {
+			result = true;
+		}
+		return result;
+	}
+	
 	// 회원가입 //
 	@Override
 	public int register(MemberVO vo) {
