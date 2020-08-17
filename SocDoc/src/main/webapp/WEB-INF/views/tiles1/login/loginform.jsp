@@ -172,11 +172,42 @@
 			} 
 		});
 		
-		var userid = localStorage.getItem('form[name=loginFrm] saveid');
+/* 		var userid = localStorage.getItem('form[name=loginFrm] saveid');
 			if(userid != null){
 				$("form[name=loginFrm] #userid").val(userid);
 	    	  	$("form[name=loginFrm] input:checkbox[id=saveid]").prop("checked",true);
 		}
+			 */
+			
+			
+			////////////////////// 아이디 저장
+		    // 저장된 쿠키값을 가져와서 ID 칸에 넣어준다. 없으면 공백으로 들어감.
+		    var key = getCookie("key");
+		    $("form[name=loginFrm] #userid").val(key); 
+		     
+		    if($("form[name=loginFrm] #userid").val() != ""){ // 그 전에 ID를 저장해서 처음 페이지 로딩 시, 입력 칸에 저장된 ID가 표시된 상태라면,
+		        $("form[name=loginFrm] #saveid").attr("checked", true); // ID 저장하기를 체크 상태로 두기.
+		    }
+		     
+		    $("form[name=loginFrm] #saveid").change(function(){ // 체크박스에 변화가 있다면,
+		        if($("form[name=loginFrm] #saveid").is(":checked")){ // ID 저장하기 체크했을 때,
+		        	console.log("아이디저장 체크");
+		            setCookie("key", $("form[name=loginFrm] #userid").val(), 7); // 7일 동안 쿠키 보관
+		        } else { // ID 저장하기 체크 해제 시,
+		            console.log("아이디저장 해제"+key);
+		            deleteCookie("key", $("form[name=loginFrm] #userid").val());
+		        }
+		    });
+		     
+		    // ID 저장하기를 체크한 상태에서 ID를 입력하는 경우, 이럴 때도 쿠키 저장.
+		    $("form[name=loginFrm] #userid").keyup(function(){ // ID 입력 칸에 ID를 입력할 때,
+		        if($("form[name=loginFrm] #saveid").is(":checked")){ // ID 저장하기를 체크한 상태라면,
+		            setCookie("key", $("form[name=loginFrm] #userid").val(), 7); // 7일 동안 쿠키 보관
+		        } else {
+		        	deleteCookie("key", $("form[name=loginFrm] #userid").val());
+		        }
+		    })
+			/////////////////////
 	});	
 	
 	/* === 로그인 처리 함수 === */
@@ -198,29 +229,54 @@
          	return;  
       	}
 		
-		// === 로컬 스토리지(localStorage)에 userid 값 저장시키기 === //
+/* 		// === 로컬 스토리지(localStorage)에 userid 값 저장시키기 === //
 	  	if($("form[name=loginFrm] input:checkbox[id=saveid]").prop("checked")){
 	  		alert("아이디 저장을 클릭하셨네요");
   		   	localStorage.setItem('saveid', $("form[name=loginFrm] #userid").val());
   	   	} else {
   	   		alert("아이디 저장을 해제하셨네요");
 			localStorage.removeItem('saveid');
-  	   	}
+  	   	} */
       	var frm = document.loginFrm;  
       	frm.method = "POST";
       	frm.action = "loginEnd.sd";
       	frm.submit();
 	}
 	
-	
-
  	/* === 로그아웃 처리 함수 === */	
 	function goLogout() {
 		location.href="logout.sd";
 	}
 
-
-
+	/////////////// 아이디 저장
+	function setCookie(cookieName, value, exdays){
+	    var exdate = new Date();
+	    exdate.setDate(exdate.getDate() + exdays);
+	    var cookieValue = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toGMTString());
+	    document.cookie = cookieName + "=" + cookieValue;
+	}
+	 
+	function deleteCookie(cookieName){
+	    var expireDate = new Date();
+	    expireDate.setDate(expireDate.getDate() - 1);
+	    document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
+	}
+	 
+	function getCookie(cookieName) {
+	    cookieName = cookieName + '=';
+	    var cookieData = document.cookie;
+	    var start = cookieData.indexOf(cookieName);
+	    var cookieValue = '';
+	    if(start != -1){
+	        start += cookieName.length;
+	        var end = cookieData.indexOf(';', start);
+	        if(end == -1)end = cookieData.length;
+	        cookieValue = cookieData.substring(start, end);
+	    }
+	    return unescape(cookieValue);
+	}
+	///////////////
+	
 
 
 
@@ -246,11 +302,40 @@
 			} 
 		});
 		
-		var userid = localStorage.getItem('form[name=hpLoginFrm] saveid');
+/* 		var userid = localStorage.getItem('form[name=hpLoginFrm] saveid');
 			if(userid != null){
 				$("form[name=hpLoginFrm] #userid").val(userid);
 	    	  	$("form[name=hpLoginFrm] input:checkbox[id=saveid]").prop("checked",true);
-		}
+		} */
+		
+		////////////////////// 아이디 저장
+	    // 저장된 쿠키값을 가져와서 ID 칸에 넣어준다. 없으면 공백으로 들어감.
+	    var key2 = getHpCookie("key2");
+	    $("form[name=hpLoginFrm] #userid").val(key2); 
+	     
+	    if($("form[name=hpLoginFrm] #userid").val() != ""){ // 그 전에 ID를 저장해서 처음 페이지 로딩 시, 입력 칸에 저장된 ID가 표시된 상태라면,
+	        $("form[name=hpLoginFrm] #saveid").attr("checked", true); // ID 저장하기를 체크 상태로 두기.
+	    }
+	     
+	    $("form[name=hpLoginFrm] #saveid").change(function(){ // 체크박스에 변화가 있다면,
+	        if($("form[name=hpLoginFrm] #saveid").is(":checked")){ // ID 저장하기 체크했을 때,
+	        	console.log("hp아이디저장 체크");
+	            setHpCookie("key2", $("form[name=hpLoginFrm] #userid").val(), 7); // 7일 동안 쿠키 보관
+	        } else { // ID 저장하기 체크 해제 시,
+	        	console.log("hp아이디저장 해제"+key2);
+	            deleteHpCookie("key2", $("form[name=hpLoginFrm] #userid").val());
+	        }
+	    });
+	     
+	    // ID 저장하기를 체크한 상태에서 ID를 입력하는 경우, 이럴 때도 쿠키 저장.
+	    $("form[name=hpLoginFrm] #userid").keyup(function(){ // ID 입력 칸에 ID를 입력할 때,
+	        if($("form[name=hpLoginFrm] #saveid").is(":checked")){ // ID 저장하기를 체크한 상태라면,
+	            setHpCookie("key2", $("form[name=hpLoginFrm] #userid").val(), 7); // 7일 동안 쿠키 보관
+	        } else { 
+	            deleteHpCookie("key2", $("form[name=hpLoginFrm] #userid").val());
+	        }
+	    })
+		/////////////////////
 	});	
 	
 	/* === 로그인 처리 함수 === */
@@ -272,14 +357,6 @@
          	return;  
       	}
 		
-		// === 로컬 스토리지(localStorage)에 userid 값 저장시키기 === //
-	  	if($("form[name=hpLoginFrm] input:checkbox[id=saveid]").prop("checked")){
-	  		alert("병원용_아이디 저장을 클릭하셨네요");
-  		   	localStorage.setItem('saveid', $("form[name=hpLoginFrm] #userid").val());
-  	   	} else {
-  	   		alert("병원용_아이디 저장을 해제하셨네요");
-			localStorage.removeItem('saveid');
-  	   	}
       	var frm = document.hpLoginFrm;  
       	frm.method = "POST";
       	frm.action = "hpLoginEnd.sd";
@@ -290,6 +367,36 @@
  	function goHpLogout() {
 		location.href="hpLogout.sd";
 	}
+	
+	
+	/////////////// 아이디 저장
+	function setHpCookie(cookieName, value, exdays){
+	    var exdate = new Date();
+	    exdate.setDate(exdate.getDate() + exdays);
+	    var cookieValue = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toGMTString());
+	    document.cookie = cookieName + "=" + cookieValue;
+	}
+	 
+	function deleteHpCookie(cookieName){
+	    var expireDate = new Date();
+	    expireDate.setDate(expireDate.getDate() - 1);
+	    document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
+	}
+	 
+	function getHpCookie(cookieName) {
+	    cookieName = cookieName + '=';
+	    var cookieData = document.cookie;
+	    var start = cookieData.indexOf(cookieName);
+	    var cookieValue = '';
+	    if(start != -1){
+	        start += cookieName.length;
+	        var end = cookieData.indexOf(';', start);
+	        if(end == -1)end = cookieData.length;
+	        cookieValue = cookieData.substring(start, end);
+	    }
+	    return unescape(cookieValue);
+	}
+	///////////////
 </script>
 
 
