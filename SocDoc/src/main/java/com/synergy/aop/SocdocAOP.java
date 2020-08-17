@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 
 import com.synergy.socdoc.common.MyUtil;
 import com.synergy.socdoc.hpMem.InterHpMemService;
-import com.synergy.socdoc.member.HpMemberVO;
+import com.synergy.socdoc.member.*;
 
 @Aspect
 @Component
@@ -42,12 +42,12 @@ public class SocdocAOP {
 		System.out.println("현재 servletContext : " + request.getServletContext());
 
 		HttpSession session = request.getSession();
-		HpMemberVO hpMember = (HpMemberVO) session.getAttribute("loginuser");
+		MemberVO member = (MemberVO) session.getAttribute("loginuser");
 
 		String msg = "로그인이 필요한 페이지입니다!";
 		String loc = "";
 
-		if (hpMember == null) {
+		if (member == null) {
 
 			loc = request.getContextPath() + "/login.sd";
 			request.setAttribute("msg", msg);
@@ -120,21 +120,4 @@ public class SocdocAOP {
 		}
 	}
 
-	@Pointcut("execution(public * com.synergy..*Controller.*_cancelPrevSubmission(..) )")
-	public void cancelSubmissions() {
-	}
-
-	@Before("cancelSubmissions()")
-	public void cancelPrevSubmission(JoinPoint joinPoint) {
-
-		HttpServletRequest request = (HttpServletRequest) joinPoint.getArgs()[0];
-
-		System.out.println("Before 또 ~");
-
-		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
-		String hpSeq = String.valueOf(hpMember.getHpSeq());
-
-		service.cancelPrevSubmission(hpSeq);
-		
-	}
 }
