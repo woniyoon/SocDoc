@@ -11,13 +11,14 @@ public class PharmacyVO {
 	private double longitude;
 	private String mainImg;
 	private String distance;
+	private int avgRating;
 	
 	public PharmacyVO() {
 		
 	}
 
 	public PharmacyVO(int pharmSeq, String name, String address, String addressDetail, String phone, double latitude,
-			double longitude, String mainImg, String distance) {
+			double longitude, String mainImg, String distance, int avgRating) {
 		super();
 		this.pharmSeq = pharmSeq;
 		this.name = name;
@@ -27,6 +28,8 @@ public class PharmacyVO {
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.mainImg = mainImg;
+		this.distance = distance;
+		this.avgRating = avgRating;
 	}
 
 	public int getPharmSeq() {
@@ -100,5 +103,14 @@ public class PharmacyVO {
 	public void setDistance(String distance) {
 		this.distance = distance;
 	}
+
+	public int getAvgRating() {
+		return avgRating;
+	}
+
+	public void setAvgRating(int avgRating) {
+		this.avgRating = avgRating;
+	}
+	
 	
 }
