@@ -424,6 +424,7 @@
    		<result property="phone" 	column="phone" 		javaType="String"/>
    		<result property="bookSeq" 	column="bookSeq" 	javaType="String"/>
    		<result property="address" 	column="address" 	javaType="String"/>
+   		<result property="mainimg" 	column="mainimg" 	javaType="String"/>
 	   </resultMap>
 	   <select id="bookMarkList" parameterType="HashMap" resultMap="hpInfoMap2">
 	 	   select bookSeq,dept,hpName,phone, address, mainimg

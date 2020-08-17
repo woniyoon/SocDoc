@@ -41,7 +41,7 @@ public class MypageController {
 	
 	// === 마이페이지 메인 페이지 요청 === // 
 	@RequestMapping(value="/mypage.sd")
-	public ModelAndView mypage(HttpServletRequest request, ModelAndView mav) {
+	public ModelAndView requiredLogin_mypage(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");

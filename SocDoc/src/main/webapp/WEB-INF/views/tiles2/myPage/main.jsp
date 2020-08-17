@@ -391,21 +391,22 @@
 				<form name="noticeListFrm">
 				<table style="width: 100%; margin-left: 10px;">
 					<thead>
+					<c:forEach var="bookMarkList" items="${bookMarkList}" varStatus="status" begin="1" end="1">
 						 <tr>
 						 	<th style="width: 40%; padding: 10px 0; border: none; font-weight: normal;  text-align: left;  ">
-						 		<img id="findPW" src="<%= ctxPath%>/resources/images/hsim.jpg" width="150" height="180"/>
+						 		<img id="findPW" src="<%= ctxPath%>/resources/images/${bookMarkList.mainimg}" width="150" height="180"/>
 							</th>
 						 	<th style="width: 60%; padding: 10px 0; border: none; font-weight: normal; text-align: left; vertical-align: text-top;">
-						 	<c:forEach var="bookMarkList" items="${bookMarkList}" varStatus="status" begin="1" end="1">
+						 	
 						 		<strong style="font-size: 14pt; font-weight: bold;">${bookMarkList.hpName}</strong><br/>
 						 		<br/>
 						 		<br/>
 						 		유형: ${bookMarkList.dept}<br/>
 								위치: ${bookMarkList.address}<br/>
 								전화: ${bookMarkList.phone}<br/>
-								</c:forEach>
 						 	</th>
 						 </tr>
+						 </c:forEach>
 					</thead>
 				</table>
 				</form>

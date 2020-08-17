@@ -201,7 +201,6 @@
 	        <li><a href="#"><span style="color: blue;">${hpLoginuser.name}</span>의 마이페이지</a></li>
 	        <li><a href="<%=ctxPath%>/hpLogout.sd">로그아웃</a></li>
         </c:if>
-        <li><a href="<%=ctxPath%>/mypage.sd">마이페이지</a></li>
         <li><a href="#">고객센터</a></li>
     </ul>
 
