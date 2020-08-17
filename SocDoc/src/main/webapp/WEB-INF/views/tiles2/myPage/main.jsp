@@ -62,6 +62,12 @@
         display: flex;
         flex-direction: row;
     }
+    
+    #mycontent {
+    	 background-position: top;
+    	 background-image: url("<%= ctxPath%>/resources/images/mypageMain2.jpg");
+    	 background-repeat: no-repeat;
+    }
 
     #sideMenu {
         flex: 1;
@@ -99,25 +105,27 @@
       
     /* 첫번째줄 셋팅- 예약확인 */
 	div#box1 {
-		width: 95.6%;
+		width: 105%;
 		margin-top: 20px;
 		height: 200px;
-		border: 1px solid gray;
+		border: 2px solid #157bb9;
 		padding: 0 15px 15px 15px;
+		box-shadow: 2px 2px 10px gray;
 
 	}
 	
 	/* 두번째줄 셋팅 */
 	div#box2 {
 		display: inline-block;
-		width: 100%;
+		width: 105%;
 		margin-top: 18px;
 		height: 300px;
+		
 	}
 	
 	/* 두번째줄 - 최근진료조회, 내건강 */
 	div#box2-1, div#box2-2, div#box2-3 {
-		width: 31%;
+		width: 32%;
 		height: 300px;
 		border: 1px solid gray;
 		padding: 0 15px 15px 15px;
@@ -218,8 +226,8 @@
         </ul>
 </header> -->
     <main>
-        <div id="sideMenu">
-            <ul style="margin-left: 50px;">
+        <div id="sideMenu" style="margin-top: 210px;">
+            <ul>
             	<li><h3>관련 콘텐츠</h3></li>
                 <li><a href="<%= request.getContextPath()%>/infoEdit.sd">· 회원정보수정</a></li>
                 <li><a href="<%= request.getContextPath()%>/askList.sd">· 문의내역</a></li>
@@ -229,16 +237,16 @@
                 <li><a href="<%= request.getContextPath()%>/viewHistory.sd">· 최근 진료이력조회</a></li>
                 <li><a href="<%= request.getContextPath()%>/review.sd">· 내 후기</a></li>
             </ul>
-            <ul style="display:inline-block; margin-top: 20px; margin-left: 50px;">
+            <ul style="display:inline-block; margin-top: 20px;">
 
             	<li><h3>자주 찾는 서비스</h3></li>
                 <li><a>FAQ</a>&nbsp;&nbsp;&nbsp;<a>병원찾기</a></li>
                 <li><a>내 건강</a></li>
             </ul>
         </div>
-        <div id="contents">
-		<h1 style="text-align: left;"><strong>마이페이지</strong></h1>
-	<div id="box1">
+        <div id="contents" style="margin-top: 210px;">
+		<!-- <h1 style="text-align: left;"><strong>마이페이지</strong></h1> -->
+	<div id="box1" style="background-color: white;">
 
 		<h3 style="margin-bottom: 0;">예약확인</h3>
 		<!-- 더보기 -->
@@ -246,7 +254,7 @@
 				<a href="<%= request.getContextPath()%>/reservation.sd" style="font-size: 9pt;">더보기></a>
 		</div>
 		<!-- 더보기 -->	
-		<div style="height:80%; text-align: center; margin-top: 10px;">
+		<div style="height:80%; text-align: center; margin-top: 10px; ">
 			<!-- 테이블 -->
 			<form name="noticeListFrm">
 			<table>
@@ -275,8 +283,8 @@
 		</div>
 	</div>
 	<div id="box2">
-		<div id="box2-1" style="float: left;">
-			<h3>최근 진료이력조회</h3>
+		<div id="box2-1" style="float: left; background-color: #e6e6e5;">
+			<h3 style="color: #157bb9;">최근 진료이력조회</h3>
 			<!-- 더보기 -->
 			<div id="more" style="text-align: right; margin-right: 15px;">
 					<a href="<%= request.getContextPath()%>/viewHistory.sd" style="font-size: 9pt;">더보기></a>
