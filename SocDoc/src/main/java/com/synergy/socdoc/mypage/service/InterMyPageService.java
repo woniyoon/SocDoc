@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.synergy.socdoc.member.CommentVO;
 import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.QnaBoardVO;
@@ -72,6 +73,9 @@ public interface InterMyPageService {
 
 	List<HashMap<String, String>> reviewList(HashMap<String, String> paraMap);
 
+	int addComment(CommentVO commentvo);  // 댓글쓰기
+	List<CommentVO> getCommentList(String parentSeq); // 게시물에 딸린 댓글 조회하기
+	void updateStatus(String parentSeq);  // 문의글에 답변 상태 변경하기
 
 	// String getHourSeq(HashMap<String, String> paraMap); // 방문예정 시간 구하기
 

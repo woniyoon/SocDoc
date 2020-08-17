@@ -23,7 +23,7 @@
         height: auto;
         margin: 0 auto;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        border: 1px solid pink;
+/*         border: 1px solid pink; */
         min-height: 100vh;
     }
 
@@ -55,7 +55,8 @@
 
     main {
         padding: 30px auto;
-        width: 100vw;
+        margin: 0 auto;
+        width: 90vw;
         min-height: 75vh;
         height: auto;
         display: flex;

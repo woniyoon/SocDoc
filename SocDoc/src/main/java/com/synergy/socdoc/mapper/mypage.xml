@@ -541,6 +541,32 @@
 				      )
 	    		) T
 	    	where userid = #{userid}	
-	  </select>   
+	  </select>  
+	  
+	  
+	    <!-- 댓글쓰기 -->
+		<insert id="addComment" parameterType="com.synergy.socdoc.member.CommentVO">
+			insert into qnaComment (commentSeq, content, regDate, parentSeq)
+			values(commentSeq.nextval, #{content}, default, #{parentSeq})
+		</insert>	
+		<select id="getCommentList" parameterType="String" resultType="com.synergy.socdoc.member.CommentVO">
+			select to_char(regDate, 'yyyy-mm-dd') as regDate, content
+			from qnaComment
+			where parentSeq = #{parentSeq}
+		</select>
+		
+		
+		<update id="updateStatus" parameterType="String">
+			update qnaBoard set status = '1'
+			where qnaSeq = #{parentSeq}
+		</update> 
+		
+		
+		<!--  === #98. 삭제하는 글의 해당 댓글 삭제 === -->  
+	  	<delete id="deleteComment" parameterType="HashMap">
+			delete from qnaComment
+			where parentSeq = #{parentSeq}
+			<!--#{seq}는 hashMap 값! -->
+		</delete>
 	
 </mapper>

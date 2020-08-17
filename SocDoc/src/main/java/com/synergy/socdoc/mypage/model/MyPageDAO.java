@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.synergy.socdoc.member.CommentVO;
 import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.QnaBoardVO;
@@ -242,6 +243,36 @@ public class MyPageDAO implements InterMyPageDAO {
 	public List<HashMap<String, String>> reviewList(HashMap<String, String> paraMap) {
 		List<HashMap<String, String>> reviewList = sqlsession.selectList("mypage.reviewList",paraMap);
 		return reviewList;
+	}
+
+	///////////////////////////////////////////////////////////////////////////////
+	
+
+	// 댓글쓰기
+	@Override
+	public int addComment(CommentVO commentvo) {
+		int n = sqlsession.insert("mypage.addComment", commentvo);
+		return n;
+	}
+	
+	// 게시물에 딸린 댓글 조회하기
+	@Override
+	public List<CommentVO> getCommentList(String parentSeq) {
+		List<CommentVO> commentList = sqlsession.selectList("mypage.getCommentList", parentSeq);
+		return commentList;
+	}
+	
+	// 문의글에 답변 상태 변경하기
+	@Override
+	public void updateStatus(String parentSeq) {
+		sqlsession.update("mypage.updateStatus", parentSeq);
+	}
+
+
+	// === 딸린 댓글을 삭제한다.(딸린 댓글이 있는 경우 댓글도 동시에 삭제한다.) === //  
+	@Override
+	public void deleteComment(HashMap<String, String> paraMap) {
+		sqlsession.delete("mypage.deleteComment", paraMap);
 	}
 
 

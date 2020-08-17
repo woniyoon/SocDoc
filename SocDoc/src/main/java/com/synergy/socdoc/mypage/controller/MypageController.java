@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,6 +27,7 @@ import com.synergy.socdoc.common.MyUtil;
 import com.synergy.socdoc.common.Sha256;
 import com.synergy.socdoc.mail.GoogleMail;
 import com.synergy.socdoc.mail.GoogleMail2;
+import com.synergy.socdoc.member.CommentVO;
 import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.QnaBoardVO;
@@ -488,6 +490,7 @@ public class MypageController {
 		
 		// 조회하고자 하는 글번호 받아오기 
 		String qnaSeq = request.getParameter("qnaSeq");
+		String parentSeq = request.getParameter("parentSeq");
 		
 		// === #123. 페이징 처리되어진 후 특정글제목을 클릭하여 상세내용을 본 이후
 		// 			  사용자가 목록보기 버튼을 클릭했을때 돌아갈 페이지를 알려주기 위해
@@ -571,9 +574,13 @@ public class MypageController {
 	public ModelAndView deleteAsk(HttpServletRequest request, ModelAndView mav) throws Throwable {
 		
 		String qnaSeq = request.getParameter("qnaSeq");
+		String parentSeq = request.getParameter("parentSeq");
 		
 		HashMap<String, String> paraMap = new HashMap<>();
 		paraMap.put("qnaSeq", qnaSeq);
+		paraMap.put("parentSeq", parentSeq);
+		
+		System.out.println("parentSeq:"+parentSeq);
 		
 		int n = service.del(paraMap);
 		
@@ -1404,6 +1411,60 @@ public class MypageController {
 		
 	}
 	
+	/* 문의관리 댓글쓰기 */
+	@ResponseBody
+    @RequestMapping(value="/addComment.sd", method= {RequestMethod.POST})      
+    public String addComment(HttpServletRequest request, CommentVO commentvo) {
+	   
+	// System.out.println(commentvo.getContent() +"/"+commentvo.getParentSeq());
+	   String jsonStr = "";
+	   
+	   try {
+		   
+		   int n = service.addComment(commentvo);
+		   
+		   if(n == 1) {
+			   service.updateStatus(commentvo.getParentSeq());
+		   }
+		   
+		   JSONObject jsonObj = new JSONObject();
+		   jsonObj.put("n", n);
+		   
+		   jsonStr = jsonObj.toString();
+	   
+	   } catch (Throwable e) {
+
+		   e.printStackTrace();
+	   }
+	   
+	   return jsonStr;
+	   
+    }
+	
+	
+	/* 문의관리 댓글 읽어오기 */
+	@ResponseBody
+    @RequestMapping(value="/readComment.sd", produces="text/plain;charset=UTF-8")      
+    public String readComment(HttpServletRequest request) {
+	   
+	   String parentSeq = request.getParameter("parentSeq"); 
+	  // System.out.println("parentSeq:"+parentSeq);
+	   List<CommentVO> commentList = service.getCommentList(parentSeq);
+	   
+	   JSONArray jsonArr = new JSONArray();
+	   
+	   if(commentList != null) {
+		   for(CommentVO cmtvo : commentList) {
+		       JSONObject jsonObj = new JSONObject();
+		       jsonObj.put("regDate", cmtvo.getRegDate());
+		       jsonObj.put("content", cmtvo.getContent());
+		    		
+		       jsonArr.put(jsonObj);
+		    }
+	   }
+	    
+	   return jsonArr.toString();
+    } 
 	
 	
 }

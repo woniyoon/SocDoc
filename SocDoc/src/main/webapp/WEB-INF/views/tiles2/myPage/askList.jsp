@@ -481,7 +481,7 @@
 				<c:forEach var="askList" items="${askList}" varStatus="status">
 					<tr>
 						<td><input type="checkbox" name="items" value="${askList.qnaSeq}"/></td>
-					    <td class="notice_seq" >${askList.qnaSeq}</td>
+					    <td class="notice_seq" >${status.count}</td>
 						<td class="noticeTitle"><span onclick="goView('${askList.qnaSeq}')">${askList.subject}</span></td>
 						<td>${askList.regDate}</td>
 						<c:if test="${askList.status == 0}">

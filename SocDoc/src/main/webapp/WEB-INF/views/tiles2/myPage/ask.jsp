@@ -298,22 +298,105 @@
 		background-color: #f2f2f2;
 		border-radius: 4px;
 	}
+	
+	 .long {
+   	  width: 600px;
+    } 
+    
+       .btnComment {
+   		background-color: #efefef;
+        cursor: pointer;   
+      	border: 1px solid #dddddd;       
+      	padding: 0.25em .75em;    
+      	border-radius: .25em;       
+      	font-weight: 500;
+      	font-size: 10pt;  
+   }
 
 </style>
 <script type="text/javascript">
 
 	$(document).ready(function(){
-		
+		goReadComment();
 	});
 	
-	function goDelete(qnaSeq) {
-	    var frm = document.deletefrm;
+	function goDelete(qnaSeq,parentSeq) {
+	    var frm = document.addWriteFrm;
 	    frm.qnaSeq.value = qnaSeq;
+	    frm.parentSeq.value = parentSeq;
 	    
 	    frm.method = "GET";
 	    frm.action = "<%= request.getContextPath()%>/deleteAsk.sd";
 	    frm.submit();
 	  }// end of function goSearch()-------------------------
+	  
+	  
+	//=== 댓글쓰기 === //
+	function goAddWrite() {
+		var frm = document.addWriteFrm;
+		var contentVal = frm.content.value.trim();
+		if(contentVal=="") {
+			alert("댓글 내용을 입력하세요");
+			return;
+		}
+		
+		var form_data = $("form[name=addWriteFrm]").serialize();
+		
+		$.ajax({
+			url:"<%= request.getContextPath()%>/addComment.sd",
+			data:form_data,
+			type:"POST",
+			dataType:"JSON",
+			success:function(json){
+				if(json.n == 1) {
+				//	alert("댓글쓰기 성공");
+					goReadComment();
+				}
+				else {
+					alert("댓글쓰기 실패");
+				}
+				
+				frm.content.value = "";
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+		
+	}// end of function goAddWrite()----------------------  
+	
+	
+	// === 페이징 처리 안한 댓글 읽어오기  === //
+	function goReadComment() {
+		$.ajax({
+			url:"<%= request.getContextPath()%>/readComment.sd",
+			data:{"parentSeq":"${boardvo.qnaSeq}"},
+			dataType:"JSON",
+			success:function(json){
+			//	console.log(json);
+				var html = "";
+				if(json.length > 0) {
+					$.each(json, function(index, item){
+						html += "<div style='border-bottom: solid 1px #ccc;'>";
+						html += "관리자 | ";
+						html += item.regDate;
+						html += "<br/>";
+						html += item.content;
+						html += "</div>";
+					});
+				}
+				else {
+					html += "댓글이 없습니다.";
+				}
+	
+				$("#commentDisplay").html(html);
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});	
+	
+	}// end of function goReadComment()--------------------
 	
 </script>	
 </head>
@@ -388,22 +471,25 @@
                         <tr>
                             <td>
                             	${boardvo.content}<br/><br/><br/><br/><br/>
-                            	<c:if test="${boardvo.status == 1}">
-                            		<div id="comment">
-                            		<strong>관리자 ｜ 2020.07.01</strong><br/>
-                            		비밀번호 설정은 마이페이지에서 가능합니다.<br/>
-                            		비밀번호를 잊으신 경우에는 고객센터로 연락 주시어 개인 정보가 포함된 자료를 송부하여 주시기 바랍니다.
-                            		<br/>
-                            		</div>
-                            	</c:if>
+                            	<div id="comment">
+                                  	<span id="commentDisplay"></span>
+                               </div>
                             </td>
                         </tr>
                        
                     </tbody>
                   
                 </table>
+                
+                <form name="addWriteFrm" style="margin-top: 20px;">
+					<!-- 댓글 : <input type="text" name="content" class="long" id="commentContent" />
+					<button id="btnComment" type="button" onclick="goAddWrite()">확인</button> -->
+					<input type="hidden" name="parentSeq" value="${qnaSeq}" />
+					<input type="hidden" name="qnaSeq"/>
+				</form>
+                
                 <p id="listBtn"><a onClick="javascript:location.href='<%= request.getContextPath()%>/askList.sd'" class="notice_view">목록</a></p>
-                 <p id="deleteBtn"><a onclick="goDelete('${boardvo.qnaSeq}')" class="notice_view">삭제</a></p>             
+                 <p id="deleteBtn"><a onclick="goDelete('${boardvo.qnaSeq}','${qnaSeq}')" class="notice_view">삭제</a></p>             
 									
                 <!-- <p id="modifyBtn"><a href="noticeList.sb" class="notice_view">수정</a></p> -->
                  <input type="hidden" id="status" value="${boardvo.status}" /> 
@@ -422,10 +508,7 @@
                     </table>
                 </div>
                 
-                <form name="deletefrm">
-					<input type="hidden" name="qnaSeq"/>
-					<%-- <input type="hidden" name="gobackURL" value="${gobackURL}"/> --%>
-				</form>
+              
                 
 				</div>
                 <br/><br/><br/>
