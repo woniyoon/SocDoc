@@ -21,27 +21,27 @@
 					<c:if test="${not empty hpInfo.mainImg }">
 						<div class="mySlides fade">
 	<!-- 						<div class="numbertext">1 / 3</div> -->
-							<img src="<%=ctxPath %>/resources/files/${hpInfo.mainImg}" style="width: 100%; height: 100%;">
+							<img src="<%=ctxPath %>/resources/images/${hpInfo.mainImg}" style="width: 100%; height: 100%;">
 						</div>
 					</c:if>
 		
 					<c:if test="${not empty hpInfo.subImg1 }">
 						<div class="mySlides fade">
 	<!-- 						<div class="numbertext">2 / 3</div> -->
-							<img src="<%=ctxPath %>/resources/files/${hpInfo.subImg1}" style="width: 100%; height: 100%;">
+							<img src="<%=ctxPath %>/resources/images/${hpInfo.subImg1}" style="width: 100%; height: 100%;">
 						</div>
 					</c:if>
 		
 					<c:if test="${not empty hpInfo.subImg2 }">
 						<div class="mySlides fade">
 	<!-- 						<div class="numbertext">3 / 3</div> -->
-							<img src="<%=ctxPath %>/resources/files/${hpInfo.subImg2}" style="width: 100%; height: 100%;">
+							<img src="<%=ctxPath %>/resources/images/${hpInfo.subImg2}" style="width: 100%; height: 100%;">
 						</div>					
 					</c:if>
 		
 					<!-- Next and previous buttons -->
 					<div class="sliderBtnContainer">
-						<a class="prev" onclick="plusSlides(-1)">&#10094;</a> 
+						<a class="prev" style="left: 0;" onclick="plusSlides(-1)">&#10094;</a> 
 						<a class="next"	onclick="plusSlides(1)">&#10095;</a>					
 					</div>
 				</div>
@@ -207,7 +207,7 @@
 		<input type="hidden" name="status" value="3"/>
 		</form>	
 		<div style="margin: 10px 0;" align="right">
-			<c:if test="${hpInfo.status != 2 || hpInfo.status != 4 || hpInfo.status != 5}">
+			<c:if test="${(hpInfo.status != 2 || hpInfo.status != 4 || hpInfo.status != 5) && hpInfo.submitId == null}">
 				<button class="blueBtn" id="submitBtn" onclick="submit()">승인 신청</button>
 			</c:if>
 			<c:if test="${ hpInfo.status == 3}">
