@@ -204,19 +204,17 @@
 					<input type="hidden" name="parentSeq" value="${qnaSeq}" />
 				</form>
 				
-				<p id="listBtn"><a href="adminNotice.sd" class="notice_view">목록</a></p>
+				<p id="listBtn"><a href="qnaMng.sd" class="notice_view">목록</a></p>
 				
                 <table>
-                    <tr>
-                        <th class="next_post th">윗글</th>
-                        <!-- <td class="noticeNO" ></td>
-                        <td class="noticeNO postrno" ></td> -->
-                        <td class="next_post postNotice titlePointer">이전글 보일 예정</td>
-                    </tr>
-                    <tr>
-                        <th class="pre_post th">아랫글</th>
-                        <td class="pre_post preNotice titlePointer">다음글 보일 예정</td>
-                    </tr>
+                        <tr>
+                            <th class="next_post th">윗글</th>
+                            <td class="next_post postNotice titlePointer">${qnavo.previoussubject}</td>
+                        </tr>
+                        <tr>
+                            <th class="pre_post th">아랫글</th>
+                            <td class="pre_post preNotice titlePointer">${qnavo.nextsubject}</td>
+                        </tr>
                 </table>
 
                 <br/><br/><br/>

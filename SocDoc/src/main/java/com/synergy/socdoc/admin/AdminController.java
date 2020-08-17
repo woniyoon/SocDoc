@@ -427,9 +427,6 @@ public class AdminController {
 		
 		HashMap<String,String> paraMap = new HashMap<>();
 		
-		// 병원 영업시간 가져오기
-	//	List<HashMap<String, String>> openingHours = service.getOpeningHours(submitID);
-
    		paraMap.put("hpSeq", hpSeq);
    		paraMap.put("submitId", submitId);
 		
@@ -446,33 +443,16 @@ public class AdminController {
    		json.addProperty("dept", hpDetail.get("dept"));
    		json.addProperty("info", hpDetail.get("info"));
    		json.addProperty("submitId", hpDetail.get("submitId"));
+
+		// 병원 영업시간 가져오기
+//		List<HashMap<String, String>> openingHours = service.getOpeningHours(hpSeq);
+
+//		request.setAttribute("openingHours", openingHours);
 		
 		return json.toString();
 		
 	}
-	/* 병원정보 수정 승인 */
-/*	@RequestMapping(value="/updateInfoStatus.sd", method = RequestMethod.GET)
-	@ResponseBody
-	public ModelAndView updateInfo(@RequestParam("infock") String[] infock, ModelAndView mav, HttpServletRequest request) {
-		
-		String infoJoin = request.getParameter("infoJoin"); 
-	//	String hpSeq = request.getParameter("hpSeq");
-		
-		String[] infoArr = infoJoin.split(",");
-	//	System.out.println(infoJoin);
-		
-		for(int i=0; i<infoArr.length; i++) {
-			service.updateInfoStatus(infoArr[i]); // 병원등록에서 update하기
-		}
-		
-	//	service.updateHpMemStatus(hpSeq); // 병원회원관리에서 update하기
-		
-        mav.addObject("loc",request.getContextPath()+"/hospitalInfo.sd");
-        mav.setViewName("msg");
-      
-        return mav;
-	}*/
-	/* 병원정보 수정 승인 후 병원회원 상태 변경 */
+	/* 병원정보 수정 & 승인 후 병원회원 상태 변경 */
 	@RequestMapping(value="/updateMemStatus.sd", method = RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView confirmUpdate_updateMemStatus(HttpServletRequest request, @RequestParam("infock") String[] infock, ModelAndView mav) {
@@ -483,12 +463,34 @@ public class AdminController {
 		
 		String[] infoArr = infoJoin.split(",");
 		String[] hpArr = hpSeq.split(",");
-		System.out.println(infoArr);
-		System.out.println(hpSeq);
+		
+	//	System.out.println(infoArr);
+	//	System.out.println(hpSeq);
 		
 		for(int i=0; i<infoArr.length; i++) {
 			service.updateInfoStatus(infoArr[i]); // 병원회원관리에서 update하기
 			service.updateHpMemStatus(Integer.parseInt(hpArr[i])); // 병원등록에서 update하기
+		}
+		
+		mav.addObject("loc",request.getContextPath()+"/hospitalInfo.sd");
+		mav.setViewName("msg");
+		
+		return mav;
+	}
+	/* 병원정보 신청 반려 */
+	@RequestMapping(value="/rejectInfo.sd", method = RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView confirmUpdate_rejectInfo(HttpServletRequest request, @RequestParam("infock") String[] infock, ModelAndView mav) {
+		
+		//	String hpSeq = request.getParameter("hpSeq");
+		String infoJoin = request.getParameter("infoJoin");
+		
+		String[] infoArr = infoJoin.split(",");
+		
+		//	System.out.println(infoArr);
+		
+		for(int i=0; i<infoArr.length; i++) {
+			service.updateRejectInfo(infoArr[i]); // 병원회원관리에서 status 2로 update하기 (반려)
 		}
 		
 		mav.addObject("loc",request.getContextPath()+"/hospitalInfo.sd");
@@ -1174,10 +1176,11 @@ public class AdminController {
 		qnavo = service.getQnaView(qnaSeq);
 		
 		mav.addObject("qnavo", qnavo);
-		mav.addObject("qnaSeq", qnaSeq);
+//		mav.addObject("qnaSeq", qnaSeq);
 		mav.setViewName("admin/qnaAnswer.tiles3");
 		
 		return mav;
+		
 	}
 	/* 문의관리 댓글쓰기 */
 	@ResponseBody

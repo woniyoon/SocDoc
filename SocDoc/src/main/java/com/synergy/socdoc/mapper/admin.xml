@@ -238,9 +238,27 @@
 	</select>
 	
 	<select id="getQnaView" parameterType="String" resultType="com.synergy.socdoc.member.QnaBoardVO">
+		<!-- 
 		select qnaSeq, subject, userid, regDate, content
 		from qnaBoard
 		where qnaSeq = #{qnaSeq}
+		 -->
+		
+		select  previousseq, previoussubject, 
+		        qnaSeq, subject, userid, regDate, content
+		        nextseq, nextsubject
+		from 
+		(
+		    select lag(qnaSeq, 1) over(order by qnaSeq desc)  as previousseq
+		            , lag(subject, 1) over(order by qnaSeq desc) as previoussubject
+		            , qnaSeq, subject, userid, content
+		            , to_char(regDate, 'yyyy-mm-dd') as regDate
+		           
+		            , lead(qnaSeq, 1) over(order by qnaSeq desc) as nextseq
+		            , lead(subject, 1) over(order by qnaSeq desc) as nextsubject
+		    from qnaBoard
+		) V
+		where V.qnaSeq = #{qnaSeq}
 	</select>
 	
 	
@@ -433,6 +451,10 @@
 		
     </update>
 
+	<update id="updateRejectInfo" parameterType="String">
+		update hpApplication set status = 2
+    	where submitId = #{submitId}
+	</update>
   	
   	<!-- 
   	병원 영업시간 가져오기

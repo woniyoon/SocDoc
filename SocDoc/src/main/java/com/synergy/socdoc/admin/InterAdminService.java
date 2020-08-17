@@ -69,5 +69,6 @@ public interface InterAdminService {
 	void updateHpMemStatus(int hpSeq); // 병원회원 상태 변경
 	HpInfoVO getHpApplication(String string);
 	int updateHpApplication(HpInfoVO hvo);	// hospitalInfo에 정보 업데이트
+	void updateRejectInfo(String submitId); // 병원정보 신청 반려
 
 }

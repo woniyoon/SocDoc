@@ -274,6 +274,11 @@ public class AdminDAO implements InterAdminDAO {
 		int n = sqlsession.update("admin.updateHpApplication", hvo);
 		return n;
 	}
+	// 병원정보 신청 반려
+	@Override
+	public void updateRejectInfo(String submitId) {
+		sqlsession.update("admin.updateRejectInfo", submitId);
+	}
 	
 	
 

@@ -151,13 +151,13 @@
 	            </table>
 					<input type="hidden" id="reviewJoin" name="reviewJoin" />	
             </form>
-            
+            <!-- 
             <button id="ckAll">전체선택</button>
             <button id="deleteBtn">삭제</button>
-            
+             -->
 		</div>
 		
-            <div align="center">
+            <div align="center" style="margin: 30px 0px 30px 0px;">
 				${pageBar}
 			</div>
 	

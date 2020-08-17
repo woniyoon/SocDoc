@@ -131,7 +131,8 @@
                     </tbody>
                 </table>
 
-                <p id="listBtn"><a href="#" onclick="javascript:location.href='${gobackURL}'" class="notice_view">목록</a></p>
+           <%-- <p id="listBtn"><a href="#" onclick="javascript:location.href='${gobackURL}'" class="notice_view">목록</a></p> --%>
+                <p id="listBtn"><a href="adminNoticeMng.sd" class="notice_view">목록</a></p>
 
                 <p id="deleteBtn"><a href="#" class="notice_view">삭제</a></p>             
 

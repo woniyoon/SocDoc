@@ -338,11 +338,43 @@
             <div class="reservationHp"><p class="miniTitle">병원예약<br/><br/><img src="<%= ctxPath%>/resources/images/reservation2.png" class="icon3" /></p></div>
             
             <div class="searchLocal">
-                <select style="width: 120px;"><option>시</option></select><br/>
-                <select style="width: 80px;"><option>군</option></select>
-                <select style="width: 80px;"><option>구</option></select><br/>
-                <select style="width: 80px;"><option>진료과목</option></select>
+                <select style="width: 120px;" id="cityM" name="cityM" class="selectMap" onChange="cat1_change(this.value,countyM)">
+                			<option value="">==시도==</option>
+							<option value='서울'>서울</option>
+							<option value='부산'>부산</option>
+							<option value='대구'>대구</option>
+							<option value='인천'>인천</option>
+							<option value='광주'>광주</option>
+							<option value='대전'>대전</option>
+							<option value='울산'>울산</option>
+							<option value='강원'>강원</option>
+							<option value='경기'>경기</option>
+							<option value='경남'>경남</option>
+							<option value='경북'>경북</option>
+							<option value='전남'>전남</option>
+							<option value='전북'>전북</option>
+							<option value='제주'>제주</option>
+							<option value='충남'>충남</option>
+							<option value='충북'>충북</option>				                                           
+                
+                </select>
                 <br/>
+                <select style="width: 80px;"><option>구군</option></select>
+                <select style="width: 80px;"><option>동</option></select><br/>
+                <select style="width: 80px;" id="deptM" name="deptM" class="selectMap">
+                			<option value="">==진료과==</option> 
+				            <option value="내과">내과</option> 
+				            <option value="이비인후과">이비인후과</option>
+				            <option value="정형외과">정형외과</option>
+				            <option value="안과">안과</option>
+				            <option value="치과">치과</option> 
+				            <option value="외과">외과</option> 
+				            <option value="성형외과">성형외과</option>   
+				            <option value="정신건강의학과">정신건강의학과</option>
+				            <option value="피부과">피부과</option>         
+                </select>
+                <br/>
+                
                 <input type="text" class="searchWord" placeholder="검색어를 입력하세요">
                 <button class="searchBtn">검색</button>
                 
@@ -377,44 +409,25 @@
     
         <div class="swiper-container">
            
+           
+           
             <div class="swiper-wrapper">
-                
-                <div class="swiper-slide">
-                    <figure class="snip1384">
-                      <img src="<%= ctxPath%>/resources/images/slide1.jpg">
-                      <figcaption>
-                        <h3>종로병원</h3>
-                        <p>더 자세한 정보를 보려면<br/>클릭하세요</p>
-                      </figcaption>
-                      <a href="#"></a>
-                    </figure>
-                </div>
+	            <c:forEach var="hpRankList" items="${hpRankList}">
+	                <div class="swiper-slide">
+		                    <figure class="snip1384">
+		                      <img src="<%= ctxPath%>/resources/images/slide1.jpg">
+		                      <figcaption>
+		                        <h3>${hpRankList.hpName}</h3>
+		                        <p>더 자세한 정보를 보려면<br/>클릭하세요</p>
+		                      </figcaption>
+		                      <a href="#"></a>
+		                    </figure>
+	                </div>
+	            </c:forEach>    
                    
-                <div class="swiper-slide">
-                    <figure class="snip1384">
-                      <img src="<%= ctxPath%>/resources/images/slide2.jpg">
-                      <figcaption>
-                        <h3>강남병원</h3>
-                        <p>더 자세한 정보를 보려면<br/>클릭하세요</p>
-                      </figcaption>
-                      <a href="#"></a>
-                    </figure>
-                </div>
-                   
-                <div class="swiper-slide">
-                    <figure class="snip1384">
-                      <img src="<%= ctxPath%>/resources/images/slide3.jpg">
-                      <figcaption>
-                        <h3>홍대병원</h3>
-                        <p>더 자세한 정보를 보려면<br/>클릭하세요</p>
-                      </figcaption>
-                      <a href="#"></a>
-                    </figure>
-                </div>
                 
-                <div class="swiper-slide"><img src="<%= ctxPath%>/resources/images/slide1.jpg"></div>
-                <div class="swiper-slide"><img src="<%= ctxPath%>/resources/images/slide2.jpg"></div>
-                <div class="swiper-slide"><img src="<%= ctxPath%>/resources/images/slide3.jpg"></div>
+                
+                
 	        </div>
 	        
             <!-- 네비게이션 -->
@@ -477,7 +490,7 @@ function goView(noticeSeq) {
 	frm.noticeSeq.value = noticeSeq; 
 	
 	frm.method = "GET";
-	frm.action = "<%=ctxPath%>/noticeView.sd";
+	frm.action = "<%=ctxPath%>/adminNoticeView.sd";
 	frm.submit();
 }
 

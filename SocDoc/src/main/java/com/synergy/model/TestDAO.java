@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.synergy.socdoc.member.HpReviewVO;
 import com.synergy.socdoc.member.NoticeVO;
 
 @Repository
@@ -17,7 +18,6 @@ public class TestDAO implements InterDAO {
 	@Override
 	public String getContent() {
 		String content = sqlsession.selectOne("test.getContent");
-		
 		return content;
 	}
 
@@ -26,6 +26,13 @@ public class TestDAO implements InterDAO {
 	public List<NoticeVO> selectNoticeList() {
 		List<NoticeVO> noticevoList = sqlsession.selectList("test.selectNoticeList");
 		return noticevoList;
+	}
+	
+	// 병원 평점순위 별 리스트 보여주기
+	@Override
+	public List<HpReviewVO> getRankList() {
+		List<HpReviewVO> hpRankList = sqlsession.selectList("test.getRankList");
+		return hpRankList;
 	}
 
 }

@@ -291,6 +291,12 @@ public class AdminService implements InterAdminService {
 		int n = dao.updateHpApplication(hvo);
 		return n;
 	}
+
+	// 병원정보 신청 반려
+	@Override
+	public void updateRejectInfo(String submitId) {
+		dao.updateRejectInfo(submitId);
+	}
 	
 	
 

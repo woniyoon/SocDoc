@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.synergy.model.InterDAO;
+import com.synergy.socdoc.member.HpReviewVO;
 import com.synergy.socdoc.member.NoticeVO;
 
 @Service
@@ -30,6 +31,13 @@ public class TestService implements InterService {
 		map.put("noticevoList", noticevoList);
 		
 		return map;
+	}
+
+	// 병원 평점순위 별 리스트 보여주기
+	@Override
+	public List<HpReviewVO> getRankList() {
+		List<HpReviewVO> hpRankList = dao.getRankList();
+		return hpRankList;
 	}
 
 }

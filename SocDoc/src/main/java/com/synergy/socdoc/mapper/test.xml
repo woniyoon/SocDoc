@@ -26,4 +26,18 @@
 		<![CDATA[ S.rno <= 3 ]]>
 	</select>
 	
+	<select id="getRankList" resultType="com.synergy.socdoc.member.HpReviewVO">
+		select hpName 
+		from
+		(
+		select avg(rating), hpName
+		from hospitalReview
+		group by hpName
+		order by avg(rating) desc
+		)
+		where 
+		<![CDATA[ rownum <= 6 ]]>
+	</select>
+	
+	
 </mapper>

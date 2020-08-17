@@ -75,4 +75,6 @@ public interface InterAdminDAO {
 
 	int updateHpApplication(HpInfoVO hvo);
 
+	void updateRejectInfo(String submitId); // 병원정보 신청 반려
+
 }

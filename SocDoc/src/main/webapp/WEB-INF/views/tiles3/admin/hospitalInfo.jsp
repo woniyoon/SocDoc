@@ -99,8 +99,8 @@
 	    background-color: white;
 	    width: 70%;
 	    height: auto;
-	    min-height: 80%;
-	    max-height: 80%;
+	    min-height: 85%;
+	    max-height: 85%;
 	    position: relative;
 	    padding: 30px;
 	    border: 1px solid rgb(230, 230, 230);
@@ -129,8 +129,9 @@
       	font-size: 10pt;  
 	}
 	
-	#deleteBtn {
+	#rejectBtn {
 		float: right;
+		margin-right: 20px;
 		margin-top: 30px;
         background-color: #efefef;
         cursor: pointer;   
@@ -275,8 +276,8 @@
 	                    	<input class="hiddenValue" type="hidden" value="${hpvo.hpSeq}" />
 	                    </td>	
 						<td>${hpvo.submitId}</td>			
-						<td>${hpvo.regId}</td>			
 						<td>${hpvo.name}</td>			
+						<td>${hpvo.regId}</td>			
 						<td>${hpvo.hpName}</td>	
 						<c:choose>
 							<c:when test="${hpvo.status eq 1}">
@@ -293,6 +294,7 @@
 					<input type="hidden" id="hpSeq" name="hpSeq" />
         <%--<button id="updateBtn" onclick="goUpdate('${hpvo.hpSeq}')" data-toggle="modal" data-target="#myModal">승인</button> --%> 
             <button id="updateBtn" data-toggle="modal" data-target="#myModal">승인</button>
+            <button id="rejectBtn" data-toggle="modal" data-target="#myModal" onclick="reject();">반려</button>
 		</form>
             
 		</div>
@@ -311,8 +313,8 @@
 					<span style="font-size: 1.2em; cursor: pointer;"
 						onclick="closeModal()">X</span>
 				</div>
-				
 				   <div class="hospitalDetail customTable">
+				<%-- 
 				      
 				      <div>
 				         <span class="hospitalName">${hpDetail.hpName}</span>
@@ -322,7 +324,7 @@
 				              	${hpDetail.mainImg}
 				         </div>
 				         <div class="two">
-				         
+				          --%>
 				            <%-- 
 				            <table class="infoTable">
 				               <tr>
@@ -352,7 +354,7 @@
 							   </tr>
 				            </table>
 				            --%>    
-				                   
+				<!--                    
 				         </div>
 				      </div>
 						      
@@ -360,8 +362,8 @@
 				         <textarea id="review" name="review" class="review" maxlength="199" placeholder="반려사유 작성란"></textarea>
 				      </div>
 				      
+				 -->
 					</div>
-				
 					<button id="okBtn" class="okBtn" data-toggle="modal" data-target="#myModal">승인</button>
 					<button id="noBtn" class="noBtn" data-toggle="modal" data-target="#myModal">반려</button>
 					
@@ -436,15 +438,13 @@
 
 	                if(json != null) {
 	               console.log(json.address);
-	                	/* 
-	               		html += "<div class='hospitalDetail customTable'>";
+
 	               		html += "<div>";
  	               		html += "<span class='hospitalName'>"+json.hpName+"</span>";
 	               		html += "</div>";
 	               		html += "<div class='info'>";
 	               		html += "<div class='one'>"+json.mainImg+"</div>";
 	               		html += "<div class='two'>";
-	               		*/
 	               			
 	                	html += "<table class='infoTable'>";
 	                	html += "<tr>";
@@ -474,14 +474,15 @@
 	                	html += "</tr>";
 	                	html += "</table>";
 						
-	                	/* 
-						html += "</div>"
-	                	html += "</div>"
-	                	html += "</div>"
-	                	 */
+	                	html += "</div>";
+	                	html += "</div>";
+	                	html += "<div>";
+	                	html += "<textarea id='review' name='review' class='review' maxlength='199' placeholder='반려사유 작성란'></textarea>";
+	                	html += "</div>";
+	                	
 	 				}
 	 				
-	 				$(".two").html(html); 
+	 				$(".hospitalDetail").html(html); 
 	             },
 	             error: function(request, status, error){
 	                      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -489,76 +490,7 @@
 		  });
 	}
 	
-	<%-- 
-	function goUpdate(hpSeq) {
-
-		var cnt = $("input[name='infock']:checked").length;
-        
-        var arr = new Array();
-    
-        $("input[name='infock']:checked").each(function() {
-            arr.push($(this).attr('id'));
-        });
-        
-        if(cnt == 0){
-            alert("선택된 승인 목록이 없습니다.");
-        }
-        else{
-           	 
-           var con = confirm("승인하겠습니까?");
-           
-           var allCnt = $("input[name='infock']").length;
-           
-           var infoArr = new Array();
-           
-           for(var i=0; i<allCnt; i++) {
-        	   
-        	   if($("input:checkbox[class=infock]").eq(i).is(":checked")) {
-        		   	infoArr.push($("input:checkbox[class=infock]").eq(i).val());   
-        	   }
-           }
-
-           var infoJoin = infoArr.join();
-           
-           $("#infoJoin").val(infoJoin);
-           $("#hpSeq").val(hpSeq);
-           
-           if(con == true) {
-        	   var frm = document.updateFrm;
-               frm.method = "GET";
-               frm.action = "<%= request.getContextPath()%>/updateInfoStatus.sd"
-               frm.submit();
-           }
-          /*  else if(con == false){ 
-              location.href="history.back()";
-	       } */
-	     
-        } 		
-		
-     }--%>	
-	 
 	function saveIds(){
-		<%-- 
-		
-	//	console.log(submitId, hpSeq);
-		var test = "";
-		
-		$("input[type=checkbox]").each(function(){
-			if($(this).prop("checked")) {
-				var element = $(this).siblings();
-			//	console.log(element);
-				test += element.prop("value") + " ";
-			}
-		});
-
-		$("input#hpSeq").prop("value", test);
-		
-		var frm = document.updateFrm;
-        frm.method = "GET";
-        frm.action = "<%= request.getContextPath()%>/updateMemStatus.sd"
-        frm.submit();
-        
-         --%>
          
          var cnt = $("input[name='infock']:checked").length;
          
@@ -597,7 +529,7 @@
             $("#infoJoin").val(infoJoin);
             $("#hpSeq").val(hpSeq);
             
-            alert(con);
+            // alert(con);
             
             if(con == true) {
          	   var frm = document.updateFrm;
@@ -613,5 +545,58 @@
          }	 
          
 	}	
+	
+	function reject() {
+		
+		var cnt = $("input[name='infock']:checked").length;
+        
+        var arr = new Array();
+    
+        $("input[name='infock']:checked").each(function() {
+            arr.push($(this).attr('id'));
+        });
+        
+        if(cnt == 0){
+            alert("선택된 반려 목록이 없습니다.");
+        }
+        else{
+           	 
+           var con = confirm("반려시키겠습니까?");
+           
+           var allCnt = $("input[name='infock']").length;
+           
+           var infoArr = new Array();
+           var hpSeqArr = new Array(); 
+          
+           
+           for(var i=0; i<allCnt; i++) {
+        	   
+        	   if($("input:checkbox[class=infock]").eq(i).is(":checked")) {
+        		   	infoArr.push($("input:checkbox[class=infock]").eq(i).val());   
+        		   	hpSeqArr.push($("input:checkbox[class=infock]").eq(i).siblings().val());
+        	   }
+           }
+
+           
+           console.log(hpSeqArr);
+           var infoJoin = infoArr.join();
+           var hpSeq = hpSeqArr.join();
+           
+           $("#infoJoin").val(infoJoin);
+           $("#hpSeq").val(hpSeq);
+           
+           if(con == true) {
+        	   var frm = document.updateFrm;
+               frm.method = "GET";
+               frm.action = "<%= request.getContextPath()%>/rejectInfo.sd"
+               frm.submit();
+           }
+          	else if(con == false){ 
+              //location.href="history.back()";
+              return;
+	       }
+	     
+        }	 
+	}
 
 </script>	
