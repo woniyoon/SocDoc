@@ -17,7 +17,9 @@
 		<section id="infoContainer">
 				<div class="slideshow-container" style="display: flex; justify-content: center; align-items: center;">
 					<c:if test="${hpInfo.submitId == null}">
-						<div class="mySlides fade" id="mainImgFileSlide"></div>
+						<div class="mySlides fade" id="mainImgFileSlide">
+							<img src="<%=ctxPath %>/resources/images/noImage.png" style="width: 400px; height: 400px;">
+						</div>
 						<div class="mySlides fade" id="subImg1FileSlide"></div>
 						<div class="mySlides fade" id="subImg2FileSlide"></div>
 					</c:if>

@@ -166,6 +166,10 @@
 				INSERT INTO hpApplication(address,hpName,phone,hpSeq,info,latitude,longitude, mainImg, orgMainImg, status, uploadDate, submitId, dept,subImg1, orgSubImg1) 
 				VALUES (#{address}, #{hpName}, #{phone}, #{hpSeq}, #{info}, #{latitude}, #{longitude}, #{mainImg}, #{orgMainImg}, #{status}, sysdate, #{submitId}, #{dept}, #{subImg1}, #{orgSubImg1})		
             </when>
+            <when test="subImg1 == null and subImg2 != null">
+				INSERT INTO hpApplication(address,hpName,phone,hpSeq,info,latitude,longitude, mainImg, orgMainImg, status, uploadDate, submitId, dept,subImg1, orgSubImg1) 
+				VALUES (#{address}, #{hpName}, #{phone}, #{hpSeq}, #{info}, #{latitude}, #{longitude}, #{mainImg}, #{orgMainImg}, #{status}, sysdate, #{submitId}, #{dept}, #{subImg2}, #{orgSubImg2})		
+            </when>
             <otherwise>
 				INSERT INTO hpApplication(address,hpName,phone,hpSeq,info,latitude,longitude, mainImg, orgMainImg, status, uploadDate, submitId, dept,subImg1, orgSubImg1,subImg2, orgSubImg2) 
 				VALUES (#{address}, #{hpName}, #{phone}, #{hpSeq}, #{info}, #{latitude}, #{longitude}, #{mainImg}, #{orgMainImg}, #{status}, sysdate, #{submitId}, #{dept}, #{subImg1}, #{orgSubImg1}, #{subImg2}, #{orgSubImg2})		
