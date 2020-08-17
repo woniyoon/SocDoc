@@ -39,19 +39,23 @@ public class ReservationController {
       @RequestMapping(value="/reserve.sd")
       public ModelAndView hpinfovoList(HttpServletRequest request,ModelAndView mav) {
        
-      // 병원 진료과목 가져오기
-            List<String> deptIdList = service.deptIdList(); //병원 진료과목 받아오기
-
-            mav.addObject("deptIdList", deptIdList);
+  
+           
+    	  
+    	  
             List<HpInfoVO> hpinfovoList  = null; // 병원목록 받아오기
             
+         // 병원 진료과목 가져오기
+            List<String> deptIdList = service.deptIdList(); //병원 진료과목 받아오기
+
             
-            String sDeptIdes = request.getParameter("sDeptIdes"); // 진료과목
-            
-			String searchType = request.getParameter("searchType"); 
+            String searchType = request.getParameter("searchType"); 
 			String searchWord = request.getParameter("searchWord");
 			String str_currentShowPageNo = request.getParameter("currentShowPageNo");
-            // sDeptIdes ==> "-9999,50,110"
+            
+			
+			
+			// sDeptIdes ==> "-9999,50,110"
             // sDeptIdes ==> ""
             // sDeptIdes ==> "30,80,90,110"
             
@@ -62,10 +66,13 @@ public class ReservationController {
 			if(searchType == null) {
 				searchType = "";
 			}
+			
             
             HashMap<String, Object> paraMap = new HashMap<>();
-            paraMap.put("searchType", searchType);
-			paraMap.put("searchWord", searchWord);
+            
+           String sDeptIdes = request.getParameter("sDeptIdes"); // 진료과목
+			
+            
             
             if(sDeptIdes !=null && !"".equals(sDeptIdes)) {
                String[] deptIdArr = sDeptIdes.split(",");
@@ -77,10 +84,16 @@ public class ReservationController {
               
             } 
             
-			System.out.println(searchWord);
+            paraMap.put("searchType", searchType);
+			paraMap.put("searchWord", searchWord);
             
-            // 병원 목록 보여주기 List<HashMap<String,String>> hpinfovoList  = service.hpinfovoList(paraMap);
-
+            
+      
+            
+			
+            
+			//System.out.println(searchWord);
+         
 			/////////////////페이징 처리///////////////////////
 			   
 				
@@ -211,7 +224,7 @@ public class ReservationController {
                   mav.addObject("membervo", membervo);
                   }
                   
-
+            mav.addObject("deptIdList", deptIdList);
             mav.addObject("hpinfovoList", hpinfovoList);
             mav.setViewName("Reservation/reservation.tiles1");
             
@@ -224,6 +237,7 @@ public class ReservationController {
       public String getNumOfReserv(HttpServletRequest request, HttpServletResponse response) {
     	  String visitDate = request.getParameter("visitDate");
     	  String hpSeq = request.getParameter("hpSeq");
+    	 
     	  int day = Integer.parseInt(request.getParameter("day"));
     	  
     	  HashMap<String, String> paraMap = new HashMap<>();
@@ -257,11 +271,19 @@ public class ReservationController {
       // === 예약자명 정보 보여주기 요청페이지 === // 
       
       
+    ///Reservation/pay.sd
+      // === 결제 페이지 요청 === // 
+      @RequestMapping(value="/Reservation/pay.sd")
+      public String pay(HttpServletRequest request, HttpServletResponse response) {
+    	 
+         return "Reservation/pay.tiles1";
+      }
       
-      
-      // === 예약완료 페이지 요청 === // 
-      @RequestMapping(value="/reserve_result.sd")
-      public String reserve_result() {
+      // === 결제 페이지 요청 === // 
+      @RequestMapping(value="/Reservation/reservation_result.sd")
+      public String reservation_result() {
          return "Reservation/reservation_result.tiles1";
       }
+      
+      
 }
