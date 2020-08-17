@@ -55,6 +55,34 @@ public class ReserveService implements InterReserveService {
 		List<HashMap<String, String>> hpinfovoList = dao.hpinfovoList(paraMap);
 		return hpinfovoList;
 	}
+	
+	// 먼저 총 게시물 건수(totalCount)를 구해와야한다
+			@Override
+			public int getTotalCount(HashMap<String, Object> paraMap) {
+				int n = dao.getTotalCount(paraMap);
+				return n;
+			}
+
+	//검색기능있는 병원목록보여주기
+	@Override
+	public List<HpInfoVO> searchwWithPaging(HashMap<String, Object> paraMap) {
+		List<HpInfoVO> hpinfovoList = dao.searchwWithPaging(paraMap);
+		return hpinfovoList;
+	}
+
+	@Override
+	public List<String> getHours(HashMap<String, String> paraMap) {
+		List<String> hours = dao.getHours(paraMap);
+		return hours;
+	}
+
+	@Override
+	public List<HashMap<String, String>> getOpeningHours(String hpSeq) {
+		List<HashMap<String, String>> openingHours = dao.getOpeningHours(hpSeq);
+		return openingHours;
+	}
+	
+	
 
 /*	@Override
 	public List<HpInfoVO> hpinfovoListSearchWithPaging(HashMap<String, String> paraMap) {

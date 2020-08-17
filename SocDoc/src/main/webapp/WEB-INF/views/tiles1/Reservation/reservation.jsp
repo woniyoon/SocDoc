@@ -284,28 +284,10 @@ table.type05 td {
 }
    </style>
    <script>
-   
+   var selectedHpSeq = -1;
    $(document).ready(function() {
 	   
-	   
-	   $(document).ready(function(){
-	       
-	       $("#searchWord").keydown(function(event){
-	          if(event.keyCode == 13){
-	        	  //엔터를 했을경우
-	             goSearch();
-	             
-	          }
-	       });
-	       
-	       //검색시 검색조건 및 검색어 값유지시키기
-	       if(${paraMap != null}){
-	          $("#searchType").val("${paraMap.searchType}");
-	          $("#searchWord").val("${paraMap.searchWord}");
-	       } 
-	       });
-	   
-	   
+
 		// =========  [진료과목] 검색버튼 클릭시 ========= 
 		$("#btnSearch").click(function(){
 	
@@ -332,7 +314,6 @@ table.type05 td {
 			frm.submit();
 			
 		});
-	
 		// === 체크박스 유지시키기 시작 === //
 		var sDeptIdes = "${sDeptIdes}";
 		//console.log(sDeptIdes);
@@ -351,6 +332,22 @@ table.type05 td {
 		}// =========  [진료과목] 검색버튼 클릭시 끝  ========= 
 	   
 
+			
+		  
+	   $("#searchWord").keydown(function(event){
+	          if(event.keyCode == 13){
+	        	  //엔터를 했을경우
+	             goSearch();
+	             
+	          }
+	       });
+	       
+	       //검색시 검색조건 및 검색어 값유지시키기
+	       if(${paraMap != null}){
+	          $("#searchType").val("${paraMap.searchType}");
+	          $("#searchWord").val("${paraMap.searchWord}");
+	       } 
+	   });
 		  
 			
 			
@@ -370,7 +367,7 @@ table.type05 td {
 	            }
 	         });
 	      }); // =========  모달창  끝 =========
-	   });
+	   //});
 	   // 달력 불러오는 로직이 있었음      
 	   function closeModal() {
 	      $(".modalContainer").addClass("hidden");
@@ -399,41 +396,69 @@ table.type05 td {
 		
 	$(function() {
 		$('.calendar').pignoseCalendar({
-			click : function(event, context) {
-			
-				// 선택된 날짜
-				var date = context.current[0]._i;
-        
-        // 선택된 날짜의 요일
-        var day = context.current[0]._d.getDay();
-				
-        // 여기서 ajax 호출을 합니다.
-        $.ajax({
-            url:"<%=ctxPath%>/socdoc/reserve.sd",
-            type:"GET",
-            data:{"day": day, "hpSeq": hpSeq},
-            dataType: "JSON",
-            success: function(json){
-              // json에 담겨진 시작시간부터 종료시간까지 1시간씩 증가시키면서 시간대 추가
-              // 더불어 그 시간대에 몇 명이 예약했는지 받아옴
-              
-            },
-            error: function(request, status, error){
-				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-			}
-        });
-        
-				
-   }
-});
-	});	
+					click : function(event, context) {
+						
+						
+							console.log(selectedHpSeq);
+						// 선택된 날짜
+						var date = context.current[0]._i;
+		        
+		        // 선택된 날짜의 요일
+		        var day = context.current[0]._d.getDay();
+						if(selectedHpSeq == -1) {
+							alert("병원을 선택해주세요!");
+							return;
+						} else {
+					        // 여기서 ajax 호출을 합니다.
+					        $.ajax({
+					            url:"<%=ctxPath%>/ajax/getNumOfReserv.sd",
+					            type:"GET",
+					            data:{"visitDate": date, "day": day, "hpSeq": selectedHpSeq},
+					            dataType: "JSON",
+					            success: function(json){
+					              // json에 담겨진 시작시간부터 종료시간까지 1시간씩 증가시키면서 시간대 추가
+					              // 더불어 그 시간대에 몇 명이 예약했는지 받아옴
+					              console.log(json);
+					              var html = "<ul>";
+					              for(var i=0; i<json.hours.length; i++) {
+					            	  var hour = json.hours[i];
+					            	  var numHour = Number(json.hours[i].substring(0,2));
+					            	  console.log("시간:"+hour);
+					            	  if( hour >= json.openHours.open && hour <= json.openHours.close ) {
+					            		  var hourSeq = numHour-8;
+					            		  //html += "<li onclick='selectTime("+hourSeq+")'>"+hour+"</li>"
+					            		  html += "<a href='javascript:selectTime("+hourSeq+")' style='margin-right: 10%;'>"+hour+"</span>"
+					            		 
+					            	  }
+					              }
+					            	
+					              html+= "</ul>";
+					              $("#timeOptions").html(html);
+					              
+					              var dateandtime = document.getElementById("dateandtime");
+					              dateandtime.innerText = date;
+					            
+					          
+					            },
+					            error: function(request, status, error){
+									alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+								}
+					        });
+							
+						}
+		        
+						
+		   }
+	});
+		});	
+	
 
 	$(function() {
 	    $("#time1").timepicker({
 	        timeFormat: 'h:mm p',
 	        interval: 60,
 	        minTime: '10',
-	        maxTime: '6:00pm',
+	        maxTime: '16:00',
 	        defaultTime: '11',
 	        startTime: '10:00',
 	        dynamic: false,
@@ -443,6 +468,14 @@ table.type05 td {
 	});	
 		
 		
+	function selectTime(hour){
+		
+		alert(hour);
+		   
+		var time = document.getElementById("time");
+		time.innerText = hour;
+		 
+	 }
 		
 		
 /* 	$('.calendar').pignoseCalendar({
@@ -469,13 +502,13 @@ table.type05 td {
 			 
 			 var searchWord = frm.searchWord.value;
 			 
-			 if(searchWord.trim() == ""){
+			/*  if(searchWord.trim() == ""){
 				 alert("병원명을 입력하세요!");
 				 return;
-			 } 
+			 }  */
 			 
 			 frm.method = "GET";
-			 frm.action = "reserve.sd";
+			 frm.action = "<%= ctxPath%>/reserve.sd";
 			 frm.submit();
 			 
 			 
@@ -512,9 +545,11 @@ table.type05 td {
 	 
 	   
    	// ============== 병원선택 
-   function selecthospital(name, dept){
+   function selecthospital(name, dept, hpSeq){
 	   
 	   //alert(name);
+	   
+	   selectedHpSeq = hpSeq;
 	   
 	   //hpanddept
 	   if(${sessionScope.loginuser == null}){
@@ -570,24 +605,17 @@ table.type05 td {
    </div>
    <div class="container_find">
    
-   
+   <form name="searchFrm">
    <label>
-         <a>
-        <!-- <form name="searchFrm" action="xyz.do"> -->
-        <form name="searchFrm"> 
-       <!--  <label>
-         <a>
-        <form name="searchFrm" action="xyz.do">
-           <input type="text" id="searchWord" name="searchWord" placeholder="병원명을 입력하세요." style="width: 300px; height: 30px;"/>
-        </a></label> -->
+         <!-- <a> -->
         <select name="searchType" id="searchType" style="height: 26px; font-size: 10pt;">
                <option value="hpName">병원명</option>
             </select>
             <input type="text" name="searchWord" id="searchWord" placeholder="병원명을 입력하세요." size="40" autocomplete="off" /> 
-        
+        	
         <button type="button" id="btnSearch" class="btnSearch" onclick="goSearch()">검색</button>
         <!-- </form> -->
-         </a>
+        <!--  </a> -->
       	</label>
         <br/>
             <select id="h_area1" name="h_area1" onChange="cat1_change(this.value,h_area2)" >
@@ -619,7 +647,6 @@ table.type05 td {
               </select>
             <br/>
             <!-- 진료과목 선택-->
-            
             <c:if test="${not empty deptIdList}">
 			<c:forEach var="deptId" items="${deptIdList}" varStatus="status">			
 				<input type="checkbox" id="${status.index}" name="dept" value="${deptId}" />
@@ -631,10 +658,9 @@ table.type05 td {
 		</c:if>
 		<input type="hidden" name="sDeptIdes" />
 		<br/>
-	
-		
-        </form>
+       </form> 
    </div>
+   
    <!-- 시/군구/진료과목/병원검색 container 끝 -->
    
    <div class="check_box">
@@ -661,7 +687,8 @@ table.type05 td {
          <li>환자명 : ${membervo.name}</li>
          <li><button class="btnTypecheck" id="visitorRow">환자정보확인</button><button class="btnTypecheck">최근예약</button></li>
          <li style="font-size: 10pt;">병원/진료과&nbsp;:&nbsp;<span id="hpanddept"></span></li>
-         <li style="font-size: 10pt;">진료일시 : </li>
+         <li style="font-size: 10pt;">진료일시&nbsp;:&nbsp;<span id="dateandtime"></span></li>
+         <li style="font-size: 10pt;">시간&nbsp;:&nbsp;<span id="time"></span></li>
        
       </ul>
       
@@ -679,8 +706,8 @@ table.type05 td {
       <table class="hpList">
       <!-- 병원이 존재하지 않을 경우 -->
       <c:if test="${empty hpinfovoList}">
-         <tr>
-            <td>현재 등록된 병원이 없습니다.</td>
+         <tr style="padding: 50%; border: solid 1px red;">
+            <td>등록 된 병원이 없습니다.</td>
          </tr>
       </c:if>
       <!-- 병원이 존재할 경우 -->
@@ -696,7 +723,7 @@ table.type05 td {
       <!-- 리뷰보기 --><a href='<%= ctxPath%>/socdoc/reserve.sd?hpSeq=${hpinfovoList.hpSeq}' target="_blank" style="color: blue; font-size: 9pt; font-weight: bold;">리뷰 및 상세보기</a><br/>
       <br/>
       <!-- 선택하기버튼 -->
-      <button type="button" name="selecthospital" id="selecthospital" class="selecthospital"  onclick="selecthospital('${hpinfovoList.hpName}','${hpinfovoList.dept}')">선택</button>
+      <button type="button" name="selecthospital" id="selecthospital" class="selecthospital"  onclick="selecthospital('${hpinfovoList.hpName}','${hpinfovoList.dept}', '${hpinfovoList.hpSeq }')">선택</button>
       </div>
       <br/>
       </td>
@@ -709,7 +736,9 @@ table.type05 td {
       </div>
    </div>
    </div>
-   <!-- 병원목록 끝 -->
+   
+   
+   
    
    
    <!-- 진료일정 : 달력 날짜선택 시간선택 -->
@@ -719,8 +748,13 @@ table.type05 td {
    <!-- [달력/시간]설정하기 --> 
    <div class="calendar"></div>
    <label for="time">시간 선택</label>
-   <input type="text" id="time1" name="time1" class="form-control" style="width:200px;">
+   <div style="border: 1px solid red;" id="timeOptions"></div>
+   
+   <!-- <input type="text" id="time1" name="time1" class="form-control" style="width:200px;"> -->
    <!-- 예약확정하기 -->
+   
+   
+   
    <div id="reverse_set" style="margin-left: 13%;">
    <a style="cursor: pointer;" class="setbtn" data-toggle="modal" data-target="#myModal">
    <button type="button" class="reserve_btn" onclick="goReserve()">예약확정하기</button></a>
@@ -728,8 +762,8 @@ table.type05 td {
    </div><!--  [달력/시간]설정하기 end -->
    
    
-   <!-- 페이지바 == -->
-   <div align="center" style="margin-right:120px;">
+        <!-- 페이지바 == -->
+   <div align="left">
       ${pageBar}
    </div>
    
@@ -794,8 +828,11 @@ table.type05 td {
    </div>
 </div>
    
+   
+   
+
   
    </div>
    <!-- 진료일정 : 달력 날짜선택 시간선택 끝-->
   
-   
+    

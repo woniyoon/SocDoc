@@ -57,16 +57,32 @@ public class ReserveDAO implements InterReserveDAO {
 	}
 
 	@Override
-	public int getTotalCount(HashMap<String, String> paraMap) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getTotalCount(HashMap<String, Object> paraMap) {
+		int n = sqlsession.selectOne("test.getTotalCount",paraMap);
+		return n;
 	}
-	/*@Override
-	public int getTotalCount(HashMap<String, String> paraMap) {
-		// TODO Auto-generated method stub
-		return 0;
+
+	//검색기능있는 병원목록보여주기
+	@Override
+	public List<HpInfoVO> searchwWithPaging(HashMap<String, Object> paraMap) {
+		List<HpInfoVO> hpinfovoList = sqlsession.selectList("test.searchwWithPaging",paraMap);
+		
+		return hpinfovoList;
 	}
-*/
+
+	@Override
+	public List<String> getHours(HashMap<String, String> paraMap) {
+		List<String> hours = sqlsession.selectList("test.getHours", paraMap);
+		return hours;
+	}
+
+	@Override
+	public List<HashMap<String, String>> getOpeningHours(String hpSeq) {
+		List<HashMap<String, String>> openingHours = sqlsession.selectList("test.getOpeningHours", hpSeq);
+		return openingHours;
+	}
+
+
 
 	
 	
