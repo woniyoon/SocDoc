@@ -30,6 +30,9 @@ public interface InterBoardService {
 	// 글 보기
 	public NoticeVO getView(String noticeSeq);
 	public HealthInfoVO getInfoView(String infoSeq);
+	
+	// 더보기 방식(페이징처리)으로 상품정보를 잘라서(startRno ~ endRno) 조회해오기 
+	public List<HealthInfoVO> selectByInfo(HashMap<String, String> paraMap);
 
 	
 //	List<NoticeVO> noticeList();

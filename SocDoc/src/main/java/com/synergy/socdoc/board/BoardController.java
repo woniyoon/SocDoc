@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -54,6 +55,7 @@ public class BoardController {
 			searchWord = "";
 		}
 
+		System.out.println("searchWord : "+searchWord);
 		paraMap.put("searchWord", searchWord);
 		
 		int totalCount = 0; // 총게시물 건수
@@ -63,7 +65,12 @@ public class BoardController {
 		
 		totalCount = service.getTotalNoticeList(paraMap);   // 이 파라맵이 해쉬맵이다
 		
+		System.out.println("totalCount : "+totalCount);
+
 		totalPage = (int) Math.ceil((double)totalCount/sizePerPage); 
+		
+		System.out.println("totalPage : "+totalPage);
+
 		
 		if(currentShowPageNoStr == null) { // 게시판에 보여지는 초기화면이 비어있다면
 			currentShowPageNO = 1;
@@ -317,22 +324,54 @@ public class BoardController {
 		return mav;
 	}
 	
-	
+	// 더보기
 	@RequestMapping(value = "/photo.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	public ModelAndView photo(HttpServletRequest request, ModelAndView mav) {
 		
 		String infoSeq = request.getParameter("infoSeq");
 		String gobackURL = request.getParameter("gobackURL");
+		String start = request.getParameter("start");
+		String len = request.getParameter("len");
+		
+		BoardDAO bdao = new BoardDAO();
+		HashMap<String,String> paraMap = new HashMap<>();
+		
+		String end = String.valueOf(Integer.parseInt(start) + Integer.parseInt(len) - 1); // 숫자계산을 위해 Integer로 바꾸어서 계산 후 String 타입 안에 넣어주기.
+		
+		paraMap.put("startRno",start); // startRno가 1이라면 db에서 endRno(끝번호) 8까지 와야 한다.
+		paraMap.put("endRno",end);
+		
+		List<HealthInfoVO> productList = bdao.selectByInfo(paraMap);
+		
+		JSONArray jsonArr = new JSONArray(); // []
+		if(productList.size()>0) {
+			for(HealthInfoVO pvo : productList) {
+				JSONObject jsobj = new JSONObject();
+				jsobj.put("infoSeq", pvo.getInfoSeq());
+				jsobj.put("infoSeq", pvo.getImg());
+				jsobj.put("infoSeq", pvo.getImgName());
+				jsobj.put("infoSeq", pvo.getSubject());
+				jsobj.put("infoSeq", pvo.getContent());
+
+				jsonArr.put(jsobj);
+			}
+		}
+		
+		String json = jsonArr.toString();
+		request.setAttribute("json", json);
 		
 		mav.addObject("gobackURL", gobackURL);
-
+		
 		HealthInfoVO healthinfovo = null;
-
+		
 		healthinfovo = service.getInfoView(infoSeq);
 		
 		mav.addObject("infovo", healthinfovo);
 		mav.setViewName("notice/noticeList.tiles1");
 		
-		return mav;
+		return mav;		
 	}
+	
+
+		
 }

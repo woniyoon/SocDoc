@@ -19,7 +19,7 @@
 	} */
 
 	.container { 
-		width: 50%;
+		width: 55%;
 		height: 150%;
 		margin: 100px auto 200px auto;
 		padding: 0;
@@ -180,16 +180,16 @@
       text-decoration: none;
     }
     
-    .infoBoard {
+    #infoBoard {
 	    display: grid;
 	    padding: 0px;
 	    margin-bottom: 80px;
 	    grid-row-gap: 50px;
-	    grid-template-columns: 33% 33% 33%;
+	    grid-template-columns: 33.333% 33.333% 33.333%;
 	}	
 	
 	div > img {
-		width: 210px;
+		width: 245px;
 		height: 200px;
 		border: solid 1px red;
 	}
@@ -198,7 +198,9 @@
 		cursor:pointer !important;
 	}
 
-	
+	.noticePagination {
+		margin-top: 10px;
+	}
    	
 </style>
 
@@ -207,78 +209,84 @@
 
 $(window).ready(function(){
 	
-	//탭 전환
-	$('ul.tabs li').click(function(){
+	
+	// 탭전환(공지사항)
+	$('#one').click(function(){
 		var tab_id = $(this).attr('data-tab');
 		$('ul.tabs li').removeClass('current');
 		$('.tab-content').removeClass('current');
-	   
 		$(this).addClass('current');
 		$("#"+tab_id).addClass('current');
+
+		getNoticeBoard(currentShowPageNo);
+		
 	});
 	
-	$("#noticeSearchWord").keydown(function(event) {
+	getNoticeBoard(1, "");
+	
+	// 탭전환(건강정보)
+	$('#two').click(function(){
+		var tab_id = $(this).attr('data-tab');
+		$('ul.tabs li').removeClass('current');
+		$('.tab-content').removeClass('current');
+		$(this).addClass('current');
+		$("#"+tab_id).addClass('current');
+	
+		getHealthInfoBoard();
+		
+	});
+	
+	// 공지사항 검색 엔터키
+	$("#one").keydown(function(event) {
 		console.log($(this).prop("value"));
 		 if(event.keyCode == 13) {
 			 // 엔터를 했을 경우
-			 getNoticeBoard(1, $(this).prop("value"));
+			 getNoticeBoard();
 		 }
 	});
 	
-	$("#noticeSearchWord2").keydown(function(event) {
+	// 건강정보 검색 엔터키	
+	$("#two").keydown(function(event) {
 		console.log($(this).prop("value"));
 		 if(event.keyCode == 13) {
 			 // 엔터를 했을 경우
-			 getHealthInfoBoard(1, $(this).prop("value"));
+			 // getHealthInfoBoard(1, $(this).prop("value"));
+			 getHealthInfoBoard();
 		 }
 	});
+	
+	// 더보기 초기값
+	infoBoard("1");
+	$("#photo").click(function(){
+		if($(this).text()=="처음으로"){
+			$("#infoBoard").empty();
+			$("#end").empty();
+			infoBoard("1");
+			$(this).text("더보기");
+		} else {
+			infoBoard($(this).val());
+		}
+	});
+	
+	
 });		
 
-</script>
 
-<script type="text/javascript">
-
-	$(window).ready(function(){
-		// 공지사항
-		$(".tab1").click(getNoticeBoard);
-		// 건강정보
-		$(".tab2").click(getHealthInfoBoard);
-		
-		// 글 검색
-		getNoticeBoard(1, "");
-		getHealthInfoBoard(1, "");
-		
-		// 더보기 초기값
-		infoBoard("1");
-		$("#photo").click(function(){
-			if($(this).text()=="처음으로"){
-				$("#photo").empty();
-				$("#end").empty();
-				infoBoard("1");
-				$(this).text("더보기");
-			} else {
-				infoBoard($(this).val());
-			}
-		});
-	});		
-
-	
-	
-
-/////  더 보 기 ////////////////////////////////////////////
+///// 더 보 기  ///////////////////////////////////////////////////////////////////
 function infoBoard(start){ 
-	var lenHIT = 6;
+	var len = 6;
 	var start = 1;
 	$.ajax({
 		url:"<%= ctxPath%>/photo.sd",
 		type:"GET",
-		data:{"start":start, "len":lenHIT},
+		data:{"start":start, "len":len},
 		dataType:"JSON",
 		success:function(json){
+			console.log("제발 더보기 나와줘 plz!!!!!!!!!!!!!!!!!!!!!!!!!");
 			var html = "";
 			if(start=="1" && json.length == 0) { // 데이터가 없다면
-	    		html += "건강 정보 게시글 준비 중~";
-	    		$(".infoBoard").html(html);
+	    		html += "건강 정보 게시글 준비 중...";
+	    		$("#infoBoard").html(html);
 	    		$("#photo").attr("disabled", true).css("cursor","not-allowed");
 			} else {
 				// 데이터가 있다면
@@ -293,26 +301,22 @@ function infoBoard(start){
 				});
 				
 				//게시글 결과 출력하기
-				$(".infoBoard").append(html);				
+				$("#infoBoard").append(html);				
 				
 	    		//countHIT에 지금까지 출력된 상품의 개수를 누적해서 기록한다.
-	    		$("#countHIT").text( Number($("#countHIT").text()) + json.length );	//<span>태그의 텍스트
+	    		//$("#countHIT").text( Number($("#countHIT").text()) + json.length );	//<span>태그의 텍스트
 	    		
 	    		// ★ 더보기 버튼 value 값 지정
-	    		$("#photo").val(Number(start) + lenHIT);
+	    		$("#photo").val(Number(start) + len);
 	    		// 출력된 상품 개수 누적
                 $("#countHIT").text(Number($("#countHIT").text())+(json.length));
             	// 더이상 보여줄 제품이 없음
                 if($("#countHIT").text()==$("#totalCount").text()){
-                   $("#end").html("더이상 조회할 항목이 없습니다.")
+                   $("#end").html("더이상 조회할 항목이 없습니다.");
                    $("#photo").text("처음으로");
                    $("#countHIT").text("0");
                 }
 	    		
-	    		// 더보기... 버튼을 계속해서 클릭하여 countHIT 값과 totalHITCount 값이 일치하는 경우 
-				if($("#countHIT").text() == $("#totalCount").text() ){
-					$("#end").html("더이상 조회할 제품이 없습니다.");
-				}
 	    		// header.jsp 의 하단에 표신된 div content의 height값을 구해서, header.jsp의 div sideinfo의 height값으로 설정하기
 				//func_height(); // footer.jsp에 있음.
 			}
@@ -322,21 +326,21 @@ function infoBoard(start){
 		}
 	});
 }
-////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////	
 	
 	
 	
 	
 	
 	
-	
-// 공지사항 탭 클릭	
-function getNoticeBoard(currentShowPageNo, searchWord){
+
+// 공지사항 탭 클릭 /////////////////////////////////////////////////////////////////	
+function getNoticeBoard(currentShowPageNo){
 	console.log("공지사항 클릭");
 	$.ajax({	
 		url:"<%= ctxPath%>/ajax/noticeBoard.sd",
 		type:"get",
-		data:{"searchWord":searchWord
+		data:{"searchWord": $("#noticeSearchWord").prop("value")
 			 ,"currentShowPageNo": currentShowPageNo},
 		dataType:"json",
 		success:function(json){	
@@ -346,10 +350,10 @@ function getNoticeBoard(currentShowPageNo, searchWord){
 			if(jsonArr.length > 0) {
 				$.each(jsonArr, function(index, item){
 					html += "<tr>"
-							+ "<td class='noticeSeq'>"+item.noticeSeq+"</td>"
-							+ "<td class='subject' onclick='goView("+item.noticeSeq+")'>"+item.subject+"</td>"
-							+ "<td class='content'>"+item.regDate+"</td>"
-							+ "</tr>";	
+						 + "<td class='noticeSeq'>"+item.noticeSeq+"</td>"
+						 + "<td class='subject' onclick='goView("+item.noticeSeq+")'>"+item.subject+"</td>"
+						 + "<td class='content'>"+item.regDate+"</td>"
+						 + "</tr>";	
 				});
 			} else {
 				$(".noticeList").html("<tr align='center'><td colspan='3'>검색 결과가 없습니다!</td></tr>");
@@ -373,23 +377,21 @@ function goView(noticeSeq) {
 		frm.action = "<%=ctxPath%>/noticeView.sd";
 		frm.submit();
 }
+/////////////////////////////////////////////////////////////////////////////////
 
-function goSearch(noticeSeq){
-		var frm = document.goViewFrm;
-		frm.noticeSeq.value = noticeSeq; 
-		
-		frm.method = "GET";
-		frm.action = "<%=ctxPath%>/noticeList.sd";
-		frm.submit();
-}
-// 건강정보 탭 클릭
-function getHealthInfoBoard(currentShowPageNo, searchWord){
+
+
+
+
+
+
+// 건강정보 탭 클릭 ///////////////////////////////////////////////////////////////////
+function getHealthInfoBoard(){
 	console.log("건강정보 클릭");
 	$.ajax({	
 		url:"<%= ctxPath%>/ajax/infoBoard.sd",
 		type:"get",
-		data:{"searchWord":searchWord
-			 ,"currentShowPageNo": currentShowPageNo}, 
+		data:{"searchWord": $("#noticeSearchWord2").prop("value")},
 		dataType:"json",
 		success:function(json){
 			var html = "";
@@ -405,9 +407,9 @@ function getHealthInfoBoard(currentShowPageNo, searchWord){
 					console.log(item.subject);
 				});			
 			} else {
-				$(".infoBoard").html("검색 결과가 없습니다!");
+				$("#infoBoard").html("검색 결과가 없습니다!");
 			}
-			$(".infoBoard").html(html);
+			$("#infoBoard").html(html);
 			$(".infoPagination").html(json.pageBar);
 		},
 		error: function(request, status, error){
@@ -425,8 +427,12 @@ function goInfoView(infoSeq) {
 		frm.action = "<%=ctxPath%>/infoView.sd";
 		frm.submit();
 }
-</script>
+///////////////////////////////////////////////////////////////////////////////
 
+
+
+
+</script>
 <!-- 
 <script>
  	var lenHIT = 8;
@@ -500,48 +506,31 @@ function goInfoView(infoSeq) {
 
 <div class="container">
 
+	<!-- -------------------------------- 上  ---------------------------------- -->
 	<div class="bowl">
 		<ul class="tabs">
-			<li class="tab-link current tab1" data-tab="tab-1" onclick="getNoticeBoard(1, '')">공지사항</li>
-			<li class="tab-link tab2" data-tab="tab-2" onclick="getHealthInfoBoard(1, '')">건강정보</li>
+			<li id="one" class="tab-link current tab1" data-tab="tab-1" onclick="getNoticeBoard(1, '')">공지사항</li>
+			<li id="two" class="tab-link tab2" data-tab="tab-2" onclick="getHealthInfoBoard(1, '')">건강정보</li>
 		</ul>
 	
 		
-		<!-- -------------------------------- 上 끝 ---------------------------------- -->
 		
+		
+		
+		<!-- -------------------------------- 공지사항 ---------------------------------- -->
 		<div class="notice">
-			<%-- <header>
-				<div id="search_header">
-					<div id="search_bar">
-						<div id="search_bar_left" class="total">전체 ${totalCount}건</div>
-						<c:forEach var="noticevo" items="${noticeList}">
-							<div id="search_bar_left" class="total">전체 {totalCount}건</div>
-						</c:forEach>
-						<div id="search_bar_right">
-							<input id="noticeSearchWord" name="searchWord" type="text" placeholder="검색어를 입력해 주세요." />
-							<input id="search_button" onclick="goSearch();" type="button" value="검색" /> 
-						</div>
-					</div>
-				</div>	
-			</header> --%>
-		
-		<!-- -------------------------------- 헤더 끝 ---------------------------------- -->
-		
 			<form name="tab1">	
 				<div id="tab-1" class="tab-content current">
-				
-				<div id="search_header">
-					<div id="search_bar">
-						<div id="search_bar_left" class="total">전체 ${totalCount}건</div>
-						<div id="search_bar_right">
-							<input id="noticeSearchWord" name="searchWord" type="text" placeholder="검색어를 입력해 주세요." />
-							<input id="search_button" onclick="goSearch();" type="button" value="검색" /> 
+					<div id="search_header">
+						<div id="search_bar">
+							<div id="search_bar_left" class="total">전체 ${totalCount}건</div>
+							<div id="search_bar_right">
+								<input id="noticeSearchWord" name="searchWord" type="text" placeholder="검색어를 입력해 주세요." />
+								<input id="search_button" onclick="getNoticeBoard();" type="button" value="검색" /> 
+							</div>
 						</div>
-					</div>
-				</div>	
-				
-				
-				
+					</div>	
+					
 					<table>
 						<thead>
 							<tr>
@@ -561,25 +550,27 @@ function goInfoView(infoSeq) {
 					</div>
 				</div>
 			</form>
+	
+		
+		
+		
 			
-		<!-- -------------------------------- 공지사항 게시글 끝 ---------------------------------- -->	
+			<!-- -------------------------------- 건강정보 ---------------------------------- -->	
 			
 			<form name="tab2">
 				<div id="tab-2" class="tab-content">
 				
-				<div id="search_header">
-					<div id="search_bar">
-						<div id="search_bar_left" class="total">전체 ${infovo.totalCount}건</div>
-						<div id="search_bar_right">
-							<input id="noticeSearchWord2" name="searchWord" type="text" placeholder="검색어를 입력해 주세요." />
-							<input id="search_button" onclick="goSearch2();" type="button" value="검색" /> 
+					<div id="search_header">
+						<div id="search_bar">
+							<div id="search_bar_left" class="total">전체 ${totalCount}건</div>
+							<div id="search_bar_right">
+								<input id="noticeSearchWord2" name="searchWord" type="text" placeholder="검색어를 입력해 주세요." />
+								<input id="search_button" onclick="getHealthInfoBoard();" type="button" value="검색" /> 
+							</div>
 						</div>
-					</div>
-				</div>	
+					</div>	
 				
-				
-				
-					<div class="infoBoard">
+					<div id="infoBoard">
 						<%-- 건강정보 게시글 들어감 --%>
 		       		</div>			
 				
@@ -599,8 +590,12 @@ function goInfoView(infoSeq) {
 				<!-- <div class="infoPagination" id="pageBar"></div>-->
 				<!-- ${pageBar} -->
 			</form>
-			
-		<!-- -------------------------------- 건강정보 게시글 끝 ---------------------------------- -->	
+				
+		
+		
+		
+		
+		<!-- -------------------------------- 下  ---------------------------------- -->	
 		<form name="goViewFrm">
         	<input type="hidden" name="noticeSeq" />
         </form>

@@ -1,5 +1,5 @@
 package com.synergy.socdoc.board;
-
+	
 import java.util.HashMap;
 import java.util.List;
 
@@ -77,5 +77,12 @@ public class BoardDAO implements InterBoardDAO {
 	public HealthInfoVO getInfoView(String infoSeq) {
 		HealthInfoVO infovo = sqlsession.selectOne("board.getInfoView", infoSeq);
 		return infovo;
+	}
+	
+	// 더보기 방식(페이징처리)으로 상품정보를 잘라서(startRno ~ endRno) 조회해오기 
+	@Override
+	public List<HealthInfoVO> selectByInfo(HashMap<String, String> paraMap) {
+		List<HealthInfoVO> selectByInfo = sqlsession.selectList("board.selectByInfo", paraMap);
+		return selectByInfo;
 	}
 }

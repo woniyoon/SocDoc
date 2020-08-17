@@ -66,14 +66,20 @@ public class BoardService implements InterBoardService {
 	
 	// 글보기
 	@Override
-	public NoticeVO getView(String seq) {
-		NoticeVO noticevo = dao.getView(seq);
+	public NoticeVO getView(String noticeSeq) {
+		NoticeVO noticevo = dao.getView(noticeSeq);
 		return noticevo;
 	}
 	@Override
-	public HealthInfoVO getInfoView(String seq) {
-		HealthInfoVO infovo = dao.getInfoView(seq);
+	public HealthInfoVO getInfoView(String infoSeq) {
+		HealthInfoVO infovo = dao.getInfoView(infoSeq);
 		return infovo;
 	}
 	
+	// 더보기 방식(페이징처리)으로 상품정보를 잘라서(startRno ~ endRno) 조회해오기 
+	@Override
+	public List<HealthInfoVO> selectByInfo(HashMap<String, String> paraMap) {
+		List<HealthInfoVO> selectByInfo = dao.selectByInfo(paraMap);
+		return selectByInfo;
+	}
 }
