@@ -183,21 +183,27 @@
 
     <p class="logo"><img src="<%= ctxPath%>/resources/images/logo.jpg" width="150px" height="100px" class="logo" /></p>
 
-    <ul class="util">     
+    <ul class="util"> 
+    	<!-- 비로그인 -->    
     	<c:if test="${sessionScope.loginuser == null && sessionScope.hpLoginuser == null}">
 	        <li><a href="<%=ctxPath%>/login.sd">로그인</a></li>
 	    	<li><a href="<%=ctxPath%>/register.sd">회원가입</a></li>
 	    	<li><a href="#">마이페이지</a></li>
         </c:if>
         <c:if test="${not empty sessionScope.loginuser}">
-        	<li>환영합니다! <a href="#"><span style="color: blue;">${loginuser.name}</span>님의 마이페이지</a></li>
-	        <li><a href="<%=ctxPath%>/logout.sd">로그아웃</a></li>
+	        <!-- admin 로그인 --> 
 	        <c:if test="${sessionScope.loginuser.userid == 'admin'}">
 	        	<li><a href="#">관리자 페이지</a></li>
 	        </c:if>
+	        <!-- 개인고객 로그인 -->    
+	        <c:if test="${sessionScope.loginuser.userid != 'admin'}">
+	        	<li>환영합니다! <a href="#"><strong>${loginuser.name}</strong>님의 마이페이지</a></li>
+	        </c:if>
+	        <li><a href="<%=ctxPath%>/logout.sd">로그아웃</a></li>
         </c:if>
+        <!-- 병원고객 로그인 -->    
         <c:if test="${not empty sessionScope.hpLoginuser}">
-	        <li><a href="#"><span style="color: blue;">${hpLoginuser.name}</span>의 마이페이지</a></li>
+	        <li>환영합니다! <a href="#"><strong>${hpLoginuser.name}</strong>의 마이페이지</a></li>
 	        <li><a href="<%=ctxPath%>/hpLogout.sd">로그아웃</a></li>
         </c:if>
         <li><a href="#">고객센터</a></li>
@@ -231,8 +237,8 @@
       <div class="subnav">
         <button class="subnavbtn">알림·소식<i class="fa fa-caret-down"></i></button>
         <div class="subnav-content">
-          <a href="#"><img src="<%= ctxPath%>/resources/images/notice.png"/>공지사항</a>
-          <a href="#"><img src="<%= ctxPath%>/resources/images/health.png"/>건강정보</a>
+          <a href="<%=ctxPath%>/noticeList.sd"><img src="<%= ctxPath%>/resources/images/notice.png"/>공지사항</a>
+          <a href="<%=ctxPath%>/noticeList.sd"><img src="<%= ctxPath%>/resources/images/health.png"/>건강정보</a>
           <a href="#"><img src="<%= ctxPath%>/resources/images/question.png"/>Q&A</a>
         </div>
       </div>
