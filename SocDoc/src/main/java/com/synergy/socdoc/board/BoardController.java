@@ -180,7 +180,7 @@ public class BoardController {
 		int totalPage = 0;// 총페이지 수(웹브라우저상에 보여줄 총 페이지 개수, 페이지바)
 		
 		totalCount = service.getTotalInfoList(paraMap);   // 이 파라맵이 해쉬맵이다
-		System.out.println("총페이지 건수"+totalCount);
+		System.out.println("총 게시글 건수"+totalCount);
 		
 		totalPage = (int) Math.ceil((double)totalCount/sizePerPage); 
 		
