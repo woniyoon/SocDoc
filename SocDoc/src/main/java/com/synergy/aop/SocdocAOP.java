@@ -120,4 +120,51 @@ public class SocdocAOP {
 		}
 	}
 
+	@Pointcut("execution(public * com.synergy..*Controller.*_cancelPrevSubmission(..) )")
+	public void cancelSubmissions() {
+	}
+
+	@Before("cancelSubmissions()")
+	public void cancelPrevSubmission(JoinPoint joinPoint) {
+
+		HttpServletRequest request = (HttpServletRequest) joinPoint.getArgs()[0];
+
+		System.out.println("Before 또 ~");
+
+		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
+		String hpSeq = String.valueOf(hpMember.getHpSeq());
+
+		service.cancelPrevSubmission(hpSeq);
+		
+	}
+	
+	
+	@Pointcut("execution(public * com.synergy..*Controller.*_updateSchedule(..) )")
+	public void updateSchedule() {
+	}
+	
+	@Before("updateSchedule()")
+	public void updateHpSchedule(JoinPoint joinPoint) {
+		
+		HttpServletRequest request = (HttpServletRequest) joinPoint.getArgs()[0];
+		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
+		String hpSeq = String.valueOf(hpMember.getHpSeq());
+		
+		String submitIds = request.getParameter("infoJoin");
+			
+								// 콤마로 split, 공백으로 split? 
+		String[] submitIdArr = submitIds.split(" ");
+		
+		for(int i=0; i<submitIdArr.length; i++) {
+			
+			// submitId 통해서 스케줄 가져옴
+			// List<HashMap<String, String>> scheduleList = service.getAllScheduleEdit(submitIdArr[i]);
+
+			// 가져온 스케줄을 Schedule에 업데이트
+			// service.updateHpSchedule(scheduleList);
+		}
+		
+		
+	}
+	
 }
