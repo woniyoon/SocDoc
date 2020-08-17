@@ -262,8 +262,8 @@ public class AdminService implements InterAdminService {
 	}
 	// 병원 영업시간 가져오기
 	@Override
-	public List<HashMap<String, String>> getOpeningHours(String hpSeq) {
-		List<HashMap<String, String>> openingHours = dao.getOpeningHours(hpSeq);
+	public List<HashMap<String, String>> getOpeningHours(HashMap<String,String> paraMap) {
+		List<HashMap<String, String>> openingHours = dao.getOpeningHours(paraMap);
 		return openingHours;
 	}
 

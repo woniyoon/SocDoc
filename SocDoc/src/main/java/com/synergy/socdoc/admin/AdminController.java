@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.synergy.socdoc.common.FileManager;
 import com.synergy.socdoc.common.MyUtil;
@@ -433,23 +434,33 @@ public class AdminController {
    		HashMap<String,String> hpDetail = service.getHpInfoDetail(paraMap);
    		// 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것)
 		
-   		JsonObject json = new JsonObject();
+   		JsonObject result = new JsonObject();
    		
-   		json.addProperty("hpSeq", hpSeq);
-   		json.addProperty("hpName", hpDetail.get("hpName"));
-   		json.addProperty("mainImg", hpDetail.get("mainImg"));
-   		json.addProperty("address", hpDetail.get("address"));
-   		json.addProperty("phone", hpDetail.get("phone"));
-   		json.addProperty("dept", hpDetail.get("dept"));
-   		json.addProperty("info", hpDetail.get("info"));
-   		json.addProperty("submitId", hpDetail.get("submitId"));
-
+   		result.addProperty("hpSeq", hpSeq);
+   		result.addProperty("hpName", hpDetail.get("hpName"));
+   		result.addProperty("mainImg", hpDetail.get("mainImg"));
+   		result.addProperty("address", hpDetail.get("address"));
+   		result.addProperty("phone", hpDetail.get("phone"));
+   		result.addProperty("dept", hpDetail.get("dept"));
+   		result.addProperty("info", hpDetail.get("info"));
+   		result.addProperty("submitId", hpDetail.get("submitId"));
+   		
 		// 병원 영업시간 가져오기
-//		List<HashMap<String, String>> openingHours = service.getOpeningHours(hpSeq);
-
-//		request.setAttribute("openingHours", openingHours);
+   		JsonArray scheduleArr = new JsonArray();
+		List<HashMap<String, String>> openingHours = service.getOpeningHours(paraMap);
+	//	System.out.println(submitId);
+	//	System.out.println(openingHours.size());
+		request.setAttribute("openingHours", openingHours);
+		for(int i=0; i<openingHours.size(); i++) {
+			JsonObject obj = new JsonObject();
+			obj.addProperty("open", openingHours.get(i).get("open"));
+			obj.addProperty("close", openingHours.get(i).get("close"));
+			scheduleArr.add(obj);
+		}
 		
-		return json.toString();
+		result.add("openingHours", scheduleArr);
+		
+		return result.toString();
 		
 	}
 	/* 병원정보 수정 & 승인 후 병원회원 상태 변경 */
@@ -868,7 +879,7 @@ public class AdminController {
 			
 		HttpSession session = mrequest.getSession();
 		String root = session.getServletContext().getRealPath("/");
-		String path = root + "resources" + File.separator + "files";
+		String path = root + "resources" + File.separator + "images";
 		
 		// path가 첨부파일을 지정할 WAS(톰캣)의 폴더가 된다.
 		System.out.println("---- 확인용 path => " + path);

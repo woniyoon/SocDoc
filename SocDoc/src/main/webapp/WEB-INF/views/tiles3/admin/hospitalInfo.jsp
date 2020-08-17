@@ -436,8 +436,10 @@
 	               // json결과가 오면 데이터를 동적으로 모달 안에 삽입.
 	            	var html = "";
 
+	               	console.log(json);
+	               	
 	                if(json != null) {
-	               console.log(json.address);
+	              	 	console.log(json.address);
 
 	               		html += "<div>";
  	               		html += "<span class='hospitalName'>"+json.hpName+"</span>";
@@ -465,12 +467,14 @@
 	                	html += "</tr>";
 	                	html += "<tr>";
 	                	html += "<th>진료시간</th>";
-	                	html += "<td>월요일<br/>";
-	                	html += "화요일<br/>";
-	                	html += "수요일<br/>";
-	                	html += "목요일<br/>";
-	                	html += "금요일<br/>";
-	                	html += "토요일<br/></td>";
+	                	
+	                	html += "<td>월요일: "+json.openingHours[0].open+"~"+json.openingHours[0].close+"<br/>";
+	                	html += "화요일: "+json.openingHours[1].open+"~"+json.openingHours[1].close+"<br/>";
+	                	html += "수요일: "+json.openingHours[2].open+"~"+json.openingHours[2].close+"<br/>";
+	                	html += "목요일: "+json.openingHours[3].open+"~"+json.openingHours[3].close+"<br/>";
+	                	html += "금요일: "+json.openingHours[4].open+"~"+json.openingHours[4].close+"<br/>";
+	                	html += "토요일: "+json.openingHours[5].open+"~"+json.openingHours[5].close+"<br/></td>";
+	                	
 	                	html += "</tr>";
 	                	html += "</table>";
 						

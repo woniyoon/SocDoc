@@ -250,8 +250,8 @@ public class AdminDAO implements InterAdminDAO {
 	}
 	// 병원 영업시간 가져오기
 	@Override
-	public List<HashMap<String, String>> getOpeningHours(String hpSeq) {
-		List<HashMap<String, String>> openingHours = sqlsession.selectOne("admin.getOpeningHours", hpSeq);
+	public List<HashMap<String, String>> getOpeningHours(HashMap<String, String> paraMap) {
+		List<HashMap<String, String>> openingHours = sqlsession.selectList("admin.getOpeningHours", paraMap);
 		return openingHours;
 	}
 	// 병원정보 수정 승인
