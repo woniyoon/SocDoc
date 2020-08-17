@@ -10,13 +10,14 @@ public class PharmacyVO {
 	private double latitude;
 	private double longitude;
 	private String mainImg;
+	private String distance;
 	
 	public PharmacyVO() {
 		
 	}
 
 	public PharmacyVO(int pharmSeq, String name, String address, String addressDetail, String phone, double latitude,
-			double longitude, String mainImg) {
+			double longitude, String mainImg, String distance) {
 		super();
 		this.pharmSeq = pharmSeq;
 		this.name = name;
@@ -91,6 +92,13 @@ public class PharmacyVO {
 	public void setMainImg(String mainImg) {
 		this.mainImg = mainImg;
 	}
-	
+
+	public String getDistance() {
+		return distance;
+	}
+
+	public void setDistance(String distance) {
+		this.distance = distance;
+	}
 	
 }
