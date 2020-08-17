@@ -213,7 +213,7 @@
 			<c:if test="${(hpInfo.status != 2 || hpInfo.status != 4 || hpInfo.status != 5) && hpInfo.submitId == null}">
 				<button class="blueBtn" id="submitBtn" onclick="submit()">승인 신청</button>
 			</c:if>
-			<c:if test="${ hpInfo.status == 3}">
+			<c:if test="${ hpInfo.status == 3 || hpInfo.status == 1}">
 				<button class="blueBtn" id="cancelBtn" onclick="cancel('${hpInfo.submitId}')">취소</button>
 			</c:if>
 		</div>		
