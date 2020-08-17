@@ -302,6 +302,7 @@ public class AdminController {
 		
 		return mav;
 	}
+	/////////////// 여기
 	// 병원회원 상세정보 모달로 보기
 	@ResponseBody
 	@RequestMapping(value="/showDetail.sd", produces="text/plain;charset=UTF-8")
@@ -326,18 +327,18 @@ public class AdminController {
    		
 		// 병원 영업시간 가져오기
    		JsonArray scheduleArr = new JsonArray();
-		List<HashMap<String, String>> getTime = service.getTimeTbl(paraMap);
+		List<HashMap<String, String>> timeInfo = service.getTimeTbl(paraMap);
 
-		request.setAttribute("openingHours", getTime);
-		for(int i=0; i<getTime.size(); i++) {
+		request.setAttribute("timeInfo", timeInfo);
+		for(int i=0; i<timeInfo.size(); i++) {
 			JsonObject obj = new JsonObject();
-			obj.addProperty("open", getTime.get(i).get("open"));
-			obj.addProperty("close", getTime.get(i).get("close"));
+			obj.addProperty("open", timeInfo.get(i).get("open"));
+			obj.addProperty("close", timeInfo.get(i).get("close"));
 			scheduleArr.add(obj);
 		}
 		
-		result.add("openingHours", scheduleArr);
-		
+		result.add("timeInfo", scheduleArr);
+   		
 		return result.toString();
 			
 	}

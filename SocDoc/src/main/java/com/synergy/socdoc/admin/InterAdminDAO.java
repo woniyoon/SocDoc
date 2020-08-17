@@ -77,8 +77,7 @@ public interface InterAdminDAO {
 	HashMap<String, String> detailInfo(HashMap<String, String> paraMap); // 병원회원 상세 정보 가져오기
 	List<HashMap<String, String>> getTimeTbl(HashMap<String, String> paraMap); // 병원회원 상세 영업시간 가져오기
 
-	List<HashMap<String, String>> getAllScheduleEdit(HashMap<String, String> paraMap);
-
+	List<HashMap<String, String>> getAllScheduleEdit(HashMap<String, String> paraMap); // 승인 후에 오픈시간 신청 게시판에서 정보 가져오기 (AOP)
 	int updateHpSchedule(List<HashMap<String, String>> scheduleList);
 
 }

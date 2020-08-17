@@ -102,10 +102,10 @@
 	
 	.modalContent {
 	    background-color: white;
-	    width: 30%;
+	    width: 60%;
 	    height: auto;
-	    min-height: 50%;
-	    max-height: 60%;
+	    min-height: 65%;
+	    max-height: 65%;
 	    position: relative;
 	    padding: 30px;
 	    border: 1px solid rgb(230, 230, 230);
@@ -116,17 +116,104 @@
 	    flex-direction: row;
 	    justify-content: space-between;
 	}
-	
-	.detailHpInfo {
-		width: 90%;
-		margin: 40px 0 0 0;	
+
+	th {
+		text-align: center;
 	}
 	
-	.detailHpInfo tr, .detailHpInfo td {
-		border-top: 1px solid #dddddd;
-		border-collapse: collapse;
-		padding: 10px 0;	
-	}
+	
+	/* =========================================================================== */
+   
+   .detailHpInfo{
+      margin:0px auto;
+   }
+   
+   .hospitalName{
+      font-size : 15pt;
+      font-weight: 900;
+   }   
+
+   .info{
+      margin-top:10px;
+   }
+   
+   .one {
+      display:inline-block;
+      width:55%;
+      height:450px;
+      padding-right:10px;      
+   }
+   
+   .two{
+      float:right;
+      width:45%;
+      height:300px;
+   }
+   
+   .infoTable{
+      width:100%;
+      font-size: 10pt;
+      height:100%;
+   }
+   
+   .infoTable th, td{
+      padding:10px !important;
+      border-top: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+   }
+   
+   .infoTable th{
+      background-color: #f2f2f2;
+      width:80px;
+      height:25px;
+   }
+   
+   .review{
+      width:100%;
+      height:70px;
+      margin-bottom: 5px;
+      border: 1px solid #999999;    
+      border-radius: .25em;       
+      font-size: 10pt;
+      padding:5px;   
+      resize: none;
+      padding-bottom: 30px;
+   }
+   
+   textarea:focus{
+      outline: none; 
+   }
+   
+   .name{
+      margin-right: 10px;
+      font-weight: bolder;
+   }
+
+   #okBtn {
+ 	  float: right;
+	  margin-top: 10px;
+      background-color: #0080ff;
+      color:#fff;
+      cursor: pointer;   
+      border: 1px solid #dddddd;       
+      padding: 0.25em .75em;    
+      border-radius: .25em;       
+      font-weight: 500;
+      font-size: 10pt;  
+   }
+
+   #noBtn {
+ 	  float: right;
+	  margin-top: 10px;
+	  margin-right: 10px;	  
+      background-color: #efefef;
+      cursor: pointer;   
+      border: 1px solid #dddddd;       
+      padding: 0.25em .75em;    
+      border-radius: .25em;       
+      font-weight: 500;
+      font-size: 10pt;  
+   }
 		
 </style>
 
@@ -163,7 +250,7 @@
 				
 				<c:forEach var="hpvo" items="${hospitalvoList}">
 					<tr class="detailRow" onclick="showDetail('${hpvo.hpSeq}')">
-						<td>${hpvo.userid}</td>			
+						<td>${hpvo.userid}<input class="hiddenValue" type="hidden" value="${hpvo.hpSeq}" /></td>			
 						<td>${hpvo.regId}</td>			
 						<td>${hpvo.name}</td>			
 						<td>${hpvo.email}</td>			
@@ -181,7 +268,7 @@
                </c:forEach>
 
 			</table>
-			
+			<input type="hidden" id="hpSeq" name="hpSeq" />
 			<div align="center" style="margin-top: 30px;">
 				${pageBar}
 			</div>
@@ -197,9 +284,9 @@
 					<span style="font-size: 1.2em; cursor: pointer;"
 						onclick="closeModal()">X</span>
 				</div>
-				<table class="detailHpInfo customTable">
-					
-				</table>
+					<div class="detailHpInfo customTable">
+						
+					</div>
 				</div>
 			</div>
 		</div>
@@ -249,7 +336,12 @@
 	}
 	
 	function showDetail(hpSeq) {
-		
+		console.log(hpSeq);
+       	console.log(hpSeq);
+       	console.log(hpSeq);
+       	console.log(hpSeq);
+       	console.log(hpSeq);
+       	
 		  $.ajax({
 	             url:"<%= request.getContextPath()%>/showDetail.sd",
 	             type:"GET",
@@ -259,6 +351,14 @@
 	               // json결과가 오면 데이터를 동적으로 모달 안에 삽입.
 	            	var html = "";
 
+	               	console.log(hpSeq);
+	               	console.log(hpSeq);
+	               	console.log(hpSeq);
+	               	console.log(hpSeq);
+	               	console.log(hpSeq);
+	               	
+	               	// 여기까지 값 오는거 확인
+	               	
 	               	console.log(json);
 	               	
 	                if(json != null) {
@@ -289,14 +389,14 @@
 	                	html += "</tr>";
 	                	html += "<tr>";
 	                	html += "<th>진료시간</th>";
-	                	/* 
-	                	html += "<td>월요일: "+json.openingHours[0].open+"~"+json.openingHours[0].close+"<br/>";
-	                	html += "화요일: "+json.openingHours[1].open+"~"+json.openingHours[1].close+"<br/>";
-	                	html += "수요일: "+json.openingHours[2].open+"~"+json.openingHours[2].close+"<br/>";
-	                	html += "목요일: "+json.openingHours[3].open+"~"+json.openingHours[3].close+"<br/>";
-	                	html += "금요일: "+json.openingHours[4].open+"~"+json.openingHours[4].close+"<br/>";
-	                	html += "토요일: "+json.openingHours[5].open+"~"+json.openingHours[5].close+"<br/></td>";
-	                	 */
+
+	                	html += "<td>월요일: "+json.timeInfo[0].open+"~"+json.timeInfo[0].close+"<br/>";
+	                	html += "화요일: "+json.timeInfo[1].open+"~"+json.timeInfo[1].close+"<br/>";
+	                	html += "수요일: "+json.timeInfo[2].open+"~"+json.timeInfo[2].close+"<br/>";
+	                	html += "목요일: "+json.timeInfo[3].open+"~"+json.timeInfo[3].close+"<br/>";
+	                	html += "금요일: "+json.timeInfo[4].open+"~"+json.timeInfo[4].close+"<br/>";
+	                	html += "토요일: "+json.timeInfo[5].open+"~"+json.timeInfo[5].close+"<br/></td>";
+
 	                	html += "</tr>";
 	                	html += "</table>";
 	                	html += "</div>";

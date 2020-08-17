@@ -130,6 +130,7 @@
        <result property="phname"         	 column="phname"         	 javaType="String"/>
        <result property="registerDate"       column="registerDate"       javaType="String"/>
        <result property="infoStatus"         column="infoStatus"         javaType="String"/>
+       <result property="hpSeq"         	 column="hpSeq"         	 javaType="String"/>
     </resultMap>
 	<select id="hpmemberListPaging" parameterType="HashMap" resultMap="hpmemberMap">
 		<!-- 
@@ -150,13 +151,13 @@
 		where rno between #{startRno} and #{endRno}
 		-->
 		
-		select rno, userid, regId, name, email, phname, registerDate, infoStatus
+		select rno, userid, regId, name, email, phname, registerDate, infoStatus, hpSeq
 		from 
 		(
-			select rownum as rno, userid, regId, name, email, phname, registerDate, infoStatus
+			select rownum as rno, userid, regId, name, email, phname, registerDate, infoStatus, hpSeq
 			from
 				(
-					select userid, regId, name, email, nvl(b.hpname, '미등록') as phname, to_char(registerDate,'yyyy-mm-dd') AS registerDate, infoStatus
+					select userid, regId, name, email, nvl(b.hpname, '미등록') as phname, to_char(registerDate,'yyyy-mm-dd') AS registerDate, infoStatus, A.hpSeq AS hpSeq
 					from hpMember A left join hospitalinfo B
 					on a.hpseq = b.hpseq
 					where infoStatus in (1,0)
@@ -167,6 +168,7 @@
 			)T
 		where rno between #{startRno} and #{endRno}
 	</select>
+	
 	<!-- 병원(정보)등록 상세정보 불러오기 -->
  	<resultMap type="HashMap" id="detailHpInfoMap">
     	<result property="hpSeq" 				column="hpSeq" 			javaType="String"/>
@@ -181,13 +183,14 @@
 		select hpSeq, hpName, mainImg, address, phone, dept, info
 		from hospitalInfo where hpSeq = #{hpSeq}
   	</select>   
+
   	<!-- 병원 영업시간 가져오기 -->
-  	<resultMap type="HashMap" id="timeInfoMap">
+  	<resultMap type="HashMap" id="timeInfo">
 		<result property="day" column="day" javaType="String"></result>
 		<result property="open" column="open" javaType="String"></result>
 		<result property="close" column="close" javaType="String"></result>
 	</resultMap>
-  	<select id="getTimeTbl" parameterType="HashMap" resultMap="timeInfoMap">
+  	<select id="getTimeTbl" parameterType="HashMap" resultMap="timeInfo">
 		select nvl2(s.open, s.day, null) as day, nvl(s.open, null) as open, nvl2(s.open, t.hour, null) as close
 		from
 		(
@@ -198,7 +201,6 @@
 		on s.close = t.hourSeq
 		order by day asc
 	</select>
-	
 	
 	
 	<!-- 병원(정보)등록 목록 (페이징처리) -->

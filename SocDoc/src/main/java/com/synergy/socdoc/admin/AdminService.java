@@ -311,13 +311,12 @@ public class AdminService implements InterAdminService {
 		return openingHours;
 	}
 
-	// 
+	// 승인 후에 오픈시간 신청 게시판에서 정보 가져오기 (AOP)
 	@Override
 	public List<HashMap<String, String>> getAllScheduleEdit(HashMap<String, String> paraMap) {
 		List<HashMap<String, String>> schedule = dao.getAllScheduleEdit(paraMap);
 		return schedule;
 	}
-
 	@Override
 	public int updateHpSchedule(List<HashMap<String, String>> scheduleList) {
 		int result = dao.updateHpSchedule(scheduleList);
