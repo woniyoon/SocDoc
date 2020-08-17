@@ -83,6 +83,7 @@ public class BoardDAO implements InterBoardDAO {
 	@Override
 	public List<HealthInfoVO> selectByInfo(HashMap<String, String> paraMap) {
 		List<HealthInfoVO> selectByInfo = sqlsession.selectList("board.selectByInfo", paraMap);
+		//System.out.println(selectByInfo.size() + " BoardDAO 86번째 줄");
 		return selectByInfo;
 	}
 }

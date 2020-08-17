@@ -103,4 +103,17 @@
 		) V
 		where V.infoSeq = #{infoSeq}
 	</select>
+	
+	
+	
+	<!-- 더보기 -->
+	<select id="selectByInfo" parameterType="HashMap" resultType="com.synergy.socdoc.member.HealthInfoVO">
+		select V.rno, V.infoSeq, V.subject, V.content, V.regDate
+		from
+		(
+			select rownum as rno, infoSeq, subject, content, to_char(regDate, 'yyyy-mm-dd') as regDate
+		    from infoboard
+		)V
+		where V.rno between #{startRno} and #{endRno} 
+	</select>
 </mapper>

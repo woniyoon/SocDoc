@@ -325,51 +325,52 @@ public class BoardController {
 	}
 	
 	// 더보기
+	@ResponseBody
 	@RequestMapping(value = "/photo.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
-	public ModelAndView photo(HttpServletRequest request, ModelAndView mav) {
+	public String photo(HttpServletRequest request) {
 		
 		String infoSeq = request.getParameter("infoSeq");
-		String gobackURL = request.getParameter("gobackURL");
+		//String gobackURL = request.getParameter("gobackURL");
 		String start = request.getParameter("start");
 		String len = request.getParameter("len");
 		
-		BoardDAO bdao = new BoardDAO();
 		HashMap<String,String> paraMap = new HashMap<>();
 		
 		String end = String.valueOf(Integer.parseInt(start) + Integer.parseInt(len) - 1); // 숫자계산을 위해 Integer로 바꾸어서 계산 후 String 타입 안에 넣어주기.
 		
 		paraMap.put("startRno",start); // startRno가 1이라면 db에서 endRno(끝번호) 8까지 와야 한다.
 		paraMap.put("endRno",end);
-		
-		List<HealthInfoVO> productList = bdao.selectByInfo(paraMap);
+		System.out.println("startRNO : " + start);
+		System.out.println("endRNO : " + end);
+		List<HealthInfoVO> productList = service.selectByInfo(paraMap);
 		
 		JSONArray jsonArr = new JSONArray(); // []
 		if(productList.size()>0) {
 			for(HealthInfoVO pvo : productList) {
 				JSONObject jsobj = new JSONObject();
 				jsobj.put("infoSeq", pvo.getInfoSeq());
-				jsobj.put("infoSeq", pvo.getImg());
-				jsobj.put("infoSeq", pvo.getImgName());
-				jsobj.put("infoSeq", pvo.getSubject());
-				jsobj.put("infoSeq", pvo.getContent());
+				jsobj.put("img", pvo.getImg());
+				jsobj.put("imgName", pvo.getImgName());
+				jsobj.put("subject", pvo.getSubject());
+				jsobj.put("content", pvo.getContent());
 
 				jsonArr.put(jsobj);
 			}
 		}
 		
 		String json = jsonArr.toString();
-		request.setAttribute("json", json);
+		/*request.setAttribute("json", json);
 		
-		mav.addObject("gobackURL", gobackURL);
+		mav.addObject("gobackURL", gobackURL);*/
 		
-		HealthInfoVO healthinfovo = null;
+		List<HealthInfoVO> healthinfovo = null;
 		
-		healthinfovo = service.getInfoView(infoSeq);
+		healthinfovo = service.selectByInfo(paraMap);
 		
-		mav.addObject("infovo", healthinfovo);
-		mav.setViewName("notice/noticeList.tiles1");
+		/*mav.addObject("infovo", healthinfovo);
+		mav.setViewName("notice/noticeList.tiles1");*/
 		
-		return mav;		
+		return json;		
 	}
 	
 

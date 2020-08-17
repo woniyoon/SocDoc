@@ -201,7 +201,33 @@
 	.noticePagination {
 		margin-top: 10px;
 	}
+	
+	/* 사진 더보기 버튼 */
+	#photo {
+	    position:relative;
+		width: 100px;
+		height: 40px;
+	    top:50%; 
+	    left:50%;
+	    margin: -20px -50px; 
+		border: solid 1px #ccc;
+		background-color: #FAFAFA;	
+		border-radius: 5px;
+	}
+	
+	/* 검색하기 버튼 */
+	#searchButton {
+		width: 50px;
+		height: 35px;
+		background-color: #58ACFA;
+		color: #ffffff;
+		border: solid 1px #ccc;
+	}
    	
+   	#noticeSearchWord, #noticeSearchWord2 {
+ 		height: 34px;
+ 		border: solid 1px #ccc;
+   	}
 </style>
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
@@ -264,6 +290,7 @@ $(window).ready(function(){
 			infoBoard("1");
 			$(this).text("더보기");
 		} else {
+			//console.log($(this).val() + " 267번째 줄  ");
 			infoBoard($(this).val());
 		}
 	});
@@ -275,7 +302,7 @@ $(window).ready(function(){
 ///// 더 보 기  ///////////////////////////////////////////////////////////////////
 function infoBoard(start){ 
 	var len = 6;
-	var start = 1;
+	//var start = 1;
 	$.ajax({
 		url:"<%= ctxPath%>/photo.sd",
 		type:"GET",
@@ -295,9 +322,9 @@ function infoBoard(start){
 						+ "<img src='/socdoc/resources/files/"+item.imgName+"'/>"
 						+ item.subject
 						+ "</div>";
-					if((index+1) % 3 == 0){
+					/* if((index+1) % 3 == 0){
 						html += "<br/>";
-					}
+					} */
 				});
 				
 				//게시글 결과 출력하기
@@ -429,79 +456,7 @@ function goInfoView(infoSeq) {
 }
 ///////////////////////////////////////////////////////////////////////////////
 
-
-
-
 </script>
-<!-- 
-<script>
- 	var lenHIT = 8;
-	var start = 1;
-	
-	$(document).ready(function(){
-	// display할 HIT상품 정보를 추가 요청하기(Ajax로 처리함)
-	function photo(start){ // start가 1이라면 1~8까지 상품 8개를 보여준다.
-								// start가 9이라면 9~16까지 상품 8개을 보여준다.
-								// start가 17이라면 17~24까지 상품 8개을 보여준다.
-								// start가 25이라면 25~32까지 상품 8개을 보여준다.
-								// start가 33이라면 33~37까지 상품 5개을 보여준다.(마지막 상품)
-	$.ajax({
-		url:"/MyMVC/final/noticeList.html",
-		type:"GET",
-		data:{"start":start
-			
-		},
-		dataType:"JSON",
-		success:function(json){
-			
-			var html = "";
-			if(start=="1" && json.length == 0) { // null쓰는게 아니라 요소가 없으면 ==0으로 해야함.
-				// 처음부터 데이터가 존재하지 않는 경우
-	    		// !!! 주의 !!!
-	    		// if(json == null) 이 아님!!!
-	    		// if(json.length == 0) 으로 해야함!!
-	    		html += "건강 정보 게시글 준비 중~";
-	    		
-	    		// HIT 상품 결과를 출력하기
-	    		$("#photo").html(html);
-
-			} else {
-				// 데이터가 존재하는 경우
-
-				$.each(json, function(index, item){
-					
-					html += "<div class='moreProdInfo'><a href='/MyMVC/shop/prodView.up?pnum="+item.pnum+"'><img width='120px;' height='130px;' src='/MyMVC/images/"+item.pimage1+"'/></a>"
-			          + "<br/>"
-			          + "제품명 : "+item.pname+"<br/>"
-			          +"</div>";
-			          
-					if((index+1) % 4 == 0){
-						html += "<br/>";
-					}
-					
-				});
-				
-				//HIT 상품 결과를 출력하기
-				$("#displayHIT").append(html);				
-				
-	    		//countHIT에 지금까지 출력된 상품의 개수를 누적해서 기록한다.
-	    		$("#countHIT").text( Number($("#countHIT").text()) + json.length );	//<span>태그의 텍스트
-	    		
-	    		// 더보기... 버튼을 계속해서 클릭하여 countHIT 값과 totalHITCount 값이 일치하는 경우 
-				if($("#countHIT").text() == $("#totalHITCount").text() ){
-					$("#end").html("더이상 조회할 제품이 없습니다.");
-				}
-	    		// header.jsp 의 하단에 표신된 div content의 height값을 구해서, header.jsp의 div sideinfo의 height값으로 설정하기
-				func_height(); // footer.jsp에 있음.
-			}
-		},
-		error: function(request, status, error){
-			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-		}
-	}); 
-
-</script>  -->
-
 </head>
 
 <div class="container">
@@ -526,7 +481,7 @@ function goInfoView(infoSeq) {
 							<div id="search_bar_left" class="total">전체 ${totalCount}건</div>
 							<div id="search_bar_right">
 								<input id="noticeSearchWord" name="searchWord" type="text" placeholder="검색어를 입력해 주세요." />
-								<input id="search_button" onclick="getNoticeBoard();" type="button" value="검색" /> 
+								<input id="searchButton" onclick="getNoticeBoard();" type="button" value="검색" /> 
 							</div>
 						</div>
 					</div>	
@@ -565,7 +520,7 @@ function goInfoView(infoSeq) {
 							<div id="search_bar_left" class="total">전체 ${totalCount}건</div>
 							<div id="search_bar_right">
 								<input id="noticeSearchWord2" name="searchWord" type="text" placeholder="검색어를 입력해 주세요." />
-								<input id="search_button" onclick="getHealthInfoBoard();" type="button" value="검색" /> 
+								<input id="searchButton" onclick="getHealthInfoBoard();" type="button" value="검색" /> 
 							</div>
 						</div>
 					</div>	
@@ -579,7 +534,7 @@ function goInfoView(infoSeq) {
 			         	<span id="end" style="font-size: 16pt; font-weight: bold; color: red;"></span>
 			         	<button type="button" id="photo" value="">더보기</button>
 			         	<span id="totalCount">${totalCount}</span>   
-			         	<span id="countHIT">0</span>
+			         	<span id="countHIT" style="color: #ffffff;"></span>
 			       	</div>
 		       
 		       
