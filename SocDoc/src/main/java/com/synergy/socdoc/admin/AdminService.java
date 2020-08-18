@@ -331,6 +331,12 @@ public class AdminService implements InterAdminService {
 		return n;
 	}
 	
+	// 모달창에서 병원정보 신청 반려
+	@Override
+	public int rejectUpdate(HashMap<String, String> paraMap) {
+		int n = dao.rejectUpdate(paraMap);
+		return n;
+	}
 	
 
 }

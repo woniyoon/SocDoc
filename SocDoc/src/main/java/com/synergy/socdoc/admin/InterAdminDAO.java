@@ -82,4 +82,6 @@ public interface InterAdminDAO {
 
 	int delHealthInfo(String infoSeq); // 건강정보 상세 글보기에서 삭제하기
 
+	int rejectUpdate(HashMap<String, String> paraMap); // 모달창에서 병원정보 신청 반려
+
 }

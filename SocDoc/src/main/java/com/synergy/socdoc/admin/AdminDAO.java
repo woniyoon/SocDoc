@@ -316,5 +316,12 @@ public class AdminDAO implements InterAdminDAO {
 		return n;
 	}
 	
+	// 모달창에서 병원정보 신청 반려
+	@Override
+	public int rejectUpdate(HashMap<String, String> paraMap) {
+		int n = sqlsession.update("admin.rejectUpdate", paraMap);
+		return n;
+	}
+	
 
 }

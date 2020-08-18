@@ -422,9 +422,10 @@
   		<result property="dept" 				column="dept" 			javaType="String"/>
   		<result property="info" 				column="info" 			javaType="String"/>
   		<result property="submitId" 			column="submitId" 		javaType="String"/>
+  		<result property="reason" 				column="reason" 		javaType="String"/>
    	</resultMap>
    	<select id="getHpInfoDetail" parameterType="HashMap" resultMap="hpDetailMap">
-		select hpSeq, hpName, mainImg, address, phone, dept, info, submitId 
+		select hpSeq, hpName, mainImg, address, phone, dept, info, submitId, reason 
 		from hpApplication where submitId = #{submitId}
   	</select>   
   	
@@ -505,10 +506,21 @@
 		
     </update>
 	
+	<!-- 병원정보 신청 반려  -->
 	<update id="updateRejectInfo" parameterType="String">
 			update hpApplication set status = 2
 	    	where submitId = #{submitId}
 	</update>
+	<!-- 모달창에서 병원정보 신청 반려 -->
+	<!-- <update id="rejectUpdate" parameterType="String">
+			update hpApplication set status = 2, reason #{reason}
+	    	where submitId = #{submitId} 
+	</update> -->
+	<update id="rejectUpdate" parameterType="HashMap">
+			update hpApplication set status = 2, reason = #{reason}
+	    	where submitId = #{submitId} 
+	</update>
+	
 	
 	<resultMap type="HashMap" id="updatedSchedule">
 		<result property="hpSeq" column="hpSeq" javaType="String"></result>

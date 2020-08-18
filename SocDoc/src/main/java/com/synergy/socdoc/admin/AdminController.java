@@ -302,7 +302,7 @@ public class AdminController {
 		
 		return mav;
 	}
-	/////////////// 여기
+
 	// 병원회원 상세정보 모달로 보기
 	@ResponseBody
 	@RequestMapping(value="/showDetail.sd", produces="text/plain;charset=UTF-8")
@@ -484,6 +484,7 @@ public class AdminController {
    		result.addProperty("dept", hpDetail.get("dept"));
    		result.addProperty("info", hpDetail.get("info"));
    		result.addProperty("submitId", hpDetail.get("submitId"));
+   		result.addProperty("reason", hpDetail.get("reason"));
    		
 		// 병원 영업시간 가져오기
    		JsonArray scheduleArr = new JsonArray();
@@ -528,7 +529,8 @@ public class AdminController {
 		
 		return mav;
 	}
-	/* 병원정보 신청 반려 */
+	/*
+	 병원정보 신청 반려 
 	@RequestMapping(value="/rejectInfo.sd", method = RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView confirmUpdate_rejectInfo(HttpServletRequest request, @RequestParam("infock") String[] infock, ModelAndView mav) {
@@ -549,7 +551,34 @@ public class AdminController {
 		
 		return mav;
 	}
-
+	*/
+	
+	/* 모달창에서 병원정보 신청 반려 */
+	@RequestMapping(value="/rejectModal.sd", method = RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView rejectInModal(HttpServletRequest request, ModelAndView mav) {
+		/*
+		String submitId = request.getParameter("submitId");
+		int n = service.rejectUpdate(submitId);
+		return mav;
+		*/
+		
+		String submitId = request.getParameter("submitId");
+		String reason = request.getParameter("reason");
+		
+		HashMap<String, String> paraMap = new HashMap<>();
+		paraMap.put("submitId", submitId);
+		paraMap.put("reason", reason);
+		
+		int n = service.rejectUpdate(paraMap);
+		
+		mav.addObject("loc",request.getContextPath()+"/hospitalInfo.sd");
+	    mav.setViewName("msg");
+		
+		return mav;
+		
+		
+	}
 	
 	
 	/* 공지사항관리 */
@@ -983,9 +1012,6 @@ public class AdminController {
         return json;
 
 	}
-	
-	
-	
 	
 	
 	/* 후기관리 */

@@ -189,7 +189,7 @@
       height:25px;
    }
    
-   .review{
+   .reason{
       width:100%;
       height:70px;
       margin-bottom: 5px;
@@ -257,8 +257,8 @@
             <p>전체 등록 수 : ${totalCount}명</p>		
 			
 			 --%>
-			<form name="updateFrm">
-				<table class="table table-hover" style="text-align: center;">
+<!-- 			<form name="updateFrm">
+ -->				<table class="table table-hover" style="text-align: center;">
 					<tr>
 						<th>선택</th>
 						<th>아이디</th>
@@ -294,9 +294,9 @@
 					<input type="hidden" id="hpSeq" name="hpSeq" />
         <%--<button id="updateBtn" onclick="goUpdate('${hpvo.hpSeq}')" data-toggle="modal" data-target="#myModal">승인</button> --%> 
             <button id="updateBtn" data-toggle="modal" data-target="#myModal">승인</button>
-            <button id="rejectBtn" data-toggle="modal" data-target="#myModal" onclick="reject();">반려</button>
-		</form>
-            
+            <!-- <button id="rejectBtn" data-toggle="modal" data-target="#myModal" onclick="reject();">반려</button> -->
+<!-- 		</form>
+ -->            
 		</div>
 		
 		<div align="center">
@@ -304,7 +304,7 @@
 		</div>
 		
 		
-		<!-- Modal section -->
+		<!----------------------------- Modal section  ----------------------------->
 		<div class="modalContainer hidden">
 		<div class="modalOverlay">
 			<div class="modalContent" align="center">
@@ -359,7 +359,7 @@
 				      </div>
 						      
 				      <div>
-				         <textarea id="review" name="review" class="review" maxlength="199" placeholder="반려사유 작성란"></textarea>
+				         <textarea id="reason" name="reason" class="reason" maxlength="199" placeholder="반려사유 작성란"></textarea>
 				      </div>
 				      
 				 -->
@@ -408,6 +408,10 @@
 			saveIds();
 		});
 		
+		$("#noBtn").click(function() {
+			rejectInModal();
+		});
+		
 	});
 	
 	<%-- 
@@ -441,6 +445,7 @@
 	                if(json != null) {
 	              	 	console.log(json.address);
 
+	              	 	html +="<form name='updateFrm'>";
 	               		html += "<div>";
  	               		html += "<span class='hospitalName'>"+json.hpName+"</span>";
 	               		html += "</div>";
@@ -481,8 +486,12 @@
 	                	html += "</div>";
 	                	html += "</div>";
 	                	html += "<div>";
-	                	html += "<textarea id='review' name='review' class='review' maxlength='199' placeholder='반려사유 작성란'></textarea>";
-	                	html += "</div>";
+/* 	                	html += "<form id='txtFrm' name='txtFrm'>";
+ */	                	html += "<input type='hidden' name='submitId' value='"+json.submitId+"'/>";
+	                	html += "<textarea id='reason' name='reason' class='reason' maxlength='199' placeholder='반려사유 작성란'></textarea>";
+/* 	                	html += "</form>";
+ */	                	html += "</div>";
+	                	html += "</form>";
 	                	
 	 				}
 	 				
@@ -601,6 +610,32 @@
 	       }
 	     
         }	 
+	}
+	
+	
+	function rejectInModal() {
+		
+/* 		var form = document.txtFrm;
+ */		
+		if($("#reason").val().trim()=='') {
+			alert("반려사유를 작성해주세요!");
+			$("#reason").focus();
+/* 			form.reason.focus();
+ */			return;
+		}
+		
+		var con = confirm("반려시키겠습니까?");
+        
+        if(con == true) {
+     	   var frm = document.updateFrm;
+            frm.method = "GET";
+            frm.action = "<%= request.getContextPath()%>/rejectModal.sd"
+            frm.submit();
+        }
+       	else if(con == false){ 
+           	return;
+	    }
+		
 	}
 
 </script>	
