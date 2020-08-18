@@ -30,19 +30,11 @@ public interface InterReserveService {
 
 		List<HashMap<String, String>> getOpeningHours(String hpSeq);	// 특정 병원의 영업시간 가져오기
 
-		//int getTotalCount(HashMap<String, String> paraMap);
+		int makeReservation(HashMap<String, String> paraMap); // 예약완료 페이지 요청 
 
-		//List<HashMap<String, String>> hpinfovoList(HashMap<String, Object> paraMap);
+		String getReservSeq(HashMap<String, String> paraMap); // 예약시퀀스 가져오기(예약번호)
 
-		/*List<HpInfoVO> searchWithPaging(HashMap<String, String> paraMap);
-
-		List<HpInfoVO> hpinfovoListSearchWithPaging(HashMap<String, String> paraMap);
-*/
-		
- 
-		//List<HashMap<String, String>> hpinfovoList(HashMap<String, Object> paraMap);
-		// 조건에 만족하는 병원 가져오기 
-
+		MemberVO selectMemberInfo(String userid); 
 
 	}
 

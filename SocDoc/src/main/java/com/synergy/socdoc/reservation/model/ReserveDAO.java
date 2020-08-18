@@ -82,6 +82,28 @@ public class ReserveDAO implements InterReserveDAO {
 		return openingHours;
 	}
 
+	// 예약완료 페이지 요청 
+	@Override
+	public int makeReservation(HashMap<String, String> paraMap) {
+		System.out.println("dao에서 셀렉트 전 ");
+		int n = sqlsession.insert("test.makeReservation",paraMap);
+		System.out.println("dao에서 셀렉트 후 ");
+		return n;
+	}
+
+	// 예약번호 가져오기
+	@Override
+	public String getReservSeq(HashMap<String, String> paraMap) {
+		String reservseq = sqlsession.selectOne("test.getReservSeq", paraMap);
+		return reservseq;
+	}
+
+	@Override
+	public MemberVO selectMemberInfo(String userid) {
+		MemberVO mvo = sqlsession.selectOne("test.selectMemberInfo", userid);
+		return mvo;
+	}
+
 
 
 	

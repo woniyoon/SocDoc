@@ -10,33 +10,25 @@ public interface InterReserveDAO {
 
 	String getContent();
 
-	MemberVO viewMyinfo(String userid); // 환자정보 가져오기(내자신)
+	MemberVO viewMyinfo(String userid); // 환자정보 가져오기(나)
 
-	//List<HashMap<String, String>> hpinfovoList(HashMap<String, String> paraMap); // 병원정보 정렬하기
+	List<String> deptIdList(); // 진료과목 가져오기(병원) 
 
-	List<String> deptIdList(); // 진료과목 가져오기 
+	int getTotalCount(HashMap<String, Object> paraMap); // 병원 전체 갯수
 
-	int getTotalCount(HashMap<String, Object> paraMap);
+	List<HashMap<String, String>> hpinfovoList(HashMap<String, Object> paraMap); // 병원 목록 가져오기(검색기능, 페이징 처리안한)
 
-	List<HashMap<String, String>> hpinfovoList(HashMap<String, Object> paraMap);
+	List<HpInfoVO> searchwWithPaging(HashMap<String, Object> paraMap); // 병원 목록 가져오기(검색기능, 페이징 처리한)
 
-	List<HpInfoVO> searchwWithPaging(HashMap<String, Object> paraMap);//검색기능있는 병원목록보여주기
+	List<String> getHours(HashMap<String, String> paraMap);	// 예약가능한 시간 가져오기(병원달력)
 
-	List<String> getHours(HashMap<String, String> paraMap);	// 가능한 시간대 가져오기 
+	List<HashMap<String, String>> getOpeningHours(String hpSeq); // 병원 영업시간 가져오기 
 
-	List<HashMap<String, String>> getOpeningHours(String hpSeq);	// 특정 병원의 영업시간 가져오기 
+	int makeReservation(HashMap<String, String> paraMap); // 예약완료페이지 요청 
 
-	//List<HashMap<String, String>> hpinfovoList(HashMap<String, Object> paraMap);
+	String getReservSeq(HashMap<String, String> paraMap); // 예약시퀀스 가져오기 
 
-	//List<HpInfoVO> searchWithPaging(HashMap<String, String> paraMap);
-/*
-	List<HpInfoVO> hpinfovoListSearchWithPaging(HashMap<String, String> paraMap);
-
-	List<HpInfoVO> searchWithPaging(HashMap<String, String> paraMap);
-
-	List<HpInfoVO> boardListSearchWithPaging(HashMap<String, String> paraMap);
-*/
-
+	MemberVO selectMemberInfo(String userid);
 
 
 }

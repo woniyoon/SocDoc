@@ -36,19 +36,6 @@ public class ReserveService implements InterReserveService {
 		return deptIdList;
 	}
 
-	/*// === 병원목록 가져오기 ===
-	@Override
-	public List<HashMap<String, String>> hpinfovoList(HashMap<String, Object> paraMap) {
-		List<HashMap<String, String>> hpinfovoList = dao.hpinfovoList(paraMap);
-		return hpinfovoList;
-	}*/
-
-	/*@Override
-	public int getTotalCount(HashMap<String, String> paraMap) {
-		int n = dao.getTotalCount(paraMap);
-		return n;
-	}*/
-
 
 	@Override
 	public List<HashMap<String, String>> hpinfovoList(HashMap<String, Object> paraMap) {
@@ -57,11 +44,11 @@ public class ReserveService implements InterReserveService {
 	}
 	
 	// 먼저 총 게시물 건수(totalCount)를 구해와야한다
-			@Override
-			public int getTotalCount(HashMap<String, Object> paraMap) {
-				int n = dao.getTotalCount(paraMap);
-				return n;
-			}
+	@Override
+	public int getTotalCount(HashMap<String, Object> paraMap) {
+		int n = dao.getTotalCount(paraMap);
+		return n;
+	}
 
 	//검색기능있는 병원목록보여주기
 	@Override
@@ -81,28 +68,25 @@ public class ReserveService implements InterReserveService {
 		List<HashMap<String, String>> openingHours = dao.getOpeningHours(hpSeq);
 		return openingHours;
 	}
-	
-	
 
-/*	@Override
-	public List<HpInfoVO> hpinfovoListSearchWithPaging(HashMap<String, String> paraMap) {
-		List<HpInfoVO> hpinfovoList = dao.hpinfovoListSearchWithPaging(paraMap);
-		return hpinfovoList;
+	@Override
+	public int makeReservation(HashMap<String, String> paraMap) {
+		int n = dao.makeReservation(paraMap);
+		return n;
 	}
 
 	@Override
-	public List<HashMap<String, String>> hpinfovoList(HashMap<String, String> paraMap) {
-		List<HashMap<String, String>> hpinfovoList = dao.hpinfovoList(paraMap);
-		return hpinfovoList;
+	public String getReservSeq(HashMap<String, String> paraMap) {
+		String reservseq = dao.getReservSeq(paraMap);
+		return reservseq;
 	}
 
 	@Override
-	public List<HpInfoVO> searchWithPaging(HashMap<String, String> paraMap) {
-		List<HpInfoVO> hpinfovoList = dao.hpinfovoListSearchWithPaging(paraMap);
-		return hpinfovoList;
+	public MemberVO selectMemberInfo(String userid) {
+		MemberVO mvo = dao.selectMemberInfo(userid);
+		return mvo;
 	}
-*/
-
+	
 
 
 

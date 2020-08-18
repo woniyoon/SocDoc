@@ -81,11 +81,18 @@
 		        select row_number() over(order by hpseq desc) AS rno
 		        ,hpSeq,dept,mainImg,hpName,info
 		        from hospitalInfo
+		        where 1=1
 		       <!--  where 11=11 -->
 		        <if test="searchWord != ''">
 		        	<!-- and lower(${searchType}) like '%' || lower(#{searchWord}) || '%'  -->
-		        	where ${searchType} like '%' || #{searchWord} || '%'
+		        	and ${searchType} like '%' || #{searchWord} || '%'
 		    	</if>
+		    	<if test="deptIdArr != null">
+         			and dept in
+         			<foreach collection="deptIdArr" index="i" open="(" separator="," close=")">   <!-- collection명 또는 배열명  -->
+      					 '${deptIdArr[i]}'
+      				</foreach>  
+		    	</if> 
 		       ) V
 		where V.rno between #{startRno} and #{endRno}
 	</select>
@@ -121,4 +128,27 @@
 		on s.close = t.hourSeq
 		order by day asc
 	</select>
+	
+	<select id="getReservSeq" parameterType="HashMap" resultType="String">
+		select reservSeq
+			from
+			(
+			select rownum, reservSeq
+			from reservation 
+			where userid =#{userid} and hpSeq = #{hpSeq} and to_char(visitDate, 'yyyy-mm-dd') = #{visitDate}
+			order by reservSeq desc
+			)
+			where rownum = 1
+					
+	</select>
+	
+<insert id="makeReservation"  parameterType="HashMap">
+   	insert into reservation(reservseq, userid, hpseq, hourseq, visitdate, day)
+    values(RESERVSEQ.nextval, #{userid}, #{hpSeq}, #{hourSeq}, to_date(#{visitDate}), #{day})
+</insert>
+
+<select id="selectMemberInfo" parameterType="String" resultType="com.synergy.socdoc.member.MemberVO">
+	select * from member where userid = #{userid}
+</select>
+
 </mapper>

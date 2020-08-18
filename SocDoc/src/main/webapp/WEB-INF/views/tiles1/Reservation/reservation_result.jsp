@@ -146,81 +146,102 @@ tr.tr{
 	<h3>인터넷 진료예약 접수가 완료되었습니다.</h3>
 	</div>
 	
-
+<c:if test="${not empty member}">
        <div id="infoChange">
          <table class="type05" style="border-top: solid 1px black; margin: 0 auto;">
             <tbody>
             <tr>
                  <th scope="row">예약자</th>
                  <td>
-                   홍길동
+                   ${member.name}
                </td>
              </tr>
              <tr>
-               <th scope="row">환자번호</th> 
+               <th scope="row">예약번호</th> 
                <td>
-            123456789
+           		   ${reservId}
                </td>
             </tr> 
             <tr>
                <th scope="row">병원/진료과</th> 
                <td>
-            손유나닥터의원/피부과
+            		${hpName}
                </td>
             </tr> 
             <tr>
                <th scope="row">예약일</th> 
                <td>
-            2020-07-30
+            		${visitDate}
                </td>
             </tr> 
              <tr>
                  <th scope="row">연락처 </th>
                  <td>
-           010-1234-5678
+           		${member.phone}
                </td>
              </tr>
              <tr>
                  <th scope="row">이메일주소 </th>
                  <td>
-            hongkd@naver.com
+            	${member.email}
                </td>
               </tr>
-              <tr>
+              <!-- <tr>
                  <th scope="row">주소 </th>
                  <td>
                        서울특별시 청담동 
                </td>
-            </tr>   
+            </tr>    -->
             <tr>
                <th scope="row">키/몸무게/혈액형</th> 
                <td>
-            160cm / 50kg / A형
+               <c:if test="${ member.height != null || member.weight != null || member.bloodType != null}">
+            	${member.height } / ${member.weight } / ${member.bloodType }
+            	 </c:if> 
+            	<c:if test="${ member.height == null && member.weight == null && member.bloodType == null}">
+            	 정보없음
+            	 </c:if>
                </td>
             </tr>         
              <tr>
                <th scope="row">알레르기</th> 
                <td>
-                      없음
+               <c:if test="${ member.allergy != null}">
+                   ${member.allergy }
+               </c:if> 
+               <c:if test="${ member.allergy == null}">
+                   	정보없음
+               </c:if> 
+               
                </td>
             </tr>   
             <tr>
                <th scope="row">병력</th> 
                <td>
-            없음
+ 			<c:if test="${ member.history != null}">
+                   ${member.history}
+               </c:if> 
+               <c:if test="${ member.history == null}">
+                   	정보없음
+               </c:if> 
                </td>
             </tr> 
             <tr>
                <th scope="row">복용약</th> 
                <td>
-            없음
+               		<c:if test="${ member.medicine != null}">
+                   ${member.medicine }
+               </c:if> 
+               <c:if test="${ member.medicine == null}">
+                   	정보없음
+               </c:if> 
                </td>
             </tr> 
              </tbody>
          </table>
        </div>
 <!-- 회원정보 및 예약정보 끝 -->
-
+</c:if>
 	<div id="button">
 			<a class="btncheck" onclick="">예약현황조회</a>
 			<a class="btncancel" onclick="">예약취소</a>

@@ -58,7 +58,7 @@
       float: right;
       width: 30%;
       height: 250px;
-      background-color: skyblue;
+      background-color: #157bb9;
       color: white;
 }
 .check_box li{
@@ -95,7 +95,7 @@ select#egdgCode{
          width: 70px;
 }
 .reserve_btn{ /* 예약확정하기 버튼*/
-      background-color: skyblue;
+      background-color: #157bb9;
       color: white;
       font-size: 15pt;
       font-weight: bold;
@@ -128,7 +128,7 @@ select#egdgCode{
 	font-size: 10pt;
 	width: 110px;
 	height: 40px;
-	background-color: skyblue;
+	background-color: #157bb9;
 	cursor: pointer;
 }
 .selecthospital:hover{
@@ -136,7 +136,7 @@ select#egdgCode{
 	font-size: 10pt;
 	width: 110px;
 	height: 40px;
-	background-color: skyblue;
+	background-color: #157bb9;
 	color:white;
 	cursor: pointer;
 	 opacity: 0;  
@@ -154,6 +154,15 @@ select#egdgCode{
     width: 100%;
     height: 100%;
     z-index: 1000;   /* 달력의 화살표가 튀어나오지 않게 방지 */
+}
+
+.modalContainer2 {
+	position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;   
 }
 
 .modalOverlay {
@@ -214,7 +223,19 @@ select#egdgCode{
 	margin-left: 20%;
 }
 button.click{
-  background:skyblue;
+  background:#157bb9;
+  color:#fff;
+  border:none;
+  position:relative;
+  height:30px;
+  font-size:10pt;
+  padding:0 2em;
+  cursor:pointer;
+  transition:800ms ease all;
+  outline:none;
+}
+.click{
+  background:#157bb9;
   color:#fff;
   border:none;
   position:relative;
@@ -227,7 +248,11 @@ button.click{
 }
 button.click:hover{
   background:#fff;
-  color:skyblue;
+  color:#157bb9;
+}
+.click:hover{
+  background:#fff;
+  color:#157bb9;
 }
 button.click:before,button.click:after{
   content:'';
@@ -236,10 +261,26 @@ button.click:before,button.click:after{
   right:0;
   height:2px;
   width:0;
-  background: skyblue;
+  background: #157bb9;
+  transition:400ms ease all;
+}
+.click:before,.click:after{
+content:'';
+  position:absolute;
+  top:0;
+  right:0;
+  height:2px;
+  width:0;
+  background: #157bb9;
   transition:400ms ease all;
 }
 button.click:after{
+  right:inherit;
+  top:inherit;
+  left:0;
+  bottom:0;
+}
+.click:after{
   right:inherit;
   top:inherit;
   left:0;
@@ -249,16 +290,23 @@ button.click:hover:before,button.click:hover:after{
   width:150px;
   transition:800ms ease all;
 }
+.click:hover:before,.click:hover:after{
+  width:150px;
+  transition:800ms ease all;
+}
+#timebox{
+	border: solid 1px red;
+}
    </style>
 <script>
-var selectedHpSeq = -1;
-$(document).ready(function() {
-	   
 
-		// =========  [진료과목] 검색버튼 클릭시 ========= 
-		$("#deptSearch").click(function(){
+var selectedHpSeq = -1;
+
+$(document).ready(function() {
+		
+			// 진료과목 검색하기
+			$("#deptSearch").click(function(){
 	
-			alert("진료과목검색");
 			var arrDeptId = new Array(); // 체크값들의 저장소가 될 배열을 생성
 			
 			// 체크박스 선택된 값들을 불러온다. 
@@ -268,12 +316,12 @@ $(document).ready(function() {
 				if(bool == true) {
 					// 체크박스에 체크가 되었으면 배열속에 체크된 값을 저장한다.
 					arrDeptId.push($(this).val()); // 배열속에 넣는 방식은 push 를 사용한다. 
-					
 				}
 			});
 			
 			var sDeptIdes = arrDeptId.join(); // 배열을 join 을 통해서 문자열로 만든다.
-			
+		
+			alert(sDeptIdes);
 			var frm = document.deptFrm;
 			frm.sDeptIdes.value = sDeptIdes;
 			
@@ -282,12 +330,11 @@ $(document).ready(function() {
 			frm.submit();
 			
 		});
-		// === 체크박스 유지시키기 시작 === //
+		// 진료과목 체크박스 유지시키기 
 		var sDeptIdes = "${sDeptIdes}";
-		//console.log(sDeptIdes);
 		
 		if(sDeptIdes != ""){
-			var arrDeptId = sDeptIdes.split(","); // 배열로 쪼갠다 (배열타입이다.)
+			var arrDeptId = sDeptIdes.split(","); // 배열로 쪼갠다 (배열타입이다)
 			
 			$("input:checkbox[name=dept]").each(function(){
 				for(var i=0; i<arrDeptId.length; i++){
@@ -297,15 +344,14 @@ $(document).ready(function() {
 					}
 				}
 			});
-		}// =========  [진료과목] 검색버튼 클릭시 끝  ========= 
+		}// end of 진료과목찾기 끝
 	   
 
-			
-		  
+	   // 병원명 찾기 검색 
 	   $("#searchWord").keydown(function(event){
 	          if(event.keyCode == 13){
-	        	  //엔터를 했을경우
-	             goSearch();
+	        	  
+	             goSearch(); //엔터를 했을경우
 	             
 	          }
 	       });
@@ -317,60 +363,75 @@ $(document).ready(function() {
 	       } 
 	       
 	       
+	       // Modal 예약하시겠습니까?
+	       $("#visitorRow2").each(function() {
+		         $(this).click(function(e) {
+		            // 체크박스 클릭시, 이벤트를 취소
+		            if (e.target.type == "checkbox") {
+		               e.stopPropagation();
+		               //console.log("event canceled!!");
+		            } else {
+		               $(".modalContainer2").removeClass("hidden");
+		               //console.log("event going on");
+		            }
+		         });
+		      });
+	       
 	       
 	   
-	       // 모달을 띄우기 위해 테이블 행 클릭 이벤트 추가
-		      $("#visitorRow").each(function() {
+	        // Modal창
+		      $("#visitorRow3").each(function() {
 		         $(this).click(function(e) {
 		            // 체크박스 클릭시, 이벤트를 취소
 		            if (e.target.type == "checkbox") {
 		               e.stopPropagation();
 		               console.log("event canceled!!");
 		            } else {
-		               $(".modalContainer").removeClass("hidden");
+		               $(".modalContainer3").removeClass("hidden");
 		               console.log("event going on");
 		            }
 		         });
 		      }); // =========  모달창  끝 =========
+		    	  
+		    
 
 			
 	   });
 		  
 	
-function closeModal() {
-	      $(".modalContainer").addClass("hidden");
+	   function closeModal() {
+	      $(".modalContainer3").addClass("hidden");
 	   }
 		// =========  모달창  ========= 
-	  console.log("document ready function"); 
+	  //console.log("document ready function"); 
 	      
-	 
 		
-			 
-	   
-	   
-		// =========  주르륵 효과  =========
-	   /* function postnTr(){
-	      $('#postnTr').toggleClass("hide");
-	      if($('#postnTab').text() == "▼"){
-	         $('#postnTab').text("▲");
-	      }else
-	         $('#postnTab').text("▼");
-	   } */// =========  주르륵 효과 끝  ==================  달력  =========
+	  function closeModal() {
+	      $(".modalContainer2").addClass("hidden");
+	   }
+		// =========  모달창  ========= 
+	  //console.log("document ready function");
+		
 
 
-	// ㄷ	   
+	// 달력 날짜선택, 시간선택 
 	$(function() {
 		$('.calendar').pignoseCalendar({
-					click : function(event, context) {
+					lang: "ko",
+					click : function(event, context) {	
 						
 						
 							console.log(selectedHpSeq);
 						// 선택된 날짜
 						var date = context.current[0]._i;
 		        
-		        // 선택된 날짜의 요일
-		        var day = context.current[0]._d.getDay();
-						if(selectedHpSeq == -1) {
+				        // 선택된 날짜의 요일
+				        var day = context.current[0]._d.getDay();
+						
+				        $("input#visitDate").prop("value", date);
+				        $("input#day").prop("value", day);
+				        
+				        if(selectedHpSeq == -1) {
 							alert("병원을 선택해주세요!");
 							return;
 						} else {
@@ -384,21 +445,28 @@ function closeModal() {
 					              // json에 담겨진 시작시간부터 종료시간까지 1시간씩 증가시키면서 시간대 추가
 					              // 더불어 그 시간대에 몇 명이 예약했는지 받아옴
 					              console.log(json);
-					              var html = "<ul>";
+					              var html = "<div id='timebox'>";
 					              for(var i=0; i<json.hours.length; i++) {
 					            	  var hour = json.hours[i];
 					            	  var numHour = Number(json.hours[i].substring(0,2));
 					            	  console.log("시간:"+hour);
+					            	  
+					            	  if(i > 0 && i % 4 == 0) {
+					            		  html += "<br>";
+					            	  }
+
 					            	  if( hour >= json.openHours.open && hour <= json.openHours.close ) {
 					            		  var hourSeq = numHour-8;
 					            		  //html += "<li onclick='selectTime("+hourSeq+")'>"+hour+"</li>"
-					            		  html += "<a href='javascript:selectTime("+hourSeq+")' style='margin-right: 10%;'>"+hour+"</span>"
+					            		  html += "<a href='javascript:selectTime("+hourSeq+")' style='margin-right: 10%;'>"+hour+"</a>"
 					            	  }
 					              }
 					            	
-					              html+= "</ul>";
-					              $("#timeOptions").html(html);
+					              html+= "</div>";
 					              
+					              var time = $("#timeOptions").html(html);
+					             
+					              // 받은 시간 환자정보box에 보여주기
 					              var dateandtime = document.getElementById("dateandtime");
 					              dateandtime.innerText = date;
 					            
@@ -416,160 +484,103 @@ function closeModal() {
 	});
 		});	
 
-	   
-	  
 
-	/* $(function() {
-	    $("#time1").timepicker({
-	        timeFormat: 'h:mm p',
-	        interval: 60,
-	        minTime: '10',
-	        maxTime: '16:00',
-	        defaultTime: '11',
-	        startTime: '10:00',
-	        dynamic: false,
-	        dropdown: true,
-	        scrollbar: true        
-	    });
-	}); */	
-		
-	
 	// 시간대 선택 
-	function selectTime(selectedHpSeq){
+	function selectTime(selectedHourSeq){
 		
 		// alert(hour);
-		   
+		   $("input#hourSeq").prop("value", selectedHourSeq);
 		var time = document.getElementById("time");
-		time.innerText = selectedHpSeq; 
+		time.innerText = (selectedHourSeq+8) +":00"; 
 	 }
 		
-		
-/* 	$('.calendar').pignoseCalendar({
-	    click: function(event, context) { 
-	        
-	         var $this = $(this);
-	         
-
-	       Socdocsocdoc2  // You can access event parameter.
-	         event.preventDefault();
-
-	         // You can get target element in `context` variable, This element is same `$(this)`.
-	         var $element = context.element;
-	         
-
-	         // You can also get calendar element, It is calendar view DOM.
-	         var $calendar = context.calendar;
-	    }
-	}); */
 
 	function goSearch(){
-		 	alert("병원명 검색");
+		 	//alert("병원명 검색");
 			 var frm = document.searchFrm;
 			 
 			 var searchWord = frm.searchWord.value;
 			 //console.log(searchWord);
-			/*  if(searchWord.trim() == ""){
-				 alert("병원명을 입력하세요!");
+			 if(searchWord.trim() == ""){
+				 alert("병원명을 입력해주세요.");
 				 return;
-			 }  */
+			 } 
 			 
 			 frm.method = "GET";
 			 frm.action = "<%= ctxPath%>/reserve.sd";
 			 frm.submit();
-			 
-			
-			 
+
 		 } // end of function goSearch(){}-----------------------
 
 
 	
-// ================ 예약확정하기 ================  
-function goReserve(){
+	// 예약 확정하기
+	function goReserve(){
 	   
 	   if(${sessionScope.loginuser == null}){
    		alert("예약하시려면 먼저 로그인을 해주세요.");
-   	return;	
+   		return;	
 	   }
 	   // 병원선택을 안했을 경우  === 
-	   /*var hospital = document.getElementById("selecthospital").value;
-	   
-	   if(isNaN(Number(selecthospital))){
-		   alert("병원을 선택하세요");
-	   	  return;
-	   } */
+	   var hospital = document.getElementById("selecthospital").value;
+	  
 	   
 	   func_pop();
 		
 	   }
-//}// end of 예약버튼 끝 =======================
+	//} end of 예약확정하기 끝 
 
-//아임포트 API 
-	function func_pop(hpSeq,hpName,dept){		
+
+	//아임포트 API 
+	// 진료비 결제하기 
+	function func_pop(){		
 		var recieve = 5000;
-		//var frm = document.reservFrm;
-		//localStorage.setItem("recieve", $("#sumprice").text());	
-		console.log(recieve);
-		window.open("<%=ctxPath%>/Reservation/pay.sd?recieve=" + recieve, "/Reservation/reservation_result", "left=350px, top=100px, width=820px, height=600px");
-		
-		
-		
-}
+		//console.log(recieve);
+		window.open("<%=ctxPath%>/Reservation/pay.sd?recieve=" + recieve, "/Reservation/reservation_result", "toolbar=no,left=350px, top=100px, width=820px, height=600px");
+	}// end of function func_pop()
 	   
-	// ============== 병원선택 
-function selecthospital(name, dept, hpSeq){
+	
+	// 결제완료시 예약완료 페이지 요청하기
+	   function reservFrm(){
+		   
+		   var frm = document.reservFrm; // loginuser가 선택한 병원(hpSeq),예약날짜(visitDate),예약시간(hourSeq) 보내주기
+			 
+			 frm.method = "POST";
+			 frm.action = "<%= ctxPath%>/Reservation/reservation_result.sd"; 
+			 frm.submit();
+	   } // end of function reservFrm() ---- 
+
+
+
 	   
-	   //alert("ㅎㅇ");
+	   
+	// 병원 선택하기 
+	function selecthospital(name, dept, hpSeq){ // 병원이름, 진료과목, 병원seq
 	   
 	   selectedHpSeq = hpSeq;
+	   $("input#hpSeq").prop("value", hpSeq);
+	   $("input#dept").prop("value", dept);
 	   
 	   //hpanddept
-	   if(${sessionScope.loginuser == null}){
+	   /*if(${sessionScope.loginuser == null}){
 		   alert("병원을 선택하시려면 먼저 로그인을 해주세요.");
-	   }
+	   }*/
 	   
 	   var hpanddept = document.getElementById("hpanddept");
-	   hpanddept.innerText = name + " / " + dept;
+	   hpanddept.innerText = name + " / " + dept;  // (user)환자정보 box안에 클릭한 병원 정보 넣어주기
+
+	   $("input#hpName").prop("value", name + " / " + dept);
+	   
+	   name = $("#hpName").val();
+	   dept = $("#dept").val();
+	   hour = $("#hour").val();
+	   
 	   
 	   $('#selecthospital').removeClass('selecthospital');
 	    $(this).addClass('selecthospital');
-	   
-	   
-}// end of 병원 선택 끝 ========================
+	}// end of function selecthospital(name, dept, hpSeq) ----- 
    
 
-$('#stime')
-    .timepicker({timeFormat:'H:i','minTime':'06:00','maxTime':'23:00','scrollDefaultNow': true }) //stime 시작 기본 설정
-    .on('changeTime',function() {                           //stime 을 선택한 후 동작
-        var from_time = $("input[name='stime']").val(); //stime 값을 변수에 저장
-        $('#etime').timepicker('option','minTime', from_time);//etime의 mintime 지정
-        if ($('#etime').val() && $('#etime').val() < from_time) {
-            $('#etime').timepicker('setTime', from_time);
-//etime을 먼저 선택한 경우 그리고 etime시간이 stime시간보다 작은경우 etime시간 변경
-        }  
-    });
- 
-$('#etime').timepicker({timeFormat:'H:i','minTime':'06:00','maxTime':'23:00'});//etime 시간 기본 설정
-
-
-
-	// ================ 병원 검색 ================  
-//function Searchgo(){  
-   
-   //var h_area1 = $("#h_area1").val().trim(); 	// 시도선택
-   //var h_area2 = $("#h_area2").val().trim(); 	// 구군선택
-   //var myInput = $("#myInput").val().trim(); 	// 병원명입력창
-   
-   
-   //if(! (h_area1 == "시도선택" && h_area2 == "구군선택" && myInput == "")){ 
-       //alert("검색완료"); 
-      
-   //}else{
-   //   alert("찾으시는 병원 정보를 선택하거나 입력해주세요.");
-   // }
-	  //  }// end of 병원 검색 끝 ========================
-
-	 
-		
 </script>
    
    <!-- 전체박스 -->
@@ -577,19 +588,15 @@ $('#etime').timepicker({timeFormat:'H:i','minTime':'06:00','maxTime':'23:00'});/
    <div id="reservation_title">
    <h1 style="font-weight: bolder;">인터넷 진료예약</h1>
    </div>
-   <div class="container_find">
-   
+   <!-- 병원검색 -->
+   <div class="container_find"> 
    <form name="searchFrm">
    <label>
-         <!-- <a> -->
         <select name="searchType" id="searchType" style="height: 35px; font-size: 10pt;">
                <option value="hpName">병원명</option>
             </select>
-            <input type="text" name="margin-left:2%;" id="searchWord" placeholder="병원명을 입력하세요." size="47" autocomplete="off"/> 
-        	
+            <input type="text" name="searchWord" id="searchWord" style="margin-left:2%;" placeholder="병원명을 입력하세요." size="60" autocomplete="off"/> 
         <button type="button" id="btnSearch" class="click" onclick="goSearch()">병원명검색</button>
-        <!-- </form> -->
-        <!--  </a> -->
       	</label>
         <br/>
             <select id="h_area1" name="h_area1" onChange="cat1_change(this.value,h_area2)" >
@@ -610,25 +617,19 @@ $('#etime').timepicker({timeFormat:'H:i','minTime':'06:00','maxTime':'23:00'});/
             <option value='제주'>제주</option>
             <option value='충남'>충남</option>
             <option value='충북'>충북</option>
-              </select>
-              
-              <select id="h_area2" name="h_area2" onChange="cat2_change(this.value,h_area3)">
+            </select>
+               <select id="h_area2" name="h_area2" onChange="cat2_change(this.value,h_area3)">
                <option selected>구군선택</option>
-              </select>
-              
-              <select id="h_area3" name="h_area3">
+               </select>
+               <select id="h_area3" name="h_area3">
                <option selected>동선택</option>
-              </select>
+               </select>
             <br/>
-            
 			<br/>
-		<input type="hidden" name="hpName" />
-            </form>
-            
-            
+		    <input type="hidden" name="hpName" />
+            	</form>
             <!-- 진료과목 선택-->
             <form name="deptFrm">
-            
             <c:if test="${not empty deptIdList}">
 			<c:forEach var="deptId" items="${deptIdList}" varStatus="status">			
 				<input type="checkbox" id="${status.index}" name="dept" value="${deptId}" style="margin-left: 2%; margin-top: 1%;"/>
@@ -641,8 +642,7 @@ $('#etime').timepicker({timeFormat:'H:i','minTime':'06:00','maxTime':'23:00'});/
 		<button type="button" id="deptSearch" class="click" style="float: right;">진료과목검색</button><br/>
            <input type="hidden" name="sDeptIdes" />
         </form>
-   </div>
-   
+  	 </div>
    <!-- 시/군구/진료과목/병원검색 container 끝 -->
    
    <div class="check_box">
@@ -666,13 +666,18 @@ $('#etime').timepicker({timeFormat:'H:i','minTime':'06:00','maxTime':'23:00'});/
    	<c:if test="${not empty membervo}">
       <ul>
          <li>환자명 : ${membervo.name}</li>
-         <li><button class="btnTypecheck" id="visitorRow">환자정보확인</button><button class="btnTypecheck">최근예약</button></li>
-         <li style="font-size: 10pt;" value="hpName">병원/진료과&nbsp;:&nbsp;<span id="hpanddept"></span></li>
+         <li><button class="btnTypecheck" id="visitorRow3">환자정보확인</button><button class="btnTypecheck">최근예약</button></li>
+         <li style="font-size: 10pt;" value="hpName"><span>병원</span>/진료과&nbsp;:&nbsp;<span id="hpanddept"></span></li>
          <li style="font-size: 10pt;" value="dept">진료일시&nbsp;:&nbsp;<span id="dateandtime"></span></li>
          <li style="font-size: 10pt;" value="hour">시간&nbsp;:&nbsp;<span id="time"></span></li>  
       </ul>
       </c:if>
-      
+      <input type="hidden" name="day" id="day" value="">
+      <input type="hidden" name="hpSeq" id="hpSeq" value="">
+      <input type="hidden" name="visitDate" id="visitDate" value="">
+      <input type="hidden" name="dept" id="dept" value="">
+      <input type="hidden" name="hourSeq" id="hourSeq" value="">
+      <input type="hidden" name="hpName" id="hpName" value="">      
       </form>
    </div>
    <br>
@@ -687,7 +692,9 @@ $('#etime').timepicker({timeFormat:'H:i','minTime':'06:00','maxTime':'23:00'});/
       <!-- 병원이 존재하지 않을 경우 -->
       <c:if test="${empty hpinfovoList}">
          <tr style="padding: 50%; border: solid 1px red;">
-            <td>등록 된 병원이 없습니다.</td>
+            <td style="padding: 20%; padding-left: 20%;">
+            등록 된 <br/>
+            병원이 없습니다.</td>
          </tr>
       </c:if>
       <!-- 병원이 존재할 경우 -->
@@ -705,7 +712,7 @@ $('#etime').timepicker({timeFormat:'H:i','minTime':'06:00','maxTime':'23:00'});/
       <!-- 선택하기버튼 -->
       <%-- <button type="button" name="selecthospital" id="selecthospital" class="selecthospital"  onclick="selecthospital('${hpinfovoList.hpName}','${hpinfovoList.dept}', '${hpinfovoList.hpSeq }')">선택</button> --%>
      <!-- <a name="selecthospital" id="selecthospital" class="selecthospital">선택</a> -->
-     <a href="javascript:selecthospital('${hpinfovoList.hpName}','${hpinfovoList.dept}', '${hpinfovoList.hpSeq}')" name="selecthospital" id="selecthospital" class="selecthospital">선택</a>
+     <a href="javascript:selecthospital('${hpinfovoList.hpName}','${hpinfovoList.dept}', '${hpinfovoList.hpSeq}')" name="selecthospital" id="selecthospital" class="click">선택</a>
       </div>
       <br/>
       </td>
@@ -740,15 +747,17 @@ $('#etime').timepicker({timeFormat:'H:i','minTime':'06:00','maxTime':'23:00'});/
    
    <div id="reverse_set" style="margin-left: 13%;">
    <a style="cursor: pointer;" class="setbtn" data-toggle="modal" data-target="#myModal">
-   <button type="button" class="reserve_btn" onclick="goReserve()">예약확정하기</button></a> 
+   <!-- <button type="button" class="reserve_btn"  onclick="goReserve()">예약확정하기</button></a> --> 
+   <button type="button" class="reserve_btn" id="visitorRow2">예약확정하기</button></a>
    <%-- <a href="javascript:func_pop('${hpinfovoList.hpName}','${hpinfovoList.dept}', '${hpinfovoList.hpSeq }')" name="func_pop" id="func_pop" class="func_pop">예약확정하기</a> --%>
+
    </div>
    </div><!--  [달력/시간]설정하기 end -->
    
    
    
    <div class="container" align="center">
-   <div class="modalContainer hidden">
+   <div class="modalContainer3 hidden">
       <div class="modalOverlay">
          <div class="modalContent" align="center">
             <div class="modalContentHeader">
@@ -798,7 +807,7 @@ $('#etime').timepicker({timeFormat:'H:i','minTime':'06:00','maxTime':'23:00'});/
              <tr>
                <td>
                <button class="modalbtn" style="background-color: white;">수정신청</button></td>
-              <td><button class="modalbtn" style="background-color: skyblue;" onclick="closeModal()">확인완료</button></td>
+              <td><button class="modalbtn" style="background-color: #157bb9;" onclick="closeModal()">확인완료</button></td>
                
                </tr>
             </table>
@@ -806,6 +815,46 @@ $('#etime').timepicker({timeFormat:'H:i','minTime':'06:00','maxTime':'23:00'});/
       </div>
    </div>
 </div>
+
+
+<!-- <div class="container" align="right"> -->
+   <div class="modalContainer2 hidden">
+      <div class="modalOverlay">
+         <div class="modalContent" align="center">
+            <div class="modalContentHeader">
+            <span style="font-size: 1.2em; cursor: pointer;"
+                  onclick="closeModal()">X</span>
+            <c:if test="${empty membervo}">
+         <tr style="padding: 50%; border: solid 1px red;">
+            <td>로그인해주세요</td>
+         </tr>
+      		</c:if>
+  
+            </div>
+            <!-- ajax를 이용해, 동적으로 생성 ⬇️-->
+            <table class="visitorDetail customTable" >
+			<c:if test="${not empty membervo}">
+               <tr align="left">
+                  <h3>${membervo.name} 님 진료예약하시겠습니까?</h3>
+            </table>
+            <!-- 동적으로 생성되는 부분 ⬆️  -->
+            <table>
+             <tr>
+               <td>
+               </td>
+              <td><button class="modalbtn" style="background-color: white;" onclick="goReserve()">확인</button></td>
+              <td><button class="modalbtn" style="background-color: #157bb9;" onclick="closeModal()">취소</button></td>
+               </c:if>
+               
+               
+               </tr>
+            </table>
+             
+         </div>
+         
+      </div>
+   </div>
+<!--  </div> -->
    
    
    
