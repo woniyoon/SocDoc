@@ -119,8 +119,9 @@
     #updateBtn {
      	margin-right: 10px;
      	float: right;
+     	background-color: #0080ff;
+      	color:#fff;
 		margin-top: 30px;
-        background-color: #efefef;
         cursor: pointer;   
       	border: 1px solid #dddddd;       
       	padding: 0.25em .75em;    
