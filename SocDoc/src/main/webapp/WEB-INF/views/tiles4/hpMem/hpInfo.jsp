@@ -37,7 +37,7 @@
 	<table class="customTable" style="width: 100%;">
 		<tr>
 			<th></th>
-			<th>접수아이디</th>
+			<th>신청번호</th>
 			<th>병원명</th>
 			<th>신청일</th>
 			<th>상태</th>
@@ -59,6 +59,9 @@
 							</c:when>
 							<c:when test="${item.status == 3}">
 								<span>수정</span>
+							</c:when>
+							<c:when test="${item.status == 4}">
+								<span>취소</span>
 							</c:when>
 							<c:otherwise>
 								<span>승인</span>

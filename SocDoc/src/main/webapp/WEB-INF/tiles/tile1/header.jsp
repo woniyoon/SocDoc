@@ -25,7 +25,7 @@
         
         @font-face {
         	font-family: "netmarbleL";
-        	src:url("<%=ctxPath%>/resources/fonts/netmarbleM.ttf") format("truetype");
+        	src:url("<%=ctxPath%>/resources/fonts/netmarbleL.ttf") format("truetype");
         }
         
         * {
@@ -186,7 +186,7 @@
 </style>
 
 
-    <p class="logo"><img src="<%= ctxPath%>/resources/images/logo.jpg" width="150px" height="100px" class="logo" /></p>
+    <p class="logo"><img src="<%= ctxPath%>/resources/images/logo.jpg" width="150px" height="100px" class="logo" onclick="location.href='<%=ctxPath%>/index.sd'"/></p>
 
     <ul class="util">     
     	<c:if test="${sessionScope.loginuser == null && sessionScope.hpLoginuser == null}">
@@ -202,7 +202,7 @@
 	        </c:if>
         </c:if>
         <c:if test="${not empty sessionScope.hpLoginuser}">
-	        <li><a href="#"><span style="color: blue;">${hpLoginuser.name}</span>의 마이페이지</a></li>
+	        <li><a href="<%=ctxPath%>/hpPanel/main.sd"><span style="color: blue;">${hpLoginuser.name}</span>의 마이페이지</a></li>
 	        <li><a href="<%=ctxPath%>/hpLogout.sd">로그아웃</a></li>
         </c:if>
         <li><a href="#">고객센터</a></li>

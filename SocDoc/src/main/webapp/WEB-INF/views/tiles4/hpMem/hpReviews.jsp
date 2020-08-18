@@ -50,6 +50,33 @@
 	    justify-content: space-between; */
 	    margin: 10px;
 	}
+	
+	.hospitalRatingStar {
+      background: url('/socdoc/resources/images/starsBlue.png') no-repeat right 0;
+      background-size: auto 100%;
+      width: 50px;
+      height: 50px;
+      display: inline-block;
+      text-indent: -9999px;
+      cursor: pointer;
+      margin-bottom: 10px;
+   }
+	
+	.reviewStar {
+      background: url('/socdoc/resources/images/starsYellow.png') no-repeat right 0;
+      background-size: auto 100%;
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      text-indent: -9999px;
+      cursor: pointer;
+      margin-bottom: 10px;
+   }
+
+	.on{
+      background-position:0 0;
+   }    
+      
 </style>
 
 <script type="text/javascript">
@@ -61,6 +88,10 @@
 	    	  $("#searchWord").val("${searchWord}");
 	      }
 		
+	      $(".hospitalRatingStar").each(function(){
+		      $("#hospitalRatingStar"+"${avgRating}").addClass("on").prevAll("span").addClass("on");
+		      return false;
+		  });
 	});
 	
 	function search(){
@@ -70,13 +101,21 @@
 		form.submit();
 	}
 	
+	
+
 </script>
 
 <div class="reviewsContainer">
 	<h3 align="left">후기</h3>
 	<section>
-		<div> ⭐️⭐️⭐️⭐️⭐️ </div>
-		<div> 총 <span>${numOfReviews} / ${totalNum }</span> 후기 | 평균 ${avgRating} </div>
+		<div class="hospitalRating" style="height:40px; margin: 30px;">
+               <span class="hospitalRatingStar" id="hospitalRatingStar1">별1</span>
+               <span class="hospitalRatingStar" id="hospitalRatingStar2">별2</span>
+               <span class="hospitalRatingStar" id="hospitalRatingStar3">별3</span>
+               <span class="hospitalRatingStar" id="hospitalRatingStar4">별4</span>
+               <span class="hospitalRatingStar" id="hospitalRatingStar5">별5</span>
+        </div>      
+		<div> 총 <span>${numOfReviews} / ${totalNum }</span> 후기 | 평균 ${avgRating}<span>.0</span></div>
 	</section>
 	<div class="searchContainer" align="right">
 		<form name="reviewSearchFrm">
@@ -99,7 +138,16 @@
 			<c:forEach var="review" items="${reviewList}">
 				<tr>
 					<td>${review.userid}</td>
-					<td>${review.rating}</td>
+					<td>
+						<c:forEach var="i" begin="1" end="5">
+						   <c:if test="${review.rating >= i}">
+						   		<span class="reviewStar on" id="hospitalRatingStar${i}">별</span>
+						   </c:if>
+						   <c:if test="${review.rating < i}">
+						   		<span class="reviewStar" id="hospitalRatingStar${i}">별</span>
+						   </c:if>
+						</c:forEach>
+					</td>
 					<td>${review.content}</td>
 					<td>${review.regDate}</td>
 				</tr>

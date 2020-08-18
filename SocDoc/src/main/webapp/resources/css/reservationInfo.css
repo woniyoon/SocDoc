@@ -12,16 +12,10 @@ h2 {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    border: 1px solid red;
-}
-
-.calendarContainer {
-    flex: 3;
-    border: 1px solid blue;
 }
 
 .timetableContainer {
-    width: 40%;
+    width: 80%;
     border: 1px solid green;
 }
 
@@ -36,6 +30,24 @@ h2 {
     width: 100%;
 }
 
+.timetable {
+	height: 100%;
+	width: 100%;
+	line-height: 2em;
+	font-size: 1.2em;
+	border-collapse: collapse;
+}
+   
+.timetable th {
+	background-color: #efefef;
+	border-right: 1px solid lightgray;
+}   
+
+.timetable td {
+	padding: 0 0 0 20px;
+}   
+   
+   
 /* 모달창 만들기 */
 
 .hidden {

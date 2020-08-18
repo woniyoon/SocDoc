@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.HpReviewVO;
+import com.synergy.socdoc.member.MemberVO;
 
 @Service
 public class HpMemService implements InterHpMemService {
@@ -104,7 +105,84 @@ public class HpMemService implements InterHpMemService {
 		List<HashMap<String, String>> visitorsList = dao.getVisitorsList(paraMap);
 		return visitorsList;
 	}
+
+	// 방문상태 업데이트
+	@Override
+	public int updateVisitStatus(HashMap<String, Integer> paraMap) {
+		int result = dao.updateVisitStatus(paraMap);
+		return result;
+	}
+
+	// 방문자 상세정보 가져오기
+	@Override
+	public MemberVO getVisitorDetail(String userid) {
+		MemberVO member = dao.getVisitorDetail(userid);
+		return member;
+	}
+
+	// 특정 회원의 방문이력 가져오기 
+	@Override
+	public List<String> getVisitRecord(HashMap<String, String> paraMap) {
+		List<String> record = dao.getVisitRecord(paraMap);
+		return record;
+	}
 	
+	// 방문이력 개수 가져오기
+	@Override
+	public int getNumOfRecords(HashMap<String, String> paraMap) {
+		int numOfRecords = dao.getNumOfRecords(paraMap);
+		return numOfRecords;
+	}
+
+	// 선택한 날짜 시간대별 방문자수
+	@Override
+	public List<HashMap<String, String>> getNumPerHour(HashMap<String, String> paraMap) {
+		List<HashMap<String, String>> list = dao.getNumPerHour(paraMap);
+		return list;
+	}
+
+	// 비밀번호 확인
+	@Override
+	public int verifyPwd(HashMap<String, String> paraMap) {
+		int result = dao.verifyPwd(paraMap);
+		return result;
+	}
+
+	// 병원 회원 정보 업데이트(담당자명/이메일)
+	@Override
+	public int updateAccountInfo(HashMap<String, String> paraMap) {
+		int result = dao.updateAccountInfo(paraMap);
+		return result;
+	}
+
+	// 병원 회원 정보 업데이트(비밀번호)
+	@Override
+	public int updateHpPwd(HashMap<String, String> paraMap) {
+		int result = dao.updateHpPwd(paraMap);
+		return result;
+	}
+
+	// 이전 신청 내역들 취소하기
+	@Override
+	public int cancelPrevSubmission(String hpSeq) {
+		int result = dao.cancelPrevSubmission(hpSeq);
+		return result;
+	}
+
+	// 현재 선택한 신청 내역 취소하기
+	@Override
+	public int cancelCurrentSubmission(String submitId) {
+		int result = dao.cancelCurrentSubmission(submitId);
+		return result;
+	}
+
+	// 병원 상세 정보 업데이트 여부 확인하기
+	@Override
+	public int checkInfoStatus(String hpSeq) {
+		int status = dao.checkInfoStatus(hpSeq);
+		return status;
+	}
+
 	
 	
 

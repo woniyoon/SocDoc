@@ -22,7 +22,7 @@
 				<!-- 동적으로 생성되는 부분 ⬇️-->
 				<tr>
 					<td id="weekdaySchedule" rowspan="5">
-					<c:if test="${ not empty openingHours }">
+					<c:if test="${isExisting}">
 						<c:forEach var="map" items="${openingHours }" varStatus="status">
 							<div>
 							<c:choose>
@@ -47,6 +47,10 @@
 						      </c:choose>
 							&emsp;<span>${map.open}</span> ~ <span>${map.close}</span></div>
 						</c:forEach>
+					</c:if>
+					<c:if test="${!isExisting }">
+						<span>정보가 아직 등록되있지 않습니다!</span><br>
+						<span style="cursor:pointer;" onclick="location.href='<%=ctxPath%>/hpPanel/updateHpInfo.sd'">신청하러 가기!</span>
 					</c:if>
 					</td>
 				</tr>
@@ -80,7 +84,16 @@
 					<c:forEach var="review" items="${reviewList }" varStatus="status">
 						<tr>
 							<td>${review.userid}</td>
-							<td>${review.rating}</td>
+							<td>
+								<c:forEach var="i" begin="1" end="5">
+								   <c:if test="${review.rating >= i}">
+								   		<span class="reviewStar on" id="hospitalRatingStar${i}">별</span>
+								   </c:if>
+								   <c:if test="${review.rating < i}">
+								   		<span class="reviewStar" id="hospitalRatingStar${i}">별</span>
+								   </c:if>
+								</c:forEach>
+							</td>
 							<td>${review.content}</td>
 							<td>${review.regDate }</td>
 						</tr>
@@ -92,10 +105,10 @@
 					</tr>
 				</c:if>
 			</tbody>
-			<%-- <tfoot>
+			<tfoot>
 				<tr>
 					<td colspan="4" align="right"><span style="cursor: pointer" onclick="location.href='<%=ctxPath %>/hpPanel/hpReviews.sd'">더보기</span></td>
 				</tr>
-			</tfoot> --%>
+			</tfoot>
 		</table>
 	</section>
