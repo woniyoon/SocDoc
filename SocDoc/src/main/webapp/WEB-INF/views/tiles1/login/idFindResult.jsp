@@ -105,7 +105,6 @@
 	    border: solid 1px #ccc;
 	}
     
-        
 	a {
 		text-decoration: none;
     }

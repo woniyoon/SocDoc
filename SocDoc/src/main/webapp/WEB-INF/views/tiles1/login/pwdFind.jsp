@@ -257,7 +257,7 @@ $(window).ready(function(){
 					condition3 = false;
 					return;
 				} else {	// 데이터가 조건에 맞다면
-					console.log("개인회원 데이터 조건 맞음");
+					//console.log("개인회원 데이터 조건 맞음");
 					$("form[name=pwdFindFrm] input#email").removeClass("wrong");
 					condition3 = true;
 				}
@@ -268,7 +268,7 @@ $(window).ready(function(){
 		}); 
 		
 		// 이메일 '인증하기' 버튼 눌렀을 때..////////////////////////////////
-		$("form[name=pwdFindFrm] #btnChk").click(sendVerificationCode);	
+		$("form[name=pwdFindFrm] .btnChk").click(sendVerificationCode);	
 		///////////////////////////////////////////////////////////
 		
 		//  ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 인증번호
@@ -369,7 +369,7 @@ $(window).ready(function(){
 			var data = $(this).val().trim();
 			if(data == "") {
 				bRequiredInfo = true;
-				console.log($(this));
+				//console.log($(this));
 				$(this).focus();
 				return false;
 			}
@@ -471,7 +471,7 @@ $(document).ready(function(){
 					hpCondition3 = false;
 					return;
 				} else {	// 데이터가 조건에 맞다면
-					console.log("개인회원 데이터 조건 맞음");
+					//console.log("개인회원 데이터 조건 맞음");
 					$("form[name=hpPwdFindFrm] input#email").removeClass("wrong");
 					hpCondition3 = true;
 				}
@@ -482,7 +482,7 @@ $(document).ready(function(){
 		}); 
 		
 		// 이메일 '인증하기' 버튼 눌렀을 때..////////////////////////////////
-		$("form[name=hpPwdFindFrm] #btnChk").click(hpSendVerificationCode);	
+		$("form[name=hpPwdFindFrm] .btnChk").click(hpSendVerificationCode);	
 		///////////////////////////////////////////////////////////
 		
 		//  ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 인증번호
@@ -583,7 +583,7 @@ $(document).ready(function(){
 			var data = $(this).val().trim();
 			if(data == "") {
 				bRequiredInfo = true;
-				console.log($(this));
+				//console.log($(this));
 				$(this).focus();
 				return false;
 			}
@@ -640,6 +640,7 @@ $(document).ready(function(){
 					</div> 
 				</div>
 			</div>
+			<input type="hidden" name="type" value="mem" />
 		</form>		
 		  
 		<!-- -------------------------------- 일반고객 비밀번호 찾기 끝 ---------------------------------- --> 	
@@ -672,11 +673,12 @@ $(document).ready(function(){
 					</div>  
 				 </div>	
 			</div>
+			<input type="hidden" name="type" value="hpMem" />
 		</form> 
 		
 		<!-- -------------------------------- 병원고객 비밀번호 찾기 끝 ---------------------------------- --> 
 		<form name="verifyCertificationFrm">
-			<input type="hidden" name="userid" />
+			<input type="hidden" name="userid"/>
 			<input type="hidden" name="userCertificationCode" />
 		</form>
 		

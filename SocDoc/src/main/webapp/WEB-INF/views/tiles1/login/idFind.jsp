@@ -230,7 +230,7 @@ $(window).ready(function(){
 					condition2 = false;
 					return;
 				} else {	// 데이터가 조건에 맞다면
-					console.log("개인회원 데이터 조건 맞음");
+					//console.log("개인회원 데이터 조건 맞음");
 					$("form[name=idFindFrm] input#email").removeClass("wrong");
 					condition2 = true;
 				}
@@ -343,7 +343,7 @@ $(window).ready(function(){
 			var data = $(this).val().trim();
 			if(data == "") {
 				bRequiredInfo = true;
-				console.log($(this));
+				//console.log($(this));
 				$(this).focus();
 				return false;
 			}
@@ -423,7 +423,7 @@ $(window).ready(function(){
 				} else {	// 데이터가 조건에 맞다면
 					$("form[name=hpIdFindFrm] input#email").removeClass("wrong");
 					hpCondition2 = true;
-					console.log("데이터가 조건에 맞음!!!!");
+					//console.log("데이터가 조건에 맞음!!!!");
 				}
 				$("form[name=hpIdFindFrm] span#emailError").hide();
 				$(":input").prop("disabled",false).removeClass("wrong");
@@ -473,7 +473,7 @@ $(window).ready(function(){
 	
 	// 이메일 '인증하기'버튼 눌렀을 때 
 	function hpSendVerificationCode(){
-		console.log(hpCondition2);
+		//console.log(hpCondition2);
 		if(hpCondition2 == true){
 			$("form[name=hpIdFindFrm] #codeError").hide();
 			$("form[name=hpIdFindFrm] #code").val(''); // 입력칸 비우기
