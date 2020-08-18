@@ -21,7 +21,7 @@
 	}
 
 	.container { 
-		width: 30%;
+		width: 35%;
 		height: 150%;
 		margin: 100px auto 200px auto;
 		padding: 0;

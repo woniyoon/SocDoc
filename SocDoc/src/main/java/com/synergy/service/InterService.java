@@ -14,4 +14,8 @@ public interface InterService {
 
 	List<HpReviewVO> getRankList(); // 병원 평점순위 별 리스트 보여주기
 
+	
+	
+
+
 }

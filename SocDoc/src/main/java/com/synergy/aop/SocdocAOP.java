@@ -22,116 +22,138 @@ import com.synergy.socdoc.admin.InterAdminService;
 import com.synergy.socdoc.common.MyUtil;
 import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.HpMemberVO;
+import com.synergy.socdoc.hpMem.InterHpMemService;
 import com.synergy.socdoc.member.*;
 
 @Aspect
-@Component 
+@Component
 public class SocdocAOP {
 
-	   @Pointcut("execution(public * com.synergy..*Controller.requiredLogin_*(..) )")
-	   public void requiredLogin() {
-	   } 
+	@Autowired
+	InterHpMemService service;
 
-	   // == Before Advice(공통관심사, 보조업무)를 구현한다.
-	   @Before("requiredLogin()") // (pointcut)메소드가 작동하기 전에 코딩되어지는 메소드를 수행해라
-	   public void loginChk(JoinPoint joinPoint) { // 로그인 유무 검사 메소드 작성하기
+	@Autowired
+	InterAdminService adminService;
 
-	      // 첫번째 파라미터는 HttpServletRequest이므로 리턴타입이 object니 캐스팅해준다
-	      HttpServletRequest request = (HttpServletRequest) joinPoint.getArgs()[0]; 
-	      HttpServletResponse response = (HttpServletResponse) joinPoint.getArgs()[1];
-	      
-		  System.out.println("controller의 메소드가 실행되기 전, HpMemAOP에서 정의한 메소드가 실행됩니다.");
-		  System.out.println("현재 servletContext : " + request.getServletContext());
+	@Pointcut("execution(public * com.synergy..*Controller.requiredLogin_*(..) )")
+	public void requiredLogin() {
+	}
 
-		  HttpSession session = request.getSession();
-		  MemberVO member = (MemberVO) session.getAttribute("loginuser");
-		  
-		  String msg = "로그인이 필요한 페이지입니다!";
-		  String loc = "";
-		  
-		  if (member == null) {
+	// == Before Advice(공통관심사, 보조업무)를 구현한다.
+	@Before("requiredLogin()") // (pointcut)메소드가 작동하기 전에 코딩되어지는 메소드를 수행해라
+	public void loginChk(JoinPoint joinPoint) { // 로그인 유무 검사 메소드 작성하기
 
-			  loc = request.getContextPath() + "/login.sd";
-			  request.setAttribute("msg", msg);
-			  request.setAttribute("loc", loc);
+		// 첫번째 파라미터는 HttpServletRequest이므로 리턴타입이 object니 캐스팅해준다
+		HttpServletRequest request = (HttpServletRequest) joinPoint.getArgs()[0];
+		HttpServletResponse response = (HttpServletResponse) joinPoint.getArgs()[1];
 
-			  // === 현재 페이지의 주소(URL)알아오기 ===
-			  String url = MyUtil.getCurrentURL(request);
-			
-			
-			  if (url.endsWith("?null")) {
-				  url = url.substring(0, url.indexOf("?")); // 처음부터 ?앞까지
-			  }
+		System.out.println("controller의 메소드가 실행되기 전, HpMemAOP에서 정의한 메소드가 실행됩니다.");
+		System.out.println("현재 servletContext : " + request.getServletContext());
 
-			  System.out.println(url);
-			  session.setAttribute("gobackURL", url); // 세션에 url정보를 저장시켜 둔다.
-			
-			  RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/msg.jsp");
-			
-			  try {
-				  dispatcher.forward(request, response);
-			  } catch (ServletException | IOException e) {
-				  e.printStackTrace();
-			  }
+		HttpSession session = request.getSession();
+		MemberVO member = (MemberVO) session.getAttribute("loginuser");
 
-		  }
-	      
-	   }
-	   
-	   
-	   @Pointcut("execution(public * com.synergy..*Controller.requiredLoginHp_*(..) )")
-	   public void requiredLoginHp() {
-	   } 
-	   
-	   @Before("requiredLoginHp()")
-	   public void loginChkHp(JoinPoint joinPoint) {
-		   
-		   HttpServletRequest request = (HttpServletRequest) joinPoint.getArgs()[0]; 
-		   HttpServletResponse response = (HttpServletResponse) joinPoint.getArgs()[1];
-		   
-		   System.out.println("controller의 메소드가 실행되기 전, HpMemAOP에서 정의한 메소드가 실행됩니다.");
-		   System.out.println("현재 servletContext : " + request.getServletContext());
-		   
-		   HttpSession session = request.getSession();
-		   HpMemberVO hpMember = (HpMemberVO) session.getAttribute("hpLoginuser");
-		   
-		   String msg = "로그인이 필요한 페이지입니다!";
-		   String loc = "";
-		   
-		   if (hpMember == null) {
-			   
-			   loc = request.getContextPath() + "/login.sd";
-			   request.setAttribute("msg", msg);
-			   request.setAttribute("loc", loc);
-			   
-			   String url = MyUtil.getCurrentURL(request);
-			   
-			   if (url.endsWith("?null")) {
-				   url = url.substring(0, url.indexOf("?"));
-			   }
-			   
-			   System.out.println(url);
-			   session.setAttribute("gobackURL", url);
-			   
-			   RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/msg.jsp");
-			   
-			   try {
-				   dispatcher.forward(request, response);
-			   } catch (ServletException | IOException e) {
-				   e.printStackTrace();
-			   }
-			   
-		   }
-	   }
-	   
-	   @Autowired
-	   InterAdminService service;
+		String msg = "로그인이 필요한 페이지입니다!";
+		String loc = "";
+
+		if (member == null) {
+
+			loc = request.getContextPath() + "/login.sd";
+			request.setAttribute("msg", msg);
+			request.setAttribute("loc", loc);
+
+			// === 현재 페이지의 주소(URL)알아오기 ===
+			String url = MyUtil.getCurrentURL(request);
+
+			if (url.endsWith("?null")) {
+				url = url.substring(0, url.indexOf("?")); // 처음부터 ?앞까지
+			}
+
+			System.out.println(url);
+			session.setAttribute("gobackURL", url); // 세션에 url정보를 저장시켜 둔다.
+
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/msg.jsp");
+
+			try {
+				dispatcher.forward(request, response);
+			} catch (ServletException | IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+
+	}
+
+	@Pointcut("execution(public * com.synergy..*Controller.requiredLoginHp_*(..) )")
+	public void requiredLoginHp() {
+	}
+
+	@Before("requiredLoginHp()")
+	public void loginChkHp(JoinPoint joinPoint) {
+
+		HttpServletRequest request = (HttpServletRequest) joinPoint.getArgs()[0];
+		HttpServletResponse response = (HttpServletResponse) joinPoint.getArgs()[1];
+
+		System.out.println("controller의 메소드가 실행되기 전, HpMemAOP에서 정의한 메소드가 실행됩니다.");
+		System.out.println("현재 servletContext : " + request.getServletContext());
+
+		HttpSession session = request.getSession();
+		HpMemberVO hpMember = (HpMemberVO) session.getAttribute("hpLoginuser");
+
+		String msg = "로그인이 필요한 페이지입니다!";
+		String loc = "";
+
+		if (hpMember == null) {
+
+			loc = request.getContextPath() + "/login.sd";
+			request.setAttribute("msg", msg);
+			request.setAttribute("loc", loc);
+
+			String url = MyUtil.getCurrentURL(request);
+
+			if (url.endsWith("?null")) {
+				url = url.substring(0, url.indexOf("?"));
+			}
+
+			System.out.println(url);
+			session.setAttribute("gobackURL", url);
+
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/msg.jsp");
+
+			try {
+				dispatcher.forward(request, response);
+			} catch (ServletException | IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+	}
+
+	@Pointcut("execution(public * com.synergy..*Controller.*_cancelPrevSubmission(..) )")
+	public void cancelSubmissions() {
+	}
+
+	@Before("cancelSubmissions()")
+	public void cancelPrevSubmission(JoinPoint joinPoint) {
+
+		HttpServletRequest request = (HttpServletRequest) joinPoint.getArgs()[0];
+
+		System.out.println("Before 또 ~");
+
+		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
+		String hpSeq = String.valueOf(hpMember.getHpSeq());
+
+		service.cancelPrevSubmission(hpSeq);
 		
-		@Pointcut("execution(public * com.synergy..*Controller.confirmUpdate_*(..) )")
-		public void confirmUpdate() {}
+	}
+	
+	
+	   
+	@Pointcut("execution(public * com.synergy..*Controller.confirmUpdate_*(..) )")
+	public void confirmUpdate() {}
 		
-		@SuppressWarnings("unchecked")  // 앞으로는 노란줄 경고 표시 하지 않겠다는 뜻
-		@After("confirmUpdate()")
+	@SuppressWarnings("unchecked")  // 앞으로는 노란줄 경고 표시 하지 않겠다는 뜻
+	@After("confirmUpdate()")
 		public void updateInfo(JoinPoint joinPoint) {
 			// JoinPoint joinPoint는 포인트컷 되어진 주업무의 메소드이다.
 			
@@ -141,12 +163,12 @@ public class SocdocAOP {
 
 			int count = 0;
 			for(int i=0; i<sArr.length; i++) {
-				HpInfoVO hvo = service.getHpApplication(sArr[i]);
+				HpInfoVO hvo = adminService.getHpApplication(sArr[i]);
 				
 				System.out.println(hvo.getHpName());
 				System.out.println(hvo.getHpSeq());
 				System.out.println(hvo.getDept());
-				int n = service.updateHpApplication(hvo);
+				int n = adminService.updateHpApplication(hvo);
 				count += n;
 			}
 			
@@ -158,13 +180,12 @@ public class SocdocAOP {
 			}
 		}
 	   
-	   
+	
+	@Pointcut("execution(public * com.synergy..*Controller.*_updateSchedule(..) )")
+	public void updateSchedule() {
+	}
+	
 	   //_confirmUpdate
-	   
-		@Pointcut("execution(public * com.synergy..*Controller.*_updateSchedule(..) )")
-		public void updateSchedule() {
-		}
-		
 		@After("updateSchedule()")
 		public void updateHpSchedule(JoinPoint joinPoint) {
 			
@@ -182,7 +203,7 @@ public class SocdocAOP {
 				
 				paraMap.put("submitId", submitIdArr[i]);
 				// submitId 통해서 스케줄 가져옴
-				List<HashMap<String, String>> scheduleList = service.getAllScheduleEdit(paraMap);
+				List<HashMap<String, String>> scheduleList = adminService.getAllScheduleEdit(paraMap);
 
 				System.out.println(scheduleList.size());
 				System.out.println(scheduleList.get(i).get("hpSeq"));
@@ -192,7 +213,7 @@ public class SocdocAOP {
 				System.out.println(scheduleList.get(i).get("close"));
 
 				// 가져온 스케줄을 Schedule에 업데이트
-				result += service.updateHpSchedule(scheduleList);
+				result += adminService.updateHpSchedule(scheduleList);
 			}
 			
 			if (result == (submitIdArr.length * 6)) {
@@ -204,4 +225,5 @@ public class SocdocAOP {
 			
 			
 		}
+
 }

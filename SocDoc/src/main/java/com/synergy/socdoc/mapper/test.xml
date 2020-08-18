@@ -38,6 +38,5 @@
 		where 
 		<![CDATA[ rownum <= 6 ]]>
 	</select>
-	
-	
+
 </mapper>

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%-- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
 	String ctxPath = request.getContextPath();
@@ -17,20 +17,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
 
 <script>
+
 	$(document).ready(function() {
 		console.log("document ready function");
-		$(".visitorRow").each(function() {
-			$(this).click(function(e) {
-				// 체크박스 클릭시, 이벤트를 취소
-				if (e.target.type == "checkbox") {
-					e.stopPropagation();
-					console.log("event canceled!!");
-				} else {
-					$(".modalContainer").removeClass("hidden");
-					console.log("event going on");
-				}
-			});
-		});
+		
+		
 	});
 
 	$(function() {
@@ -49,6 +40,7 @@
 				var $calendar = context.calendar;
 
 				console.log("test");
+				getReservationList();
 			},
 			click : function(event, context) {
 				// This is clicked button Element.
@@ -65,6 +57,14 @@
 
 				// 선택된 날짜
 				console.log(context.current[0]._i);
+				var visitDate = context.current[0]._i;
+				
+				// 선택된 날짜의 요일
+		        var day = context.current[0]._d.getDay();
+				
+				getReservationList(visitDate);
+				getTimetable(visitDate, day);
+				
 			},
 			prev : function(info, context) {
 				// DB에서 이전 달 정보를 새로 가져온다
@@ -77,51 +77,178 @@
 		// SUN (0), SAT (6)
 		});
 
-		getTimetable();
 		console.log("this should be printed");
 	});
 
-	function getTimetable() {
-		var html = "<table class='timetable'>";
+	// 선택한 날짜의 예약 현황 확인
+	function getTimetable(visitDate, day) {
+				
+		$.ajax({
+			url:"<%=ctxPath%>/ajax/getNumPerHour.sd",
+			type:"POST",
+			data:{"visitDate": visitDate, "day": (day-1)},
+			dataType: "JSON",
+            success: function(json){
+            	
+            	var open = Number(json.hours.open.substring(0,2));
+            	var close = Number(json.hours.close.substring(0,2));
 
-		for (var i = 9; i <= 18; i++) {
-			html += "<tr><th>" + i + ":00</th><td>0/6 명</td></tr>";
-		}
+            	var html = "<table class='timetable'>";
+				
+            	$.each(json.counter, function(index, item){
+            		var counterHour = Number(item.hour.substring(0,2));
+            		
+            		if(counterHour >= open && counterHour <= close) {
+	            		html += "<tr><th>" + item.hour + "</th><td>"+ item.cnt +" / 6 명</td></tr>";
+            		} else {
+            			return;
+            		}
+            		
+           		});
 
-		html += "</table>";
-		$(".timetableContainer").html(html);
+        		html += "</table>";
+        		$(".timetableContainer").html(html);
+            },
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				target.checked = !newVisitStatus;
+			}
+		});
 	}
 
 	function closeModal() {
 		$(".modalContainer").addClass("hidden");
 	}
+	
+	function getReservationList(visitDate){
+		$.ajax({
+			url:"<%=ctxPath%>/ajax/reservationList.sd",
+			type:"GET",
+			data:{"visitDate": visitDate},
+			dataType: "JSON",
+            success: function(json){
+                var html = "";
+               	console.log(json);
+                
+               	if(json.length > 0) {
+               		$.each(json, function(index, item){
+               			var num = index + 1;
+
+               			var checked = item.hasVisited ? "checked" : "unchecked";
+               			
+               			html += "<tr id='"+item.userid+"'>"
+               					+	"<td onclick='popModal(event)'>"+num+"</td>"
+               					+	"<td onclick='popModal(event)'>"+item.hour+"</td>"
+               					+	"<td onclick='popModal(event)'>"+item.name+"</td>"
+               					+	"<td onclick='popModal(event)'>"+item.phone+"</td>"
+               					+	"<td onclick='popModal(event)' id='visitStatus"+item.reservSeq+"'>"+(item.hasVisited?  "<span style='color: #157bb9;'>방문</span>" : "<span style='color: red;'>미방문</span>" ) +"</td>"
+               					+	"<td><input onclick='updateVisitStatus(this,"+!item.hasVisited+")' id="+ item.reservSeq +" type='checkbox' "+checked+" /></td>"
+               			 		+"</tr>";
+               		});
+               		
+               	} else {
+               		html = "<tr> <td colspan='6'>내역이 없습니다.</td></tr>"
+               	}
+                	
+               	$("#reservationList").html(html);
+            },
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+	}
+
+	function updateVisitStatus(target){
+		console.log(target);
+		var hasVisited = target.checked;
+		
+		$.ajax({
+			url:"<%=ctxPath%>/ajax/updateVisitStatus.sd",
+			type:"POST",
+			data:{"reservSeq": target.id,
+				  "status": hasVisited},
+			dataType: "JSON",
+            success: function(json){
+                var html = "";
+               	console.log(json);
+              	if(json.isDone) {
+ 					var status = hasVisited ? "방문" : "미방문";
+	               	$("#visitStatus"+target.id).html(status);
+              	} else {
+              		alert("문제가 발생했습니다.\n다시 시도해주세요!");
+    				target.checked = !hasVisited;
+              	}
+            },
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				target.checked = !newVisitStatus;
+			}
+		});
+	}
+
+	function popModal(e){
+		console.log("?!");
+
+		// 체크박스 클릭시, 이벤트를 취소
+/* 		if (e.target.type == "checkbox") {
+			e.stopPropagation();
+			console.log("event canceled!!");
+		} else { */
+			var userid = e.target.parentElement.id;
+			
+			$.ajax({
+				url:"<%=ctxPath%>/ajax/getVisitorDetail.sd",
+				type:"POST",
+				data:{"userid": userid, 
+					  "currentShowPageNoStr": 1},
+				dataType: "JSON",
+	            success: function(json){
+	               console.log(json);
+	               
+	               var html = "<tr align='center'><td>성명</td><td>"+json.name+"</td></tr>"
+          			+ "<tr align='center'><td>생년월일</td><td>"+json.birthDate+"</td></tr>"
+          			+ "<tr align='center'><td>나이</td><td>"+json.age+"</td></tr>"
+          			+ "<tr align='center'><td>성별</td><td>"+json.gender+"</td></tr>"
+          			+ "<tr align='center'><td>연락처</td><td>"+json.phone+"</td></tr>"
+          			+ "<tr align='center'><td>키</td><td>"+(json.height != -1 ? json.height : "정보없음")+"</td></tr>"
+          			+ "<tr align='center'><td>몸무게</td><td>"+(json.weight != -1 ? json.weight : "정보없음")+"</td></tr>"
+          			+ "<tr align='center'><td>혈액형</td><td>"+json.bloodType+"</td></tr>"
+          			+ "<tr align='center'><td>알레르기</td><td>"+json.allergy+"</td></tr>"
+          			+ "<tr align='center'><td>병력</td><td>"+json.history+"</td></tr>"
+          			+ "<tr align='center'><td>복용약</td><td>"+json.medicine+"</td></tr>";
+          			
+	               $(".visitorDetail").html(html);
+	               
+	               var recordArr = JSON.parse(json.record);
+	               var recordHtml;
+	               for(var i=0; i<recordArr.length; i++) {
+	            	   recordHtml += "<tr><td>" + recordArr[i].visitDate + "</td></tr>";
+	               }
+	               
+	               console.log(recordHtml);
+	               $(".recordTbl").html(recordHtml);
+	               
+	               $(".modalContainer").removeClass("hidden");
+					console.log("event going on");
+	            },
+				error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+					target.checked = !newVisitStatus;
+				}
+			});
+			
+			/* 
+		} */
+	}
+	
 </script>
 
 <div class="container" align="center">
 	<h3 align="left">예약관리</h3>
 	<div class="schedulePanel">
-<!-- 		<div class="calendarContainer"> -->
-			<div class="calendar"></div>
-<!-- 		</div> -->
-		<div class="timetableContainer">
-			<table>
-				<tr>
-					<th>9:00</th>
-					<td>0/6 명</td>
-				</tr>
-				<tr>
-					<th>9:00</th>
-					<td>0/6 명</td>
-				</tr>
-				<tr>
-					<th>9:00</th>
-					<td>0/6 명</td>
-				</tr>
-				<tr>
-					<th>9:00</th>
-					<td>0/6 명</td>
-				</tr>
-			</table>
+		<div class="calendar"></div>
+		<div class="timetableContainer" align="center">
+			<span style="padding: 50px;">날짜를 선택해주세요.</span>
 		</div>
 	</div>
 	<div class="reservationPanel">
@@ -129,64 +256,17 @@
 		<table class="customTable" id="visitorTbl" align="center">
 			<thead>
 				<tr>
-					<th>번호</th>
+					<th></th>
 					<th>시간</th>
 					<th>예약자명</th>
 					<th>연락처</th>
-					<th>초진/재진</th>
-					<th>방문상태</th>
-					<th>방문여부설정</th>
+<!-- 					<th>초진/재진</th> -->
+					<th>방문상태</th>
+					<th>방문여부설정</th>
 				</tr>
 			</thead>
-			<!-- 동적으로 생성되는 부분 ⬇️-->
-			<tbody>
-				<%-- <c:if test="${not empty visitorsList }">
-					<c:forEach var="map" items="${visitorsList }" varStatus="status">
-						<tr>
-							<td>${status.count }</td>
-							<td>${map.hour}</td>
-							<td>${map.name }</td>
-							<td>${map.phone }</td>
-							<td>초진</td>
-							<td>${map.status == 0 ? '미방문' : '방문' }</td>
-							<td><input id="${map.reservSeq }" type="checkbox" /></td>
-						</tr>
-					</c:forEach>
-				</c:if> --%>
-				<%-- <c:if test="${empty visitorsList }">
-					<tr align="center">
-						<td colspan="7">예약자가 없습니다.</td>
-					</tr>
-				</c:if> --%>
-				<!-- <tr class="visitorRow">
-					<td>1</td>
-					<td>9:00</td>
-					<td>김무명</td>
-					<td>010-0000-0000</td>
-					<td>초진</td>
-					<td>방문</td>
-					<td><input type="checkbox" /></td>
-				</tr>
-				<tr class="visitorRow">
-					<td>2</td>
-					<td>10:00</td>
-					<td>이무명</td>
-					<td>010-0000-0000</td>
-					<td>재진</td>
-					<td>예정</td>
-					<td><input type="checkbox" /></td>
-				</tr>
-				<tr class="visitorRow">
-					<td>3</td>
-					<td>10:00</td>
-					<td>박무명</td>
-					<td>010-0000-0000</td>
-					<td>초진</td>
-					<td>예정</td>
-					<td><input type="checkbox" /></td>
-				</tr> -->
+			<tbody id="reservationList">
 			</tbody>
-			<!-- 동적으로 생성되는 부분 ⬆️-->
 		</table>
 	</div>
 	<div class="modalContainer hidden">
@@ -197,35 +277,8 @@
 					<span style="font-size: 1.2em; cursor: pointer;"
 						onclick="closeModal()">X</span>
 				</div>
-				<!-- ajax를 이용해, 동적으로 생성 ⬇️-->
 				<table class="visitorDetail customTable" >
-					<tr align="center">
-						<td>성명</td>
-						<td>김나나</td>
-					</tr>
-					<tr align="center">
-						<td>생년월일</td>
-						<td>1999.02.02</td>
-					</tr>
-					<tr align="center">
-						<td>나이</td>
-						<td>만 20세</td>
-					</tr>
-					<tr align="center">
-						<td>성별</td>
-						<td>여자</td>
-					</tr>
-					<tr align="center">
-						<td>연락처</td>
-						<td>010-4012-3123</td>
-					</tr>
-					<tr align="center">
-						<td>방문이력</td>
-						<td>^^)7
-						</td>
-					</tr>
 				</table>
-				<!-- 동적으로 생성되는 부분 ⬆️-->
 			</div>
 		</div>
 	</div>

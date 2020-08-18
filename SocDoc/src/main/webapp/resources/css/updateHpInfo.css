@@ -6,13 +6,31 @@
     display: flex;
     flex-direction: row;
   	width: 100%;
-  	border: 1px solid green;
+  	margin: 10px 0;
 } 
 
 .slideshow-container {
     flex: 1;
-    border: 1px solid red;
     margin: 10px;
+    width: 500px; 
+    height: 500px;
+    border: 1px solid lightgray
+}
+
+/* 이미지 슬라이더 수정 */
+.mySlides{
+	width: inherit;
+	height: inherit;
+}
+
+.sliderBtnContainer {
+	display: flex; 
+	flex-direction: row; 
+	justify-content: space-between;
+}
+
+.prev, .next {
+	font-size: 30px;
 }
 
 #hpDetail {
@@ -31,7 +49,7 @@
 }
 
 textarea#address {
-	height: 5vh;
+	min-height: 5vh;
 }
 
 textarea#info {
@@ -68,14 +86,13 @@ textarea#info {
 }
 
 .hpTextInfo td {
-    height: 2.5em;
-    padding: 10px;
+    padding: 9px;
 }
 
 .hpTextInfo th, #settingSection th {
     background-color: #efefef;
     padding: 0 10px;
-    width: 60px;
+    width: 80px;
 }
 
 .hpTextInfo, .hpTextInfo tr, #settingSection tr {
@@ -112,7 +129,7 @@ textarea {
 
 .timeSettingRow {
 	margin: 15px 0;	
-	font-size: 1.4em;
+	font-size: 1.2em;
 }
 
 .timeSettingRow label, .timeSettingRow span {
