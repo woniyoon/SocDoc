@@ -18,18 +18,23 @@
 
 <title>속닥속닥</title>
 
-<title>속닥속닥</title>
     
     <style>
         
         /* header START ---------------*/
         
+        @font-face {
+        	font-family: "netmarbleL";
+        	src:url("<%=ctxPath%>/resources/fonts/netmarbleL.ttf") format("truetype");
+        }
+        
         * {
+        	font-family: netmarbleL;
             padding: 0px;
             margin: 0px;
             box-sizing: border-box
         }
-
+       
         ul,li {
             list-style: none;
         }
@@ -187,7 +192,7 @@
 </style>
 
 
-    <p class="logo"><img src="<%= ctxPath%>/resources/images/logo.jpg" width="150px" height="100px" class="logo" /></p>
+    <p class="logo"><img src="<%= ctxPath%>/resources/images/logo.jpg" width="150px" height="100px" class="logo" onclick="location.href='<%=ctxPath%>/index.sd'"/></p>
 
     <ul class="util"> 
     	<!-- 비로그인 -->    

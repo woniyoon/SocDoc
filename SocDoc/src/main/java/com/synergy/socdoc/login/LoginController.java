@@ -63,11 +63,20 @@ public class LoginController {
 		} else {
 			String msg = "건강한 하루되세요 누구님 환영합니다.";
 			String loc = request.getContextPath() + "/index.sd";
-			mav.addObject("msg", msg);
-			mav.addObject("loc", loc);
-			mav.setViewName("msg"); 
+//			mav.addObject("msg", msg);
+//			mav.addObject("loc", loc);
+			mav.setViewName("login/loginEnd.tiles1"); 
 			HttpSession session = request.getSession();
 			session.setAttribute("loginuser", loginuser);
+			
+			if(session.getAttribute("gobackURL") != null) {
+	    		// 세션에 저장된 돌아갈 페이지 주소(gobackURL)가 있다라면 
+	    		
+	    		String gobackURL = (String) session.getAttribute("gobackURL");
+	    		mav.addObject("gobackURL", gobackURL); // request 영역에 저장시키는 것이다.
+	    		
+	    		session.removeAttribute("gobackURL");  // 중요!!!!
+	    	}
 		}	
 			/*else {
 			
@@ -140,13 +149,23 @@ public class LoginController {
 			mav.addObject("loc", loc);
 			mav.setViewName("msg"); 
 		} else {
-			String msg = "속닥 로그인 성공 희희바리~~ 건강한 하루 보내세요 ^~^";
-			String loc = request.getContextPath() + "/index.sd";
-			mav.addObject("msg", msg);
-			mav.addObject("loc", loc);
-			mav.setViewName("msg"); 
+//			String msg = "속닥 로그인 성공 희희바리~~ 건강한 하루 보내세요 ^~^";
+//			String loc = request.getContextPath() + "/index.sd";
+//			mav.addObject("msg", msg);
+//			mav.addObject("loc", loc);
+			mav.setViewName("login/loginEnd.tiles1"); 
 			HttpSession session = request.getSession();
 			session.setAttribute("hpLoginuser", hpLoginuser);
+			
+			if(session.getAttribute("gobackURL") != null) {
+	    		// 세션에 저장된 돌아갈 페이지 주소(gobackURL)가 있다라면 
+	    		
+	    		String gobackURL = (String) session.getAttribute("gobackURL");
+	    		mav.addObject("gobackURL", gobackURL); // request 영역에 저장시키는 것이다.
+	    		
+	    		session.removeAttribute("gobackURL");  // 중요!!!!
+	    	}
+			
 		}	
 		return mav;
 	}

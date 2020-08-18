@@ -1,5 +1,7 @@
 package com.synergy.socdoc.member;
 
+import java.util.Calendar;
+
 public class MemberVO {
 
 	private String userid;
@@ -7,8 +9,8 @@ public class MemberVO {
 	private String email;
 	private String name;
 	private String phone;
-	private int height;
-	private int weight;
+	private String height;
+	private String weight;
 	private String bloodType;
 	private String allergy;
 	private String history;
@@ -21,7 +23,7 @@ public class MemberVO {
 
 	public MemberVO() {}
 	
-	public MemberVO(String userid, String pwd, String email, String name, String phone, int height, int weight,
+	public MemberVO(String userid, String pwd, String email, String name, String phone, String height, String weight,
 			String bloodType, String allergy, String history, String medicine, int memberSeq, String registerDate,
 			int status, String birthDate, String gender) {
 		super();
@@ -83,19 +85,19 @@ public class MemberVO {
 		this.phone = phone;
 	}
 
-	public int getHeight() {
+	public String getHeight() {
 		return height;
 	}
 
-	public void setHeight(int height) {
+	public void setHeight(String height) {
 		this.height = height;
 	}
 
-	public int getWeight() {
+	public String getWeight() {
 		return weight;
 	}
 
-	public void setWeight(int weight) {
+	public void setWeight(String weight) {
 		this.weight = weight;
 	}
 
@@ -170,5 +172,17 @@ public class MemberVO {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
+	
+	public int getAge() {
+		int age = 0;
+		Calendar current = Calendar.getInstance();
+	    int currentYear  = current.get(Calendar.YEAR);
 
+	    if(!this.birthDate.isEmpty()) {
+	    	age = currentYear - Integer.parseInt(this.birthDate.substring(0, 4)) + 1;
+	    }
+		
+		return age;
+	}
+	
 }
