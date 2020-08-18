@@ -116,9 +116,9 @@
 	#bottomBtn, #hpBottomBtn {
 		display: inline-block;
 		padding-right: 10px;
-		margin-top: 10px;
+		margin-top: 5px;
 	}
-	
+
 	a {
 		text-decoration: none;
 	}
