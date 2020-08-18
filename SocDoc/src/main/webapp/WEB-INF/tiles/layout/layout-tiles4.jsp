@@ -23,9 +23,12 @@
 	}
 
 	#sideMenuList {
-		list-style-type: disc;
 		padding-inline-start: 20px;
 		margin: 10px 0 0 0;
+	}
+	
+	#sideMenuList li{
+		list-style-type: disc;
 	}
 	
 	main {

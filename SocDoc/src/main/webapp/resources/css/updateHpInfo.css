@@ -6,6 +6,7 @@
     display: flex;
     flex-direction: row;
   	width: 100%;
+  	margin: 10px 0;
 } 
 
 .slideshow-container {
@@ -14,6 +15,12 @@
     width: 500px; 
     height: 500px;
     border: 1px solid lightgray
+}
+
+/* 이미지 슬라이더 수정 */
+.mySlides{
+	width: inherit;
+	height: inherit;
 }
 
 .sliderBtnContainer {
@@ -42,7 +49,7 @@
 }
 
 textarea#address {
-	height: 5vh;
+	min-height: 5vh;
 }
 
 textarea#info {
@@ -122,7 +129,7 @@ textarea {
 
 .timeSettingRow {
 	margin: 15px 0;	
-	font-size: 1.4em;
+	font-size: 1.2em;
 }
 
 .timeSettingRow label, .timeSettingRow span {

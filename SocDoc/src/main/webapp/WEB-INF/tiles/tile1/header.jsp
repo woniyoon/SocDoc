@@ -25,7 +25,7 @@
         
         @font-face {
         	font-family: "netmarbleL";
-        	src:url("<%=ctxPath%>/resources/fonts/netmarbleM.ttf") format("truetype");
+        	src:url("<%=ctxPath%>/resources/fonts/netmarbleL.ttf") format("truetype");
         }
         
         * {
@@ -34,7 +34,7 @@
             margin: 0px;
             box-sizing: border-box
         }
-
+       
         ul,li {
             list-style: none;
         }

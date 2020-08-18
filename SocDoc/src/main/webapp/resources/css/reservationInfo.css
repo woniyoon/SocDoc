@@ -16,14 +16,15 @@ h2 {
 
 .timetableContainer {
     width: 80%;
-    border: 1px solid green;
+    border: 1px solid lightgray;
+    margin: 0 0 0 10px;
 }
 
 /* 오늘의 방문예정자 파트 */
 
 .reservationPanel {
 	width: 100%;
-	margin: 10px;
+	margin: 10px 0;
 }
 
 #visitorTbl {
@@ -109,7 +110,7 @@ h2 {
 
 .pignose-calendar {
     width: 100% !important;
-    max-width: 300px;
+    max-width: 400px;
   	background-color: grey;
 }
 

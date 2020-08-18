@@ -18,7 +18,7 @@
 				<div class="slideshow-container" style="display: flex; justify-content: center; align-items: center;">
 					<c:if test="${hpInfo.submitId == null}">
 						<div class="mySlides fade" id="mainImgFileSlide">
-							<img src="<%=ctxPath %>/resources/images/noImage.png" style="width: 400px; height: 400px;">
+							<img src="<%=ctxPath %>/resources/images/noImage.png" style="width: inherit; height: inherit;">
 						</div>
 						<div class="mySlides fade" id="subImg1FileSlide"></div>
 						<div class="mySlides fade" id="subImg2FileSlide"></div>
@@ -26,21 +26,21 @@
 					<!-- Full-width images with number and caption text -->
 					<c:if test="${not empty hpInfo.mainImg }">
 						<div class="mySlides fade">
-							<img src="<%=ctxPath %>/resources/images/${hpInfo.mainImg}" style="width: 100%; height: 100%;">
+							<img src="<%=ctxPath %>/resources/images/${hpInfo.mainImg}" style="width: inherit; height: inherit;">
 						</div>
 					</c:if>
 		
 					<c:if test="${not empty hpInfo.subImg1 }">
 						<div class="mySlides fade">
 	<!-- 						<div class="numbertext">2 / 3</div> -->
-							<img src="<%=ctxPath %>/resources/images/${hpInfo.subImg1}" style="width: 100%; height: 100%;">
+							<img src="<%=ctxPath %>/resources/images/${hpInfo.subImg1}" style="width: inherit; height: inherit;">
 						</div>
 					</c:if>
 		
 					<c:if test="${not empty hpInfo.subImg2 }">
 						<div class="mySlides fade">
 	<!-- 						<div class="numbertext">3 / 3</div> -->
-							<img src="<%=ctxPath %>/resources/images/${hpInfo.subImg2}" style="width: 100%; height: 100%;">
+							<img src="<%=ctxPath %>/resources/images/${hpInfo.subImg2}" style="width: inherit; height: inherit;">
 						</div>					
 					</c:if>
 		
@@ -265,7 +265,7 @@
 
 				            var reader = new FileReader();
 				            reader.onload = function(e) {
-					            var html = "<img src='"+e.target.result+"' style='width: 100%; height: 100%;'>";
+					            var html = "<img src='"+e.target.result+"' style='display: none; width: inherit; height: inherit;'>";
 					            $(sliderImgId).html(html);
 
 				                console.log(e.target.result);

@@ -4,7 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	String ctxPath = request.getContextPath();
-	// 	   /board
 %>
 
 <style>
@@ -31,16 +30,16 @@
     	 
     	 $("#ok").click(function() {
     		 func_Login();
-    	 }); // end of $("#btnLOGIN").click();-----------------------
+    	 }); 
     	 
     	 $("#pwd").keydown(function(event){
   			
-  			if(event.keyCode == 13) { // 엔터를 했을 경우
+  			if(event.keyCode == 13) {
   				func_Login();
   			}
-    	 }); // end of $("#pwd").keydown();-----------------------	
+    	 });
     	 
-    }); // end of $(document).ready()---------------------------	 
+    });
 
     
     function func_Login() {
@@ -77,7 +76,7 @@
 		<form name="infoLoginFrm" align="center">
 			<div class="inputContainer" style="margin-top:35px;  border-left: none; border-right: none;" align="center">
 				<div>
-					<label for="password" style="font-size: 1.3em;">비밀번호&nbsp;</label><input id="pwd" name="pwd" type="password" style="margin: 10px; width: 300px; height: 40px;"/>
+					<label for="password" style="font-size: 1.3em;">비밀번호&nbsp;</label><input id="pwd" name="pwd" type="password" style="margin: 10px; padding: 10px; width: 300px; height: 40px;"/>
 				</div>
 				<button type="button" id="ok" style="background-color: skyblue; color:white; width: 150px; height: 50px; border-radius: 4px; border: none; font-size: 14pt;">확인</button>
 			</div>
