@@ -84,7 +84,7 @@
 					<c:forEach var="review" items="${reviewList }" varStatus="status">
 						<tr>
 							<td>${review.userid}</td>
-							<td>
+							<td style="width: 100px;">
 								<c:forEach var="i" begin="1" end="5">
 								   <c:if test="${review.rating >= i}">
 								   		<span class="reviewStar on" id="hospitalRatingStar${i}">별</span>

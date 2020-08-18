@@ -138,7 +138,7 @@
 			<c:forEach var="review" items="${reviewList}">
 				<tr>
 					<td>${review.userid}</td>
-					<td>
+					<td style="width: 120px;">
 						<c:forEach var="i" begin="1" end="5">
 						   <c:if test="${review.rating >= i}">
 						   		<span class="reviewStar on" id="hospitalRatingStar${i}">별</span>
@@ -149,7 +149,7 @@
 						</c:forEach>
 					</td>
 					<td>${review.content}</td>
-					<td>${review.regDate}</td>
+					<td style="width: 100px;">${review.regDate}</td>
 				</tr>
 			</c:forEach>
 		</c:if>
