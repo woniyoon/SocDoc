@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.synergy.socdoc.detail.service.InterDetailService;
 import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.HpReviewVO;
@@ -36,33 +38,35 @@ public class DetailController {
 	@RequestMapping(value = "/hospitalDetail.sd")
 	public ModelAndView hospitalDetail(HttpServletRequest request, ModelAndView mav) {
 		
-		HttpSession session = request.getSession();
-		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		/*HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");*/
 		String hpSeq = request.getParameter("hpSeq");
-
+/*
 		String userid = "";
 		boolean isBookmark = false;
 
 		if (loginuser != null) {
 			//북마크 유무
 			userid = loginuser.getUserid();
-			/*String isSelect = service.isBookmark();
+			String isSelect = service.isBookmark();
 			if(isSelect!=null) {
 				isBookmark=true;
-			}*/
+			}
 		}		
-		
+		*/
 		//잠시만
 		if(hpSeq == null) {
 			hpSeq="2";
 		}
 		
-		
 		HpInfoVO hpDetail = service.hospitalDetail(hpSeq);
-		String hospitalRating = service.hospitalRating(hpSeq);
+		String hospitalRating = service.hospitalRating(hpSeq);		
+		List<HashMap<String, String>> openingHours = service.getOpeningHours(hpSeq);
 		
 		mav.addObject("hospitalRating",hospitalRating);
 		mav.addObject("hpDetail",hpDetail);
+		mav.addObject("openingHours", openingHours);
+
 		mav.setViewName("detail/hospitalDetail.tiles1");
 
 		return mav;

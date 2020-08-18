@@ -6,7 +6,7 @@
 	<select id="hospitalDetail" parameterType="String" resultType="com.synergy.socdoc.member.HpInfoVO">
 		select hpseq, hpname, address, phone, dept, info, mainimg, subimg1, subimg2
 		from hospitalinfo
-		where hpseq=#{hpseq}
+		where hpseq=#{hpSeq}
 	</select>
 	
 	<select id="hospitalRating" parameterType="String" resultType="String">
@@ -14,6 +14,32 @@
 		from hospitalreview 
 		where hpseq=#{hpseq}
 	</select>
+	
+	<resultMap type="HashMap" id="openingHours">
+		<result property="day" column="day" javaType="String"></result>
+		<result property="open" column="open" javaType="String"></result>
+		<result property="close" column="close" javaType="String"></result>
+		
+	</resultMap>
+	
+	<select id="getOpeningHours" parameterType="String" resultMap="openingHours">
+		select nvl2(s.open, s.day, null) as day, nvl(s.open, null) as open, nvl2(s.open, t.hour, null) as close
+		from
+		(select s.day, s.close, t.hour as open
+		from schedule s join
+		     timetable t
+		     on s.open = t.hourSeq and s.hpSeq = #{hpSeq}
+		)s
+		left join timetable t
+		on s.close = t.hourSeq
+		order by day asc
+	</select>
+	
+	
+	
+	
+	
+	
 	
 	<!-- 즐겨찾기 -->
 	<select id="readBookMark" parameterType="HashMap" resultType="int">

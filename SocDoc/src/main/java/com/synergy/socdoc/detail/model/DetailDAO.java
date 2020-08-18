@@ -18,6 +18,8 @@ public class DetailDAO implements InterDetailDAO {
 	@Autowired	
 	private SqlSessionTemplate sqlsession;
 	
+	
+	
 	@Override
 	public HpInfoVO hospitalDetail(String hpSeq) {
 		HpInfoVO hpDetail = sqlsession.selectOne("detail.hospitalDetail",hpSeq);
@@ -29,6 +31,13 @@ public class DetailDAO implements InterDetailDAO {
 		String hospitalRating = sqlsession.selectOne("detail.hospitalRating",hpSeq);
 		return hospitalRating;
 	}
+	
+	@Override
+	public List<HashMap<String, String>> getOpeningHours(String hpSeq) {
+		List<HashMap<String, String>> openingHours = sqlsession.selectList("detail.getOpeningHours", hpSeq);
+		return openingHours;
+	}
+
 	
 	// 즐겨찾기
 	@Override
@@ -127,6 +136,7 @@ public class DetailDAO implements InterDetailDAO {
 		return n;
 	}
 
+	
 	
 
 	

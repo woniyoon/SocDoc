@@ -36,7 +36,7 @@
 	
 	.subject{
 		border:1px solid #999999;
-		width:700px;
+		width:690px;
 		height:25px;
 		resize: none;
 	}	
@@ -128,11 +128,9 @@
 		
 		var frm = document.inquiryFrm;
 		frm.method = "POST";
-		frm.action = "";
+		frm.action = "<%=ctxPath%>/inquiryAdd.sd";
 		frm.submit();
 		
-		alert("문의가 등록되었습니다");
-	
 	}
 	
 	
@@ -161,7 +159,7 @@
 		</table>
 		<div class="userBtn" align="right">
 			<button type="button" class="btnRegister" onClick="goInquiry()">등록</button>
-			<button type="button" class="btnCancel" onClick="">취소</button>
+			<button type="button" class="btnCancel" onClick="javascript:history.back()">취소</button>
 		</div>
 	</form>
 

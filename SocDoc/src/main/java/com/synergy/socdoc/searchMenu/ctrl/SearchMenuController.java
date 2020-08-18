@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.JsonObject;
 import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.PharmacyVO;
 import com.synergy.socdoc.searchMenu.service.InterSearchMenuService;
@@ -364,7 +365,7 @@ public class SearchMenuController {
 		
 		// 약국찾기메뉴
 		@RequestMapping(value = "/searchPharmacy.sd")
-		public ModelAndView searchPharmacy(HttpServletRequest request, ModelAndView mav) {
+		public ModelAndView searchPharmacy(ModelAndView mav) {
 
 			mav.setViewName("searchMenu/searchPharmacy.tiles1");
 
@@ -731,18 +732,89 @@ public class SearchMenuController {
 	
 	// 민간구급차 찾기
 	@RequestMapping(value = "/searchAmbulance.sd")
-	public ModelAndView searchAmbulance(ModelAndView mav) {
-
-		mav.setViewName("searchMenu/searchAmbulance.tiles1");
-
-		return mav;
+	public ModelAndView searchAmbulance(HttpServletRequest request, ModelAndView mav) {
+		
+		mav.setViewName("searchMenu/searchAmbulance.tiles1");		
+		return mav;	
+		
 	}
 	
 	
-	/*
+	
+	
+	
 	@ResponseBody
 	@RequestMapping(value = "/api/amList.sd", produces="application/text;charset=utf-8")
 	public String getAmList(HttpServletRequest request) {
+		
+		String city = request.getParameter("city");
+		
+		if(city==null) {
+			city="";
+		}
+		
+		String currentShowPageNo = request.getParameter("currentShowPageNo");
+		
+		if(currentShowPageNo==null) {
+			currentShowPageNo="1";
+		}
+		
+		int currentShowPageNoInt = Integer.parseInt(currentShowPageNo);
+		
+		int sizePerPage = 10;
+		int totalPage = 0;
+		
+		HashMap<String, String> paraMap = new HashMap<>();
+		paraMap.put("city", city);
+		paraMap.put("currentShowPageNo", currentShowPageNo);
+		paraMap.put("sizePerPage", String.valueOf(sizePerPage));
+
+		HashMap<String,String> amList = service.getAmList(paraMap);
+
+		
+		totalPage = (int) Math.ceil((double) Integer.parseInt(amList.get("totalCount")) / sizePerPage);
+		
+		
+		String pageBar = "";	       
+	    int blockSize = 10; 
+	    int loop = 1;
+	    
+	    int pageNo = ((currentShowPageNoInt - 1)/blockSize) * blockSize + 1;	
+	    
+	    // [이전]
+ 	 	if(pageNo != 1) {
+ 	 		pageBar += " &nbsp; <span style='cursor:pointer;' onclick='showAmList("+(pageNo-sizePerPage)+")'>이전</span> &nbsp"; 
+ 	 		 	 		
+ 	 	}
+ 	    
+ 	    while (!(loop > blockSize || pageNo > totalPage )) {
+ 	         if(pageNo==currentShowPageNoInt){
+ 	        	pageBar += " &nbsp; <span style='color:#0080ff; padding:2px 4px;'>"+pageNo+"</span> &nbsp";
+ 	    	 }else {
+ 	    		pageBar += " &nbsp; <span style='cursor:pointer;' onclick='showAmList("+pageNo+")'>"+pageNo+"</span> &nbsp"; 
+ 	    	 }
+ 	    	
+ 	 		 loop ++;
+ 	         pageNo ++;	         
+ 	    }
+ 	    
+ 	    // [다음]
+ 	    if( !(pageNo > totalPage) ) {
+ 	    	pageBar += " &nbsp; <span style='cursor:pointer;' onclick='showAmList("+(pageNo+sizePerPage)+")'>다음</span> &nbsp"; 
+
+ 		}
+		
+ 	    JsonObject json = new JsonObject();
+
+ 	    json.addProperty("strResult", amList.get("strResult"));
+ 	    json.addProperty("pageBar", pageBar);
+ 	    
+		return json.toString();
+		
+		
+		
+		/*
+		
 		
 		String city = request.getParameter("city");
 		
@@ -836,9 +908,11 @@ public class SearchMenuController {
 		String json = jsonArr.toString();
 
 		return json;
+		
+		*/
 	}
 	
-	*/
+	
 	
 	
 }

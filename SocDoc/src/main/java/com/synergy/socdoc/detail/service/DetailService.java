@@ -33,6 +33,13 @@ public class DetailService implements InterDetailService {
 		return hospitalRating;
 	}
 	
+	@Override
+	public List<HashMap<String, String>> getOpeningHours(String hpSeq) {
+		List<HashMap<String, String>> openingHours = dao.getOpeningHours(hpSeq);
+		return openingHours;
+	}
+
+	
 	// 즐겨찾기
 	@Override
 	public int readBookMark(HashMap<String, String> paraMap) {
@@ -128,6 +135,7 @@ public class DetailService implements InterDetailService {
 		return n;
 	}
 
+	
 	
 
 	

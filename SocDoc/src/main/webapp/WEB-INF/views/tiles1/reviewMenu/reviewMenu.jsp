@@ -24,7 +24,6 @@
 		display: grid;
         grid-template-columns: 32% 32% 32%;
         padding:10px;
-        border: solid 1px red;
         justify-content: space-between;
         
 	}
@@ -69,7 +68,7 @@
 		height: 40%;
 		padding:15px;
 		margin:15px 0;
- 		box-shadow: 0 0 10px skyblue;
+ 		box-shadow: 0 0 5px #157bb9;
 	}
 	
 	.reviews{
@@ -88,6 +87,7 @@
 	.more{
 		text-align: right;
 		color:#0080ff;
+		cursor:pointer;
 	}
 	
 	li{
@@ -242,15 +242,15 @@ var length=18;
 						}
 					}
 				    
+				    var url = "hospitalDetail.sd?hpSeq="+item.hpSeq;
 				    html+='</div>'
 				    html+='<div class="reviews" id="reviews'+item.hpSeq+'"></div>';
-				    html +='<div class="more">>더보기</div>';
+				    html +='<div class="more" onClick="goDetail('+item.hpSeq+')"> > 상세보기 </div>';
 				    html +='</div>'
 				    html +='</div>'
 
 					
-					readReviewDetail(item.hpSeq);
-					
+					readReviewDetail(item.hpSeq);					
 				})
 				$("#two").html(html);
 
@@ -263,6 +263,11 @@ var length=18;
 			}
 		});
 		
+	}
+	
+	function goDetail(hpSeq){
+		
+		location.href="hospitalDetail.sd?hpSeq="+hpSeq;
 	}
 	
 	

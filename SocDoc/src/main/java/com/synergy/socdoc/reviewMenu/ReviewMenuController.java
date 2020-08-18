@@ -42,23 +42,25 @@ public class ReviewMenuController {
 		String dept = request.getParameter("dept");
 		String currentShowPage = request.getParameter("currentShowPage");
 		
+		if(city==null) {
+			city="";
+		}
+		if(dept==null) {
+			dept="";
+		}
+		
+		
 		System.out.println("currentShowPage : "+currentShowPage);
 		
 		int sizePerPage = 6;
 		int startRno = (((Integer.parseInt(currentShowPage)-1)* sizePerPage)) + 1;
 		int endRno = startRno+sizePerPage-1;
-		
-		System.out.println("startRno : "+startRno);
-		System.out.println("endRno : "+endRno);
 
 		HashMap<String,String> paraMap = new HashMap<>();
 		paraMap.put("city", city);
 		paraMap.put("dept", dept);
 		paraMap.put("startRno", String.valueOf(startRno));
 		paraMap.put("endRno", String.valueOf(endRno));	
-		
-		System.out.println("city : "+city);
-
 		
 		List<HpInfoVO> hpList = service.getHpList(paraMap);
 				

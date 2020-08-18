@@ -14,6 +14,9 @@ public interface InterDetailDAO {
 
 	String hospitalRating(String hpSeq);
 	
+	List<HashMap<String, String>> getOpeningHours(String hpSeq);
+
+	
 	// 즐겨찾기
 	int readBookMark(HashMap<String, String> paraMap);
 	
@@ -47,6 +50,7 @@ public interface InterDetailDAO {
 	int reviewDeletePh(HashMap<String, String> paraMap);
 
 	int addReviewPh(HashMap<String, String> paraMap);
+
 	
 	
 

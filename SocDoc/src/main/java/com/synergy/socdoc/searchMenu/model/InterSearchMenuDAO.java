@@ -38,7 +38,7 @@ public interface InterSearchMenuDAO {
 	
 	
 	//민간구급차 API AJax List
-	HashMap<String,String> getAmList(String city);
+	HashMap<String, String> getAmList(HashMap<String, String> paraMap);
 
 	
 

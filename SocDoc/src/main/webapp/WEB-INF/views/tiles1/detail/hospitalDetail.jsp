@@ -321,18 +321,25 @@ $(document).ready(function(){
 	if('${loginuser}'.trim() != ''){
 		console.log('머야');
 		readReviewMe();
-		readBookMark();
+		readBookMark();		
 	}
 	
-	
 	$(".heart").on("click", function() {
-		if($(this).hasClass("is-active")){
-			modifyBookMark();
-		}
-		else{
-			modifyBookMark();
+		
+		if('${loginuser}'.trim() != ''){
+			if($(this).hasClass("is-active")){
+				modifyBookMark();
+			}
+			else{
+				modifyBookMark();
+			}
+		}else{
+			alert('로그인 하시면 즐겨찾는 병원으로 등록할 수 있습니다.');
+			return;
 		}
 	});
+	
+	
 	
 	$("#review").keyup(function(){
 		cntReview = $("#review").val().length;
@@ -371,15 +378,6 @@ $(document).ready(function(){
 		$("#hospitalRatingStar"+"${hospitalRating}").addClass("on").prevAll("span").addClass("on");
 		return false;
 	})
-	
-	/*  
-	//후기별점 
-	$(".starRating").each(function(){
-		$("#starRating2").addClass("on").prevAll("span").addClass("on");
-		return false;
-	})
-		  */
-	
 	
 	
 	//별점주기
@@ -746,12 +744,31 @@ function goRegister(){
 					</tr>
 					<tr>
 						<th>진료시간</th>
-						<td>월요일<br/>
-							화요일<br/>
-							수요일<br/>
-							목요일<br/>
-							금요일<br/>
-							토요일<br/></td>
+						<td>
+							<c:forEach var="hours" items="${openingHours}" varStatus="status">
+								<c:choose>
+						         <c:when test = "${status.index == 0}">
+									월요일
+						         </c:when>
+						         <c:when test = "${status.index == 1}">
+									화요일
+						         </c:when>
+						         <c:when test = "${status.index == 2}">
+									수요일
+						         </c:when>
+						         <c:when test = "${status.index == 3}">
+									목요일
+						         </c:when>
+						         <c:when test = "${status.index == 4}">
+									금요일
+						         </c:when>
+						         <c:when test = "${status.index == 5}">
+									토요일
+						         </c:when>
+						      </c:choose>
+							&emsp;<span>${hours.open}</span> ~ <span>${hours.close}</span><br/>
+							</c:forEach>
+						</td>
 					</tr>
 				</table>				
 			</div>

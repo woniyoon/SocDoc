@@ -89,8 +89,8 @@ public class SearchMenuService implements InterSearchMenuService {
 	
 	// 민간구급차
 	@Override
-	public HashMap<String,String> getAmList(String city) {
-		return dao.getAmList(city);
+	public HashMap<String,String> getAmList(HashMap<String, String> paraMap) {
+		return dao.getAmList(paraMap);
 	}
 
 	

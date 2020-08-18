@@ -105,7 +105,7 @@ public class SearchMenuDAO implements InterSearchMenuDAO {
 	private String apiKey = "s9xg9Bp9ErcnSizOyrS0DSPvXB%2B1rKUHXQLztWL6s3RshEh5dVwOutBsMoRcIUcTjHXGPFB%2F%2B2%2FoU1rkIYi8gA%3D%3D";
 
 	@Override
-	public HashMap<String,String> getAmList(String city) {
+	public HashMap<String,String> getAmList(HashMap<String,String> paraMap) {
 		
 		HashMap<String,String> amMap = new HashMap<>();
 		
@@ -116,23 +116,25 @@ public class SearchMenuDAO implements InterSearchMenuDAO {
 			urlBuilder.append("?" + URLEncoder.encode("ServiceKey","UTF-8") + "=" + apiKey); /*Service Key*/
 	        urlBuilder.append("&" + URLEncoder.encode("ServiceKey","UTF-8") + "=" + URLEncoder.encode("-", "UTF-8")); /*공공데이터포털에서 받은 인증키*/
 	        
-			urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /* 페이지번호 */
+			urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode(paraMap.get("currentShowPageNo"), "UTF-8")); /* 페이지번호 */
 			urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /* 한 페이지 결과 수 */
 	//		urlBuilder.append("&" + URLEncoder.encode("Q0", "UTF-8") + "=" + URLEncoder.encode(city, "UTF-8"));  //검색할 주소 범위의 시작 
 			
-		/*	if(!"".equals(city)) {
+			String city = paraMap.get("city");
+					
+			if(!"".equals(city)) {
 				urlBuilder.append("&" + URLEncoder.encode("Q0", "UTF-8") + "=" + URLEncoder.encode(city, "UTF-8"));
-			}*/
+			}
 			
 			URL url = new URL(urlBuilder.toString());
 			
-			System.out.println("URL : " + url);
+		//	System.out.println("URL : " + url);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
 			conn.setRequestMethod("GET");
 
 			conn.setRequestProperty("Content-type", "application/json");
-			System.out.println("Response code: " + conn.getResponseCode());
+		//	System.out.println("Response code: " + conn.getResponseCode());
 			BufferedReader rd;
 			
 			if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
@@ -150,26 +152,28 @@ public class SearchMenuDAO implements InterSearchMenuDAO {
 			
 			rd.close();
 			conn.disconnect();
-			System.out.println("result in DAO class : "+sb.toString());
+		//	System.out.println("result in DAO class : "+sb.toString());
 			amList = sb.toString();
 			
 			
 			JSONObject xmlJSONObj = XML.toJSONObject(sb.toString());	
-			System.out.println("xmlJSONObj : " + xmlJSONObj);
+		//	System.out.println("xmlJSONObj : " + xmlJSONObj);
 			amList = xmlJSONObj.toString();
-			System.out.println("xmlJSONObjString : " + amList);
+		//	System.out.println("xmlJSONObjString : " + amList);
 			 
 			JsonParser parser = new JsonParser();
 			JsonElement el= parser.parse(amList);
 			JsonObject body = el.getAsJsonObject().getAsJsonObject("response").getAsJsonObject("body");
-			int totalCount = body.getAsJsonObject("totalCount").getAsInt();
+			int totalCount = body.get("totalCount").getAsInt();
 			JsonArray result = body.getAsJsonObject("items").getAsJsonArray("item");
 			
-			String strTotalCount = String.valueOf(totalCount);
+//			String strTotalCount = String.valueOf(totalCount);
 			String strResult = result.toString();
 			
-			amMap.put("strTotalCount", strTotalCount);
+			
+			amMap.put("totalCount", String.valueOf(totalCount));
 			amMap.put("strResult", strResult);
+			
 			
 			return amMap;
 			

@@ -99,38 +99,46 @@
 
 <script type="text/javascript">
 
-	 var currentPage = 1;
+	 var currentShowPageNo = 1;
 	 
 	 $(document).ready(function(){
 		 
-		 showAmList(currentPage);	 
+		 showAmList(currentShowPageNo);	 
 		 
 	 })
 
-	 function showAmList(currentPage){
+	 function showAmList(currentShowPageNo){
 		 
 		 var html = "";
 
 		 $.ajax({
 			 url: "<%= ctxPath %>/api/amList.sd",
-			 data:{"city":$("#city").val(),"currentPage":currentPage}
+			 data:{"city":$("#city").val(),"currentShowPageNo":currentShowPageNo},
 	         dataType: "JSON",
 	         success: function(json){	
+	        	 
+	        	console.log(json);	
+	        	 
+	        	var result = JSON.parse(json.strResult);
+	        	/* 	console.log(json.strResult[0].carSeq);
+	        		console.log(typeof json.strResult[0])
+	        	for(var i=0; i<json.strResult.length; i++) {
 	        		
-				$.each(json, function(index,item){		
-
-					var adr = item.dutyAddr;
+	        	} */
+	        	
+				 $.each(result, function(index,item){		
+					
+				 	var adr = item.dutyAddr;
 					var adrArr = adr.split(' ');					
 					
 				 	html+="<tr><td>"+adrArr[0]+"</td>"
 						+"<td>"+adrArr[1]+"</td>"
 						+"<td>"+item.dutyName+"</td>"
-						+"<td>"+item.carSeq+"</td></tr>";
-						 
-				})		
+						+"<td>"+item.carSeq+"</td></tr>";						 
+				})		 
 					        	
 				$("#ambulanceTblBody").html(html);
-				$("#pageBar").html(pagebar);	        	 
+				$("#pageBar").html(json.pageBar);	   
 	         },
 	         error: function(request, status, error){
 	            alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -156,10 +164,24 @@
 	           <option value="">시도</option>
 	           <option value="서울특별시">서울특별시</option>   
 	           <option value="강원도">강원도</option>
+	           <option value="경기도">경기도</option>
+	           <option value="부산광역시">부산광역시</option>
+	           <option value="대구광역시">대구광역시</option>
+	           <option value="인천광역시">인천광역시</option>
+	           <option value="광주광역시">광주광역시</option>
+	           <option value="대전광역시">대전광역시</option>
+	           <option value="울산광역시">울산광역시</option>
+	           <option value="경상남도">경상남도</option>
+	           <option value="경상북도">경상북도</option>
+	           <option value="전라남도">전라남도</option>
+	           <option value="전라북도">전라북도</option>
+	           <option value="제주도">제주도</option>
+	           <option value="충청남도">충청남도</option>
+	           <option value="충청북도">충청북도</option>
 	        </select>          
 	     </div>	     
 	     <div class="ambulanceSelect">
-	        <button type="button" class="btnSearch" onclick="goSearch();" >검색</button>
+	        <button type="button" class="btnSearch" onclick="showAmList();" >검색</button>
 	     </div>
 	     <button type="button" class="btnExcel" onclick="downloadExcel();" >엑셀다운로드</button>
 	</div>

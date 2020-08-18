@@ -417,7 +417,7 @@
 		            '            <div class="desc">' + 
 		            '                <div class="ellipsis">' + item.address + 
 		            '                <div class="jibun ellipsis">' + item.phone + 
-		            '                <div><a href="" class="link">상세이동</a>' +
+		            '                <div><span onclick="goDetail('+item.hpSeq+')">상세이동</span>' +
 		            '				 <a href="https://map.kakao.com/link/map/현위치(약간틀림),'+latitude+','+longitude+'" style="color:blue;" target="_blank">큰지도</a>' +
 		            '				 <a href="https://map.kakao.com/link/to/현위치,'+latitude+','+longitude+'" style="color:blue" target="_blank">길찾기</a></div>'+ 
 		            '            </div>' +
@@ -561,7 +561,7 @@
 				$.each(json, function(index,item){							
 				
 				 	html+="<div class='hospitalListJSON'><span class='hospitalName'>"+item.hpName+"</span>"
-				 		+"<button type='button' class='btnDetail' onClick='goDetail();'>상세보기</button>"
+				 		+"<button type='button' class='btnDetail' onClick='goDetail("+item.hpSeq+");'>상세보기</button>"
 				 		+'<p class="infoG hospitalDept">'+item.hpdept+'</p>'
 						+'<p class="infoG">'+item.phone+'</p>'
 						+'<p class="infoG">'+item.address+'</p></div>';
@@ -586,6 +586,12 @@
 		});
 	
 		
+	}
+	
+	
+	function goDetail(hpSeq){
+		
+		location.href="hospitalDetail.sd?hpSeq="+hpSeq;
 	}
 		
 	
@@ -638,15 +644,16 @@
 				         </select>
 				         <select id="deptM" name="deptM" class="select">
 				            <option value="">진료과</option> 
-				            <option value="내과">내과</option> 
-				            <option value="이비인후과">이비인후과</option>
-				            <option value="정형외과">정형외과</option>
+				            <option value="내과">내과</option>
+				            <option value="소아청소년과">소아청소년과</option>
+				            <option value="정신건강의학과">정신건강의학과</option>				            
+				            <option value="피부과">피부과</option> 
+				            <option value="여성의학과">여성의학과</option>
 				            <option value="안과">안과</option>
-				            <option value="치과">치과</option> 
-				            <option value="외과">외과</option> 
-				            <option value="성형외과">성형외과</option>   
-				            <option value="정신건강의학과">정신건강의학과</option>
-				            <option value="피부과">피부과</option>                              
+				            <option value="이비인후과">이비인후과</option>
+				            <option value="비뇨기과">비뇨기과</option>
+				            <option value="가정의학과">가정의학과</option>
+				            <option value="치과">치과</option>                           
 				         </select>             
 				      </div>
 				      

@@ -14,6 +14,9 @@
 		from faqboard
 		order by faqseq desc
 	</select>
-
+	
+	<insert id="inquiryAdd" parameterType="com.synergy.socdoc.member.QnaBoardVO">
+		insert into qnaboard(qnaseq, userid, subject, content, groupno) values(qnaseq.nextval,#{userid},#{subject},#{content},0)
+	</insert>
 
 </mapper>
