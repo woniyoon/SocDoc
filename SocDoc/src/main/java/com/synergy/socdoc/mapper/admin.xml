@@ -304,6 +304,10 @@
 			union all 
 			select count (*) as total from pharmacyReview
 		)
+		where hpreviewseq is not null
+		<if test='searchWord != ""'>
+				lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
+		</if>
 	</select>
     <resultMap type="HashMap" id="reviewMap">
        <result property="rno"                column="rno"                javaType="String"/>
@@ -314,27 +318,31 @@
        <result property="regDate"            column="regDate"            javaType="String"/>
     </resultMap>
     <select id="reviewListPaging" parameterType="HashMap" resultMap="reviewMap">
-         select rno, userid, rating, content, name, regDate
-         from
-            (
-                 (
-                  select rno, userid, rating, content, hpName as name, to_char(regDate, 'yyyy-mm-dd') as regDate
-                  from
-                    (select rownum as rno, userid, rating, content, regDate, hpname
-                    from hospitalReview
-                    order by regDate desc)
-                )
-                union all
-                (
-                select rno, userid, rating, content, pharName, to_char(regDate, 'yyyy-mm-dd') as regDate
-                from
-                    (select rownum as rno, userid, rating, content, regDate, pharName
-                    from pharmacyReview 
-                    order by regDate desc)
-                )
-           ) T
-         where rno between #{startRno} and #{endRno}
-         order by rno
+        select rno, userid, rating, content, name, regDate
+		from
+		(
+		select rownum as rno, userid, rating, content, name, regDate
+		 from
+		    (
+		         (
+		          select userid, rating, content, hpName as name, to_char(regDate, 'yyyy-mm-dd') as regDate
+		          from
+		            (select userid, rating, content, regDate, hpname
+		            from hospitalReview
+		            order by regDate desc)
+		        )
+		        union all
+		        (
+		        select userid, rating, content, pharName, to_char(regDate, 'yyyy-mm-dd') as regDate
+		        from
+		            (select userid, rating, content, regDate, pharName
+		            from pharmacyReview 
+		            order by regDate desc)
+		        )
+		   ) T
+		)V
+		where rno between #{startRno} and #{endRno}
+		order by rno
    </select> 
 	
 	

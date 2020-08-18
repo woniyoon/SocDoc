@@ -99,6 +99,35 @@
       	font-weight: 500;
       	font-size: 10pt;  
 	}	
+	
+	
+	/* ---------- */
+	
+	.hospitalRatingStar {
+      background: url('/socdoc/resources/images/starsBlue.png') no-repeat right 0;
+      background-size: auto 100%;
+      width: 30px;
+      height: 30px;
+      display: inline-block;
+      text-indent: -9999px;
+      cursor: pointer;
+      margin-bottom: 10px;
+   }
+	
+	.reviewStar {
+      background: url('/socdoc/resources/images/starsYellow.png') no-repeat right 0;
+      background-size: auto 100%;
+      width: 15px;
+      height: 15px;
+      display: inline-block;
+      text-indent: -9999px;
+      cursor: pointer;
+      margin-bottom: 10px;
+   }
+
+   .on{
+      background-position:0 0;
+   }
 
 </style>
 
@@ -125,7 +154,7 @@
 	                        <th>선택</th>
 	                        <th>기관명</th>
 	                        <th>내용</th>
-	                        <th>별점</th>
+	                        <th style="width: 100px;">별점</th>
 	                        <th>작성자</th>
 	                        <th>작성일</th>
 	                     </tr>
@@ -136,6 +165,7 @@
 	                        <td><input type="checkbox" name="reviewck" class="reviewck" value="${reviewvo.rno}" /></td>
 	                        <td>${reviewvo.name}</td>
 	                        <td>${reviewvo.content}</td>
+	                   		<%-- 
 	                   		<td>
 		                        <c:if test="${reviewvo.rating==5}">★★★★★</c:if>
 				                <c:if test="${reviewvo.rating==4}">★★★★</c:if>
@@ -143,6 +173,19 @@
 				                <c:if test="${reviewvo.rating==2}">★★</c:if>
 				                <c:if test="${reviewvo.rating==1}">★</c:if>
 			                </td>
+			                 --%>
+			                <td style="width: 30px;"> 
+				                <c:if test="${not empty reviewvoList}">
+									    <c:forEach var="i" begin="1" end="5">
+										   <c:if test="${reviewvo.rating >= i}">
+										   		<span class="reviewStar on" id="hospitalRatingStar${i}">별</span>
+										   </c:if>
+										   <c:if test="${reviewvo.rating < i}">
+										   		<span class="reviewStar" id="hospitalRatingStar${i}">별</span>
+										   </c:if>
+										</c:forEach>
+								</c:if>
+							</td>
 	                        <td>${reviewvo.userid}</td>
 	                        <td>${reviewvo.regDate}</td>
 	                    </tr>
