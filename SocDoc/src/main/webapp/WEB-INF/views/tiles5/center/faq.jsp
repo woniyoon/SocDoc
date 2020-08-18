@@ -11,12 +11,15 @@
 
 	.container{		
 		align-content: center;
-		width:90%;
+		width:100%;
+		padding : 0 !important;
 	}
 	
 	.info{
-		margin:10px;
-		font-size: 9pt;
+		margin:20px;
+		font-size: 10pt;
+		font-weight: 800;
+		
 	}
 	
 	.faqTbl{
@@ -33,18 +36,29 @@
 	.accordion {
 		cursor: pointer;
 		transition: 0.4s;
+		font-weight: 800;
 	} 
 	
 	.panel {		
-		background-color: #e6f5ff;/*하늘색*/
+		background-color: #d8edfa;/*하늘색*/
 		overflow: hidden;
-		margin : 0px ; 	
+		margin : 0px ; 
+		font-weight: 500;
 	}
 	
 	.panel-none{
 		display: none;
 	}
 	
+	
+	.faqMain{
+		background : url('/socdoc/resources/images/faqMain.jpg'); 
+		background-size: auto;
+		background-repeat : repeat;
+		height:200px;
+		margin-top: -20px;
+		width:100%;
+	}
 
 </style>
 
@@ -81,10 +95,11 @@
 
 <div class="container">
 
-	<h3 style="font-weight: bolder;">자주하는 질문</h3>
-	<div class="info">회원 여러분께서 자주하는 질문을 모아두었습니다.<br/>
-		더 필요하신 문의사항은 <strong>[고객센터] > [문의하기]</strong> 메뉴를 이용해주세요.</div>
+	<div class="faqMain"></div>
 
+	<!-- <h3 style="font-weight: bolder;">자주하는 질문</h3> -->
+<!-- 	<div class="info">회원 여러분께서 자주하는 질문을 모아두었습니다.<br/>
+ -->	<!-- 	더 필요하신 문의사항은 <strong>[고객센터] > [문의하기]</strong> 메뉴를 이용해주세요. --></div>
 	<table class="faqTbl">
 		<c:forEach var="faqList" items="${faqList}">
 			<tr class="accordion">

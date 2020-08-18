@@ -24,8 +24,8 @@
 	}
 	
 	main{
-		margin: 30px auto;
-	    width: 1080px;
+		margin: auto;
+	    width: 90%;
 	    min-height: 70vh;
 	    height: auto;
 	    flex-direction: row;
@@ -34,6 +34,14 @@
 	   	flex-shrink:0 !important;	
 	   	flex:none;	    
 	}
+	/* 
+	.centerMain{
+		background : url('/socdoc/resources/images/centerMain.jpg'); 
+		background-size: auto;
+		background-repeat : repeat;
+		height:200px;
+		margin-top: -20px;
+	} */
 	
 	#sideMenu {
 		padding: 40px 0 0 40px;
@@ -49,7 +57,8 @@
 
 <body>
 	<tiles:insertAttribute name="header" />
-	<main>
+<!-- 	<div class="centerMain"></div>
+ -->	<main>
 		<tiles:insertAttribute name="sideinfo" />
 		<div id="contents">		
 			<tiles:insertAttribute name="content" />

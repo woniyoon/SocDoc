@@ -452,3 +452,24 @@ values(phReviewSeq.nextval, 'heohaeming', 20, '일요일에도 영업한다는 �
 select userid, content, regDate, rating 
      	from pharmacyreview
      	where pharmseq=1;
+
+
+select nvl2(s.open, s.day, null) as day, nvl(s.open, null) as open, nvl2(s.open, t.hour, null) as close
+		from
+		(select s.day, s.close, t.hour as open
+		from schedule s join
+		     timetable t
+		     on s.open = t.hourSeq and s.hpSeq = 2
+		)s
+		left join timetable t
+		on s.close = t.hourSeq
+		order by day asc;
+        
+        
+        
+        
+        
+        select pharmSeq, name, address, phone, img
+		from pharmacyinfo
+		where pharmSeq=4;
+

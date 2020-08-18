@@ -153,18 +153,12 @@ public class SearchMenuController {
 	    
 	    // [이전]
  	 	if(pageNo != 1) {
-/* 	 		pageBarM += " &nbsp; <span style='cursor:pointer;' onclick='goSearch("+(pageNo-sizePerPage)+","+latitudeHere+","+longitudeHere+")'>이전</span> &nbsp"; 
-*/ 	 		pageBarM += "<a class='arrow pprev' onclick='goSearch(1,"+latitudeHere+","+longitudeHere+")'></a>";
- 	 		pageBarM += "<a class='arrow prev' onclick='goSearch("+(pageNo-sizePerPage)+","+latitudeHere+","+longitudeHere+")'></a>";
+ 	 		pageBarM += "<a class='arrow pprev' onclick='goSearch(1,"+latitudeHere+","+longitudeHere+")'></a>";
+ 	 		pageBarM += "<a class='arrow prev' onclick='goSearch("+(pageNo-1)+","+latitudeHere+","+longitudeHere+")'></a>";
  	 	}
  	    
  	    while (!(loop > blockSize || pageNo > totalPage )) {
- 	        /* if(pageNo==currentShowPageNo){
- 	        	pageBarM += " &nbsp; <span style='color:#0080ff; padding:2px 4px;'>"+pageNo+"</span> &nbsp";
- 	    	 }else {
- 	    		pageBarM += " &nbsp; <span style='cursor:pointer;' onclick='goSearch("+pageNo+","+latitudeHere+","+longitudeHere+")'>"+pageNo+"</span> &nbsp"; 
- 	    	 }
- 	         */
+ 	        
  	        if(pageNo == currentShowPageNo) {
  	        	pageBarM += "<a class='active'>" + pageNo + "</a>";
              }
@@ -178,8 +172,7 @@ public class SearchMenuController {
  	    
  	    // [다음]
  	    if( !(pageNo > totalPage) ) {
-/* 	    	pageBarM += " &nbsp; <span style='cursor:pointer;' onclick='goSearch("+(pageNo+sizePerPage)+","+latitudeHere+","+longitudeHere+")'>다음</span> &nbsp"; 
-*/ 	    	pageBarM += "<a class='arrow next' href='javascript:goSearch("+(pageNo+sizePerPage)+","+latitudeHere+","+longitudeHere+")'></a>";  
+ 	    	pageBarM += "<a class='arrow next' href='javascript:goSearch("+(pageNo)+","+latitudeHere+","+longitudeHere+")'></a>";  
  	    	pageBarM += "<a class='arrow nnext' href='javascript:goSearch("+totalPage+","+latitudeHere+","+longitudeHere+")></a>";  
 
  		}
@@ -200,9 +193,7 @@ public class SearchMenuController {
 				String latitude = String.valueOf(hpMapVO.getLatitude());
 				String longitude = String.valueOf(hpMapVO.getLongitude());
 				String distance = hpMapVO.getDistance();
-				
-				System.out.println(distance);
-				
+								
 	            jsonObj.put("hpSeq", hpSeq);
 	            jsonObj.put("hpName", hpName);
 	            jsonObj.put("address", address);
@@ -390,16 +381,16 @@ public class SearchMenuController {
 				for(PharmacyVO phMapVO : phMap) {
 					JSONObject jsonObj = new JSONObject();
 								
-					int phSeq = phMapVO.getPharmSeq();
-					String phName = phMapVO.getName();
+					int pharmSeq = phMapVO.getPharmSeq();
+					String name = phMapVO.getName();
 					String address = phMapVO.getAddress();
 					String phone = phMapVO.getPhone();
 		            double latitude = phMapVO.getLatitude();
 		            double longitude = phMapVO.getLongitude();
 		            String img = phMapVO.getMainImg();
 
-		            jsonObj.put("phSeq", phSeq);
-		            jsonObj.put("phName", phName);
+		            jsonObj.put("pharmSeq", pharmSeq);
+		            jsonObj.put("name", name);
 		            jsonObj.put("address", address);
 		            jsonObj.put("phone", phone);
 		            jsonObj.put("latitude", latitude);
@@ -526,14 +517,16 @@ public class SearchMenuController {
 					
 					JSONObject jsonObj = new JSONObject();
 				
-					String phName = phMapVO.getName();
+					String pharmSeq = String.valueOf(phMapVO.getPharmSeq());
+					String name = phMapVO.getName();
 					String address = phMapVO.getAddress();
 					String phone = phMapVO.getPhone();
 					String latitude = String.valueOf(phMapVO.getLatitude());
 					String longitude = String.valueOf(phMapVO.getLongitude());
 					String distance = phMapVO.getDistance();
 					
-		            jsonObj.put("phName", phName);
+		            jsonObj.put("pharmSeq", pharmSeq);
+		            jsonObj.put("name", name);
 		            jsonObj.put("address", address);
 		            jsonObj.put("phone", phone);
 		            jsonObj.put("latitude", latitude);
@@ -647,13 +640,13 @@ public class SearchMenuController {
 					
 					JSONObject jsonObj = new JSONObject();
 				
-					String phSeq = String.valueOf(phMapVO.getPharmSeq());
-					String phName = phMapVO.getName();
+					String pharmSeq = String.valueOf(phMapVO.getPharmSeq());
+					String name = phMapVO.getName();
 					String address = phMapVO.getAddress();
 					String phone = phMapVO.getPhone();
 					
-		            jsonObj.put("phSeq", phSeq);
-		            jsonObj.put("phName", phName);
+		            jsonObj.put("pharmSeq", pharmSeq);
+		            jsonObj.put("name", name);
 		            jsonObj.put("address", address);
 		            jsonObj.put("phone", phone);
 		            jsonObj.put("pageBar", pageBar);
@@ -779,19 +772,19 @@ public class SearchMenuController {
 	    int blockSize = 10; 
 	    int loop = 1;
 	    
-	    int pageNo = ((currentShowPageNoInt - 1)/blockSize) * blockSize + 1;	
+	    int pageNo = ((currentShowPageNoInt - 1)/blockSize) * blockSize + 1;	//1~10 
 	    
 	    // [이전]
  	 	if(pageNo != 1) {
- 	 		pageBar += " &nbsp; <span style='cursor:pointer;' onclick='showAmList("+(pageNo-sizePerPage)+")'>이전</span> &nbsp"; 
- 	 		 	 		
+ 	 		pageBar += "<a class='arrow pprev' onclick='showAmList(1)'></a>"; 
+ 	 		pageBar += "<a class='arrow prev' onclick='showAmList("+(pageNo-1)+")'></a>";  	 		 	 		
  	 	}
  	    
  	    while (!(loop > blockSize || pageNo > totalPage )) {
  	         if(pageNo==currentShowPageNoInt){
- 	        	pageBar += " &nbsp; <span style='color:#0080ff; padding:2px 4px;'>"+pageNo+"</span> &nbsp";
+ 	        	pageBar += "<a class='active'>"+pageNo+"</a>";
  	    	 }else {
- 	    		pageBar += " &nbsp; <span style='cursor:pointer;' onclick='showAmList("+pageNo+")'>"+pageNo+"</span> &nbsp"; 
+ 	    		pageBar += "<a onclick='showAmList("+pageNo+")'>"+pageNo+"</a>"; 
  	    	 }
  	    	
  	 		 loop ++;
@@ -800,8 +793,8 @@ public class SearchMenuController {
  	    
  	    // [다음]
  	    if( !(pageNo > totalPage) ) {
- 	    	pageBar += " &nbsp; <span style='cursor:pointer;' onclick='showAmList("+(pageNo+sizePerPage)+")'>다음</span> &nbsp"; 
-
+ 	    	pageBar += "<a class='arrow next' onclick='showAmList("+(pageNo)+")'></a>"; 
+	 		pageBar += "<a class='arrow nnext' onclick='showAmList("+totalPage+")'></a>"; 
  		}
 		
  	    JsonObject json = new JsonObject();

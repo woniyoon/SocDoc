@@ -54,7 +54,7 @@
 	
 	.name{
 		font-size: 11pt;
-		font-weight: bolder;
+		font-weight: 800;
 		margin: 10px 0 5px 0;
 	}
 	
@@ -68,7 +68,8 @@
 		height: 40%;
 		padding:15px;
 		margin:15px 0;
- 		box-shadow: 0 0 5px #157bb9;
+ 		box-shadow: 0 0 2px #157bb9;
+ 		border: 1px solid #157bb9;
 	}
 	
 	.reviews{
@@ -86,8 +87,9 @@
 	
 	.more{
 		text-align: right;
-		color:#0080ff;
+		color:#157bb9;
 		cursor:pointer;
+		font-weight: 600;
 	}
 	
 	li{
@@ -97,9 +99,14 @@
 	.reviewImg{
 		width: 20px !important;
 		height: 20px !important;
-		margin: -5px 10px 0 10px;
+		margin: -5px 10px;
 	}
 	
+	
+	.reply{
+		font-weight: 600;
+		margin-bottom: 5px;
+	}
 	
 	.starRating{
 		background: url('/socdoc/resources/images/starsBlue.png') no-repeat right 0;
@@ -192,7 +199,7 @@
 <script type="text/javascript">
 
 var currentShowPage = 1;
-var length=18;
+var length=19;
 
 
 	$(document).ready(function(){
@@ -245,7 +252,7 @@ var length=18;
 				    var url = "hospitalDetail.sd?hpSeq="+item.hpSeq;
 				    html+='</div>'
 				    html+='<div class="reviews" id="reviews'+item.hpSeq+'"></div>';
-				    html +='<div class="more" onClick="goDetail('+item.hpSeq+')"> > 상세보기 </div>';
+				    html +='<div class="more" onClick="goDetail('+item.hpSeq+')"> 상세보기 > </div>';
 				    html +='</div>'
 				    html +='</div>'
 
@@ -293,7 +300,7 @@ var length=18;
 							 reviewImg = "five.png"
 						 }
 							 
-						html +='<div style="margin:5px 0;">'
+						html +='<div style="margin:8px 0;">'
 							 +'		<img class="reviewImg" src="/socdoc/resources/images/'+reviewImg+'"><span class="reply">'+item.content+'</span>'
 							 +'	</div>';
 							 
@@ -308,7 +315,7 @@ var length=18;
 					
 				 	 	
 				}else{
-					html += '<div style="text-align:center;">'
+					html += '<div class="reply" style="text-align:center;">'
 						 +'		후기가 없습니다.'
 						 +'	 </div>';
 				}

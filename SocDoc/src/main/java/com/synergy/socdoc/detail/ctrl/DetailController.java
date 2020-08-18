@@ -152,7 +152,6 @@ public class DetailController {
 		
 		JSONObject jsonObj = new JSONObject();
 		
-		System.out.println(reviewMe);//null
 
 		if(reviewMe!=null) {
 			jsonObj.put("userid",reviewMe.getUserid());
@@ -256,7 +255,6 @@ public class DetailController {
 		
 		int n = service.reviewDelete(paraMap);
 		
-		System.out.println("n : "+n);
 		
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("n", n);
@@ -305,14 +303,18 @@ public class DetailController {
 	@RequestMapping(value = "/pharmacyDetail.sd")
 	public ModelAndView pharmacyDetail(HttpServletRequest request, ModelAndView mav) {
 		
-		String phSeq = request.getParameter("phSeq");
+		String pharmSeq = request.getParameter("pharmSeq");
 		
 		//잠시만
-		if(phSeq == null) {
-			phSeq="1";
+		if(pharmSeq == null) {
+			pharmSeq="15";
 		}
-		PharmacyVO phDetail = service.pharmacyDetail(phSeq);
-		String pharmacyRating = service.pharmacyRating(phSeq);
+		PharmacyVO phDetail = service.pharmacyDetail(pharmSeq);
+		String pharmacyRating = service.pharmacyRating(pharmSeq);
+		
+		if(pharmacyRating==null) {
+			pharmacyRating="1";
+		}
 		
 		mav.addObject("pharmacyRating",pharmacyRating);
 		mav.addObject("phDetail",phDetail);
@@ -333,10 +335,10 @@ public class DetailController {
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
-		String phSeq = request.getParameter("phSeq");
+		String pharmSeq = request.getParameter("pharmSeq");
 
 		HashMap<String,String> paraMap = new HashMap<>();
-		paraMap.put("phSeq", phSeq);
+		paraMap.put("pharmSeq", pharmSeq);
 		paraMap.put("loginuserId", loginuser.getUserid());	
 		
 		PharReviewVO reviewMe = service.getPhReviewMe(paraMap);
@@ -366,7 +368,7 @@ public class DetailController {
 	@RequestMapping(value="/getPhReview.sd", produces = "text/plain;charset=UTF-8")
 	public String getPhReview(HttpServletRequest request) {
 		
-		String phSeq = request.getParameter("phSeq");
+		String pharmSeq = request.getParameter("pharmSeq");
 		String currentShowPageNo = request.getParameter("currentShowPageNo");
 		
 		if(currentShowPageNo==null) {
@@ -378,7 +380,7 @@ public class DetailController {
 		int endRno = startRno+sizePerPage-1;
 
 		HashMap<String,String> paraMap = new HashMap<>();
-		paraMap.put("phSeq", phSeq);
+		paraMap.put("pharmSeq", pharmSeq);
 		paraMap.put("startRno", String.valueOf(startRno));
 		paraMap.put("endRno", String.valueOf(endRno));		
 		
@@ -389,7 +391,7 @@ public class DetailController {
 		if (reviewList != null) {
 			for (PharReviewVO phRVO : reviewList) {
 				JSONObject jsonObj = new JSONObject();
-				jsonObj.put("phSeq", phRVO.getPharmSeq());
+				jsonObj.put("pharmSeq", phRVO.getPharmSeq());
 				jsonObj.put("userid", phRVO.getUserid());
 				jsonObj.put("content", phRVO.getContent());
 				jsonObj.put("regDate", phRVO.getRegDate());
@@ -407,11 +409,11 @@ public class DetailController {
 	@ResponseBody
 	@RequestMapping(value="/getReviewTotalPagePh.sd")
 	public String getReviewTotalPagePh(HttpServletRequest request) {
-		String phSeq = request.getParameter("phSeq");
+		String pharmSeq = request.getParameter("pharmSeq");
 		String sizePerPage = request.getParameter("sizePerPage");
 		
 		HashMap<String,String> paraMap = new HashMap<>();
-		paraMap.put("phSeq", phSeq);
+		paraMap.put("pharmSeq", pharmSeq);
 		
 		int totalCount = service.getReviewTotalCountPh(paraMap);
 		
@@ -433,11 +435,11 @@ public class DetailController {
 		
 		String jsonStr = "";
 
-		String phSeq = request.getParameter("phSeq");
+		String pharmSeq = request.getParameter("pharmSeq");
 		String userid = request.getParameter("userid");
 		
 		HashMap<String,String> paraMap = new HashMap<>();
-		paraMap.put("phSeq", phSeq);
+		paraMap.put("pharmSeq", pharmSeq);
 		paraMap.put("userid", userid);
 		
 		int n = service.reviewDeletePh(paraMap);
@@ -457,18 +459,18 @@ public class DetailController {
 
 		String jsonStr = "";
 
-		String phSeq = request.getParameter("phSeq");
+		String pharmSeq = request.getParameter("pharmSeq");
 		String userid = request.getParameter("userid");
 		String reviewContent = request.getParameter("reviewContent");
 		String rating = request.getParameter("rating");
-		String phName = request.getParameter("phName");
+		String name = request.getParameter("name");
 
 		HashMap<String,String> paraMap = new HashMap<>();
-		paraMap.put("phSeq", phSeq);
+		paraMap.put("pharmSeq", pharmSeq);
 		paraMap.put("userid", userid);
 		paraMap.put("reviewContent", reviewContent);
 		paraMap.put("rating", rating);
-		paraMap.put("phName", phName);
+		paraMap.put("name", name);
 
 		int n = service.addReviewPh(paraMap);	
 

@@ -95,14 +95,14 @@ public class DetailDAO implements InterDetailDAO {
 	
 	// -------------- 약국
 	@Override
-	public PharmacyVO pharmacyDetail(String phSeq) {
-		PharmacyVO phDetail = sqlsession.selectOne("detail.pharmacyDetail",phSeq);
+	public PharmacyVO pharmacyDetail(String pharmSeq) {
+		PharmacyVO phDetail = sqlsession.selectOne("detail.pharmacyDetail",pharmSeq);
 		return phDetail;
 	}
 
 	@Override
-	public String pharmacyRating(String phSeq) {
-		String pharmacyRating = sqlsession.selectOne("detail.pharmacyRating",phSeq);
+	public String pharmacyRating(String pharmSeq) {
+		String pharmacyRating = sqlsession.selectOne("detail.pharmacyRating",pharmSeq);
 		return pharmacyRating;
 	}
 
@@ -114,7 +114,7 @@ public class DetailDAO implements InterDetailDAO {
 
 	@Override
 	public List<PharReviewVO> getPhReview(HashMap<String, String> paraMap) {
-		List<PharReviewVO> PharReviewVO = sqlsession.selectList("detail.PharReviewVO",paraMap);
+		List<PharReviewVO> PharReviewVO = sqlsession.selectList("detail.getPhReview",paraMap);
 		return PharReviewVO;
 	}
 

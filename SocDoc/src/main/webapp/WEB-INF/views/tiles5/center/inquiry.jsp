@@ -13,6 +13,7 @@
 	.container{		
 		align-content: center;
 		width:100%;
+		padding : 0 !important;		
 	}
 	
 	.info{
@@ -25,12 +26,13 @@
 	}
 	
 	th, td{		
-		padding:25px 15px !important;				
+		padding-top:25px !important;				
 	}
 	
 	th{
 		width: 10%;
-		font-weight: bolder;
+		min-width : 50px;
+		font-weight: 900;
 		color:#0080ff;
 	}
 	
@@ -56,26 +58,39 @@
 		outline:1px solid #0080ff;
 	}
 	
+	.userBtn{
+		margin-bottom: 30px;	
+	}
+	
 	.btnRegister{
 		background-color: #0080ff;
 		color:#fff;
 		cursor: pointer;	
-		border: 1px solid #999999; 		
+		border: 1px solid #aaa9aa; 		
 		padding: 0.25em .75em; 	
 		border-radius: .25em; 		
-		font-weight: 500;
+		font-weight: 550;
 		font-size: 10pt;	
 	}
 	
 	.btnCancel{
 		background-color: #efefef;
 		cursor: pointer;	
-		border: 1px solid #999999; 		
+		border: 1px solid #aaa9aa; 		
 		padding: 0.25em .75em; 	
 		border-radius: .25em; 		
-		font-weight: 500;
+		font-weight: 550;
 		font-size: 10pt;	
 		margin-right: 1
+	}
+	
+	.inquiryMain{
+		background : url('/socdoc/resources/images/inquiryMain.jpg'); 
+		background-size: auto;
+		background-repeat : repeat;
+		height:200px;
+		margin-top: -20px;
+		width:100%;
 	}
 	
 </style>
@@ -115,7 +130,7 @@
 	function goInquiry() {
 			
 		if($("#subject").val().trim()==""){
-			alert("제목을 입력해주세요");
+			alert("문의글 제목을 입력해주세요");
 			$(this).focus();					
 			return;
 		}
@@ -141,13 +156,14 @@
 
 <div class="container">
 
-	<h3 style="font-weight: bolder;">1:1 문의하기</h3>
+	<div class="inquiryMain"></div>
+	<!-- <h3 style="font-weight: bolder;">1:1 문의하기</h3>
 	<div class="info"> 질문하신 내용은 <strong>[마이페이지] > [문의내역]</strong> 에서 확인 가능합니다.</div>
-		
+	 -->	
 	<form name="inquiryFrm">
 		<table class="inquiryTbl">
 			<tr>
-				<th>&nbsp;&nbsp;제목</th>
+				<th>&nbsp;&nbsp;문의글 제목</th>
 				<td><textarea id="subject" name="subject" class="subject" maxlength="50" autofocus></textarea>
 				<span id="bytesSubject">0</span>/50자</td>
 			</tr>

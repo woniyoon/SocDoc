@@ -142,6 +142,20 @@
 		padding: 20px 0;	
 	}
 	
+	.mPharmacyDistance{
+		border:1px solid #999999;
+		border-radius: .5em;
+		background-color: #ea1111;
+		color:#ffffff;		
+		width:60px;
+		height:20px;
+		margin-bottom: 5px;
+		padding-top:0.1em;
+		text-align: center;
+		font-weight: bolder;
+		font-size:9pt;
+	}
+	
 	.mPharmacyName{
 		font-weight: 900;	
 		font-size : 11pt;
@@ -151,6 +165,12 @@
 	
 	.mList{
 		margin-bottom: 3px;
+	}
+	
+	.mPharmacyDetailBtn{
+		float : right;
+		color:#416eb5;
+		font-size: 9pt;
 	}
 	
 	.pharmacyName{
@@ -191,6 +211,10 @@
     .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
     .info .link {color: #5085BB;}
     
+    .overlayDetailGo{
+    	color:blue;
+    	cursor:pointer;
+    }
     
 	.page_wrap {
 		text-align:center;
@@ -398,16 +422,16 @@
 					var content = '<div class="wrap">' + 
 		            '    <div class="info">' + 
 		            '        <div class="title">' + 
-		            	item.phName + 
+		            	item.name + 
 		            '            <div class="close" id="close" title="닫기"></div>' + 
 		            '        </div>' + 
 		            '        <div class="body">' + 
 		            '            <div class="desc">' + 
-		            '                <div class="ellipsis">' + item.address + 
-		            '                <div class="jibun ellipsis">' + item.phone + 
-		            '                <div><a href="" class="link">상세이동</a>' +
-		            '				 <a href="https://map.kakao.com/link/map/현위치(약간틀림),'+latitude+','+longitude+'" style="color:blue;" target="_blank">큰지도</a>' +
-		            '				 <a href="https://map.kakao.com/link/to/현위치,'+latitude+','+longitude+'" style="color:blue" target="_blank">길찾기</a></div>'+ 
+		            '                <div class="ellipsis">' + item.address + "</div>" +
+		            '                <div class="jibun ellipsis">' + item.phone + "</div>" +
+		            '                <div><span class="overlayDetailGo" onclick="goDetail('+item.pharmSeq+')">상세이동&nbsp;</span>' +
+		            '				 <a href="https://map.kakao.com/link/map/현위치(약간틀림),'+latitude+','+longitude+'" style="color:blue;" target="_blank">&nbsp;큰지도&nbsp;</a>' +
+		            '				 <a href="https://map.kakao.com/link/to/현위치,'+latitude+','+longitude+'" style="color:blue" target="_blank">&nbsp;길찾기&nbsp;</a></div>'+ 
 		            '            </div>' +
 		            '        </div>' + 
 		            '    </div>' +    
@@ -502,26 +526,33 @@
 				dataType: "JSON",
 				success: function(json){ 
 					
-					$.each(json, function(index, item){ 					
-						
-						content += "<tr><td>"
-				      			+		"<div id='mPharmacyName' class='mPharmacyName'>"+item.phName+"</div>"
-				      			+		"<input type='hidden' class='mlatitude' value='"+item.latitude+"'>"
-				      			+		"<input type='hidden' class='mlongitude' value='"+item.longitude+"'>"
-				      			+		"<span>&nbsp;&nbsp;"+item.distance+"</span>"
-				      			+		"<div class='mList' id='mPharmacyTel'>"+item.phone+"</div>"
-				      			+		"<div class='mList' id='mPharmacyAddress'>"+item.address+"</div>"
-				      			+	"</td><tr>";
-				      			
-		      			if(index  == 0) {
-							pagebarM = item.pageBarM;
-							latitude0 = item.latitude;
-							longitude0 = item.longitude;
-							locPosition0 = new kakao.maps.LatLng(latitude, longitude);
+					if(json.length==0){
+						content += "<tr><td>조회할 약국이 없습니다.</td><tr>";
+					}else{
+						$.each(json, function(index, item){ 					
+							
+							content += "<tr><td>"
+							  		+		"<div class='mPharmacyDistance'>"+item.distance+"km</div>"
+					      			+		"<div id='mPharmacyName' class='mPharmacyName'>"+item.name+"</div>"
+					      			+		"<input type='hidden' class='mlatitude' value='"+item.latitude+"'>"
+					      			+		"<input type='hidden' class='mlongitude' value='"+item.longitude+"'>"
+					      			+		"<div class='mList' id='mPharmacyTel'>"+item.phone+"</div>"
+					      			+		"<div class='mList' id='mPharmacyAddress'>"+item.address+"</div>"
+					      			+		"<div class='mPharmacyDetailBtn' onClick='goDetail("+item.pharmSeq+")'>상세보기</div>"
+					      			+	"</td><tr>";
+					      			
+			      			if(index  == 0) {
+								pagebarM = item.pageBarM;
+								latitude0 = item.latitude;
+								longitude0 = item.longitude;
+								locPosition0 = new kakao.maps.LatLng(latitude, longitude);
 
-						}
-		      			
-					});	
+							}
+			      			
+						});
+						
+					}
+						
 					
 					$(".mabListTable").html(content);
 					$('#pageBarM').html(pagebarM);
@@ -553,8 +584,8 @@
 				
 				$.each(json, function(index,item){							
 				
-				 	html+="<div class='pharmacyListJSON'><span class='pharmacyName'>"+item.phName+"</span>"
-				 		+"<button type='button' class='btnDetail' onClick='goDetail();'>상세보기</button>"
+				 	html+="<div class='pharmacyListJSON'><span class='pharmacyName'>"+item.name+"</span>"
+				 		+"<button type='button' class='btnDetail' onClick='goDetail("+item.pharmSeq+");'>상세보기</button>"
 						+'<p class="infoG">'+item.phone+'</p>'
 						+'<p class="infoG">'+item.address+'</p></div>';
 						
@@ -580,7 +611,10 @@
 	}
 	
 	
+	function goDetail(pharmSeq){
 	
+		location.href="pharmacyDetail.sd?pharmSeq="+pharmSeq;
+	}
 	
 
 	

@@ -95,30 +95,30 @@
 	
 	<!-- 약국 -->
 	<select id="pharmacyDetail" parameterType="String" resultType="com.synergy.socdoc.member.PharmacyVO">
-		select pharmseq, name, address, phone, img,
+		select pharmSeq, name, address, phone, img
 		from pharmacyinfo
-		where pharmseq=#{phSeq}
+		where pharmSeq=#{pharmSeq}
 	</select>
 	
 	<select id="pharmacyRating" parameterType="String" resultType="String">
 		select trunc(avg(rating)) as avg 
 		from pharmacyreview 
-		where pharmseq=#{phSeq}
+		where pharmSeq=#{pharmSeq}
 	</select>
 	
-	<select id="getPhReviewMe" parameterType="HashMap" resultType="com.synergy.socdoc.member.PharmacyVO"> 
+	<select id="getPhReviewMe" parameterType="HashMap" resultType="com.synergy.socdoc.member.PharReviewVO"> 
 		select userid, content, regDate, rating 
      	from pharmacyreview
-     	where pharmseq=#{phSeq} and userid = #{loginuserId}
+     	where pharmSeq=#{pharmSeq} and userid = #{loginuserId}
     </select>
 
-	<select id="getPhReview" parameterType="HashMap" resultType="com.synergy.socdoc.member.PharmacyVO"> 
+	<select id="getPhReview" parameterType="HashMap" resultType="com.synergy.socdoc.member.PharReviewVO"> 
 		select userid, content, regdate, rating 
      		from
 	     	(select row_number() over (order by regDate desc) as rno,
 	     		userid, content, regDate, rating 
 	     	from pharmacyreview
-	     	where pharmseq=#{phSeq}
+	     	where pharmSeq=#{pharmSeq}
 	     	)V
      	where V.rno between #{startRno} and #{endRno}
     </select>
@@ -126,16 +126,16 @@
 	<select id="getReviewTotalCountPh" parameterType="HashMap" resultType="int">
 		select count(*)
 		from pharmacyreview
-		where pharmseq = #{phSeq}
+		where pharmSeq = #{pharmSeq}
 	</select>
 	
 	<delete id="reviewDeletePh" parameterType="HashMap">
-		delete pharmacyreview where pharmseq=#{phSeq} and userid=#{userid}
+		delete pharmacyreview where pharmSeq=#{pharmSeq} and userid=#{userid}
 	</delete>
 	
 	<insert id="addReviewPh" parameterType="HashMap">
-    	insert into pharmacyreview(phReviewSeq,userid,pharmseq,content,rating, pharname)
-		values(phReviewSeq.nextval, #{userid}, #{phSeq}, #{reviewContent}, #{rating}, #{phName})
+    	insert into pharmacyreview(phReviewSeq,userid,pharmSeq,content,rating, pharname)
+		values(phReviewSeq.nextval, #{userid}, #{pharmSeq}, #{reviewContent}, #{rating}, #{phName})
     </insert>
 	
 	

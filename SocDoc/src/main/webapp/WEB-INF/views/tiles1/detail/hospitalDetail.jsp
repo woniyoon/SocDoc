@@ -14,7 +14,7 @@
 
 	.container{
 		width:1080px;
-		margin: 100px auto;
+		margin: 10px auto;
 	}
 	
 	.content{
@@ -94,6 +94,7 @@
 		color: red;
 		padding:15px 15px 8px 15px;
 		width: 400px;
+		height:50px;
 		font-size: 9pt;
 		width:100%;		
 	}
@@ -102,6 +103,7 @@
 		width:100%;
 		font-size: 10pt;
  		height:100%;
+ 		border-collapse: collapse;
 	}
 	
 	.infoTable th, td{
@@ -117,24 +119,23 @@
 	}
 	
 	.btnTop{
-		background-color: #0080ff;
+		background-color: #3a68ec;
 		color:#fff;
 		cursor: pointer; 
 		border: 1px solid #999999; 
 		border-radius: .25em; 
 		padding: 0.25em .75em; 	
-		font-weight: 500;
+		font-weight: borlder;
 		font-size: 10pt;
 	}
 	
 	.btnRegister{
-		background-color: #0080ff;
+		background-color: #3a68ec;
 		color:#fff;
 		cursor: pointer;	
 		border: 1px solid #999999; 		
 		padding: 0.25em .75em; 	
 		border-radius: .25em; 		
-		font-weight: 500;
 		font-size: 10pt;	
 		float:right;
 	}
@@ -173,6 +174,7 @@
 		width:100%;
 		margin: 20px 0;
 		font-size: 10pt;
+		border-collapse: collapse;
 	}
 	
 	.reviewTable td{
@@ -237,7 +239,7 @@
 	}    
    
     .swiper-slide img { 
-        max-width: 100%;
+        width:550px;
         max-height:100%;
     }	 
     
@@ -298,11 +300,16 @@
 	}
 	
     .noReview {
-		background: url('/socdoc/resources/images/noReview1.png') no-repeat center ;
-		background-size: contain; 
+		background: url('/socdoc/resources/images/noReview.png') no-repeat center ;
+		background-size: auto; 
 		width:100%;
 		height:150px;
 	}
+	
+	.swiper-button-next{
+		
+	}
+	
 	
     
 
@@ -319,7 +326,6 @@ $(document).ready(function(){
 	readReview(currentShowPageNo);
 	
 	if('${loginuser}'.trim() != ''){
-		console.log('머야');
 		readReviewMe();
 		readBookMark();		
 	}
@@ -459,7 +465,7 @@ function readReviewMe(){
 		success:function(json){
 						
 			if(json.content !=""){
-				htmlMe+= '<tr><td style="background-color: #e6f5ff;;">'
+				htmlMe+= '<tr><td style="background-color: #e4f2fb;">'
 					    +'	<div style="display:inline-block; width:90%;">'
 						+'		<div>';
 					
@@ -511,7 +517,7 @@ function readReview(currentShowPageNo){
 			var html="";
 			
 			if(json.length==0){
-				html += '<tr><td style="text-align: center; padding:20px !important; font-weight: bolder;">후기가 없습니다.</td></tr>';
+				html += '<tr><td style="text-align: center; padding:20px !important; font-weight: bolder;">등록된 후기가 없습니다.</td></tr>';
 			}
 			else if(json.length>0){
 				$.each(json,function(index,item){
@@ -778,6 +784,7 @@ function goRegister(){
 		
 		<table class="reviewTableMe">
 		</table>
+		
 		<table class="reviewTable">
 		</table>
 		
