@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.synergy.service.InterService;
+import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.HpReviewVO;
 import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.NoticeVO;
@@ -64,9 +65,42 @@ public class HomeController {
 		
 		mav.addObject("hpRankList", hpRankList);
 		mav.setViewName("main/home.tiles1");
+		
+		/*
+		// 병원검색
+		List<HpInfoVO> mapHpList = null;
+		
+		String city = request.getParameter("city");
+		String county = request.getParameter("county");
+		String district = request.getParameter("district");
+		String dept = request.getParameter("dept");
+		String searchWord = request.getParameter("searchWord");
+		String currentPage = request.getParameter("currentPage");
+		String latitudeHere = request.getParameter("latitudeHere");
+		String longitudeHere = request.getParameter("longitudeHere");
 
+		if (searchWord == null || searchWord.trim().isEmpty()) {
+			searchWord = "";
+		}
+		if(latitudeHere==null) {
+			latitudeHere = "37.56602747782394";
+		}
+		if(longitudeHere==null) {
+			longitudeHere= "126.98265938959321";					
+		}
+		
+		HashMap<String, String> paraMap = new HashMap<>();
+		paraMap.put("city", city);
+		paraMap.put("county", county);
+		paraMap.put("district", district);
+		paraMap.put("dept", dept);
+		paraMap.put("searchWord", searchWord);
+		paraMap.put("latitudeHere", latitudeHere);
+		paraMap.put("longitudeHere", longitudeHere);
+		*/
+		
 		return mav;
-	}
 	
+	}
 
 }

@@ -77,7 +77,7 @@
 			(
 				select noticeSeq, subject, to_char(regDate,'yyyy-mm-dd') AS regDate
 				from noticeBoard
-				order by noticeSeq desc
+				order by regDate desc
 			) V
 		)T
 		where rno between #{startRno} and #{endRno}
@@ -241,7 +241,7 @@
 	</select>
 	<!-- 병원정보 수정 승인 -->
 	<update id="updateInfoStatus" parameterType="String">
-		update hpApplication set status = 5
+		update hpApplication set status = 5, hpName = #{hpName}
     	where submitId = #{submitId}
 	</update>
 	<!-- 병원회원 상태 변경 -->
@@ -537,5 +537,11 @@
 				        VALUES(#{hpSeq}, #{day}, #{open}, #{close})
 	        ]]>		
 	 </update>
+	 
+	 
+	 <!-- 건강정보 상세 글보기에서 삭제하기 -->
+	 <delete id="delHealthInfo" parameterType="String">
+	 	delete from infoBoard where infoSeq = #{infoSeq}
+	 </delete>
 	 
 </mapper>

@@ -15,321 +15,321 @@
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
-	<style>
-        
-        .con1:after {
-            content: '';
-            clear: both;
-            display: block;
-        }
+<style>
+       
+       .con1:after {
+           content: '';
+           clear: both;
+           display: block;
+       }
 
-        .con1 {
-            width: 1000px;
-            margin-top: 30px;
-            margin-bottom: 30px;
-            margin-right: auto;
-            margin-left: auto;
-        }
+       .con1 {
+           width: 1000px;
+           margin-top: 30px;
+           margin-bottom: 30px;
+           margin-right: auto;
+           margin-left: auto;
+       }
 
-        .searchHospital, .searchPharmacy, .reservationHp, .searchAmbulance {
-            width: 200px;
-            height: 165px;
-            margin-right: 30px;
-            float: left;
-            border-radius: 50px;
-            color: navy;
-            background-color: #D6F0FF;
-        }
-        
-        .icon1, .icon2, .icon3 {
-            width: 60px;
-            height: 60px; 
-        }
-        
-        .a {
-            margin-top: 20px;
-            font-weight: bold;
-            font-size: 20px;
-        }
+       .searchHospital, .searchPharmacy, .reservationHp, .searchAmbulance {
+           width: 200px;
+           height: 165px;
+           margin-right: 30px;
+           float: left;
+           border-radius: 50px;
+           color: navy;
+           background-color: #D6F0FF;
+       }
+       
+       .icon1, .icon2, .icon3 {
+           width: 60px;
+           height: 60px; 
+       }
+       
+       .a {
+           margin-top: 20px;
+           font-weight: bold;
+           font-size: 20px;
+       }
 
-        .searchLocal {
-            width: 260px;
-            height: 190px;
-            margin-right: 35px;
-            float: left;
-        }
-        
-        select {
-            margin-top: 5px;
-            margin-left: 5px;
-            height: 30px;
-        }
-        
-        input:-ms-input-placeholder {color:#a8a8a8; } 
-        input::-webkit-input-placeholder {color:#a8a8a8;} 
-        input::-moz-placeholder {color:#a8a8a8;} 
-            
-        .searchWord {
-            font-size: 12px;
-            width: 150px;
-            height: 30px;
-            padding: 10px;
-            border: solid 1.3px #1b5ac2;
-            float: left;
-            margin-top: 15px;
-            margin-left: 5px;
-        }
-        
-        .searchBtn {
-            width: 50px;
-            height: 30px;
-            border: 0px;
-            margin-top: 15px;
-            color: #ffffff;
-            background-color: #1b5ac2;
-        }
-        
-       .con2:after {
-            content: '';
-            clear: both;
-            display: block;
-        }
+       .mapSelect {
+           width: 260px;
+           height: 190px;
+           margin-right: 35px;
+           float: left;
+       }
+       
+       select {
+           margin-top: 5px;
+           margin-left: 5px;
+           height: 30px;
+       }
+       
+       input:-ms-input-placeholder {color:#a8a8a8; } 
+       input::-webkit-input-placeholder {color:#a8a8a8;} 
+       input::-moz-placeholder {color:#a8a8a8;} 
+           
+       .searchWord {
+           font-size: 12px;
+           width: 150px;
+           height: 30px;
+           padding: 10px;
+           border: solid 1.3px #1b5ac2;
+           float: left;
+           margin-top: 15px;
+           margin-left: 5px;
+       }
+       
+       .btnSearch {
+           width: 50px;
+           height: 30px;
+           border: 0px;
+           margin-top: 15px;
+           color: #ffffff;
+           background-color: #1b5ac2;
+       }
+       
+      .con2:after {
+           content: '';
+           clear: both;
+           display: block;
+       }
 
-        .con2 {
-            width: 1000px;
-            margin-top: 30px;
-            margin-bottom: 30px;
-            margin-right: auto;
-            margin-left: auto;
-        }
+       .con2 {
+           width: 1000px;
+           margin-top: 30px;
+           margin-bottom: 30px;
+           margin-right: auto;
+           margin-left: auto;
+       }
 
-        .notice {
-            width: 720px;
-            height: 190px;
-            /*border: solid 1px black;*/
-            margin-right: 35px;
-            float: left;
-        }
-        
-        span.noticeTitle:hover {
+       .notice {
+           width: 720px;
+           height: 190px;
+           /*border: solid 1px black;*/
+           margin-right: 35px;
+           float: left;
+       }
+       
+       span.noticeTitle:hover {
 			cursor: pointer;
 		}
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+       
+       table {
+           width: 100%;
+           border-collapse: collapse;
+       }
 
-        th {
-            font-size: 12px;
-            font-weight: bold;
-            color: #222222;
-            text-align: center;
-            padding: 10px 3px;
-            /*border-top: 1px solid #333333;*/
-            border-bottom: 1px solid #333333;
-        }
+       th {
+           font-size: 12px;
+           font-weight: bold;
+           color: #222222;
+           text-align: center;
+           padding: 10px 3px;
+           /*border-top: 1px solid #333333;*/
+           border-bottom: 1px solid #333333;
+       }
 
-        td {
-            font-size: 12px;
-            color: #666666;
-            text-align: center;
-            padding: 13px 0;
-            border-bottom: 1px solid #dddddd;
-            line-height: 1.8;
-        }
+       td {
+           font-size: 12px;
+           color: #666666;
+           text-align: center;
+           padding: 13px 0;
+           border-bottom: 1px solid #dddddd;
+           line-height: 1.8;
+       }
 
-        .swiper-container {
-            width: 960px;
-            height: 200px;
-            margin-top: 100px;
-            margin-bottom: 30px;
-            margin-right: auto;
-            margin-left: auto;
-        } 
-  
-        .swiper-slide {
-            text-align: center;
-            display: flex; /* 내용을 중앙정렬 하기위해 flex 사용 */
-            align-items: center; /* 위아래 기준 중앙정렬 */
-            justify-content: center; /* 좌우 기준 중앙정렬 */
-        }
-        
-        .swiper-slide img {
-            max-width: 100%; /* 이미지 최대너비를 제한, 슬라이드에 이미지가 여러개가 보여질때 필요 */
-        }
-            
-        @import url(https://fonts.googleapis.com/css?family=Raleway:300,700);
-        @import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
-        figure.snip1384 {
-          font-family: 'Raleway', Arial, sans-serif;
-          position: relative;
-          overflow: hidden;
-          margin: 10px;
-          min-width: 230px;
-          max-width: 315px;
-          width: 100%;
-          color: #ffffff;
-          text-align: left;
-          font-size: 16px;
-          background-color: #000000;
-        }
-        figure.snip1384 * {
-          -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-          -webkit-transition: all 0.35s ease;
-          transition: all 0.35s ease;
-        }
-        figure.snip1384 img {
-          max-width: 100%;
-          backface-visibility: hidden;
-          vertical-align: top;
-        }
-        figure.snip1384:after,
-        figure.snip1384 figcaption {
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
-        }
-        figure.snip1384:after {
-          content: '';
-          background-color: rgba(0, 0, 0, 0.65);
-          -webkit-transition: all 0.35s ease;
-          transition: all 0.35s ease;
-          opacity: 0;
-        }
-        figure.snip1384 figcaption {
-          z-index: 1;
-          padding: 40px;
-        }
-        figure.snip1384 h3,
-        figure.snip1384 .links {
-          width: 100%;
-          margin: 5px 0;
-          padding: 0;
-        }
-        figure.snip1384 h3 {
-          line-height: 1.1em;
-          font-weight: 700;
-          font-size: 1.4em;
-          text-transform: uppercase;
-          opacity: 0;
-        }
-        figure.snip1384 p {
-          font-size: 0.8em;
-          font-weight: 300;
-          letter-spacing: 1px;
-          opacity: 0;
-          top: 50%;
-          -webkit-transform: translateY(40px);
-          transform: translateY(40px);
-        }
-        figure.snip1384 i {
-          position: absolute;
-          bottom: 10px;
-          right: 10px;
-          padding: 20px 25px;
-          font-size: 34px;
-          opacity: 0;
-          -webkit-transform: translateX(-10px);
-          transform: translateX(-10px);
-        }
-        figure.snip1384 a {
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          z-index: 1;
-        }
-        figure.snip1384:hover img,
-        figure.snip1384.hover img {
-          zoom: 1;
-          filter: alpha(opacity=50);
-          -webkit-opacity: 0.5;
-          opacity: 0.5;
-        }
-        figure.snip1384:hover:after,
-        figure.snip1384.hover:after {
-          opacity: 1;
-          position: absolute;
-          top: 10px;
-          bottom: 10px;
-          left: 10px;
-          right: 10px;
-        }
-        figure.snip1384:hover h3,
-        figure.snip1384.hover h3,
-        figure.snip1384:hover p,
-        figure.snip1384.hover p,
-        figure.snip1384:hover i,
-        figure.snip1384.hover i {
-          -webkit-transform: translate(0px, 0px);
-          transform: translate(0px, 0px);
-          opacity: 1;
-        }
-        
-        #chart {
-            width: 960px;
-            height: 300px;
-            margin-top: 30px;
-            margin-bottom: 30px;
-            margin-right: auto;
-            margin-left: auto;
-            border: solid 1px #ddd;
-        }
-        
-		.highcharts-figure, .highcharts-data-table table {
-		    min-width: 320px; 
-		    max-width: 800px;
-		    margin: 1em auto;
-		}
-		
-		.highcharts-data-table table {
-			font-family: Verdana, sans-serif;
-			border-collapse: collapse;
-			border: 1px solid #EBEBEB;
-			margin: 10px auto;
-			text-align: center;
-			width: 100%;
-			max-width: 500px;
-		}
-		.highcharts-data-table caption {
-		    padding: 1em 0;
-		    font-size: 1.2em;
-		    color: #555;
-		}
-		.highcharts-data-table th {
-			font-weight: 600;
-		    padding: 0.5em;
-		}
-		.highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
-		    padding: 0.5em;
-		}
-		.highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
-		    background: #f8f8f8;
-		}
-		.highcharts-data-table tr:hover {
-		    background: #f1f7ff;
-		}
-		
-		.ld-label {
-			width:200px;
-			display: inline-block;
-		}
-		
-		.ld-url-input {
-			width: 500px; 
-		}
-		
-		.ld-time-input {
-			width: 40px;
-		}
-				
-        
-    </style>
+       .swiper-container {
+           width: 960px;
+           height: 200px;
+           margin-top: 100px;
+           margin-bottom: 30px;
+           margin-right: auto;
+           margin-left: auto;
+       } 
+ 
+       .swiper-slide {
+           text-align: center;
+           display: flex; /* 내용을 중앙정렬 하기위해 flex 사용 */
+           align-items: center; /* 위아래 기준 중앙정렬 */
+           justify-content: center; /* 좌우 기준 중앙정렬 */
+       }
+       
+       .swiper-slide img {
+           max-width: 100%; /* 이미지 최대너비를 제한, 슬라이드에 이미지가 여러개가 보여질때 필요 */
+       }
+           
+       @import url(https://fonts.googleapis.com/css?family=Raleway:300,700);
+       @import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
+       figure.snip1384 {
+         font-family: 'Raleway', Arial, sans-serif;
+         position: relative;
+         overflow: hidden;
+         margin: 10px;
+         min-width: 230px;
+         max-width: 315px;
+         width: 100%;
+         color: #ffffff;
+         text-align: left;
+         font-size: 16px;
+         background-color: #000000;
+       }
+       figure.snip1384 * {
+         -webkit-box-sizing: border-box;
+         box-sizing: border-box;
+         -webkit-transition: all 0.35s ease;
+         transition: all 0.35s ease;
+       }
+       figure.snip1384 img {
+         max-width: 100%;
+         backface-visibility: hidden;
+         vertical-align: top;
+       }
+       figure.snip1384:after,
+       figure.snip1384 figcaption {
+         position: absolute;
+         top: 0;
+         bottom: 0;
+         left: 0;
+         right: 0;
+       }
+       figure.snip1384:after {
+         content: '';
+         background-color: rgba(0, 0, 0, 0.65);
+         -webkit-transition: all 0.35s ease;
+         transition: all 0.35s ease;
+         opacity: 0;
+       }
+       figure.snip1384 figcaption {
+         z-index: 1;
+         padding: 40px;
+       }
+       figure.snip1384 h3,
+       figure.snip1384 .links {
+         width: 100%;
+         margin: 5px 0;
+         padding: 0;
+       }
+       figure.snip1384 h3 {
+         line-height: 1.1em;
+         font-weight: 700;
+         font-size: 1.4em;
+         text-transform: uppercase;
+         opacity: 0;
+       }
+       figure.snip1384 p {
+         font-size: 0.8em;
+         font-weight: 300;
+         letter-spacing: 1px;
+         opacity: 0;
+         top: 50%;
+         -webkit-transform: translateY(40px);
+         transform: translateY(40px);
+       }
+       figure.snip1384 i {
+         position: absolute;
+         bottom: 10px;
+         right: 10px;
+         padding: 20px 25px;
+         font-size: 34px;
+         opacity: 0;
+         -webkit-transform: translateX(-10px);
+         transform: translateX(-10px);
+       }
+       figure.snip1384 a {
+         position: absolute;
+         top: 0;
+         bottom: 0;
+         left: 0;
+         right: 0;
+         z-index: 1;
+       }
+       figure.snip1384:hover img,
+       figure.snip1384.hover img {
+         zoom: 1;
+         filter: alpha(opacity=50);
+         -webkit-opacity: 0.5;
+         opacity: 0.5;
+       }
+       figure.snip1384:hover:after,
+       figure.snip1384.hover:after {
+         opacity: 1;
+         position: absolute;
+         top: 10px;
+         bottom: 10px;
+         left: 10px;
+         right: 10px;
+       }
+       figure.snip1384:hover h3,
+       figure.snip1384.hover h3,
+       figure.snip1384:hover p,
+       figure.snip1384.hover p,
+       figure.snip1384:hover i,
+       figure.snip1384.hover i {
+         -webkit-transform: translate(0px, 0px);
+         transform: translate(0px, 0px);
+         opacity: 1;
+       }
+       
+       #chart {
+           width: 960px;
+           height: 300px;
+           margin-top: 30px;
+           margin-bottom: 30px;
+           margin-right: auto;
+           margin-left: auto;
+           border: solid 1px #ddd;
+       }
+       
+	.highcharts-figure, .highcharts-data-table table {
+	    min-width: 320px; 
+	    max-width: 800px;
+	    margin: 1em auto;
+	}
+	
+	.highcharts-data-table table {
+		font-family: Verdana, sans-serif;
+		border-collapse: collapse;
+		border: 1px solid #EBEBEB;
+		margin: 10px auto;
+		text-align: center;
+		width: 100%;
+		max-width: 500px;
+	}
+	.highcharts-data-table caption {
+	    padding: 1em 0;
+	    font-size: 1.2em;
+	    color: #555;
+	}
+	.highcharts-data-table th {
+		font-weight: 600;
+	    padding: 0.5em;
+	}
+	.highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+	    padding: 0.5em;
+	}
+	.highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+	    background: #f8f8f8;
+	}
+	.highcharts-data-table tr:hover {
+	    background: #f1f7ff;
+	}
+	
+	.ld-label {
+		width:200px;
+		display: inline-block;
+	}
+	
+	.ld-url-input {
+		width: 500px; 
+	}
+	
+	.ld-time-input {
+		width: 40px;
+	}
+			
+       
+</style>
 
 
         <div class="con1">     
@@ -337,9 +337,9 @@
             <div class="searchPharmacy"><p class="miniTitle">약국찾기<br/><br/><img src="<%= ctxPath%>/resources/images/pharmacy2.png" class="icon2" /></p></div>
             <div class="reservationHp"><p class="miniTitle">병원예약<br/><br/><img src="<%= ctxPath%>/resources/images/reservation2.png" class="icon3" /></p></div>
             
-            <div class="searchLocal">
-                <select style="width: 120px;" id="cityM" name="cityM" class="selectMap" onChange="cat1_change(this.value,countyM)">
-                			<option value="">==시도==</option>
+            <div class="mapSelect">
+                <select id="cityM" name="cityM" class="select" style="width: 120px;">
+                			<option value="" disabled selected hidden>시도</option>
 							<option value='서울'>서울</option>
 							<option value='부산'>부산</option>
 							<option value='대구'>대구</option>
@@ -356,13 +356,18 @@
 							<option value='제주'>제주</option>
 							<option value='충남'>충남</option>
 							<option value='충북'>충북</option>				                                           
-                
                 </select>
+                
                 <br/>
-                <select style="width: 80px;"><option>구군</option></select>
-                <select style="width: 80px;"><option>동</option></select><br/>
-                <select style="width: 80px;" id="deptM" name="deptM" class="selectMap">
-                			<option value="">==진료과==</option> 
+                
+                <select style="width: 80px;" id="countyM" name="countyM" class="select" >
+                	<option>구군</option>
+                </select>
+                <select style="width: 80px;" id="districtM" name="districtM" class="select">
+                	<option>동</option>
+                </select><br/>
+                <select style="width: 80px;" id="deptM" name="deptM" class="select">
+                			<option value="" disabled selected hidden>진료과목</option> 
 				            <option value="내과">내과</option> 
 				            <option value="이비인후과">이비인후과</option>
 				            <option value="정형외과">정형외과</option>
@@ -375,8 +380,8 @@
                 </select>
                 <br/>
                 
-                <input type="text" class="searchWord" placeholder="검색어를 입력하세요">
-                <button class="searchBtn">검색</button>
+                <input type="text" id="searchWordM" name="searchWordM" class="searchWord" placeholder="검색어를 입력하세요">
+                <button class="btnSearch" id="btnSearch" onclick="goSearch();">검색</button>
                 
             </div>
         </div>
@@ -409,8 +414,6 @@
     
         <div class="swiper-container">
            
-           
-           
             <div class="swiper-wrapper">
 	            <c:forEach var="hpRankList" items="${hpRankList}">
 	                <div class="swiper-slide">
@@ -424,10 +427,6 @@
 		                    </figure>
 	                </div>
 	            </c:forEach>    
-                   
-                
-                
-                
 	        </div>
 	        
             <!-- 네비게이션 -->
@@ -452,8 +451,13 @@
 $(document).ready(function(){
 	
 	coronaList();	
-
+	
+	$("#btnSearch").click(function(){
+		goSearch();
+	});
+	
 });
+
 
 new Swiper('.swiper-container', {
 
@@ -493,6 +497,90 @@ function goView(noticeSeq) {
 	frm.action = "<%=ctxPath%>/adminNoticeView.sd";
 	frm.submit();
 }
+
+/* 
+function cat1_change(countyM) {
+	
+	var city = $("select[name=cityM]").val();
+	var dept = $("select[name=deptM]").val();
+	
+	$.ajax({
+		url: "/socdoc/mapHospital.sd",
+		async: false, //지도 비동기
+		data: {city:dept},
+		success: function(data){ 
+			
+			console.log(data);
+			
+		},
+		error: function(request, status, error){
+		alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		}
+	});
+	
+}
+*/
+ 
+ 
+//병원 검색
+function goSearch(){
+	
+	alert("검색버튼클릭");
+	
+	var tb = document.getElementById("cityM");
+	var tbIndex = document.getElementById("deptM").options.selectedIndex;
+	
+	console.log(tb.options[tbIndex].value);
+}
+	
+	
+	 /* 
+	 var content = "";
+	 var latitude0="";
+	 var longitude0="";
+	 var locPosition0="";
+	 
+	 $.ajax({ 
+			url: "/socdoc/mapHospitalList.sd",
+			data:{"city":$('#cityM').val(),"county":$('#countyM').val(),"district":$('#districtM').val()
+				,"dept":$('#deptM').val()
+				,"searchWord":$('#searchWordM').val(),"currentPage":mCurrentPage,"totalPage":mTotalPage
+				,"latitudeHere":latitude,"longitudeHere":longitude},				
+			dataType: "JSON",
+			success: function(json){ 
+				
+				$.each(json, function(index, item){ 					
+					
+					content += "<tr><td>"
+			      			+		"<div id='mHospitalName' class='mHospitalName'>"+item.hpName+"</div>"
+			      			+		"<input type='hidden' class='mlatitude' value='"+item.latitude+"'>"
+			      			+		"<input type='hidden' class='mlongitude' value='"+item.longitude+"'>"
+			      			+		"<div class='mList' id='mHospitaldept'>"+item.hpDept+"<span>&nbsp;&nbsp;"+item.distance+"</span></div>"
+			      			+		"<div class='mList' id='mHospitalTel'>Tel. "+item.phone+"</div>"
+			      			+		"<div class='mList' id='mHospitalAddress'>"+item.address+"</div>"
+			      			+	"</td><tr>";
+			      			
+	      			if(index  == 0) {
+						pagebarM = item.pageBarM;
+						latitude0 = item.latitude;
+						longitude0 = item.longitude;
+						locPosition0 = new kakao.maps.LatLng(latitude, longitude);
+					}
+	      			
+				});	
+				
+				$(".mabListTable").html(content);
+				
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		    }
+	 });
+	 
+}
+	*/
+
+
 
 /* corona19 chart */
 function coronaList() {
@@ -576,6 +664,5 @@ function coronaList() {
 	    }
 	});
 }
-
 
 </script>

@@ -322,6 +322,14 @@ public class AdminService implements InterAdminService {
 		int result = dao.updateHpSchedule(scheduleList);
 		return result;
 	}
+
+	
+	// 건강정보 상세 글보기에서 삭제하기
+	@Override
+	public int delHealthInfo(String infoSeq) {
+		int n = dao.delHealthInfo(infoSeq);
+		return n;
+	}
 	
 	
 

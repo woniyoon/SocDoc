@@ -774,12 +774,9 @@ public class AdminController {
 		
 		List<HealthInfoVO> healthvoList = null;
 		
-		
 		String str_currentShowPageNo = request.getParameter("currentShowPageNo");
 		
-		
 		HashMap<String, String> paraMap = new HashMap<>();
-		
 		
 		int totalCount = 0;
 		int sizePerPage = 5;
@@ -960,6 +957,35 @@ public class AdminController {
 		}
 		
 	}
+	/* 건강정보 상세 글보기에서 삭제하기 */
+	@ResponseBody
+	@RequestMapping(value = "/healthDel.sd", produces = "text/plain;charset=UTF-8")
+	public String delHealthInfo(HttpServletRequest request, ModelAndView mav, HttpServletResponse response) {
+		
+		String infoSeq = request.getParameter("infoSeq");
+		
+		System.out.println("infoSeq : "+infoSeq);
+		
+		int n = service.delHealthInfo(infoSeq);
+		System.out.println("n : "+n);
+		
+		JSONObject jsobj = new JSONObject();
+		
+		jsobj.put("n", n); 
+		
+		String json = jsobj.toString();
+		/*
+		request.setAttribute("json", json);
+		
+		mav.addObject("infoSeq", infoSeq);
+		mav.setViewName("");
+		*/
+        return json;
+
+	}
+	
+	
+	
 	
 	
 	/* 후기관리 */
@@ -1238,7 +1264,7 @@ public class AdminController {
     @RequestMapping(value="/addComment.sd", method= {RequestMethod.POST})      
     public String addComment(HttpServletRequest request, CommentVO commentvo) {
 	   
-	// System.out.println(commentvo.getContent() +"/"+commentvo.getParentSeq());
+	 System.out.println(commentvo.getContent() +"/"+commentvo.getParentSeq());
 	   String jsonStr = "";
 	   
 	   try {

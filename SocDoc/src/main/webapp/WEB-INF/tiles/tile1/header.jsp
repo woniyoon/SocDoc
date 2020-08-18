@@ -47,6 +47,7 @@
         .logo {
             text-align: center;
             height: 100px;
+            cursor: pointer;
         }
 
         .miniTitle {

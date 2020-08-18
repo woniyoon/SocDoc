@@ -130,7 +130,7 @@
       text-decoration: none;
     }
     
-   .btnComment {
+   #btnComment {
    		background-color: #efefef;
         cursor: pointer;   
       	border: 1px solid #dddddd;       
@@ -201,7 +201,7 @@
                 <form name="addWriteFrm" style="margin-top: 20px;">
 					댓글 : <input type="text" name="content" class="long" id="commentContent" />
 					<button id="btnComment" type="button" onclick="goAddWrite()">확인</button>
-					<input type="hidden" name="parentSeq" value="${qnaSeq}" />
+					<input type="hidden" name="parentSeq" value="${qnavo.qnaSeq}" />
 				</form>
 				
 				<p id="listBtn"><a href="qnaMng.sd" class="notice_view">목록</a></p>

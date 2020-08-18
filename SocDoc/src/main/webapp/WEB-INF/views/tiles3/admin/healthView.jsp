@@ -116,7 +116,11 @@
 
 	<div id="healthInfoView">
 		    <h2 class="textPrimary">건강정보관리</h2>
+		    
 			<section>
+			
+			<form name="deleteFrm">	
+				<input type="hidden" name="infoSeq" class="infoSeq" value="${healthvo.infoSeq}" />
                 <table>
                     <thead>
                         <tr>
@@ -130,10 +134,12 @@
                         </tr>
                     </tbody>
                 </table>
+                
+            </form>
 
-                <p id="listBtn"><a href="adminNotice.sd" class="notice_view">목록</a></p>
+                <p id="listBtn"><a href="healthInfoMng.sd" class="notice_view">목록</a></p>
 
-                <p id="deleteBtn"><a href="noticeList.sb" class="notice_view">삭제</a></p>             
+                <p id="deleteBtn"><a class="notice_view">삭제</a></p>             
 
                 <p id="modifyBtn"><a href="noticeList.sb" class="notice_view">수정</a></p>
                 
@@ -154,3 +160,62 @@
 
             </section>
 	</div>   
+	
+	
+<script type="text/javascript">
+$(document).ready(function($){	
+
+	$("#deleteBtn").click(function() {
+		goDel();
+	});
+	
+	
+});	 // end of $(document).ready(function($){}) ----------------------------
+
+function goDel() {
+	<%-- 
+	var con = confirm("삭제하시겠습니까?");
+	
+	if(con == true) {
+        var frm = document.deleteFrm;
+        frm.method = "POST";
+        frm.action = "<%= request.getContextPath()%>/healthDel.sd"
+        frm.submit();
+     }
+     else if(con == false){ 
+        location.href="history.back()";
+     }
+     --%>
+	
+	var infoSeq = $(".infoSeq").val();
+	//alert(notice_seq);
+	
+	var bool = confirm("글을 삭제하시겠습니까?");
+	
+	if(bool) {
+		
+		$.ajax({ 
+			url: "/socdoc/healthDel.sd",
+			type: "GET",
+			data: {"infoSeq":infoSeq},
+			dataType: "JSON",
+			success:function(json){
+				if(json.n == 1) {
+					// alert("삭제성공!");
+					location.href="healthInfoMng.sd"; // 페이지 넘어가기
+				}
+				
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		    }
+			
+		}); 
+	}
+	else {
+		alert("삭제 취소!");
+	}
+	
+	
+}
+</script>

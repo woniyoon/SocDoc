@@ -309,5 +309,12 @@ public class AdminDAO implements InterAdminDAO {
 	}
 	
 	
+	// 건강정보 상세 글보기에서 삭제하기
+	@Override
+	public int delHealthInfo(String infoSeq) {
+		int n = sqlsession.delete("admin.delHealthInfo", infoSeq);
+		return n;
+	}
+	
 
 }

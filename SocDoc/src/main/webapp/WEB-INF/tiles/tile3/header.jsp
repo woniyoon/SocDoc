@@ -17,8 +17,6 @@
 
 <title>속닥속닥</title>
 
-<title>속닥속닥</title>
-    
     <style>
         
         /* header START ---------------*/
