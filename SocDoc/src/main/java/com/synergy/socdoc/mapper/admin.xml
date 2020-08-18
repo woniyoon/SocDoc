@@ -304,10 +304,6 @@
 			union all 
 			select count (*) as total from pharmacyReview
 		)
-		where hpreviewseq is not null
-		<if test='searchWord != ""'>
-				lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
-		</if>
 	</select>
     <resultMap type="HashMap" id="reviewMap">
        <result property="rno"                column="rno"                javaType="String"/>

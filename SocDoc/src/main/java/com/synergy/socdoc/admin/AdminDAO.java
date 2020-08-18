@@ -201,7 +201,7 @@ public class AdminDAO implements InterAdminDAO {
 	
 	// 댓글쓰기
 	@Override
-	public int addComment(CommentVO commentvo) {
+	public int addCommentAdmin(CommentVO commentvo) {
 		int n = sqlsession.insert("admin.addComment", commentvo);
 		return n;
 	}

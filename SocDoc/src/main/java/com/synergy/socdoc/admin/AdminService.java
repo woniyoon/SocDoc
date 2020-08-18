@@ -207,10 +207,10 @@ public class AdminService implements InterAdminService {
 	// 댓글쓰기
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor = {Throwable.class})
-	public int addComment(CommentVO commentvo) {
+	public int addCommentAdmin(CommentVO commentvo) {
 		int n = 0;
 		
-		n = dao.addComment(commentvo);
+		n = dao.addCommentAdmin(commentvo);
 
 		return n;
 	}

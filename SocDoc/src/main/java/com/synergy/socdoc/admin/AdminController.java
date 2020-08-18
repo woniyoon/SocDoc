@@ -737,7 +737,7 @@ public class AdminController {
 		
 	}
 	/* 공지사항 글삭제 */
-	@RequestMapping(value="/goDel.sd" ,method = RequestMethod.POST)
+	@RequestMapping(value="/goDelAdmin.sd" ,method = RequestMethod.POST)
 	@ResponseBody
 	public ModelAndView delNotice(@RequestParam("noticeck") String[] noticeck, ModelAndView mav, HttpServletRequest request) throws Exception {
 		
@@ -1287,15 +1287,15 @@ public class AdminController {
 	}
 	/* 문의관리 댓글쓰기 */
 	@ResponseBody
-    @RequestMapping(value="/addComment.sd", method= {RequestMethod.POST})      
-    public String addComment(HttpServletRequest request, CommentVO commentvo) {
+    @RequestMapping(value="/addCommentAdmin.sd", method= {RequestMethod.POST})      
+    public String addCommentAdmin(HttpServletRequest request, CommentVO commentvo) {
 	   
 	 System.out.println(commentvo.getContent() +"/"+commentvo.getParentSeq());
 	   String jsonStr = "";
 	   
 	   try {
 		   
-		   int n = service.addComment(commentvo);
+		   int n = service.addCommentAdmin(commentvo);
 		   
 		   if(n == 1) {
 			   service.updateStatus(commentvo.getParentSeq());
@@ -1316,7 +1316,7 @@ public class AdminController {
     }
 	/* 문의관리 댓글 읽어오기 */
 	@ResponseBody
-    @RequestMapping(value="/readComment.sd", produces="text/plain;charset=UTF-8")      
+    @RequestMapping(value="/readCommentAdmin.sd", produces="text/plain;charset=UTF-8")      
     public String readComment(HttpServletRequest request) {
 	   
 	   String parentSeq = request.getParameter("parentSeq"); 

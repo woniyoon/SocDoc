@@ -42,6 +42,7 @@
         a {
             text-decoration: none;
             color: inherit;
+            cursor: pointer;
         }
         
         .logo {
@@ -201,30 +202,30 @@
 	        <li><a href="<%=ctxPath%>/login.sd"><img src="<%= ctxPath%>/resources/images/loginN.png" width="20px" height="20px" style="margin-top: 2px;"/></a></li>
 	        <li class="photo"><a href="<%=ctxPath%>/login.sd">로그인</a></li>
 	    	<li><a href="<%=ctxPath%>/register.sd">회원가입</a></li>
-	    	<li><a href="#">마이페이지</a></li>
-   	        <li><a href="#">고객센터</a></li>
+	    	<li><a href="<%=ctxPath%>/.sd">마이페이지</a></li>
+   	        <li><a href="<%=ctxPath%>/.sd">고객센터</a></li>
         </c:if>
         <c:if test="${not empty sessionScope.loginuser}">
 	        <!-- admin 로그인 --> 
 	        <c:if test="${sessionScope.loginuser.userid == 'admin'}">
 	        	<li><img src="<%= ctxPath%>/resources/images/loginA.png" width="20px" height="20px" style="margin-top: 2px;"/></li>
-	        	<li class="photo"><a href="#">관리자 페이지</a></li>
+	        	<li class="photo"><a href="<%=ctxPath%>/adminMemberMng.sd">관리자 페이지</a></li>
     			<li><a href="<%=ctxPath%>/logout.sd">로그아웃</a></li>
 	        </c:if>
 	        <!-- 개인고객 로그인 -->   
 	        <c:if test="${sessionScope.loginuser.userid != 'admin'}">
 	        	<li><img src="<%= ctxPath%>/resources/images/loginY.png" width="20px" height="20px" style="margin-top: 2px;"/></li> 
-	        	<li class="photo"><a href="#"><strong>${loginuser.name}</strong>님의 마이페이지</a></li>
+	        	<li class="photo"><a href="<%=ctxPath%>/mypage.sd"><strong>${loginuser.name}</strong>님의 마이페이지</a></li>
 		        <li><a href="<%=ctxPath%>/logout.sd">로그아웃</a></li>
-	        	<li><a href="#">고객센터</a></li>
+	        	<li><a href="<%=ctxPath%>/.sd">고객센터</a></li>
 	        </c:if>
         </c:if>
         <!-- 병원고객 로그인 --> 
         <c:if test="${not empty sessionScope.hpLoginuser}">
         	<li><img src="<%= ctxPath%>/resources/images/loginY.png" width="20px" height="20px" style="margin-top: 2px;"/></li>   
-	        <li class="photo"><a href="#"><strong>${hpLoginuser.name}</strong>의 마이페이지</a></li>
+	        <li class="photo"><a href="<%=ctxPath%>/mypage.sd"><strong>${hpLoginuser.name}</strong>의 마이페이지</a></li>
 	        <li><a href="<%=ctxPath%>/hpLogout.sd">로그아웃</a></li>
-	        <li><a href="#">고객센터</a></li>
+	        <li><a href="<%=ctxPath%>/.sd">고객센터</a></li>
         </c:if>
     </ul>
 
@@ -233,24 +234,24 @@
       <div class="subnav">
         <button class="subnavbtn">찾기</button>
         <div class="subnav-content">
-          <a href="#"><img src="<%= ctxPath%>/resources/images/hospital.png"/>병원찾기</a>
-          <a href="#"><img src="<%= ctxPath%>/resources/images/pharmacy.png"/>약국찾기</a>
-          <a href="#"><img src="<%= ctxPath%>/resources/images/ambulance.png"/>민간구급차찾기</a>
+          <a href="<%=ctxPath%>/searchHospital.sd"><img src="<%= ctxPath%>/resources/images/hospital.png"/>병원찾기</a>
+          <a href="<%=ctxPath%>/searchPharmacy.sd"><img src="<%= ctxPath%>/resources/images/pharmacy.png"/>약국찾기</a>
+          <a href="<%=ctxPath%>/searchAmbulance.sd"><img src="<%= ctxPath%>/resources/images/ambulance.png"/>민간구급차찾기</a>
         </div>
       </div> 
 
       <div class="subnav">
         <button class="subnavbtn">예약</button>
         <div class="subnav-content">
-          <a href="#"><img src="<%= ctxPath%>/resources/images/reservation.png"/>병원예약</a>
+          <a href="<%=ctxPath%>/reserve.sd"><img src="<%= ctxPath%>/resources/images/reservation.png"/>병원예약</a>
         </div>
       </div> 
 
       <div class="subnav">
         <button class="subnavbtn">후기</button>
         <div class="subnav-content">
-          <a href="#"><img src="<%= ctxPath%>/resources/images/review.png"/>병원후기</a>
-          <a href="#"><img src="<%= ctxPath%>/resources/images/review2.png"/>약국후기</a>
+          <a href="<%=ctxPath%>/reviewMenu.sd"><img src="<%= ctxPath%>/resources/images/review.png"/>병원후기</a>
+          <a href="<%=ctxPath%>/reviewMenu.sd"><img src="<%= ctxPath%>/resources/images/review2.png"/>약국후기</a>
         </div>
       </div> 
 
@@ -259,7 +260,7 @@
         <div class="subnav-content">
           <a href="<%=ctxPath%>/noticeList.sd"><img src="<%= ctxPath%>/resources/images/notice.png"/>공지사항</a>
           <a href="<%=ctxPath%>/noticeList.sd"><img src="<%= ctxPath%>/resources/images/health.png"/>건강정보</a>
-          <a href="#"><img src="<%= ctxPath%>/resources/images/question.png"/>Q&A</a>
+          <a href="<%=ctxPath%>/.sd"><img src="<%= ctxPath%>/resources/images/question.png"/>Q&A</a>
         </div>
       </div>
     </div>

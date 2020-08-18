@@ -229,7 +229,7 @@
            if(con == true) {
               var frm = document.deleteFrm;
               frm.method = "POST";
-              frm.action = "<%= request.getContextPath()%>/goDel.sd"
+              frm.action = "<%= request.getContextPath()%>/goDelAdmin.sd"
               frm.submit();
            }
            else if(con == false){ 

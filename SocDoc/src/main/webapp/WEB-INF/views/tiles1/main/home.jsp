@@ -39,6 +39,7 @@
            border-radius: 50px;
            color: navy;
            background-color: #D6F0FF;
+           cursor: pointer;
        }
        
        .icon1, .icon2, .icon3 {
@@ -333,9 +334,9 @@
 
 
         <div class="con1">     
-            <div class="searchHospital" class="icon2"><p class="miniTitle">병원찾기<br/><br/><img src="<%= ctxPath%>/resources/images/hospital2.png" class="icon1" /></p></div>
-            <div class="searchPharmacy"><p class="miniTitle">약국찾기<br/><br/><img src="<%= ctxPath%>/resources/images/pharmacy2.png" class="icon2" /></p></div>
-            <div class="reservationHp"><p class="miniTitle">병원예약<br/><br/><img src="<%= ctxPath%>/resources/images/reservation2.png" class="icon3" /></p></div>
+            <div class="searchHospital" class="icon2" onclick="location.href='<%=ctxPath%>/searchHospital.sd'"><p class="miniTitle">병원찾기<br/><br/><img src="<%= ctxPath%>/resources/images/hospital2.png" class="icon1" /></p></div>
+            <div class="searchPharmacy" onclick="location.href='<%=ctxPath%>/searchPharmacy.sd'"><p class="miniTitle">약국찾기<br/><br/><img src="<%= ctxPath%>/resources/images/pharmacy2.png" class="icon2" /></p></div>
+            <div class="reservationHp" onclick="location.href='<%=ctxPath%>/reserve.sd'"><p class="miniTitle">병원예약<br/><br/><img src="<%= ctxPath%>/resources/images/reservation2.png" class="icon3" /></p></div>
             
             <div class="mapSelect">
                 <select id="cityM" name="cityM" class="select" style="width: 120px;">
@@ -387,7 +388,7 @@
         </div>
 
         <div class="con2">
-            <div class="searchAmbulance"><p class="miniTitle">민간구급차검색<br/><br/><img src="<%= ctxPath%>/resources/images/ambulance2.png" class="icon3" /></p></div>
+            <div class="searchAmbulance" onclick="location.href='<%=ctxPath%>/searchAmbulance.sd'"><p class="miniTitle">민간구급차검색<br/><br/><img src="<%= ctxPath%>/resources/images/ambulance2.png" class="icon3" /></p></div>
             
             <div class="notice">            
                 <table>

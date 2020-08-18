@@ -1,10 +1,7 @@
 package com.synergy.socdoc;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.synergy.service.InterService;
-import com.synergy.socdoc.member.HpInfoVO;
 import com.synergy.socdoc.member.HpReviewVO;
-import com.synergy.socdoc.member.MemberVO;
 import com.synergy.socdoc.member.NoticeVO;
 
 /**

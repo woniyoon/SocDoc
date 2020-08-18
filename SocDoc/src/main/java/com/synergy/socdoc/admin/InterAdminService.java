@@ -52,7 +52,7 @@ public interface InterAdminService {
 	HealthInfoVO healthInfoView(String infoSeq); // 건강정보 글 조회
 	int infoInsert(HealthInfoVO healthvo); // 건강정보 글쓰기
 	
-	int addComment(CommentVO commentvo); // 댓글쓰기
+	int addCommentAdmin(CommentVO commentvo); // 댓글쓰기
 	List<CommentVO> getCommentList(String parentSeq); // 게시물에 딸린 댓글 조회하기
 	void updateStatus(String parentSeq);  // 문의글에 답변 상태 변경하기
 	

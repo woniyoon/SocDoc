@@ -239,7 +239,7 @@
 		var form_data = $("form[name=addWriteFrm]").serialize();
 		
 		$.ajax({
-			url:"<%= request.getContextPath()%>/addComment.sd",
+			url:"<%= request.getContextPath()%>/addCommentAdmin.sd",
 			data:form_data,
 			type:"POST",
 			dataType:"JSON",
@@ -265,7 +265,7 @@
 	// === 페이징 처리 안한 댓글 읽어오기  === //
 	function goReadComment() {
 		$.ajax({
-			url:"<%= request.getContextPath()%>/readComment.sd",
+			url:"<%= request.getContextPath()%>/readCommentAdmin.sd",
 			data:{"parentSeq":"${qnavo.qnaSeq}"},
 			dataType:"JSON",
 			success:function(json){
