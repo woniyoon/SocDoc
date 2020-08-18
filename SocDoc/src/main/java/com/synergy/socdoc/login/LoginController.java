@@ -29,9 +29,6 @@ public class LoginController {
 	// === 로그인 폼 페이지 요청 === //
 	@RequestMapping("/login.sd")
 	public ModelAndView login(ModelAndView mav) {
-		
-		/*String ctxPath = request.getContextPath();
-		System.out.println(ctxPath+"/loginform.sd로 접속하셨습니다.");*/
 		mav.setViewName("login/loginform.tiles1");
 		
 		return mav;
@@ -64,15 +61,14 @@ public class LoginController {
 			mav.addObject("loc", loc);
 			mav.setViewName("msg"); 
 		} else {
-			//String msg = "${name}님 환영합니다.";
+			String msg = "건강한 하루되세요 누구님 환영합니다.";
 			String loc = request.getContextPath() + "/index.sd";
-			//mav.addObject("msg", msg);
+			mav.addObject("msg", msg);
 			mav.addObject("loc", loc);
 			mav.setViewName("msg"); 
 			HttpSession session = request.getSession();
 			session.setAttribute("loginuser", loginuser);
 		}	
-		
 			/*else {
 			
 			if(loginuser.isIdleStatus() == true) { 
@@ -100,23 +96,22 @@ public class LoginController {
 				} 
 				
 				else { 
-					// 아무런 이상없이 로그인 하는 경우(휴면기간도 아니고 암호변경기간도 아닌 완전깔끔한 상태일 때)
-					session.setAttribute("loginuser", loginuser); // 세션에 값을 넣어준다.
+					// 이상없이 로그인 할 때
+					session.setAttribute("loginuser", loginuser);
 					
 					if(session.getAttribute("gobackURL") != null) {
 			    		// 세션에 저장된 돌아갈 페이지 주소(gobackURL)가 있다라면 
 			    		
 			    		String gobackURL = (String) session.getAttribute("gobackURL");
-			    		mav.addObject("gobackURL", gobackURL); // request 영역에 저장시키는 것이다.
+			    		mav.addObject("gobackURL", gobackURL);
 			    		
-			    		session.removeAttribute("gobackURL");  // 중요!!!!
+			    		session.removeAttribute("gobackURL");
 			    	}
 					
 					mav.setViewName("login/loginEnd.tiles1");
 				}
 			}
 		}*/
-		
 		return mav;
 	}
 	@RequestMapping(value="/hpLoginEnd.sd", method= {RequestMethod.POST})
@@ -145,23 +140,22 @@ public class LoginController {
 			mav.addObject("loc", loc);
 			mav.setViewName("msg"); 
 		} else {
-			//String msg = "속닥 로그인 성공 희희바리~~ 건강한 하루 보내세요 ^~^";
+			String msg = "속닥 로그인 성공 희희바리~~ 건강한 하루 보내세요 ^~^";
 			String loc = request.getContextPath() + "/index.sd";
-			//mav.addObject("msg", msg);
+			mav.addObject("msg", msg);
 			mav.addObject("loc", loc);
 			mav.setViewName("msg"); 
 			HttpSession session = request.getSession();
 			session.setAttribute("hpLoginuser", hpLoginuser);
 		}	
 		return mav;
-	}	
+	}
+	
 	// 로그아웃 처리 //
 	@RequestMapping(value="/logout.sd")
-	public ModelAndView logout(HttpServletRequest request, ModelAndView mav) {  //직접 세션해도 되고, HttpServletRequest request 해도 됨)
+	public ModelAndView logout(HttpServletRequest request, ModelAndView mav) { 
 		
 		HttpSession session = request.getSession();
-/*		session.removeAttribute("login");
-		session.invalidate();*/
 		Object object = session.getAttribute("loginuser");
 		if(object != null) {
 			session.removeAttribute("loginuser");
@@ -175,10 +169,9 @@ public class LoginController {
 		return mav;
 	}
 	@RequestMapping(value="/hpLogout.sd")
-	public ModelAndView hpLogout(HttpServletRequest request, ModelAndView mav) {  //직접 세션해도 되고, HttpServletRequest request 해도 됨)
+	public ModelAndView hpLogout(HttpServletRequest request, ModelAndView mav) { 
 		
 		HttpSession session = request.getSession();
-		/*session.invalidate();*/
 		Object object = session.getAttribute("hpLoginuser");
 		if(object != null) {
 			session.removeAttribute("hpLoginuser");
@@ -191,7 +184,6 @@ public class LoginController {
 		mav.setViewName("msg");
 		return mav;
 	}
-	
 	
 	// === 회원가입 폼 페이지 요청 === //
 	@RequestMapping(value="/register.sd", method= {RequestMethod.GET})
@@ -206,18 +198,10 @@ public class LoginController {
 	// 회원 회원가입 //
 	@RequestMapping(value="/registerEnd.sd", method= {RequestMethod.POST})
 	public String register(MemberVO vo, HttpServletRequest request) {
-		/*System.out.println("회원가입 성공??");
-		System.out.println(" 이름 :" + vo.getName());
-		System.out.println(" 번호 " + vo.getPhone());
-		System.out.println(" 아이디 " + vo.getUserid());
-		System.out.println(" 비번 : " + vo.getPwd());
-		System.out.println(" 이메일 : " + vo.getEmail());
-		System.out.println("생년월일 : " + vo.getBirthDate());
-		System.out.println("성별 : " + vo.getGender());*/
 		
 		HashMap<String, String> paraMap = new HashMap<>();
 		String pwd = Sha256.encrypt(vo.getPwd());
-		vo.setPwd(pwd); // pwd를 vo로 보내주자
+		vo.setPwd(pwd); 
 		
 		HttpSession session = request.getSession();
 		int n = service.register(vo);
@@ -267,7 +251,7 @@ public class LoginController {
 	public String emailCode(HttpServletRequest request) {
 		
 		String email = request.getParameter("email");
-		Random rnd = new Random();	// 인증키를 랜덤하게 생성하도록 한다.
+		Random rnd = new Random();
 		String certificationCode = "";
 		
 		int randnum = 0;
@@ -282,7 +266,7 @@ public class LoginController {
 		
         boolean isSent;
         try {
-        	System.out.println("~~~~~~~~~~~~~~~~ 메일전송  시작 ~~~~~~~~~~~~~~~~");
+        	System.out.println("~~~~~ 메일전송  시작 ~~~~~");
 			mail.sendmail(email, certificationCode);
 			session.setAttribute("certificationCode", certificationCode);
 			isSent = true;
@@ -299,7 +283,7 @@ public class LoginController {
 	public String hpEmailCode(HttpServletRequest request) {
 		
 		String email = request.getParameter("email");
-		Random rnd = new Random(); 	// 인증키를 랜덤하게 생성하도록 한다.
+		Random rnd = new Random();
 		String hpCertificationCode = "";
 		
 		int randnum = 0;
@@ -314,7 +298,7 @@ public class LoginController {
 		
         boolean isSent;
         try {
-        	System.out.println("~~~~~~~~~~~~~~~~ 메일전송  시작 ~~~~~~~~~~~~~~~~");
+        	System.out.println("~~~~~ 메일전송  시작 ~~~~~");
 			mail.sendmail(email, hpCertificationCode);
 			session.setAttribute("hpCertificationCode", hpCertificationCode);
 			isSent = true;
@@ -337,21 +321,18 @@ public class LoginController {
 		HttpSession session = request.getSession();
 		String certificationCode = (String)session.getAttribute("certificationCode");
 	
-		System.out.println("userCertificationCode 인증 코드 : "+userCertificationCode);
-		System.out.println("certificationCode 인증 코드 : "+certificationCode);
+		// System.out.println("userCertificationCode 인증 코드 : "+userCertificationCode);
+		// System.out.println("certificationCode 인증 코드 : "+certificationCode);
 		
 		boolean isbool=false;
 		if( certificationCode.equals(userCertificationCode) ) {
 			isbool=true;
-			System.out.println("인증코드 맞음");
+			// System.out.println("인증코드 맞음");
 		}
 		else {
 			isbool=false;
-			System.out.println("인증코드 안 맞음");
+			// System.out.println("인증코드 안 맞음");
 		}
-		/*
-		request.setAttribute("msg", msg);
-		request.setAttribute("loc", loc);*/
 		//session.removeAttribute("certificationCode"); // 세션에 저장된 인증코드 삭제하기
 		JSONObject json = new JSONObject();
         json.put("isbool", isbool);
@@ -366,17 +347,17 @@ public class LoginController {
 		HttpSession session = request.getSession();
 		String hpCertificationCode = (String)session.getAttribute("hpCertificationCode");
 	
-		System.out.println("hpUserCertificationCode 인증 코드 : "+hpUserCertificationCode);
-		System.out.println("hpCertificationCode 인증 코드 : "+hpCertificationCode);
+		// System.out.println("hpUserCertificationCode 인증 코드 : "+hpUserCertificationCode);
+		// System.out.println("hpCertificationCode 인증 코드 : "+hpCertificationCode);
 		
 		boolean isbool=false;
 		if( hpCertificationCode.equals(hpUserCertificationCode) ) {
 			isbool=true;
-			System.out.println("인증코드 맞음");
+			// System.out.println("인증코드 맞음");
 		}
 		else {
 			isbool=false;
-			System.out.println("인증코드 안 맞음");
+			// System.out.println("인증코드 안 맞음");
 		}
 		JSONObject json = new JSONObject();
         json.put("isbool", isbool);
@@ -414,8 +395,6 @@ public class LoginController {
 		String email= request.getParameter("email");
 		
 		boolean isUse = service.emailChk(email);
-		//System.out.println("isUse 값 : " + isUse);
-		/*String ctxPath = request.getContextPath();*/
 		JSONObject json = new JSONObject();
 		json.put("isUse", isUse);
 		
@@ -486,9 +465,7 @@ public class LoginController {
 			mav.setViewName("login/idFindResult.tiles1");
 			check = 1;
 		}
-
 		mav.addObject("check", check);
-
 		
 		return mav;
 	}
@@ -511,7 +488,6 @@ public class LoginController {
 			mav.addObject("msg", msg);
 			mav.addObject("loc", loc);
 			mav.setViewName("msg");
-
 		} else {
 			mav.addObject("userid",hpMember.getUserid());
 			mav.addObject("registerDate", hpMember.getRegisterDate());
@@ -519,12 +495,10 @@ public class LoginController {
 			mav.setViewName("login/idFindResult.tiles1");
 			check = 2;
 		}
-		
 		mav.addObject("check", check);
 		
 		return mav;
 	}	
-	
 	
 	// === 비밀번호 찾기 === //
 	@RequestMapping("/pwdFind.sd")
@@ -541,7 +515,6 @@ public class LoginController {
 	// === 비밀번호 재설정 전 확인 === //
 	@RequestMapping("/pwdUpdate.sd")
 	public ModelAndView pwdUpdate(HttpServletRequest request, HttpSession session, MemberVO vo, ModelAndView mav) {
-		// service.pwdUpdate(vo);
 		String name = request.getParameter("name");
 		String userid = request.getParameter("userid");
 		String email = request.getParameter("email");
@@ -565,12 +538,10 @@ public class LoginController {
 			mav.addObject("msg", msg);
 			mav.addObject("loc", loc);
 			mav.setViewName("msg");
-			
 		} else {
 			mav.addObject("name", name);
 			mav.addObject("userid", userid);
 			mav.addObject("email", email);
-
 			mav.setViewName("login/pwdUpdate.tiles1");
 		}
 		
@@ -578,7 +549,6 @@ public class LoginController {
 	}
 	@RequestMapping("/hpPwdUpdate.sd")
 	public ModelAndView hpPwdUpdate(HttpServletRequest request, HttpSession session, MemberVO vo, ModelAndView mav) {
-		// service.pwdUpdate(vo);
 		String name = request.getParameter("name");
 		String userid = request.getParameter("userid");
 		String email = request.getParameter("email");
@@ -592,7 +562,6 @@ public class LoginController {
 		paraMap.put("name", name);
 		paraMap.put("userid", userid);
 		paraMap.put("email", email);
-		
 
 		int n = service.hpCheckMember(paraMap);
 
@@ -603,12 +572,10 @@ public class LoginController {
 			mav.addObject("msg", msg);
 			mav.addObject("loc", loc);
 			mav.setViewName("msg");
-			
 		} else {
 			mav.addObject("name", name);
 			mav.addObject("userid", userid);
 			mav.addObject("email", email);
-
 			mav.setViewName("login/pwdUpdate.tiles1");
 		}
 		
@@ -617,10 +584,7 @@ public class LoginController {
 	
 	// 비밀번호 바꾸기 // 
 	@RequestMapping("/changePwd.sd")
-	public ModelAndView changePwd(HttpServletRequest request, HttpSession session, ModelAndView mav) {
-		/*String oldPwd = Sha256.encrypt(request.getParameter("oldPwd"));
-		String newPwd = Sha256.encrypt(request.getParameter("newPwd"));*/
-		
+	public ModelAndView changePwd(HttpServletRequest request, HttpSession session, ModelAndView mav) {	
 		String pwd = request.getParameter("pwd");
 		String pwd2 = request.getParameter("pwd2");
 		String userid = request.getParameter("userid");
@@ -628,9 +592,6 @@ public class LoginController {
 		String email = request.getParameter("email");
 		
 		HashMap<String, String> paraMap = new HashMap<>();
-		/*paraMap.put("pwd", oldPwd);
-		paraMap.put("newPwd", newPwd);*/
-		
 		paraMap.put("pwd", Sha256.encrypt(pwd));
 		paraMap.put("pwd2", Sha256.encrypt(pwd2));
 		paraMap.put("userid", userid);
@@ -639,7 +600,6 @@ public class LoginController {
 		
 		String msg = "";
 		String loc = "";
-		/*boolean needsRefresh = false;*/
 		
 		int n = service.pwdUpdate(paraMap);
 
@@ -650,7 +610,7 @@ public class LoginController {
 			msg = "다시 시도해주세요!";
 			loc = request.getContextPath() + "/pwdFind";
 		}
-		session.invalidate(); // 세션을 끊는다?
+		session.invalidate(); // 세션 끊기
 
 		mav.addObject("msg", msg);
 		mav.addObject("loc", loc);
@@ -659,20 +619,14 @@ public class LoginController {
 		return mav;
 	}
 	@RequestMapping("/hpChangePwd.sd")
-	public ModelAndView hpChangePwd(HttpServletRequest request, HttpSession session, ModelAndView mav) {
-		/*String oldPwd = Sha256.encrypt(request.getParameter("oldPwd"));
-		String newPwd = Sha256.encrypt(request.getParameter("newPwd"));*/
-		
+	public ModelAndView hpChangePwd(HttpServletRequest request, HttpSession session, ModelAndView mav) {	
 		String pwd = request.getParameter("pwd");
 		String pwd2 = request.getParameter("pwd2");
 		String userid = request.getParameter("userid");
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
 		
-		HashMap<String, String> paraMap = new HashMap<>();
-		/*paraMap.put("pwd", oldPwd);
-		paraMap.put("newPwd", newPwd);*/
-		
+		HashMap<String, String> paraMap = new HashMap<>();	
 		paraMap.put("pwd", Sha256.encrypt(pwd));
 		paraMap.put("pwd2", Sha256.encrypt(pwd2));
 		paraMap.put("userid", userid);
@@ -681,7 +635,6 @@ public class LoginController {
 		
 		String msg = "";
 		String loc = "";
-		/*boolean needsRefresh = false;*/
 		
 		int n = service.hpPwdUpdate(paraMap);
 
@@ -692,7 +645,7 @@ public class LoginController {
 			msg = "다시 시도해주세요!";
 			loc = request.getContextPath() + "/pwdFind";
 		}
-		session.invalidate(); // 세션을 끊는다?
+		session.invalidate(); // 세션 끊기
 
 		mav.addObject("msg", msg);
 		mav.addObject("loc", loc);

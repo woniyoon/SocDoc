@@ -27,7 +27,7 @@ public interface InterLoginService {
 	public int hpRegister(HpMemberVO vo);
 	
 	// 누구세요? 뭐지? ㅠ
-	public List<MemberVO> idFind(MemberVO vo);
+	// public List<MemberVO> idFind(MemberVO vo);
 	
 	// === 아이디 찾기 === //
 	public MemberVO idFindResult(HashMap<String, String> paraMap);

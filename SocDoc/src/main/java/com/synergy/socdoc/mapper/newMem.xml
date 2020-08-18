@@ -7,9 +7,10 @@
 <!-- ==== #29. 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체내에서 유일해야 한다.) ==== -->
 <mapper namespace="newMem">
 	
+	<!-- 확인용^^~~
 	<select id="getContent" resultType="String">
 		select email from tbl_test where userid = 'woniyoon'
-	</select>
+	</select> -->
 	
 	<!-- 로그인 처리 -->
 	<select id="getLoginMember" parameterType="HashMap" resultType="com.synergy.socdoc.member.MemberVO">
@@ -29,7 +30,6 @@
 		from member
 		where userid = #{userid}
 	</select>
-	
 	<select id="hpIdChk" resultType="int">
 		select count(*)
 		from hpMember
@@ -42,7 +42,6 @@
 		from member
 		where email = #{email}
 	</select>
-	
 	<select id="hpEmailChk" resultType="int">
 		select count(*)
 		from hpMember
@@ -67,11 +66,11 @@
 	</insert>
 	
 	<!-- 아이디 찾기 -->
-	<select id="idFind" parameterType="com.synergy.socdoc.member.MemberVO">
+<!-- 	<select id="idFind" parameterType="com.synergy.socdoc.member.MemberVO">
 		select userid 
 		from member
 		where name=#{name} and email=#{email}
-	</select>
+	</select> -->
 	<select id="idFindResult" parameterType="HashMap" resultType="com.synergy.socdoc.member.MemberVO">
 		select userid, email, to_char(registerDate, 'yyyy-mm-dd') as registerDate
 		from member

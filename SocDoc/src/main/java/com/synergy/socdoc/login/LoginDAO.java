@@ -30,15 +30,13 @@ public class LoginDAO implements InterLoginDAO {
 	
 	// === 회원가입  아이디 중복검사 === //
 	@Override
-	public int idChk(String userid) { // 파라미터가 많다면 (String, String, ...) 웬만하면 map으로 보내는게 훨 편하다. // boardvo나 hashmap
+	public int idChk(String userid) { 
 		int result = sqlsession.selectOne("newMem.idChk", userid);
-		//System.out.println(result);
 		return result;
 	}
 	@Override
 	public int hpIdChk(String hpUserid) {
 		int result = sqlsession.selectOne("newMem.hpIdChk", hpUserid);
-		//System.out.println(result);
 		return result;
 	}
 	
@@ -46,13 +44,11 @@ public class LoginDAO implements InterLoginDAO {
 	@Override
 	public int emailChk(String email) {
 		int result = sqlsession.selectOne("newMem.emailChk", email);
-		//System.out.println(result);
 		return result;
 	}
 	@Override
 	public int hpEmailChk(String hpEmail) {
 		int result = sqlsession.selectOne("newMem.hpEmailChk", hpEmail);
-		//System.out.println(result);
 		return result;
 	}
 	
@@ -60,7 +56,6 @@ public class LoginDAO implements InterLoginDAO {
 	@Override
 	public int regIdChk(String regId) {
 		int result = sqlsession.selectOne("newMem.regIdChk", regId);
-		//System.out.println(result);
 		return result;
 	}
 	
@@ -77,10 +72,10 @@ public class LoginDAO implements InterLoginDAO {
 	}
 	
 	// 누구세요? 뭐지? ㅠ
-	@Override
+	/*@Override
 	public List<MemberVO> idFind(MemberVO vo) {
 		return sqlsession.selectList("newMem.idFind", vo);
-	}
+	}*/
 	
 	// === 아이디 찾기 === // 
 	@Override

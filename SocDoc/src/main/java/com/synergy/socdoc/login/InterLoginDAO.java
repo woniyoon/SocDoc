@@ -7,7 +7,7 @@ import com.synergy.socdoc.member.HpMemberVO;
 import com.synergy.socdoc.member.MemberVO;
 
 public interface InterLoginDAO {
-	// 로그인 처리 //
+	// === 로그인 처리 === //
 	MemberVO getLoginMember(HashMap<String, String> paraMap);
 	HpMemberVO getHpLoginMember(HashMap<String, String> paraMap);
 	
@@ -27,7 +27,7 @@ public interface InterLoginDAO {
 	int hpRegister(HpMemberVO vo);
 	
 	// 누구세요? 뭐지? ㅠ
-	public List<MemberVO> idFind(MemberVO vo);
+	// public List<MemberVO> idFind(MemberVO vo);
 	
 	// === 아이디 찾기 === //
 	public MemberVO idFindResult(HashMap<String, String> paraMap);
