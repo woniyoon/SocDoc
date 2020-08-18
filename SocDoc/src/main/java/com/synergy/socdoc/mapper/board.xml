@@ -41,16 +41,24 @@
 		</if> -->
  	</select>
  	 
- 	<!-- 게시물 목록 조회 -->
+ 	 
+ 	 
+ 	<!-- 게시물 목록보기 (최신순으로)-->
  	<select id="noticeList" parameterType="HashMap" resultType="com.synergy.socdoc.member.NoticeVO">
- 		select V.rno, V.noticeSeq, V.subject, V.content, V.regDate from
-		(select rownum as rno, noticeSeq, subject, content, to_char(regDate, 'yyyy-mm-dd') as regDate
-				from noticeboard
-			where 1=1 and content LIKE '%'||#{searchWord}||'%'
-		order by noticeSeq desc) V
-		where V.rno between #{startRno} and #{endRno}
+		select rno, noticeSeq, subject, content, regDate from
+		(
+		    select rownum AS rno, noticeSeq, subject, content, regDate from 
+		    (
+		        select noticeSeq, subject, content, to_char(regDate, 'yyyy-mm-dd') as regDate
+		        from noticeboard
+		        <if test="!searchWord.equals('')">
+					where content LIKE '%'||#{searchWord}||'%'
+				</if>
+		        order by noticeSeq desc
+		    ) V
+		)T
+		where rno between #{startRno} and #{endRno} 
  	</select>
- 	
  	<select id="infoList" parameterType="HashMap" resultType="com.synergy.socdoc.member.HealthInfoVO">
 		select V.rno, V.infoSeq, V.subject, V.content, V.imgName, V.regDate from
 		(select rownum as rno, infoSeq, subject, content, imgName, to_char(regDate, 'yyyy-mm-dd') as regDate
@@ -58,16 +66,11 @@
 		<if test="!searchWord.equals('')">
 			where content LIKE '%'||#{searchWord}||'%'
 		</if>
-		order by infoSeq desc) V
+		) V
  		where V.rno between #{startRno} and #{endRno}
+ 		order by V.regDate
  	</select>
  	
-<!-- 	<select id="healthinfo" resultType="com.synergy.socdoc.member.HealthInfoVO">
-		select infoseq, subject, content, img, to_char(regDate, 'yyyy-mm-dd') as regDate
-		from infoboard
-		order by infoseq desc
-	</select>
-	 -->
 	<!-- 공지사항 상세 글보기 -->
 	<select id="getView" parameterType="String" resultType="com.synergy.socdoc.member.NoticeVO">
 		select  preseq, presubject, 
