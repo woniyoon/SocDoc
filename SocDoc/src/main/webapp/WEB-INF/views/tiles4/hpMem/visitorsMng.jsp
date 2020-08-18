@@ -233,7 +233,7 @@
 			<button class="blueBtn" type="button" onclick="exportAsExcel('visitorList','방문자 리스트')">엑셀로 내보내기</button>
 		</div>	
 	</c:if>
-	<div class="pageContainer" align="center">
+	<div class="page_wrap" align="center">
 		<span>${pageBar }</span>
 	</div>
 </div>

@@ -76,7 +76,7 @@
 	.on{
       background-position:0 0;
    }    
-      
+   
 </style>
 
 <script src="<%=ctxPath%>/resources/js/util/common.js"></script>
@@ -163,7 +163,7 @@
 			<button class="blueBtn" type="button" onclick="exportAsExcel('reviewListTbl', '후기 목록')">엑셀로 내보내기</button>
 		</div>	
 	</c:if>
-	<div class="pageContainer" align="center">
+	<div class="page_wrap" align="center">
 		<span>${pageBar}</span>
 	</div>
 </div>

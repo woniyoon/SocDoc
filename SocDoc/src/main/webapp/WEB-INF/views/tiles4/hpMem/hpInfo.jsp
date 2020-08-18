@@ -83,7 +83,7 @@
 	<div class="applyBtnContainer" align="right">
 		<button type="button" class="blueBtn" onclick="javascript:location.href='<%=ctxPath%>/hpPanel/updateHpInfo.sd'">신청하기</button>
 	</div>
-	<div class="pageContainer" align="center">
+	<div class="page_wrap" align="center">
 		${pageBar }
 	</div>
 </div>
