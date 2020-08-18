@@ -265,7 +265,7 @@
 
 				            var reader = new FileReader();
 				            reader.onload = function(e) {
-					            var html = "<img src='"+e.target.result+"' style='display: none; width: inherit; height: inherit;'>";
+				            	var html = "<img src='"+e.target.result+"' style='width: inherit; height: inherit;'>";
 					            $(sliderImgId).html(html);
 
 				                console.log(e.target.result);
