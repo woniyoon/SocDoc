@@ -18,13 +18,18 @@
 
 <title>속닥속닥</title>
 
-<title>속닥속닥</title>
     
     <style>
         
         /* header START ---------------*/
         
+        @font-face {
+        	font-family: "netmarbleL";
+        	src:url("<%=ctxPath%>/resources/fonts/netmarbleM.ttf") format("truetype");
+        }
+        
         * {
+        	font-family: netmarbleL;
             padding: 0px;
             margin: 0px;
             box-sizing: border-box
