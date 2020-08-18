@@ -23,7 +23,7 @@
 	}
 
 	.container { 
-		width: 30%;
+		width: 35%;
 		height: 150%;
 		margin: 100px auto 200px auto;
 		padding: 0;
@@ -154,7 +154,7 @@
 	
 	.birthDate input[type=text] {
 		float: left;
-	    width: 100px;
+	    width: 90px;
 	    height: 35px;
 	    padding-left:4px;
 	    text-align: center;
@@ -748,7 +748,8 @@
 		
 		// ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 사업자등록번호
 		$("span#regIdError").hide();
-	
+		$("span#regIdSuccess").hide();
+		
 		$("#regId").keyup(function(){
 			
 			// 숫자만 입력
@@ -759,6 +760,7 @@
 	            $(this).val(keyValue);
 	        }
 			if($("input#regId").val().trim() == "") {	// 데이터가 없다면
+				$("span#regIdSuccess").hide();
 				$("span#regIdError").show();
 				$("input#regId").addClass("wrong"); 
 			} else {	// 데이터가 있다면
@@ -767,13 +769,35 @@
 				var bool = regExp.val(); // 생성된 정규표현식 객체속에 데이터를 넣어서 검사하기
 		
 				if(!bool || bool.length < 12) {  // 데이터가 조건에 맞지않으면
+					$("span#regIdSuccess").hide();
 					$("span#regIdError").html("올바른 사업자번호가 아닙니다.").show();
 					$("input#regId").addClass("wrong");  
-					return;
 					hpCondition1 = false;
+					return;
 				} else {	// 데이터가 조건에 맞다면
 					$("input#regId").removeClass("wrong");
 					hpCondition1 = true;
+					// 중복검사
+					$.ajax({	
+						url:"<%= ctxPath%>/regIdChk.sd",
+						type:"POST",
+						data:{"regId":$("#regId").val()},
+						dataType:"json",
+						success:function(json){
+							if(json.isUse) {	// X 데이터가 중복된다면 X false
+								$("span#regIdError").html($("#regId").val()+"은(는) 이미 사용 중이거나, 탈퇴한 사업자번호로 사용 불가능합니다.").show();
+								$("span#regIdSuccess").hide();
+							} else {	// O 데이터가 중복되지않는다면 O true
+								if(hpCondition1 == true) {	// 정규표현식이 맞다면
+									$("span#regIdSuccess").html("사용 가능한 사업자번호입니다.").show();
+									$("span#regIdError").hide();
+								}
+							}
+						},
+						error: function(request, status, error){
+							alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+						}
+					});
 				}
 				$("span#regIdError").hide();
 				$(":input").prop("disabled",false).removeClass("wrong"); 
@@ -806,7 +830,7 @@
 				} else {	// 데이터가 조건에 맞다면
 					$("form[name=hpRegisterFrm] input#userid").removeClass("wrong");
 					hpCondition2 = true;
-					
+					// 중복검사
 					$.ajax({	
 						url:"<%= ctxPath%>/hpIdChk.sd",
 						type:"POST",
@@ -928,7 +952,7 @@
 				} else {	// 데이터가 조건에 맞다면
 					$("form[name=hpRegisterFrm] input#email").removeClass("wrong");
 					hpCondition5 = true;
-					
+					// 중복검사
 					$.ajax({
 						url:"<%=ctxPath%>/hpEmailChk.sd",
 						type:"POST",
@@ -1210,6 +1234,7 @@
 						<label for="regId">사업자등록번호</label>
 			         	<input type="text" name="regId" id="regId" class="hpRequiredInfo" maxlength="12" autofocus placeholder="'-'없이 10자로입력하세요" />
 			         	<span class="error" id="regIdError">사업자등록번호를 입력 하세요.</span>
+			         	<span class="success" id="regIdSuccess">사용 가능한 사업자등록번호 입니다.</span> 
 			      
 				        <label for="userid" style="display: block;">아이디</label>
 				        <input type="text" name="userid" id="userid" class="hpRequiredInfo" placeholder="5자 이상으로 입력하세요"/>
@@ -1243,9 +1268,9 @@
 						<span class="success" id="hpEmailCkSuccess">사용 가능한 이메일 입니다.</span>
 					   
 						
-				        <label for="hpAgree">약관 동의 &nbsp;&nbsp;<input type="checkbox" id="hpAgree" /> </label>
+				        <label for="hpAgree">약관 동의 &nbsp;&nbsp;<input type="checkbox" id="hpAgree"/> </label>
 				        <div style="text-align: center; vertical-align: middle;">
-			            <iframe src="<%=ctxPath %>/resources/html/agree.html" width="100%" height="150px" class="box" ></iframe>
+			            <iframe src="<%=ctxPath %>/resources/html/agree.html" width="100%" height="150px" class="box"></iframe>
 						</div>
 					</div>	 
 					

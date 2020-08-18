@@ -76,20 +76,21 @@
 	.on{
       background-position:0 0;
    }    
-      
+   
 </style>
 
+<script src="<%=ctxPath%>/resources/js/util/common.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		
 	      if("${searchType != null}" && "${searchWord != null}") {
-	    	  console.log("??");
 	    	  $("#searchType").val("${searchType}");
 	    	  $("#searchWord").val("${searchWord}");
 	      }
 		
 	      $(".hospitalRatingStar").each(function(){
 		      $("#hospitalRatingStar"+"${avgRating}").addClass("on").prevAll("span").addClass("on");
+		      console.log("??????");
 		      return false;
 		  });
 	});
@@ -101,8 +102,6 @@
 		form.submit();
 	}
 	
-	
-
 </script>
 
 <div class="reviewsContainer">
@@ -127,7 +126,7 @@
 		</form>
 		<button class="blueBtn" id="searchBtn" onclick="search()">검색</button>
 	</div>
-	<table class="customTable" style="width: 100%;">
+	<table class="customTable" id="reviewListTbl" style="width: 100%;">
 		<tr>
 			<th>아이디</th>
 			<th>별점</th>
@@ -138,7 +137,7 @@
 			<c:forEach var="review" items="${reviewList}">
 				<tr>
 					<td>${review.userid}</td>
-					<td>
+					<td style="width: 120px;">
 						<c:forEach var="i" begin="1" end="5">
 						   <c:if test="${review.rating >= i}">
 						   		<span class="reviewStar on" id="hospitalRatingStar${i}">별</span>
@@ -149,7 +148,7 @@
 						</c:forEach>
 					</td>
 					<td>${review.content}</td>
-					<td>${review.regDate}</td>
+					<td style="width: 100px;">${review.regDate}</td>
 				</tr>
 			</c:forEach>
 		</c:if>
@@ -159,10 +158,12 @@
 			</tr>
 		</c:if>
 	</table>
-	<div class="reviewListBottom" align="right">
-		<button class="blueBtn" type="button">엑셀로 내보내기</button>
-	</div>
-	<div class="pageContainer" align="center">
+	<c:if test="${not empty reviewList}">
+		<div class="reviewListBottom" align="right">
+			<button class="blueBtn" type="button" onclick="exportAsExcel('reviewListTbl', '후기 목록')">엑셀로 내보내기</button>
+		</div>	
+	</c:if>
+	<div class="page_wrap" align="center">
 		<span>${pageBar}</span>
 	</div>
 </div>

@@ -21,7 +21,7 @@
 	}
 
 	.container { 
-		width: 30%;
+		width: 35%;
 		height: 150%;
 		margin: 100px auto 200px auto;
 		padding: 0;
@@ -181,50 +181,29 @@ $(window).ready(function(){
 	
 	$(document).ready(function(){
 		
-		// ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 아이디
-		$("span#useridError").hide();
+		// ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 이름
+		$("span#nameError").hide();
 	
-		$("form[name=findFrm] #userid").blur(function(){
-			$(this).val( $(this).val().replace( /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '' ).trim() ); // 한글 막기
-			if($("form[name=findFrm] input#userid").val().trim() == "") {	// 데이터가 없다면
-				$("span#useridError").show();
-				$("form[name=findFrm] input#userid").addClass("wrong"); 				
+		$("#name").keyup(function(){
+		
+			if($("input#name").val().trim() == "") {	// 데이터가 없다면
+				$("span#nameError").show();
+				$("input#name").addClass("wrong");
 			} else {	// 데이터가 있다면
 				// 정규표현식
-		        var regExp = /^[A-Za-z0-9]{5,10}$/;	// 5자 이상 10글자 이하의 영문과 숫자를 조합
+		        var regExp = /^[가-힣]{2,4}$/;	//  2~4글자 한글만 
 		        var bool = regExp.test($(this).val()); // 생성된 정규표현식 객체속에 데이터를 넣어서 검사하기
 				
-				if(!bool) {  // 데이터가 조건에 맞지않으면
-					$("span#useridError").html("영문,숫자 조합으로 5~10자리만 입력 가능합니다.").show();
-					$("form[name=findFrm] input#userid").addClass("wrong");  
+		        if(!bool) {  // 데이터가 조건에 맞지않으면
+					$("span#nameError").show();
+					$("input#name").addClass("wrong");
 					condition1 = false;
 					return;
 				} else {	// 데이터가 조건에 맞다면
-					$("form[name=findFrm] input#userid").removeClass("wrong");
+					$("input#name").removeClass("wrong");
 					condition1 = true;
-					
-					$.ajax({
-						url:"<%=ctxPath%>/idFind.sd",
-						type:"POST",
-						data:{"userid":$("form[name=findFrm] #userid").val()},
-						dataType:"json",
-						success:function(json){
-							if(json.isUse) {	// X 데이터가 중복된다면 X false
-								if(condition1 == true) {
-									$("span#useridError").hide();
-								}
-							} else {	// O 데이터가 중복되지않는다면 O true
-								$("span#useridError").html($("이미 사용 중이거나, 탈퇴한 아이디로 사용 불가능합니다.").show();
-							}
-						},
-						error: function(request, status, error){
-							alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-						}
-					});
 				}
-				
-				$("span#useridError").hide();
-
+				$("span#nameError").hide();
 				$(":input").prop("disabled",false).removeClass("wrong"); 
 				return;
 			}
