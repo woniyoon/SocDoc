@@ -132,6 +132,7 @@
           border: solid 1px #F6F6F6;
           display: flex;
           justify-content: center;
+          background-color: white;
         }
         
         .navbar a {
@@ -155,7 +156,7 @@
           background-color: inherit;
           font-family: inherit;
           margin: 0;
-          margin-left: 50px;
+		  width: 150px;
         }
 
         .navbar a:hover, .subnav:hover .subnavbtn {
@@ -169,8 +170,9 @@
           left: 0;
           background-color: #4375DB;
           width: 100%;
-          height: 85px;
+          height: 15vh;
           z-index: 1;
+          padding: 20px 0;
         }
 
         .subnav-content a {
@@ -191,10 +193,23 @@
         }
 
         /* header END ---------------*/
+        
+        #myheader {
+        	position: fixed;
+        	width: 100vw;
+        	top: 0;
+        	left: 0;
+        	background-color: white;
+        	z-index: 100;
+        }
+        
+        #mycontent {
+        	margin: 200px 0 50px 0;
+        }
 </style>
 
 
-    <p class="logo"><img src="<%= ctxPath%>/resources/images/logo.jpg" width="150px" height="100px" class="logo" onclick="location.href='<%=ctxPath%>/index.sd'"/></p>
+    <p class="logo"><img src="<%= ctxPath%>/resources/images/socdocLogoT.png" width="200px" height="120px" class="logo" onclick="location.href='<%=ctxPath%>/index.sd'"/></p>
 
     <ul class="util"> 
     	<!-- 비로그인 -->    
