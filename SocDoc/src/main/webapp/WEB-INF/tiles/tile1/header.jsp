@@ -189,6 +189,7 @@
     <p class="logo"><img src="<%= ctxPath%>/resources/images/logo.jpg" width="150px" height="100px" class="logo" onclick="location.href='<%=ctxPath%>/index.sd'"/></p>
 
     <ul class="util">     
+
     	<c:if test="${sessionScope.loginuser == null && sessionScope.hpLoginuser == null}">
 	        <li><a href="<%=ctxPath%>/login.sd">로그인</a></li>
 	    	<li><a href="<%=ctxPath%>/register.sd">회원가입</a></li>

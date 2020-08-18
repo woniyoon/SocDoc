@@ -9,4 +9,5 @@
 	<select id="getContent" resultType="String">
 		select email from tbl_test where userid = 'woniyoon'
 	</select>
+	
 </mapper>

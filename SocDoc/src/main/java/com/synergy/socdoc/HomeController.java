@@ -2,6 +2,7 @@ package com.synergy.socdoc;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.synergy.service.InterService;
 
@@ -51,5 +53,8 @@ public class HomeController {
 
 		return "main/home.tiles1";
 	}
+	
+	
+	
 	
 }

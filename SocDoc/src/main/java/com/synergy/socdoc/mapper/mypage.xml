@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ==== #29. mapper 기본설정 ==== -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- ==== #29. 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체내에서 유일해야 한다.) ==== -->
+<mapper namespace="mypage">
+	
+	<!-- == 총 게시물 건수(totalCount)를 구하기(검색이 있을때와 검색이 없을때로 나뉜다.) == -->
+	   <select id="getTotalCount" parameterType="HashMap" resultType="int">
+	   	select count(*)
+	   	from qnaBoard
+	   	where userid = #{userid}
+		<if test='searchWord != ""'>
+		     and subject like '%'|| lower(#{searchWord}) ||'%'
+		</if> 
+	   </select>
+	  
+	   
+	 
+	 <!-- == #154. 첨부파일이 있는 답변형 게시판의 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것)  
+  		    먼저 #144 을 주석처리 한 후에 아래와 같이 한다.== -->
+	   <select id="boardListSearchWithPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.QnaBoardVO">
+		  	select qnaSeq, userid, subject, content, regDate, status, groupno, fk_seq, depthno 
+			from 
+			(
+			    select rownum AS rno
+			         , qnaSeq, userid, subject, content, regDate, status, groupno, fk_seq, depthno 
+			    from
+			    (
+			        select qnaSeq, userid, subject, content,
+			        	   to_char(regDate, 'yyyy-mm-dd hh24:mi:ss') as regDate, status, groupno, fk_seq, depthno 
+			        from qnaBoard
+			        where userid = #{userid}
+			        <if test='searchWord != ""'>
+				     and subject like '%'|| #{searchWord} ||'%'
+				    </if>
+			        start with fk_seq = 0
+		        	connect by prior qnaSeq = fk_seq
+		        	order siblings by groupno desc, qnaSeq desc
+			    ) V
+			) T
+			where rno between #{startRno} and #{endRno}
+	  </select>   
+	  
+	  
+	  <!-- === #66.(댓글쓰기가 없는 게시판에서) 글 1개 보여주기 === -->
+	   <select id="getView" parameterType="String" resultType="com.synergy.socdoc.member.QnaBoardVO">
+		    select previousseq, previoussubject
+		         , qnaSeq, userid, subject, content, regDate, status
+		         , nextseq, nextsubject
+			from
+			(
+			    select lag(qnaSeq, 1) over(order by qnaSeq asc) as previousseq 
+			         , lag(subject, 1) over(order by qnaSeq asc) as previoussubject
+			       
+			         , qnaSeq, userid, subject, content
+			         , to_char(regDate, 'yyyy-mm-dd hh24:mi:ss') as regDate ,status
+			           
+			         , lead(qnaSeq, 1) over(order by qnaSeq asc) as nextseq 
+			         , lead(subject, 1) over(order by qnaSeq asc) as nextsubject
+			    from qnaBoard
+			) V
+			where V.qnaSeq = #{qnaSeq}
+	   </select>
+	   
+	   
+      <!-- === 1개글 삭제하기 === -->
+	  <delete id="deleteBoard" parameterType="HashMap">
+		   delete from qnaBoard
+		   where qnaSeq = #{qnaSeq}
+	  </delete>
+	  
+	  <!-- === 내 건강 보기 === -->
+	  <select id="viewMyHealth" parameterType="String" resultType="com.synergy.socdoc.member.MemberVO">
+	    select name, memberSeq, height, weight, bloodType, allergy, history, medicine
+		from member
+		where userid = #{userid}
+   	</select>
+   	
+   	<select id="viewMyHealthTest" resultType="com.synergy.socdoc.member.MemberVO">
+	    select height, weight, bloodType, allergy, history, medicine
+		from member
+   	</select>
+   	
+ 
+	  
+	  <!--  === 내 건강 새로추가(update) === -->
+	   <update id="updateHealth" parameterType="HashMap">
+	   		update member 
+			set height = #{height},
+			    weight = #{weight},
+			    bloodType = #{bloodType},
+			    allergy = #{allergy},
+			    history = #{history},
+			    medicine = #{medicine}
+			where userid = #{userid}
+	   </update>
+	   
+	    <!--  === 내 건강 새로추가(update) === -->
+	   <update id="updateHealth2" parameterType="String">
+	   		update member 
+			set height = #{height},
+			    weight = #{weight},
+			    bloodType = #{bloodType},
+			    allergy = #{allergy},
+			    history = #{history},
+			    medicine = #{medicine}
+			where userid = #{userid}
+	   </update>
+	   
+	   
+	   <!--  === 내 건강 새로추가(insert) === -->
+	   <insert id="insertHealth"  parameterType="com.synergy.socdoc.member.MemberVO">
+   		insert into tblBoard(seq, fk_userid, name, subject, content, pw, readCount, regDate, status)
+   		values(boardSeq.nextval, #{fk_userid}, #{name}, #{subject}, #{content}, #{pw}, default, default, default)
+       </insert>
+	   
+	   
+	   <!--  === 내 건강 초기화하기 === -->
+	   <update id="delHealth" parameterType="String">
+		    update member
+			set height = null,
+			    weight = null,
+			    bloodType = null,
+			    allergy = null,
+			    history = null,
+			    medicine = null
+		   where userid = #{userid}
+	   </update>
+	   
+	   
+	   <!-- == 총 즐겨찾기 건수(totalCount)를 구하기 == -->
+	   <select id="getTotalBookMarkCount" parameterType="HashMap" resultType="int">
+	   	select count(*)
+	   	from bookmark
+	   	where userid = #{userid}
+	   </select>
+	   
+	   
+	   <!-- == #154. 첨부파일이 있는 답변형 게시판의 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것)  
+  		    먼저 #144 을 주석처리 한 후에 아래와 같이 한다.== -->
+  		<!--    
+	   <select id="boardListSearchWithPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.QnaBoardVO">
+		  	select qnaSeq, userid, subject, content, regDate, status, groupno, fk_seq, depthno 
+			from 
+			(
+			    select rownum AS rno
+			         , qnaSeq, userid, subject, content, regDate, status, groupno, fk_seq, depthno 
+			    from
+			    (
+			        select qnaSeq, userid, subject, content,
+			        	   to_char(regDate, 'yyyy-mm-dd hh24:mi:ss') as regDate, status, groupno, fk_seq, depthno 
+			        from qnaBoard
+			        <if test='searchWord != ""'>
+				     where subject like '%'|| #{searchWord} ||'%'
+				    </if>
+			        start with fk_seq = 0
+		        	connect by prior qnaSeq = fk_seq
+		        	order siblings by groupno desc, qnaSeq desc
+			    ) V
+			) T
+			where rno between #{startRno} and #{endRno}
+	  </select> 
+	  -->  
+	  
+	   <!--  북마크 userid 들고오기 -->
+	   <!--  
+	   <select id="getUserid" resultType="String">
+	 	   select distinct userid
+		   from bookmark
+		   order by userid
+	   </select> 
+	   -->
+	   
+	   <!-- 즐겨찾기 목록 가져오기 --> 
+	   <resultMap type="HashMap" id="hpInfoMap">
+   		<result property="dept" 	column="dept" 		javaType="String"/>
+   		<result property="hpName" 	column="hpName" 	javaType="String"/>
+   		<result property="phone" 	column="phone" 		javaType="String"/>
+   		<result property="bookSeq" 	column="bookSeq" 	javaType="String"/>
+	   </resultMap>
+	   <select id="bookMarkListSearchWithPaging" parameterType="HashMap" resultMap="hpInfoMap">
+	 	   select bookSeq,dept,hpName,phone
+	 	   from
+		 	   (
+		 	   select rownum AS rno, bookSeq,dept,hpName,phone
+		       from
+			        (
+				 	   select B.bookSeq AS bookSeq
+				 	   	    , H.dept AS dept
+				      		, H.hpName AS hpName
+				      		, H.phone AS phone
+				 		from bookmark B join hospitalInfo H 
+				 		on B.hpSeq = H.hpSeq
+				 		where B.userid = #{userid}
+				    ) V
+			  )T	    
+	        where rno between #{startRno} and #{endRno}	
+	   </select> 
+	   
+	   
+	   <!-- == 총 예약 건수(totalCount)를 구하기 == -->
+	   <select id="getTotalCountReservation" parameterType="HashMap" resultType="int">
+	   	select count(*)
+	   	from reservation
+	   	where userid = #{userid}
+	   </select>
+	   
+	    
+	   <!-- == 예약확인 게시판의 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것) -->
+	   <resultMap type="HashMap" id="reservationMap">
+   		<result property="hpName" 					column="hpName" 				javaType="String"/>
+   		<result property="hour" 					column="hour" 					javaType="String"/>
+   		<result property="visitdate" 				column="visitdate" 				javaType="String"/>
+   		<result property="status" 					column="status" 				javaType="String"/>
+   		<result property="address" 					column="address" 				javaType="String"/>
+   		<result property="phone" 					column="phone" 					javaType="String"/>
+   		<result property="dept" 					column="dept" 					javaType="String"/>
+   		<result property="reservSeq" 				column="reservSeq" 				javaType="String"/>
+	   </resultMap>
+	   <select id="reservationListSearchWithPaging" parameterType="HashMap" resultMap="reservationMap">
+		  	select hpName, hourSeq, status, hour, to_char(visitdate, 'yyyy-mm-dd') as visitdate, address, phone, dept, reservSeq
+	        from
+		        (
+		            select rownum AS rno, hpName, hourSeq, status, hour, visitdate, address, phone, dept, reservSeq
+		            from
+		            (
+			            select reservSeq, hpName, status, T.hour, V.hourSeq, V.visitdate, V.address, V.phone, V.dept
+			            from 
+						(
+							select R.reservSeq, I.hpName, R.status, R.hourSeq, R.visitdate, I.address, I.phone, I.dept
+							from hospitalInfo I join reservation R 
+							on I.hpSeq = R.hpSeq
+							where userid = #{userid}
+						) V join timetable T 
+						    on V.hourSeq = T.hourSeq
+		        	) V
+	    		) T
+	        where rno between #{startRno} and #{endRno}
+	        <if test='searchType == "2"'>
+            order by visitdate desc, hour desc
+            </if>
+            <if test='searchType == "3"'>
+            order by visitdate asc, hour asc
+            </if>
+	        
+	  </select>   
+	  
+	  <!-- == 즐겨찾기에서 목록 삭제하기 == -->
+	  <delete id="goDelBM" parameterType="String">
+		   delete from bookmark
+		   where bookSeq= #{bookSeq}
+	  </delete>
+	  
+	  
+	  <!-- == 진료이력조회 게시판의 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것) -->
+	   <resultMap type="HashMap" id="historyMap">
+   		<result property="hpName" 				column="hpName" 			javaType="String"/>
+   		<result property="hour" 				column="hour" 				javaType="String"/>
+   		<result property="visitdate" 			column="visitdate" 			javaType="String"/>
+   		<result property="status" 				column="status" 			javaType="String"/>
+   		<result property="address" 				column="address" 			javaType="String"/>
+   		<result property="phone" 				column="phone" 				javaType="String"/>
+   		<result property="dept" 				column="dept" 				javaType="String"/>
+	   </resultMap>
+	   <select id="historyListSearchWithPaging" parameterType="HashMap" resultMap="historyMap">
+		  	select hpName, hourSeq, status, hour, to_char(visitdate, 'yyyy-mm-dd') as visitdate, address, phone, dept
+	        from
+		        (
+		            select rownum AS rno, hpName, hourSeq, status, hour, visitdate, address, phone, dept
+		            from
+		            (
+			            select hpName, status, T.hour, V.hourSeq, V.visitdate, V.address, V.phone, V.dept
+			            from 
+						(
+							select I.hpName, R.status, R.hourSeq, R.visitdate, I.address, I.phone, I.dept
+							from hospitalInfo I join reservation R 
+							on I.hpSeq = R.hpSeq
+							where userid = #{userid} and R.status=0
+						) V join timetable T 
+						    on V.hourSeq = T.hourSeq
+		        	) V
+	    		) T
+	        where rno between #{startRno} and #{endRno}
+	        and visitdate &gt; to_char(add_months(sysdate,-12), 'yyyy-mm-dd')
+	        <if test='searchType == "2"'>
+            order by visitdate desc
+            </if>
+            <if test='searchType == "3"'>
+            order by visitdate asc
+            </if>
+	        
+	  </select>   
+	  
+	  
+	  <!-- == 방문예정시간 구하기 == -->
+	  <!-- 
+	  <select id="getHourSeq" parameterType="HashMap" resultType="String">
+	  		select T.hour as hour
+			from reservation R join timetable T
+			on R.hourSeq = T.hourSeq
+			and R.userid = #{userid} 
+	  </select>
+	   -->
+	   
+	  <!-- == 내 후기 게시판의 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것) -->
+	   <resultMap type="HashMap" id="reviewMap">
+   		<result property="rno" 					column="rno" 					javaType="String"/>
+   		<result property="userid" 				column="userid" 				javaType="String"/>
+   		<result property="rating" 				column="rating" 				javaType="String"/>
+   		<result property="content" 				column="content" 				javaType="String"/>
+   		<result property="name" 				column="name" 					javaType="String"/>
+   		<result property="regDate" 				column="regDate" 				javaType="String"/>
+	   </resultMap>
+	   <select id="reviewListSearchWithPaging" parameterType="HashMap" resultMap="reviewMap">
+		  	select rno, userid, rating, content, name, regDate
+	        from
+		        (
+		             (
+		              select rno, userid, rating, content, hpName as name, to_char(regDate, 'yyyy-mm-dd') as regDate
+				      from
+				          (select rownum as rno, userid, rating, content, regDate, hpname
+				          from hospitalReview
+				          order by regDate desc)
+				      )
+				      union all
+				      (
+				      select rno, userid, rating, content, pharName, to_char(regDate, 'yyyy-mm-dd') as regDate
+				      from
+				          (select rownum as rno, userid, rating, content, regDate, pharName
+				          from pharmacyReview 
+				          order by regDate desc)
+				      )
+	    		) T
+	        where rno between #{startRno} and #{endRno}
+	        and userid = #{userid}
+	        <if test='searchType == "2"'>
+            order by regDate desc
+            </if>
+            <if test='searchType == "3"'>
+            order by regDate asc
+            </if>
+	  </select>    
+	  
+	  
+	   <!-- == 총 병원후기 건수(totalCount)를 구하기 == -->
+	   <select id="getTotalCountReview" parameterType="HashMap" resultType="int">
+		select sum(total) 
+		from (
+		select count (*) as total 
+		from hospitalReview 
+		where userid = #{userid}
+		union all 
+		select count (*) as total 
+		from pharmacyReview
+		where userid = #{userid}
+		)
+	   </select>
+	   
+	   
+	   <!-- == 총 약국후기 건수(totalCount)를 구하기 == -->
+	   <select id="getTotalCountReviewPM" parameterType="HashMap" resultType="int">
+	   	select count (*)
+		from pharmacyReview
+		where userid = #{userid}
+	   </select>
+	   
+	   
+	   <!-- == 예약확인 게시판의 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것) -->
+	   <resultMap type="HashMap" id="reservationDetailMap">
+   		<result property="hpName" 				column="hpName" 			javaType="String"/>
+   		<result property="hour" 				column="hour" 				javaType="String"/>
+   		<result property="visitdate" 			column="visitdate" 			javaType="String"/>
+   		<result property="status" 				column="status" 			javaType="String"/>
+   		<result property="address" 				column="address" 			javaType="String"/>
+   		<result property="phone" 				column="phone" 				javaType="String"/>
+   		<result property="dept" 				column="dept" 				javaType="String"/>
+	    <result property="reservSeq" 			column="reservSeq" 			javaType="String"/>
+	   </resultMap>
+	   <select id="reservationDetailListSearchWithPaging" parameterType="HashMap" resultMap="reservationDetailMap">
+		  	select hpName, hourSeq, status, hour, to_char(visitdate, 'yyyy-mm-dd') as visitdate, address, phone, dept
+	        from
+		        (
+		            select rownum AS rno, hpName, hourSeq, status, hour, visitdate, address, phone, dept
+		            from
+		            (
+			            select hpName, status, T.hour, V.hourSeq, V.visitdate, V.address, V.phone, V.dept
+			            from 
+						(
+							select I.hpName, R.status, R.hourSeq, R.visitdate, I.address, I.phone, I.dept
+							from hospitalInfo I join reservation R 
+							on I.hpSeq = R.hpSeq
+							where userid = #{userid} and reservSeq = #{reservSeq}
+						) V join timetable T 
+						    on V.hourSeq = T.hourSeq
+		        	) E
+	    		) T
+	  </select>   
+	  
+	  
+	  <select id="loginInfoEdit" parameterType="HashMap" resultType="com.synergy.socdoc.member.MemberVO">
+		select userid, pwd, name, gender,  to_char(birthDate, 'yyyy-mm-dd') as birthDate, phone, email
+		from member
+		where userid=#{userid} and pwd=#{pwd}
+	</select>
+	
+	
+	<!-- 회원정보수정(기본정보변경) -->
+	<update id="updateInfo" parameterType="com.synergy.socdoc.member.MemberVO">
+		update member 
+		set phone = #{phone},
+		    email = #{email}
+		where userid = #{userid}
+	</update>
+	
+	
+	<!-- 회원정보수정(비밀번호변경) -->
+	<update id="goUpdatePwd" parameterType="com.synergy.socdoc.member.MemberVO">
+		update member 
+		set pwd = #{pwd}
+		where userid = #{userid}
+	</update>
+	
+	
+	<!-- 마이페이지 메인-->
+	
+	  <!-- 즐겨찾기 목록 가져오기 --> 
+	   <resultMap type="HashMap" id="hpInfoMap2">
+   		<result property="dept" 	column="dept" 		javaType="String"/>
+   		<result property="hpName" 	column="hpName" 	javaType="String"/>
+   		<result property="phone" 	column="phone" 		javaType="String"/>
+   		<result property="bookSeq" 	column="bookSeq" 	javaType="String"/>
+   		<result property="address" 	column="address" 	javaType="String"/>
+   		<result property="mainimg" 	column="mainimg" 	javaType="String"/>
+	   </resultMap>
+	   <select id="bookMarkList" parameterType="HashMap" resultMap="hpInfoMap2">
+	 	   select bookSeq,dept,hpName,phone, address, mainimg
+	       from
+		        (
+			 	   select B.bookSeq AS bookSeq
+			 	   	    , H.dept AS dept
+			      		, H.hpName AS hpName
+			      		, H.phone AS phone
+			      		, H.address AS address
+			      		, H.mainimg as mainimg
+			 		from bookmark B join hospitalInfo H 
+			 		on B.hpSeq = H.hpSeq
+			 		where B.userid = #{userid}
+			 	) V
+	   </select> 
+	   
+	   <!-- == 예약확인 게시판의 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것) -->
+	   <resultMap type="HashMap" id="reservationMap2">
+   		<result property="hpName" 					column="hpName" 				javaType="String"/>
+   		<result property="hour" 					column="hour" 					javaType="String"/>
+   		<result property="visitdate" 				column="visitdate" 				javaType="String"/>
+   		<result property="status" 					column="status" 				javaType="String"/>
+   		<result property="address" 					column="address" 				javaType="String"/>
+   		<result property="phone" 					column="phone" 					javaType="String"/>
+   		<result property="dept" 					column="dept" 					javaType="String"/>
+   		<result property="reservSeq" 				column="reservSeq" 				javaType="String"/>
+   		<!-- <result property="rankNo" 					column="rankNo" 				javaType="Integer"/> -->
+	   </resultMap>
+	   <select id="reservationList" parameterType="HashMap" resultMap="reservationMap2">
+		  	select hpName, hourSeq, status, hour, to_char(visitdate, 'yyyy-mm-dd') as visitdate, address, phone, dept, reservSeq, rankNo
+	        from
+		        (
+		            select rownum AS rno, hpName, hourSeq, status, hour, visitdate, address, phone, dept, reservSeq
+		            	 , ROW_NUMBER() OVER (ORDER BY reservSeq asc) AS rankNo
+		            from
+		            (
+			            select reservSeq, hpName, status, T.hour, V.hourSeq, V.visitdate, V.address, V.phone, V.dept
+			            from 
+						(
+							select R.reservSeq, I.hpName, R.status, R.hourSeq, R.visitdate, I.address, I.phone, I.dept
+							from hospitalInfo I join reservation R 
+							on I.hpSeq = R.hpSeq
+							where userid = #{userid}
+						) V join timetable T 
+						    on V.hourSeq = T.hourSeq
+		        	) V
+	    		) T
+	     where rankNo = 1
+	        
+	  </select>   
+	
+	
+	 <!-- == 진료이력조회 게시판의 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것) -->
+	   <resultMap type="HashMap" id="historyMap2">
+   		<result property="hpName" 				column="hpName" 			javaType="String"/>
+   		<result property="hour" 				column="hour" 				javaType="String"/>
+   		<result property="visitdate" 			column="visitdate" 			javaType="String"/>
+   		<result property="status" 				column="status" 			javaType="String"/>
+   		<result property="address" 				column="address" 			javaType="String"/>
+   		<result property="phone" 				column="phone" 				javaType="String"/>
+   		<result property="dept" 				column="dept" 				javaType="String"/>
+	   </resultMap>
+	   <select id="historyList" parameterType="HashMap" resultMap="historyMap2">
+		  	select hpName, hourSeq, status, hour, to_char(visitdate, 'yyyy-mm-dd') as visitdate, address, phone, dept, reservSeq, RankNo
+	        from
+		        (
+		            select rownum AS rno, hpName, hourSeq, status, hour, visitdate, address, phone, dept, reservSeq
+                          , ROW_NUMBER() OVER (ORDER BY reservSeq asc) AS RankNo
+		            from
+		            (
+			            select hpName, status, T.hour, V.hourSeq, V.visitdate, V.address, V.phone, V.dept, reservSeq
+			            from 
+						(
+							select I.hpName, R.status, R.hourSeq, R.visitdate, I.address, I.phone, I.dept, R.reservSeq
+							from hospitalInfo I join reservation R 
+							on I.hpSeq = R.hpSeq
+							where userid = #{userid} and R.status=0
+						) V join timetable T 
+						    on V.hourSeq = T.hourSeq
+		        	) V
+	    		) T
+      where RankNo Between 1 and 3
+	  </select>   
+	  
+	  
+	   <!-- == 예약확인 게시판의 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것) -->
+	   <resultMap type="HashMap" id="reviewMap3">
+   		<result property="rno" 					column="rno" 					javaType="String"/>
+   		<result property="userid" 				column="userid" 				javaType="String"/>
+   		<result property="rating" 				column="rating" 				javaType="String"/>
+   		<result property="content" 				column="content" 				javaType="String"/>
+   		<result property="name" 				column="name" 					javaType="String"/>
+   		<result property="regDate" 				column="regDate" 				javaType="String"/>
+	   </resultMap>
+	   <select id="reviewList" parameterType="HashMap" resultMap="reviewMap3">
+		  	select rno, userid, rating, content, name, regDate
+	        from
+		        (
+		             (
+		              select rno, userid, rating, content, hpName as name, to_char(regDate, 'yyyy-mm-dd') as regDate
+				      from
+				          (select rownum as rno, userid, rating, content, regDate, hpname
+				          from hospitalReview
+				          order by regDate desc)
+				      )
+				      union all
+				      (
+				      select rno, userid, rating, content, pharName, to_char(regDate, 'yyyy-mm-dd') as regDate
+				      from
+				          (select rownum as rno, userid, rating, content, regDate, pharName
+				          from pharmacyReview 
+				          order by regDate desc)
+				      )
+	    		) T
+	    	where userid = #{userid}	
+	  </select>  
+	  
+	  
+	    <!-- 댓글쓰기 -->
+		<insert id="addComment" parameterType="com.synergy.socdoc.member.CommentVO">
+			insert into qnaComment (commentSeq, content, regDate, parentSeq)
+			values(commentSeq.nextval, #{content}, default, #{parentSeq})
+		</insert>	
+		<select id="getCommentList" parameterType="String" resultType="com.synergy.socdoc.member.CommentVO">
+			select to_char(regDate, 'yyyy-mm-dd') as regDate, content
+			from qnaComment
+			where parentSeq = #{parentSeq}
+		</select>
+		
+		
+		<update id="updateStatus" parameterType="String">
+			update qnaBoard set status = '1'
+			where qnaSeq = #{parentSeq}
+		</update> 
+		
+		
+		<!--  === #98. 삭제하는 글의 해당 댓글 삭제 === -->  
+	  	<delete id="deleteComment" parameterType="HashMap">
+			delete from qnaComment
+			where parentSeq = #{parentSeq}
+			<!--#{seq}는 hashMap 값! -->
+		</delete>
+		
+		<!-- 후기삭제하기 -->
+		<delete id="goDelReview" parameterType="HashMap">
+		   delete from qnaBoard
+		   where qnaSeq = #{qnaSeq}
+	  </delete>
+</mapper>

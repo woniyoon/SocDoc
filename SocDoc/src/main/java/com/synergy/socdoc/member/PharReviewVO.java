@@ -11,9 +11,11 @@ public class PharReviewVO {
 	
 	private String pharName;
 	
+	private String avgRating;
+	
 	public PharReviewVO() {}
 
-	public PharReviewVO(int phReviewSeq, int pharmSeq, String userid, String content, String regDate, int rating, String pharName) {
+	public PharReviewVO(int phReviewSeq, int pharmSeq, String userid, String content, String regDate, int rating, String pharName, String avgRating) {
 		super();
 		this.phReviewSeq = phReviewSeq;
 		this.pharmSeq = pharmSeq;
@@ -22,6 +24,7 @@ public class PharReviewVO {
 		this.regDate = regDate;
 		this.rating = rating;
 		this.pharName = pharName;
+		this.avgRating = avgRating;
 	}
 
 	public int getPhReviewSeq() {
@@ -79,6 +82,16 @@ public class PharReviewVO {
 	public void setPharName(String pharName) {
 		this.pharName = pharName;
 	}
+
+	public String getAvgRating() {
+		return avgRating;
+	}
+
+	public void setAvgRating(String avgRating) {
+		this.avgRating = avgRating;
+	}
+	
+	
 	
 	
 }
