@@ -77,6 +77,12 @@
           content: "/\00a0";
         }
         
+        ul.util li+li.photo:before {
+		  padding: 5px;
+          color: black;
+          content: "";
+        }
+        
         ul.util li a {
           text-decoration: none;
         }
@@ -186,27 +192,34 @@
     <ul class="util"> 
     	<!-- 비로그인 -->    
     	<c:if test="${sessionScope.loginuser == null && sessionScope.hpLoginuser == null}">
-	        <li><a href="<%=ctxPath%>/login.sd">로그인</a></li>
+	        <li><a href="<%=ctxPath%>/login.sd"><img src="<%= ctxPath%>/resources/images/loginN.png" width="20px" height="20px" style="margin-top: 2px;"/></a></li>
+	        <li class="photo"><a href="<%=ctxPath%>/login.sd">로그인</a></li>
 	    	<li><a href="<%=ctxPath%>/register.sd">회원가입</a></li>
 	    	<li><a href="#">마이페이지</a></li>
+   	        <li><a href="#">고객센터</a></li>
         </c:if>
         <c:if test="${not empty sessionScope.loginuser}">
 	        <!-- admin 로그인 --> 
 	        <c:if test="${sessionScope.loginuser.userid == 'admin'}">
-	        	<li><a href="#">관리자 페이지</a></li>
+	        	<li><img src="<%= ctxPath%>/resources/images/loginA.png" width="20px" height="20px" style="margin-top: 2px;"/></li>
+	        	<li class="photo"><a href="#">관리자 페이지</a></li>
+    			<li><a href="<%=ctxPath%>/logout.sd">로그아웃</a></li>
 	        </c:if>
-	        <!-- 개인고객 로그인 -->    
+	        <!-- 개인고객 로그인 -->   
 	        <c:if test="${sessionScope.loginuser.userid != 'admin'}">
-	        	<li>환영합니다! <a href="#"><strong>${loginuser.name}</strong>님의 마이페이지</a></li>
+	        	<li><img src="<%= ctxPath%>/resources/images/loginY.png" width="20px" height="20px" style="margin-top: 2px;"/></li> 
+	        	<li class="photo"><a href="#"><strong>${loginuser.name}</strong>님의 마이페이지</a></li>
+		        <li><a href="<%=ctxPath%>/logout.sd">로그아웃</a></li>
+	        	<li><a href="#">고객센터</a></li>
 	        </c:if>
-	        <li><a href="<%=ctxPath%>/logout.sd">로그아웃</a></li>
         </c:if>
-        <!-- 병원고객 로그인 -->    
+        <!-- 병원고객 로그인 --> 
         <c:if test="${not empty sessionScope.hpLoginuser}">
-	        <li>환영합니다! <a href="#"><strong>${hpLoginuser.name}</strong>의 마이페이지</a></li>
+        	<li><img src="<%= ctxPath%>/resources/images/loginY.png" width="20px" height="20px" style="margin-top: 2px;"/></li>   
+	        <li class="photo"><a href="#"><strong>${hpLoginuser.name}</strong>의 마이페이지</a></li>
 	        <li><a href="<%=ctxPath%>/hpLogout.sd">로그아웃</a></li>
+	        <li><a href="#">고객센터</a></li>
         </c:if>
-        <li><a href="#">고객센터</a></li>
     </ul>
 
 
