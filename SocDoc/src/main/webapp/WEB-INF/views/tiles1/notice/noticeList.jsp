@@ -82,6 +82,7 @@
 	 /* flex: 1;
 		flex-direction: row;
 		justify-content: flex-end; */
+		display: contents;
 	}
 
 	#searchButton {
@@ -92,13 +93,13 @@
 	    font-weight: bold;
 		color: #ffffff;
 		background-color: #58ACFA;
-		border: solid 1px #ccc;
+		border: solid 0px #ccc;
 	    cursor: pointer;
 	}
 	
 	#noticeSearchWord, #noticeSearchWord2  {
 		display: inline-block;
-		width: 250px;
+		width: 200px;
 	    height: 35px;
 	    margin: 0;
 	    padding-left: 7px;
