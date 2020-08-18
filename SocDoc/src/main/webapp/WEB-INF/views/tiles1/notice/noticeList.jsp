@@ -226,6 +226,7 @@
    	
    	#noticeSearchWord, #noticeSearchWord2 {
  		height: 34px;
+ 		padding-left: 7px;
  		border: solid 1px #ccc;
    	}
 </style>
@@ -309,7 +310,6 @@ function infoBoard(start){
 		data:{"start":start, "len":len},
 		dataType:"JSON",
 		success:function(json){
-			console.log("제발 더보기 나와줘 plz!!!!!!!!!!!!!!!!!!!!!!!!!");
 			var html = "";
 			if(start=="1" && json.length == 0) { // 데이터가 없다면
 	    		html += "건강 정보 게시글 준비 중...";
@@ -337,6 +337,8 @@ function infoBoard(start){
 	    		$("#photo").val(Number(start) + len);
 	    		// 출력된 상품 개수 누적
                 $("#countHIT").text(Number($("#countHIT").text())+(json.length));
+
+	    		console.log($("#totalCount").text());
             	// 더이상 보여줄 제품이 없음
                 if($("#countHIT").text()==$("#totalCount").text()){
                    $("#end").html("더이상 조회할 항목이 없습니다.");
@@ -387,10 +389,12 @@ function getNoticeBoard(currentShowPageNo){
 			}
 			$(".noticeList").html(html);
 			$(".noticePagination").html(json.pageBar);
+			$("#totalNotice").html(json.totalCount);
+			
 		},
 		error: function(request, status, error){
 			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-	 	}
+	 	} 
 	}); 
 }
 
@@ -426,18 +430,16 @@ function getHealthInfoBoard(){
 			if(jsonArr.length > 0) {
 				$.each(jsonArr, function(index, item){
 					html += "<div align='center' id="+item.subject+"  onclick='goInfoView("+item.infoSeq+")'>"
-							/* + "<img width='310px' height='280px' onclick='goInfoView("+item.infoSeq+")' src='/socdoc/resources/files/"+item.imgName+"'/>" */
 							+ "<img src='/socdoc/resources/files/"+item.imgName+"'/>"
 							+ item.subject
 							+ "</div>";
-					console.log(item.imgName);
-					console.log(item.subject);
 				});			
 			} else {
 				$("#infoBoard").html("검색 결과가 없습니다!");
 			}
 			$("#infoBoard").html(html);
 			$(".infoPagination").html(json.pageBar);
+			$("#totalInfo").html(json.totalCount);
 		},
 		error: function(request, status, error){
 			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -465,7 +467,7 @@ function goInfoView(infoSeq) {
 	<div class="bowl">
 		<ul class="tabs">
 			<li id="one" class="tab-link current tab1" data-tab="tab-1" onclick="getNoticeBoard(1, '')">공지사항</li>
-			<li id="two" class="tab-link tab2" data-tab="tab-2" onclick="getHealthInfoBoard(1, '')">건강정보</li>
+			<li id="two" class="tab-link tab2" data-tab="tab-2" >건강정보</li>
 		</ul>
 	
 		
@@ -478,7 +480,7 @@ function goInfoView(infoSeq) {
 				<div id="tab-1" class="tab-content current">
 					<div id="search_header">
 						<div id="search_bar">
-							<div id="search_bar_left" class="total">전체 ${totalCount}건</div>
+							<div id="search_bar_left" class="total">전체 <span id="totalNotice"></span>건</div>
 							<div id="search_bar_right">
 								<input id="noticeSearchWord" name="searchWord" type="text" placeholder="검색어를 입력해 주세요." />
 								<input id="searchButton" onclick="getNoticeBoard();" type="button" value="검색" /> 
@@ -517,7 +519,7 @@ function goInfoView(infoSeq) {
 				
 					<div id="search_header">
 						<div id="search_bar">
-							<div id="search_bar_left" class="total">전체 ${totalCount}건</div>
+							<div id="search_bar_left" class="total">전체 <span id="totalInfo"></span>건</div>
 							<div id="search_bar_right">
 								<input id="noticeSearchWord2" name="searchWord" type="text" placeholder="검색어를 입력해 주세요." />
 								<input id="searchButton" onclick="getHealthInfoBoard();" type="button" value="검색" /> 
@@ -528,22 +530,17 @@ function goInfoView(infoSeq) {
 					<div id="infoBoard">
 						<%-- 건강정보 게시글 들어감 --%>
 		       		</div>			
-				
+				noticeBoard
 					<%-- 더보기 버튼 --%>
 			       	<div style="margin: 20px 0;">
 			         	<span id="end" style="font-size: 16pt; font-weight: bold; color: red;"></span>
 			         	<button type="button" id="photo" value="">더보기</button>
 			         	<span id="totalCount">${totalCount}</span>   
-			         	<span id="countHIT" style="color: #ffffff;"></span>
+			         	<span id="countHIT"></span>
 			       	</div>
 		       
 		       
 				</div>
-				<!-- <input id="photo" onclick="photo();" type="button" value="더보기" /> -->
-				
-				<!-- ${totalPage} -->
-				<!-- <div class="infoPagination" id="pageBar"></div>-->
-				<!-- ${pageBar} -->
 			</form>
 				
 		
@@ -557,6 +554,5 @@ function goInfoView(infoSeq) {
         <form name="goInfoFrm">
         	<input type="hidden" name="infoSeq" />
         </form>
-		</div>	
 	</div>
 </div>

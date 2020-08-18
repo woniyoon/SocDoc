@@ -51,6 +51,7 @@ public class BoardController {
 		String searchWord = request.getParameter("searchWord");
 		String currentShowPageNoStr = request.getParameter("currentShowPageNo");
 		
+		
 		if(searchWord == null) {
 			searchWord = "";
 		}
@@ -65,8 +66,8 @@ public class BoardController {
 		
 		totalCount = service.getTotalNoticeList(paraMap);   // 이 파라맵이 해쉬맵이다
 		
-		System.out.println("totalCount : "+totalCount);
-
+		System.out.println("총 공지사항 게시글 건수 게시판 리스트"+totalCount);
+		
 		totalPage = (int) Math.ceil((double)totalCount/sizePerPage); 
 		
 		System.out.println("totalPage : "+totalPage);
@@ -74,8 +75,7 @@ public class BoardController {
 		
 		if(currentShowPageNoStr == null) { // 게시판에 보여지는 초기화면이 비어있다면
 			currentShowPageNO = 1;
-		}
-		else {
+		} else {
 	
 			try{
 				currentShowPageNO = Integer.parseInt(currentShowPageNoStr);
@@ -123,7 +123,7 @@ public class BoardController {
 		int pageNo = ((currentShowPageNO - 1)/blockSize) * blockSize + 1;
 	      
 		// === [이전] 만들기 === //
-	    if(pageNo != 1) { // 1이 아니라면 2번째부터 만들어라??? ㅅㅂ
+	    if(pageNo != 1) {
 	       pageBar += "<li style='display:inline-block; width:50px; font-size:12pt;'><a href='javascript:getNoticeBoard("+(pageNo-1)+","+searchWord+")'>[이전]</a></li>";
 	    }
 	    
@@ -132,8 +132,7 @@ public class BoardController {
 	         
 	         if(pageNo == currentShowPageNO) {
 	        	pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; border: solid 1px grey; color: red; padding: 2px 4px;'>" + pageNo + "</li>";
-	         }
-	         else {
+	         } else {
 	        	pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt;'>"
 							+ "<a href='javascript:getNoticeBoard("+pageNo+","+searchWord+")'>"
 							+ pageNo+"</a></li>";	         }
@@ -154,6 +153,7 @@ public class BoardController {
 	      
 	    JsonObject jsonObj = new JsonObject();
 	    jsonObj.addProperty("pageBar", pageBar);
+	    jsonObj.addProperty("totalCount", totalCount);
 	    if(searchWord.trim() != "") {
 	    	jsonObj.addProperty("searchWord", searchWord);	    	
 	    }
@@ -187,7 +187,7 @@ public class BoardController {
 		int totalPage = 0;// 총페이지 수(웹브라우저상에 보여줄 총 페이지 개수, 페이지바)
 		
 		totalCount = service.getTotalInfoList(paraMap);   // 이 파라맵이 해쉬맵이다
-		System.out.println("총 게시글 건수"+totalCount);
+		System.out.println("총 건강정보 게시글 건수 게시판 리스트"+totalCount);
 		
 		totalPage = (int) Math.ceil((double)totalCount/sizePerPage); 
 		
@@ -219,7 +219,6 @@ public class BoardController {
 		
 		for(int i=0; i<infoBoard.size(); i++) {
 			JsonObject obj = new JsonObject();
-//	 		select V.rno, V.noticeSeq, V.subject, V.content, V.regDate from
 			HealthInfoVO hvo = infoBoard.get(i);
 			obj.addProperty("infoSeq", hvo.getInfoSeq());
 			obj.addProperty("subject", hvo.getSubject());
@@ -230,58 +229,12 @@ public class BoardController {
 		}
 		
 		
-		
-		//////
-		String pageBar = "<ul style='list-style: none;'>";
-	    
-	    int blockSize = 6;
-	    int loop = 1; // 몇번 반복할래	    
-	    // loop는 1부터 증가하여 1개 블럭을 이루는 페이지 번호의 개수(지금은 10개(== blockSize)) 10개 까지만 증가하는 용도다.
-	    
-		int pageNo = ((currentShowPageNO - 1)/blockSize) * blockSize + 1;
-/*	      
-		// === [이전] 만들기 === //
-	    if(pageNo != 1) { // 1이 아니라면 2번째부터 만들어라??? ㅅㅂ
-	       pageBar += "<li style='display:inline-block; width:50px; font-size:12pt;'><a href='javascript:getHealthInfoBoard("+(pageNo-1)+","+searchWord+")'>[이전]</a></li>";
-	    }
-*/	    
-	    // 페이징 만들기 
-	    while (!(loop > blockSize || pageNo > totalPage )) { 
-	         
-	         if(pageNo == currentShowPageNO) {
-	        	pageBar += "<li style='display:inline-block; width:100px; font-size: 12pt; border: solid 1px grey; color: red; padding: 2px 4px;'>"
-	        			+ "<a href='javascript:getHealthInfoBoard("+pageNo+","+searchWord+")'>"
-	        			+ "더보기</a></li>";
-	         }
-	        /* else {
-	        	pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt;'>"
-							+ "<a href='javascript:getHealthInfoBoard("+pageNo+","+searchWord+")'>"
-							+ pageNo+"</a></li>";	         
-	        	}*/
-	         
-	         loop++;
-	         pageNo++;
-	         
-	    } 
-	      
-/*	    if( !(pageNo > totalPage) ) {
-	      
-	    	  pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'>"
-						+ "<a href='javascript:getHealthInfoBoard("+pageNo+","+searchWord+")'>[다음]</a></li>";      
-	      
-	    }*/
-	      
-	    pageBar += "</ul>"; //페이지바를 뷰단으로 넘겨야 한다.		
-		//////
-	    
-	    
-	    
 	    
 	    JsonObject jsonObj = new JsonObject();
-	    jsonObj.addProperty("pageBar", pageBar);
 	    if(searchWord.trim() != "") {
-	    	jsonObj.addProperty("searchWord", searchWord);	    	
+	    	jsonObj.addProperty("searchWord", searchWord);	   
 	    }
+    	jsonObj.addProperty("totalCount", totalCount);	
 	    jsonObj.addProperty("list", jsonArr.toString());
 	    
 		return jsonObj.toString();
@@ -294,31 +247,40 @@ public class BoardController {
 		
 		String noticeSeq = request.getParameter("noticeSeq");
 		String gobackURL = request.getParameter("gobackURL");
+		String totalCount = request.getParameter("totalCount");
 		
 		mav.addObject("gobackURL", gobackURL);
-
+		mav.addObject("totalCount", totalCount);
+		System.out.println("총 공지사항 글보기 게시글 건수"+totalCount);
+		
 		NoticeVO noticevo = null;
 
 		noticevo = service.getView(noticeSeq);
 		
 		mav.addObject("noticevo", noticevo);
+		mav.addObject("totalCount", totalCount);
 		mav.setViewName("notice/noticeView.tiles1");
 		
 		return mav;
 	}
+	
 	@RequestMapping(value = "/infoView.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	public ModelAndView infoView(HttpServletRequest request, ModelAndView mav) {
 		
 		String infoSeq = request.getParameter("infoSeq");
 		String gobackURL = request.getParameter("gobackURL");
+		String totalCount = request.getParameter("totalCount");
+		
 		
 		mav.addObject("gobackURL", gobackURL);
+		mav.addObject("totalCount", totalCount);
 
 		HealthInfoVO healthinfovo = null;
 
 		healthinfovo = service.getInfoView(infoSeq);
 		
 		mav.addObject("infovo", healthinfovo);
+		mav.addObject("totalCount", totalCount);
 		mav.setViewName("notice/infoView.tiles1");
 		
 		return mav;
