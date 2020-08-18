@@ -159,9 +159,11 @@
 			</tr>
 		</c:if>
 	</table>
-	<div class="reviewListBottom" align="right">
-		<button class="blueBtn" type="button">엑셀로 내보내기</button>
-	</div>
+	<c:if test="${not empty reviewList}">
+		<div class="reviewListBottom" align="right">
+			<button class="blueBtn" type="button">엑셀로 내보내기</button>
+		</div>	
+	</c:if>
 	<div class="pageContainer" align="center">
 		<span>${pageBar}</span>
 	</div>

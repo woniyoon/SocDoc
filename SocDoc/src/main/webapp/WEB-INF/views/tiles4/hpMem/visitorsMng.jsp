@@ -230,9 +230,11 @@
 			</div>
 		</div>
 	</div>
-	<div class="excelBtnContainer" align="right">
-		<button class="blueBtn" type="button" onclick="exportAsExcel();">엑셀로 내보내기</button>
-	</div>
+	<c:if test="${not empty visitorsList }">
+		<div class="excelBtnContainer" align="right">
+			<button class="blueBtn" type="button" onclick="exportAsExcel();">엑셀로 내보내기</button>
+		</div>
+	</c:if>
 	<div class="pageContainer" align="center">
 		<span>${pageBar }</span>
 	</div>
