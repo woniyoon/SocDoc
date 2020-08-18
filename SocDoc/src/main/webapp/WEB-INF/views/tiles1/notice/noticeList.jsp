@@ -269,19 +269,18 @@ $(window).ready(function(){
 	// 공지사항 검색 엔터키
 	$("#one").keydown(function(event) {
 		//console.log($(this).prop("value"));
-		 if(event.keyCode == 13) { // 엔터를 했을 경우
+		 if(event.keyCode == 13) { // 엔터
 			 getNoticeBoard();
 		 }
 	});
 	
 	// 건강정보 검색 엔터키	
-	$("#two").keydown(function(event) {
+ 	$("#two").keydown(function(event) {
 		//console.log($(this).prop("value"));
-		 if(event.keyCode == 13) { // 엔터를 했을 경우
-			 // getHealthInfoBoard(1, $(this).prop("value"));
+		 if(event.keyCode == 13) { // 엔터
 			 getHealthInfoBoard();
 		 }
-	});
+	}); 
 	
 	// 더보기 초기값
 	infoBoard("1");

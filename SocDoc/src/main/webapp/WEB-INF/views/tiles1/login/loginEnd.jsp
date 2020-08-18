@@ -8,19 +8,17 @@
 	var hpLoginuser = "${sessionScope.hpLoginuser}";
 	var gobackURL = "${requestScope.gobackURL}";
 	
-	
 	if(loginuser != null && (gobackURL != null && gobackURL != "")) {  
 		alert( "${sessionScope.loginuser.name} 님 로그인 . "); 
 		location.href="<%= ctxPath%>/"+gobackURL;
-	}
-	else if(loginuser != null && (gobackURL == null || gobackURL == "")) { 
-		alert( "${sessionScope.loginuser.name} 님 로그인 성공했습니다. ");
-		location.href="<%= ctxPath%>/index.sd";	// 시작페이지로 ㄱㄱ
+	} else if(loginuser != null && (gobackURL == null || gobackURL == "")) { 
+		alert( "${sessionScope.loginuser.name} 님 로그인 성공했습니다.~! "); // 개인회원 // 병원회원
+		location.href="<%= ctxPath%>/index.sd";	
 	} else if(hpLoginuser != null && (gobackURL != null && gobackURL != "")) {
-		alert( "${sessionScope.hpLoginuser.name} 님 로그인 성공했습니다. "); 
+		alert( "${sessionScope.hpLoginuser.name} 님 로그인 성공했습니다.@#$ "); 
 		location.href="<%= ctxPath%>/"+gobackURL;
 	} else if(hpLoginuser != null && (gobackURL == null || gobackURL == "")) {
-		alert( "${sessionScope.hpLoginuser.name} 님 로그인 성공했습니다. ");
+		alert( "${sessionScope.hpLoginuser.name} 님 로그인 성공했습니다.ㅎㅎ ");
 		location.href="<%= ctxPath%>/index.sd";
 	}
 	
