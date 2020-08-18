@@ -241,7 +241,7 @@ public class LoginController {
 		
 		HashMap<String, String> paraMap = new HashMap<>();
 		String pwd = Sha256.encrypt(vo.getPwd());
-		vo.setPwd(pwd); // pwd를 vo로 보내주자
+		vo.setPwd(pwd); 
 		
 		HttpSession session = request.getSession();
 		int n = service.hpRegister(vo);

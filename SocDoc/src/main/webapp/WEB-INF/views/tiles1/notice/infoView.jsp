@@ -29,53 +29,7 @@
 		margin-bottom: 5px;
 	}
 	
-	/* -------------------------------- 上 끝 ---------------------------------- */
-	
-	div#search_bar {
-		width: 100%;
-    	display: flex;
-    	margin: 20px 0 10px 0;
-	}
-	
-	div#search_bar_left {
-		flex: 1;
-		margin-top: 5px;
-	}
-	
-	div#search_bar_right {
-		flex: 1;
-	}
-
-	input#searchWord {
-		display: inline-block;
-		width: 250px;
-	    height: 35px;
-	    line-height: 36px;
-	    text-indent: 10px;
-	    color: #666;
-	    border: 1px solid #ddd;
-	}
-	
-	input#search_button {
-		display: inline-block;
-	    width: 54px;
-	    height: 35px;
-	    padding: 0;
-	    text-align: center;
-	    font-size: 14px;
-	    font-weight: bold;
-	    color: #fff;
-	    background: #777;
-	    cursor: pointer;
-	}
-	
-	p.search_button {
-	    width: 54px;
-	    height: 35px;
-	    line-height: 38px;
-	}
-		
-	/* ---------------------------- 헤더 끝 -------------------------- */    
+	/* -------------------------------- 게시글 ---------------------------------- */
 	    
 	table {
 		width: 100%;
@@ -97,51 +51,29 @@
        	line-height: 1.8;
    	}
    
-   	/* 글보기 */
    	section {
       	width: 100%;
    	}
-   
-/*    	tbody > tr > td {
-      	font-size: 14px;
-       	color: #666666;
-       	text-align: left;
-       	border-bottom: 1px solid #dddddd;
-       	line-height: 1.8;   
-   	} */
-   
+   	
+    /* 목록 버튼 */
    	p#listBtn {
       	display: inline-block;
-      	border-radius: 3px;
-       	height: 45px;
-       	width: 84px;
-       	background: #666666;
-      	color: white;
-      	float: right;
       	margin: 20px 0 50px 0;
-   	}   
-   
-   	a.noticeView {
-      	display: inline-block;
-       	font-size: 14px;
-       	color: #fff;
-       	font-weight: bold;
-       	text-align: center;
+       	width: 84px;
        	height: 45px;
-       	line-height: 45px;
-       	width: 100%;
-       	text-decoration: none;
-   	}
-   	
-   	.titlePointer:hover {
+      	float: right;
+       	text-align: center;
+      	color: white;
+       	font-size: 14px;
+       	font-weight: bold;
+      	line-height: 45px;
+       	background: #666666;
+      	border-radius: 3px;
       	cursor: pointer;
-   	}
-   
-   	a {
-      	text-decoration: none;
-   	}
+   	} 
     
-    /* 기본정보 변경 form */
+    /* -------------------------------- 이전/다음글 ---------------------------------- */
+    
    	table.type05 {
       	width: 100%;
        	border-collapse: separate;
@@ -187,19 +119,12 @@
        	vertical-align: top;
    	}
       
-	.form-control-tel {
-      	width: 70px;
+	.titlePointer:hover {
+      	cursor: pointer;
    	}
    
-   	#infoChange {
-      	width: 69%;
-   	}
-   
-   /* 코멘트란 */
-   	#comment {
-      	padding: 10px;
-      	background-color: #f2f2f2;
-      	border-radius: 4px;
+   	a {
+      	text-decoration: none;
    	}
     
     
@@ -208,10 +133,6 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 
 <script type="text/javascript">
-
-	$(window).ready(function(){
-		$(".infoNo").hide();
-	});
 	
 	// 이전글
  	function goPostInfo(e){
@@ -219,7 +140,7 @@
 		var rno = $(this).prev().text();
 		rno = parseInt(rno);
 	 
-		// seq가 없는 경우 클릭 지우기
+		// 이전글이 없다면 안보이게
 		if ( $(".postNotice").text() == "" ) {
 			$(this).removeClass('titlePointer');		
 		} else {
@@ -233,7 +154,7 @@
 		var rno = $(this).prev().text();
 		rno = parseInt(rno);
 	 
-		// seq가 없는 경우 클릭 지우기
+		// 다음글이 없다면 안보이게
 		if ( $(".preNotice").text() == "" ) {
 			$(this).removeClass('titlePointer');		
 		} else {
@@ -245,70 +166,14 @@
 </head>
 
 <div class="container">
-
+	
+	<!-- -------------------------------- 上 ---------------------------------- -->
+	
 	<header>
 		<h1 class="textPrimary"><strong>건강정보</strong></h1>
 	</header>
 			
-	<!-- -------------------------------- 上 끝 ---------------------------------- -->
-	<!-- 
-	<section>
-		<table>
-			<thead>
-				<tr>
-					<th>제목 어쩌거</th>
-					<input type="hidden" class="delNotice" value="${notice_seq}"/>
-				</tr>
-			</thead>
-				
-			<tbody>
-				<tr>
-					<td>내용 어쩌거<br/><br/><br/><br/><br/></td>
-				</tr>
-			</tbody>
-		</table>
-		
-		<div id="notice_button_wrap">
-			<p id="notice_button">
-				<a href="noticeList.sb" class="notice_view">목록</a>
-			</p>
-				<c:if test="${(sessionScope.loginuser).userid == 'admin' }">
-					<p id="notice_button">
-						<a class="delete notice_view" onclick="deleteNotice();">삭제</a>
-					</p>
-				</c:if>
-		</div>	
-			
-		<div>
-			<table>
-				<tr>
-					<th class="next_post th">윗글</th>
-					<td class="noticeNO" >${map.POSTNUM}</td>
-					<td class="noticeNO postrno" >${rno}</td>
-					<td class="next_post postNotice titlePointer">${map.POSTTITLE}</td>
-					
-					<th class="next_post th">윗글</th>
-					<td class="noticeNO" ></td>
-					<td class="noticeNO postrno" ></td>
-					<td class="next_post postNotice titlePointer">윗글 제목 어쩌거</td>
-				</tr>
-				<tr>
-					<th class="pre_post th">아랫글</th>
-					<td class="noticeNO" >${map.PRENUM}</td>
-					<td class="noticeNO prerno" >${rno}</td>
-					<td class="pre_post preNotice titlePointer">${map.PRETITLE}</td>
-					
-					<th class="pre_post th">아랫글</th>
-					<td class="noticeNO" ></td>
-					<td class="noticeNO prerno" ></td>
-					<td class="pre_post preNotice titlePointer">아랫글 제목 어쩌거</td>
-				</tr>
-			</table>
-		</div>
-			
-		<br/><br/><br/>
-
-	</section> -->
+	<!-- -------------------------------- 게시글 내용물 ---------------------------------- -->
 	
 	<section>
 		<table>
@@ -339,9 +204,10 @@
                </tr>
            	</tbody>
 		</table>
-
+		
+		<!-- -------------------------------- 下 ---------------------------------- -->
+		
 		<p id="listBtn"><a href="#" onclick="javascript:location.href='<%= request.getContextPath()%>/noticeList.sd'" class="noticeView">목록</a></p>
-                
         <div>
             <table class="type06" style="margin: 0 auto;">
                 <tr>

@@ -217,18 +217,14 @@ public class BoardController {
 		
 		String noticeSeq = request.getParameter("noticeSeq");
 		String gobackURL = request.getParameter("gobackURL");
-		//String totalCount = request.getParameter("totalCount");
 		
 		mav.addObject("gobackURL", gobackURL);
-		//mav.addObject("totalCount", totalCount);
-		//System.out.println("총 공지사항 글보기 게시글 건수"+totalCount);
 		
 		NoticeVO noticevo = null;
 		noticevo = service.getView(noticeSeq);
 		
 		mav.addObject("noticevo", noticevo);
 		mav.setViewName("notice/noticeView.tiles1");
-		//mav.addObject("totalCount", totalCount);
 		
 		return mav;
 	}
@@ -237,17 +233,14 @@ public class BoardController {
 		
 		String infoSeq = request.getParameter("infoSeq");
 		String gobackURL = request.getParameter("gobackURL");
-		//String totalCount = request.getParameter("totalCount");
 		
 		mav.addObject("gobackURL", gobackURL);
-		//mav.addObject("totalCount", totalCount);
 
 		HealthInfoVO healthinfovo = null;
 		healthinfovo = service.getInfoView(infoSeq);
 		
 		mav.addObject("infovo", healthinfovo);
 		mav.setViewName("notice/infoView.tiles1");
-		//mav.addObject("totalCount", totalCount);
 		
 		return mav;
 	}
@@ -259,17 +252,12 @@ public class BoardController {
 		
 		String start = request.getParameter("start");
 		String len = request.getParameter("len");
-		//String infoSeq = request.getParameter("infoSeq");
-		//String gobackURL = request.getParameter("gobackURL");
-		//String totalCount = request.getParameter("totalCount");
 		
 		HashMap<String,String> paraMap = new HashMap<>();
 		String end = String.valueOf(Integer.parseInt(start) + Integer.parseInt(len) - 1); 
 		
 		paraMap.put("startRno",start); 
 		paraMap.put("endRno",end);
-		//paraMap.put("totalCount",totalCount);
-		//paraMap.put("infoSeq",infoSeq);
 		
 		List<HealthInfoVO> productList = service.selectByInfo(paraMap);
 		JsonArray jsonArr = new JsonArray(); 
@@ -284,18 +272,7 @@ public class BoardController {
 				jsonArr.add(jsobj);
 			}
 		}
-		
 		String json = jsonArr.toString();
-		
-//		JsonObject obj = new JsonObject();
-//		obj.add("infoArr", jsonArr);
-		
-		/*request.setAttribute("json", json);
-		mav.addObject("gobackURL", gobackURL);*/
-		
-		/*mav.addObject("infovo", healthinfovo);
-		mav.setViewName("notice/noticeList.tiles1");*/
-		
 		return json;		
 	}
 	
