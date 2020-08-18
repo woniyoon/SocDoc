@@ -23,7 +23,7 @@
         height: auto;
         margin: 0 auto;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        border: 1px solid pink;
+        /* border: 1px solid pink; */
         min-height: 100vh;
     }
 
@@ -83,13 +83,13 @@
 	input#search_button {
 		display: inline;
 	    width: 54px;
-	    height: 38px;
+	    height: 37px;
 	    line-height: 38px;
-	    background: skyblue;
+	    background: #157bb9;
 	    border-radius: 3px;
 	    font-size: 14px;
 	    font-weight: bold;
-	    color: gray;
+	    color: white;
 	    text-align: center;
 	    padding: 0;
 	    cursor: pointer;
@@ -110,7 +110,8 @@
 
     main {
         padding: 30px auto;
-        width: 100vw;
+        margin: 0 auto;
+        width: 90vw;
         min-height: 75vh;
         height: auto;
         display: flex;
@@ -207,6 +208,55 @@
 		text-align: center;
 		
 	}
+	
+	.page_wrap {
+	text-align:center;
+	font-size:0;
+ }
+.page_nation {
+	display:inline-block;
+}
+.page_nation .none {
+	display:none;
+}
+.page_nation a {
+	display:block;
+	margin:0 3px;
+	float:left;
+	border:1px solid #e6e6e6;
+	width:28px;
+	height:28px;
+	line-height:28px;
+	text-align:center;
+	background-color:#fff;
+	font-size:13px;
+	color:#999999;
+	text-decoration:none;
+}
+.page_nation .arrow {
+	border:1px solid #ccc;
+}
+.page_nation .pprev {
+	background:#f8f8f8 url('/socdoc/resources/images/page_pprev.png') no-repeat center center;
+	margin-left:0;
+}
+.page_nation .prev {
+	background:#f8f8f8 url('/socdoc/resources/images/page_prev.png') no-repeat center center;
+	margin-right:7px;
+}
+.page_nation .next {
+	background:#f8f8f8 url('/socdoc/resources/images/page_next.png') no-repeat center center;
+	margin-left:7px;
+}
+.page_nation .nnext {
+	background:#f8f8f8 url('/socdoc/resources/images/page_nnext.png') no-repeat center center;
+	margin-right:0;
+}
+.page_nation a.active {
+	background-color:#42454c;
+	color:#fff;
+	border:1px solid #42454c;
+}
 	
 	
 
@@ -424,17 +474,17 @@
     <main>
         <div id="sideMenu">
             <ul style="margin-left: 50px;">
-            	<li><h3>관련 콘텐츠</h3></li>
+            	<li><h3 style="font-weight: bolder; color: #4e4e4b;">관련 콘텐츠</h3></li>
                 <li><a href="<%= request.getContextPath()%>/infoEdit.sd">· 회원정보수정</a></li>
-                <li><a href="<%= request.getContextPath()%>/askList.sd">· 문의내역</a></li>
+                <li><a style="color: #157bb9; font-weight: bolder;" href="<%= request.getContextPath()%>/askList.sd">· 문의내역</a></li>
                 <li><a href="<%= request.getContextPath()%>/myHealth.sd">· 내 건강</a></li>
                 <li><a href="<%= request.getContextPath()%>/bookMark.sd">· 병원 즐겨찾기</a></li>
                 <li><a href="<%= request.getContextPath()%>/reservation.sd">· 예약확인</a></li>
                 <li><a href="<%= request.getContextPath()%>/viewHistory.sd">· 최근 진료이력조회</a></li>
-            	<li><a href="<%= request.getContextPath()%>/review.sd">· 내 후기</a></li>
+           		<li><a href="<%= request.getContextPath()%>/review.sd">· 내 후기</a></li>
             </ul>
-            <ul style="display:inline-block; margin-top: 20px; margin-left: 50px;">
-            	<li><h3>자주 찾는 서비스</h3></li>
+            <ul style="display:inline-block; margin-top: 20px; margin-left: 50px; font-size: 14pt; color:#157bb9;">
+            	<li><h3 style="font-weight: bolder; color: #4e4e4b;">자주 찾는 서비스</h3></li>
                 <li><a>FAQ</a>&nbsp;&nbsp;&nbsp;<a>병원찾기</a></li>
                 <li><a>내 건강</a></li>
             </ul>
@@ -442,7 +492,7 @@
         
         <div id="contents">
         <h1><strong>문의내역</strong></h1>
-        <div>총 문의내역: <span style="color: skyblue;">
+        <div>총 문의내역: <span style="color: #157bb9;">
 				        <c:if test="${not empty(totalCount)}">
 				         		${totalCount}
 				        </c:if>
@@ -490,7 +540,7 @@
 						</td>
 						</c:if>
 						<c:if test="${askList.status == 1}">
-						<td style="color: skyblue;">
+						<td style="color: #157bb9;">
 				         		답변완료
 				        </td> 		
 				        </c:if>
@@ -504,15 +554,20 @@
 			</br></br>
 			
 			<!-- 페이지바 -->
-			<div id="center" style="width: 30%; border: solid 0px gray; margin: 20px auto;">
+			<%-- <div id="center" style="width: 30%; border: solid 0px gray; margin: 20px auto;">
 				${pageBar}
+			</div> --%>
+			<div class="page_wrap">
+			   <div class="page_nation" style="width: 30%; border: solid 0px gray; margin: 20px auto;">
+			      ${pageBar}
+			   </div>
 			</div>
 			
 			<div id="btn" style="width:80%; text-align: right;">
 				<%-- <button id="printBtn" style="background-color: skyblue; color:white; width: 80px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" onclick="javascript:location.href='<%= request.getContextPath()%>/ask.sd'">문의하기</button>
 				<button id="printBtn" style="background-color: white; color:skyblue; width: 50px; height: 30px; border-radius: 4px; border: solid 1px skyblue; font-size: 10pt;">삭제</button>
 			 --%>
-			 	<button id="printBtn" style="background-color: skyblue; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" onClick="goDel()">삭제</button>
+			 	<button id="printBtn" style="background-color: #157bb9; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" onClick="goDel()">삭제</button>
 			</div>
 			</form>
 			

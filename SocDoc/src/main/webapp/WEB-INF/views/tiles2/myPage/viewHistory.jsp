@@ -18,7 +18,7 @@
         height: auto;
         margin: 0 auto;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        border: 1px solid pink;
+       /*  border: 1px solid pink; */
         min-height: 100vh;
     }
 
@@ -50,7 +50,8 @@
 
     main {
         padding: 30px auto;
-        width: 100vw;
+        margin: 0 auto;
+        width: 90vw;
         min-height: 75vh;
         height: auto;
         display: flex;
@@ -156,6 +157,56 @@
 		background-color: #E3E3E3;
 		border-radius: 4px;
 	}
+	
+	
+	.page_wrap {
+	text-align:center;
+	font-size:0;
+ }
+.page_nation {
+	display:inline-block;
+}
+.page_nation .none {
+	display:none;
+}
+.page_nation a {
+	display:block;
+	margin:0 3px;
+	float:left;
+	border:1px solid #e6e6e6;
+	width:28px;
+	height:28px;
+	line-height:28px;
+	text-align:center;
+	background-color:#fff;
+	font-size:13px;
+	color:#999999;
+	text-decoration:none;
+}
+.page_nation .arrow {
+	border:1px solid #ccc;
+}
+.page_nation .pprev {
+	background:#f8f8f8 url('/socdoc/resources/images/page_pprev.png') no-repeat center center;
+	margin-left:0;
+}
+.page_nation .prev {
+	background:#f8f8f8 url('/socdoc/resources/images/page_prev.png') no-repeat center center;
+	margin-right:7px;
+}
+.page_nation .next {
+	background:#f8f8f8 url('/socdoc/resources/images/page_next.png') no-repeat center center;
+	margin-left:7px;
+}
+.page_nation .nnext {
+	background:#f8f8f8 url('/socdoc/resources/images/page_nnext.png') no-repeat center center;
+	margin-right:0;
+}
+.page_nation a.active {
+	background-color:#42454c;
+	color:#fff;
+	border:1px solid #42454c;
+}
 
 </style>
 
@@ -222,27 +273,27 @@
     <main>
         <div id="sideMenu">
             <ul style="margin-left: 50px;">
-            	<li><h3>관련 콘텐츠</h3></li>
+            	<li><h3 style="font-weight: bolder; color: #4e4e4b;">관련 콘텐츠</h3></li>
                 <li><a href="<%= request.getContextPath()%>/infoEdit.sd">· 회원정보수정</a></li>
                 <li><a href="<%= request.getContextPath()%>/askList.sd">· 문의내역</a></li>
                 <li><a href="<%= request.getContextPath()%>/myHealth.sd">· 내 건강</a></li>
                 <li><a href="<%= request.getContextPath()%>/bookMark.sd">· 병원 즐겨찾기</a></li>
                 <li><a href="<%= request.getContextPath()%>/reservation.sd">· 예약확인</a></li>
-                <li><a href="<%= request.getContextPath()%>/viewHistory.sd">· 최근 진료이력조회</a></li>
+                <li><a style="color: #157bb9; font-weight: bolder;" href="<%= request.getContextPath()%>/viewHistory.sd">· 최근 진료이력조회</a></li>
            		<li><a href="<%= request.getContextPath()%>/review.sd">· 내 후기</a></li>
             </ul>
-            <ul style="display:inline-block; margin-top: 20px; margin-left: 50px;">
-            	<li><h3>자주 찾는 서비스</h3></li>
+            <ul style="display:inline-block; margin-top: 20px; margin-left: 50px; font-size: 14pt; color:#157bb9;">
+            	<li><h3 style="font-weight: bolder; color: #4e4e4b;">자주 찾는 서비스</h3></li>
                 <li><a>FAQ</a>&nbsp;&nbsp;&nbsp;<a>병원찾기</a></li>
                 <li><a>내 건강</a></li>
-            </ul>
+            </ul>  
         </div>
         
         <div id="contents">
         <div id="print_page">
         <h1 style="text-align: left;"><strong>최근 진료이력조회</strong></h1>
         
-        <div><span style="color: skyblue;">${membervo.name}</span> 님(환자번호:${membervo.memberSeq})의 과거 1년간 수진이력입니다.</div>
+        <div><span style="color: #157bb9;">${membervo.name}</span> 님(환자번호:${membervo.memberSeq})의 과거 1년간 수진이력입니다.</div>
         <div style="width:80%; display: inline-block; ">
         	<form name="searchFrm">
        			<select id="searchType" name="searchType" style="height:25px; float: right;" >
@@ -306,13 +357,18 @@
 			</div>
 			</div>
 			<div style="width:80%; margin-top: 30px; text-align: right;">
-				<span><button id="printBtn" style="background-color: skyblue; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" onclick="goPrint()">인쇄</button></span>
+				<span><button id="printBtn" style="background-color: #157bb9; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" onclick="goPrint()">인쇄</button></span>
 			</div>
 			
 			
 			<!-- 페이지바 -->
-			<div id="center" style="width: 30%; border: solid 0px gray; margin: 20px auto;">
+			<%-- <div id="center" style="width: 30%; border: solid 0px gray; margin: 20px auto;">
 				${pageBar}
+			</div> --%>
+			<div class="page_wrap">
+			   <div class="page_nation" style="width: 30%; border: solid 0px gray; margin: 20px auto;">
+			      ${pageBar}
+			   </div>
 			</div>
 			
 			</div>

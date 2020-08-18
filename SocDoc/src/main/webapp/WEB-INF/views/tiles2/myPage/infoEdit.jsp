@@ -23,7 +23,7 @@
         height: auto;
         margin: 0 auto;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        border: 1px solid pink;
+       /*  border: 1px solid pink; */
         min-height: 100vh;
     }
 
@@ -55,7 +55,8 @@
 
     main {
         padding: 30px auto;
-        width: 100vw;
+        margin: 0 auto;
+        width: 90vw;
         min-height: 75vh;
         height: auto;
         display: flex;
@@ -118,7 +119,7 @@
 	/* 세번째줄 셋팅 */
 	div#box3 {
 		width: 50%;
-		margin-left: 180px; 
+		margin-left: 140px; 
 		height: 100px;
 		border: 2px solid gray; 
 		text-align: center;
@@ -169,8 +170,8 @@
     <main>
         <div id="sideMenu">
             <ul style="margin-left: 50px;">
-            	<li><h3>관련 콘텐츠</h3></li>
-                <li><a href="<%= request.getContextPath()%>/infoEdit.sd">· 회원정보수정</a></li>
+            	<li><h3 style="font-weight: bolder; color: #4e4e4b;">관련 콘텐츠</h3></li>
+                <li><a style="color: #157bb9; font-weight: bolder;" href="<%= request.getContextPath()%>/infoEdit.sd">· 회원정보수정</a></li>
                 <li><a href="<%= request.getContextPath()%>/askList.sd">· 문의내역</a></li>
                 <li><a href="<%= request.getContextPath()%>/myHealth.sd">· 내 건강</a></li>
                 <li><a href="<%= request.getContextPath()%>/bookMark.sd">· 병원 즐겨찾기</a></li>
@@ -178,8 +179,8 @@
                 <li><a href="<%= request.getContextPath()%>/viewHistory.sd">· 최근 진료이력조회</a></li>
            		<li><a href="<%= request.getContextPath()%>/review.sd">· 내 후기</a></li>
             </ul>
-            <ul style="display:inline-block; margin-top: 20px; margin-left: 50px;">
-            	<li><h3>자주 찾는 서비스</h3></li>
+            <ul style="display:inline-block; margin-top: 20px; margin-left: 50px; font-size: 14pt; color:#157bb9;">
+            	<li><h3 style="font-weight: bolder; color: #4e4e4b;">자주 찾는 서비스</h3></li>
                 <li><a>FAQ</a>&nbsp;&nbsp;&nbsp;<a>병원찾기</a></li>
                 <li><a>내 건강</a></li>
             </ul>
@@ -199,7 +200,7 @@
 			<span style="font-size: 15pt;">비밀번호<input id="pwd" name="pwd" type="password" style="margin-left: 30px; margin-top: 25px; width: 300px; height: 40px;"/></span><br/>
 		</div>
 		</form>
-		<div style="text-align: center; margin-top: 30px;"><button type="button" id="ok" style="background-color: skyblue; color:white; width: 150px; height: 50px; margin-right:350px; border-radius: 4px; border: none; font-size: 14pt;">확인</button></div>
+		<div style="text-align: center; margin-top: 30px;"><button type="button" id="ok" style="background-color: #157bb9; color:white; width: 150px; height: 50px; margin-right:230px; border-radius: 4px; border: none; font-size: 14pt;">확인</button></div>
         </div>
     </main>
     <footer>

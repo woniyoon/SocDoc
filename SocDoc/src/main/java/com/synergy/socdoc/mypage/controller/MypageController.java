@@ -210,6 +210,12 @@ public class MypageController {
 	@RequestMapping(value="/askList.sd")
 	public ModelAndView askList(HttpServletRequest request, ModelAndView mav) {
 		
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		String userid = loginuser.getUserid();
+		
+		
 		List<QnaBoardVO> askList = null;
 		
 		/*String searchType = request.getParameter("searchType");*/
@@ -227,6 +233,7 @@ public class MypageController {
         
         HashMap<String,String> paraMap = new HashMap<>();
       /*  paraMap.put("searchType", searchType); // "컬럼"*/ 
+       paraMap.put("userid", userid);
        paraMap.put("searchWord", searchWord); // 검색어를 담는다.
         
         // 먼저 총 게시물 건수(totalCount)를 구해와야한다. 
@@ -294,7 +301,7 @@ public class MypageController {
 		
 		
 		// === #119. 페이지바 만들기 === //
-		String pageBar = "<ul style='list-style: none;'>";
+		String pageBar = "";
         
 		int blockSize = 10;
 		// blockSize 는 1개 블럭(토막)당 보여지는 페이번호의 개수 이다.
@@ -353,16 +360,19 @@ public class MypageController {
 		
 		// === [이전] 만들기 === 
 		if(pageNo != 1) {
-			pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
+//			pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
+			pageBar +=" <a class='arrow pprev' href='\"+url+\"?searchWord=\"+searchWord+\"&currentShowPageNo=1'></a>";
+			pageBar +=" <a class='arrow prev' href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+(pageNo-1)+"'></a>";
 		}
 	
 		while ( !(loop > blockSize || pageNo > totalPage) ) {
 
 			if(pageNo == currentShowPageNo) {
-				pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; text-align: center; border: solid 1px gray; color: red; padding: 2px 4px;'>"+pageNo+"</li>";
+				//pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; text-align: center; border: solid 1px gray; color: red; padding: 2px 4px;'>"+pageNo+"</li>";
+				pageBar += "<a class='active'>"+pageNo+"</a>";
 			}
 			else {
-				pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; text-align: center;'><a href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
+				pageBar += "<a href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a>";
 			}
 			loop++;
 			pageNo++;
@@ -372,10 +382,10 @@ public class MypageController {
 		
 		// === [다음] 만들기 === 
 		if( !(pageNo > totalPage) ) {
-			pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
+		//	pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
+			pageBar +=" <a class='arrow next' href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+(pageNo+1)+"'></a>";
+			pageBar +=" <a class='arrow nnext' href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+totalPage+"'></a>";
 		}
-		
-		pageBar += "</ul>";
 		
 		mav.addObject("pageBar", pageBar);
 		
@@ -397,7 +407,7 @@ public class MypageController {
 		//          웹브라우저에서 새로고침(F5)을 했을 경우에는 증가가 되지 않도록 해야 한다.
 		//          이것을 하기 위해서는 session 을 사용하여 처리하면 된다.
 
-		HttpSession session = request.getSession();
+		session = request.getSession();
 		session.setAttribute("readCountPermission", "yes");
 		/*
 		   session 에  "readCountPermission" 키값으로 저장된 value값은 "yes" 이다.
@@ -775,7 +785,7 @@ public class MypageController {
 		
 		
 		// === #119. 페이지바 만들기 === //
-		String pageBar = "<ul style='list-style: none;'>";
+		String pageBar = "";
         
 		int blockSize = 10;
 		
@@ -794,16 +804,20 @@ public class MypageController {
 		
 		// === [이전] 만들기 === 
 		if(pageNo != 1) {
-			pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
+		//	pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
+			pageBar +=" <a class='arrow pprev' href='"+url+"?searchWord="+searchWord+"&currentShowPageNo=1'></a>";
+			pageBar +=" <a class='arrow prev' href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+(pageNo-1)+"'></a>";
 		}
 	
 		while ( !(loop > blockSize || pageNo > totalPage) ) {
 
 			if(pageNo == currentShowPageNo) {
-				pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; text-align: center; border: solid 1px gray; color: red; padding: 2px 4px;'>"+pageNo+"</li>";
+			//	pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; text-align: center; border: solid 1px gray; color: red; padding: 2px 4px;'>"+pageNo+"</li>";
+				pageBar += "<a class='active'>"+pageNo+"</a>";
 			}
 			else {
-				pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; text-align: center;'><a href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
+			//	pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; text-align: center;'><a href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
+				pageBar += "<a href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a>";
 			}
 			loop++;
 			pageNo++;
@@ -811,12 +825,22 @@ public class MypageController {
 		}// end of while--------------------------------------
 		
 		
-		// === [다음] 만들기 === 
+		/*// === [다음] 만들기 === 
 		if( !(pageNo > totalPage) ) {
 			pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
 		}
 		
 		pageBar += "</ul>";
+		
+		mav.addObject("pageBar", pageBar);*/
+		
+		
+		// === [다음] 만들기 === 
+		if( !(pageNo > totalPage) ) {
+		//	pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
+			pageBar +=" <a class='arrow next' href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+(pageNo+1)+"'></a>";
+			pageBar +=" <a class='arrow nnext' href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+totalPage+"'></a>";
+		}
 		
 		mav.addObject("pageBar", pageBar);
 		
@@ -985,7 +1009,7 @@ public class MypageController {
 		
 		
 		// === #119. 페이지바 만들기 === //
-		String pageBar = "<ul style='list-style: none;'>";
+		String pageBar = "";
         
 		int blockSize = 10;
 		
@@ -996,18 +1020,23 @@ public class MypageController {
 		
 		String url = "reservation.sd";
 		
+		
 		// === [이전] 만들기 === 
 		if(pageNo != 1) {
-			pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchType="+searchType+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
+		//	pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
+			pageBar +=" <a class='arrow pprev' href='"+url+"?searchType="+searchType+"&currentShowPageNo=1'></a>";
+			pageBar +=" <a class='arrow prev' href='"+url+"?searchType="+searchType+"&currentShowPageNo="+(pageNo-1)+"'></a>";
 		}
 	
 		while ( !(loop > blockSize || pageNo > totalPage) ) {
 
 			if(pageNo == currentShowPageNo) {
-				pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; text-align: center; border: solid 1px gray; color: red; padding: 2px 4px;'>"+pageNo+"</li>";
+			//	pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; text-align: center; border: solid 1px gray; color: red; padding: 2px 4px;'>"+pageNo+"</li>";
+				pageBar += "<a class='active'>"+pageNo+"</a>";
 			}
 			else {
-				pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; text-align: center;'><a href='"+url+"?searchType="+searchType+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
+			//	pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; text-align: center;'><a href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
+				pageBar += "<a href='"+url+"?searchType="+searchType+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a>";
 			}
 			loop++;
 			pageNo++;
@@ -1015,12 +1044,22 @@ public class MypageController {
 		}// end of while--------------------------------------
 		
 		
-		// === [다음] 만들기 === 
+		/*// === [다음] 만들기 === 
 		if( !(pageNo > totalPage) ) {
-			pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchType="+searchType+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
+			pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
 		}
 		
 		pageBar += "</ul>";
+		
+		mav.addObject("pageBar", pageBar);*/
+		
+		
+		// === [다음] 만들기 === 
+		if( !(pageNo > totalPage) ) {
+		//	pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
+			pageBar +=" <a class='arrow next' href='"+url+"?searchType="+searchType+"&currentShowPageNo="+(pageNo+1)+"'></a>";
+			pageBar +=" <a class='arrow nnext' href='"+url+"?searchType="+searchType+"&currentShowPageNo="+totalPage+"'></a>";
+		}
 		
 		mav.addObject("pageBar", pageBar);
 		
@@ -1165,7 +1204,7 @@ public class MypageController {
 		
 		
 		// === #119. 페이지바 만들기 === //
-		String pageBar = "<ul style='list-style: none;'>";
+		String pageBar = "";
         
 		int blockSize = 10;
 		
@@ -1174,20 +1213,24 @@ public class MypageController {
 		int pageNo = ((currentShowPageNo - 1)/blockSize) * blockSize + 1;
 	
 		
-		String url = "reservation.sd";
+		String url = "viewHistory.sd";
 		
 		// === [이전] 만들기 === 
 		if(pageNo != 1) {
-			pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchType="+searchType+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
+		//	pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
+			pageBar +=" <a class='arrow pprev' href='"+url+"?searchType="+searchType+"&currentShowPageNo=1'></a>";
+			pageBar +=" <a class='arrow prev' href='"+url+"?searchType="+searchType+"&currentShowPageNo="+(pageNo-1)+"'></a>";
 		}
 	
 		while ( !(loop > blockSize || pageNo > totalPage) ) {
 
 			if(pageNo == currentShowPageNo) {
-				pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; text-align: center; border: solid 1px gray; color: red; padding: 2px 4px;'>"+pageNo+"</li>";
+			//	pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; text-align: center; border: solid 1px gray; color: red; padding: 2px 4px;'>"+pageNo+"</li>";
+				pageBar += "<a class='active'>"+pageNo+"</a>";
 			}
 			else {
-				pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; text-align: center;'><a href='"+url+"?searchType="+searchType+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
+			//	pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; text-align: center;'><a href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
+				pageBar += "<a href='"+url+"?searchType="+searchType+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a>";
 			}
 			loop++;
 			pageNo++;
@@ -1195,12 +1238,22 @@ public class MypageController {
 		}// end of while--------------------------------------
 		
 		
-		// === [다음] 만들기 === 
+		/*// === [다음] 만들기 === 
 		if( !(pageNo > totalPage) ) {
-			pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchType="+searchType+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
+			pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
 		}
 		
 		pageBar += "</ul>";
+		
+		mav.addObject("pageBar", pageBar);*/
+		
+		
+		// === [다음] 만들기 === 
+		if( !(pageNo > totalPage) ) {
+		//	pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
+			pageBar +=" <a class='arrow next' href='"+url+"?searchType="+searchType+"&currentShowPageNo="+(pageNo+1)+"'></a>";
+			pageBar +=" <a class='arrow nnext' href='"+url+"?searchType="+searchType+"&currentShowPageNo="+totalPage+"'></a>";
+		}
 		
 		mav.addObject("pageBar", pageBar);
 		
@@ -1308,7 +1361,7 @@ public class MypageController {
 		
 		
 		// === #119. 페이지바 만들기 === //
-		String pageBar = "<ul style='list-style: none;'>";
+		String pageBar = "";
         
 		int blockSize = 10;
 		
@@ -1321,16 +1374,20 @@ public class MypageController {
 		
 		// === [이전] 만들기 === 
 		if(pageNo != 1) {
-			pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchType="+searchType+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
+		//	pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
+			pageBar +=" <a class='arrow pprev' href='"+url+"?searchType="+searchType+"&currentShowPageNo=1'></a>";
+			pageBar +=" <a class='arrow prev' href='"+url+"?searchType="+searchType+"&currentShowPageNo="+(pageNo-1)+"'></a>";
 		}
 	
 		while ( !(loop > blockSize || pageNo > totalPage) ) {
 
 			if(pageNo == currentShowPageNo) {
-				pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; text-align: center; border: solid 1px gray; color: red; padding: 2px 4px;'>"+pageNo+"</li>";
+			//	pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; text-align: center; border: solid 1px gray; color: red; padding: 2px 4px;'>"+pageNo+"</li>";
+				pageBar += "<a class='active'>"+pageNo+"</a>";
 			}
 			else {
-				pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; text-align: center;'><a href='"+url+"?searchType="+searchType+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
+			//	pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; text-align: center;'><a href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
+				pageBar += "<a href='"+url+"?searchType="+searchType+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a>";
 			}
 			loop++;
 			pageNo++;
@@ -1338,12 +1395,22 @@ public class MypageController {
 		}// end of while--------------------------------------
 		
 		
-		// === [다음] 만들기 === 
+		/*// === [다음] 만들기 === 
 		if( !(pageNo > totalPage) ) {
-			pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchType="+searchType+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
+			pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
 		}
 		
 		pageBar += "</ul>";
+		
+		mav.addObject("pageBar", pageBar);*/
+		
+		
+		// === [다음] 만들기 === 
+		if( !(pageNo > totalPage) ) {
+		//	pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'><a href='"+url+"?searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
+			pageBar +=" <a class='arrow next' href='"+url+"?searchType="+searchType+"&currentShowPageNo="+(pageNo+1)+"'></a>";
+			pageBar +=" <a class='arrow nnext' href='"+url+"?searchType="+searchType+"&currentShowPageNo="+totalPage+"'></a>";
+		}
 		
 		mav.addObject("pageBar", pageBar);
 		

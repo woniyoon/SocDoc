@@ -11,8 +11,9 @@
 	   <select id="getTotalCount" parameterType="HashMap" resultType="int">
 	   	select count(*)
 	   	from qnaBoard
+	   	where userid = #{userid}
 		<if test='searchWord != ""'>
-		     where subject like '%'|| lower(#{searchWord}) ||'%'
+		     and subject like '%'|| lower(#{searchWord}) ||'%'
 		</if> 
 	   </select>
 	  
@@ -31,8 +32,9 @@
 			        select qnaSeq, userid, subject, content,
 			        	   to_char(regDate, 'yyyy-mm-dd hh24:mi:ss') as regDate, status, groupno, fk_seq, depthno 
 			        from qnaBoard
+			        where userid = #{userid}
 			        <if test='searchWord != ""'>
-				     where subject like '%'|| #{searchWord} ||'%'
+				     and subject like '%'|| #{searchWord} ||'%'
 				    </if>
 			        start with fk_seq = 0
 		        	connect by prior qnaSeq = fk_seq
@@ -282,7 +284,7 @@
 		        	) V
 	    		) T
 	        where rno between #{startRno} and #{endRno}
-	        and visitdate between to_char(add_months(sysdate,-12), 'yyyy-mm-dd') and sysdate
+	        and visitdate &gt; to_char(add_months(sysdate,-12), 'yyyy-mm-dd')
 	        <if test='searchType == "2"'>
             order by visitdate desc
             </if>
@@ -303,8 +305,7 @@
 	  </select>
 	   -->
 	   
-	   
-	   <!-- == 예약확인 게시판의 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것) -->
+	  <!-- == 내 후기 게시판의 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것) -->
 	   <resultMap type="HashMap" id="reviewMap">
    		<result property="rno" 					column="rno" 					javaType="String"/>
    		<result property="userid" 				column="userid" 				javaType="String"/>
@@ -341,12 +342,12 @@
             <if test='searchType == "3"'>
             order by regDate asc
             </if>
-	  </select>   
+	  </select>    
 	  
 	  
-	   <!-- == 총 후기 건수(totalCount)를 구하기 == -->
+	   <!-- == 총 병원후기 건수(totalCount)를 구하기 == -->
 	   <select id="getTotalCountReview" parameterType="HashMap" resultType="int">
-	   	select sum(total) 
+		select sum(total) 
 		from (
 		select count (*) as total 
 		from hospitalReview 
@@ -356,6 +357,14 @@
 		from pharmacyReview
 		where userid = #{userid}
 		)
+	   </select>
+	   
+	   
+	   <!-- == 총 약국후기 건수(totalCount)를 구하기 == -->
+	   <select id="getTotalCountReviewPM" parameterType="HashMap" resultType="int">
+	   	select count (*)
+		from pharmacyReview
+		where userid = #{userid}
 	   </select>
 	   
 	   
@@ -512,7 +521,7 @@
 	  
 	  
 	   <!-- == 예약확인 게시판의 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것) -->
-	   <resultMap type="HashMap" id="reviewMap2">
+	   <resultMap type="HashMap" id="reviewMap3">
    		<result property="rno" 					column="rno" 					javaType="String"/>
    		<result property="userid" 				column="userid" 				javaType="String"/>
    		<result property="rating" 				column="rating" 				javaType="String"/>
@@ -520,7 +529,7 @@
    		<result property="name" 				column="name" 					javaType="String"/>
    		<result property="regDate" 				column="regDate" 				javaType="String"/>
 	   </resultMap>
-	   <select id="reviewList" parameterType="HashMap" resultMap="reviewMap2">
+	   <select id="reviewList" parameterType="HashMap" resultMap="reviewMap3">
 		  	select rno, userid, rating, content, name, regDate
 	        from
 		        (
@@ -568,5 +577,10 @@
 			where parentSeq = #{parentSeq}
 			<!--#{seq}는 hashMap 값! -->
 		</delete>
-	
+		
+		<!-- 후기삭제하기 -->
+		<delete id="goDelReview" parameterType="HashMap">
+		   delete from qnaBoard
+		   where qnaSeq = #{qnaSeq}
+	  </delete>
 </mapper>

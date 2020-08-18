@@ -22,7 +22,7 @@
         height: auto;
         margin: 0 auto;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        border: 1px solid pink;
+        /* border: 1px solid pink; */
         min-height: 100vh;
     }
 
@@ -54,7 +54,8 @@
 
     main {
         padding: 30px auto;
-        width: 100vw;
+        margin: 0 auto;
+        width: 90vw;
         min-height: 75vh;
         height: auto;
         display: flex;
@@ -155,7 +156,8 @@
 	  
 	}
 	.tabmenu input:checked ~ label{
-	  background:skyblue;
+	  background: #157bb9;
+	  color : white;
 	}
 	.tabmenu input:checked ~ .tabCon{
 	  display:block;
@@ -607,16 +609,17 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
     <main>
         <div id="sideMenu">
             <ul style="margin-left: 50px;">
-            	<li><a href="<%= request.getContextPath()%>/infoEdit.sd">· 회원정보수정</a></li>
+            	<li><h3 style="font-weight: bolder; color: #4e4e4b;">관련 콘텐츠</h3></li>
+                <li><a style="color: #157bb9; font-weight: bolder;" href="<%= request.getContextPath()%>/infoEdit.sd">· 회원정보수정</a></li>
                 <li><a href="<%= request.getContextPath()%>/askList.sd">· 문의내역</a></li>
                 <li><a href="<%= request.getContextPath()%>/myHealth.sd">· 내 건강</a></li>
                 <li><a href="<%= request.getContextPath()%>/bookMark.sd">· 병원 즐겨찾기</a></li>
                 <li><a href="<%= request.getContextPath()%>/reservation.sd">· 예약확인</a></li>
                 <li><a href="<%= request.getContextPath()%>/viewHistory.sd">· 최근 진료이력조회</a></li>
-            	<li><a href="<%= request.getContextPath()%>/review.sd">· 내 후기</a></li>
+           		<li><a href="<%= request.getContextPath()%>/review.sd">· 내 후기</a></li>
             </ul>
-            <ul style="display:inline-block; margin-top: 20px; margin-left: 50px;">
-            	<li><h3>자주 찾는 서비스</h3></li>
+            <ul style="display:inline-block; margin-top: 20px; margin-left: 50px; font-size: 14pt; color:#157bb9;">
+            	<li><h3 style="font-weight: bolder; color: #4e4e4b;">자주 찾는 서비스</h3></li>
                 <li><a>FAQ</a>&nbsp;&nbsp;&nbsp;<a>병원찾기</a></li>
                 <li><a>내 건강</a></li>
             </ul>
@@ -704,11 +707,11 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
 					 <input style="width: 260px; height: 28px; padding-left: 5px; margin-bottom:10px; margin-top:10px;" class="form-control-tel" id="email" name="email" type="text" value="${loginuser.email}" /> 
 					 <span id="Error" style="color: red; margin-left:10px;">이메일 형식에 맞지 않습니다.</span>
 					 <span id="Success" style="color: blue; margin-left:10px;">사용 가능한 이메일 입니다.</span>
-					 <button type="button" id="btnAut" style="margin-left:10px; margin-bottom:10px; background-color: skyblue; color:white; width: 40px; height: 25px; border-radius: 4px; border: none; font-size: 10pt;" onclick="goAuthentication()">인증</button>
+					 <button type="button" id="btnAut" style="margin-left:10px; margin-bottom:10px; background-color: #157bb9; color:white; width: 40px; height: 25px; border-radius: 4px; border: none; font-size: 10pt;" onclick="goAuthentication()">인증</button>
 			    	 <div id="hpDivBtnFind" style="width:100%;">
 			    	 		 <input style="width: 260px; height: 28px; padding-left: 5px; margin-bottom:10px;" class="hpRequiredInfo" name="hpEmail2" id="hpEmail2" type="text" maxlength="7" placeholder="E-mail로 발송된 인증번호를 입력하세요"/>
-							<button type="button" id="hpBtnFind2" disabled="disabled" style="margin-left:10px; background-color: skyblue; color:white; width: 90px; height: 25px; border-radius: 4px; border: none; font-size: 10pt;" onclick="goFinal()">인증확인하기</button>
-							<button type="button" id="hpBtnFind3" class="finish"  style="margin-left:10px; background-color: skyblue; color:white; width: 90px; height: 25px; border-radius: 4px; border: none; font-size: 10pt;">인증완료</button>
+							<button type="button" id="hpBtnFind2" disabled="disabled" style="margin-left:10px; background-color: #157bb9; color:white; width: 90px; height: 25px; border-radius: 4px; border: none; font-size: 10pt;" onclick="goFinal()">인증확인하기</button>
+							<button type="button" id="hpBtnFind3" class="finish"  style="margin-left:10px; background-color: #157bb9; color:white; width: 90px; height: 25px; border-radius: 4px; border: none; font-size: 10pt;">인증완료</button>
 							
 					</div>
 					<span id="Error2" ></span> 
@@ -721,7 +724,7 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
 		  <input type="hidden" name="userCertificationCode" />
 		  <input type="hidden" id="pwdHidden" name="pwd" value="${loginuser.pwd}">
 	  </form>
-	  		<div style="text-align:right; margin-top: 30px; width: 100%;"><button type="button" style="background-color: skyblue; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" onclick="goStore()">저장</button></div>
+	  		<div style="text-align:right; margin-top: 30px; width: 100%;"><button type="button" style="background-color: #157bb9; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" onclick="goStore()">저장</button></div>
         </div>
 	  
    <!-- 기본정보 변경 form끝 -->
@@ -738,14 +741,14 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
 		</div> 
 		<form name="updatePWDfrm">
 		<div id="box3" style="margin-top:35px;  border-left: none; border-right: none;">
-			<span style="font-size: 15pt;">새 비밀번호<input type="password" name="pwd" id="pwd" style="margin-left: 72px; margin-top: 30px; width: 300px; height: 40px;" placeholder="대소문자, 특수문자 조합하여 8자 이상으로 입력하세요"/></span><br/>
+			<span style="font-size: 15pt;">새 비밀번호<input type="password" name="pwd" id="pwd" style="margin-left: 72px; margin-top: 30px; width: 320px; height: 40px;" placeholder="대소문자, 특수문자 조합하여 8자 이상"/></span><br/>
 		
 			<br/>
-			<span style="font-size: 15pt;">새 비밀번호 확인<input type="password" name="pwd2" id="pwd2" style="margin-left: 30px; margin-top: 10px; width: 300px; height: 40px;" placeholder="대소문자, 특수문자 조합하여 8자 이상으로 입력하세요"/></span><br/>
+			<span style="font-size: 15pt;">새 비밀번호 확인<input type="password" name="pwd2" id="pwd2" style="margin-left: 30px; margin-top: 10px; width: 320px; height: 40px;" placeholder="대소문자, 특수문자 조합하여 8자 이상"/></span><br/>
 			
 		</div>
 		
-		<div id="btnChgPwd" style="text-align:right; margin-top: 30px; width: 70%;"><button type="button" id="btnChgPwd2" style="background-color: skyblue; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" >저장</button></div>
+		<div id="btnChgPwd" style="text-align:right; margin-top: 30px; width: 70%;"><button type="button" id="btnChgPwd2" style="background-color: #157bb9; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" >저장</button></div>
 		</form>
 	<!-- 비밀번호 변경탭 끝-->
 	    
