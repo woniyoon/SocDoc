@@ -27,10 +27,10 @@
 	</select>
 	
 	<select id="getRankList" resultType="com.synergy.socdoc.member.HpReviewVO">
-		select hpName 
+		select avgRating, hpName 
 		from
 		(
-		select avg(rating), hpName
+		select avg(rating) as avgRating, hpName
 		from hospitalReview
 		group by hpName
 		order by avg(rating) desc

@@ -421,6 +421,7 @@
 		                      <img src="<%= ctxPath%>/resources/images/slide1.jpg">
 		                      <figcaption>
 		                        <h3>${hpRankList.hpName}</h3>
+		                        <p style="font-size: 20pt; color: yellow;">★${hpRankList.avgRating}.0</p>
 		                        <p>더 자세한 정보를 보려면<br/>클릭하세요</p>
 		                      </figcaption>
 		                      <a href="#"></a>
