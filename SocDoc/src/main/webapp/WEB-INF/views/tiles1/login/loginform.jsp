@@ -191,10 +191,10 @@
 		     
 		    $("#saveid").change(function(){ // 체크박스에 변화가 있다면,
 		        if($("#saveid").is(":checked")){ // ID 저장하기 체크했을 때,
-		        	console.log("아이디저장 체크");
+		        	//console.log("아이디저장 체크");
 		            setCookie("key", $("form[name=loginFrm] #userid").val(), 7); // 7일 동안 쿠키 보관
 		        } else { // ID 저장하기 체크 해제 시,
-		            console.log("아이디저장 해제"+key);
+		            //console.log("아이디저장 해제"+key);
 		            deleteCookie("key", $("form[name=loginFrm] #userid").val());
 		        }
 		    });
@@ -319,10 +319,10 @@
 	     
 	    $("#hpSaveid").change(function(){ // 체크박스에 변화가 있다면,
 	        if($("#hpSaveid").is(":checked")){ // ID 저장하기 체크했을 때,
-	        	console.log("hp아이디저장 체크");
+	        	//console.log("hp아이디저장 체크");
 	            setHpCookie("key2", $("form[name=hpLoginFrm] #userid").val(), 7); // 7일 동안 쿠키 보관
 	        } else { // ID 저장하기 체크 해제 시,
-	        	console.log("hp아이디저장 해제"+key2);
+	        	//console.log("hp아이디저장 해제"+key2);
 	            deleteHpCookie("key2", $("form[name=hpLoginFrm] #userid").val());
 	        }
 	    });

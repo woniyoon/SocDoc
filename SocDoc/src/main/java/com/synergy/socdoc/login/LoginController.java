@@ -64,9 +64,9 @@ public class LoginController {
 			mav.addObject("loc", loc);
 			mav.setViewName("msg"); 
 		} else {
-			String msg = "속닥 로그인 성공 희희바리~~ 건강한 하루 보내세요 ^~^";
+			//String msg = "${name}님 환영합니다.";
 			String loc = request.getContextPath() + "/index.sd";
-			mav.addObject("msg", msg);
+			//mav.addObject("msg", msg);
 			mav.addObject("loc", loc);
 			mav.setViewName("msg"); 
 			HttpSession session = request.getSession();
@@ -145,9 +145,9 @@ public class LoginController {
 			mav.addObject("loc", loc);
 			mav.setViewName("msg"); 
 		} else {
-			String msg = "속닥 로그인 성공 희희바리~~ 건강한 하루 보내세요 ^~^";
+			//String msg = "속닥 로그인 성공 희희바리~~ 건강한 하루 보내세요 ^~^";
 			String loc = request.getContextPath() + "/index.sd";
-			mav.addObject("msg", msg);
+			//mav.addObject("msg", msg);
 			mav.addObject("loc", loc);
 			mav.setViewName("msg"); 
 			HttpSession session = request.getSession();
@@ -249,7 +249,7 @@ public class LoginController {
 		String msg = "";
 		String loc = "";
 		if(n==1) {
-			session.setAttribute("loginuser", vo);
+			session.setAttribute("hpLoginuser", vo);
 			msg = "가입 성공하셨습니다.";
 			loc = request.getContextPath() + "/index.sd";
 		} else {

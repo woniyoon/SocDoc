@@ -13,7 +13,7 @@
 	}
 	else if(loginuser != null && (gobackURL == null || gobackURL == "")) { 
 		alert( "${sessionScope.loginuser.name} 님 로그인 성공했습니다. ");
-		location.href="<%= ctxPath%>/index.action";	// 시작페이지로 ㄱㄱ
+		location.href="<%= ctxPath%>/index.sd";	// 시작페이지로 ㄱㄱ
 	}
 	
 	
