@@ -2,6 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<%
+	String ctxPath = request.getContextPath();
+%>
+
+
 <style type="text/css">
 
 	h2 {
@@ -367,7 +372,7 @@
  	               		html += "<span class='hospitalName'>"+json.hpName+"</span>";
 	               		html += "</div>";
 	               		html += "<div class='info'>";
-	               		html += "<div class='one'>"+json.mainImg+"</div>";
+	               		html += "<div class='one'><img src='<%=ctxPath%>/resources/images/"+json.mainImg+"'/></div>";
 	               		html += "<div class='two'>";
 	               			
 	                	html += "<table class='infoTable'>";
