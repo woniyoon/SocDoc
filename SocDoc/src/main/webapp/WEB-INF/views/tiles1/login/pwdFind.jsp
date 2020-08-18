@@ -38,8 +38,8 @@
 		padding: 0;
 		//border: solid 1px blue;
 	}
-   
-	/* 탭(개인회원/병원회원) */
+	
+   	/* -------------------------------- 탭(개인회원/병원회원) ---------------------------------- */
 	#tab {
 		display: flex;
 		flex-direction: row;
@@ -92,12 +92,7 @@
 		font-size: 8pt;
 		color: red;
 	}
-	
-	.textPrimary {
-		margin-bottom: 5px;
-		color: #585858;
-	}
-	
+
     .requiredInfo {
 		width: 100%;
 		height: 35px;
@@ -105,7 +100,9 @@
 		box-sizing: border-box;
 		border: solid 1px #ccc;
      }
-     
+	
+	/* -------------------------------- 하단 버튼 ---------------------------------- */
+	
     .btnJoin {
     	width: 100%;
     	margin: 20px auto;
@@ -132,7 +129,8 @@
       text-decoration: none;
     }
    	
-	/* 입력 - 비활성화 */
+	/* -------------------------------- 입력 에러 ---------------------------------- */
+	
 	.wrong {
 		border: solid 1px red;
 	}

@@ -40,13 +40,14 @@
 		padding: 0;
 		//border: solid 1px blue;
 	}
-   
+	
 	.textPrimary {
-   		margin-bottom: 5px;
-   		color: #454545; 
-   	}
-   	
-	/* 탭(개인회원/병원회원) */
+		margin-bottom: 5px;
+		color: #585858;	
+	}
+	
+   	/* -------------------------------- 탭(개인회원/병원회원) ---------------------------------- */
+
 	#tab {
 		display: flex;
 		flex-direction: row;
@@ -75,7 +76,7 @@
     	border: solid 0px black;
 	} 
 	   
-	/* -------------------------------- 上 끝 ---------------------------------- */
+	/* -------------------------------- 내용물 ---------------------------------- */
    
 	/* 입력 */
 	.formGroup {
@@ -89,10 +90,6 @@
 		margin-top: 10px;
 	}
     
-    input {
-		padding: 0px;
-    }
-    
     span {
 		display: block;
 		padding: 5px 0 10px 15px;
@@ -100,6 +97,10 @@
 		color: red;
 	}
 	
+    input {
+		padding: 0px;
+    }
+    
     input[type=button] {
     	color: #fff;
     	background-color: #58ACFA;
@@ -113,37 +114,10 @@
 		box-sizing: border-box;
 		border: solid 1px #ccc;
     }
-     
-    .btnJoin, .hpBtnJoin {
-    	width: 100%;
-    	margin: 20px auto;
-    	text-align: center;
-   	}
-   	
-	#btnRegister, #hpBtnRegister {
-	    width: 200px;
-	    height: 60px;
-	    font-size: 20px;
-	    font-weight: bold;
-	    color: #fff;
-	    background-color: #58ACFA;
-	    border: solid 1px #ccc;
-	}
-	
-	.textPrimary {
-		margin-bottom: 5px;
-		color: #585858;	
-	}
-	
-	.textPosition {
+    
+   	.textPosition {
 		margin-top: 0;
 		padding-right: 30px;
-	}
-	
-	#idCheck, #hpIdCheck, #emailCheck, #hpEmailCheck {
-		color: #ffffff;
-		background-color: #58ACFA;
-		border: solid 0px #ccc;
 	}
 	
 	.birthDate {
@@ -171,12 +145,36 @@
 		font-size: 12pt;
 		color : #ccc;
 	}
+	
+	/* -------------------------------- 버튼 ---------------------------------- */
+    
+    .btnJoin, .hpBtnJoin {
+    	width: 100%;
+    	margin: 20px auto;
+    	text-align: center;
+   	}
+   	
+	#btnRegister, #hpBtnRegister {
+	    width: 200px;
+	    height: 60px;
+	    font-size: 20px;
+	    font-weight: bold;
+	    color: #fff;
+	    background-color: #58ACFA;
+	    border: solid 1px #ccc;
+	}
+	
+	/* #idCheck, #hpIdCheck, #emailCheck, #hpEmailCheck {
+		color: #ffffff;
+		background-color: #58ACFA;
+		border: solid 0px #ccc;
+	} */
     
     a {
       text-decoration: none;
     }
     
-    /* 입력 - 비활성화 */
+	/* -------------------------------- 입력 에러 ---------------------------------- */
 	.wrong {
 		border: solid 1px red;
 	}
@@ -226,15 +224,12 @@
 	var condition3 = false;
 	var condition4 = false;
 	var condition5 = false;
-
-	// 아이디 정규표현식 성공 여부
-	var emailOK = false;
-	// 이메일 인증 성공 여부
-	var certification = false;
 	
+	var emailOK = false; // 아이디 정규표현식 성공 여부
+	var certification = false; // 이메일 인증 성공 여부
+	 
 	// 버튼재인증
 	var btnChange = false;
-	
 	
 	$(document).ready(function(){
 		
@@ -263,16 +258,17 @@
 					$("form[name=registerFrm] input#userid").removeClass("wrong");
 					condition1 = true;
 					
-					$.ajax({ // 아이디 중복검사
+					// ajax 중복검사
+					$.ajax({ 
 						url:"<%=ctxPath%>/idChk.sd",
 						type:"POST",
 						data:{"userid":$("form[name=registerFrm] #userid").val()},
 						dataType:"json",
 						success:function(json){
-							if(json.isUse) {	// X 데이터가 중복된다면 X false
+							if(json.isUse) {	// X 데이터가 중복된다면 X 
 								$("span#useridError").html($("form[name=registerFrm] #userid").val()+"은(는) 이미 사용 중이거나, 탈퇴한 아이디로 사용 불가능합니다.").show();
 								$("span#useridSuccess").hide();
-							} else {	// O 데이터가 중복되지않는다면 O true
+							} else {	// O 데이터가 중복되지않는다면 O 
 								if(condition1 == true) {	// 정규표현식이 맞다면
 									$("span#useridSuccess").html("사용 가능한 아이디 입니다.").show();
 									$("span#useridError").hide();
@@ -395,7 +391,6 @@
 			// 월
 			var monthValue = $("#birthMM").val();
 			if (!monthRegex.test(monthValue)) {
-				// error , return
 				$(".birthDate").addClass('wrong');
 				$("span#birthdateError").html("월을 정확하게 입력해주세요").show();
 				return;
@@ -403,7 +398,6 @@
 			// 일
 			var dateValue = $("#birthDD").val();
 			if (!dateRegex.test(dateValue)) {
-				// error , return
 				$(".birthDate").addClass('wrong');
 				$("span#birthdateError").html("일을 정확하게 입력해주세요").show();
 				return;
@@ -465,16 +459,17 @@
 					$("form[name=registerFrm] input#email").removeClass("wrong");
 					condition4 = true;
 					
+					// ajax 중복검사
 					$.ajax({
 						url:"<%=ctxPath%>/emailChk.sd",
 						type:"POST",
 						data:{"email":$("form[name=registerFrm]  #email").val()},
 						dataType:"json",
 						success:function(json){
-							if(json.isUse) {	// X 데이터가 중복된다면 X false
+							if(json.isUse) {	// X 데이터가 중복된다면 X 
 								$("span#emailError").html($("form[name=registerFrm] #email").val()+"은(는) 이미 사용 중이거나, 탈퇴한 이메일로 사용 불가능합니다.").show();
 								$("span#emailSuccess").hide();
-							} else {	// O 데이터가 중복되지않는다면 O true
+							} else {	// O 데이터가 중복되지않는다면 O 
 								if(condition4 == true) {	// 정규표현식이 맞다면
 									$("span#emailSuccess").html("사용 가능한 이메일 입니다.").show();
 									$("span#emailError").hide();
@@ -598,8 +593,7 @@
 				data:{"email":$("#email").val().trim()},
 				dataType:"json",
 				success:function(json){
-					//console.log(json.isSent);
-					console.log("!!!!!!!!!!!!!!!!!!!!발송성공!!!!!!!!!!!!!!!!!!!!");
+					//console.log("!!!!!!!!!!!!!!!!!!!!발송성공!!!!!!!!!!!!!!!!!!!!");
 					alert("입력하신 이메일("+$("form[name=registerFrm] #email").val()+")로 인증번호가 발송되었습니다.\n전달받은 인증번호를 입력해주세요");					
 					var btnChange = true;
 					if(btnChange == true){
@@ -743,7 +737,6 @@
 	// 이메일 인증 성공 여부
 	var hpCertification = false;
 	
-	
 	$(document).ready(function(){	
 		
 		// ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 사업자등록번호
@@ -777,17 +770,18 @@
 				} else {	// 데이터가 조건에 맞다면
 					$("input#regId").removeClass("wrong");
 					hpCondition1 = true;
-					// 중복검사
+					
+					// ajax 중복검사
 					$.ajax({	
 						url:"<%= ctxPath%>/regIdChk.sd",
 						type:"POST",
 						data:{"regId":$("#regId").val()},
 						dataType:"json",
 						success:function(json){
-							if(json.isUse) {	// X 데이터가 중복된다면 X false
+							if(json.isUse) {	// X 데이터가 중복된다면 X
 								$("span#regIdError").html($("#regId").val()+"은(는) 이미 사용 중이거나, 탈퇴한 사업자번호로 사용 불가능합니다.").show();
 								$("span#regIdSuccess").hide();
-							} else {	// O 데이터가 중복되지않는다면 O true
+							} else {	// O 데이터가 중복되지않는다면 O
 								if(hpCondition1 == true) {	// 정규표현식이 맞다면
 									$("span#regIdSuccess").html("사용 가능한 사업자번호입니다.").show();
 									$("span#regIdError").hide();
@@ -830,17 +824,18 @@
 				} else {	// 데이터가 조건에 맞다면
 					$("form[name=hpRegisterFrm] input#userid").removeClass("wrong");
 					hpCondition2 = true;
-					// 중복검사
+					
+					// ajax 중복검사
 					$.ajax({	
 						url:"<%= ctxPath%>/hpIdChk.sd",
 						type:"POST",
 						data:{"userid":$("form[name=hpRegisterFrm] #userid").val()},
 						dataType:"json",
 						success:function(json){
-							if(json.isUse) {	// X 데이터가 중복된다면 X false
+							if(json.isUse) {	// X 데이터가 중복된다면 X 
 								$("span#hpUseridError").html($("form[name=hpRegisterFrm] #userid").val()+"은(는) 이미 사용 중이거나, 탈퇴한 아이디로 사용 불가능합니다.").show();
 								$("span#hpUseridSuccess").hide();
-							} else {	// O 데이터가 중복되지않는다면 O true
+							} else {	// O 데이터가 중복되지않는다면 O 
 								if(hpCondition2 == true) {	// 정규표현식이 맞다면
 									$("span#hpUseridSuccess").html("사용 가능한 아이디 입니다.").show();
 									$("span#hpUseridError").hide();
@@ -952,17 +947,18 @@
 				} else {	// 데이터가 조건에 맞다면
 					$("form[name=hpRegisterFrm] input#email").removeClass("wrong");
 					hpCondition5 = true;
-					// 중복검사
+					
+					// ajax 중복검사
 					$.ajax({
 						url:"<%=ctxPath%>/hpEmailChk.sd",
 						type:"POST",
 						data:{"email":$("form[name=hpRegisterFrm] #email").val()},
 						dataType:"json",
 						success:function(json){
-							if(json.isUse) {	// X 데이터가 중복된다면 X false
+							if(json.isUse) {	// X 데이터가 중복된다면 X 
 								$("span#hpEmailError").html($("form[name=hpRegisterFrm] #email").val()+"은(는) 이미 사용 중이거나, 탈퇴한 이메일로 사용 불가능합니다.").show();
 								$("span#hpEmailSuccess").hide();
-							} else {	// O 데이터가 중복되지않는다면 O true
+							} else {	// O 데이터가 중복되지않는다면 O 
 								if(hpCondition5 == true) {	// 정규표현식이 맞다면
 									$("span#hpEmailSuccess").html("사용 가능한 이메일 입니다.").show();
 									$("span#hpEmailError").hide();
@@ -1051,8 +1047,7 @@
 				data:{"email":$("form[name=hpRegisterFrm] #email").val().trim()},
 				dataType:"json",
 				success:function(json){
-					//console.log(json.isSent);
-					console.log("!!!!!!!!!!!!!!!!!!!!발송성공!!!!!!!!!!!!!!!!!!!!");
+					//console.log("!!!!!!!!!!!!!!!!!!!!발송성공!!!!!!!!!!!!!!!!!!!!");
 					alert("입력하신 이메일("+$("form[name=hpRegisterFrm] #email").val()+")로 인증번호가 발송되었습니다.\n전달받은 인증번호를 입력해주세요");					
 					var btnChange = true;
 					if(btnChange == true){

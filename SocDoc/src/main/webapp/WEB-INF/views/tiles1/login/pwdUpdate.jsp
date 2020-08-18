@@ -41,14 +41,14 @@
 		padding: 0;
 		//border: solid 1px blue;
 	}
-   
-	/* -------------------------------- 上 끝 ---------------------------------- */
-   
-   	.description {
-		margin-top: 10px;
-		font-size: 7pt;
+		
+	.textPrimary {
+		margin-bottom: 5px;
+		color: #ffffff;
 	}
-   
+	
+	/* -------------------------------- 上 ---------------------------------- */
+
 	h2 {
 		margin: 0;
 	    padding: 15px 0 15px 15px;
@@ -58,13 +58,15 @@
 		background-color: #58ACFA;
     	border: solid 0px black;
 	} 
-   
-	/* 입력 */
+    
+    /* -------------------------------- 내용물 ---------------------------------- */
+    
+    /* 입력 */
 	.formGroup {
 		margin: 0 auto;
 		padding-bottom: 20px;
     }
-    
+     
     label {
 		display: block;
 		padding: 5px 0;
@@ -81,15 +83,6 @@
 		font-size: 8pt;
 		color: red;
     }
-	
-	.textPrimary {
-		margin-bottom: 5px;
-		color: #ffffff;
-	}
-	
-	.title {
-		background-color: #F8F8F8;
-	}
 
     .requiredInfo {
 		width: 100%;
@@ -99,6 +92,12 @@
 		border: solid 1px #ccc;
      }
      
+	/* .title {
+		background-color: #F8F8F8;
+	} */
+    
+    /* -------------------------------- 하단 버튼 ---------------------------------- */
+    
     .btnJoin {
     	width: 100%;
     	margin: 20px auto;
@@ -119,7 +118,7 @@
       text-decoration: none;
     }
     
-	/* 입력 - 비활성화 */
+	/* -------------------------------- 입력 에러 ---------------------------------- */
 	.wrong {
 		border: solid 1px red;
 	}	

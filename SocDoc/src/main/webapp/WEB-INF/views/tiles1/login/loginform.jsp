@@ -139,7 +139,6 @@
 		    
 			$(".individualMember").show();
 			$(".hospitalMember").hide();
-			
 		});	
 		$("#memTab").trigger("click");
 		

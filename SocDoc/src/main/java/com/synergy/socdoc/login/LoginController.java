@@ -61,8 +61,8 @@ public class LoginController {
 			mav.addObject("loc", loc);
 			mav.setViewName("msg"); 
 		} else {
-			String msg = "건강한 하루되세요 누구님 환영합니다.";
-			String loc = request.getContextPath() + "/index.sd";
+//			String msg = "건강한 하루되세요 누구님 환영합니다.";
+//			String loc = request.getContextPath() + "/index.sd";
 //			mav.addObject("msg", msg);
 //			mav.addObject("loc", loc);
 			mav.setViewName("login/loginEnd.tiles1"); 
@@ -165,7 +165,6 @@ public class LoginController {
 	    		
 	    		session.removeAttribute("gobackURL");  // 중요!!!!
 	    	}
-			
 		}	
 		return mav;
 	}

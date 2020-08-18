@@ -34,23 +34,20 @@
    		//border: solid 1px #ccc;
    	}
    	
-	/* -------------------------------- 上 끝 ---------------------------------- */
-	
-	.description {
-		margin-top: 10px;
-		font-size: 9pt;
-	} 
+	/* -------------------------------- 上 ---------------------------------- */
 	
     .textPrimary {
 		margin-bottom: 5px;
 		color: #585858;	
 	}
 	
-	#bottomBtn > ul li {
-		display: inline-block;
-		padding-right: 10px;
-	}
-   
+	.description {
+		margin-top: 10px;
+		font-size: 9pt;
+	} 
+	
+	/* -------------------------------- 아이디 확인 테이블 ---------------------------------- */
+	   
    	table {
 	    width: 100%;
 	    margin: 40px auto;
@@ -79,7 +76,9 @@
 	    color: #666666;
 	    border-bottom: 1px solid #dddddd;
 	}
-   
+	
+	/* -------------------------------- 하단 버튼 ---------------------------------- */
+	
 	.btnJoin {
    		margin-top: 50px;
    		text-align: center;		
@@ -111,9 +110,6 @@
 </style>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 <script type="text/javascript">
-	$(window).ready(function(){
-
-	});
 </script>
 
 
@@ -124,12 +120,12 @@
    
 	<div class="bowl">
 	
+   		<!-- -------------------------------- 上 ---------------------------------- -->
 		<h2 class="textPrimary">아이디 찾기</h2>   
 		<hr>
 	    <div class="description"> 아이디 조회 결과 입력하신 정보와 일치하는 아이디는 아래와 같습니다. </div> 
 	    
-		<!-- -------------------------------- 上 끝 ---------------------------------- --> 
-		    
+		<!-- -------------------------------- 내용물 ---------------------------------- --> 		    
 		<form name="findFrm">
 			<div id="box">
 				<table>
@@ -156,7 +152,8 @@
 			      		</tr>
 					</tbody>
 				</table>
-			      
+			     
+	    		<!-- -------------------------------- 하단 버튼 ---------------------------------- -->  
 				<div class="btnJoin">
 					<input type="button" id="btnLogin" value="로그인" onClick="location.href='<%=ctxPath%>/login.sd'"  />
 					<input type="button" id="btnFind" value="비밀번호 찾기" onClick="location.href='<%=ctxPath%>/pwdFind.sd'" style="color: #ccc;"/>
