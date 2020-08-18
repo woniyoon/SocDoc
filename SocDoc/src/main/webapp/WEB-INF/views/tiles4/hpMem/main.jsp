@@ -55,15 +55,14 @@
 					</td>
 				</tr>
 				<tr>
-					<td>토요일 오전 09:00 ~ 오후 06:00<br> 일요일 오전 09:00 ~ 오후 06:00<br>
+					<td>토요일 09:00 ~ 18:00<br> 일요일 10:00 ~ 오후 15:00<br>
 					</td>
 				</tr>
 				<tr>
 					<td>병원식사시간</td>
 				</tr>
 				<tr>
-					<td rowspan="2">점심 오전 11:00 ~ 오후 01:00<br> 저녁 오전 06:00 ~
-						오후 07:00<br>
+					<td rowspan="2">점심 12:00 ~ 13:00
 					</td>
 				</tr>
 				<!-- 동적으로 생성되는 부분 ⬆️-->
@@ -83,8 +82,8 @@
 				<c:if test="${not empty reviewList }">
 					<c:forEach var="review" items="${reviewList }" varStatus="status">
 						<tr>
-							<td>${review.userid}</td>
-							<td>
+							<td style="width: 180px;">${review.userid}</td>
+							<td style="width: 100px;">
 								<c:forEach var="i" begin="1" end="5">
 								   <c:if test="${review.rating >= i}">
 								   		<span class="reviewStar on" id="hospitalRatingStar${i}">별</span>

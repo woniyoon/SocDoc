@@ -55,7 +55,7 @@
 		order by day asc
 	</select>
 	
-	<!-- 오픈/클로즈 시간 가져오기 -->
+	<!-- 신청한 오픈/클로즈 시간 가져오기 -->
 	<resultMap type="HashMap" id="scheduleTbl">
 		<result property="day" column="day" javaType="String"></result>
 		<result property="open" column="open" javaType="String"></result>

@@ -18,7 +18,7 @@
 				<div class="slideshow-container" style="display: flex; justify-content: center; align-items: center;">
 					<c:if test="${hpInfo.submitId == null}">
 						<div class="mySlides fade" id="mainImgFileSlide">
-							<img src="<%=ctxPath %>/resources/images/noImage.png" style="width: 400px; height: 400px;">
+							<img src="<%=ctxPath %>/resources/images/noImage.png" style="width: inherit; height: inherit;">
 						</div>
 						<div class="mySlides fade" id="subImg1FileSlide"></div>
 						<div class="mySlides fade" id="subImg2FileSlide"></div>
@@ -26,21 +26,21 @@
 					<!-- Full-width images with number and caption text -->
 					<c:if test="${not empty hpInfo.mainImg }">
 						<div class="mySlides fade">
-							<img src="<%=ctxPath %>/resources/images/${hpInfo.mainImg}" style="width: 100%; height: 100%;">
+							<img src="<%=ctxPath %>/resources/images/${hpInfo.mainImg}" style="width: inherit; height: inherit;">
 						</div>
 					</c:if>
 		
 					<c:if test="${not empty hpInfo.subImg1 }">
 						<div class="mySlides fade">
 	<!-- 						<div class="numbertext">2 / 3</div> -->
-							<img src="<%=ctxPath %>/resources/images/${hpInfo.subImg1}" style="width: 100%; height: 100%;">
+							<img src="<%=ctxPath %>/resources/images/${hpInfo.subImg1}" style="width: inherit; height: inherit;">
 						</div>
 					</c:if>
 		
 					<c:if test="${not empty hpInfo.subImg2 }">
 						<div class="mySlides fade">
 	<!-- 						<div class="numbertext">3 / 3</div> -->
-							<img src="<%=ctxPath %>/resources/images/${hpInfo.subImg2}" style="width: 100%; height: 100%;">
+							<img src="<%=ctxPath %>/resources/images/${hpInfo.subImg2}" style="width: inherit; height: inherit;">
 						</div>					
 					</c:if>
 		
@@ -129,20 +129,21 @@
 		<table id="settingSection">
 			<tr>
 				<th>진료과목</th>
-				<td>
-				<input type="checkbox" id="1" value="내과" /> <label for="1">내과</label>
-					<input type="checkbox" id="2" value="소아청소년과" /> <label for="2">소아청소년과</label> <input
-					type="checkbox" id="3" value="정신건강의학과" /> <label for="3">정신건강의학과</label> <input
-					type="checkbox" id="4" value="피부과" /> <label for="4">피부과</label> <input
-					type="checkbox" id="5" value="여성의학과" /> <label for="5">여성의학과</label> <input
-					type="checkbox" id="6" value="안과" /> <label for="6">안과</label> <input
-					type="checkbox" id="7" value="이비인후과" /> <label for="7">이비인후과</label> <input
-					type="checkbox" id="8" value="비뇨기과" /> <label for="8">비뇨기과</label> <input
-					type="checkbox" id="9" value="가정의학과" /> <label for="9">가정의학과</label> <input
-					type="checkbox" id="0" value="치과" /> <label for="0">치과</label></td>
+				<td colspan="6">
+					<input type="checkbox" id="1" value="내과" /> <label for="1">내과</label>
+					<input type="checkbox" id="2" value="소아청소년과" /> <label for="2">소아청소년과</label> 
+					<input type="checkbox" id="3" value="정신건강의학과" /> <label for="3">정신건강의학과</label> 
+					<input type="checkbox" id="4" value="피부과" /> <label for="4">피부과</label> 
+					<input type="checkbox" id="5" value="여성의학과" /> <label for="5">여성의학과</label> 
+					<input type="checkbox" id="6" value="안과" /> <label for="6">안과</label> 
+					<input type="checkbox" id="7" value="이비인후과" /> <label for="7">이비인후과</label> 
+					<input type="checkbox" id="8" value="비뇨기과" /> <label for="8">비뇨기과</label> 
+					<input type="checkbox" id="9" value="가정의학과" /> <label for="9">가정의학과</label> 
+					<input type="checkbox" id="0" value="치과" /> <label for="0">치과</label>
+				</td>
 			</tr>
 			<tr>
-				<th rowspan="7">진료시간</th>
+				<th>진료시간</th>
 				<td colspan="6" id="scheduleTbl">
 					 <div class="timeSettingRow">
 						<label>월요일</label> 
@@ -200,11 +201,11 @@
 					</div>
 				</td>
 			</tr>
-			<c:if test="${hpInfo.reason }">
-				<tr>
-					<th>반려사유</th>
-					<td>${hpInfo.reason }</td>
-				</tr>
+			<c:if test="${hpInfo.reason != null}">
+			<tr>
+				<th>반려사유</th>
+				<td style="color: red;">${hpInfo.reason }</td>
+			</tr>
 			</c:if>
 		</table>
 		<input type="hidden" name="submitId" value="${hpInfo.submitId != null ? hpInfo.submitId : ' '}" />
@@ -265,7 +266,7 @@
 
 				            var reader = new FileReader();
 				            reader.onload = function(e) {
-					            var html = "<img src='"+e.target.result+"' style='width: 100%; height: 100%;'>";
+				            	var html = "<img src='"+e.target.result+"' style='width: inherit; height: inherit;'>";
 					            $(sliderImgId).html(html);
 
 				                console.log(e.target.result);

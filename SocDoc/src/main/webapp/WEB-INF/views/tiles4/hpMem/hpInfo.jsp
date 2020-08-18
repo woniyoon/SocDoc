@@ -52,19 +52,19 @@
 					<td>
 						<c:choose>
 							<c:when test="${item.status == 1}">
-								<span>신청</span>
+								<span style="color: green;">신청</span>
 							</c:when>
 							<c:when test="${item.status == 2}">
-								<span>반려</span>
+								<span style="color: red;">반려</span>
 							</c:when>
 							<c:when test="${item.status == 3}">
-								<span>수정</span>
+								<span style="color: green;">수정</span>
 							</c:when>
 							<c:when test="${item.status == 4}">
 								<span>취소</span>
 							</c:when>
 							<c:otherwise>
-								<span>승인</span>
+								<span style="color: #157bb9;">승인</span>
 							</c:otherwise>
 						</c:choose>
 					</td>
@@ -83,7 +83,7 @@
 	<div class="applyBtnContainer" align="right">
 		<button type="button" class="blueBtn" onclick="javascript:location.href='<%=ctxPath%>/hpPanel/updateHpInfo.sd'">신청하기</button>
 	</div>
-	<div class="pageContainer" align="center">
+	<div class="page_wrap" align="center">
 		${pageBar }
 	</div>
 </div>
