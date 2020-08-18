@@ -79,17 +79,18 @@
       
 </style>
 
+<script src="<%=ctxPath%>/resources/js/util/common.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		
 	      if("${searchType != null}" && "${searchWord != null}") {
-	    	  console.log("??");
 	    	  $("#searchType").val("${searchType}");
 	    	  $("#searchWord").val("${searchWord}");
 	      }
 		
 	      $(".hospitalRatingStar").each(function(){
 		      $("#hospitalRatingStar"+"${avgRating}").addClass("on").prevAll("span").addClass("on");
+		      console.log("??????");
 		      return false;
 		  });
 	});
@@ -101,8 +102,6 @@
 		form.submit();
 	}
 	
-	
-
 </script>
 
 <div class="reviewsContainer">
@@ -127,7 +126,7 @@
 		</form>
 		<button class="blueBtn" id="searchBtn" onclick="search()">검색</button>
 	</div>
-	<table class="customTable" style="width: 100%;">
+	<table class="customTable" id="reviewListTbl" style="width: 100%;">
 		<tr>
 			<th>아이디</th>
 			<th>별점</th>
@@ -161,7 +160,7 @@
 	</table>
 	<c:if test="${not empty reviewList}">
 		<div class="reviewListBottom" align="right">
-			<button class="blueBtn" type="button">엑셀로 내보내기</button>
+			<button class="blueBtn" type="button" onclick="exportAsExcel('reviewListTbl', '후기 목록')">엑셀로 내보내기</button>
 		</div>	
 	</c:if>
 	<div class="pageContainer" align="center">

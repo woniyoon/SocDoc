@@ -100,6 +100,7 @@
 	}
 </style>
 
+<script src="<%=ctxPath%>/resources/js/util/common.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#searchWord").keydown(function(e){
@@ -172,14 +173,6 @@
 		$(".modalContainer").addClass("hidden");
 	}
 
-	function exportAsExcel(){
-		
-		var test = $(".header").values();
-		console.log(test);
-		
-		
-	}
-	
 </script>
 
 <div class="visitorsListContainer">
@@ -191,7 +184,9 @@
 			<button class="blueBtn" id="searchBtn" onclick="search()">검색</button>
 		</div>
 	</div>
-	<table class="customTable" style="width: 100%;">
+	<table class="customTable" id="visitorList" style="width: 100%;">
+		<caption> </caption>
+		<thead>
 			<tr>
 				<th class="header">순번</th>
 				<th class="header">이름</th>
@@ -200,9 +195,11 @@
 				<th class="header">연락처</th>
 				<th class="header">마지막방문일</th>
 			</tr>
+		</thead>
+		<tbody>
 			<c:if test="${not empty visitorsList }">
 				<c:forEach var="map" items="${visitorsList }">
-					<tr id="${map.memberSeq }" onclick="displayInfoModal('${map.userid}')">
+					<tr class="visitors" id="${map.memberSeq }" onclick="displayInfoModal('${map.userid}')">
 						<td class="rno">${map.rno}</td>
 						<td class="name">${map.name}</td>
 						<td class="birthDate">${map.birthDate}</td>
@@ -217,6 +214,7 @@
 					<td colspan="6">결과가 없습니다.</td>
 				</tr>
 			</c:if>
+		</tbody>
 	</table>
 	<div class="modalContainer hidden">
 		<div class="modalOverlay">
@@ -232,8 +230,8 @@
 	</div>
 	<c:if test="${not empty visitorsList }">
 		<div class="excelBtnContainer" align="right">
-			<button class="blueBtn" type="button" onclick="exportAsExcel();">엑셀로 내보내기</button>
-		</div>
+			<button class="blueBtn" type="button" onclick="exportAsExcel('visitorList','방문자 리스트')">엑셀로 내보내기</button>
+		</div>	
 	</c:if>
 	<div class="pageContainer" align="center">
 		<span>${pageBar }</span>
