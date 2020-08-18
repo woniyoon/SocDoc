@@ -257,8 +257,7 @@
             <p>전체 등록 수 : ${totalCount}명</p>		
 			
 			 --%>
-<!-- 			<form name="updateFrm">
- -->				<table class="table table-hover" style="text-align: center;">
+			<table class="table table-hover" style="text-align: center;">
 					<tr>
 						<th>선택</th>
 						<th>아이디</th>
@@ -271,7 +270,6 @@
 					<c:forEach var="hpvo" items="${hpinfovoList}">
 					<tr class="detailRow" onclick="goDetail('${hpvo.hpSeq}','${hpvo.submitId}')">
 	                    <td>
- 	                    <%--<input type="checkbox" name="infock" class="infock" value="${hpvo.submitId}" onclick="saveIds();" /> --%>
 	                    	<input type="checkbox" name="infock" class="infock" value="${hpvo.submitId}" />
 	                    	<input class="hiddenValue" type="hidden" value="${hpvo.hpSeq}" />
 	                    </td>	
@@ -289,14 +287,10 @@
 						</c:choose>
 					</tr>
 					</c:forEach>
-				</table>
+			</table>
 					<input type="hidden" id="infoJoin" name="infoJoin" />
 					<input type="hidden" id="hpSeq" name="hpSeq" />
-        <%--<button id="updateBtn" onclick="goUpdate('${hpvo.hpSeq}')" data-toggle="modal" data-target="#myModal">승인</button> --%> 
             <button id="updateBtn" data-toggle="modal" data-target="#myModal">승인</button>
-            <!-- <button id="rejectBtn" data-toggle="modal" data-target="#myModal" onclick="reject();">반려</button> -->
-<!-- 		</form>
- -->            
 		</div>
 		
 		<div align="center">
@@ -486,11 +480,9 @@
 	                	html += "</div>";
 	                	html += "</div>";
 	                	html += "<div>";
-/* 	                	html += "<form id='txtFrm' name='txtFrm'>";
- */	                	html += "<input type='hidden' name='submitId' value='"+json.submitId+"'/>";
+ 	                	html += "<input type='hidden' name='submitId' value='"+json.submitId+"'/>";
 	                	html += "<textarea id='reason' name='reason' class='reason' maxlength='199' placeholder='반려사유 작성란'></textarea>";
-/* 	                	html += "</form>";
- */	                	html += "</div>";
+ 	               	    html += "</div>";
 	                	html += "</form>";
 	                	
 	 				}
@@ -615,13 +607,10 @@
 	
 	function rejectInModal() {
 		
-/* 		var form = document.txtFrm;
- */		
 		if($("#reason").val().trim()=='') {
 			alert("반려사유를 작성해주세요!");
 			$("#reason").focus();
-/* 			form.reason.focus();
- */			return;
+			return;
 		}
 		
 		var con = confirm("반려시키겠습니까?");
