@@ -141,8 +141,7 @@
                					+	"<td onclick='popModal(event)'>"+item.hour+"</td>"
                					+	"<td onclick='popModal(event)'>"+item.name+"</td>"
                					+	"<td onclick='popModal(event)'>"+item.phone+"</td>"
-/*                					+	"<td>초진</td>" */
-               					+	"<td onclick='popModal(event)' id='visitStatus"+item.reservSeq+"'>"+(item.hasVisited?  "방문" : "미방문" ) +"</td>"
+               					+	"<td onclick='popModal(event)' id='visitStatus"+item.reservSeq+"'>"+(item.hasVisited?  "<span style='color: #157bb9;'>방문</span>" : "<span style='color: red;'>미방문</span>" ) +"</td>"
                					+	"<td><input onclick='updateVisitStatus(this,"+!item.hasVisited+")' id="+ item.reservSeq +" type='checkbox' "+checked+" /></td>"
                			 		+"</tr>";
                		});
@@ -249,7 +248,7 @@
 	<div class="schedulePanel">
 		<div class="calendar"></div>
 		<div class="timetableContainer" align="center">
-			<span>날짜를 선택해주세요.</span>
+			<span style="padding: 50px;">날짜를 선택해주세요.</span>
 		</div>
 	</div>
 	<div class="reservationPanel">

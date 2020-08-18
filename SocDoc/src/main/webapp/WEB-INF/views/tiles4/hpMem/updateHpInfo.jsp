@@ -129,20 +129,21 @@
 		<table id="settingSection">
 			<tr>
 				<th>진료과목</th>
-				<td>
-				<input type="checkbox" id="1" value="내과" /> <label for="1">내과</label>
-					<input type="checkbox" id="2" value="소아청소년과" /> <label for="2">소아청소년과</label> <input
-					type="checkbox" id="3" value="정신건강의학과" /> <label for="3">정신건강의학과</label> <input
-					type="checkbox" id="4" value="피부과" /> <label for="4">피부과</label> <input
-					type="checkbox" id="5" value="여성의학과" /> <label for="5">여성의학과</label> <input
-					type="checkbox" id="6" value="안과" /> <label for="6">안과</label> <input
-					type="checkbox" id="7" value="이비인후과" /> <label for="7">이비인후과</label> <input
-					type="checkbox" id="8" value="비뇨기과" /> <label for="8">비뇨기과</label> <input
-					type="checkbox" id="9" value="가정의학과" /> <label for="9">가정의학과</label> <input
-					type="checkbox" id="0" value="치과" /> <label for="0">치과</label></td>
+				<td colspan="6">
+					<input type="checkbox" id="1" value="내과" /> <label for="1">내과</label>
+					<input type="checkbox" id="2" value="소아청소년과" /> <label for="2">소아청소년과</label> 
+					<input type="checkbox" id="3" value="정신건강의학과" /> <label for="3">정신건강의학과</label> 
+					<input type="checkbox" id="4" value="피부과" /> <label for="4">피부과</label> 
+					<input type="checkbox" id="5" value="여성의학과" /> <label for="5">여성의학과</label> 
+					<input type="checkbox" id="6" value="안과" /> <label for="6">안과</label> 
+					<input type="checkbox" id="7" value="이비인후과" /> <label for="7">이비인후과</label> 
+					<input type="checkbox" id="8" value="비뇨기과" /> <label for="8">비뇨기과</label> 
+					<input type="checkbox" id="9" value="가정의학과" /> <label for="9">가정의학과</label> 
+					<input type="checkbox" id="0" value="치과" /> <label for="0">치과</label>
+				</td>
 			</tr>
 			<tr>
-				<th rowspan="7">진료시간</th>
+				<th>진료시간</th>
 				<td colspan="6" id="scheduleTbl">
 					 <div class="timeSettingRow">
 						<label>월요일</label> 
@@ -200,11 +201,11 @@
 					</div>
 				</td>
 			</tr>
-			<c:if test="${hpInfo.reason }">
-				<tr>
-					<th>반려사유</th>
-					<td>${hpInfo.reason }</td>
-				</tr>
+			<c:if test="${hpInfo.reason != null}">
+			<tr>
+				<th>반려사유</th>
+				<td style="color: red;">${hpInfo.reason }</td>
+			</tr>
 			</c:if>
 		</table>
 		<input type="hidden" name="submitId" value="${hpInfo.submitId != null ? hpInfo.submitId : ' '}" />

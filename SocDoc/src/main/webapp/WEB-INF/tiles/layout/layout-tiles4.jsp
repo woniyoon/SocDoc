@@ -42,7 +42,6 @@
 	
 	#sideMenu {
 		flex: 1;
-		border: 1px solid navy;
 		padding: 40px 0 0 40px;
 		font-size: 1.2em;
 	}
