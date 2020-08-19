@@ -512,17 +512,22 @@ $(document).ready(function() {
 						              // json에 담겨진 시작시간부터 종료시간까지 1시간씩 증가시키면서 시간대 추가
 						              // 더불어 그 시간대에 몇 명이 예약했는지 받아옴
 						              console.log(json);
+						              var n = 0;
 						              var html = "<div id='timebox'>";
 						              for(var i=0; i<json.hours.length; i++) {
 						            	  var hour = json.hours[i];
 						            	  var numHour = Number(json.hours[i].substring(0,2));
-						            	  console.log("시간:"+hour);
-						            	  
-						            	  if(i > 0 && i % 4 == 0) {
+/* 						            	  console.log("시간:"+hour);
+ */						            	  
+						            	/*   if(i > 0 && i % 4 == 0) {
 						            		  html += "<br>";
-						            	  }
+						            	  } */
 	
 						            	  if( hour >= json.openHours.open && hour <= json.openHours.close ) {
+						            		  if(n>0 && n%4 == 0) {
+						            			  html+="<br>";
+						            		  }
+						            		  n++;
 						            		  var hourSeq = numHour-8;
 						            		  //html += "<li onclick='selectTime("+hourSeq+")'>"+hour+"</li>"
 						            		  html += "<a href='javascript:selectTime("+hourSeq+")' style='margin-right: 10%;'>"+hour+"</a>"
@@ -790,7 +795,7 @@ $(document).ready(function() {
 										<!-- 병원소개 -->${hpinfovoList.info}<br />
 										<!-- 리뷰보기 -->
 										<a
-											href='<%= ctxPath%>/socdoc/reserve.sd?hpSeq=${hpinfovoList.hpSeq}'
+											href='<%= ctxPath%>/hospitalDetail.sd?hpSeq=${hpinfovoList.hpSeq}'
 											target="_blank"
 											style="color: blue; font-size: 9pt; font-weight: bold;">리뷰
 											및 상세보기</a><br /> <br />
