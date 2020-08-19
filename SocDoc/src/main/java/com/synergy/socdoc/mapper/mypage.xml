@@ -255,6 +255,28 @@
 	  </delete>
 	  
 	  
+	  <!-- == 총 예약 건수(totalCount)를 구하기 == -->
+	   <select id="getTotalCountHistory" parameterType="HashMap" resultType="int">
+	   	select count(*)
+	   	from
+		        (
+		            select rno, hpName, hourSeq, status, hour, visitdate, address, phone, dept
+		            from
+		            (
+			            select rno, hpName, status, T.hour, V.hourSeq, V.visitdate, V.address, V.phone, V.dept
+			            from 
+						(
+							select rownum as rno, I.hpName, R.status, R.hourSeq, R.visitdate, I.address, I.phone, I.dept
+							from hospitalInfo I join reservation R 
+							on I.hpSeq = R.hpSeq
+							where userid = #{userid} and R.status=0
+						) V join timetable T 
+						    on V.hourSeq = T.hourSeq
+		        	) V
+	    		) T
+	        where visitdate &gt; to_char(add_months(sysdate,-12), 'yyyy-mm-dd') 
+	   </select>
+	  
 	  <!-- == 진료이력조회 게시판의 페이징 처리한 글목록 가져오기 (검색이 있든지, 검색이 없든지 모두 다 포함한것) -->
 	   <resultMap type="HashMap" id="historyMap">
    		<result property="hpName" 				column="hpName" 			javaType="String"/>
@@ -266,16 +288,16 @@
    		<result property="dept" 				column="dept" 				javaType="String"/>
 	   </resultMap>
 	   <select id="historyListSearchWithPaging" parameterType="HashMap" resultMap="historyMap">
-		  	select hpName, hourSeq, status, hour, to_char(visitdate, 'yyyy-mm-dd') as visitdate, address, phone, dept
+		  	select rno, hpName, hourSeq, status, hour, to_char(visitdate, 'yyyy-mm-dd') as visitdate, address, phone, dept
 	        from
 		        (
-		            select rownum AS rno, hpName, hourSeq, status, hour, visitdate, address, phone, dept
+		            select rno, hpName, hourSeq, status, hour, visitdate, address, phone, dept
 		            from
 		            (
-			            select hpName, status, T.hour, V.hourSeq, V.visitdate, V.address, V.phone, V.dept
+			            select rno, hpName, status, T.hour, V.hourSeq, V.visitdate, V.address, V.phone, V.dept
 			            from 
 						(
-							select I.hpName, R.status, R.hourSeq, R.visitdate, I.address, I.phone, I.dept
+							select rownum as rno, I.hpName, R.status, R.hourSeq, R.visitdate, I.address, I.phone, I.dept
 							from hospitalInfo I join reservation R 
 							on I.hpSeq = R.hpSeq
 							where userid = #{userid} and R.status=0
@@ -284,7 +306,7 @@
 		        	) V
 	    		) T
 	        where rno between #{startRno} and #{endRno}
-	        and visitdate &gt; to_char(add_months(sysdate,-12), 'yyyy-mm-dd')
+	        and visitdate &gt; to_char(add_months(sysdate,-12), 'yyyy-mm-dd')          
 	        <if test='searchType == "2"'>
             order by visitdate desc
             </if>
@@ -319,23 +341,24 @@
 	        from
 		        (
 		             (
-		              select rno, userid, rating, content, hpName as name, to_char(regDate, 'yyyy-mm-dd') as regDate
+		              select rno, userid, rating, content, hpname as name, to_char(regDate, 'yyyy-mm-dd') as regDate
 				      from
 				          (select rownum as rno, userid, rating, content, regDate, hpname
 				          from hospitalReview
+                          where userid = #{userid}
 				          order by regDate desc)
 				      )
 				      union all
 				      (
-				      select rno, userid, rating, content, pharName, to_char(regDate, 'yyyy-mm-dd') as regDate
+				      select rno, userid, rating, content, pharName as name, to_char(regDate, 'yyyy-mm-dd') as regDate
 				      from
 				          (select rownum as rno, userid, rating, content, regDate, pharName
 				          from pharmacyReview 
+                          where userid = #{userid}
 				          order by regDate desc)
-				      )
+                      )
 	    		) T
 	        where rno between #{startRno} and #{endRno}
-	        and userid = #{userid}
 	        <if test='searchType == "2"'>
             order by regDate desc
             </if>

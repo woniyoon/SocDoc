@@ -1133,8 +1133,8 @@ public class MypageController {
         paraMap.put("name", name);
         //paraMap.put("memberSeq", memberSeq);
         
-        System.out.println(userid);
-        System.out.println(name);
+        //System.out.println(userid);
+        //System.out.println(name);
         
         // 먼저 총 게시물 건수(totalCount)를 구해와야한다. 
         // 총 게시물 건수(totalCount)는 검색조건이 있을때와 없는때로 나뉘어진다.
@@ -1149,7 +1149,7 @@ public class MypageController {
         // 현재 보여주는 페이지 번호로서, 초기치로는 1페이지로 설정한다. 
         
         // 총 게시물 건수(totalCount)
-        totalCount = service.getTotalCountReservation(paraMap);
+        totalCount = service.getTotalCountHistory(paraMap);
 //		    	System.out.println("~~~~ 확인용 totalCount : " + totalCount);
         
         // 만약에 총 게시물 건수(totalCount)가 127개라면, 
@@ -1254,6 +1254,8 @@ public class MypageController {
 			pageBar +=" <a class='arrow next' href='"+url+"?searchType="+searchType+"&currentShowPageNo="+(pageNo+1)+"'></a>";
 			pageBar +=" <a class='arrow nnext' href='"+url+"?searchType="+searchType+"&currentShowPageNo="+totalPage+"'></a>";
 		}
+		
+		pageBar += "</ul>";
 		
 		mav.addObject("pageBar", pageBar);
 		
@@ -1413,6 +1415,8 @@ public class MypageController {
 		}
 		
 		mav.addObject("pageBar", pageBar);
+		
+		System.out.println("endRno:"+endRno);
 		
 		////////////////////////////////////////////////////
 		String gobackURL = MyUtil.getCurrentURL(request);

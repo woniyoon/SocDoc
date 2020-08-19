@@ -737,7 +737,7 @@ $(document).ready(function() {
       <img width="150px;" height="140px;" src="<%= ctxPath%>/resources/images/${hpinfovoList.mainImg}"/>
       <!-- 병원이름 -->${hpinfovoList.hpName}<br/> <span style="display:none">${hpinfovoList.dept}</span>
       <!-- 병원소개 -->${hpinfovoList.info}<br/>
-      <!-- 리뷰보기 --><a href='<%= ctxPath%>/hospitalDetail.sd?hpSeq=${hpinfovoList.hpSeq}' target="_blank" style="color: blue; font-size: 9pt; font-weight: bold;">리뷰 및 상세보기</a><br/>
+      <!-- 리뷰보기 --><a href='<%= ctxPath%>/hospitalDetail.sd?hpSeq=${hpinfovoList.hpSeq}' style="color: blue; font-size: 9pt; font-weight: bold;">리뷰 및 상세보기</a><br/>
       <br/>
       <!-- 선택하기버튼 -->
       <%-- <button type="button" name="selecthospital" id="selecthospital" class="selecthospital"  onclick="selecthospital('${hpinfovoList.hpName}','${hpinfovoList.dept}', '${hpinfovoList.hpSeq }')">선택</button> --%>
