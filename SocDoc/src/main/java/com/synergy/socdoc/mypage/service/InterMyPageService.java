@@ -77,6 +77,8 @@ public interface InterMyPageService {
 	List<CommentVO> getCommentList(String parentSeq); // 게시물에 딸린 댓글 조회하기
 	void updateStatus(String parentSeq);  // 문의글에 답변 상태 변경하기
 
+	int getTotalCountHistory(HashMap<String, String> paraMap); // 최근진료내역 갯수
+
 	// String getHourSeq(HashMap<String, String> paraMap); // 방문예정 시간 구하기
 
 	

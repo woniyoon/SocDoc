@@ -137,26 +137,19 @@ tr.tr{
 
 //예약 확정하기
 function goCancel(){
-   
-/*    alert("예약취소하시겠습니까?");
-   func_cancel() */
 	
-   
-   var con = confirm("예약취소하시겠습니까?");
+	var con = confirm("예약취소하시겠습니까?");
 	
 	if(con == true) {
 		
-		 frm.method = "GET";
-		 frm.action = "<%= ctxPath%>/cancel.sd";
-		 frm.submit();
+		location.href= "<%= ctxPath%>/cancel.sd";
 	}
 	else if(con == false){ 
 		location.href="history.back()";
 	}
-	
-}
+	 
+   }
 //} end of 예약확정하기 끝 
-
 
 </script>
 

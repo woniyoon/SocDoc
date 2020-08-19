@@ -306,6 +306,14 @@ public class MyPageService implements InterMyPageService {
 		dao.updateStatus(parentSeq);
 	}
 
+
+	// 최근진료내역 갯수
+	@Override
+	public int getTotalCountHistory(HashMap<String, String> paraMap) {
+		int n = dao.getTotalCountHistory(paraMap);
+		return n;
+	}
+
 	
 	/////////////////////////////////////////////////
 
