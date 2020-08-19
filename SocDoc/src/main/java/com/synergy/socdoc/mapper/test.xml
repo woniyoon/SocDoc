@@ -27,6 +27,7 @@
 	</select>
 	
 	<select id="getRankList" resultType="com.synergy.socdoc.member.HpReviewVO">
+		<!-- 
 		select avgRating, hpName 
 		from
 		(
@@ -36,6 +37,19 @@
 		order by avg(rating) desc
 		)
 		where 
+		<![CDATA[ rownum <= 6 ]]>
+		 -->
+		
+		select avgRating, hpName, mainImg
+		from
+		(
+		select avg(R.rating) as avgRating, R.hpName, I.mainImg
+		from hospitalReview R join hospitalinfo I
+		on R.hpSeq = I.hpSeq
+		group by R.hpName,I.mainImg
+		order by avg(R.rating) desc
+		)V
+		where
 		<![CDATA[ rownum <= 6 ]]>
 	</select>
 

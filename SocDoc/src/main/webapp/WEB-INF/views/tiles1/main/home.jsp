@@ -403,12 +403,12 @@
                     <tr>
                         <td>${noticevo.noticeSeq}</td>
                         <td>
-	                        <c:if test="${sessionScope.loginuser.userid != 'admin' || sessionScope.loginuser != null}">
-	                        	<span class="noticeTitle"><a href="<%=ctxPath%>/noticeView.sd?noticeSeq=${noticevo.noticeSeq}">${noticevo.subject}</a></span>
-	                        </c:if>
                         	<c:if test="${sessionScope.loginuser.userid == 'admin'}">
 	                        	<span class="noticeTitle" onclick="javascript:location.href='<%=ctxPath%>/adminNoticeView.sd?noticeSeq=${noticevo.noticeSeq }'">${noticevo.subject}</span>
 	                        </c:if>	
+	                        <c:if test="${sessionScope.loginuser.userid != 'admin' || sessionScope.loginuser != null}">
+	                        	<span class="noticeTitle"><a href="<%=ctxPath%>/noticeView.sd?noticeSeq=${noticevo.noticeSeq}">${noticevo.subject}</a></span>
+	                        </c:if>
                         </td>
                         <td>${noticevo.regDate}</td>
                     </tr>
@@ -425,7 +425,7 @@
 	            <c:forEach var="hpRankList" items="${hpRankList}">
 	                <div class="swiper-slide">
 		                    <figure class="snip1384">
-		                      <img src="<%= ctxPath%>/resources/images/slide1.jpg">
+		                      <img src="<%= ctxPath%>/resources/images/${hpRankList.mainImg}">
 		                      <figcaption>
 		                        <h3>${hpRankList.hpName}</h3>
 		                        <p style="font-size: 20pt; color: yellow;">★${hpRankList.avgRating}.0</p>
