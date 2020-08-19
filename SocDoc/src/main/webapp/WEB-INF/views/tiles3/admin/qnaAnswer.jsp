@@ -83,6 +83,7 @@
    }
    
    p#listBtn {
+/* 
       display: inline-block;
       border-radius: 3px;
       height: 45px;
@@ -91,6 +92,24 @@
       color: white;
       float: right;
       margin: 30px 20px 50px 0px;
+      background: #666666;
+	  color: white;
+	   */
+	  
+	  display: inline-block;
+  	  margin: 30px 20px 50px 0px;
+   	  width: 84px;
+   	  height: 45px;
+  	  float: right;
+   	  text-align: center;
+  	  color: white;
+   	  font-size: 14px;
+   	  font-weight: bold;
+  	  line-height: 45px;
+   	  background: #157bb9;
+  	  border-radius: 3px;
+  	  cursor: pointer;
+	 
    }   
     
    a.notice_view {
@@ -110,16 +129,16 @@
    }
    
    .th {
-      background: #f2f2f2;
+      background: #e6f5ff;
    }
    
    .next_post {
-      border-top: 1px solid #333333;
+      border-top: 1px solid gray;
       border-bottom: 1px solid #dddddd;
    }
    
    .pre_post {
-      border-bottom: 1px solid #333333;
+      border-bottom: 1px solid gray;
    }
    
    .titlePointer:hover {
