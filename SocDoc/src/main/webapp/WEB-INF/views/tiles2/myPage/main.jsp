@@ -96,12 +96,12 @@
 
     
     /*  main 끝  */
-    footer {
+/*     footer {
         position: absolute;
         height: 5rem;
         width: 100vw;
         background-color: rgb(241, 241, 241);
-    }
+    } */
       
     /* 첫번째줄 셋팅- 예약확인 */
 	div#box1 {
@@ -526,7 +526,7 @@
 	</div>
         </div>
     </main>
-    <footer>
-    </footer>
+<!--     <footer>
+    </footer> -->
 </body>
 </html>
