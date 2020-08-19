@@ -78,6 +78,8 @@ public interface InterMyPageDAO {
 
 	void deleteComment(HashMap<String, String> paraMap);
 
+	int getTotalCountHistory(HashMap<String, String> paraMap); // 최근진료내역 갯수
+
 
 	// String getHourSeq(HashMap<String, String> paraMap); // 방문 예정시간 구하기
 

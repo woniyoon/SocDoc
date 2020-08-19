@@ -276,6 +276,14 @@ public class MyPageDAO implements InterMyPageDAO {
 	}
 
 
+	// 최근진료내역 갯수
+	@Override
+	public int getTotalCountHistory(HashMap<String, String> paraMap) {
+		int n = sqlsession.selectOne("mypage.getTotalCountHistory", paraMap);
+		return n;
+	}
+
+
 	
 
 
