@@ -404,7 +404,7 @@
                         <td>${noticevo.noticeSeq}</td>
                         <td>
                         	<c:if test="${sessionScope.loginuser.userid == 'admin'}">
-	                        	<span class="noticeTitle" onclick="javascript:location.href='<%=ctxPath%>/adminNoticeView.sd?noticeSeq=${noticevo.noticeSeq }'">${noticevo.subject}</span>
+	                        	<span class="noticeTitle" onclick="javascript:location.href='<%=ctxPath%>/adminNoticeView.sd?noticeSeq=${noticevo.noticeSeq}'">${noticevo.subject}</span>
 	                        </c:if>	
 	                        <c:if test="${sessionScope.loginuser.userid != 'admin' || sessionScope.loginuser != null}">
 	                        	<span class="noticeTitle"><a href="<%=ctxPath%>/noticeView.sd?noticeSeq=${noticevo.noticeSeq}">${noticevo.subject}</a></span>
