@@ -90,7 +90,7 @@
 	    font-size: 20px;
 	    font-weight: bold;
 	    color: #fff;
-	    background-color: #58ACFA;
+	    background-color: #157bb9;
 	    border: solid 1px #ccc;
 	}
    

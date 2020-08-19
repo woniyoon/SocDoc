@@ -228,7 +228,7 @@ public class LoginController {
 		String loc = "";
 		if(n==1) {
 			session.setAttribute("loginuser", vo);
-			msg = "가입 성공하셨습니다.";
+			msg = "가입을 축하합니다";
 			loc = request.getContextPath() + "/index.sd";
 		} else {
 			msg = "다시 시도해주세요!";
@@ -252,7 +252,7 @@ public class LoginController {
 		String loc = "";
 		if(n==1) {
 			session.setAttribute("hpLoginuser", vo);
-			msg = "가입 성공하셨습니다.";
+			msg = "가입을 축하합니다";
 			loc = request.getContextPath() + "/index.sd";
 		} else {
 			msg = "다시 시도해주세요!";

@@ -61,7 +61,7 @@
    		background-color: white;
    		color: #ccc;
    		border-bottom: solid 1px #ccc;
-   		//border-bottom: solid 2px #58ACFA;
+   		//border-bottom: solid 2px #157bb9;
 	}
 	
  	/* 버튼 클릭 됐을 때 */
@@ -70,7 +70,7 @@
 	    padding: 15px 0;
     	font-size: 14pt;
     	font-weight: bold;
-    	background-color: #58ACFA;
+    	background-color: #157bb9;
     	color: #fff;	
     	border: solid 0px black;
 	} 
@@ -97,7 +97,7 @@
 		width: 30%;
 		height: 75px;
 		padding: 0 10px;
-		background-color: #58ACFA;
+		background-color: #157bb9;
 		border: solid 0px #ccc;
 		color: white;
 		font-weight: bold; 

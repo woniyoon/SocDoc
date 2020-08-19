@@ -55,7 +55,7 @@
     	font-size: 14pt;
     	font-weight: bold;
     	color: #fff;	
-		background-color: #58ACFA;
+		background-color: #157bb9;
     	border: solid 0px black;
 	} 
     
@@ -110,7 +110,7 @@
 	    font-size: 20px;
 	    font-weight: bold;
 	    color: #fff;
-	    background-color: #58ACFA;
+	    background-color: #157bb9;
 	    border: solid 1px #ccc;
 	}
     

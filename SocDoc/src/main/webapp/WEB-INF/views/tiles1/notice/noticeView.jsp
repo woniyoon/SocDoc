@@ -67,7 +67,7 @@
        	font-size: 14px;
        	font-weight: bold;
       	line-height: 45px;
-       	background: #666666;
+       	background: #157bb9;
       	border-radius: 3px;
       	cursor: pointer;
    	}   

@@ -551,7 +551,14 @@
 			</table>
 			
 			
-			</br></br>
+			</br>
+			
+			<div id="btn" style="width:80%; text-align: right;">
+				<%-- <button id="printBtn" style="background-color: skyblue; color:white; width: 80px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" onclick="javascript:location.href='<%= request.getContextPath()%>/ask.sd'">문의하기</button>
+				<button id="printBtn" style="background-color: white; color:skyblue; width: 50px; height: 30px; border-radius: 4px; border: solid 1px skyblue; font-size: 10pt;">삭제</button>
+			 --%>
+			 	<button id="printBtn" style="background-color: #157bb9; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" onClick="goDel()">삭제</button>
+			</div>
 			
 			<!-- 페이지바 -->
 			<%-- <div id="center" style="width: 30%; border: solid 0px gray; margin: 20px auto;">
@@ -563,12 +570,7 @@
 			   </div>
 			</div>
 			
-			<div id="btn" style="width:80%; text-align: right;">
-				<%-- <button id="printBtn" style="background-color: skyblue; color:white; width: 80px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" onclick="javascript:location.href='<%= request.getContextPath()%>/ask.sd'">문의하기</button>
-				<button id="printBtn" style="background-color: white; color:skyblue; width: 50px; height: 30px; border-radius: 4px; border: solid 1px skyblue; font-size: 10pt;">삭제</button>
-			 --%>
-			 	<button id="printBtn" style="background-color: #157bb9; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" onClick="goDel()">삭제</button>
-			</div>
+			
 			</form>
 			
 			

@@ -51,7 +51,7 @@
 	}
    
 	ul.tabs li.current {
-		background: #0080ff;
+		background: #157bb9;
 		color: #fff;
 		font-weight: 1000;
 	}
@@ -92,17 +92,17 @@
 	    font-size: 14px;
 	    font-weight: bold;
 		color: #ffffff;
-		background-color: #58ACFA;
+		background-color: #157bb9;
 		border: solid 0px #ccc;
 	    cursor: pointer;
 	}
 	
 	#noticeSearchWord, #noticeSearchWord2  {
 		display: inline-block;
+	    padding-left: 7px;
 		width: 200px;
 	    height: 35px;
 	    margin: 0;
-	    padding-left: 7px;
 	    text-indent: 10px;
 	    color: #666;
 	    border: 1px solid #ccc;

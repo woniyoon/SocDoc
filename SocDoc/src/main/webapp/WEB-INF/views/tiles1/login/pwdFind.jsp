@@ -39,6 +39,11 @@
 		//border: solid 1px blue;
 	}
 	
+   	.textPrimary {
+   		margin-bottom: 5px;
+   		color: #454545; 
+   	}
+   	
    	/* -------------------------------- 탭(개인회원/병원회원) ---------------------------------- */
 	#tab {
 		display: flex;
@@ -54,7 +59,7 @@
    		background-color: white;
    		color: #ccc;
    		border-bottom: solid 1px #ccc;
-   		//border-bottom: solid 2px #58ACFA;
+   		//border-bottom: solid 2px #157bb9;
 	}
 	
  	/* 버튼 클릭 됐을 때 */
@@ -63,7 +68,7 @@
 	    padding: 15px 0;
     	font-size: 14pt;
     	font-weight: bold;
-    	background-color: #58ACFA;
+    	background-color: #157bb9;
     	color: #fff;	
     	border: solid 0px black;
 	} 
@@ -111,7 +116,7 @@
    	
    	input[type=button] {
     	color: #fff;
-    	background-color: #58ACFA;
+    	background-color: #157bb9;
 	    border: solid 0px #ccc;
     }
     
@@ -121,7 +126,7 @@
 	    font-size: 20px;
 	    font-weight: bold;
 	    color: #fff;
-	    background-color: #58ACFA;
+	    background-color: #157bb9;
 	    border: solid 1px #ccc;
 	}
     
@@ -623,9 +628,9 @@ $(document).ready(function(){
 				        <span class="error" id="useridError">아이디를 입력하세요.</span>
 				        
 				        <label for="email" style="display: block;">이메일</label>
-				        <input type="text" name="email" id="email" class="requiredInfo" placeholder="E-mail을 입력하세요" style="width: 70%; height:35px;" /> 
-				        <input type="button" id="btnChk" class="btnChk" value="인증" style="width: 28%; height:35px;"/>
-				        <input type="button" id="btnChkNext" class="btnChk" onclick="sendVerificationCode()" value="재인증" style="width: 28%; height: 35px;"/>
+				        <input type="text" name="email" id="email" class="requiredInfo" placeholder="E-mail을 입력하세요" style="width: 70%; height:35px; " /> 
+				        <input type="button" id="btnChk" class="btnChk" value="인증" style="width: 28%; height:35px; font-weight: bold;"/>
+				        <input type="button" id="btnChkNext" class="btnChk" onclick="sendVerificationCode()" value="재인증" style="width: 28%; height: 35px; font-weight: bold;"/>
 				        <span class="error" id="emailError">이메일 형식에 맞지 않습니다.</span>
 				
 				        <label for="code">인증번호</label>
@@ -657,8 +662,8 @@ $(document).ready(function(){
 				        				
 						<label for="email" style="display: block;">이메일</label>
 				        <input type="text" name="email" id="email" class="requiredInfo" placeholder="E-mail을 입력하세요" style="width: 70%; height:35px;" /> 
-				        <input type="button" id="btnChk" class="btnChk" value="인증" style="width: 28%; height:35px;"/>
-				        <input type="button" id="btnChkNext" class="btnChk" onclick="hpSendVerificationCode()" value="재인증" style="width: 28%; height: 35px;"/>
+				        <input type="button" id="btnChk" class="btnChk" value="인증" style="width: 28%; height:35px; font-weight: bold;"/>
+				        <input type="button" id="btnChkNext" class="btnChk" onclick="hpSendVerificationCode()" value="재인증" style="width: 28%; height: 35px; font-weight: bold;"/>
 				        <span class="error" id="emailError">이메일 형식에 맞지 않습니다.</span>
 						
 				        <label for="code">인증번호</label>
