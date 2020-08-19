@@ -9,7 +9,7 @@ import com.synergy.socdoc.member.PharmacyVO;
 public interface InterSearchMenuService {
 	
 	// 병원 - 지도
-	List<HpInfoVO> searchHospitalSelect();	
+	List<HpInfoVO> searchHospitalSelect(HashMap<String, String> paraMap);	
 	
 	int getTotalCountMapHp(HashMap<String, String> paraMap);
 

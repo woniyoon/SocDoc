@@ -5,9 +5,15 @@
 <mapper namespace="searchMenu">
 
 	<!-- 병원 지도  -->
-	<select id="searchHospitalSelect" resultType="com.synergy.socdoc.member.HpInfoVO">
+	<select id="searchHospitalSelect" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpInfoVO">
 		select hpseq, hpName, address, phone, latitude, longitude
 		from hospitalinfo
+		where 1=1
+	    and address like '%'|| #{city} ||'%'
+   		and address like '%'|| #{county} ||'%'
+   		and address like '%'|| #{district} ||'%'				
+   		and dept like '%'|| #{dept} ||'%'				
+   		and hpname like '%'|| #{searchWord} ||'%'
 		order by hpseq desc
 	</select>
 	

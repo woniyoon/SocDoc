@@ -473,3 +473,14 @@ select nvl2(s.open, s.day, null) as day, nvl(s.open, null) as open, nvl2(s.open,
 		from pharmacyinfo
 		where pharmSeq=4;
 
+
+select hpseq, hpName, address, phone, latitude, longitude
+		from hospitalinfo
+		where 1=1
+	    and address like '%'||'' ||'%'
+   		and address like '%'|| '' ||'%'
+   		and address like '%'|| ''||'%'				
+   		and dept like '%'|| '' ||'%'				
+   		and hpname like '%'|| '' ||'%'
+		order by hpseq desc;
+        

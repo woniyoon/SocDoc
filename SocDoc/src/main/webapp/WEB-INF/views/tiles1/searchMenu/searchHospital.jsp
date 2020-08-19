@@ -331,7 +331,7 @@
 				var longitude = position.coords.longitude; //경도	
 				var locPosition = new kakao.maps.LatLng(latitude, longitude);
 				printMap(locPosition,mapobj);
-				goSearch(mCurrentPage, latitude,longitude);
+				goSearch(mCurrentPage, latitude,longitude,mapobj);
 
 			});
 		}
@@ -339,7 +339,7 @@
 
 			var locPosition = new kakao.maps.LatLng(latitude, longitude);
 			printMap(locPosition,mapobj);
-			goSearch(mCurrentPage, latitude,longitude);
+			goSearch(mCurrentPage, latitude,longitude,mapobj);
 
 		} 
 		
@@ -364,7 +364,7 @@
 			
 			markerHere.setPosition(locPosition);
 			mapobj.panTo(locPosition);
-			goSearch(mCurrentPage,latitude,longitude);
+			goSearch(mCurrentPage,latitude,longitude,mapobj);
 			
 		});
 		
@@ -377,7 +377,7 @@
 			$('#contentMapTab').addClass('current');
 			
 			printMap(locPosition,mapobj);
-			goSearch(mCurrentPage,latitude,longitude);
+			goSearch(mCurrentPage,latitude,longitude,mapobj);
  	   	})
  	   	
  	   	
@@ -394,7 +394,7 @@
  	   	});
 	    
 	    
-	    $(document).on("click","#mHospitalName",function(){
+/* 	    $(document).on("click","#mHospitalName",function(){
 	    	
 	    	var latitude= $(this).siblings(".mlatitude").val();
 		    var longitude= $(this).siblings(".mlongitude").val();
@@ -403,7 +403,7 @@
 			mapobj.panTo(locPosition); 
 			
  	   	});
- 	   	
+ 	   	 */
 		
 	})
 	
@@ -420,6 +420,8 @@
 		$.ajax({ 
 			url: "/socdoc/mapHospital.sd",
 			async: false, //지도 비동기
+			data:{"city":$('#cityG').val(),"county":$('#countyG').val(),"district":$('#districtG').val()
+				,"dept":$('#deptG').val(),"searchWord":$('#searchWordG').val()},
 			dataType: "JSON",
 			success: function(json){ 
 				
@@ -510,22 +512,30 @@
  	    	overlay.setMap(null);
  	   })
  	   
- 	   /* 
- 	   $(document).on("click",".mHospitalName",function(){
- 		   
- 		 	 $.each(overlay, function(index, item){
-				console.log(overlay.get($(".title").attr("value")));
-			}) 
- 		   
- 	   })
  	   
- 	    */
+ 	   $(document).on("click","#mHospitalName",function(){
+	    	
+	    	var latitude= $(this).siblings(".mlatitude").val();
+		    var longitude= $(this).siblings(".mlongitude").val();
+			var locPosition = new kakao.maps.LatLng(latitude, longitude);
+			
+			mapobj.panTo(locPosition); 
+				
+			if(latitude = overlay.getPosition().Ga){
+/* 				console.log('음~ : '+overlay.getPosition().Ga);
+ */			}				
+
+			
+			
+	   });
+ 	   
+ 	   
 	} 
 	
 	
 	
 	// 검색
-	function goSearch(mCurrentPage,latitude,longitude){
+	function goSearch(mCurrentPage,latitude,longitude,mapobj){
 		 
 		 var content = "";
 		 var pagebarM="";
@@ -564,6 +574,7 @@
 								latitude0 = item.latitude;
 								longitude0 = item.longitude;
 								locPosition0 = new kakao.maps.LatLng(latitude, longitude);
+								console.log(locPosition0);
 	
 							}
 			      			

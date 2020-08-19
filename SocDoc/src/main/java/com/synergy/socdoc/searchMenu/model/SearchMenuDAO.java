@@ -31,8 +31,8 @@ public class SearchMenuDAO implements InterSearchMenuDAO {
 	
 	//병원 - 지도
 	@Override
-	public List<HpInfoVO> searchHospitalSelect() {
-		List<HpInfoVO> hpMap = sqlsession.selectList("searchMenu.searchHospitalSelect");
+	public List<HpInfoVO> searchHospitalSelect(HashMap<String, String> paraMap) {
+		List<HpInfoVO> hpMap = sqlsession.selectList("searchMenu.searchHospitalSelect",paraMap);
 		return hpMap;
 	}
 	

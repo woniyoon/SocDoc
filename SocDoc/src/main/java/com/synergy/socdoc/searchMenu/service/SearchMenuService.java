@@ -19,8 +19,8 @@ public class SearchMenuService implements InterSearchMenuService {
 	
 	// 병원 - 지도
 	@Override
-	public List<HpInfoVO> searchHospitalSelect() {
-		List<HpInfoVO> hpMap = dao.searchHospitalSelect();
+	public List<HpInfoVO> searchHospitalSelect(HashMap<String, String> paraMap) {
+		List<HpInfoVO> hpMap = dao.searchHospitalSelect(paraMap);
 		return hpMap;
 	}
 	

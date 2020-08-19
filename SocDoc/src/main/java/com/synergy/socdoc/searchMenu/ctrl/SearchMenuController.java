@@ -46,7 +46,39 @@ public class SearchMenuController {
 
 		List<HpInfoVO> hpMap = null;
 		
-		hpMap = service.searchHospitalSelect();
+		String city = request.getParameter("city");
+		String county = request.getParameter("county");
+		String district = request.getParameter("district");
+		String dept = request.getParameter("dept");
+		String searchWord = request.getParameter("searchWord");
+		
+		if(city==null) {
+			city="";
+		}
+		if(county==null) {
+			county="";
+		}
+		if(district==null) {
+			district="";
+		}
+		if(dept==null) {
+			dept="";
+		}
+		if(searchWord==null) {
+			searchWord="";
+		}
+		
+		System.out.println("dlkfjadfkj : "+city);
+		
+		HashMap<String, String> paraMap = new HashMap<>();
+		paraMap.put("city", city);
+		paraMap.put("county", county);
+		paraMap.put("district", district);
+		paraMap.put("dept", dept);
+		paraMap.put("searchWord", searchWord);
+		
+		
+		hpMap = service.searchHospitalSelect(paraMap);
 		
 		JSONArray jsonArr = new JSONArray(); 
 		
