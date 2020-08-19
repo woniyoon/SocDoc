@@ -138,24 +138,26 @@ tr.tr{
 //예약 확정하기
 function goCancel(){
    
-   alert("예약취소하시겠습니까?");
-   location.href="<%= ctxPath%>/reserve.sd";
+/*    alert("예약취소하시겠습니까?");
+   func_cancel() */
 	
-   }
+   
+   var con = confirm("예약취소하시겠습니까?");
+	
+	if(con == true) {
+		
+		 frm.method = "GET";
+		 frm.action = "<%= ctxPath%>/cancel.sd";
+		 frm.submit();
+	}
+	else if(con == false){ 
+		location.href="history.back()";
+	}
+	
+}
 //} end of 예약확정하기 끝 
 
 
-//아임포트 API 
-// 진료비 결제하기 
-function func_cancel(){		
-	
-	//	var frm = document.searchFrm;
-	 
-	 frm.method = "GET";
-	 frm.action = "<%= ctxPath%>/cancel.sd";
-	 frm.submit();
-
-}// end of function func_pop()
 </script>
 
 <div id="reservation_container">
