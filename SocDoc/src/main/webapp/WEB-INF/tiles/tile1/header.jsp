@@ -249,34 +249,34 @@
       <div class="subnav">
         <button class="subnavbtn">찾기</button>
         <div class="subnav-content">
-          <a href="<%=ctxPath%>/searchHospital.sd"><img src="<%= ctxPath%>/resources/images/hospital.png"/>병원찾기</a>
-          <a href="<%=ctxPath%>/searchPharmacy.sd"><img src="<%= ctxPath%>/resources/images/pharmacy.png"/>약국찾기</a>
-          <a href="<%=ctxPath%>/searchAmbulance.sd"><img src="<%= ctxPath%>/resources/images/ambulance.png"/>민간구급차찾기</a>
+          <a align="center" href="<%=ctxPath%>/searchHospital.sd"><img src="<%= ctxPath%>/resources/images/hospital.png"/><br><span>병원찾기</span></a>
+          <a align="center" href="<%=ctxPath%>/searchPharmacy.sd"><img src="<%= ctxPath%>/resources/images/pharmacy.png"/><br><span>약국찾기</span></a>
+          <a align="center" href="<%=ctxPath%>/searchAmbulance.sd"><img src="<%= ctxPath%>/resources/images/ambulance.png"/><br><span>민간구급차찾기</span></a>
         </div>
       </div> 
 
       <div class="subnav">
         <button class="subnavbtn">예약</button>
         <div class="subnav-content">
-          <a href="<%=ctxPath%>/reserve.sd"><img src="<%= ctxPath%>/resources/images/reservation.png"/>병원예약</a>
+          <a align="center" href="<%=ctxPath%>/reserve.sd"><img src="<%= ctxPath%>/resources/images/reservation.png"/><br><span>병원예약</span></a>
         </div>
       </div> 
 
       <div class="subnav">
         <button class="subnavbtn">후기</button>
         <div class="subnav-content">
-          <a href="<%=ctxPath%>/reviewMenu.sd"><img src="<%= ctxPath%>/resources/images/review.png"/>병원후기</a>
-          <a href="<%=ctxPath%>/reviewMenu.sd"><img src="<%= ctxPath%>/resources/images/review2.png"/>약국후기</a>
+          <a align="center" href="<%=ctxPath%>/reviewMenu.sd"><img src="<%= ctxPath%>/resources/images/review.png"/><br><span>병원후기</span></a>
+          <a align="center" href="<%=ctxPath%>/reviewMenu.sd"><img src="<%= ctxPath%>/resources/images/review2.png"/><br><span>약국후기</span></a>
         </div>
       </div> 
 
       <div class="subnav">
         <button class="subnavbtn">알림·소식</button>
         <div class="subnav-content">
-          <a href="<%=ctxPath%>/noticeList.sd"><img src="<%= ctxPath%>/resources/images/notice.png"/>공지사항</a>
+          <a align="center" href="<%=ctxPath%>/noticeList.sd"><img src="<%= ctxPath%>/resources/images/notice.png"/><br><span>공지사항</span></a>
  <!--          <a href="<%=ctxPath%>/noticeList.sd"><img src="<%= ctxPath%>/resources/images/health.png"/>건강정보</a> -->
-          <a href="javascript:goInfoList()"><img src="<%= ctxPath%>/resources/images/health.png"/>건강정보</a>
-          <a href="#"><img src="<%= ctxPath%>/resources/images/question.png"/>Q&A</a>
+          <a align="center" href="javascript:goInfoList()"><img src="<%= ctxPath%>/resources/images/health.png"/><br><span>건강정보</span></a>
+          <a align="center" href="#"><img src="<%= ctxPath%>/resources/images/question.png"/><br><span>Q&A</span></a>
         </div>
       </div>
     </div>
