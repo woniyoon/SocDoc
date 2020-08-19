@@ -504,7 +504,7 @@
 					</thead>
 					
 					<tbody>
-					<c:forEach var="reviewList" items="${reviewList}" varStatus="status" end="3">
+					<c:forEach var="reviewList" items="${reviewList}" varStatus="status" begin="1" end="3">
 						<tr>
 							<td id="hospitalName" class="noticeTitle" style="padding: 10px 0; font-size: 8pt;">${reviewList.name}</td>
 							<td style="padding: 10px 0; font-size: 8pt;">
