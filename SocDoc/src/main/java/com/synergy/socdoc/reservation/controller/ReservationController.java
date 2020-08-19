@@ -325,7 +325,7 @@ public class ReservationController {
           return "Reservation/reservation_result.tiles1";
       }
       
-   // 결제 취소페이지 요청 
+   // 예약 취소 페이지 요청 
       @RequestMapping(value="/cancel.sd")
       public String cancel() {
          return "Reservation/reservation_cancel.tiles1";
