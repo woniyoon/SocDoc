@@ -25,6 +25,7 @@
 	.faqTbl{
 		width:100%;	
 		margin: 30px 0;	
+		border-collapse: collapse;
 	}	
 	
 	td{

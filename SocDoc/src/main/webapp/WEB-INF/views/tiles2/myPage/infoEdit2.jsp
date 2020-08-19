@@ -688,7 +688,7 @@ else if(loginuser != null && (gobackURL == null || gobackURL == "")) {
 					        <option>018</option>
 					        <option>019</option>
 					    </select> - <input class="form-control-tel" id="hp2" name="hp2" type="text" maxlength="4" /> - <input class="form-control-tel" id="hp3" name="hp3" type="text" maxlength="4" value=""/> -->
-						<input style="width: 160px; height: 28px; padding-left: 5px;" class="form-control-tel" id="phone" name="phone" type="text" value="${loginuser.phone}" /> 
+						<input style="width: 120px; height: 28px; padding-left: 5px;" class="form-control-tel" id="phone" name="phone" type="text" value="${loginuser.phone}" /> 
 					</td>
 			    </tr>
 			    <tr>

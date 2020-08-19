@@ -275,8 +275,6 @@
         <button class="subnavbtn">알림·소식</button>
         <div class="subnav-content">
           <a href="<%=ctxPath%>/noticeList.sd"><img src="<%= ctxPath%>/resources/images/notice.png"/>공지사항</a>
-          <a href="<%=ctxPath%>/noticeList.sd"><img src="<%= ctxPath%>/resources/images/health.png"/>건강정보</a>
-          <a href="<%=ctxPath%>/faq.sd"><img src="<%= ctxPath%>/resources/images/question.png"/>Q&A</a>
  <!--          <a href="<%=ctxPath%>/noticeList.sd"><img src="<%= ctxPath%>/resources/images/health.png"/>건강정보</a> -->
           <a href="javascript:goInfoList()"><img src="<%= ctxPath%>/resources/images/health.png"/>건강정보</a>
           <a href="#"><img src="<%= ctxPath%>/resources/images/question.png"/>Q&A</a>
