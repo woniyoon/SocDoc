@@ -1,5 +1,6 @@
 package com.synergy.socdoc.api;
 
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -26,6 +27,7 @@ public class ApiController {
 		return result;
 	}
 
+
 	@ResponseBody
 	@RequestMapping(value = "/api/corona.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	public String getCoronaStats(HttpServletRequest request) {
@@ -47,4 +49,5 @@ public class ApiController {
 		
 		return result;
 	}
+
 }
