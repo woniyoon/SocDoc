@@ -1,6 +1,8 @@
 package com.synergy.aop;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,13 +11,17 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.synergy.socdoc.admin.InterAdminService;
 import com.synergy.socdoc.common.MyUtil;
+import com.synergy.socdoc.member.HpInfoVO;
+import com.synergy.socdoc.member.HpMemberVO;
 import com.synergy.socdoc.hpMem.InterHpMemService;
 import com.synergy.socdoc.member.*;
 
@@ -25,6 +31,9 @@ public class SocdocAOP {
 
 	@Autowired
 	InterHpMemService service;
+
+	@Autowired
+	InterAdminService adminService;
 
 	@Pointcut("execution(public * com.synergy..*Controller.requiredLogin_*(..) )")
 	public void requiredLogin() {
@@ -139,32 +148,82 @@ public class SocdocAOP {
 	}
 	
 	
+	   
+	@Pointcut("execution(public * com.synergy..*Controller.confirmUpdate_*(..) )")
+	public void confirmUpdate() {}
+		
+	@SuppressWarnings("unchecked")  // 앞으로는 노란줄 경고 표시 하지 않겠다는 뜻
+	@After("confirmUpdate()")
+		public void updateInfo(JoinPoint joinPoint) {
+			// JoinPoint joinPoint는 포인트컷 되어진 주업무의 메소드이다.
+			
+			HttpServletRequest request = (HttpServletRequest) joinPoint.getArgs()[0]; 
+			String submitIDs = request.getParameter("infoJoin");
+			String[] sArr = submitIDs.split(",");
+
+			int count = 0;
+			for(int i=0; i<sArr.length; i++) {
+				HpInfoVO hvo = adminService.getHpApplication(sArr[i]);
+				
+				System.out.println(hvo.getHpName());
+				System.out.println(hvo.getHpSeq());
+				System.out.println(hvo.getDept());
+				int n = adminService.updateHpApplication(hvo);
+				count += n;
+			}
+			
+			if(count != sArr.length) {
+				System.out.println("에러 ㅎㅎ..;;;");
+			} else {
+				System.out.println("성공적인듯 ㅎㅎㅎㅎ;;;");
+				
+			}
+		}
+	   
+	
 	@Pointcut("execution(public * com.synergy..*Controller.*_updateSchedule(..) )")
 	public void updateSchedule() {
 	}
 	
-	@Before("updateSchedule()")
-	public void updateHpSchedule(JoinPoint joinPoint) {
-		
-		HttpServletRequest request = (HttpServletRequest) joinPoint.getArgs()[0];
-		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
-		String hpSeq = String.valueOf(hpMember.getHpSeq());
-		
-		String submitIds = request.getParameter("infoJoin");
+	   //_confirmUpdate
+		@After("updateSchedule()")
+		public void updateHpSchedule(JoinPoint joinPoint) {
 			
-								// 콤마로 split, 공백으로 split? 
-		String[] submitIdArr = submitIds.split(" ");
-		
-		for(int i=0; i<submitIdArr.length; i++) {
+			HttpServletRequest request = (HttpServletRequest) joinPoint.getArgs()[0];
 			
-			// submitId 통해서 스케줄 가져옴
-			// List<HashMap<String, String>> scheduleList = service.getAllScheduleEdit(submitIdArr[i]);
+			String hpSeq = request.getParameter("hpSeq");
+			String submitIds = request.getParameter("infoJoin");
+				
+			String[] submitIdArr = submitIds.split(",");
+			
+			HashMap<String, String> paraMap = new HashMap<String, String>();
+			
+			int result = 0;
+			for(int i=0; i<submitIdArr.length; i++) {
+				
+				paraMap.put("submitId", submitIdArr[i]);
+				// submitId 통해서 스케줄 가져옴
+				List<HashMap<String, String>> scheduleList = adminService.getAllScheduleEdit(paraMap);
 
-			// 가져온 스케줄을 Schedule에 업데이트
-			// service.updateHpSchedule(scheduleList);
+				System.out.println(scheduleList.size());
+				System.out.println(scheduleList.get(i).get("hpSeq"));
+				System.out.println(scheduleList.get(i).get("day"));
+
+				System.out.println(scheduleList.get(i).get("open"));
+				System.out.println(scheduleList.get(i).get("close"));
+
+				// 가져온 스케줄을 Schedule에 업데이트
+				result += adminService.updateHpSchedule(scheduleList);
+			}
+			
+			if (result == (submitIdArr.length * 6)) {
+				System.out.println("성공적인듯 ㅎㅎㅎㅎ;;;");
+			} else {
+				System.out.println("안 성공적 ㅠ ㅎㅎㅎㅎ;;;");
+
+			}
+			
+			
 		}
-		
-		
-	}
-	
+
 }
