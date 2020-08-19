@@ -651,6 +651,11 @@ $(document).ready(function() {
 	}// end of function selecthospital(name, dept, hpSeq) ----- 
    
 
+	function goLogin(){
+		
+		<%	session.setAttribute("gobackURL", "reserve.sd");  %>
+		location.href= "<%=ctxPath%>/login.sd";
+	}
 </script>
 
 <!-- 전체박스 -->
@@ -726,9 +731,8 @@ $(document).ready(function() {
 					회원정보가 없습니다. <br />속닥속닥을 더 안전하고 편리하게 이용해주세요.
 
 				</li>
-				<li><a href="<%=ctxPath%>/login.sd"
-					style="border: solid 1px black; padding: 20px; margin-top: 50px;">
-						SOCDOC 로그인 </a></li>
+<%-- 				<li><a href="<%=ctxPath%>/login.sd" style="border: solid 1px black; padding: 20px; margin-top: 50px;">SOCDOC 로그인 </a></li> --%>
+				<li><a href="javascript:goLogin()" style="border: solid 1px black; padding: 20px; margin-top: 50px;">SOCDOC 로그인 </a></li>
 
 			</ul>
 		</c:if>

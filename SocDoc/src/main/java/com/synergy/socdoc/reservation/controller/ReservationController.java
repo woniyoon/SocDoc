@@ -251,13 +251,13 @@ public class ReservationController {
 
       // 결제 페이지 요청
       @RequestMapping(value="/Reservation/pay.sd")
-      public String pay(HttpServletRequest request, HttpServletResponse response) {
+      public String requiredLogin_pay(HttpServletRequest request, HttpServletResponse response) {
          return "pay";
       }
       
       // 예약완료 페이지 요청
       @RequestMapping(value="/Reservation/reservation_result.sd")
-      public String reservation_result(HttpServletRequest request, HttpServletResponse response) {
+      public String requiredLogin_reservation_result(HttpServletRequest request, HttpServletResponse response) {
     	  /*
           <input type="hidden" name="hpSeq" id="hpSeq" value="">
           <input type="hidden" name="visitDate" id="visitDate" value="">
