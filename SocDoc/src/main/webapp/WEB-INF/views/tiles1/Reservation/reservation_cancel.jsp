@@ -131,6 +131,9 @@ tr.tr{
    #infoChange {
       width: 69%;
    }
+   #button{
+	text-align: right;
+}
 </style>
 
 
@@ -143,9 +146,11 @@ tr.tr{
 	<div class="result_title">
 		<img alt="" src="<%= ctxPath%>/resources/images/check.png" width="50px" height="50px">
 		<br/>
-	<h3>진료예약 취소되었습니다. </h3>
+	<h3>진료예약 취소되었습니다.</h3>
 	</div>
-
+<div id="button">
+			<a class="btncheck" onclick="javascript:location.href='<%= request.getContextPath()%>/index.sd'">홈으로 바로가기</a>
+	</div>
 
 	</div>
 	

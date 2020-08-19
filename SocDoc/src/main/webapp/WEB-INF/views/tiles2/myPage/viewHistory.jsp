@@ -308,7 +308,6 @@
 			<table style="margin-top: 30px;">
 				<thead>
 					 <tr>
-					 	<th><input type="checkbox" /></th>
 					 	<th>번호</th>
 					 	<th id="hpname">병원이름</th>
 					 	<th>진료과목</th>
@@ -320,7 +319,6 @@
 				<c:forEach var="historyList" items="${historyList}" varStatus="status">
 				<tbody>
 					<tr>
-						<td><input type="checkbox" /></td>
 						<td>${status.count}</td>
 					    <td class="notice_seq">${historyList.hpName}</td>
 						<td class="">${historyList.dept}</td>
