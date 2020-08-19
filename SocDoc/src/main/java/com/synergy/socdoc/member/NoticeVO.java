@@ -96,5 +96,4 @@ public class NoticeVO {
 		this.nextsubject = nextsubject;
 	}
 	
-	
 }

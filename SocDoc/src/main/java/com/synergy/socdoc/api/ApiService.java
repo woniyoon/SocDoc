@@ -13,5 +13,13 @@ public class ApiService implements InterApiService {
 	public String getCovidStats() {
 		return dao.getCovidStats();
 	}
+	
+	@Override
+	public String getCoronaStats(String startCreateDt, String endCreateDt) {
+		return dao.getCoronaStats(startCreateDt, endCreateDt);
+	}
+	
+
+	
 
 }

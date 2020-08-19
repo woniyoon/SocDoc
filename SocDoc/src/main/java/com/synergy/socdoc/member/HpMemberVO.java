@@ -103,5 +103,4 @@ public class HpMemberVO {
 		this.infoStatus = infoStatus;
 	}
 	
-	
 }

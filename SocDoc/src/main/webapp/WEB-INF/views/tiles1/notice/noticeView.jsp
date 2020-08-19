@@ -67,7 +67,7 @@
        	font-size: 14px;
        	font-weight: bold;
       	line-height: 45px;
-       	background: #666666;
+       	background: #157bb9;
       	border-radius: 3px;
       	cursor: pointer;
    	}   
@@ -215,7 +215,7 @@
                 </tr>
                 <tr>
                     <th class="pre_post th">다음글</th>
-                    <td class="pre_post preNotice titlePointer" style="border-bottom: solid 1px #ccc;" onclick="goPreNotice(this);" >${noticevo.nextsubject}</td>
+                    <td class="pre_post preNotice titlePointer" style="border-bottom: solid 0px #ccc;" onclick="goPreNotice(this);" >${noticevo.nextsubject}</td>
                 </tr>
             </table>
    		</div>
