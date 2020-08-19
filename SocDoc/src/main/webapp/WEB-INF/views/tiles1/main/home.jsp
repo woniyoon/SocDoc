@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 
 <%
-	String ctxPath = request.getContextPath();
+   String ctxPath = request.getContextPath();
 %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -114,8 +114,8 @@
        }
        
        span.noticeTitle:hover {
-			cursor: pointer;
-		}
+         cursor: pointer;
+      }
        
        table {
            width: 100%;
@@ -283,53 +283,53 @@
            border: solid 1px #ddd;
        }
        
-	.highcharts-figure, .highcharts-data-table table {
-	    min-width: 320px; 
-	    max-width: 800px;
-	    margin: 1em auto;
-	}
-	
-	.highcharts-data-table table {
-		font-family: Verdana, sans-serif;
-		border-collapse: collapse;
-		border: 1px solid #EBEBEB;
-		margin: 10px auto;
-		text-align: center;
-		width: 100%;
-		max-width: 500px;
-	}
-	.highcharts-data-table caption {
-	    padding: 1em 0;
-	    font-size: 1.2em;
-	    color: #555;
-	}
-	.highcharts-data-table th {
-		font-weight: 600;
-	    padding: 0.5em;
-	}
-	.highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
-	    padding: 0.5em;
-	}
-	.highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
-	    background: #f8f8f8;
-	}
-	.highcharts-data-table tr:hover {
-	    background: #f1f7ff;
-	}
-	
-	.ld-label {
-		width:200px;
-		display: inline-block;
-	}
-	
-	.ld-url-input {
-		width: 500px; 
-	}
-	
-	.ld-time-input {
-		width: 40px;
-	}
-			
+   .highcharts-figure, .highcharts-data-table table {
+       min-width: 320px; 
+       max-width: 800px;
+       margin: 1em auto;
+   }
+   
+   .highcharts-data-table table {
+      font-family: Verdana, sans-serif;
+      border-collapse: collapse;
+      border: 1px solid #EBEBEB;
+      margin: 10px auto;
+      text-align: center;
+      width: 100%;
+      max-width: 500px;
+   }
+   .highcharts-data-table caption {
+       padding: 1em 0;
+       font-size: 1.2em;
+       color: #555;
+   }
+   .highcharts-data-table th {
+      font-weight: 600;
+       padding: 0.5em;
+   }
+   .highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+       padding: 0.5em;
+   }
+   .highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+       background: #f8f8f8;
+   }
+   .highcharts-data-table tr:hover {
+       background: #f1f7ff;
+   }
+   
+   .ld-label {
+      width:200px;
+      display: inline-block;
+   }
+   
+   .ld-url-input {
+      width: 500px; 
+   }
+   
+   .ld-time-input {
+      width: 40px;
+   }
+         
        
 </style>
 
@@ -341,44 +341,44 @@
             
             <div class="mapSelect">
                 <select id="cityM" name="cityM" class="select" style="width: 120px;">
-                			<option value="" disabled selected hidden>시도</option>
-							<option value='서울'>서울</option>
-							<option value='부산'>부산</option>
-							<option value='대구'>대구</option>
-							<option value='인천'>인천</option>
-							<option value='광주'>광주</option>
-							<option value='대전'>대전</option>
-							<option value='울산'>울산</option>
-							<option value='강원'>강원</option>
-							<option value='경기'>경기</option>
-							<option value='경남'>경남</option>
-							<option value='경북'>경북</option>
-							<option value='전남'>전남</option>
-							<option value='전북'>전북</option>
-							<option value='제주'>제주</option>
-							<option value='충남'>충남</option>
-							<option value='충북'>충북</option>				                                           
+                         <option value="" disabled selected hidden>시도</option>
+                     <option value='서울'>서울</option>
+                     <option value='부산'>부산</option>
+                     <option value='대구'>대구</option>
+                     <option value='인천'>인천</option>
+                     <option value='광주'>광주</option>
+                     <option value='대전'>대전</option>
+                     <option value='울산'>울산</option>
+                     <option value='강원'>강원</option>
+                     <option value='경기'>경기</option>
+                     <option value='경남'>경남</option>
+                     <option value='경북'>경북</option>
+                     <option value='전남'>전남</option>
+                     <option value='전북'>전북</option>
+                     <option value='제주'>제주</option>
+                     <option value='충남'>충남</option>
+                     <option value='충북'>충북</option>                                                       
                 </select>
                 
                 <br/>
                 
                 <select style="width: 80px;" id="countyM" name="countyM" class="select" >
-                	<option>구군</option>
+                   <option>구군</option>
                 </select>
                 <select style="width: 80px;" id="districtM" name="districtM" class="select">
-                	<option>동</option>
+                   <option>동</option>
                 </select><br/>
                 <select style="width: 80px;" id="deptM" name="deptM" class="select">
-                			<option value="" disabled selected hidden>진료과목</option> 
-				            <option value="내과">내과</option> 
-				            <option value="이비인후과">이비인후과</option>
-				            <option value="정형외과">정형외과</option>
-				            <option value="안과">안과</option>
-				            <option value="치과">치과</option> 
-				            <option value="외과">외과</option> 
-				            <option value="성형외과">성형외과</option>   
-				            <option value="정신건강의학과">정신건강의학과</option>
-				            <option value="피부과">피부과</option>         
+                         <option value="" disabled selected hidden>진료과목</option> 
+                        <option value="내과">내과</option> 
+                        <option value="이비인후과">이비인후과</option>
+                        <option value="정형외과">정형외과</option>
+                        <option value="안과">안과</option>
+                        <option value="치과">치과</option> 
+                        <option value="외과">외과</option> 
+                        <option value="성형외과">성형외과</option>   
+                        <option value="정신건강의학과">정신건강의학과</option>
+                        <option value="피부과">피부과</option>         
                 </select>
                 <br/>
                 
@@ -404,20 +404,20 @@
                     <tr>
                         <td>${noticevo.noticeSeq}</td>
                         <td>
-                        	<c:if test="${sessionScope.loginuser.userid == 'admin'}">
-	                        	<span class="noticeTitle" onclick="javascript:location.href='<%=ctxPath%>/adminNoticeView.sd?noticeSeq=${noticevo.noticeSeq}'">${noticevo.subject}</span>
-	                        </c:if>	
-	                        <c:if test="${sessionScope.loginuser.userid != 'admin' || sessionScope.loginuser != null}">
-	                        	<span class="noticeTitle"><a href="<%=ctxPath%>/noticeView.sd?noticeSeq=${noticevo.noticeSeq}">${noticevo.subject}</a></span>
-	                        </c:if>
+                           <c:if test="${sessionScope.loginuser.userid == 'admin'}">
+                              <span class="noticeTitle" onclick="javascript:location.href='<%=ctxPath%>/adminNoticeView.sd?noticeSeq=${noticevo.noticeSeq}'">${noticevo.subject}</span>
+                           </c:if>   
+                           <c:if test="${sessionScope.loginuser.userid != 'admin' || sessionScope.loginuser != null}">
+                              <span class="noticeTitle"><a href="<%=ctxPath%>/noticeView.sd?noticeSeq=${noticevo.noticeSeq}">${noticevo.subject}</a></span>
+                           </c:if>
                         </td>
                         <td>${noticevo.regDate}</td>
                     </tr>
-					</c:forEach>
-					
+               </c:forEach>
+               
                 </table>
             </div>
-        	
+           
         </div>
     
         <div class="swiper-container">
@@ -437,7 +437,6 @@
 	                </div>
 	            </c:forEach>    
 	        </div>
-	        
             <!-- 네비게이션 -->
             <div class="swiper-button-next"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
             <div class="swiper-button-prev"></div><!-- 이전 버튼 -->
@@ -448,9 +447,9 @@
         </div>
      
         <form name="goViewFrm">
-    		<input type="hidden" name="noticeSeq" />
-    	</form>
-    	
+          <input type="hidden" name="noticeSeq" />
+       </form>
+       
         <br>
        
         <div id="chart"></div>
@@ -458,36 +457,36 @@
 
 <script>
 $(document).ready(function(){
-	
-	coronaList();	
-	
-	$("#btnSearch").click(function(){
-		goSearch();
-	});
-	
+   
+   coronaList();   
+   
+   $("#btnSearch").click(function(){
+      goSearch();
+   });
+   
 });
 
 
 new Swiper('.swiper-container', {
 
-	slidesPerView : 3, // 동시에 보여줄 슬라이드 갯수
-	spaceBetween : 30, // 슬라이드간 간격
-	slidesPerGroup : 3, // 그룹으로 묶을 수
+   slidesPerView : 3, // 동시에 보여줄 슬라이드 갯수
+   spaceBetween : 30, // 슬라이드간 간격
+   slidesPerGroup : 3, // 그룹으로 묶을 수
 
-	// 그룹수가 맞지 않을 경우 빈칸으로 메우기
-	// 3개가 나와야 되는데 1개만 있다면 2개는 빈칸으로 채워서 3개를 만듬
-	loopFillGroupWithBlank : true,
+   // 그룹수가 맞지 않을 경우 빈칸으로 메우기
+   // 3개가 나와야 되는데 1개만 있다면 2개는 빈칸으로 채워서 3개를 만듬
+   loopFillGroupWithBlank : true,
 
-	loop : true, // 무한 반복
+   loop : true, // 무한 반복
 
-	pagination : { // 페이징
-		el : '.swiper-pagination',
-		clickable : true, // 페이징을 클릭하면 해당 영역으로 이동, 필요시 지정해 줘야 기능 작동
-	},
-	navigation : { // 네비게이션
-		nextEl : '.swiper-button-next', // 다음 버튼 클래스명
-		prevEl : '.swiper-button-prev', // 이번 버튼 클래스명
-	},
+   pagination : { // 페이징
+      el : '.swiper-pagination',
+      clickable : true, // 페이징을 클릭하면 해당 영역으로 이동, 필요시 지정해 줘야 기능 작동
+   },
+   navigation : { // 네비게이션
+      nextEl : '.swiper-button-next', // 다음 버튼 클래스명
+      prevEl : '.swiper-button-prev', // 이번 버튼 클래스명
+   },
 });
     
 /* Demo purposes only */
@@ -499,179 +498,179 @@ $(".hover").mouseleave(
 
 
 function goView(noticeSeq) {
-	var frm = document.goViewFrm;
-	frm.noticeSeq.value = noticeSeq; 
-	
-	frm.method = "GET";
-	frm.action = "<%=ctxPath%>/adminNoticeView.sd";
-	frm.submit();
+   var frm = document.goViewFrm;
+   frm.noticeSeq.value = noticeSeq; 
+   
+   frm.method = "GET";
+   frm.action = "<%=ctxPath%>/adminNoticeView.sd";
+   frm.submit();
 }
 
 /* 
 function cat1_change(countyM) {
-	
-	var city = $("select[name=cityM]").val();
-	var dept = $("select[name=deptM]").val();
-	
-	$.ajax({
-		url: "/socdoc/mapHospital.sd",
-		async: false, //지도 비동기
-		data: {city:dept},
-		success: function(data){ 
-			
-			console.log(data);
-			
-		},
-		error: function(request, status, error){
-		alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-		}
-	});
-	
+   
+   var city = $("select[name=cityM]").val();
+   var dept = $("select[name=deptM]").val();
+   
+   $.ajax({
+      url: "/socdoc/mapHospital.sd",
+      async: false, //지도 비동기
+      data: {city:dept},
+      success: function(data){ 
+         
+         console.log(data);
+         
+      },
+      error: function(request, status, error){
+      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+      }
+   });
+   
 }
 */
  
  
 //병원 검색
 function goSearch(){
-	
-	alert("검색버튼클릭");
-	
-	var tb = document.getElementById("cityM");
-	var tbIndex = document.getElementById("deptM").options.selectedIndex;
-	
-	console.log(tb.options[tbIndex].value);
+   
+   alert("검색버튼클릭");
+   
+   var tb = document.getElementById("cityM");
+   var tbIndex = document.getElementById("deptM").options.selectedIndex;
+   
+   console.log(tb.options[tbIndex].value);
 }
-	
-	
-	 /* 
-	 var content = "";
-	 var latitude0="";
-	 var longitude0="";
-	 var locPosition0="";
-	 
-	 $.ajax({ 
-			url: "/socdoc/mapHospitalList.sd",
-			data:{"city":$('#cityM').val(),"county":$('#countyM').val(),"district":$('#districtM').val()
-				,"dept":$('#deptM').val()
-				,"searchWord":$('#searchWordM').val(),"currentPage":mCurrentPage,"totalPage":mTotalPage
-				,"latitudeHere":latitude,"longitudeHere":longitude},				
-			dataType: "JSON",
-			success: function(json){ 
-				
-				$.each(json, function(index, item){ 					
-					
-					content += "<tr><td>"
-			      			+		"<div id='mHospitalName' class='mHospitalName'>"+item.hpName+"</div>"
-			      			+		"<input type='hidden' class='mlatitude' value='"+item.latitude+"'>"
-			      			+		"<input type='hidden' class='mlongitude' value='"+item.longitude+"'>"
-			      			+		"<div class='mList' id='mHospitaldept'>"+item.hpDept+"<span>&nbsp;&nbsp;"+item.distance+"</span></div>"
-			      			+		"<div class='mList' id='mHospitalTel'>Tel. "+item.phone+"</div>"
-			      			+		"<div class='mList' id='mHospitalAddress'>"+item.address+"</div>"
-			      			+	"</td><tr>";
-			      			
-	      			if(index  == 0) {
-						pagebarM = item.pageBarM;
-						latitude0 = item.latitude;
-						longitude0 = item.longitude;
-						locPosition0 = new kakao.maps.LatLng(latitude, longitude);
-					}
-	      			
-				});	
-				
-				$(".mabListTable").html(content);
-				
-			},
-			error: function(request, status, error){
-				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-		    }
-	 });
-	 
+   
+   
+    /* 
+    var content = "";
+    var latitude0="";
+    var longitude0="";
+    var locPosition0="";
+    
+    $.ajax({ 
+         url: "/socdoc/mapHospitalList.sd",
+         data:{"city":$('#cityM').val(),"county":$('#countyM').val(),"district":$('#districtM').val()
+            ,"dept":$('#deptM').val()
+            ,"searchWord":$('#searchWordM').val(),"currentPage":mCurrentPage,"totalPage":mTotalPage
+            ,"latitudeHere":latitude,"longitudeHere":longitude},            
+         dataType: "JSON",
+         success: function(json){ 
+            
+            $.each(json, function(index, item){                
+               
+               content += "<tr><td>"
+                        +      "<div id='mHospitalName' class='mHospitalName'>"+item.hpName+"</div>"
+                        +      "<input type='hidden' class='mlatitude' value='"+item.latitude+"'>"
+                        +      "<input type='hidden' class='mlongitude' value='"+item.longitude+"'>"
+                        +      "<div class='mList' id='mHospitaldept'>"+item.hpDept+"<span>&nbsp;&nbsp;"+item.distance+"</span></div>"
+                        +      "<div class='mList' id='mHospitalTel'>Tel. "+item.phone+"</div>"
+                        +      "<div class='mList' id='mHospitalAddress'>"+item.address+"</div>"
+                        +   "</td><tr>";
+                        
+                  if(index  == 0) {
+                  pagebarM = item.pageBarM;
+                  latitude0 = item.latitude;
+                  longitude0 = item.longitude;
+                  locPosition0 = new kakao.maps.LatLng(latitude, longitude);
+               }
+                  
+            });   
+            
+            $(".mabListTable").html(content);
+            
+         },
+         error: function(request, status, error){
+            alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+          }
+    });
+    
 }
-	*/
+   */
 
 
 
 /* corona19 chart */
 function coronaList() {
 
-	var today = new Date();
-	var todayDate = today.getFullYear()  + "년 " + (today.getMonth()+ 1) + "월 " + today.getDate() + "일 기준";
-	
-	$.ajax({
-		
-		url:"<%= ctxPath%>/api/corona.sd",
-		dataType: "JSON",
-		success:function(json) {
-		 
-			var resultArr = [];
-			var data = [];
-			
-			resultArr = json.response.body.items.item;
-			
-			for(var i=1; i<resultArr.length; i++) {
-				
-				if(resultArr[i].gubunEn != "Lazaretto") {
-				//	console.log(resultArr[i].gubunEn);
-					var obj = new Object();
-					
-					obj["name"] = resultArr[i].gubun;
-					obj["low"] = resultArr[i].localOccCnt;
-					
-					data.push(obj);
-				}
-				
-			}
-			
-			Highcharts.chart('chart', {
+   var today = new Date();
+   var todayDate = today.getFullYear()  + "년 " + (today.getMonth()+ 1) + "월 " + today.getDate() + "일 기준";
+   
+   $.ajax({
+      
+      url:"<%= ctxPath%>/api/corona.sd",
+      dataType: "JSON",
+      success:function(json) {
+       
+         var resultArr = [];
+         var data = [];
+         
+         resultArr = json.response.body.items.item;
+         
+         for(var i=1; i<resultArr.length; i++) {
+            
+            if(resultArr[i].gubunEn != "Lazaretto") {
+            //   console.log(resultArr[i].gubunEn);
+               var obj = new Object();
+               
+               obj["name"] = resultArr[i].gubun;
+               obj["low"] = resultArr[i].localOccCnt;
+               
+               data.push(obj);
+            }
+            
+         }
+         
+         Highcharts.chart('chart', {
 
-			    chart: {
-			        type: 'lollipop'
-			    },
+             chart: {
+                 type: 'lollipop'
+             },
 
-			    accessibility: {
-			        point: {
-			            valueDescriptionFormat: '{index}. {xDescription}, {point.y}.'
-			        }
-			    },
+             accessibility: {
+                 point: {
+                     valueDescriptionFormat: '{index}. {xDescription}, {point.y}.'
+                 }
+             },
 
-			    legend: {
-			        enabled: false
-			    },
+             legend: {
+                 enabled: false
+             },
 
-			    subtitle: {
-			        text: todayDate
-			    },
+             subtitle: {
+                 text: todayDate
+             },
 
-			    title: {
-			        text: '지역별 코로나 신규 확진자 현황'
-			    },
+             title: {
+                 text: '지역별 코로나 신규 확진자 현황'
+             },
 
-			    tooltip: {
-			        shared: true
-			    },
+             tooltip: {
+                 shared: true
+             },
 
-			    xAxis: {
-			        type: 'category',
-			    },
+             xAxis: {
+                 type: 'category',
+             },
 
-			    yAxis: {
-			        title: {
-			            text: ''
-			        }
-			    },
+             yAxis: {
+                 title: {
+                     text: ''
+                 }
+             },
 
-			    series: [{
-			        name: '신규',
-			        data: data
-			    }]
+             series: [{
+                 name: '신규',
+                 data: data
+             }]
 
-			});
-		   
-			},
-		 	error: function(request, status, error) {
-	    	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-	    }
-	});
+         });
+         
+         },
+          error: function(request, status, error) {
+          alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+       }
+   });
 }
 
 </script>

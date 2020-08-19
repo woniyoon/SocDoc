@@ -599,6 +599,7 @@
 					if(btnChange == true){
 						$("#btnFind").hide();
 						$("#btnFindNext").show();
+						$("#div_btnFind").show();
 					} 
 				},
 				error: function(request, status, error){
