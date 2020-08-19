@@ -6,7 +6,7 @@
 <style type="text/css" >
 
 	.container { 
-		width: 60%;
+		width: 70%;
 		margin: auto;
 		padding: 0;
 	}
@@ -45,7 +45,7 @@
 	
 	div#notice_button_wrap {
 		display: inline-block;
-		width: 850px;	
+		width: 900px;	
 	}
 	
 	p#notice_button {
@@ -61,13 +61,17 @@
 	
 	a.notice_write {
 		display: inline-block;
-	    font-size: 14px;
-	    color: #fff;
-	    text-align: center;
-	    height: 45px;
-	    line-height: 45px;
-	    width: 100%;
-	    text-decoration: none;
+       	width: 100%;
+       	height: 45px;
+      	float: right;
+       	text-align: center;
+      	color: white;
+       	font-size: 14px;
+       	font-weight: bold;
+      	line-height: 45px;
+       	background: #157bb9;
+      	border-radius: 3px;
+      	cursor: pointer;
 	}
 	
 	a.delete, a.create, a.list {
