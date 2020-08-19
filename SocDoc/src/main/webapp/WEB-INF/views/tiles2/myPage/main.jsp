@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" isELIgnored="false"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
@@ -23,7 +22,6 @@
         height: auto;
         margin: 0 auto;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-/*         border: 1px solid pink; */
         min-height: 100vh;
     }
 
@@ -62,7 +60,7 @@
         display: flex;
         flex-direction: row;
     }
-    
+
     #mycontent {
     	 background-position: top;
     	 background-image: url("<%= ctxPath%>/resources/images/mypageMain2.jpg");
@@ -82,6 +80,7 @@
         justify-content: space-around;
     }
 
+
     /* #scheduleTbl, thead, tbody, td {
         width: 50vw;
         border: 2px solid grey;
@@ -92,6 +91,7 @@
         width: 50vw;
         border: 2px solid grey;
         border-collapse: collapse;
+
     } */
 
     
@@ -120,7 +120,6 @@
 		width: 105%;
 		margin-top: 20px;
 		height: 300px;
-		
 	}
 	
 	/* 두번째줄 - 최근진료조회, 내건강 */
@@ -272,6 +271,7 @@
             <li><a>후기</a></li>
             <li><a>알림소식</a></li>
         </ul>
+
 </header> -->
     <main style="margin-bottom: 80px;">
         <div id="sideMenu" style="margin-top: 220px;">
@@ -522,7 +522,6 @@
 				</form>
 				<!-- 테이블 -->
 				</div>
-				
 		</div>
 	</div>
         </div>

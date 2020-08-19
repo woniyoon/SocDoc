@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="reviewMenu">
+
+	<select id="getHpList" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpInfoVO">
+		select rno, hpseq, hpname, dept, address, mainimg, avg
+		from
+		(
+			select rownum AS rno, hpseq, hpname, dept, address, mainimg, avg
+			from(	
+			    select h.hpseq, h.hpname, h.dept, h.address, h.mainimg, r.avg as avg
+			    from hospitalInfo h full join (select hpseq, trunc(avg(rating)) as avg from hospitalreview group by hpseq) r
+			    on h.hpseq = r.hpseq
+			    where 1=1 
+			    and h.address like #{city}||'%'
+			    and h.dept like #{dept}||'%'
+			    order by avg desc nulls last
+		    ) V
+		)T    
+		where rno between #{startRno} and #{endRno}	
+	</select>
+	
+	<select id="getReviewMenuTotalPage" resultType="int">
+		select count(*)
+		from hospitalinfo
+		where 1=1 
+		and address like #{city}||'%'
+		and dept like #{dept}||'%'
+	</select>
+	
+	<select id="readReviewDetail" parameterType="String" resultType="com.synergy.socdoc.member.HpReviewVO">
+		select hpSeq, content, rating
+		from(
+			select rownum, hpseq, content, rating
+			from hospitalreview
+			where hpseq = #{hpSeq}
+			order by regDate desc
+		)
+		where rownum between 1 and 3
+	</select>
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

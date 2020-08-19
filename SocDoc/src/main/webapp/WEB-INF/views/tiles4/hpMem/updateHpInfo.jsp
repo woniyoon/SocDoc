@@ -425,10 +425,10 @@
 		var isAllFilled = true;
 
 		$("form input:not([type=file]), form textarea").each(function() {
-			$(this).css({"border": "", "box-shadow" : ""});
+			$(this).css("border", "");
 			
 			if ($(this).val() == "" && $(this).prop("id").substring(0, 6) != "subImg") {
-				$(this).css({"border": "1px solid red", "box-shadow": "0 0 5px red", "outline": "none"});
+				$(this).css("border", "2px solid red");
 				console.log($(this));
 				isAllFilled = false;
 			}
