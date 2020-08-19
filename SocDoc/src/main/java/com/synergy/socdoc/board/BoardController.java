@@ -100,34 +100,34 @@ public class BoardController {
 		}
 		
 		// ============ 페이지 바 ============ //
-		String pageBar = "<ul style='list-style: none;'>";
+		String pageBar = "<div class='page_nation'>";
 	    int blockSize = 10;
 	    int loop = 1; //  페이지 번호의 개수(지금은 10개(== blockSize)) 10개 까지만 증가하는 용도   
 		int pageNo = ((currentShowPageNO - 1)/blockSize) * blockSize + 1;
 	      
 		// === [이전] 만들기 === //
 	    if(pageNo != 1) {
-	       pageBar += "<li style='display:inline-block; width:50px; font-size:12pt;'><a href='javascript:getNoticeBoard("+(pageNo-1)+","+searchWord+")'>[이전]</a></li>";
+	       pageBar += "<a class='arrow pprev' href='javascript:getNoticeBoard('1'),"+searchWord+")'></a>";
+	       pageBar += "<a class='arrow prev' href='javascript:getNoticeBoard("+(pageNo-1)+","+searchWord+")'></a>";
 	    }
 	    
 	    // 페이징 만들기 
 	    while (!(loop > blockSize || pageNo > totalPage )) { 
 	         if(pageNo == currentShowPageNO) {
-	        	pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt; border: solid 1px grey; color: red; padding: 2px 4px;'>" + pageNo + "</li>";
+	        	pageBar += "<a class='active'>" + pageNo + "</li>";
 	         } else {
-	        	pageBar += "<li style='display:inline-block; width:30px; font-size: 12pt;'>"
-							+ "<a href='javascript:getNoticeBoard("+pageNo+","+searchWord+")'>"
-							+ pageNo+"</a></li>";	         
+	        	pageBar += "<a href='javascript:getNoticeBoard("+pageNo+","+searchWord+")'>"
+							+ pageNo+"</a>";	         
 	         }
 	         loop++;
 	         pageNo++;
 	    } 
 	      
 	    if( !(pageNo > totalPage) ) {
-	    	  pageBar += "<li style='display:inline-block; width:50px; font-size: 12pt;'>"
-						+ "<a href='javascript:getNoticeBoard("+pageNo+","+searchWord+")'>[다음]</a></li>";  
+	    	  pageBar += "<a class='arrow next' href='javascript:getNoticeBoard("+pageNo+","+searchWord+")'></a>";  
+	    	  pageBar += "<a class='arrow nnext' href='javascript:getNoticeBoard("+totalPage+","+searchWord+")'></a>";  
 	    }
-	    pageBar += "</ul>";
+	    pageBar += "</div>";
 	      
 	    JsonObject jsonObj = new JsonObject();
 	    jsonObj.addProperty("pageBar", pageBar);

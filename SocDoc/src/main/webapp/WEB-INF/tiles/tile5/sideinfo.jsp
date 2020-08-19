@@ -20,7 +20,7 @@
 </style>
 
 
-<div id="sideMenu">
+<div id="sideMenu" align="left">
 	<span style="font-size: 12pt; font-weight: 800;"><b>고객센터</b></span>
 	<ul id="sideMenuList">
 		<li><a href="<%=ctxPath%>/faq.sd">자주하는 질문</a></li>

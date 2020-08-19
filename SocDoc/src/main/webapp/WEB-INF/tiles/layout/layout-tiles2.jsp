@@ -13,9 +13,9 @@
 <meta charset="UTF-8">
 <title>속닥속닥</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> --> 
+ <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">  -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+   <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>  -->
   
 <%--  <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/style2.css" />  --%>
   <%--  ===== #179. 스피너를 사용하기 위해  jquery-ui 사용하기 ===== --%>
@@ -23,6 +23,18 @@
   <script type="text/javascript" src="<%= request.getContextPath() %>/resources/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
   
 </head>
+
+<style>
+	footer {
+	    background-color: #ddd;
+	    color: #555;
+	    height: 20vh;
+	    width: 100%;
+	    bottom: 0;
+	    display: table;
+	}
+</style>
+
 <body>
    <div id="mycontainer">
      <div id="myheader">
@@ -33,9 +45,9 @@
          <tiles:insertAttribute name="content" />
       </div>
       
-      <div id="myfooter">
+<!--       <div id="myfooter"> -->
          <tiles:insertAttribute name="footer" />
-      </div>
+<!--       </div> -->
    </div>
 </body>
 </html>

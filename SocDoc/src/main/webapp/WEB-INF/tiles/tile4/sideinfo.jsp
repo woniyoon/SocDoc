@@ -8,7 +8,7 @@
 %>
 <%-- ======= #28. tile2 중 sideinfo 페이지 만들기  ======= --%>
 
-<div id="sideMenu">
+<div id="sideMenu" align="left">
 	<span style="font-size: 1.4em;"><b>Menu</b></span>
 	<ul id="sideMenuList">
 		<li><a href="<%=ctxPath%>/hpPanel/main.sd">홈</a></li>
