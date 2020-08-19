@@ -389,7 +389,6 @@
 
         <div class="con2">
             <div class="searchAmbulance" onclick="location.href='<%=ctxPath%>/searchAmbulance.sd'"><p class="miniTitle">민간구급차검색<br/><br/><img src="<%= ctxPath%>/resources/images/ambulance2.png" class="icon3" /></p></div>
-            
             <div class="notice">            
                 <table>
                     <thead>
@@ -403,7 +402,14 @@
                     <c:forEach var="noticevo" items="${noticevoList}">
                     <tr>
                         <td>${noticevo.noticeSeq}</td>
-                        <td><span class="noticeTitle" onclick="goView('${noticevo.noticeSeq}')">${noticevo.subject}</span></td>
+                        <td>
+	                        <c:if test="${sessionScope.loginuser.userid != 'admin' || sessionScope.loginuser != null}">
+	                        	<span class="noticeTitle"><a href="<%=ctxPath%>/noticeView.sd?noticeSeq=${noticevo.noticeSeq}">${noticevo.subject}</a></span>
+	                        </c:if>
+                        	<c:if test="${sessionScope.loginuser.userid == 'admin'}">
+	                        	<span class="noticeTitle" onclick="javascript:location.href='<%=ctxPath%>/adminNoticeView.sd?noticeSeq=${noticevo.noticeSeq }'">${noticevo.subject}</span>
+	                        </c:if>	
+                        </td>
                         <td>${noticevo.regDate}</td>
                     </tr>
 					</c:forEach>

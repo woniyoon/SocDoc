@@ -217,8 +217,8 @@
 	        <li><a href="<%=ctxPath%>/login.sd"><img src="<%= ctxPath%>/resources/images/loginN.png" width="20px" height="20px" style="margin-top: 2px;"/></a></li>
 	        <li class="photo"><a href="<%=ctxPath%>/login.sd">로그인</a></li>
 	    	<li><a href="<%=ctxPath%>/register.sd">회원가입</a></li>
-	    	<li><a href="<%=ctxPath%>/.sd">마이페이지</a></li>
-   	        <li><a href="<%=ctxPath%>/.sd">고객센터</a></li>
+	    	<li><a href="<%=ctxPath%>/mypage.sd">마이페이지</a></li>
+   	        <li><a href="<%=ctxPath%>/faq.sd">고객센터</a></li>
         </c:if>
         <c:if test="${not empty sessionScope.loginuser}">
 	        <!-- admin 로그인 --> 
@@ -232,7 +232,7 @@
 	        	<li><img src="<%= ctxPath%>/resources/images/loginY.png" width="20px" height="20px" style="margin-top: 2px;"/></li> 
 	        	<li class="photo"><a href="<%=ctxPath%>/mypage.sd"><strong>${loginuser.name}</strong>님의 마이페이지</a></li>
 		        <li><a href="<%=ctxPath%>/logout.sd">로그아웃</a></li>
-	        	<li><a href="<%=ctxPath%>/.sd">고객센터</a></li>
+	        	<li><a href="<%=ctxPath%>/faq.sd">고객센터</a></li>
 	        </c:if>
         </c:if>
         <!-- 병원고객 로그인 --> 
@@ -240,7 +240,7 @@
         	<li><img src="<%= ctxPath%>/resources/images/loginY.png" width="20px" height="20px" style="margin-top: 2px;"/></li>   
 	        <li class="photo"><a href="<%=ctxPath%>/mypage.sd"><strong>${hpLoginuser.name}</strong>의 마이페이지</a></li>
 	        <li><a href="<%=ctxPath%>/hpLogout.sd">로그아웃</a></li>
-	        <li><a href="<%=ctxPath%>/.sd">고객센터</a></li>
+	        <li><a href="<%=ctxPath%>/faq.sd">고객센터</a></li>
         </c:if>
     </ul>
 
@@ -275,7 +275,7 @@
         <div class="subnav-content">
           <a href="<%=ctxPath%>/noticeList.sd"><img src="<%= ctxPath%>/resources/images/notice.png"/>공지사항</a>
           <a href="<%=ctxPath%>/noticeList.sd"><img src="<%= ctxPath%>/resources/images/health.png"/>건강정보</a>
-          <a href="<%=ctxPath%>/.sd"><img src="<%= ctxPath%>/resources/images/question.png"/>Q&A</a>
+          <a href="<%=ctxPath%>/faq.sd"><img src="<%= ctxPath%>/resources/images/question.png"/>Q&A</a>
         </div>
       </div>
     </div>
