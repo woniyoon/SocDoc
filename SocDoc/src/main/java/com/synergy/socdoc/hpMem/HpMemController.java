@@ -276,6 +276,7 @@ public class HpMemController {
 	@RequestMapping(value = "/hpPanel/reservationInfo.sd", method = RequestMethod.GET)
 	public String requiredLoginHp_reservationInfo(HttpServletRequest request, HttpServletResponse response) {
 		HpMemberVO hpMember = (HpMemberVO) request.getSession().getAttribute("hpLoginuser");
+		System.out.println(hpMember.getUserid());
 		String hpSeq = String.valueOf(hpMember.getHpSeq());
 		
 		// 병원 상세 정보 업데이트 여부 확인하기

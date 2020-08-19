@@ -383,7 +383,7 @@ function getHealthInfoBoard(){
 			if(jsonArr.length > 0) {
 				$.each(jsonArr, function(index, item){
 					html += "<div align='center' id="+item.subject+"  onclick='goInfoView("+item.infoSeq+")'>"
-							+ "<img src='/socdoc/resources/files/"+item.imgName+"'/>"
+							+ "<img src='/socdoc/resources/images/"+item.imgName+"'/>"
 							+ item.subject
 							+ "</div>";
 				});			
@@ -437,7 +437,7 @@ function infoBoard(start){
 			} else { // 데이터가 있다면
 				$.each(json, function(index, item){
 					html += "<div align='center' id="+item.subject+" onclick='goInfoView("+item.infoSeq+")'>"
-						+ "<img src='/socdoc/resources/files/"+item.imgName+"'/>"
+						+ "<img src='/socdoc/resources/images/"+item.imgName+"'/>"
 						+ item.subject
 						+ "</div>";
 				});
