@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
 	String ctxPath = request.getContextPath();
@@ -40,30 +41,32 @@
 		padding: 0;
 		//border: solid 1px blue;
 	}
-   
-	/* -------------------------------- 上 끝 ---------------------------------- */
-   
-   	.description {
-		margin-top: 10px;
-		font-size: 7pt;
+		
+	.textPrimary {
+		margin-bottom: 5px;
+		color: #ffffff;
 	}
-   
+	
+	/* -------------------------------- 上 ---------------------------------- */
+
 	h2 {
 		margin: 0;
 	    padding: 15px 0 15px 15px;
     	font-size: 14pt;
     	font-weight: bold;
     	color: #fff;	
-		background-color: #58ACFA;
+		background-color: #157bb9;
     	border: solid 0px black;
 	} 
-   
-	/* 입력 */
+    
+    /* -------------------------------- 내용물 ---------------------------------- */
+    
+    /* 입력 */
 	.formGroup {
 		margin: 0 auto;
 		padding-bottom: 20px;
     }
-    
+     
     label {
 		display: block;
 		padding: 5px 0;
@@ -80,15 +83,6 @@
 		font-size: 8pt;
 		color: red;
     }
-	
-	.textPrimary {
-		margin-bottom: 5px;
-		color: #ffffff;
-	}
-	
-	.title {
-		background-color: #F8F8F8;
-	}
 
     .requiredInfo {
 		width: 100%;
@@ -98,6 +92,12 @@
 		border: solid 1px #ccc;
      }
      
+	/* .title {
+		background-color: #F8F8F8;
+	} */
+    
+    /* -------------------------------- 하단 버튼 ---------------------------------- */
+    
     .btnJoin {
     	width: 100%;
     	margin: 20px auto;
@@ -110,7 +110,7 @@
 	    font-size: 20px;
 	    font-weight: bold;
 	    color: #fff;
-	    background-color: #58ACFA;
+	    background-color: #157bb9;
 	    border: solid 1px #ccc;
 	}
     
@@ -118,7 +118,7 @@
       text-decoration: none;
     }
     
-	/* 입력 - 비활성화 */
+	/* -------------------------------- 입력 에러 ---------------------------------- */
 	.wrong {
 		border: solid 1px red;
 	}	
@@ -134,13 +134,13 @@
 $(document).ready(function(){
 	
 	// ------------ 비밀번호 ------------ // 
-	$("form[name=hpChangePwdFrm]").hide();
-	$("form[name=changePwdFrm]").show();
+/* 	$("form[name=hpChangePwdFrm]").hide();
+	$("form[name=changePwdFrm]").show(); */
 	
 	$("form[name=changePwdFrm] span#pwdError").hide();
 	$("form[name=changePwdFrm] span#pwdSuccess").hide();
 
-	$("#pwd").keyup(function(){
+	$("form[name=changePwdFrm] #pwd").keyup(function(){
 		if($("form[name=changePwdFrm] input#pwd").val().trim() == "") {	// 데이터가 없다면
 			$("form[name=changePwdFrm] span#pwdSuccess").hide();
 			$("form[name=changePwdFrm] span#pwdError").show();
@@ -168,18 +168,16 @@ $(document).ready(function(){
 	
 	
 	// ------------ 비밀번호 확인 ------------ // 
-	
 	$("form[name=changePwdFrm] span#pwdError2").hide();
 	$("form[name=changePwdFrm] span#pwdSuccess2").hide();
 
-	$("form[name=changePwdFrm] #pwd2").blur(function(){
+	$("form[name=changePwdFrm] #pwd2").keyup(function(){
 		if($("form[name=changePwdFrm] input#pwd2").val().trim() == "") {	// 데이터가 없다면
 			$("form[name=changePwdFrm] span#pwdSuccess2").hide();
 			$("form[name=changePwdFrm] span#pwdError2").show();
 			$("form[name=changePwdFrm] input#pwd2").addClass("wrong");
-			
 		} else {	// 데이터가 있다면
-			var pwd = $("form[name=changePwdFrm] #pwd").val();
+			var pwd = $("form[name=changePwdFrm] #pwd2").val();
 	        var pwd2 = $(this).val();
 	        
 	        if(pwd != pwd2) {  // 데이터가 조건에 맞지않으면
@@ -196,15 +194,15 @@ $(document).ready(function(){
 			return;
 		}
 	});
-	
 });	
 	
 	
 	
 $(document).ready(function(){	
+	
 	// ------------ 비밀번호 ------------ // 
-	$("form[name=changePwdFrm]").hide();
-	$("form[name=hpChangePwdFrm]").show();
+	/* $("form[name=changePwdFrm]").hide();
+	$("form[name=hpChangePwdFrm]").show(); */
 	
 	$("form[name=hpChangePwdFrm] span#pwdError").hide();
 	$("form[name=hpChangePwdFrm] span#pwdSuccess").hide();
@@ -241,7 +239,7 @@ $(document).ready(function(){
 	$("form[name=hpChangePwdFrm] span#pwdError2").hide();
 	$("form[name=hpChangePwdFrm] span#pwdSuccess2").hide();
 
-	$("form[name=hpChangePwdFrm] #pwd2").blur(function(){
+	$("form[name=hpChangePwdFrm] #pwd2").keyup(function(){
 		if($("form[name=hpChangePwdFrm] input#pwd2").val().trim() == "") {	// 데이터가 없다면
 			$("form[name=hpChangePwdFrm] span#pwdSuccess2").hide();
 			$("form[name=hpChangePwdFrm] span#pwdError2").show();
@@ -289,7 +287,7 @@ function hpChangePwd(){
 		<h2 class="textPrimary">새 비밀번호 설정</h2>
    
    <!-- -------------------------------- 上 끝 ---------------------------------- -->
-	 
+	 <c:if test="${type == 'mem'}">
 		<form name="changePwdFrm" method="post">
 	    	<div id="box">
 				<div class="formGroup">
@@ -311,6 +309,9 @@ function hpChangePwd(){
 				</div> 
 			</div>       
 		</form>
+	</c:if>
+	
+	<c:if test="${type == 'hpMem'}">	
 		<form name="hpChangePwdFrm" method="post">
 	    	<div id="box">
 				<div class="formGroup">
@@ -332,5 +333,7 @@ function hpChangePwd(){
 				</div> 
 			</div>       
 		</form>
+	</c:if>
+	
 	</div>
 </div>    

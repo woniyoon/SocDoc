@@ -61,8 +61,8 @@ public class LoginController {
 			mav.addObject("loc", loc);
 			mav.setViewName("msg"); 
 		} else {
-			String msg = "건강한 하루되세요 누구님 환영합니다.";
-			String loc = request.getContextPath() + "/index.sd";
+//			String msg = "건강한 하루되세요 누구님 환영합니다.";
+//			String loc = request.getContextPath() + "/index.sd";
 //			mav.addObject("msg", msg);
 //			mav.addObject("loc", loc);
 			mav.setViewName("login/loginEnd.tiles1"); 
@@ -165,7 +165,6 @@ public class LoginController {
 	    		
 	    		session.removeAttribute("gobackURL");  // 중요!!!!
 	    	}
-			
 		}	
 		return mav;
 	}
@@ -209,7 +208,7 @@ public class LoginController {
 	public String register(HttpServletRequest request) {
 		
 		String ctxPath = request.getContextPath();
-		System.out.println(ctxPath+"/register.sd로 접속하셨습니다.");
+		//System.out.println(ctxPath+"/register.sd로 접속하셨습니다.");
 	
 		return "login/register.tiles1";
 	}
@@ -229,7 +228,7 @@ public class LoginController {
 		String loc = "";
 		if(n==1) {
 			session.setAttribute("loginuser", vo);
-			msg = "가입 성공하셨습니다.";
+			msg = "가입을 축하합니다";
 			loc = request.getContextPath() + "/index.sd";
 		} else {
 			msg = "다시 시도해주세요!";
@@ -253,7 +252,7 @@ public class LoginController {
 		String loc = "";
 		if(n==1) {
 			session.setAttribute("hpLoginuser", vo);
-			msg = "가입 성공하셨습니다.";
+			msg = "가입을 축하합니다";
 			loc = request.getContextPath() + "/index.sd";
 		} else {
 			msg = "다시 시도해주세요!";
@@ -285,7 +284,7 @@ public class LoginController {
 		
         boolean isSent;
         try {
-        	System.out.println("~~~~~ 메일전송  시작 ~~~~~");
+        	//System.out.println("~~~~~ 메일전송  시작 ~~~~~");
 			mail.sendmail(email, certificationCode);
 			session.setAttribute("certificationCode", certificationCode);
 			isSent = true;
@@ -317,7 +316,7 @@ public class LoginController {
 		
         boolean isSent;
         try {
-        	System.out.println("~~~~~ 메일전송  시작 ~~~~~");
+        	//System.out.println("~~~~~ 메일전송  시작 ~~~~~");
 			mail.sendmail(email, hpCertificationCode);
 			session.setAttribute("hpCertificationCode", hpCertificationCode);
 			isSent = true;
@@ -461,8 +460,8 @@ public class LoginController {
 	public ModelAndView idFindResult(HttpServletRequest request, ModelAndView mav) {
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
-		System.out.println(name);
-		System.out.println(email);
+		//System.out.println(name);
+		//System.out.println(email);
 		
 		HashMap<String, String> paraMap = new HashMap<>();
 		paraMap.put("name", name);
@@ -492,8 +491,8 @@ public class LoginController {
 	public ModelAndView hpIdFindResult(HttpServletRequest request, ModelAndView mav) {
 		String regId = request.getParameter("regId");
 		String email = request.getParameter("email");
-		System.out.println(regId);
-		System.out.println(email);
+		//System.out.println(regId);
+		//System.out.println(email);
 		
 		HashMap<String, String> paraMap = new HashMap<>();
 		paraMap.put("regId", regId);
@@ -526,7 +525,7 @@ public class LoginController {
 		return mav;
 	}
 	@RequestMapping("/hpPwdFind.sd")
-	public ModelAndView hpPwdFind(ModelAndView mav) {
+	public ModelAndView hpPwdFind( ModelAndView mav) {
 		mav.setViewName("login/pwdFind.tiles1");
 		return mav;
 	}
@@ -538,6 +537,7 @@ public class LoginController {
 		String userid = request.getParameter("userid");
 		String email = request.getParameter("email");
 		String code = request.getParameter("code");
+		String type = request.getParameter("type");
 		System.out.println(name);
 		System.out.println(userid);
 		System.out.println(email);
@@ -561,9 +561,9 @@ public class LoginController {
 			mav.addObject("name", name);
 			mav.addObject("userid", userid);
 			mav.addObject("email", email);
+			mav.addObject("type", type);
 			mav.setViewName("login/pwdUpdate.tiles1");
 		}
-		
 		return mav;
 	}
 	@RequestMapping("/hpPwdUpdate.sd")
@@ -572,6 +572,7 @@ public class LoginController {
 		String userid = request.getParameter("userid");
 		String email = request.getParameter("email");
 		String code = request.getParameter("code");
+		String type = request.getParameter("type");
 		System.out.println(name);
 		System.out.println(userid);
 		System.out.println(email);
@@ -595,9 +596,9 @@ public class LoginController {
 			mav.addObject("name", name);
 			mav.addObject("userid", userid);
 			mav.addObject("email", email);
+			mav.addObject("type", type);
 			mav.setViewName("login/pwdUpdate.tiles1");
 		}
-		
 		return mav;
 	}
 	
