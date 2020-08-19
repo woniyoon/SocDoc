@@ -8,7 +8,8 @@
 	var hpLoginuser = "${sessionScope.hpLoginuser}";
 	var gobackURL = "${requestScope.gobackURL}";
 	
-	if(loginuser != null && (gobackURL != null && gobackURL != "")) {  
+	
+<%-- 	if(loginuser != null && (gobackURL != null && gobackURL != "")) {  
 		alert( "${sessionScope.loginuser.name} 님 로그인 . "); 
 		location.href="<%= ctxPath%>/"+gobackURL;
 	} else if(loginuser != null && (gobackURL == null || gobackURL == "")) { 
@@ -20,6 +21,14 @@
 		location.href="<%= ctxPath%>/"+gobackURL;
 	} else if(hpLoginuser != null && (gobackURL == null || gobackURL == "")) {
 		alert( "${sessionScope.hpLoginuser.name} 님 로그인 성공했습니다.ㅎㅎ ");
+		location.href="<%= ctxPath%>/index.sd";
+	} --%>
+
+	alert( "좋은하루 되세요~");
+	
+	if(gobackURL != null && gobackURL != "") {
+		location.href="<%= ctxPath%>/"+gobackURL;
+	} else if(gobackURL == null || gobackURL == "") {
 		location.href="<%= ctxPath%>/index.sd";
 	}
 </script>

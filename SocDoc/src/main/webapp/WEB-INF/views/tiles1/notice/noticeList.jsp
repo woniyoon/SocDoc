@@ -254,7 +254,9 @@ $(window).ready(function(){
 		getNoticeBoard();
 	});
 	
-	getNoticeBoard(1, "");
+		getNoticeBoard(1, "");
+
+	
 	
 	// 탭전환(건강정보)
 	$('#two').click(function(){
@@ -295,11 +297,28 @@ $(window).ready(function(){
 			infoBoard($(this).val());
 		}
 	});
+
+
+	console.log(getCookie('isInfoSelected'));
+
+	// 건강정보가 선택됐는지 쿠키에서 읽어와 체크
+	if(getCookie('isInfoSelected') == 'true'){
+    	console.log("!!!!!");
+    	$("#two").trigger("click");
+
+    	document.cookie = 'isInfoSelected=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';    	
+    } 
+
 });		
 
 	
-	
-	
+function getCookie(name) {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length == 2) return parts.pop().split(";").shift();
+
+}
+ 
 
 // 공지사항 탭 클릭 /////////////////////////////////////////////////////////////////	
 function getNoticeBoard(currentShowPageNo){
