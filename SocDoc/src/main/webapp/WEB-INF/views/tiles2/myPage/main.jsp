@@ -480,7 +480,7 @@
 				홈페이지 이용시 의견이 있으시면 문의해주세요.
 				<div id="infoBnt" style="margin-top: 50px;">
 					<button type="button" class="main" style="width:90%; height:40px;" onclick="javascript:location.href='<%= request.getContextPath()%>/askList.sd'" >문의내역</button>
-					<button type="button" class="main" style="width:90%; height:40px; margin-top:10px;" onclick="javascript:location.href='<%= request.getContextPath()%>/faq.sd'" >의견접수</button>
+					<button type="button" class="main" style="width:90%; height:40px; margin-top:10px;" onclick="javascript:location.href='<%= request.getContextPath()%>/inquiry.sd'" >의견접수</button>
 				</div>
 			</div>
 		</div>
