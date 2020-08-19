@@ -16,11 +16,11 @@
 	  position: fixed;
 	  z-index: 1;
 	  top: 200px;
-	  left: 10px;
+	  left: 5px;
 	  background: #eee;
 	  overflow-x: hidden;
 	  padding: 8px 0;
-	  margin: 50px 30px 0px 30px;
+	  margin: 50px 10px 0px 10px;
 	}
 </style>
 
