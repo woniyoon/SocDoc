@@ -132,7 +132,6 @@
           border: solid 1px #F6F6F6;
           display: flex;
           justify-content: center;
-          background-color: white;
         }
         
         .navbar a {
@@ -156,7 +155,7 @@
           background-color: inherit;
           font-family: inherit;
           margin: 0;
-		  width: 150px;
+          margin-left: 50px;
         }
 
         .navbar a:hover, .subnav:hover .subnavbtn {
@@ -170,9 +169,8 @@
           left: 0;
           background-color: #4375DB;
           width: 100%;
-          height: 15vh;
+          height: 85px;
           z-index: 1;
-          padding: 20px 0;
         }
 
         .subnav-content a {
@@ -193,23 +191,10 @@
         }
 
         /* header END ---------------*/
-        
-        #myheader {
-        	position: fixed;
-        	width: 100vw;
-        	top: 0;
-        	left: 0;
-        	background-color: white;
-        	z-index: 100;
-        }
-        
-        #mycontent {
-        	margin: 200px 0 50px 0;
-        }
 </style>
 
 
-    <p class="logo"><img src="<%= ctxPath%>/resources/images/socdocLogoT.png" width="200px" height="120px" class="logo" onclick="location.href='<%=ctxPath%>/index.sd'"/></p>
+    <p class="logo"><img src="<%= ctxPath%>/resources/images/logo.jpg" width="150px" height="100px" class="logo" onclick="location.href='<%=ctxPath%>/index.sd'"/></p>
 
     <ul class="util"> 
     	<!-- 비로그인 -->    
@@ -217,8 +202,8 @@
 	        <li><a href="<%=ctxPath%>/login.sd"><img src="<%= ctxPath%>/resources/images/loginN.png" width="20px" height="20px" style="margin-top: 2px;"/></a></li>
 	        <li class="photo"><a href="<%=ctxPath%>/login.sd">로그인</a></li>
 	    	<li><a href="<%=ctxPath%>/register.sd">회원가입</a></li>
-	    	<li><a href="<%=ctxPath%>/mypage.sd">마이페이지</a></li>
-   	        <li><a href="<%=ctxPath%>/faq.sd">고객센터</a></li>
+	    	<li><a href="<%=ctxPath%>/.sd">마이페이지</a></li>
+   	        <li><a href="<%=ctxPath%>/.sd">고객센터</a></li>
         </c:if>
         <c:if test="${not empty sessionScope.loginuser}">
 	        <!-- admin 로그인 --> 
@@ -232,16 +217,15 @@
 	        	<li><img src="<%= ctxPath%>/resources/images/loginY.png" width="20px" height="20px" style="margin-top: 2px;"/></li> 
 	        	<li class="photo"><a href="<%=ctxPath%>/mypage.sd"><strong>${loginuser.name}</strong>님의 마이페이지</a></li>
 		        <li><a href="<%=ctxPath%>/logout.sd">로그아웃</a></li>
-	        	<li><a href="<%=ctxPath%>/faq.sd">고객센터</a></li>
+	        	<li><a href="<%=ctxPath%>/.sd">고객센터</a></li>
 	        </c:if>
         </c:if>
         <!-- 병원고객 로그인 --> 
         <c:if test="${not empty sessionScope.hpLoginuser}">
         	<li><img src="<%= ctxPath%>/resources/images/loginY.png" width="20px" height="20px" style="margin-top: 2px;"/></li>   
 	        <li class="photo"><a href="<%=ctxPath%>/mypage.sd"><strong>${hpLoginuser.name}</strong>의 마이페이지</a></li>
-	        <li class="photo"><a href="#"><strong>${hpLoginuser.name}</strong>님의 마이페이지</a></li>
 	        <li><a href="<%=ctxPath%>/hpLogout.sd">로그아웃</a></li>
-	        <li><a href="<%=ctxPath%>/faq.sd">고객센터</a></li>
+	        <li><a href="<%=ctxPath%>/.sd">고객센터</a></li>
         </c:if>
     </ul>
 
@@ -276,22 +260,7 @@
         <div class="subnav-content">
           <a href="<%=ctxPath%>/noticeList.sd"><img src="<%= ctxPath%>/resources/images/notice.png"/>공지사항</a>
           <a href="<%=ctxPath%>/noticeList.sd"><img src="<%= ctxPath%>/resources/images/health.png"/>건강정보</a>
-          <a href="<%=ctxPath%>/faq.sd"><img src="<%= ctxPath%>/resources/images/question.png"/>Q&A</a>
- <!--          <a href="<%=ctxPath%>/noticeList.sd"><img src="<%= ctxPath%>/resources/images/health.png"/>건강정보</a> -->
-          <a href="javascript:goInfoList()"><img src="<%= ctxPath%>/resources/images/health.png"/>건강정보</a>
-          <a href="#"><img src="<%= ctxPath%>/resources/images/question.png"/>Q&A</a>
+          <a href="<%=ctxPath%>/.sd"><img src="<%= ctxPath%>/resources/images/question.png"/>Q&A</a>
         </div>
       </div>
     </div>
-    
-    
-    
-    <script type="text/javascript">
-    	// 건강정보가 버튼 클릭시, 쿠키에 값 저장 & 페이지 이동
-    	function goInfoList(){
-    		console.log("쿠키 저장~ ");
-    		document.cookie = 'isInfoSelected=true;';
-
-    		location.href= "<%=ctxPath%>/noticeList.sd";
-    	}
-    </script>

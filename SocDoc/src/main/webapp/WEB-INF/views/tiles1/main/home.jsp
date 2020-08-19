@@ -40,7 +40,6 @@
            color: navy;
            background-color: #D6F0FF;
            cursor: pointer;
-           box-shadow: 1px 1px 1px 1px #D5D5D5;
        }
        
        .icon1, .icon2, .icon3 {
