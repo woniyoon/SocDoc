@@ -40,6 +40,8 @@ public interface InterSearchMenuDAO {
 	//민간구급차 API AJax List
 	HashMap<String, String> getAmList(HashMap<String, String> paraMap);
 
+	List<HashMap<String, String>> getAmListExcel(String city);
+
 	
 
 

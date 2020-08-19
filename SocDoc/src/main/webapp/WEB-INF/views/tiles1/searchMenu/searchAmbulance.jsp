@@ -16,16 +16,10 @@
 		margin-bottom: 20px;
 	} */
 	
-/* 	div.container{
-		background : url('/socdoc/resources/images/ambulanceMain.jpg'); 
-		background-size: contain;
- 		padding-top:15%;
-	} */
-	
 	.ambulanceMain{
-		background : url('/socdoc/resources/images/ambulanceMain.jpg'); 
-		background-size: auto;
-		background-repeat : repeat;
+ 		background : url('/socdoc/resources/images/ambulanceMain1.jpg'); 
+ 		background-size: auto;
+		background-repeat : no-repeat;
 		height:200px;
 	}
 	
@@ -226,7 +220,7 @@
 	 }
 
 	 
-	 
+	 /* 
 	 function downloadExcel(id, title) {
 		 
 		 var tab_text = '<html xmlns:x="urn:schemas-microsoft-com:office:excel">';
@@ -272,7 +266,20 @@
 		 }
 		 
 	}
-
+ */
+ 
+ 
+ 
+	//Excel 파일
+	function downloadExcel(){
+	 
+		var frm = document.excelFrm;
+		frm.city.value = $("#city").val();
+		frm.method="POST";
+		frm.action="/socdoc/api/downloadExcelAmbulance.sd";
+		frm.submit();
+		
+	}
 	 
 
 </script>
@@ -286,58 +293,59 @@
 	<h3 style="font-weight: bolder;">민간구급차 검색</h3>
 	<div class="info">지역별 민간구급차 현황 정보를 확인하실 수 있습니다.</div> -->
 	
-		<div style="width:100%;">
-			<div class="ambulanceSelect">
-			     <button type="button" class="btnExcel" onclick="downloadExcel('ambulanceTbl','ambulance');" >엑셀다운로드</button>
+		<form name="excelFrm">
+			<div style="width:100%;">
+				<div class="ambulanceSelect">
+				     <button type="button" class="btnExcel" onclick="downloadExcel();" >엑셀다운로드</button>
+				</div>
+				<div align="right" class="ambulanceSelect" style="float:right;">
+				     <div class="ambulanceSelect">
+				        <select id="city" name="city" class="select">
+				           <option value="">시도</option>
+				           <option value="서울특별시">서울특별시</option>   
+				           <option value="강원도">강원도</option>
+				           <option value="경기도">경기도</option>
+				           <option value="부산광역시">부산광역시</option>
+				           <option value="대구광역시">대구광역시</option>
+				           <option value="인천광역시">인천광역시</option>
+				           <option value="광주광역시">광주광역시</option>
+				           <option value="대전광역시">대전광역시</option>
+				           <option value="울산광역시">울산광역시</option>
+				           <option value="경상남도">경상남도</option>
+				           <option value="경상북도">경상북도</option>
+				           <option value="전라남도">전라남도</option>
+				           <option value="전라북도">전라북도</option>
+				           <option value="제주특별자치도">제주도</option>
+				           <option value="충청남도">충청남도</option>
+				           <option value="충청북도">충청북도</option>
+				        </select>          
+				     </div>	     
+				     <div class="ambulanceSelect">
+				        <button type="button" class="btnSearch" onclick="showAmList();" >검색</button>
+				     </div>
+				</div>
 			</div>
-			<div align="right" class="ambulanceSelect" style="float:right;">
-			     <div class="ambulanceSelect">
-			        <select id="city" name="city" class="select">
-			           <option value="">시도</option>
-			           <option value="서울특별시">서울특별시</option>   
-			           <option value="강원도">강원도</option>
-			           <option value="경기도">경기도</option>
-			           <option value="부산광역시">부산광역시</option>
-			           <option value="대구광역시">대구광역시</option>
-			           <option value="인천광역시">인천광역시</option>
-			           <option value="광주광역시">광주광역시</option>
-			           <option value="대전광역시">대전광역시</option>
-			           <option value="울산광역시">울산광역시</option>
-			           <option value="경상남도">경상남도</option>
-			           <option value="경상북도">경상북도</option>
-			           <option value="전라남도">전라남도</option>
-			           <option value="전라북도">전라북도</option>
-			           <option value="제주특별자치도">제주도</option>
-			           <option value="충청남도">충청남도</option>
-			           <option value="충청북도">충청북도</option>
-			        </select>          
-			     </div>	     
-			     <div class="ambulanceSelect">
-			        <button type="button" class="btnSearch" onclick="showAmList();" >검색</button>
-			     </div>
-			</div>
-		</div>
-	
-		<table class="ambulanceTbl" id="ambulanceTbl">
-			<thead>
-				<tr>
-					<th>시도</th>
-					<th>시군구</th>
-					<th>기관명</th>
-					<th>차량번호</th>
-				</tr>
-			</thead>
-			<tbody id="ambulanceTblBody">
-							
-			</tbody>
+		
+			<table class="ambulanceTbl" id="ambulanceTbl">
+				<thead>
+					<tr>
+						<th>시도</th>
+						<th>시군구</th>
+						<th>기관명</th>
+						<th>차량번호</th>
+					</tr>
+				</thead>
+				<tbody id="ambulanceTblBody">
+								
+				</tbody>
+				
+			</table>
 			
-		</table>
-		
-		
-		<div class="page_wrap">
-			<div class="page_nation" id="pageBar"></div>
-		</div>
-
+			
+			<div class="page_wrap">
+				<div class="page_nation" id="pageBar"></div>
+			</div>
+		</form>
 	</div>
 </div>
 

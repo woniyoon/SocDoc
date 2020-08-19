@@ -520,6 +520,8 @@
 			var locPosition = new kakao.maps.LatLng(latitude, longitude);
 			
 			mapobj.panTo(locPosition); 
+			
+			overlay.setMap(mapobj);
 				
 			if(latitude = overlay.getPosition().Ga){
 /* 				console.log('음~ : '+overlay.getPosition().Ga);

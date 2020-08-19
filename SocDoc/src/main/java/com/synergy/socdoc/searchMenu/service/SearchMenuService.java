@@ -93,5 +93,11 @@ public class SearchMenuService implements InterSearchMenuService {
 		return dao.getAmList(paraMap);
 	}
 
+	@Override
+	public List<HashMap<String, String>> getAmListExcel(String city) {
+		List<HashMap<String, String>> amList = dao.getAmListExcel(city);
+		return amList;
+	}
+
 	
 }

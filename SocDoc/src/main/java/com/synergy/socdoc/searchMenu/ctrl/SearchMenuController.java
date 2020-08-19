@@ -4,11 +4,25 @@ import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.poi.hssf.usermodel.HSSFDataFormat;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.streaming.SXSSFSheet;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -314,18 +328,11 @@ public class SearchMenuController {
 	    // [이전]
  	 	if(pageNo != 1) {
  	 	
-/* 	 		pageBar += " &nbsp; <span style='cursor:pointer;' onclick='printGeneral("+(pageNo-sizePerPage)+")'>이전</span> &nbsp"; 
-*/ 	 		pageBar += "<a class='arrow pprev' href='javascript:printGeneral(1)'></a>";
+ 	 		pageBar += "<a class='arrow pprev' href='javascript:printGeneral(1)'></a>";
  	 		pageBar += "<a class='arrow prev' href='javascript:printGeneral(\""+(pageNo-1)+"\")'></a>";
  	 	}
  	    
  	    while (!(loop > blockSize || pageNo > totalPage )) {
- 	         
- 	    	 /*if(pageNo==currentShowPageNo){
- 	    		 pageBar += " &nbsp; <span style='color:#0080ff; padding:2px 4px;'>"+pageNo+"</span> &nbsp";
- 	    	 }else {
- 	 	 		 pageBar += " &nbsp; <span style='cursor:pointer;' onclick='printGeneral("+pageNo+")'>"+pageNo+"</span> &nbsp"; 
- 	    	 }*/
  	    	 
  	    	 if(pageNo == currentShowPageNo) {
  	    		pageBar += "<a class='active'>" + pageNo + "</a>";
@@ -341,8 +348,7 @@ public class SearchMenuController {
  	    // [다음]
  	    if( !(pageNo > totalPage) ) {
  		
-/*	 		 pageBar += " &nbsp; <span style='cursor:pointer;' onclick='printGeneral("+(pageNo+sizePerPage)+")'>다음</span> &nbsp"; 
-*/	 		 pageBar += "<a class='arrow next' href='javascript:printGeneral(\""+pageNo+"\")'></a>";  
+	 		 pageBar += "<a class='arrow next' href='javascript:printGeneral(\""+pageNo+"\")'></a>";  
 	 		 pageBar += "<a class='arrow nnext' href='javascript:printGeneral(\""+totalPage+"\")'></a>";  
 
  		}
@@ -694,249 +700,217 @@ public class SearchMenuController {
 			
 		}
 		
-		
-		
-
-		
-		
-		
-		
 	
 		
-	/* >????
-	
-	@ResponseBody
-	@RequestMapping(value = "/map.sd", produces="application/text;charset=utf-8")
-	public String searchPharmacy(HttpServletRequest request) {
-
-		List<HpInfoVO> hpMap = null;
-		
-		hpMap = service.searchHospitalSelect();
-		
-		JSONArray jsonArr = new JSONArray(); 
-		
-		if(hpMap.size()>0) {
-			for(HpInfoVO hpMapVO : hpMap) {
-				JSONObject jsonObj = new JSONObject();
-							
-				String hpName = hpMapVO.getHpName();
-				String address = hpMapVO.getAddress();
-				String phone = hpMapVO.getPhone();
-				
-				System.out.println(hpName);
-				System.out.println(address);
-
-	            double latitude = hpMapVO.getLatitude();
-	            double longitude = hpMapVO.getLongitude();
-
-	            jsonObj.put("hpName", hpName);
-	            jsonObj.put("address", address);
-	            jsonObj.put("phone", phone);
-	            jsonObj.put("latitude", latitude);
-	            jsonObj.put("longitude", longitude);
-	            
-	            jsonArr.put(jsonObj);				
-				
-			}
-		}		
-		
-		String json = jsonArr.toString();
-
-		return json;
-	}
-	
-	 * 
-	 * 
-	 * 
-	 * */
-	
-	
-	
-	
-	
-	
-	// 민간구급차 찾기
-	@RequestMapping(value = "/searchAmbulance.sd")
-	public ModelAndView searchAmbulance(HttpServletRequest request, ModelAndView mav) {
-		
-		mav.setViewName("searchMenu/searchAmbulance.tiles1");		
-		return mav;	
-		
-	}
-	
-	
-	
-	
-	
-	@ResponseBody
-	@RequestMapping(value = "/api/amList.sd", produces="application/text;charset=utf-8")
-	public String getAmList(HttpServletRequest request) {
-		
-		String city = request.getParameter("city");
-		
-		if(city==null) {
-			city="";
-		}
-		
-		String currentShowPageNo = request.getParameter("currentShowPageNo");
-		
-		if(currentShowPageNo==null) {
-			currentShowPageNo="1";
-		}
-		
-		int currentShowPageNoInt = Integer.parseInt(currentShowPageNo);
-		
-		int sizePerPage = 10;
-		int totalPage = 0;
-		
-		HashMap<String, String> paraMap = new HashMap<>();
-		paraMap.put("city", city);
-		paraMap.put("currentShowPageNo", currentShowPageNo);
-		paraMap.put("sizePerPage", String.valueOf(sizePerPage));
-
-		HashMap<String,String> amList = service.getAmList(paraMap);
-
-		
-		totalPage = (int) Math.ceil((double) Integer.parseInt(amList.get("totalCount")) / sizePerPage);
-		
-		
-		String pageBar = "";	       
-	    int blockSize = 10; 
-	    int loop = 1;
-	    
-	    int pageNo = ((currentShowPageNoInt - 1)/blockSize) * blockSize + 1;	//1~10 
-	    
-	    // [이전]
- 	 	if(pageNo != 1) {
- 	 		pageBar += "<a class='arrow pprev' onclick='showAmList(1)'></a>"; 
- 	 		pageBar += "<a class='arrow prev' onclick='showAmList("+(pageNo-1)+")'></a>";  	 		 	 		
- 	 	}
- 	    
- 	    while (!(loop > blockSize || pageNo > totalPage )) {
- 	         if(pageNo==currentShowPageNoInt){
- 	        	pageBar += "<a class='active'>"+pageNo+"</a>";
- 	    	 }else {
- 	    		pageBar += "<a onclick='showAmList("+pageNo+")'>"+pageNo+"</a>"; 
- 	    	 }
- 	    	
- 	 		 loop ++;
- 	         pageNo ++;	         
- 	    }
- 	    
- 	    // [다음]
- 	    if( !(pageNo > totalPage) ) {
- 	    	pageBar += "<a class='arrow next' onclick='showAmList("+(pageNo)+")'></a>"; 
-	 		pageBar += "<a class='arrow nnext' onclick='showAmList("+totalPage+")'></a>"; 
- 		}
-		
- 	    JsonObject json = new JsonObject();
-
- 	    json.addProperty("strResult", amList.get("strResult"));
- 	    json.addProperty("pageBar", pageBar);
- 	    
-		return json.toString();
 		
 		
 		
-		/*
+//------------------------------------------------------------------------------------
 		
 		
-		String city = request.getParameter("city");
-		
-		String str_currentShowPageNo = request.getParameter("currentShowPageNo");
-
-		
-		if(str_currentShowPageNo==null) {
-			str_currentShowPageNo="1";
-		}
-				
-		int totalCount = 0;
-		int sizePerPage = 10;
-		int currentShowPageNo = 0;
-		int totalPage = 0;
-
-				
-		HashMap<String,String> result= service.getAmList(city);
-		
-		totalCount = Integer.parseInt(result.get("strTotalCount"));
-		System.out.println("totalCount : "+totalCount);
-
-		totalPage = (int) Math.ceil((double) totalCount / sizePerPage);
-		
-		
-		try {	
-			currentShowPageNo = Integer.parseInt(str_currentShowPageNo);
-			if(currentShowPageNo<1||currentShowPageNo>totalPage) {
-				currentShowPageNo = 1;
-			}
-
-		} catch (NumberFormatException e) {
-			currentShowPageNo = 1;
-		}
-		
-				
-		String pageBar = "";	       
-	    int blockSize = 10; 
-	    int loop = 1;
-	    
-	    int pageNo = ((currentShowPageNo - 1)/blockSize) * blockSize + 1;	
-	    
-	    // [이전]
- 	 	if(pageNo != 1) {
- 	 		pageBar += " &nbsp; <span style='cursor:pointer;' onclick='goSearch("+(pageNo-sizePerPage)+")'>이전</span> &nbsp"; 
- 	 	}
- 	    
- 	    while (!(loop > blockSize || pageNo > totalPage )) {
- 	         if(pageNo==currentShowPageNo){
- 	        	pageBar += " &nbsp; <span style='color:#0080ff; padding:2px 4px;'>"+pageNo+"</span> &nbsp";
- 	    	 }else {
- 	    		pageBar += " &nbsp; <span style='cursor:pointer;' onclick='goSearch("+pageNo+")'>"+pageNo+"</span> &nbsp"; 
- 	    	 }
- 	    	
- 	 		 loop ++;
- 	         pageNo ++;	         
- 	    }
- 	    
- 	    // [다음]
- 	    if( !(pageNo > totalPage) ) {
- 	    	pageBar += " &nbsp; <span style='cursor:pointer;' onclick='goSearch("+(pageNo+sizePerPage)+")'>다음</span> &nbsp"; 
-
- 		}
-
-	
-		JSONArray jsonArr = new JSONArray(); 		
-		
-		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("pageBar", totalCount);
-		if(result.size()>0) {
-			for(PharmacyVO phMapVO : result) {
-				
-				JSONObject jsonObj = new JSONObject();
+		// 민간구급차 찾기
+		@RequestMapping(value = "/searchAmbulance.sd")
+		public ModelAndView searchAmbulance(HttpServletRequest request, ModelAndView mav) {
 			
-				String phName = phMapVO.getName();
-				String address = phMapVO.getAddress();
-				String phone = phMapVO.getPhone();
-				String latitude = String.valueOf(phMapVO.getLatitude());
-				String longitude = String.valueOf(phMapVO.getLongitude());
-
-				
-	            jsonObj.put("phName", phName);
-	            jsonObj.put("address", address);
-	            jsonObj.put("phone", phone);
-	            jsonObj.put("pageBar", pageBar);
-	            
-	            jsonArr.put(jsonObj);	            
-				
+			mav.setViewName("searchMenu/searchAmbulance.tiles1");		
+			return mav;	
+			
+		}
+		
+		
+		@ResponseBody
+		@RequestMapping(value = "/api/amList.sd", produces="application/text;charset=utf-8")
+		public String getAmList(HttpServletRequest request) {
+			
+			String city = request.getParameter("city");
+			
+			if(city==null) {
+				city="";
 			}
-		}		
-		
-		String json = jsonArr.toString();
-
-		return json;
-		
-		*/
-	}
+			
+			String currentShowPageNo = request.getParameter("currentShowPageNo");
+			
+			if(currentShowPageNo==null) {
+				currentShowPageNo="1";
+			}
+			
+			int currentShowPageNoInt = Integer.parseInt(currentShowPageNo);
+			
+			int sizePerPage = 10;
+			int totalPage = 0;
+			
+			HashMap<String, String> paraMap = new HashMap<>();
+			paraMap.put("city", city);
+			paraMap.put("currentShowPageNo", currentShowPageNo);
+			paraMap.put("sizePerPage", String.valueOf(sizePerPage));
 	
+			HashMap<String,String> amList = service.getAmList(paraMap);
+	
+			
+			totalPage = (int) Math.ceil((double) Integer.parseInt(amList.get("totalCount")) / sizePerPage);
+			
+			
+			String pageBar = "";	       
+		    int blockSize = 10; 
+		    int loop = 1;
+		    
+		    int pageNo = ((currentShowPageNoInt - 1)/blockSize) * blockSize + 1;	//1~10 
+		    
+		    // [이전]
+	 	 	if(pageNo != 1) {
+	 	 		pageBar += "<a class='arrow pprev' onclick='showAmList(1)'></a>"; 
+	 	 		pageBar += "<a class='arrow prev' onclick='showAmList("+(pageNo-1)+")'></a>";  	 		 	 		
+	 	 	}
+	 	    
+	 	    while (!(loop > blockSize || pageNo > totalPage )) {
+	 	         if(pageNo==currentShowPageNoInt){
+	 	        	pageBar += "<a class='active'>"+pageNo+"</a>";
+	 	    	 }else {
+	 	    		pageBar += "<a onclick='showAmList("+pageNo+")'>"+pageNo+"</a>"; 
+	 	    	 }
+	 	    	
+	 	 		 loop ++;
+	 	         pageNo ++;	         
+	 	    }
+	 	    
+	 	    // [다음]
+	 	    if( !(pageNo > totalPage) ) {
+	 	    	pageBar += "<a class='arrow next' onclick='showAmList("+(pageNo)+")'></a>"; 
+		 		pageBar += "<a class='arrow nnext' onclick='showAmList("+totalPage+")'></a>"; 
+	 		}
+			
+	 	    JsonObject json = new JsonObject();
+	
+	 	    json.addProperty("strResult", amList.get("strResult"));
+	 	    json.addProperty("pageBar", pageBar);
+	 	    
+			return json.toString();
+			
+		}
+		
+		
+		
+		// Excel 파일 다운
+		@RequestMapping(value="/api/downloadExcelAmbulance.sd", method={RequestMethod.POST})
+		public String downloadExcelFile(HttpServletRequest request, Model model) {
+			
+			String city = request.getParameter("city");
+			
+			// 부서를 선택한 경우
+			if(city!=null && "".equals(city)) {
+				city="";
+			}
+			
+			HashMap<String, String> paraMap = new HashMap<>();
+			paraMap.put("city", city);
+			
+			List<HashMap<String,String>> amList = service.getAmListExcel(city);
+			
+			
+			SXSSFWorkbook workbook = new SXSSFWorkbook();
+	        
+	        SXSSFSheet sheet = workbook.createSheet("민간구급차 다운로드");
+	        
+	        sheet.setColumnWidth(0, 400);
+	        sheet.setColumnWidth(1, 12000);
+	        sheet.setColumnWidth(2, 10000);
+	        
+	        // 행의 위치를 나타내는 변수
+	        int rowLocation = 0;
+	       
+	        CellStyle mergeRowStyle = workbook.createCellStyle();
+	        mergeRowStyle.setAlignment(HorizontalAlignment.CENTER);
+	        mergeRowStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+	        
+	        CellStyle headerStyle = workbook.createCellStyle();
+	        headerStyle.setAlignment(HorizontalAlignment.CENTER);
+	        headerStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+
+	        
+	        mergeRowStyle.setFillForegroundColor(IndexedColors.DARK_BLUE.getIndex()); 
+	        mergeRowStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+	        
+	        
+	        headerStyle.setFillForegroundColor(IndexedColors.LIGHT_YELLOW.getIndex());  
+	        headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+	      
+	        Font mergeRowFont = workbook.createFont(); // import org.apache.poi.ss.usermodel.Font; 으로 한다.
+	        mergeRowFont.setFontName("나눔고딕");
+	        mergeRowFont.setFontHeight((short)500);
+	        mergeRowFont.setColor(IndexedColors.WHITE.getIndex());
+	        mergeRowFont.setBold(true);
+	                
+	        mergeRowStyle.setFont(mergeRowFont); 
+	        
+	        headerStyle.setBorderTop(BorderStyle.THICK);
+	        headerStyle.setBorderBottom(BorderStyle.THICK);
+	        headerStyle.setBorderLeft(BorderStyle.THIN);
+	        headerStyle.setBorderRight(BorderStyle.THIN);
+	        
+	        
+	        Row mergeRow = sheet.createRow(rowLocation);  // 엑셀에서 행의 시작은 0 부터 시작한다.
+	                
+	        for(int i=0; i<2; i++) {
+	            Cell cell = mergeRow.createCell(i);
+	            cell.setCellStyle(mergeRowStyle);
+	            cell.setCellValue("민간구급차 엑셀 다운로드");
+	        }
+	        
+	        sheet.addMergedRegion(new CellRangeAddress(rowLocation, rowLocation, 0, 3)); // 시작 행, 끝 행, 시작 열, 끝 열 
+	        
+	        CellStyle moneyStyle = workbook.createCellStyle();
+	        moneyStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("#,##0"));
+	        
+	        // 헤더 행 생성
+	        Row headerRow = sheet.createRow(++rowLocation);  
+	        
+	        // 해당 행의 첫번째 열 셀 생성
+	        Cell headerCell = headerRow.createCell(0); 
+	        headerCell.setCellValue("주소");
+	        headerCell.setCellStyle(headerStyle);
+	        
+	        // 해당 행의 두번째 열 셀 생성
+	        headerCell = headerRow.createCell(1);
+	        headerCell.setCellValue("기관명");
+	        headerCell.setCellStyle(headerStyle);
+	        
+	        // 해당 행의 세번째 열 셀 생성
+	        headerCell = headerRow.createCell(2);
+	        headerCell.setCellValue("차량번호");
+	        headerCell.setCellStyle(headerStyle);
+	        
+	        
+	      
+	        // HR사원정보 내용에 해당하는 행 및 셀 생성하기 
+	        Row bodyRow = null;
+	        Cell bodyCell = null;
+	        
+	        for(int i=0; i<amList.size(); i++) {
+	        	HashMap<String,String> amMap = amList.get(i);
+	            
+	            // 행 생성
+	            bodyRow = sheet.createRow(i + (rowLocation+1) );
+	            
+	            bodyCell = bodyRow.createCell(0);
+	            bodyCell.setCellValue(amMap.get("carSeq"));
+	                        
+	            bodyCell = bodyRow.createCell(1);
+	            bodyCell.setCellValue(amMap.get("dutyAddr"));
+	            
+	            bodyCell = bodyRow.createCell(2);
+	            bodyCell.setCellValue(amMap.get("dutyName"));
+	            
+	       
+	        }
+	        
+	        model.addAttribute("locale", Locale.KOREA);
+	        model.addAttribute("workbook", workbook);
+	        model.addAttribute("workbookName", "민간구급차 엑셀 다운로드");
+			
+			return "excelDownloadView";
+			
+		}
+		
 	
 	
 	

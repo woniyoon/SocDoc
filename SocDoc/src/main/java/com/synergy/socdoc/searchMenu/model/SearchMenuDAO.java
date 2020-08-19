@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -167,6 +168,18 @@ public class SearchMenuDAO implements InterSearchMenuDAO {
 			int totalCount = body.get("totalCount").getAsInt();
 			JsonArray result = body.getAsJsonObject("items").getAsJsonArray("item");
 			
+			/*for(int i=0; i<result.size(); i++) {
+				
+				HashMap<String, String> amMap = new HashMap<>();
+				
+				String carSeq = result.get(i).getAsJsonObject().get("carSeq").getAsString();
+				String dutyAddr = result.get(i).getAsJsonObject().get("dutyAddr").getAsString();
+				String dutyName = result.get(i).getAsJsonObject().get("dutyName").getAsString();
+				
+				
+			}*/
+			
+			System.out.println(result.get(0).getClass());
 //			String strTotalCount = String.valueOf(totalCount);
 			String strResult = result.toString();
 			
@@ -181,6 +194,96 @@ public class SearchMenuDAO implements InterSearchMenuDAO {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+
+	@Override
+	public List<HashMap<String, String>> getAmListExcel(String city) {		
+
+		List<HashMap<String,String>> amList = new ArrayList<>();
+		
+		
+		try {
+			StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B552657/AmblInfoInqireService/getAmblListInfoInqire"); 
+
+			urlBuilder.append("?" + URLEncoder.encode("ServiceKey","UTF-8") + "=" + apiKey); 
+	        urlBuilder.append("&" + URLEncoder.encode("ServiceKey","UTF-8") + "=" + URLEncoder.encode("-", "UTF-8"));		
+			urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode("10000", "UTF-8"));
+					 
+			if(!"".equals(city)) {
+				urlBuilder.append("&" + URLEncoder.encode("Q0", "UTF-8") + "=" + URLEncoder.encode(city, "UTF-8"));
+			}
+			
+			URL url = new URL(urlBuilder.toString());
+			
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+			conn.setRequestMethod("GET");
+
+			conn.setRequestProperty("Content-type", "application/json");
+			BufferedReader rd;
+			
+			if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+				rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			} else {
+				rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+			}
+			
+			StringBuilder sb = new StringBuilder();
+			String line;
+			
+			while ((line = rd.readLine()) != null) {
+				sb.append(line);
+			}
+			
+			rd.close();
+			conn.disconnect();
+			String itemStr = sb.toString();
+			
+			
+			JSONObject xmlJSONObj = XML.toJSONObject(sb.toString());	
+			itemStr = xmlJSONObj.toString();
+			 
+			JsonParser parser = new JsonParser();
+			JsonElement el= parser.parse(itemStr);
+			JsonObject body = el.getAsJsonObject().getAsJsonObject("response").getAsJsonObject("body");
+			JsonArray result = body.getAsJsonObject("items").getAsJsonArray("item");
+			
+			String strResult = result.toString();
+			
+			for(int i=0; i<result.size(); i++) {
+				
+				HashMap<String, String> amMap = new HashMap<>();
+				
+				String carSeq = result.get(i).getAsJsonObject().get("carSeq").getAsString();
+				String dutyAddr = result.get(i).getAsJsonObject().get("dutyAddr").getAsString();
+				String dutyName = result.get(i).getAsJsonObject().get("dutyName").getAsString();
+				
+				amMap.put("carSeq", carSeq);
+				amMap.put("dutyAddr", dutyAddr);
+				amMap.put("dutyName", dutyName);
+				
+				amList.add(amMap);
+			}
+			
+			return amList;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		return null;
+		
+		
 	}
 
 

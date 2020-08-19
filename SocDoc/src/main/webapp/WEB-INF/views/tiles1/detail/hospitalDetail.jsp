@@ -85,8 +85,11 @@
 	}
 	
 	.hospitalRatingNum{
-		margin-left:10px;
 		font-weight: bolder;
+	}
+	
+	#hospitalRatingNum{
+		margin-left:10px;	
 	}
 	
 	.guide{
@@ -94,7 +97,7 @@
 		color: red;
 		padding:15px 15px 8px 15px;
 		width: 400px;
-		height:50px;
+		height:80px;
 		font-size: 9pt;
 		width:100%;		
 	}
@@ -723,7 +726,10 @@ function goRegister(){
 					<span class="hospitalRatingStar" id="hospitalRatingStar3">별3</span>
 					<span class="hospitalRatingStar" id="hospitalRatingStar4">별4</span>
 					<span class="hospitalRatingStar" id="hospitalRatingStar5">별5</span>
-					<span class="hospitalRatingNum">${hospitalRating}.0</span>
+					<span class="hospitalRatingNum" id="hospitalRatingNum">
+						<c:if test="${not empty hospitalRating}"> ${hospitalRating} </c:if>
+						<c:if test="${empty hospitalRating}"> 0 </c:if>
+						</span><span class="hospitalRatingNum">.0</span>
 				</div>			
 				<div class="guide">
 					<p><strong>법정공휴일</strong> : 신정, 설, 삼일절, 어린이날, 석가탄신일, 현충일, 광복절, 추석, 개천절, 한글날, 크리스마스</p>
