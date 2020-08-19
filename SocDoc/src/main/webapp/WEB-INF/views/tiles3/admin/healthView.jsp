@@ -42,7 +42,7 @@
 	    line-height: 1.8;
 	
 	}
-	
+
 	p#listBtn {
 		display: inline-block;
 		border-radius: 3px;
@@ -55,37 +55,50 @@
 	}	
     
     p#modifyBtn {
-		display: inline-block;
-		border-radius: 3px;
-	    height: 45px;
-	    width: 84px;
-	    background: #666666;
-		color: white;
-		float: right;
-		margin: 30px 20px 50px 0px;
+    	display: inline-block;
+      	margin: 30px 20px 50px 0px;
+       	width: 84px;
+       	height: 45px;
+      	float: right;
+       	text-align: center;
+      	color: white;
+       	font-size: 14px;
+       	font-weight: bold;
+      	line-height: 45px;
+       	background: #157bb9;
+      	border-radius: 3px;
+      	cursor: pointer;
 	} 
     
     p#deleteBtn {
 		display: inline-block;
-		border-radius: 3px;
-	    height: 45px;
-	    width: 84px;
-	    background: #666666;
-		color: white;
-		float: right;
-		margin: 30px 20px 50px 0px;
+      	margin: 30px 20px 50px 0px;
+       	width: 84px;
+       	height: 45px;
+      	float: right;
+       	text-align: center;
+      	color: white;
+       	font-size: 14px;
+       	font-weight: bold;
+      	line-height: 45px;
+       	background: #157bb9;
+      	border-radius: 3px;
+      	cursor: pointer;
 	}
 	
 	a.notice_view {
-		display: inline-block;
-	    font-size: 14px;
-	    color: #fff;
-	    font-weight: bold;
-	    text-align: center;
-	    height: 45px;
-	    line-height: 45px;
-	    width: 100%;
-	    text-decoration: none;
+	    display: inline-block;
+       	width: 84px;
+       	height: 45px;
+      	float: left;
+       	text-align: center;
+      	color: white;
+       	font-size: 14px;
+       	font-weight: bold;
+      	line-height: 45px;
+       	background: #157bb9;
+      	border-radius: 3px;
+      	cursor: pointer;
 	}
 	
 	a.delete {
@@ -93,16 +106,16 @@
 	}
 	
 	.th {
-		background: #f4f4f2;
+		background: #e6f5ff;
 	}
 	
 	.next_post {
-		border-top: 1px solid #333333;
+		border-top: 1px solid gray;
 		border-bottom: 1px solid #dddddd;
 	}
 	
 	.pre_post {
-		border-bottom: 1px solid #333333;
+		border-bottom: 1px solid gray;
 	}
 	
 	.titlePointer:hover {
