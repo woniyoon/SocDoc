@@ -15,7 +15,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"> --></script>
 </head>
 <style type="text/css">
 	body {
@@ -31,13 +31,14 @@
 		list-style-type: disc;
 	}
 	
-	main {
-		margin: 30px auto;
+	.mainContainer {
+		margin: 240px auto;
 	    width: 70vw;
 	    min-height: 65vh;
 	    height: auto;
 	    flex-direction: row;
 	    display: flex;
+	    justify-content: center;
 	}
 	
 	#sideMenu {
@@ -82,13 +83,15 @@
 </style>
 
 <body>
-	<tiles:insertAttribute name="header" />
-	<main>
+	<div id="myheader" align="center">
+         <tiles:insertAttribute name="header" />
+    </div>
+	<div class="mainContainer" align="center">
 		<tiles:insertAttribute name="sideinfo" />
 		<div id="contents" align="center">
 			<tiles:insertAttribute name="content" />
 		</div>
-	</main>
+	</div>
 
 	<tiles:insertAttribute name="footer" />
 </body>

@@ -504,7 +504,7 @@ function infoBoard(start){
 						<tbody class="noticeList"><%-- 공지사항 게시글 들어감 --%></tbody>
 					</table>
 					
-					<!-- ${totalPage} --><div class="noticePagination" id="pageBar"><!-- ${pageBar} -->
+					<!-- ${totalPage} --><div class="noticePagination page_wrap" id="pageBar"><!-- ${pageBar} -->
 					</div>
 				</div>
 			</form>
