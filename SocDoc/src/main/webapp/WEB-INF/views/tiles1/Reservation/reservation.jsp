@@ -475,65 +475,77 @@ $(document).ready(function() {
 
 	// 달력 날짜선택, 시간선택 
 	$(function() {
+		var today = new Date();
+		var todayDate = today.getFullYear()  + "-" + (today.getMonth()+ 1) + "-" + today.getDate() + "-";
+		
+		
 		$('.calendar').pignoseCalendar({
+					disabledWeekdays: [0], 
+					minDate: todayDate,
 					lang: "ko",
 					click : function(event, context) {	
 						
 						console.log(selectedHpSeq);
 						// 선택된 날짜
 						var date = context.current[0]._i;
+						console.log(today);
+						console.log(new Date(date) - today >= 0);
 		        
-				        // 선택된 날짜의 요일
-				        var day = context.current[0]._d.getDay();
-						
-				        $("input#visitDate").prop("value", date);
-				        $("input#day").prop("value", day);
-				        
-				        if(selectedHpSeq == -1) {
-							alert("병원을 선택해주세요!");
-							return;
-						} else {
-					        // 여기서 ajax 호출을 합니다.
-					        $.ajax({
-					            url:"<%=ctxPath%>/ajax/getNumOfReserv.sd",
-					            type:"GET",
-					            data:{"visitDate": date, "day": day, "hpSeq": selectedHpSeq},
-					            dataType: "JSON",
-					            success: function(json){
-					              // json에 담겨진 시작시간부터 종료시간까지 1시간씩 증가시키면서 시간대 추가
-					              // 더불어 그 시간대에 몇 명이 예약했는지 받아옴
-					              console.log(json);
-					              var html = "<div id='timebox'>";
-					              for(var i=0; i<json.hours.length; i++) {
-					            	  var hour = json.hours[i];
-					            	  var numHour = Number(json.hours[i].substring(0,2));
-					            	  console.log("시간:"+hour);
-					            	  
-					            	  if(i > 0 && i % 4 == 0) {
-					            		  html += "<br>";
-					            	  }
-
-					            	  if( hour >= json.openHours.open && hour <= json.openHours.close ) {
-					            		  var hourSeq = numHour-8;
-					            		  //html += "<li onclick='selectTime("+hourSeq+")'>"+hour+"</li>"
-					            		  html += "<a href='javascript:selectTime("+hourSeq+")' style='margin-right: 10%;'>"+hour+"</a>"
-					            	  }
-					              }
-					            	
-					              html+= "</div>";
-					              
-					              var time = $("#timeOptions").html(html);
-					             
-					              // 받은 시간 환자정보box에 보여주기
-					              var dateandtime = document.getElementById("dateandtime");
-					              dateandtime.innerText = date;
-					            
-					          
-					            },
-					            error: function(request, status, error){
-									alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-					            }
-					        });
+						if(today - new Date(date) < 0) {
+					        // 선택된 날짜의 요일
+					        var day = context.current[0]._d.getDay();
+							
+					        $("input#visitDate").prop("value", date);
+					        $("input#day").prop("value", day);
+					        
+					        if(selectedHpSeq == -1) {
+								alert("병원을 선택해주세요!");
+								return;
+							} else {
+						        // 여기서 ajax 호출을 합니다.
+						        $.ajax({
+						            url:"<%=ctxPath%>/ajax/getNumOfReserv.sd",
+						            type:"GET",
+						            data:{"visitDate": date, "day": day, "hpSeq": selectedHpSeq},
+						            dataType: "JSON",
+						            success: function(json){
+						              // json에 담겨진 시작시간부터 종료시간까지 1시간씩 증가시키면서 시간대 추가
+						              // 더불어 그 시간대에 몇 명이 예약했는지 받아옴
+						              console.log(json);
+						              var html = "<div id='timebox'>";
+						              for(var i=0; i<json.hours.length; i++) {
+						            	  var hour = json.hours[i];
+						            	  var numHour = Number(json.hours[i].substring(0,2));
+						            	  console.log("시간:"+hour);
+						            	  
+						            	  if(i > 0 && i % 4 == 0) {
+						            		  html += "<br>";
+						            	  }
+	
+						            	  if( hour >= json.openHours.open && hour <= json.openHours.close ) {
+						            		  var hourSeq = numHour-8;
+						            		  //html += "<li onclick='selectTime("+hourSeq+")'>"+hour+"</li>"
+						            		  html += "<a href='javascript:selectTime("+hourSeq+")' style='margin-right: 10%;'>"+hour+"</a>"
+						            	  }
+						              }
+						            	
+						              html+= "</div>";
+						              
+						              var time = $("#timeOptions").html(html);
+						             
+						              // 받은 시간 환자정보box에 보여주기
+						              var dateandtime = document.getElementById("dateandtime");
+						              dateandtime.innerText = date;
+						            
+						          
+						            },
+						            error: function(request, status, error){
+										alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+						            }
+						        });
+							}
+			
+			
 						}
 					}
 		});
