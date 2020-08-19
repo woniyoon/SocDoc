@@ -23,8 +23,8 @@
 		margin: 10px 0 0 0;
 	}
 	
-	main{
-		margin: 250px 100px 100px 100px;
+	/* .mainContainer {
+		margin-top: 250px;
 	    width: 90%;
 	    min-height: 70vh;
 	    height: auto;
@@ -32,8 +32,8 @@
 	    display: flex;
 	    justify-content: space-between;	
 	   	flex-shrink:0 !important;	
-	   	flex:none;	    
-	}
+	   	justify-content: center;
+	} */
 	/* 
 	.centerMain{
 		background : url('/socdoc/resources/images/centerMain.jpg'); 
@@ -43,7 +43,7 @@
 		margin-top: -20px;
 	} */
 	
-	#sideMenu {
+/* 	#sideMenu {
 		padding: 40px 0 0 40px;
 		width:18%;
 	}
@@ -51,6 +51,28 @@
 	#contents {
 		width:90%;
 		height: 100%;
+	} */
+	
+		.mainContainer {
+		margin: 240px auto;
+	    width: 70vw;
+	    min-height: 65vh;
+	    height: auto;
+	    flex-direction: row;
+	    display: flex;
+	    justify-content: center;
+	}
+	
+	#sideMenu {
+		flex: 1;
+		padding: 40px 0 0 40px;
+		font-size: 1.2em;
+	}
+	
+	#contents {
+		flex: 5;
+		height: auto;
+		margin: 0 auto;
 	}
 	
 </style>
@@ -60,12 +82,12 @@
          <tiles:insertAttribute name="header" />
       </div>
 <!-- 	<div class="centerMain"></div>
- -->	<main>
+ --><div class="mainContainer" align="center">
 		<tiles:insertAttribute name="sideinfo" />
 		<div id="contents">		
 			<tiles:insertAttribute name="content" />
 		</div>
-	</main>
+	</div>
 	<tiles:insertAttribute name="footer" />
 </body>
 </html>
