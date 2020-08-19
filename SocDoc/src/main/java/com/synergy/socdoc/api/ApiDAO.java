@@ -1,12 +1,20 @@
 package com.synergy.socdoc.api;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 
 import org.json.JSONObject;
 import org.json.XML;
 import org.springframework.stereotype.Repository;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+ 
 
 @Repository
 public class ApiDAO implements InterApiDAO {
@@ -56,11 +64,12 @@ public class ApiDAO implements InterApiDAO {
 			System.out.println("result in DAO class : "+sb.toString());
 			result = sb.toString();
 			
+			
 			JSONObject xmlJSONObj = XML.toJSONObject(sb.toString());	
 			System.out.println("‼️xmlJSONObj‼️ " + xmlJSONObj);
 			result = xmlJSONObj.toString();
 			System.out.println("‼️xmlJSONObjString‼️ " + result);
-			
+	
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -70,6 +79,7 @@ public class ApiDAO implements InterApiDAO {
 	}
 	
 	
+
 	@Override
 	public String getCoronaStats(String startCreateDt, String endCreateDt) {
 		String result = "";

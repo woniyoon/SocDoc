@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="detail">
+
+	<select id="hospitalDetail" parameterType="String" resultType="com.synergy.socdoc.member.HpInfoVO">
+		select hpseq, hpname, address, phone, dept, info, mainimg, subimg1, subimg2
+		from hospitalinfo
+		where hpseq=#{hpSeq}
+	</select>
+	
+	<select id="hospitalRating" parameterType="String" resultType="String">
+		select trunc(avg(rating)) as avg 
+		from hospitalreview 
+		where hpseq=#{hpseq}
+	</select>
+	
+	<resultMap type="HashMap" id="openingHours">
+		<result property="day" column="day" javaType="String"></result>
+		<result property="open" column="open" javaType="String"></result>
+		<result property="close" column="close" javaType="String"></result>
+		
+	</resultMap>
+	
+	<select id="getOpeningHours" parameterType="String" resultMap="openingHours">
+		select nvl2(s.open, s.day, null) as day, nvl(s.open, null) as open, nvl2(s.open, t.hour, null) as close
+		from
+		(select s.day, s.close, t.hour as open
+		from schedule s join
+		     timetable t
+		     on s.open = t.hourSeq and s.hpSeq = #{hpSeq}
+		)s
+		left join timetable t
+		on s.close = t.hourSeq
+		order by day asc
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	<!-- 즐겨찾기 -->
+	<select id="readBookMark" parameterType="HashMap" resultType="int">
+		select count(*)
+		from bookmark
+		where userid = #{loginuserId} and hpseq = #{hpSeq}
+	</select>
+	
+    <delete id="delBookMark" parameterType="HashMap">
+		delete bookmark where userid = #{loginuserId} and hpseq =#{hpSeq}
+	</delete>
+	
+	<insert id="addBookMark" parameterType="HashMap">
+    	insert into bookmark(bookseq,userid,hpseq) values(bookmarkseq.nextval, #{loginuserId},#{hpSeq})
+    </insert>
+	
+	
+	<!-- 리뷰 -->
+	<select id="getHpReviewMe" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpReviewVO"> 
+		select userid, content, regDate, rating 
+     	from hospitalreview
+     	where hpseq=#{hpSeq} and userid = #{loginuserId}
+    </select>
+
+	<select id="getHpReview" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpReviewVO"> 
+		select userid, content, regdate, rating 
+     		from
+	     	(select row_number() over (order by regDate desc) as rno,
+	     		userid, content, regDate, rating 
+	     	from hospitalreview
+	     	where hpseq=#{hpSeq}
+	     	)V
+     	where V.rno between #{startRno} and #{endRno}
+    </select>
+	
+	<select id="getReviewTotalCount" parameterType="HashMap" resultType="int">
+		select count(*)
+		from hospitalreview
+		where hpseq = #{hpSeq}
+	</select>
+	
+	<delete id="reviewDelete" parameterType="HashMap">
+		delete hospitalreview where hpseq=#{hpSeq} and userid=#{userid}
+	</delete>
+	
+	<insert id="addReview" parameterType="HashMap">
+    	insert into hospitalreview(hpreviewseq,userid,hpseq,content,rating, hpname)
+		values(hpreviewseq.nextval, #{userid}, #{hpSeq}, #{reviewContent}, #{rating}, #{hpName})
+    </insert>
+	
+	
+	
+	
+	<!-- 약국 -->
+	<select id="pharmacyDetail" parameterType="String" resultType="com.synergy.socdoc.member.PharmacyVO">
+		select pharmSeq, name, address, phone, img
+		from pharmacyinfo
+		where pharmSeq=#{pharmSeq}
+	</select>
+	
+	<select id="pharmacyRating" parameterType="String" resultType="String">
+		select trunc(avg(rating)) as avg 
+		from pharmacyreview 
+		where pharmSeq=#{pharmSeq}
+	</select>
+	
+	<select id="getPhReviewMe" parameterType="HashMap" resultType="com.synergy.socdoc.member.PharReviewVO"> 
+		select userid, content, regDate, rating 
+     	from pharmacyreview
+     	where pharmSeq=#{pharmSeq} and userid = #{loginuserId}
+    </select>
+
+	<select id="getPhReview" parameterType="HashMap" resultType="com.synergy.socdoc.member.PharReviewVO"> 
+		select userid, content, regdate, rating 
+     		from
+	     	(select row_number() over (order by regDate desc) as rno,
+	     		userid, content, regDate, rating 
+	     	from pharmacyreview
+	     	where pharmSeq=#{pharmSeq}
+	     	)V
+     	where V.rno between #{startRno} and #{endRno}
+    </select>
+	
+	<select id="getReviewTotalCountPh" parameterType="HashMap" resultType="int">
+		select count(*)
+		from pharmacyreview
+		where pharmSeq = #{pharmSeq}
+	</select>
+	
+	<delete id="reviewDeletePh" parameterType="HashMap">
+		delete pharmacyreview where pharmSeq=#{pharmSeq} and userid=#{userid}
+	</delete>
+	
+	<insert id="addReviewPh" parameterType="HashMap">
+    	insert into pharmacyreview(phReviewSeq,userid,pharmSeq,content,rating, pharname)
+		values(phReviewSeq.nextval, #{userid}, #{pharmSeq}, #{reviewContent}, #{rating}, #{phName})
+    </insert>
+	
+	
+</mapper>

@@ -40,6 +40,7 @@ public class HpInfoVO {
 		
 	}	
 	
+
 	public HpInfoVO(String hpSeq, String dept, String hpName, String address, String phone, String info,
 			double latitude, double longitude, int open, int close, String mainImg, String subImg1, String subImg2, int status, String submitId, String uploadDate, String distance, String avg, String reason) {
 		super();
