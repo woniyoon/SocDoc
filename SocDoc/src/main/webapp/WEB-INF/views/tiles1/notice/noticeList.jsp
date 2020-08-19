@@ -210,11 +210,11 @@
 	    padding: 0px;
 	    margin-bottom: 80px;
 	    grid-row-gap: 50px;
-	    grid-template-columns: 33.333% 33.333% 33.333%;
+	    grid-template-columns: 33.5% 33.5% 33.5%;
 	}	
 	
 	div > img {
-		width: 245px;
+		width: 252px;
 		height: 200px;
 		//border: solid 1px red;
 	}

@@ -215,7 +215,7 @@
                 </tr>
                 <tr>
                     <th class="pre_post th">다음글</th>
-                    <td class="pre_post preNotice titlePointer" style="border-bottom: solid 1px #ccc;" onclick="goPreNotice(this);" >${noticevo.nextsubject}</td>
+                    <td class="pre_post preNotice titlePointer" style="border-bottom: solid 0px #ccc;" onclick="goPreNotice(this);" >${noticevo.nextsubject}</td>
                 </tr>
             </table>
    		</div>
