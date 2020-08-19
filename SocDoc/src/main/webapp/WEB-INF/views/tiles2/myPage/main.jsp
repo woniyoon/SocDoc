@@ -273,7 +273,7 @@
         </ul>
 
 </header> -->
-    <main>
+    <main style="margin-bottom: 80px;">
         <div id="sideMenu" style="margin-top: 220px;">
             <ul style="font-size: 14pt;">
             	<li><h3 style="margin-bottom:20px; font-family: han; font-weight: bolder; font-size: 22pt; letter-spacing:-1px; word-spacing: -2px;">관련 콘텐츠</h3></li>
@@ -287,8 +287,8 @@
             </ul>
             <ul style="display:inline-block; margin-top: 20px; font-size: 16pt;">
             	<li><h3 style="margin-bottom:20px; font-family: han; font-weight: bolder; font-size: 22pt; letter-spacing:-1px; word-spacing: -3px;">자주 찾는 서비스</h3></li>
-                <li><a style="color: #157bb9; cursor: pointer;">FAQ</a>&nbsp;&nbsp;&nbsp;<a style="cursor: pointer; color: #157bb9;">병원찾기</a></li>
-                <li><a style="color: #157bb9; cursor: pointer;">내 건강</a></li>
+                <li><a href="<%= request.getContextPath()%>/faq.sd" style="color: #157bb9; cursor: pointer;">FAQ</a>&nbsp;&nbsp;&nbsp;<a href="<%= request.getContextPath()%>/searchHospital.sd" style="cursor: pointer; color: #157bb9;">병원찾기</a></li>
+                <li><a style="color: #157bb9; cursor: pointer;" href="<%= request.getContextPath()%>/myHealth.sd">내 건강</a></li>
             </ul>
         </div>
         <div id="contents" style="margin-top: 220px;">
@@ -480,7 +480,7 @@
 				홈페이지 이용시 의견이 있으시면 문의해주세요.
 				<div id="infoBnt" style="margin-top: 50px;">
 					<button type="button" class="main" style="width:90%; height:40px;" onclick="javascript:location.href='<%= request.getContextPath()%>/askList.sd'" >문의내역</button>
-					<button type="button" class="main" style="width:90%; height:40px; margin-top:10px;" >의견접수</button>
+					<button type="button" class="main" style="width:90%; height:40px; margin-top:10px;" onclick="javascript:location.href='<%= request.getContextPath()%>/faq.sd'" >의견접수</button>
 				</div>
 			</div>
 		</div>

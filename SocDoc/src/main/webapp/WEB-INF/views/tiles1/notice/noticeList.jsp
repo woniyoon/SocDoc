@@ -51,7 +51,7 @@
 	}
    
 	ul.tabs li.current {
-		background: #0080ff;
+		background: #157bb9;
 		color: #fff;
 		font-weight: 1000;
 	}
@@ -92,17 +92,17 @@
 	    font-size: 14px;
 	    font-weight: bold;
 		color: #ffffff;
-		background-color: #58ACFA;
+		background-color: #157bb9;
 		border: solid 0px #ccc;
 	    cursor: pointer;
 	}
 	
 	#noticeSearchWord, #noticeSearchWord2  {
 		display: inline-block;
+	    padding-left: 7px;
 		width: 200px;
 	    height: 35px;
 	    margin: 0;
-	    padding-left: 7px;
 	    text-indent: 10px;
 	    color: #666;
 	    border: 1px solid #ccc;
@@ -210,11 +210,11 @@
 	    padding: 0px;
 	    margin-bottom: 80px;
 	    grid-row-gap: 50px;
-	    grid-template-columns: 33.333% 33.333% 33.333%;
+	    grid-template-columns: 33.5% 33.5% 33.5%;
 	}	
 	
 	div > img {
-		width: 245px;
+		width: 252px;
 		height: 200px;
 		//border: solid 1px red;
 	}
@@ -254,7 +254,9 @@ $(window).ready(function(){
 		getNoticeBoard();
 	});
 	
-	getNoticeBoard(1, "");
+		getNoticeBoard(1, "");
+
+	
 	
 	// 탭전환(건강정보)
 	$('#two').click(function(){
@@ -269,19 +271,18 @@ $(window).ready(function(){
 	// 공지사항 검색 엔터키
 	$("#one").keydown(function(event) {
 		//console.log($(this).prop("value"));
-		 if(event.keyCode == 13) { // 엔터를 했을 경우
+		 if(event.keyCode == 13) { // 엔터
 			 getNoticeBoard();
 		 }
 	});
 	
 	// 건강정보 검색 엔터키	
-	$("#two").keydown(function(event) {
+ 	$("#two").keydown(function(event) {
 		//console.log($(this).prop("value"));
-		 if(event.keyCode == 13) { // 엔터를 했을 경우
-			 // getHealthInfoBoard(1, $(this).prop("value"));
+		 if(event.keyCode == 13) { // 엔터
 			 getHealthInfoBoard();
 		 }
-	});
+	}); 
 	
 	// 더보기 초기값
 	infoBoard("1");
@@ -296,11 +297,28 @@ $(window).ready(function(){
 			infoBoard($(this).val());
 		}
 	});
+
+
+	console.log(getCookie('isInfoSelected'));
+
+	// 건강정보가 선택됐는지 쿠키에서 읽어와 체크
+	if(getCookie('isInfoSelected') == 'true'){
+    	console.log("!!!!!");
+    	$("#two").trigger("click");
+
+    	document.cookie = 'isInfoSelected=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';    	
+    } 
+
 });		
 
 	
-	
-	
+function getCookie(name) {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length == 2) return parts.pop().split(";").shift();
+
+}
+ 
 
 // 공지사항 탭 클릭 /////////////////////////////////////////////////////////////////	
 function getNoticeBoard(currentShowPageNo){

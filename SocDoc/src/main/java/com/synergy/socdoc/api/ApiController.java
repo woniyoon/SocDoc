@@ -1,6 +1,8 @@
 package com.synergy.socdoc.api;
 
-import java.util.HashMap;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,5 +26,28 @@ public class ApiController {
 		
 		return result;
 	}
-	
+
+
+	@ResponseBody
+	@RequestMapping(value = "/api/corona.sd", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+	public String getCoronaStats(HttpServletRequest request) {
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+
+        Calendar today = Calendar.getInstance();
+        today.add(Calendar.DATE, -1); // 7일(일주일)을 뺀다
+        String endCreateDt = sdf.format(today.getTime());
+
+        today.add(Calendar.DATE, -7); // 7일(일주일)을 뺀다
+        String startCreateDt = sdf.format(today.getTime());
+		
+		
+		System.out.println("********* 호출시작! *********");
+		String result= service.getCoronaStats(startCreateDt, endCreateDt);
+		
+		System.out.println("********* 호출완료 ! *********");
+		
+		return result;
+	}
+
 }

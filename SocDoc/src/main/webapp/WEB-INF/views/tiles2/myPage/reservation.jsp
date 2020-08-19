@@ -486,10 +486,10 @@
            		<li><a href="<%= request.getContextPath()%>/review.sd">· 내 후기</a></li>
             </ul>
             <ul style="display:inline-block; margin-top: 20px; margin-left: 50px; font-size: 14pt; color:#157bb9;">
-            	<li><h3 style="font-weight: bolder; color: #4e4e4b;">자주 찾는 서비스</h3></li>
-                <li><a>FAQ</a>&nbsp;&nbsp;&nbsp;<a>병원찾기</a></li>
-                <li><a>내 건강</a></li>
-            </ul>        
+               <li><h3 style="font-weight: bolder; color: #4e4e4b;">자주 찾는 서비스</h3></li>
+                <li><a href="<%= request.getContextPath()%>/faq.sd" style="color: #157bb9; cursor: pointer;">FAQ</a>&nbsp;&nbsp;&nbsp;<a href="<%= request.getContextPath()%>/searchHospital.sd" style="cursor: pointer; color: #157bb9;">병원찾기</a></li>
+                <li><a style="color: #157bb9; cursor: pointer;" href="<%= request.getContextPath()%>/myHealth.sd">내 건강</a></li>
+            </ul>   
          </div>
         
         <div id="contents">
@@ -547,7 +547,7 @@
 			</br></br>
 			
 			<div id="notice">
-				<img id="warning" src="<%= ctxPath%>/resources/images/warning.png" width=70px height=70px /><span style="color: #02BAFF; font-size: 18pt; font-weight: bold;">주의</span><br/>
+				<img id="warning" src="<%= ctxPath%>/resources/images/warning.png" width=70px height=70px /><span style=" padding: 10px; color: #02BAFF; font-size: 18pt; font-weight: bold;">주의</span><br/>
 				<span style="font-size: 10pt;">
 					진료예약취소는 진료일 이전(자정)까지 가능합니다. (수납기록 및 검사예약이 없는 진료만 변경/취소가 가능특정 진료과(정신건강의학과, 영상의학과, 마취통증의학과)의 예약이 조회되지 않을 수 있습니다.<br/>
 					예약이 조회되지 않을 경우에는 예약센터나 해당 진료과로 문의해 주십시오.
@@ -601,7 +601,7 @@
 		      <div class="modalOverlay">
 		         <div class="modalContent" align="center">
 		            <div class="modalContentHeader">
-		               <h4 align="left">병원정보</h4>
+		               <h4 align="left" style="font-weight: bold; font-size:16pt; ">예약정보</h4>
 		               <span style="font-size: 1.2em; cursor: pointer;"
 		                  onclick="closeModal()">X</span>
 		            </div>
@@ -641,7 +641,7 @@
 		            </div>
 		            <div class="modal_footer" style="text-align: center; margin-top:30px; margin-bottom: 15px;">
 				     <!--  <button type="button" class="btn btn-primary">예약변경</button> -->
-				      <button type="button" style="background-color: #157bb9; color:white;" class="btn btn-default myclose" data-dismiss="modal">예약취소</button>
+				     <!--  <button type="button" style="background-color: #157bb9; color:white;" class="btn btn-default myclose" data-dismiss="modal">예약취소</button> -->
 				    </div>
 		         </div>
 		      </div>

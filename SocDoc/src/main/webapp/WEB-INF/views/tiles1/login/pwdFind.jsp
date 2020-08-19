@@ -38,8 +38,13 @@
 		padding: 0;
 		//border: solid 1px blue;
 	}
-   
-	/* 탭(개인회원/병원회원) */
+	
+   	.textPrimary {
+   		margin-bottom: 5px;
+   		color: #454545; 
+   	}
+   	
+   	/* -------------------------------- 탭(개인회원/병원회원) ---------------------------------- */
 	#tab {
 		display: flex;
 		flex-direction: row;
@@ -54,7 +59,7 @@
    		background-color: white;
    		color: #ccc;
    		border-bottom: solid 1px #ccc;
-   		//border-bottom: solid 2px #58ACFA;
+   		//border-bottom: solid 2px #157bb9;
 	}
 	
  	/* 버튼 클릭 됐을 때 */
@@ -63,7 +68,7 @@
 	    padding: 15px 0;
     	font-size: 14pt;
     	font-weight: bold;
-    	background-color: #58ACFA;
+    	background-color: #157bb9;
     	color: #fff;	
     	border: solid 0px black;
 	} 
@@ -92,12 +97,7 @@
 		font-size: 8pt;
 		color: red;
 	}
-	
-	.textPrimary {
-		margin-bottom: 5px;
-		color: #585858;
-	}
-	
+
     .requiredInfo {
 		width: 100%;
 		height: 35px;
@@ -105,7 +105,9 @@
 		box-sizing: border-box;
 		border: solid 1px #ccc;
      }
-     
+	
+	/* -------------------------------- 하단 버튼 ---------------------------------- */
+	
     .btnJoin {
     	width: 100%;
     	margin: 20px auto;
@@ -114,7 +116,7 @@
    	
    	input[type=button] {
     	color: #fff;
-    	background-color: #58ACFA;
+    	background-color: #157bb9;
 	    border: solid 0px #ccc;
     }
     
@@ -124,7 +126,7 @@
 	    font-size: 20px;
 	    font-weight: bold;
 	    color: #fff;
-	    background-color: #58ACFA;
+	    background-color: #157bb9;
 	    border: solid 1px #ccc;
 	}
     
@@ -132,7 +134,8 @@
       text-decoration: none;
     }
    	
-	/* 입력 - 비활성화 */
+	/* -------------------------------- 입력 에러 ---------------------------------- */
+	
 	.wrong {
 		border: solid 1px red;
 	}
@@ -257,7 +260,7 @@ $(window).ready(function(){
 					condition3 = false;
 					return;
 				} else {	// 데이터가 조건에 맞다면
-					console.log("개인회원 데이터 조건 맞음");
+					//console.log("개인회원 데이터 조건 맞음");
 					$("form[name=pwdFindFrm] input#email").removeClass("wrong");
 					condition3 = true;
 				}
@@ -268,7 +271,7 @@ $(window).ready(function(){
 		}); 
 		
 		// 이메일 '인증하기' 버튼 눌렀을 때..////////////////////////////////
-		$("form[name=pwdFindFrm] #btnChk").click(sendVerificationCode);	
+		$("form[name=pwdFindFrm] .btnChk").click(sendVerificationCode);	
 		///////////////////////////////////////////////////////////
 		
 		//  ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 인증번호
@@ -369,7 +372,7 @@ $(window).ready(function(){
 			var data = $(this).val().trim();
 			if(data == "") {
 				bRequiredInfo = true;
-				console.log($(this));
+				//console.log($(this));
 				$(this).focus();
 				return false;
 			}
@@ -471,7 +474,7 @@ $(document).ready(function(){
 					hpCondition3 = false;
 					return;
 				} else {	// 데이터가 조건에 맞다면
-					console.log("개인회원 데이터 조건 맞음");
+					//console.log("개인회원 데이터 조건 맞음");
 					$("form[name=hpPwdFindFrm] input#email").removeClass("wrong");
 					hpCondition3 = true;
 				}
@@ -482,7 +485,7 @@ $(document).ready(function(){
 		}); 
 		
 		// 이메일 '인증하기' 버튼 눌렀을 때..////////////////////////////////
-		$("form[name=hpPwdFindFrm] #btnChk").click(hpSendVerificationCode);	
+		$("form[name=hpPwdFindFrm] .btnChk").click(hpSendVerificationCode);	
 		///////////////////////////////////////////////////////////
 		
 		//  ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶ 인증번호
@@ -583,7 +586,7 @@ $(document).ready(function(){
 			var data = $(this).val().trim();
 			if(data == "") {
 				bRequiredInfo = true;
-				console.log($(this));
+				//console.log($(this));
 				$(this).focus();
 				return false;
 			}
@@ -625,9 +628,9 @@ $(document).ready(function(){
 				        <span class="error" id="useridError">아이디를 입력하세요.</span>
 				        
 				        <label for="email" style="display: block;">이메일</label>
-				        <input type="text" name="email" id="email" class="requiredInfo" placeholder="E-mail을 입력하세요" style="width: 70%; height:35px;" /> 
-				        <input type="button" id="btnChk" class="btnChk" value="인증" style="width: 28%; height:35px;"/>
-				        <input type="button" id="btnChkNext" class="btnChk" onclick="sendVerificationCode()" value="재인증" style="width: 28%; height: 35px;"/>
+				        <input type="text" name="email" id="email" class="requiredInfo" placeholder="E-mail을 입력하세요" style="width: 70%; height:35px; " /> 
+				        <input type="button" id="btnChk" class="btnChk" value="인증" style="width: 28%; height:35px; font-weight: bold;"/>
+				        <input type="button" id="btnChkNext" class="btnChk" onclick="sendVerificationCode()" value="재인증" style="width: 28%; height: 35px; font-weight: bold;"/>
 				        <span class="error" id="emailError">이메일 형식에 맞지 않습니다.</span>
 				
 				        <label for="code">인증번호</label>
@@ -640,6 +643,7 @@ $(document).ready(function(){
 					</div> 
 				</div>
 			</div>
+			<input type="hidden" name="type" value="mem" />
 		</form>		
 		  
 		<!-- -------------------------------- 일반고객 비밀번호 찾기 끝 ---------------------------------- --> 	
@@ -658,8 +662,8 @@ $(document).ready(function(){
 				        				
 						<label for="email" style="display: block;">이메일</label>
 				        <input type="text" name="email" id="email" class="requiredInfo" placeholder="E-mail을 입력하세요" style="width: 70%; height:35px;" /> 
-				        <input type="button" id="btnChk" class="btnChk" value="인증" style="width: 28%; height:35px;"/>
-				        <input type="button" id="btnChkNext" class="btnChk" onclick="hpSendVerificationCode()" value="재인증" style="width: 28%; height: 35px;"/>
+				        <input type="button" id="btnChk" class="btnChk" value="인증" style="width: 28%; height:35px; font-weight: bold;"/>
+				        <input type="button" id="btnChkNext" class="btnChk" onclick="hpSendVerificationCode()" value="재인증" style="width: 28%; height: 35px; font-weight: bold;"/>
 				        <span class="error" id="emailError">이메일 형식에 맞지 않습니다.</span>
 						
 				        <label for="code">인증번호</label>
@@ -672,11 +676,12 @@ $(document).ready(function(){
 					</div>  
 				 </div>	
 			</div>
+			<input type="hidden" name="type" value="hpMem" />
 		</form> 
 		
 		<!-- -------------------------------- 병원고객 비밀번호 찾기 끝 ---------------------------------- --> 
 		<form name="verifyCertificationFrm">
-			<input type="hidden" name="userid" />
+			<input type="hidden" name="userid"/>
 			<input type="hidden" name="userCertificationCode" />
 		</form>
 		

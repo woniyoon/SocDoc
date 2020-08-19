@@ -11,6 +11,8 @@ public class HpReviewVO {
 	// 병원의 평균 평점
 	private int avgRating;
 	
+	private String mainImg;
+	
 	private String hpName;
 	
 	public HpReviewVO() {}
@@ -90,6 +92,16 @@ public class HpReviewVO {
 	public void setHpName(String hpName) {
 		this.hpName = hpName;
 	}
+
+	public String getMainImg() {
+		return mainImg;
+	}
+
+	public void setMainImg(String mainImg) {
+		this.mainImg = mainImg;
+	}
+	
+	
 	
 
 }
