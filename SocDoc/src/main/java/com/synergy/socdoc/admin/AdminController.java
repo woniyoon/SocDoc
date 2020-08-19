@@ -507,13 +507,15 @@ public class AdminController {
 	/* 병원정보 수정 & 승인 후 병원회원 상태 변경 */
 	@RequestMapping(value="/updateMemStatus.sd", method = RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView confirmUpdate_updateMemStatus_updateSchedule(HttpServletRequest request, @RequestParam("infock") String[] infock, ModelAndView mav) {
+	public ModelAndView confirmUpdate_updateMemStatus_updateSchedule(HttpServletRequest request, ModelAndView mav) {
 		
 	//	String hpSeq = request.getParameter("hpSeq");
 		String infoJoin = request.getParameter("infoJoin");
 		String hpSeq = request.getParameter("hpSeq");
 		
+		
 		String[] infoArr = infoJoin.split(",");
+		System.out.println(infoJoin);
 		String[] hpArr = hpSeq.split(",");
 		
 	//	System.out.println(infoArr);

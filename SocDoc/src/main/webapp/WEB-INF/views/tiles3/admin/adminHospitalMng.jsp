@@ -109,8 +109,8 @@
 	    background-color: white;
 	    width: 60%;
 	    height: auto;
-	    min-height: 65%;
-	    max-height: 65%;
+	    min-height: 80%;
+	    max-height: 80%;
 	    position: relative;
 	    padding: 30px;
 	    border: 1px solid rgb(230, 230, 230);
@@ -372,7 +372,7 @@
  	               		html += "<span class='hospitalName'>"+json.hpName+"</span>";
 	               		html += "</div>";
 	               		html += "<div class='info'>";
-	               		html += "<div class='one'><img src='<%=ctxPath%>/resources/images/"+json.mainImg+"'/></div>";
+	               		html += "<div class='one'><img src='<%=ctxPath%>/resources/images/"+json.mainImg+"' style='width: 400px; height: 400px; margin-top: 22px; padding-right: 80px;'/></div>";
 	               		html += "<div class='two'>";
 	               			
 	                	html += "<table class='infoTable'>";

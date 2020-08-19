@@ -239,7 +239,7 @@
         <c:if test="${not empty sessionScope.hpLoginuser}">
         	<li><img src="<%= ctxPath%>/resources/images/loginY.png" width="20px" height="20px" style="margin-top: 2px;"/></li>   
 	        <li class="photo"><a href="<%=ctxPath%>/mypage.sd"><strong>${hpLoginuser.name}</strong>의 마이페이지</a></li>
-	        <li class="photo"><a href="#"><strong>${hpLoginuser.name}</strong>님의 마이페이지</a></li>
+	        <li class="photo"><a href="<%=ctxPath%>/hpPanel/main.sd"><strong>${hpLoginuser.name}</strong>님의 마이페이지</a></li>
 	        <li><a href="<%=ctxPath%>/hpLogout.sd">로그아웃</a></li>
 	        <li><a href="<%=ctxPath%>/faq.sd">고객센터</a></li>
         </c:if>

@@ -103,8 +103,8 @@
 	    background-color: white;
 	    width: 70%;
 	    height: auto;
-	    min-height: 85%;
-	    max-height: 85%;
+	    min-height: 90%;
+	    max-height: 90%;
 	    position: relative;
 	    padding: 30px;
 	    border: 1px solid rgb(230, 230, 230);
@@ -293,8 +293,10 @@
 					</tr>
 					</c:forEach>
 			</table>
+			<form name="confirmFrm">
 					<input type="hidden" id="infoJoin" name="infoJoin" />
 					<input type="hidden" id="hpSeq" name="hpSeq" />
+			</form>
             <button id="updateBtn" data-toggle="modal" data-target="#myModal">승인</button>
 		</div>
 		
@@ -449,7 +451,7 @@
  	               		html += "<span class='hospitalName'>"+json.hpName+"</span>";
 	               		html += "</div>";
 	               		html += "<div class='info'>";
-	               		html += "<div class='one'><img src='<%=ctxPath%>/resources/images/"+json.mainImg+"'/></div>";
+	               		html += "<div class='one'><img src='<%=ctxPath%>/resources/images/"+json.mainImg+"' style='width: 400px; height: 380px; margin-top: 20px;' /></div>";
 	               		html += "<div class='two'>";
 	               			
 	                	html += "<table class='infoTable'>";
@@ -532,7 +534,6 @@
             }
 
             
-            console.log(hpSeqArr);
             var infoJoin = infoArr.join();
             var hpSeq = hpSeqArr.join();
             
@@ -542,7 +543,7 @@
             // alert(con);
             
             if(con == true) {
-         	   var frm = document.updateFrm;
+         	   var frm = document.confirmFrm;
                 frm.method = "GET";
                 frm.action = "<%= request.getContextPath()%>/updateMemStatus.sd"
                 frm.submit();
@@ -556,6 +557,7 @@
          
 	}	
 	
+	<%-- 
 	function reject() {
 		
 		var cnt = $("input[name='infock']:checked").length;
@@ -593,6 +595,8 @@
            var hpSeq = hpSeqArr.join();
            
            $("#infoJoin").val(infoJoin);
+           
+           
            $("#hpSeq").val(hpSeq);
            
            if(con == true) {
@@ -609,7 +613,7 @@
         }	 
 	}
 	
-	
+	--%>
 	function rejectInModal() {
 		
 		if($("#reason").val().trim()=='') {
