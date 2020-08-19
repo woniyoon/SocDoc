@@ -25,27 +25,27 @@
 /* body {
       width: 1440px;   
 } */
-#reservation_container{
+div#reservation_container{
       width: 80%;
        margin: 0 auto;
 }
-#reservation_title{
+div#reservation_title{
       width: 40%;
       margin: 1%;
       padding-top: 2%;
       padding-bottom: 3%;
 }
-.list_hospital{
+div.list_hospital{
       padding-top:5%;
       width: 48%;
       float: left;
 }
-.schedule_medical{
+div.schedule_medical{
       padding-top:5%;
       width: 45%;
       float: right;
 }
-.container_find{ /* 병원찾기 지역/진료/병원명 검색 창 */
+div.container_find{ /* 병원찾기 지역/진료/병원명 검색 창 */
       width: 65%;
       border: solid 2px black;
       padding: 2%;
@@ -54,14 +54,14 @@
       float: left;
       height: 250px;
 }
-.check_box{ /* 예약하실 정보 확인 */
+div.check_box{ /* 예약하실 정보 확인 */
       float: right;
-      width: 30%;
+      width: 34%;
       height: 250px;
       background-color: #157bb9;
       color: white;
 }
-.check_box li{
+div.check_box li{
       height: 40px;
       font-size: 14pt;
       font-weight: bold;
@@ -83,13 +83,10 @@ select#generalGugunCode{
 select#egdgCode{
       width: 50%;
 }
-.reserve_btn{
+button.reserve_btn{
    padding:3%;
    width:350px;
    margin-top: 10%;
-}
-.con{
-      display: none;
 }
 .form-control-tel {
          width: 70px;
@@ -164,6 +161,15 @@ select#egdgCode{
     height: 100%;
     z-index: 1000;   
 }
+.modalContainer4 {
+	position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;   
+}
+
 
 .modalOverlay {
     display: flex;
@@ -294,8 +300,8 @@ button.click:hover:before,button.click:hover:after{
   width:150px;
   transition:800ms ease all;
 }
-#timebox{
-	border: solid 1px red;
+div#timebox{ /* 시간선택 */
+	padding-left: 15%;
 }
    </style>
 <script>
@@ -321,7 +327,11 @@ $(document).ready(function() {
 			
 			var sDeptIdes = arrDeptId.join(); // 배열을 join 을 통해서 문자열로 만든다.
 		
-			alert(sDeptIdes);
+			if(sDeptIdes.trim() == ""){
+				 alert("진료과목을 체크해주세요.");
+				 return;
+			 } 
+			// alert(sDeptIdes);
 			var frm = document.deptFrm;
 			frm.sDeptIdes.value = sDeptIdes;
 			
@@ -356,13 +366,20 @@ $(document).ready(function() {
 	          }
 	       });
 	       
-	       //검색시 검색조건 및 검색어 값유지시키기
-	       if(${paraMap != null}){
-	          $("#searchType").val("${paraMap.searchType}");
-	          $("#searchWord").val("${paraMap.searchWord}");
-	       } 
+	 //검색시 검색조건 및 검색어 값유지시키기
+       if(${paraMap != null}){
+          $("#searchType").val("${paraMap.searchType}");
+          $("#searchWord").val("${paraMap.searchWord}");
+       } 
 	       
 	       
+   	 // Modal 예약하시겠습니까?
+	         $("#visitorRow4").click(function(e) {
+	               $(".modalContainer4").removeClass("hidden");
+	            // 체크박스 클릭시, 이벤트를 취소
+	            
+	         });
+	 
 	       // Modal 예약하시겠습니까?
 	       $("#visitorRow2").each(function() {
 		         $(this).click(function(e) {
@@ -399,15 +416,21 @@ $(document).ready(function() {
 	   });
 		  
 	
-	   function closeModal() {
+	   function closeModal3() {
 	      $(".modalContainer3").addClass("hidden");
 	   }
 		// =========  모달창  ========= 
 	  //console.log("document ready function"); 
 	      
 		
-	  function closeModal() {
+	  function closeModal2() {
 	      $(".modalContainer2").addClass("hidden");
+	   }
+		// =========  모달창  ========= 
+	  //console.log("document ready function");
+		
+		 function closeModal4() {
+	      $(".modalContainer4").addClass("hidden");
 	   }
 		// =========  모달창  ========= 
 	  //console.log("document ready function");
@@ -556,7 +579,11 @@ $(document).ready(function() {
 	   
 	// 병원 선택하기 
 	function selecthospital(name, dept, hpSeq){ // 병원이름, 진료과목, 병원seq
-	   
+		
+		if(${sessionScope.loginuser == null}){
+	   		alert("예약하시려면 먼저 로그인을 해주세요.");
+	   		return;	
+		}
 	   selectedHpSeq = hpSeq;
 	   $("input#hpSeq").prop("value", hpSeq);
 	   $("input#dept").prop("value", dept);
@@ -595,7 +622,7 @@ $(document).ready(function() {
         <select name="searchType" id="searchType" style="height: 35px; font-size: 10pt;">
                <option value="hpName">병원명</option>
             </select>
-            <input type="text" name="searchWord" id="searchWord" style="margin-left:2%;" placeholder="병원명을 입력하세요." size="60" autocomplete="off"/> 
+            <input type="text" name="searchWord" id="searchWord" style="margin-left:2%; height: 30px;" placeholder=" 병원명을 입력하세요." size="55" autocomplete="off"/> 
         <button type="button" id="btnSearch" class="click" onclick="goSearch()">병원명검색</button>
       	</label>
         <br/>
@@ -666,7 +693,10 @@ $(document).ready(function() {
    	<c:if test="${not empty membervo}">
       <ul>
          <li>환자명 : ${membervo.name}</li>
-         <li><button class="btnTypecheck" id="visitorRow3">환자정보확인</button><button class="btnTypecheck">최근예약</button></li>
+         <li>
+         <button type="button" class="btnTypecheck" id="visitorRow4">환자정보확인</button>
+         <button type="button" class="btnTypecheck" onclick="javascript:location.href='<%= request.getContextPath()%>/viewHistory.sd'">최근예약</button>
+         </li>
          <li style="font-size: 10pt;" value="hpName"><span>병원</span>/진료과&nbsp;:&nbsp;<span id="hpanddept"></span></li>
          <li style="font-size: 10pt;" value="dept">진료일시&nbsp;:&nbsp;<span id="dateandtime"></span></li>
          <li style="font-size: 10pt;" value="hour">시간&nbsp;:&nbsp;<span id="time"></span></li>  
@@ -763,7 +793,7 @@ $(document).ready(function() {
             <div class="modalContentHeader">
                <h4 align="left">환자정보</h4>
                <span style="font-size: 1.2em; cursor: pointer;"
-                  onclick="closeModal()">X</span>
+                  onclick="closeModal3()">X</span>
             </div>
             <!-- ajax를 이용해, 동적으로 생성 ⬇️-->
             <table class="visitorDetail customTable" >
@@ -786,18 +816,18 @@ $(document).ready(function() {
                </tr>
                <tr align="center">
                   <td>키</td>
-                  
-                  <td>${membervo.height}</td>
-                  
+                  <td>
+                  ${membervo.height}
+               </td>
                </tr>
                <tr align="center">
                   <td>몸무게</td>
-                  <td>${membervo.weight}
+                  <td>${membervo.weight}kg
                   </td>
                </tr>
                <tr align="center">
                   <td>혈액형</td>
-                  <td>${membervo.bloodType}
+                  <td>${membervo.bloodType}형
                   </td>
                </tr>
                </c:if>
@@ -806,8 +836,8 @@ $(document).ready(function() {
             <table>
              <tr>
                <td>
-               <button class="modalbtn" style="background-color: white;">수정신청</button></td>
-              <td><button class="modalbtn" style="background-color: #157bb9;" onclick="closeModal()">확인완료</button></td>
+               <button class="modalbtn" style="background-color: white;" onclick="javascript:location.href='<%= request.getContextPath()%>/myHealth.sd'">수정신청</button></td>
+              <td><button class="modalbtn" style="background-color: #157bb9;" onclick="closeModal3()">확인완료</button></td>
                
                </tr>
             </table>
@@ -816,6 +846,84 @@ $(document).ready(function() {
    </div>
 </div>
 
+<!-- <div class="container" align="center"> -->
+   <div class="modalContainer4 hidden">
+      <div class="modalOverlay">
+         <div class="modalContent" align="center">
+            <div class="modalContentHeader">
+               <h4 align="left">환자정보</h4>
+               <span style="font-size: 1.2em; cursor: pointer;"
+                  onclick="closeModal4()">X</span>
+            </div>
+            <!-- ajax를 이용해, 동적으로 생성 ⬇️-->
+            <table class="visitorDetail customTable" >
+            <c:if test="${not empty membervo}">
+               <tr align="center">
+                  <td>성명</td>
+                  <td>${membervo.name}(${membervo.userid})</td>
+               </tr>
+               <tr align="center">
+                  <td>생년월일</td>
+                  <td>${membervo.birthDate}</td>
+               </tr>
+               <tr align="center">
+                  <td>연락처</td>
+                  <td>${membervo.phone}</td>
+               </tr>
+               <tr align="center">
+                  <td>성별</td>
+                  <td>${membervo.gender}</td>
+               </tr>
+               <tr align="center">
+                  <td>키</td>
+                  <td>
+                  <c:if test="${ membervo.height != null}">
+                   ${membervo.height} cm
+                  </c:if> 
+                  <c:if test="${ membervo.height == null}">
+                   	정보없음
+                  </c:if> 
+               </td>
+               </tr>
+               <tr align="center">
+                  <td>몸무게</td>
+                  <td>
+                  <c:if test="${ membervo.weight != null}">
+                   ${membervo.weight} kg
+                  </c:if>
+                  <c:if test="${ membervo.weight == null}">
+                   	정보없음
+                  </c:if> 
+                  </td>
+               </tr>
+               <tr align="center">
+                  <td>혈액형</td>
+                  <td>
+                  <c:if test="${ membervo.bloodType != null}">
+                   ${membervo.bloodType} 형
+                  </c:if>
+                  <c:if test="${ membervo.bloodType == null}">
+                   	정보없음
+                  </c:if> 
+                  </td>
+               </tr>
+               </c:if>
+            </table>
+            <!-- 동적으로 생성되는 부분 ⬆️  -->
+            <table>
+             <tr>
+               <td>
+               <button class="modalbtn" style="background-color: white;" onclick="javascript:location.href='<%= request.getContextPath()%>/myHealth.sd'">수정신청</button></td>
+              <td><button class="modalbtn" style="background-color: #157bb9;" onclick="closeModal4()">확인완료</button></td>
+               
+               </tr>
+            </table>
+         </div>
+      </div>
+   </div>
+ 
+<!-- </div> -->
+
 
 <!-- <div class="container" align="right"> -->
    <div class="modalContainer2 hidden">
@@ -823,7 +931,7 @@ $(document).ready(function() {
          <div class="modalContent" align="center">
             <div class="modalContentHeader">
             <span style="font-size: 1.2em; cursor: pointer;"
-                  onclick="closeModal()">X</span>
+                  onclick="closeModal2()">X</span>
             <c:if test="${empty membervo}">
          <tr style="padding: 50%; border: solid 1px red;">
             <td>로그인해주세요</td>
@@ -836,6 +944,7 @@ $(document).ready(function() {
 			<c:if test="${not empty membervo}">
                <tr align="left">
                   <h3>${membervo.name} 님 진료예약하시겠습니까?</h3>
+                  </c:if>
             </table>
             <!-- 동적으로 생성되는 부분 ⬆️  -->
             <table>
@@ -843,8 +952,8 @@ $(document).ready(function() {
                <td>
                </td>
               <td><button class="modalbtn" style="background-color: white;" onclick="goReserve()">확인</button></td>
-              <td><button class="modalbtn" style="background-color: #157bb9;" onclick="closeModal()">취소</button></td>
-               </c:if>
+              <td><button class="modalbtn" style="background-color: #157bb9;" onclick="closeModal2()">취소</button></td>
+               
                
                
                </tr>

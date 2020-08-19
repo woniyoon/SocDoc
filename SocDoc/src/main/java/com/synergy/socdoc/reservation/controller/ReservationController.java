@@ -318,8 +318,17 @@ public class ReservationController {
     	  request.setAttribute("member", mvo);
     	  request.setAttribute("hpName", hpName);
     	  request.setAttribute("visitDate", visitDate);
+    	  request.setAttribute("hourSeq", hourSeq);
+    	  request.setAttribute("day", day);
+    	  request.setAttribute("dept", dept);
     	  
           return "Reservation/reservation_result.tiles1";
+      }
+      
+   // 결제 취소페이지 요청 
+      @RequestMapping(value="/cancel.sd")
+      public String cancel() {
+         return "Reservation/reservation_cancel.tiles1";
       }
       
       

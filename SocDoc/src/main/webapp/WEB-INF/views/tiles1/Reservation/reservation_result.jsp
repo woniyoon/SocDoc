@@ -7,9 +7,9 @@
 %>
 <title>인터넷 진료예약</title>
 <style type="text/css">
-body {
+/* body {
 	width: 1440px;	
-}
+} */
 #reservation_container{ /* 전체 박스 */
 	/* border: solid 1px gray; */
 	width: 90%;
@@ -134,6 +134,28 @@ tr.tr{
 </style>
 
 <script>
+
+//예약 확정하기
+function goCancel(){
+   
+   alert("예약취소하시겠습니까?");
+   location.href="<%= ctxPath%>/reserve.sd";
+	
+   }
+//} end of 예약확정하기 끝 
+
+
+//아임포트 API 
+// 진료비 결제하기 
+function func_cancel(){		
+	
+	//	var frm = document.searchFrm;
+	 
+	 frm.method = "GET";
+	 frm.action = "<%= ctxPath%>/cancel.sd";
+	 frm.submit();
+
+}// end of function func_pop()
 </script>
 
 <div id="reservation_container">
@@ -143,6 +165,7 @@ tr.tr{
 	
 	<div class="result_title">
 		<img alt="" src="<%= ctxPath%>/resources/images/check.png" width="50px" height="50px">
+		<br/>
 	<h3>인터넷 진료예약 접수가 완료되었습니다.</h3>
 	</div>
 	
@@ -171,7 +194,8 @@ tr.tr{
             <tr>
                <th scope="row">예약일</th> 
                <td>
-            		${visitDate}
+            		${visitDate}&nbsp;&nbsp;${hourSeq+8}:00
+            		<!-- selectedHourSeq+8) +":00";  -->
                </td>
             </tr> 
              <tr>
@@ -196,7 +220,7 @@ tr.tr{
                <th scope="row">키/몸무게/혈액형</th> 
                <td>
                <c:if test="${ member.height != null || member.weight != null || member.bloodType != null}">
-            	${member.height } / ${member.weight } / ${member.bloodType }
+            	${member.height}cm / ${member.weight}kg / ${member.bloodType}형
             	 </c:if> 
             	<c:if test="${ member.height == null && member.weight == null && member.bloodType == null}">
             	 정보없음
@@ -243,8 +267,8 @@ tr.tr{
 <!-- 회원정보 및 예약정보 끝 -->
 </c:if>
 	<div id="button">
-			<a class="btncheck" onclick="">예약현황조회</a>
-			<a class="btncancel" onclick="">예약취소</a>
+			<a class="btncheck" onclick="javascript:location.href='<%= request.getContextPath()%>/reservation.sd'">예약현황조회</a>
+			<a class="btncancel" id="goCancel" onclick="goCancel()">예약취소</a>
 	</div>
 
 	</div>
