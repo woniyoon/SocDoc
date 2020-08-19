@@ -3,11 +3,14 @@
 
 
 <style>
-    footer {
-		text-align: center;
-		color: #555;
-		height: 150px;
+	
+	footer {
 		background-color: #ddd;
+		color: #555;
+	    height: 20vh;
+	    width: 100%;
+	    bottom: 0;
+	    display: table;
 	}
 	
 	ul.footer, li.footer {
@@ -24,7 +27,7 @@
 
 </style>
 
-<footer>
+<footer align="center">
 	<br/><br/>
 		<ul class="footer">
 			<li class="footer">사업자등록번호 : 486-18-17317017</li>
@@ -36,5 +39,3 @@
 			<li class="footer_bottom">주식회사 속닥속닥은 의료정보의 중개서비스 또는 의료정보중개시스템의 제공자로서, 의료정보의 당사자가 아니며, 의료정보와 관련된 의무와 책임은 각 의료기관에게 있습니다.</li>
 		</ul>
 </footer>
-
-<footer></footer>
