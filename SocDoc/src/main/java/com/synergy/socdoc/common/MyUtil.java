@@ -41,27 +41,27 @@ public class MyUtil {
 			String ctxPath = request.getContextPath();
 
 		  	int beginIndex = currentURL.indexOf(ctxPath) + ctxPath.length();
-			String baseUrl = currentURL.substring(beginIndex + 1);
+			String baseUrl = currentURL.substring(beginIndex);
 
-			
 			System.out.println("MyUtil 안에 있는 baseUrl : " + baseUrl);
-		  	return baseUrl;
+		  	return ctxPath + baseUrl;
 	  }
 	  
-	  public static String createPageBar(int currentShowPageNo, int totalPage, String baseLink) {
-		 	String pageBar = "";
+	  public static String createPageBar(int currentShowPageNo, int totalPage, int pagingSize, String baseLink) {
+		 	String pageBar = "<div class='page_nation'>";
 
 			// 페이지에서 보여지는 첫번째 페이지 번호
 			int pageNo = 1;
 			// 블럭당 보여지는 페이지 번호의 갯수
-			int blockSize = 10;
+			int blockSize = pagingSize;
 			// 1부터 증가해 1개 블럭을 이루는 페이지 번호의 갯수(10개)까지만 증가하는 용도
 			int loop = 1;
 					
 			pageNo = ((currentShowPageNo-1)/blockSize) * blockSize + 1;
 			
 			if(pageNo != 1) {
-			  pageBar += "&nbsp;<a href='"+baseLink+"?currentShowPageNo="+(pageNo-1)+"'>[이전]</a>&nbsp;";		  		  
+				pageBar += "<a class='arrow pprev' href='"+baseLink+"?currentShowPageNoStr=1'></a>&nbsp;" + 
+						   "<a class='arrow prev' href='"+baseLink+"?currentShowPageNoStr="+(pageNo-1)+"'></a>";
 			}
 			
 			while(!(loop > blockSize || pageNo > totalPage)) {
@@ -69,7 +69,7 @@ public class MyUtil {
 				if(pageNo == currentShowPageNo) {
 					pageBar += "&nbsp;<a class='active'>" + pageNo + "</a>&nbsp;";			  
 				} else {			  
-					pageBar += "&nbsp;<a href='"+baseLink+"?currentShowPageNo="+pageNo+"'>"+pageNo+"</a>&nbsp;";
+					pageBar += "&nbsp;<a href='"+baseLink+"?currentShowPageNoStr="+pageNo+"'>"+pageNo+"</a>&nbsp;";
 				}
 
 				pageNo++;
@@ -77,9 +77,11 @@ public class MyUtil {
 			}
 			
 			if(!(pageNo > totalPage)) {
-			  pageBar += "&nbsp;<a href='"+baseLink+"?currentShowPageNo="+pageNo+"'>[다음]</a>&nbsp;";		  
+			  pageBar += "&nbsp;<a class='arrow next' href='"+baseLink+"?currentShowPageNoStr="+pageNo+"'></a>&nbsp;"
+					  	+"<a class='arrow nnext' href='"+totalPage+"'></a>&nbsp;";		
 			}		
 			
+			pageBar += "</div>";
 		 return pageBar;
 	 }
 	  

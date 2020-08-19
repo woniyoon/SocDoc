@@ -18,7 +18,7 @@
 		    (
 		        select submitId, hpName, status, to_char(uploadDate, 'yyyy-mm-dd') as uploadDate 
                 from hpApplication where hpseq = #{hpSeq}
-                order by uploadDate
+                order by uploadDate desc
 		    ) V
 		 ) T
 		where RNO between #{startRNO} and #{endRNO} 
@@ -31,7 +31,7 @@
 
 	<!-- 병원 상세 정보 가져오기 -->
 	<select id="getHpInfoDetail" parameterType="String" resultType="com.synergy.socdoc.member.HpInfoVO">
-		select submitId, hpname, dept, address, phone, info, latitude, longitude, mainImg, orgMainImg, subImg1, orgSubImg1, subImg2, orgSubImg2, reason from hpApplication where submitId = #{submitId}
+		select submitId, status, hpname, dept, address, phone, info, latitude, longitude, mainImg, orgMainImg, subImg1, orgSubImg1, subImg2, orgSubImg2, reason from hpApplication where submitId = #{submitId}
 	</select>
 	
 	<!-- 병원의 영업시간 가져오기 -->
@@ -46,16 +46,16 @@
 		select nvl2(s.open, s.day, null) as day, nvl(s.open, null) as open, nvl2(s.open, t.hour, null) as close
 		from
 		(select s.day, s.close, t.hour as open
-		from schedule s left join
+		from schedule s join
 		     timetable t
 		     on s.open = t.hourSeq and s.hpSeq = #{hpSeq}
 		)s
-		join timetable t
+		left join timetable t
 		on s.close = t.hourSeq
 		order by day asc
 	</select>
 	
-	<!-- 오픈/클로즈 시간 가져오기 -->
+	<!-- 신청한 오픈/클로즈 시간 가져오기 -->
 	<resultMap type="HashMap" id="scheduleTbl">
 		<result property="day" column="day" javaType="String"></result>
 		<result property="open" column="open" javaType="String"></result>
@@ -101,22 +101,31 @@
 	<!-- 방문자 목록 가져오기 -->
 	<resultMap type="HashMap" id="visitorsList">
 		<result property="rno" column="rno" javaType="String"></result>
+		<result property="userid" column="userid" javaType="String"></result>
 		<result property="memberSeq" column="memberSeq" javaType="String"></result>
 		<result property="name" column="name" javaType="String"></result>
 		<result property="birthDate" column="birthDate" javaType="String"></result>
 		<result property="phone" column="phone" javaType="String"></result>
 		<result property="age" column="age" javaType="String"></result>
 		<result property="visitDate" column="visitDate" javaType="String"></result>
-		
+		<result property="height" column="height" javaType="String"></result>
+		<result property="weight" column="weight" javaType="String"></result>
+		<result property="bloodType" column="bloodType" javaType="String"></result>
+		<result property="allergy" column="allergy" javaType="String"></result>
+		<result property="history" column="history" javaType="String"></result>
+		<result property="medicine" column="medicine" javaType="String"></result>
 	</resultMap>
 	
 	<select id="getVisitors" parameterType="HashMap" resultMap="visitorsList">
-		select RNO, memberSeq, name, birthDate, visitDate, age, phone from
-		(select rownum AS RNO, V.memberSeq, V.name, V.birthDate, V.visitDate, V.age, V.phone
-		  from 
+        select RNO, userid, memberSeq, name, birthDate, visitDate, age, phone, height, weight, bloodType, allergy, history, medicine from
+			(select rownum AS RNO, V.userid, V.memberSeq, V.name, V.birthDate, V.visitDate, V.age, V.phone, V.height, V.weight, V.bloodType, V.allergy,
+                V.history, V.medicine  from 
 		    (
-		        select distinct M.memberSeq, M.name, to_char(M.birthDate, 'yyyy-mm-dd') as birthDate, to_char(R.visitDate, 'yyyy-mm-dd') as visitDate
+		        select distinct M.userid, M.memberSeq, M.name, to_char(M.birthDate, 'yyyy-mm-dd') as birthDate, to_char(R.visitDate, 'yyyy-mm-dd') as visitDate
 		        , (extract(year from sysdate)) - extract(year from birthDate) + 1 as age, M.phone
+                , nvl(M.height, '정보없음') as height, nvl(M.weight, '정보없음') as weight
+                , nvl(M.bloodType, '정보없음') as bloodType, nvl(M.allergy, '정보없음') as allergy
+                , nvl(M.history, '정보없음') as history, nvl(M.medicine, '정보없음') as medicine
 		        from reservation R join member M
 		        on R.status = 1 and R.hpSeq = #{hpSeq} and R.userid = M.userid
 		        order by visitDate desc
@@ -156,6 +165,10 @@
             <when test="subImg1 != null and subImg2 == null">
 				INSERT INTO hpApplication(address,hpName,phone,hpSeq,info,latitude,longitude, mainImg, orgMainImg, status, uploadDate, submitId, dept,subImg1, orgSubImg1) 
 				VALUES (#{address}, #{hpName}, #{phone}, #{hpSeq}, #{info}, #{latitude}, #{longitude}, #{mainImg}, #{orgMainImg}, #{status}, sysdate, #{submitId}, #{dept}, #{subImg1}, #{orgSubImg1})		
+            </when>
+            <when test="subImg1 == null and subImg2 != null">
+				INSERT INTO hpApplication(address,hpName,phone,hpSeq,info,latitude,longitude, mainImg, orgMainImg, status, uploadDate, submitId, dept,subImg1, orgSubImg1) 
+				VALUES (#{address}, #{hpName}, #{phone}, #{hpSeq}, #{info}, #{latitude}, #{longitude}, #{mainImg}, #{orgMainImg}, #{status}, sysdate, #{submitId}, #{dept}, #{subImg2}, #{orgSubImg2})		
             </when>
             <otherwise>
 				INSERT INTO hpApplication(address,hpName,phone,hpSeq,info,latitude,longitude, mainImg, orgMainImg, status, uploadDate, submitId, dept,subImg1, orgSubImg1,subImg2, orgSubImg2) 
@@ -221,4 +234,79 @@
 		on A.userid = M.userid
 	</select>
 	
+	<!-- 방문 상태 업데이트 --> 
+	<update id="updateVisitStatus" parameterType="HashMap">
+		update reservation set status = #{status}
+		where reservSeq = #{reservSeq}
+	</update>
+	
+	<!-- 방문자 상세정보 가져오기 -->
+	<select id="getVisitorDetail" parameterType="String" resultType="com.synergy.socdoc.member.MemberVO">
+		select name, to_char(birthDate, 'yyyy-mm-dd') as birthDate, gender, phone, 
+				nvl(to_number(height), -1) as height, nvl(to_number(weight), -1) as weight
+		                , nvl(bloodType, '정보없음') as bloodType, nvl(allergy, '정보없음') as allergy
+		                , nvl(history, '정보없음') as history, nvl(medicine, '정보없음') as medicine
+		from member
+		where userid = #{userid}
+	</select>
+	
+	<!-- 특정 회원의 방문이력 가져오기 -->
+	<select id="getVisitRecord" parameterType="HashMap" resultType="String">
+		select to_char(visitDate, 'yyyy-mm-dd')  from reservation where userid= #{userid} and hpSeq = ${hpSeq}
+	</select>
+	
+	<!-- 방문이력 개수 가져오기 -->
+	<select id="getNumOfRecords" parameterType="HashMap" resultType="int">
+		select count(*) from reservation where userid= #{userid} and hpSeq = ${hpSeq}
+	</select>
+
+	<!-- 선택한 날짜 시간대별 방문자수 -->
+	<resultMap type="HashMap" id="numPerHour">
+		<result property="hour" column="hour" javaType="String"></result>
+		<result property="cnt" column="cnt" javaType="String"></result>
+	</resultMap>
+	<select id="getNumPerHour" parameterType="HashMap" resultMap="numPerHour">
+		select T.hour, nvl(cnt, 0) as cnt from
+		(SELECT hourSeq, count(hourSeq) as cnt
+		FROM reservation
+		WHERE hpSeq = #{hpSeq} and to_char(visitDate, 'yyyy-mm-dd') = #{visitDate}
+		GROUP BY hourSeq
+		order by hourSeq) V right join timeTable T
+		on V.hourSeq = T.hourSeq
+		order by hour
+	</select>
+	
+	<!-- 비밀번호 확인하기 -->
+	<select id="verifyPwd" parameterType="HashMap" resultType="int">
+		select count(userid) from hpmember where pwd = #{pwd} and hpSeq = #{hpSeq}
+	</select>
+	
+	<!-- 병원 회원 정보 업데이트(이름/이메일) -->
+	<update id="updateAccountInfo" parameterType="HashMap">
+		update hpmember set name = #{name}, email = #{email}
+		where hpSeq = #{hpSeq}
+	</update>
+	
+	<!-- 병원 회원 정보 업데이트(패스워드) -->
+	<update id="updateHpPwd" parameterType="HashMap">
+		update hpmember set pwd = #{newPwd}
+		where hpSeq = #{hpSeq}
+	</update>
+	
+	<!-- 이전 신청 내역들 취소하기 -->
+	<update id="cancelPrevSubmission" parameterType="String">
+		update hpApplication set status = 4
+		where hpSeq = #{hpSeq} and status in (1,3)
+	</update>
+	
+	<!--  현재 선택한 신청 내역 취소하기 -->
+	<update id="cancelCurrentSubmission" parameterType="String">
+		update hpApplication set status = 4
+		where submitId = #{submitId}
+	</update>
+	
+	<!-- 병원 상세 정보 업데이트 여부 확인하기 -->
+	<select id="checkInfoStatus" parameterType="String" resultType="int">
+		select infoStatus from hpmember where hpSeq = #{hpSeq}
+	</select>
 </mapper>

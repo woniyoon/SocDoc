@@ -6,47 +6,71 @@
 
 <!-- ==== #29. 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체내에서 유일해야 한다.) ==== -->
 <mapper namespace="test">
-	<select id="getContent" resultType="String">
-		select email from tbl_test where userid = 'woniyoon'
-	</select>
-	
-	
-	<!-- <select id="hospital_select" resultType="com.synergy.socdoc.member.HpInfoVO"> 
-		select hpSeq,dept,mainImg,hpName,info
-		from hospitalInfo
-	</select> -->
-	
-	<select id="viewMyinfo" parameterType="String" resultType="com.synergy.socdoc.member.MemberVO">
+   <select id="getContent" resultType="String">
+      select email from tbl_test where userid = 'woniyoon'
+   </select>
+   
+   <select id="selectNoticeList" resultType="com.synergy.socdoc.member.NoticeVO">
+      select S.rno, S.noticeSeq, S.subject, S.regDate 
+      from
+      (
+      select rownum as rno, V.noticeSeq, V.subject, V.regDate
+      from 
+      (
+      select noticeSeq, subject, to_char(regDate,'yyyy-mm-dd') AS regDate 
+      from noticeboard
+      order by noticeSeq desc
+      ) V
+      order by rno)S
+      where 
+      <![CDATA[ S.rno <= 3 ]]>
+   </select>
+   
+   <select id="getRankList" resultType="com.synergy.socdoc.member.HpReviewVO">
+      <!-- 
+      select avgRating, hpName 
+      from
+      (
+      select avg(rating) as avgRating, hpName
+      from hospitalReview
+      group by hpName
+      order by avg(rating) desc
+      )
+      where 
+      <![CDATA[ rownum <= 6 ]]>
+       -->
+      
+      select avgRating, hpName, mainImg
+      from
+      (
+      select avg(R.rating) as avgRating, R.hpName, I.mainImg
+      from hospitalReview R join hospitalinfo I
+      on R.hpSeq = I.hpSeq
+      group by R.hpName,I.mainImg
+      order by avg(R.rating) desc
+      )V
+      where
+      <![CDATA[ rownum <= 6 ]]>
+   </select>
+   
+    <!-- 환자정보확인하기(loginuser) -->
+   <select id="viewMyinfo" parameterType="String" resultType="com.synergy.socdoc.member.MemberVO">
        select userid, email, name, phone, height, weight, bloodType, bloodType, allergy, history, medicine, memberSeq
        ,to_char(birthDate, 'yyyy-mm-dd') AS birthDate
        ,gender
        from member
        where userid = #{userid}
       </select>
-      
-	<!-- <select id="deptList" resultType="String">
-		select distinct nvl(dept,-9999) as dept
-		from hospitalInfo
-		order by dept
-	</select> -->
-	
-	<!-- <select id="hpinfovoList" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpInfoVO"> 
-		select hpSeq,dept,mainImg,hpName,info
-		from hospitalInfo
-	</select> -->
 
-	<select id="deptIdList" resultType="String">
+   <!-- 등록한 병원 진료과목 가져오기 -->
+   <select id="deptIdList" resultType="String">
       select distinct dept
       from hospitalInfo
       order by dept
    </select>
-
-	<!-- <select id="hpinfovoList" resultType="com.synergy.socdoc.member.HpInfoVO"> 
-		select hpSeq,dept,mainImg,hpName,info
-		from hospitalInfo
-	</select>  -->
-	
-	<select id="hpinfovoList" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpInfoVO">
+   
+   <!-- 병원정보 가져오기 -->
+   <select id="hpinfovoList" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpInfoVO">
        select hpSeq,dept,mainImg,hpName,info
       from hospitalInfo
       where 1=1
@@ -62,93 +86,99 @@
       order by hpSeq
    </select> 
 
-	<!-- 검색기능  -->
-	<select id="getTotalCount" parameterType="HashMap" resultType="int">
-		select count(*)
-		 	from hospitalInfo 
-     		where 1=1
-     		<if test="searchWord != ''">
-     		<!-- and lower(${searchType}) like '%' || lower(#{searchWord}) || '%'  -->
-     		and ${searchType} like '%' || #{searchWord} || '%'
-     		</if>
-	</select>
-	
-	
-	<select id="searchwWithPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpInfoVO">
-		select hpSeq,dept,mainImg,hpName,info
-		from
-		(
-		        select row_number() over(order by hpseq desc) AS rno
-		        ,hpSeq,dept,mainImg,hpName,info
-		        from hospitalInfo
-		        where 1=1
-		       <!--  where 11=11 -->
-		        <if test="searchWord != ''">
-		        	<!-- and lower(${searchType}) like '%' || lower(#{searchWord}) || '%'  -->
-		        	and ${searchType} like '%' || #{searchWord} || '%'
-		    	</if>
-		    	<if test="deptIdArr != null">
-         			and dept in
-         			<foreach collection="deptIdArr" index="i" open="(" separator="," close=")">   <!-- collection명 또는 배열명  -->
-      					 '${deptIdArr[i]}'
-      				</foreach>  
-		    	</if> 
-		       ) V
-		where V.rno between #{startRno} and #{endRno}
-	</select>
-	
-	<!-- 가능한 시간대 가져오기 -->
-	<select id="getHours" parameterType="HashMap" resultType="String">
-		 select T.hour from
-		(SELECT hourSeq, count(hourSeq) as cnt
-		FROM reservation
-		WHERE hpSeq = #{hpSeq} and to_char(visitDate, 'yyyy-mm-dd') = #{visitDate}
-		GROUP BY hourSeq
-		order by hourSeq) V right join timeTable T
-		on V.hourSeq = T.hourSeq  <![CDATA[  and cnt < 6  ]]>
-		order by hour
-	</select>
-	
-	<!-- 병원의 영업시간 가져오기 -->
-	<resultMap type="HashMap" id="openingHours">
-		<result property="day" column="day" javaType="String"></result>
-		<result property="open" column="open" javaType="String"></result>
-		<result property="close" column="close" javaType="String"></result>
-	</resultMap>
-	
-	<select id="getOpeningHours" parameterType="String" resultMap="openingHours">
-		select nvl2(s.open, s.day, null) as day, nvl(s.open, null) as open, nvl2(s.open, t.hour, null) as close
-		from
-		(select s.day, s.close, t.hour as open
-		from schedule s join
-		     timetable t
-		     on s.open = t.hourSeq and s.hpSeq = #{hpSeq}
-		)s
-		left join timetable t
-		on s.close = t.hourSeq
-		order by day asc
-	</select>
-	
-	<select id="getReservSeq" parameterType="HashMap" resultType="String">
-		select reservSeq
-			from
-			(
-			select rownum, reservSeq
-			from reservation 
-			where userid =#{userid} and hpSeq = #{hpSeq} and to_char(visitDate, 'yyyy-mm-dd') = #{visitDate}
-			order by reservSeq desc
-			)
-			where rownum = 1
-					
-	</select>
-	
-<insert id="makeReservation"  parameterType="HashMap">
-   	insert into reservation(reservseq, userid, hpseq, hourseq, visitdate, day)
-    values(RESERVSEQ.nextval, #{userid}, #{hpSeq}, #{hourSeq}, to_date(#{visitDate}), #{day})
-</insert>
+   <!-- 병원명 검색하기 -->
+   <select id="getTotalCount" parameterType="HashMap" resultType="int">
+      select count(*)
+          from hospitalInfo 
+           where 1=1
+           <if test="searchWord != ''">
+           <!-- and lower(${searchType}) like '%' || lower(#{searchWord}) || '%'  -->
+           and ${searchType} like '%' || #{searchWord} || '%'
+           </if>
+   </select>
+   
+   <!-- 병원명검색하기, 페이징처리하기 -->
+   <select id="searchwWithPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.HpInfoVO">
+      select hpSeq,dept,mainImg,hpName,info
+      from
+      (
+              select row_number() over(order by hpseq desc) AS rno
+              ,hpSeq,dept,mainImg,hpName,info
+              from hospitalInfo
+              where 1=1
+             <!--  where 11=11 -->
+              <if test="searchWord != ''">
+                 <!-- and lower(${searchType}) like '%' || lower(#{searchWord}) || '%'  -->
+                 and ${searchType} like '%' || #{searchWord} || '%'
+             </if>
+             <if test="deptIdArr != null">
+                  and dept in
+                  <foreach collection="deptIdArr" index="i" open="(" separator="," close=")">   <!-- collection명 또는 배열명  -->
+                      '${deptIdArr[i]}'
+                  </foreach>  
+             </if> 
+             ) V
+      where V.rno between #{startRno} and #{endRno}
+   </select>
+   
+   <!-- 병원 예약 가능한 시간대 가져오기 -->
+   <select id="getHours" parameterType="HashMap" resultType="String">
+       select T.hour from
+      (SELECT hourSeq, count(hourSeq) as cnt
+      FROM reservation
+      WHERE hpSeq = #{hpSeq} and to_char(visitDate, 'yyyy-mm-dd') = #{visitDate}
+      GROUP BY hourSeq
+      order by hourSeq) V right join timeTable T
+      on V.hourSeq = T.hourSeq  <![CDATA[  and cnt < 6  ]]>
+      order by hour
+   </select>
+   
+   <!-- 병원 영업시간 가져오기 (open/close)-->
+   <resultMap type="HashMap" id="openingHours">
+      <result property="day" column="day" javaType="String"></result>
+      <result property="open" column="open" javaType="String"></result>
+      <result property="close" column="close" javaType="String"></result>
+   </resultMap>
+   
+   <select id="getOpeningHours" parameterType="String" resultMap="openingHours">
+      select nvl2(s.open, s.day, null) as day, nvl(s.open, null) as open, nvl2(s.open, t.hour, null) as close
+      from
+      (select s.day, s.close, t.hour as open
+      from schedule s join
+           timetable t
+           on s.open = t.hourSeq and s.hpSeq = #{hpSeq}
+      )s
+      left join timetable t
+      on s.close = t.hourSeq
+      order by day asc
+   </select>
+   
+   <!-- 한 병원에서 제일 최근에 예약한 예약번호 가져오기 -->
+   <!-- 하나의 병원에서 같은날 여러번 예약 할 수 있기때문에 -->
+   <select id="getReservSeq" parameterType="HashMap" resultType="String">
+      select reservSeq
+         from
+         (
+         select rownum, reservSeq
+         from reservation 
+         where userid =#{userid} and hpSeq = #{hpSeq} and to_char(visitDate, 'yyyy-mm-dd') = #{visitDate}
+         order by reservSeq desc
+         )
+         where rownum = 1
+               
+   </select>
+   
+   <!-- (loginuser)가 선택한 병원,예약시간,예약시간 insert -->
+   <insert id="makeReservation"  parameterType="HashMap">
+         insert into reservation(reservseq, userid, hpseq, hourseq, visitdate, day)
+       values(RESERVSEQ.nextval, #{userid}, #{hpSeq}, #{hourSeq}, to_date(#{visitDate}), #{day})
+   </insert>
 
-<select id="selectMemberInfo" parameterType="String" resultType="com.synergy.socdoc.member.MemberVO">
-	select * from member where userid = #{userid}
-</select>
+   <!-- 예약완료 페이지 요청하기 -->
+   <!-- (loginuser)가 선택한 병원,예약시간,예약시간 select -->
+   <select id="selectMemberInfo" parameterType="String" resultType="com.synergy.socdoc.member.MemberVO">
+      select * from member where userid = #{userid}
+   </select>
+   
 
 </mapper>

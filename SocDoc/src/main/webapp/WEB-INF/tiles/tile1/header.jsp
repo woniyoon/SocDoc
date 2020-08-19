@@ -25,7 +25,7 @@
         
         @font-face {
         	font-family: "netmarbleL";
-        	src:url("<%=ctxPath%>/resources/fonts/netmarbleM.ttf") format("truetype");
+        	src:url("<%=ctxPath%>/resources/fonts/netmarbleL.ttf") format("truetype");
         }
         
         * {
@@ -34,7 +34,7 @@
             margin: 0px;
             box-sizing: border-box
         }
-
+       
         ul,li {
             list-style: none;
         }
@@ -80,6 +80,12 @@
           padding: 8px;
           color: black;
           content: "/\00a0";
+        }
+        
+        ul.util li+li.photo:before {
+		  padding: 5px;
+          color: black;
+          content: "";
         }
         
         ul.util li a {
@@ -186,26 +192,39 @@
 </style>
 
 
-    <p class="logo"><img src="<%= ctxPath%>/resources/images/logo.jpg" width="150px" height="100px" class="logo" /></p>
+    <p class="logo"><img src="<%= ctxPath%>/resources/images/logo.jpg" width="150px" height="100px" class="logo" onclick="location.href='<%=ctxPath%>/index.sd'"/></p>
 
-    <ul class="util">     
+    <ul class="util"> 
+    	<!-- 비로그인 -->    
     	<c:if test="${sessionScope.loginuser == null && sessionScope.hpLoginuser == null}">
-	        <li><a href="<%=ctxPath%>/login.sd">로그인</a></li>
+	        <li><a href="<%=ctxPath%>/login.sd"><img src="<%= ctxPath%>/resources/images/loginN.png" width="20px" height="20px" style="margin-top: 2px;"/></a></li>
+	        <li class="photo"><a href="<%=ctxPath%>/login.sd">로그인</a></li>
 	    	<li><a href="<%=ctxPath%>/register.sd">회원가입</a></li>
 	    	<li><a href="#">마이페이지</a></li>
+   	        <li><a href="#">고객센터</a></li>
         </c:if>
         <c:if test="${not empty sessionScope.loginuser}">
-        	<li>환영합니다! <a href="#"><span style="color: blue;">${loginuser.name}</span>님의 마이페이지</a></li>
-	        <li><a href="<%=ctxPath%>/logout.sd">로그아웃</a></li>
+	        <!-- admin 로그인 --> 
 	        <c:if test="${sessionScope.loginuser.userid == 'admin'}">
-	        	<li><a href="#">관리자 페이지</a></li>
+	        	<li><img src="<%= ctxPath%>/resources/images/loginA.png" width="20px" height="20px" style="margin-top: 2px;"/></li>
+	        	<li class="photo"><a href="#">관리자 페이지</a></li>
+    			<li><a href="<%=ctxPath%>/logout.sd">로그아웃</a></li>
+	        </c:if>
+	        <!-- 개인고객 로그인 -->   
+	        <c:if test="${sessionScope.loginuser.userid != 'admin'}">
+	        	<li><img src="<%= ctxPath%>/resources/images/loginY.png" width="20px" height="20px" style="margin-top: 2px;"/></li> 
+	        	<li class="photo"><a href="#"><strong>${loginuser.name}</strong>님의 마이페이지</a></li>
+		        <li><a href="<%=ctxPath%>/logout.sd">로그아웃</a></li>
+	        	<li><a href="#">고객센터</a></li>
 	        </c:if>
         </c:if>
+        <!-- 병원고객 로그인 --> 
         <c:if test="${not empty sessionScope.hpLoginuser}">
-	        <li><a href="#"><span style="color: blue;">${hpLoginuser.name}</span>의 마이페이지</a></li>
+        	<li><img src="<%= ctxPath%>/resources/images/loginY.png" width="20px" height="20px" style="margin-top: 2px;"/></li>   
+	        <li class="photo"><a href="#"><strong>${hpLoginuser.name}</strong>의 마이페이지</a></li>
 	        <li><a href="<%=ctxPath%>/hpLogout.sd">로그아웃</a></li>
+	        <li><a href="#">고객센터</a></li>
         </c:if>
-        <li><a href="#">고객센터</a></li>
     </ul>
 
 
@@ -236,8 +255,8 @@
       <div class="subnav">
         <button class="subnavbtn">알림·소식<i class="fa fa-caret-down"></i></button>
         <div class="subnav-content">
-          <a href="#"><img src="<%= ctxPath%>/resources/images/notice.png"/>공지사항</a>
-          <a href="#"><img src="<%= ctxPath%>/resources/images/health.png"/>건강정보</a>
+          <a href="<%=ctxPath%>/noticeList.sd"><img src="<%= ctxPath%>/resources/images/notice.png"/>공지사항</a>
+          <a href="<%=ctxPath%>/noticeList.sd"><img src="<%= ctxPath%>/resources/images/health.png"/>건강정보</a>
           <a href="#"><img src="<%= ctxPath%>/resources/images/question.png"/>Q&A</a>
         </div>
       </div>

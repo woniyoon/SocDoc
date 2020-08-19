@@ -15,27 +15,40 @@
 		<h3 align="left">병원 정보 관리</h3>
 		<form id="hpInfoForm" name="hpInfoForm" enctype="multipart/form-data">
 		<section id="infoContainer">
-				<div class="slideshow-container">
-		
+				<div class="slideshow-container" style="display: flex; justify-content: center; align-items: center;">
+					<c:if test="${hpInfo.submitId == null}">
+						<div class="mySlides fade" id="mainImgFileSlide">
+							<img src="<%=ctxPath %>/resources/images/noImage.png" style="width: inherit; height: inherit;">
+						</div>
+						<div class="mySlides fade" id="subImg1FileSlide"></div>
+						<div class="mySlides fade" id="subImg2FileSlide"></div>
+					</c:if>
 					<!-- Full-width images with number and caption text -->
-					<div class="mySlides fade">
-						<div class="numbertext">1 / 3</div>
-						<img src="<%=ctxPath %>/resources/files/${hpInfo.mainImg}" style="width: 100%; height: 100%;">
-					</div>
+					<c:if test="${not empty hpInfo.mainImg }">
+						<div class="mySlides fade">
+							<img src="<%=ctxPath %>/resources/images/${hpInfo.mainImg}" style="width: inherit; height: inherit;">
+						</div>
+					</c:if>
 		
-					<div class="mySlides fade">
-						<div class="numbertext">2 / 3</div>
-						<img src="<%=ctxPath %>/resources/files/${hpInfo.subImg1}" style="width: 100%; height: 100%;">
-					</div>
+					<c:if test="${not empty hpInfo.subImg1 }">
+						<div class="mySlides fade">
+	<!-- 						<div class="numbertext">2 / 3</div> -->
+							<img src="<%=ctxPath %>/resources/images/${hpInfo.subImg1}" style="width: inherit; height: inherit;">
+						</div>
+					</c:if>
 		
-					<div class="mySlides fade">
-						<div class="numbertext">3 / 3</div>
-						<img src="<%=ctxPath %>/resources/files/${hpInfo.subImg2}" style="width: 100%; height: 100%;">
-					</div>
+					<c:if test="${not empty hpInfo.subImg2 }">
+						<div class="mySlides fade">
+	<!-- 						<div class="numbertext">3 / 3</div> -->
+							<img src="<%=ctxPath %>/resources/images/${hpInfo.subImg2}" style="width: inherit; height: inherit;">
+						</div>					
+					</c:if>
 		
 					<!-- Next and previous buttons -->
-					<a class="prev" onclick="plusSlides(-1)">&#10094;</a> <a class="next"
-						onclick="plusSlides(1)">&#10095;</a>
+					<div class="sliderBtnContainer">
+						<a class="prev" style="left: 0;" onclick="plusSlides(-1)">&#10094;</a> 
+						<a class="next"	onclick="plusSlides(1)">&#10095;</a>					
+					</div>
 				</div>
 				<div id="hpDetail">
 					<ul id="hpDetailList">
@@ -43,19 +56,25 @@
 							<input type="text" name="orgMainImg" value="${hpInfo.orgMainImg }" readonly required />
 							<button class="greyBtn findFile" type="button" >찾기</button> 
 							<input type="file" name="attachMain" id="mainImgFile" accept="image/*" />
-							<input type="hidden" name="mainImg" value="${hpInfo.mainImg != null ? hpInfo.mainImg : ' '}" />
+							<c:if test="${ not empty hpInfo.mainImg }">
+								<input type="hidden" name="mainImg" value="${hpInfo.mainImg}" />
+							</c:if>
 						</li>
 						<li>
 							<input type="text" id="subImg1File" name="orgSubImg1" value="${hpInfo.orgSubImg1 }" readonly />
 							<button class="greyBtn findFile" type="button">찾기</button> 
 							<input type="file" name="attachMain" id="subImg1File" accept="image/*" />
-							<input type="hidden" name="subImg1" value="${hpInfo.subImg1 != null ? hpInfo.subImg1 : ' '}" />
+							<c:if test="${ not empty hpInfo.subImg1 }">
+								<input type="hidden" name="subImg1" value="${hpInfo.subImg1}" />
+							</c:if>
 						</li>
 						<li>
 							<input type="text" id="subImg2File" name="orgSubImg2" value="${hpInfo.orgSubImg2 }" readonly />
 							<button class="greyBtn findFile" type="button">찾기</button> 
 							<input type="file" name="attachMain" id="subImg2File" accept="image/*" />
-							<input type="hidden" name="subImg2" value="${hpInfo.subImg2 != null ? hpInfo.subImg2 : ' '}" />
+							<c:if test="${ not empty hpInfo.subImg2 }">
+								<input type="hidden" name="subImg2" value="${hpInfo.subImg2}" />
+							</c:if>
 						</li>
 					</ul>
 					<table class="hpTextInfo">
@@ -110,20 +129,21 @@
 		<table id="settingSection">
 			<tr>
 				<th>진료과목</th>
-				<td>
-				<input type="checkbox" id="1" value="내과" /> <label for="1">내과</label>
-					<input type="checkbox" id="2" value="소아청소년과" /> <label for="2">소아청소년과</label> <input
-					type="checkbox" id="3" value="정신건강의학과" /> <label for="3">정신건강의학과</label> <input
-					type="checkbox" id="4" value="피부과" /> <label for="4">피부과</label> <input
-					type="checkbox" id="5" value="여성의학과" /> <label for="5">여성의학과</label> <input
-					type="checkbox" id="6" value="안과" /> <label for="6">안과</label> <input
-					type="checkbox" id="7" value="이비인후과" /> <label for="7">이비인후과</label> <input
-					type="checkbox" id="8" value="비뇨기과" /> <label for="8">비뇨기과</label> <input
-					type="checkbox" id="9" value="가정의학과" /> <label for="9">가정의학과</label> <input
-					type="checkbox" id="0" value="치과" /> <label for="0">치과</label></td>
+				<td colspan="6">
+					<input type="checkbox" id="1" value="내과" /> <label for="1">내과</label>
+					<input type="checkbox" id="2" value="소아청소년과" /> <label for="2">소아청소년과</label> 
+					<input type="checkbox" id="3" value="정신건강의학과" /> <label for="3">정신건강의학과</label> 
+					<input type="checkbox" id="4" value="피부과" /> <label for="4">피부과</label> 
+					<input type="checkbox" id="5" value="여성의학과" /> <label for="5">여성의학과</label> 
+					<input type="checkbox" id="6" value="안과" /> <label for="6">안과</label> 
+					<input type="checkbox" id="7" value="이비인후과" /> <label for="7">이비인후과</label> 
+					<input type="checkbox" id="8" value="비뇨기과" /> <label for="8">비뇨기과</label> 
+					<input type="checkbox" id="9" value="가정의학과" /> <label for="9">가정의학과</label> 
+					<input type="checkbox" id="0" value="치과" /> <label for="0">치과</label>
+				</td>
 			</tr>
 			<tr>
-				<th rowspan="7">진료시간</th>
+				<th>진료시간</th>
 				<td colspan="6" id="scheduleTbl">
 					 <div class="timeSettingRow">
 						<label>월요일</label> 
@@ -181,11 +201,11 @@
 					</div>
 				</td>
 			</tr>
-			<c:if test="${hpInfo.reason }">
-				<tr>
-					<th>반려사유</th>
-					<td>${hpInfo.reason }</td>
-				</tr>
+			<c:if test="${hpInfo.reason != null}">
+			<tr>
+				<th>반려사유</th>
+				<td style="color: red;">${hpInfo.reason }</td>
+			</tr>
 			</c:if>
 		</table>
 		<input type="hidden" name="submitId" value="${hpInfo.submitId != null ? hpInfo.submitId : ' '}" />
@@ -193,8 +213,13 @@
 		<input type="hidden" name="status" value="3"/>
 		</form>	
 		<div style="margin: 10px 0;" align="right">
-			<button class="blueBtn" id="submitBtn" onclick="submit()">승인 신청</button>
-		</div>
+			<c:if test="${(hpInfo.status != 2 || hpInfo.status != 4 || hpInfo.status != 5) && hpInfo.submitId == null}">
+				<button class="blueBtn" id="submitBtn" onclick="submit()">승인 신청</button>
+			</c:if>
+			<c:if test="${ hpInfo.status == 3 || hpInfo.status == 1}">
+				<button class="blueBtn" id="cancelBtn" onclick="cancel('${hpInfo.submitId}')">취소</button>
+			</c:if>
+		</div>		
 	</div>
 
 <script>
@@ -224,13 +249,38 @@
 		$("input[type=file]").each(function() {
 				$(this).hide();
 					
-				$(this).on("change", function() {
-					console.log("change 펑션!");
+				
+				$(this).on("change", function(e) {
+					
+					 var files = e.target.files;
+				        var filesArr = Array.prototype.slice.call(files);
+				        var sliderImgId = "#" + $(this).prop("id") + "Slide";
+				        
+				        filesArr.forEach(function(f) {
+				            if(!f.type.match("image.*")) {
+				                alert("확장자는 이미지 확장자만 가능합니다.");
+				                return;
+				            }
 
+				            sel_file = f;
+
+				            var reader = new FileReader();
+				            reader.onload = function(e) {
+				            	var html = "<img src='"+e.target.result+"' style='width: inherit; height: inherit;'>";
+					            $(sliderImgId).html(html);
+
+				                console.log(e.target.result);
+				            }
+				            reader.readAsDataURL(f);
+				        });
+
+					
 					// 이미지 파일명만 추출후, 보여주기
 					var filename = $(this).val().split('/').pop().split('\\').pop();
 					
 					$(this).siblings().prev().prop("value", filename);
+					
+					
 				});
 		});
 		
@@ -415,5 +465,12 @@
 		form.submit();
 		
 	}
+	
+	function cancel(submitId){
+		console.log(submitId);
+		
+		location.href="<%=ctxPath%>/hpPanel/cancelSubmission.sd?submitId="+submitId;
+	}
+	
 	
 </script>
