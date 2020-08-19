@@ -23,9 +23,12 @@
 	}
 
 	#sideMenuList {
-		list-style-type: disc;
 		padding-inline-start: 20px;
 		margin: 10px 0 0 0;
+	}
+	
+	#sideMenuList li{
+		list-style-type: disc;
 	}
 	
 	main {
@@ -39,7 +42,6 @@
 	
 	#sideMenu {
 		flex: 1;
-		border: 1px solid navy;
 		padding: 40px 0 0 40px;
 		font-size: 1.2em;
 	}

@@ -3,32 +3,101 @@
 <!-- ==== #29. mapper 기본설정 ==== -->
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-
 <!-- ==== #29. 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체내에서 유일해야 한다.) ==== -->
 <mapper namespace="board">
-<!-- 	
-	총 게시물 건수(totalCount) 구하기 검색조건이 있을 때와 없을 때로 나뉘어진다. 
-	<select id="getTotalCount" parameterType="HashMap" resultType="int">
-       select count(*)
-      from noticeboard
-    </select>
-    
-    페이징 처리한 글목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것)  
-	<select id="boardListSearchWithPaging" parameterType="HashMap" resultType="com.synergy.socdoc.member.NoticeVO">
-    	select noticeSeq, subject, content, to_char(regDate, 'yyyy-mm-dd') as regDate
-		from noticeboard
-		order by noticeSeq desc
-    </select>
-    
- -->
  
  
  
- 
- 
- 	<select id="noticeList" resultType="com.synergy.socdoc.member.NoticeVO">
- 		select noticeSeq, subject, content, to_char(regDate, 'yyyy-mm-dd') as regDate
-		from noticeboard
-		order by noticeSeq desc
+ 	<!-- 총 게시물 개수 가져오기 -->
+ 	<select id="getTotalNoticeList" parameterType="HashMap" resultType="int">
+ 		select count(*) from noticeboard
+ 		where 1=1
+ 		and content Like '%'||#{searchWord}||'%'
  	</select>
+ 	<select id="getTotalInfoList" parameterType="HashMap" resultType="int">
+ 		select count(*) from infoboard
+ 		where 1=1
+ 		and content Like '%'||#{searchWord}||'%'
+ 	</select>
+ 	 
+ 	 
+ 	 
+ 	<!-- 게시물 목록보기 (최신순으로)-->
+ 	<select id="noticeList" parameterType="HashMap" resultType="com.synergy.socdoc.member.NoticeVO">
+		select rno, noticeSeq, subject, content, regDate from
+		(
+		    select rownum AS rno, noticeSeq, subject, content, regDate from 
+		    (
+		        select noticeSeq, subject, content, to_char(regDate, 'yyyy-mm-dd') as regDate
+		        from noticeboard
+		        <if test="!searchWord.equals('')">
+					where content LIKE '%'||#{searchWord}||'%'
+				</if>
+		        order by noticeSeq desc
+		    ) V
+		)T
+		where rno between #{startRno} and #{endRno} 
+ 	</select>
+ 	<select id="infoList" parameterType="HashMap" resultType="com.synergy.socdoc.member.HealthInfoVO">
+		select V.rno, V.infoSeq, V.subject, V.content, V.imgName, V.regDate from
+		(select rownum as rno, infoSeq, subject, content, imgName, to_char(regDate, 'yyyy-mm-dd') as regDate
+				from infoboard
+		<if test="!searchWord.equals('')">
+			where content LIKE '%'||#{searchWord}||'%'
+		</if>
+		) V
+ 		where V.rno between #{startRno} and #{endRno}
+ 		order by V.regDate
+ 	</select>
+ 	
+ 	
+ 	
+	<!-- 공지사항 상세 글보기 -->
+	<select id="getView" parameterType="String" resultType="com.synergy.socdoc.member.NoticeVO">
+		select  preseq, presubject, 
+        noticeseq, subject, content, regDate,
+        nextseq, nextsubject
+		from 
+		(
+		    select lag(noticeseq, 1) over(order by noticeseq desc)  as preseq
+		            , lag(subject, 1) over(order by noticeseq desc) as presubject
+		           
+		            , noticeseq, subject, content, to_char(regDate, 'yyyy-mm-dd') as regDate
+		            
+		            , lead(noticeseq, 1) over(order by noticeseq desc)  as nextseq
+		            , lead(subject, 1) over(order by noticeseq desc) as nextsubject
+		    from noticeBoard
+		) V
+		where V.noticeSeq = #{noticeSeq}
+	</select>
+	<select id="getInfoView" parameterType="String" resultType="com.synergy.socdoc.member.HealthInfoVO">
+		select  preseq, presubject, 
+		        infoSeq, subject, content, regDate,
+		        nextseq, nextsubject
+		from 
+		(
+		    select lag(infoSeq, 1) over(order by infoSeq desc)  as preseq
+		            , lag(subject, 1) over(order by infoSeq desc) as presubject
+		           
+		            , infoSeq, subject, content, to_char(regDate, 'yyyy-mm-dd') as regDate
+		            
+		            , lead(infoSeq, 1) over(order by infoSeq desc)  as nextseq
+		            , lead(subject, 1) over(order by infoSeq desc) as nextsubject
+		    from infoBoard
+		) V
+		where V.infoSeq = #{infoSeq}
+	</select>
+	
+	
+	
+	<!-- 더보기 -->
+	<select id="selectByInfo" parameterType="HashMap" resultType="com.synergy.socdoc.member.HealthInfoVO">
+		select V.rno, V.infoSeq, V.subject, V.content, V.regDate
+		from
+		(
+			select rownum as rno, infoSeq, subject, content, to_char(regDate, 'yyyy-mm-dd') as regDate
+		    from infoboard
+		)V
+		where V.rno between #{startRno} and #{endRno} 
+	</select>
 </mapper>

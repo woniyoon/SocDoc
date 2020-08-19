@@ -70,10 +70,10 @@
        	background: #666666;
       	border-radius: 3px;
       	cursor: pointer;
-   	}   
-   	
-   	/* -------------------------------- 이전/다음글 ---------------------------------- */
-
+   	} 
+    
+    /* -------------------------------- 이전/다음글 ---------------------------------- */
+    
    	table.type05 {
       	width: 100%;
        	border-collapse: separate;
@@ -118,7 +118,7 @@
        	padding: 10px;
        	vertical-align: top;
    	}
-   	
+      
 	.titlePointer:hover {
       	cursor: pointer;
    	}
@@ -127,6 +127,7 @@
       	text-decoration: none;
    	}
     
+    
 </style>
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
@@ -134,30 +135,30 @@
 <script type="text/javascript">
 	
 	// 이전글
- 	function goPostNotice(e){
-		var noticeSeq = $(this).prev().prev().text();
+ 	function goPostInfo(e){
+		var infoeSeq = $(this).prev().prev().text();
 		var rno = $(this).prev().text();
 		rno = parseInt(rno);
 	 
-		// seq가 없는 경우 클릭 지우기
+		// 이전글이 없다면 안보이게
 		if ( $(".postNotice").text() == "" ) {
 			$(this).removeClass('titlePointer');		
 		} else {
-			location.href="?noticeSeq="+'${noticevo.preseq}';
+			location.href="?infoSeq="+'${infovo.preseq}';
 		}	
 	} 
  	
  	// 다음글
- 	function goPreNotice(e){
-		var noticeSeq = $(this).prev().prev().text();
+ 	function goPreInfo(e){
+		var infoeSeq = $(this).prev().prev().text();
 		var rno = $(this).prev().text();
 		rno = parseInt(rno);
 	 
-		// seq가 없는 경우 클릭 지우기
+		// 다음글이 없다면 안보이게
 		if ( $(".preNotice").text() == "" ) {
 			$(this).removeClass('titlePointer');		
 		} else {
-			location.href="?noticeSeq="+'${noticevo.nextseq}';
+			location.href="?infoSeq="+'${infovo.nextseq}';
 		}	
 	} 
 </script>
@@ -165,11 +166,11 @@
 </head>
 
 <div class="container">
-
+	
 	<!-- -------------------------------- 上 ---------------------------------- -->
 	
 	<header>
-		<h1 class="textPrimary"><strong>공지사항</strong></h1>
+		<h1 class="textPrimary"><strong>건강정보</strong></h1>
 	</header>
 			
 	<!-- -------------------------------- 게시글 내용물 ---------------------------------- -->
@@ -179,15 +180,15 @@
 			<thead>
 				<tr>
 					<th>
-						<table class="type05" style="margin: 0 auto;">
+						<table class="type05" style= " margin: 0 auto;">
 							<tbody>
-								<tr>
+                             	<tr>
 									<th scope="row" style="border: none;">제목 </th>
-                                	<td style="border-bottom: solid 1px #ccc;">${noticevo.subject}</td>
+                                	<td style="border-bottom: solid 1px #ccc;">${infovo.subject}</td>
 								</tr>
                             	<tr>
 	                                <th scope="row" style="border: none;">작성일 </th>
-	                                <td style="border: none;">${noticevo.regDate}</td>
+	                                <td style="border: none;">${infovo.regDate}</td>
                              	</tr>
 							</tbody>
 						</table>
@@ -198,7 +199,7 @@
 			<tbody>
 				<tr>
 					<td style="border-bottom: solid 1px #ccc; padding: 30px 0 200px 0;">
-						${noticevo.content}
+						${infovo.content}
                     </td>
                </tr>
            	</tbody>
@@ -206,20 +207,19 @@
 		
 		<!-- -------------------------------- 下 ---------------------------------- -->
 		
-		<p id="listBtn"><a href="#" onclick="javascript:location.href='<%= request.getContextPath()%>/noticeList.sd'" class="noticeView">목록</a></p>        
+		<p id="listBtn"><a href="#" onclick="javascript:location.href='<%= request.getContextPath()%>/noticeList.sd'" class="noticeView">목록</a></p>
         <div>
             <table class="type06" style="margin: 0 auto;">
                 <tr>
                     <th class="next_post th">이전글</th>
-                    <td class="next_post postNotice titlePointer" style="border-bottom: solid 1px #ccc;" onclick="goPostNotice(this);" >${noticevo.presubject}</td>
+                    <td class="next_post postNotice titlePointer" style="border-bottom: solid 1px #ccc;" onclick="goPostInfo(this);" >${infovo.presubject}</td>
                 </tr>
                 <tr>
                     <th class="pre_post th">다음글</th>
-                    <td class="pre_post preNotice titlePointer" style="border-bottom: solid 1px #ccc;" onclick="goPreNotice(this);" >${noticevo.nextsubject}</td>
+                    <td class="pre_post preNotice titlePointer" onclick="goPreInfo(this);">${infovo.nextsubject}</td>
                 </tr>
             </table>
    		</div>
 		<br/><br/><br/>
 	</section>
-	
 </div>

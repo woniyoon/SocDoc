@@ -10,7 +10,6 @@
 .statsContainer {
 	width: 50vw;
 	margin: 0 auto;
-	border: 1px solid red;
 	height: 100%;
 }
 </style>
