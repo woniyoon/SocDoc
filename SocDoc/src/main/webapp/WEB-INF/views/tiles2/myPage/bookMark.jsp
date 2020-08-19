@@ -12,11 +12,11 @@
 <style>
 
     body {
-        height: auto;
+        /* height: auto; */
         margin: 0 auto;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        border: 1px solid pink;
-        min-height: 100vh;
+        /* border: 1px solid pink;
+        min-height: 100vh; */
     }
 
     header {
