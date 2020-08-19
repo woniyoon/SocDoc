@@ -276,6 +276,21 @@
           <a href="<%=ctxPath%>/noticeList.sd"><img src="<%= ctxPath%>/resources/images/notice.png"/>공지사항</a>
           <a href="<%=ctxPath%>/noticeList.sd"><img src="<%= ctxPath%>/resources/images/health.png"/>건강정보</a>
           <a href="<%=ctxPath%>/faq.sd"><img src="<%= ctxPath%>/resources/images/question.png"/>Q&A</a>
+ <!--          <a href="<%=ctxPath%>/noticeList.sd"><img src="<%= ctxPath%>/resources/images/health.png"/>건강정보</a> -->
+          <a href="javascript:goInfoList()"><img src="<%= ctxPath%>/resources/images/health.png"/>건강정보</a>
+          <a href="#"><img src="<%= ctxPath%>/resources/images/question.png"/>Q&A</a>
         </div>
       </div>
     </div>
+    
+    
+    
+    <script type="text/javascript">
+    	// 건강정보가 버튼 클릭시, 쿠키에 값 저장 & 페이지 이동
+    	function goInfoList(){
+    		console.log("쿠키 저장~ ");
+    		document.cookie = 'isInfoSelected=true;';
+
+    		location.href= "<%=ctxPath%>/noticeList.sd";
+    	}
+    </script>

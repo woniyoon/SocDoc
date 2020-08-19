@@ -377,9 +377,9 @@
            		<li><a href="<%= request.getContextPath()%>/review.sd">· 내 후기</a></li>
             </ul>
             <ul style="display:inline-block; margin-top: 20px; margin-left: 50px; font-size: 14pt; color:#157bb9;">
-            	<li><h3 style="font-weight: bolder; color: #4e4e4b;">자주 찾는 서비스</h3></li>
-                <li><a>FAQ</a>&nbsp;&nbsp;&nbsp;<a>병원찾기</a></li>
-                <li><a>내 건강</a></li>
+               <li><h3 style="font-weight: bolder; color: #4e4e4b;">자주 찾는 서비스</h3></li>
+                <li><a href="<%= request.getContextPath()%>/faq.sd" style="color: #157bb9; cursor: pointer;">FAQ</a>&nbsp;&nbsp;&nbsp;<a href="<%= request.getContextPath()%>/searchHospital.sd" style="cursor: pointer; color: #157bb9;">병원찾기</a></li>
+                <li><a style="color: #157bb9; cursor: pointer;" href="<%= request.getContextPath()%>/myHealth.sd">내 건강</a></li>
             </ul>
         </div>
         
@@ -424,7 +424,14 @@
 			</table>
 			
 			
-			</br></br>
+			</br>
+			
+			<div id="btn" style="width:80%; text-align: right;">
+				<%-- <button id="printBtn" style="background-color: skyblue; color:white; width: 80px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" onclick="javascript:location.href='<%= request.getContextPath()%>/ask.sd'">문의하기</button>
+				<button id="printBtn" style="background-color: white; color:skyblue; width: 50px; height: 30px; border-radius: 4px; border: solid 1px skyblue; font-size: 10pt;">삭제</button>
+			 --%>
+			 	<button id="printBtn" style="background-color: #157bb9; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" onClick="goDelBM()">삭제</button>
+			</div>
 			
 			<!-- 페이지바 -->
 			<%-- <div id="center" style="width: 30%; border: solid 0px gray; margin: 20px auto;">
@@ -436,12 +443,7 @@
 			   </div>
 			</div>
 			
-			<div id="btn" style="width:80%; text-align: right;">
-				<%-- <button id="printBtn" style="background-color: skyblue; color:white; width: 80px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" onclick="javascript:location.href='<%= request.getContextPath()%>/ask.sd'">문의하기</button>
-				<button id="printBtn" style="background-color: white; color:skyblue; width: 50px; height: 30px; border-radius: 4px; border: solid 1px skyblue; font-size: 10pt;">삭제</button>
-			 --%>
-			 	<button id="printBtn" style="background-color: #157bb9; color:white; width: 50px; height: 30px; border-radius: 4px; border: none; font-size: 10pt;" onClick="goDelBM()">삭제</button>
-			</div>
+			
 			</form>
 			
 			
