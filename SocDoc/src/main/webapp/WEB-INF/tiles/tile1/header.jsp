@@ -276,7 +276,7 @@
           <a align="center" href="<%=ctxPath%>/noticeList.sd"><img src="<%= ctxPath%>/resources/images/notice.png"/><br><span>공지사항</span></a>
  <!--          <a href="<%=ctxPath%>/noticeList.sd"><img src="<%= ctxPath%>/resources/images/health.png"/>건강정보</a> -->
           <a align="center" href="javascript:goInfoList()"><img src="<%= ctxPath%>/resources/images/health.png"/><br><span>건강정보</span></a>
-          <a align="center" href="#"><img src="<%= ctxPath%>/resources/images/question.png"/><br><span>Q&A</span></a>
+          <a align="center" href="<%=ctxPath%>/faq.sd"><img src="<%= ctxPath%>/resources/images/question.png"/><br><span>Q&A</span></a>
         </div>
       </div>
     </div>
