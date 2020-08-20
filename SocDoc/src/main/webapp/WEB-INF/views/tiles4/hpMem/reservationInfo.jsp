@@ -172,7 +172,7 @@
                 var html = "";
                	console.log(json);
               	if(json.isDone) {
- 					var status = hasVisited ? "방문" : "미방문";
+              		var status = hasVisited ? "<span style='color: #157bb9'>방문</span>" : "<span style='color: red;'>미방문</span>";
 	               	$("#visitStatus"+target.id).html(status);
               	} else {
               		alert("문제가 발생했습니다.\n다시 시도해주세요!");

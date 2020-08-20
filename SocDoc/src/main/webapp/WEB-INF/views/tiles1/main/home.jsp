@@ -423,21 +423,20 @@
         <div class="swiper-container">
            
             <div class="swiper-wrapper">
-               <c:forEach var="hpRankList" items="${hpRankList}">
-                   <div class="swiper-slide">
-                          <figure class="snip1384">
-                            <img src="<%= ctxPath%>/resources/images/${hpRankList.mainImg}">
-                            <figcaption>
-                              <h3>${hpRankList.hpName}</h3>
-                              <p style="font-size: 20pt; color: yellow;">★${hpRankList.avgRating}.0</p>
-                              <p>더 자세한 정보를 보려면<br/>클릭하세요</p>
-                            </figcaption>
-                            <a href="http://localhost:9090/socdoc/hospitalDetail.sd?hpSeq=9"></a>
-                          </figure>
-                   </div>
-               </c:forEach>    
-           </div>
-           
+	            <c:forEach var="hpRankList" items="${hpRankList}">
+	                <div class="swiper-slide">
+		                    <figure class="snip1384">
+		                      <img src="<%= ctxPath%>/resources/images/${hpRankList.mainImg}">
+		                      <figcaption>
+		                        <h3>${hpRankList.hpName}</h3>
+		                        <p style="font-size: 20pt; color: yellow;">★${hpRankList.avgRating}.0</p>
+		                        <p>더 자세한 정보를 보려면<br/>클릭하세요</p>
+		                      </figcaption>
+		                      <a href="http://localhost:9090/socdoc/hospitalDetail.sd?hpSeq=9"></a>
+		                    </figure>
+	                </div>
+	            </c:forEach>    
+	        </div>
             <!-- 네비게이션 -->
             <div class="swiper-button-next"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
             <div class="swiper-button-prev"></div><!-- 이전 버튼 -->

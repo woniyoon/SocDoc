@@ -92,10 +92,10 @@
 	
 	<!-- 더보기 -->
 	<select id="selectByInfo" parameterType="HashMap" resultType="com.synergy.socdoc.member.HealthInfoVO">
-		select V.rno, V.infoSeq, V.subject, V.content, V.regDate
+		select V.rno, V.infoSeq, V.subject, V.content, V.regDate, V.img, V.imgname
 		from
 		(
-			select rownum as rno, infoSeq, subject, content, to_char(regDate, 'yyyy-mm-dd') as regDate
+			select rownum as rno, infoSeq, subject, content, to_char(regDate, 'yyyy-mm-dd') as regDate, img, imgname
 		    from infoboard
 		)V
 		where V.rno between #{startRno} and #{endRno} 
