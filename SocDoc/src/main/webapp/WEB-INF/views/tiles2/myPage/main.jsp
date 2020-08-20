@@ -96,6 +96,7 @@
 
     
     /*  main 끝  */
+    
 /*     footer {
         position: absolute;
         height: 5rem;

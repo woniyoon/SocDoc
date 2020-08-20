@@ -132,12 +132,12 @@
     }
 
     /*  main 끝  */
-    footer {
+    /* footer {
         position: absolute;
         height: 5rem;
         width: 100vw;
         background-color: rgb(241, 241, 241);
-    }
+    } */
     
     /* @media (max-width:1000px) {
 		CSS 스타일 !
@@ -591,7 +591,7 @@
 		</div>
 		
     </main>
-    <footer>
-    </footer>
+    <!-- <footer>
+    </footer> -->
 </body>
 </html>
