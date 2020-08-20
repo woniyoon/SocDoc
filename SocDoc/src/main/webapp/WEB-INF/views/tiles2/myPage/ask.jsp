@@ -78,10 +78,10 @@
 
     /*  main 끝  */
     footer {
-        position: absolute;
+        /* position: absolute;
         height: 5rem;
         width: 100vw;
-        background-color: rgb(241, 241, 241);
+        background-color: rgb(241, 241, 241); */
     }
     
 
@@ -525,7 +525,7 @@
 		</div>
 		
     </main>
-    <footer>
-    </footer>
+    <!-- <footer>
+    </footer> -->
 </body>
 </html>

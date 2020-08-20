@@ -78,13 +78,13 @@
 
     
     /*  main 끝  */
-    footer {
+   /*  footer {
         position: absolute;
         height: 5rem;
         width: 100vw;
         background-color: rgb(241, 241, 241);
     }
-
+ */
     table {
       width: 80%;
       border-collapse: collapse;

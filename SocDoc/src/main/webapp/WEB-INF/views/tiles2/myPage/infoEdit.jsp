@@ -89,12 +89,12 @@
     } */
     
     /*  main 끝  */
-    footer {
+  /*   footer {
         position: absolute;
         height: 5rem;
         width: 100vw;
         background-color: rgb(241, 241, 241);
-    }
+    } */
       
     /* 첫번째줄 셋팅- 예약확인 */
 	div#box1 {
@@ -202,8 +202,9 @@
 		</form>
 		<div style="text-align: center; margin-top: 30px;"><button type="button" id="ok" style="background-color: #157bb9; color:white; width: 150px; height: 50px; margin-right:230px; border-radius: 4px; border: none; font-size: 14pt;">확인</button></div>
         </div>
-    </main>
-    <footer>
-    </footer>
+    
+   <!--  <footer>
+    </footer> -->
+    
 </body>
 </html>
