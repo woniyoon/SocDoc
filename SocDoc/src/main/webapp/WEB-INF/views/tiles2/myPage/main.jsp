@@ -275,7 +275,7 @@
 
 </header> -->
     <main style="margin-bottom: 80px;">
-        <div id="sideMenu" style="margin-top: 220px;">
+        <div id="sideMenu" style="margin-top: 240px;">
             <ul style="font-size: 14pt;">
             	<li><h3 style="margin-bottom:20px; font-family: han; font-weight: bolder; font-size: 22pt; letter-spacing:-1px; word-spacing: -2px;">관련 콘텐츠</h3></li>
                 <li><a href="<%= request.getContextPath()%>/infoEdit.sd">·  회원정보수정</a></li>
@@ -294,9 +294,9 @@
         </div>
         <div id="contents" style="margin-top: 220px;">
 		<!-- <h1 style="text-align: left;"><strong>마이페이지</strong></h1> -->
-	<div id="box1" style="background-color: white; margin-bottom: 5px;">
+	<div id="box1" style="background-color: white; margin-bottom: 5px; margin-top: 20px; padding:15px;" >
 
-		<h3 style="margin-bottom: 0; font-family: han; font-size: 18pt; letter-spacing:-1px; word-spacing: -2px;">예약확인</h3>
+		<h3 style="font-family: han; font-size: 18pt; letter-spacing:-1px; word-spacing: -2px;">예약확인</h3>
 		<!-- 더보기 -->
 		<div id="more" style="text-align: right; margin-right: 30px;">
 				<a href="<%= request.getContextPath()%>/reservation.sd" style="font-size: 9pt; font-weight: bolder;">더보기></a>
@@ -331,7 +331,7 @@
 		</div>
 	</div>
 	<div id="box2">
-		<div id="box2-1" style="float: left; background-color: #e6e6e5;">
+		<div id="box2-1" style="float: left; background-color: #e6e6e5; padding:15px;">
 			<h3 style="color: #157bb9; font-family: han; font-size: 18pt; letter-spacing:-1px; word-spacing: -2px;">최근 진료이력조회</h3>
 			<!-- 더보기 -->
 			<div id="more" style="text-align: right; margin-right: 15px;">
@@ -364,7 +364,7 @@
 
 			</div>
 		</div>
-		<div id="box2-2" style="float: left; margin-left: 18px;">
+		<div id="box2-2" style="float: left; margin-left: 18px; padding:15px;">
 			<h3 style="font-family: han; font-size: 18pt; letter-spacing:-1px; word-spacing: -2px;"><span style="font-family: han; font-size: 18pt; font-weight: bolder;">${membervo.name}</span>님의 건강정보</h3>
 			<div style="width:100%; height:100%; margin-top: 25px;">
 			<!-- 테이블 -->
@@ -428,7 +428,7 @@
 				<!-- 테이블 -->
 				</div>
 		</div>
-		<div id="box2-3" style="float:left; margin-left: 18px;">
+		<div id="box2-3" style="float:left; margin-left: 18px; padding:15px;">
 			<h3 style="font-family: han; font-size: 18pt; letter-spacing:-1px; word-spacing: -2px;">회원정보수정</h3>
 			<div style="height:80%; text-align: center; margin-top: 40px;">
 				<strong>기본정보 변경</strong>을 원하시거나 <strong>비밀번호 변경</strong>을<br/> 원하실 경우 아래의 버튼을 클릭 해주세요.
@@ -441,7 +441,7 @@
 		</div>
 	</div>
 	<div id="box2">
-		<div id="box2-1" style="float: left;">
+		<div id="box2-1" style="float: left; padding:15px;">
 			<h3 style="font-family: han; font-size: 18pt; letter-spacing:-1px; word-spacing: -2px;">병원 즐겨찾기</h3>
 			<div style="height:80%; margin-top: 16px;">
 				<!-- 테이블 -->
@@ -475,7 +475,7 @@
 				
 			</div>
 		</div>
-		<div id="box2-2" style="float: left; margin-left: 18px;">
+		<div id="box2-2" style="float: left; margin-left: 18px; padding:15px;">
 			<h3 style="font-family: han; font-size: 18pt; letter-spacing:-1px; word-spacing: -2px;">문의내역</h3>
 			<div style=" height:80%; text-align: center; margin-top: 40px;">
 				홈페이지 이용시 의견이 있으시면 문의해주세요.
@@ -485,37 +485,37 @@
 				</div>
 			</div>
 		</div>
-		<div id="box2-3" style="float:left; margin-left: 18px;  background-color: #e6e6e5;">
+		<div id="box2-3" style="float:left; margin-left: 18px;  background-color: #e6e6e5; padding:15px;">
 			<h3 style="color: #157bb9; font-family: han; font-size: 18pt; letter-spacing:-1px; word-spacing: -2px;"><span style="font-family: han; font-size: 18pt; font-weight: bolder;">${membervo.name}</span>님의 후기내역</h3>
 			<!-- 더보기 -->
 			<div id="more" style="text-align: right; margin-right: 15px;">
 				<a href="<%= request.getContextPath()%>/review.sd" style="font-size: 9pt;">더보기></a>
 			</div>
 			<!-- 더보기 -->
-			<div style="height:80%; text-align: center; margin-top: 25px;">
+			<div style="height:80%; text-align: center; margin-top: 10px;">
 				<!-- 테이블 -->
 				<form name="noticeListFrm">
 				<table style="width: 90%;">
 					<thead>
 						 <tr>
-						 	<th style="padding: 10px 0; font-size: 8pt;">병원</th>
-						 	<th style="padding: 10px 0; font-size: 8pt;">별점</th>
-						 	<th style="padding: 10px 0; font-size: 8pt;">내용</th>
+						 	<th style="padding: 5px; font-size: 8pt;">병원</th>
+						 	<th style="padding: 5px; font-size: 8pt;">별점</th>
+						 	<th style="padding: 5px; font-size: 8pt;">내용</th>
 						 </tr>
 					</thead>
 					
 					<tbody>
 					<c:forEach var="reviewList" items="${reviewList}" varStatus="status" end="3">
 						<tr>
-							<td id="hospitalName" class="noticeTitle" style="padding: 10px 0; font-size: 8pt;">${reviewList.name}</td>
-							<td style="padding: 10px 0; font-size: 8pt;">
+							<td id="hospitalName" class="noticeTitle" style="padding: 5px 0; font-size: 6pt;">${reviewList.name}</td>
+							<td style="padding: 5px; font-size: 6pt;">
 								<c:if test="${reviewList.rating==5}">★★★★★</c:if>
 				                <c:if test="${reviewList.rating==4}">★★★★</c:if>
 				                <c:if test="${reviewList.rating==3}">★★★</c:if>
 				                <c:if test="${reviewList.rating==2}">★★</c:if>
 				                <c:if test="${reviewList.rating==1}">★</c:if>
 							</td>
-							<td style="padding: 10px 0; font-size: 8pt;">${reviewList.content}</td>
+							<td style="padding: 5px; font-size: 6pt;">${reviewList.content}</td>
 						</tr>
 					</c:forEach>
 					</tbody>	
