@@ -25,7 +25,6 @@ ___
 
 <br><br>
 
-___
 
 <br><br>
 
@@ -66,7 +65,6 @@ ___
 
 <br><br>
 
-___
 
 <br><br>
 
@@ -82,7 +80,6 @@ ___
 <img alt="socdoc_uml" src="https://user-images.githubusercontent.com/33106403/91038766-4a7c9800-e646-11ea-94d0-4509370902cb.jpg">
 <br><br><br>
 
-___
 
 <br><br>
 
@@ -90,7 +87,6 @@ ___
 
 <br><br>
 
-___
 
 <br><br>
 
