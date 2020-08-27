@@ -14,6 +14,7 @@
 <script src="https://code.highcharts.com/modules/lollipop.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script src="<%=ctxPath%>/resources/js/util/common.js"></script>
 
 <style>
        
@@ -340,33 +341,33 @@
             <div class="reservationHp" onclick="location.href='<%=ctxPath%>/reserve.sd'"><p class="miniTitle">병원예약<br/><br/><img src="<%= ctxPath%>/resources/images/reservation2.png" class="icon3" /></p></div>
             
             <div class="mapSelect">
-                <select id="cityM" name="cityM" class="select" style="width: 120px;">
-                         <option value="" disabled selected hidden>시도</option>
-                     <option value='서울'>서울</option>
-                     <option value='부산'>부산</option>
-                     <option value='대구'>대구</option>
-                     <option value='인천'>인천</option>
-                     <option value='광주'>광주</option>
-                     <option value='대전'>대전</option>
-                     <option value='울산'>울산</option>
-                     <option value='강원'>강원</option>
-                     <option value='경기'>경기</option>
-                     <option value='경남'>경남</option>
-                     <option value='경북'>경북</option>
-                     <option value='전남'>전남</option>
-                     <option value='전북'>전북</option>
-                     <option value='제주'>제주</option>
-                     <option value='충남'>충남</option>
-                     <option value='충북'>충북</option>                                                       
+                <select id="cityM" name="cityM" class="select" style="width: 120px;" onChange="cat1_change(this.value,countyM)">
+                     <option value="">시도</option>  
+					 <option value='서울'>서울</option>
+					 <option value='부산'>부산</option>
+					 <option value='대구'>대구</option>
+					 <option value='인천'>인천</option>
+			    	 <option value='광주'>광주</option>
+			 		 <option value='대전'>대전</option>
+					 <option value='울산'>울산</option>
+					 <option value='강원'>강원</option>
+					 <option value='경기'>경기</option>
+					 <option value='경상남도'>경남</option>
+					 <option value='경상북도'>경북</option>
+					 <option value='전라남도'>전남</option>
+					 <option value='전라북도'>전북</option>
+					 <option value='제주'>제주</option>
+					 <option value='충청남도'>충남</option>
+				  	 <option value='충청북도'>충북</option>			                                                 
                 </select>
                 
                 <br/>
                 
-                <select style="width: 80px;" id="countyM" name="countyM" class="select" >
-                   <option>구군</option>
+                <select style="width: 80px;" id="countyM" name="countyM" class="select" onChange="cat2_change(this.value,districtM)">
+                	<option value="">구군</option> 
                 </select>
                 <select style="width: 80px;" id="districtM" name="districtM" class="select">
-                   <option>동</option>
+				    <option value="">동</option>                                 
                 </select><br/>
                 <select style="width: 80px;" id="deptM" name="deptM" class="select">
                          <option value="" disabled selected hidden>진료과목</option> 
@@ -460,9 +461,9 @@ $(document).ready(function(){
    
    coronaList();   
    
-   $("#btnSearch").click(function(){
+/*    $("#btnSearch").click(function(){
       goSearch();
-   });
+   }); */
    
 });
 
@@ -537,8 +538,22 @@ function goSearch(){
    
    var tb = document.getElementById("cityM");
    var tbIndex = document.getElementById("deptM").options.selectedIndex;
+   var cityM = document.getElementById("cityM").value;
+   var countyM = document.getElementById("countyM").value;
+   var districtM = document.getElementById("districtM").value;
+   var deptM = document.getElementById("deptM").value;
    
    console.log(tb.options[tbIndex].value);
+   console.log(cityM, countyM, districtM, deptM);
+
+   setCookie("cityM", cityM, 1);
+   setCookie("countyM", countyM, 1);
+   setCookie("districtM", districtM, 1);
+   setCookie("deptM", deptM, 1);
+   setCookie("isFromMain", "true", 1);
+   
+   location.href = "/socdoc/searchHospital.sd";
+   
 }
    
    

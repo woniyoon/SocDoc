@@ -304,6 +304,29 @@
 	
 	$(document).ready(function(){
 		
+		// 메인페이지에서 검색? 
+		if(getCookie("isFromMain") == "true") {
+			// 쿠키에 저장된 값 가져옴
+			var cityM = getCookie("cityM");		
+			var countyM = getCookie("countyM");		
+			var districtM = getCookie("districtM");		
+			var deptM = getCookie("deptM");		
+			
+			// select 요소에 값설정
+			$("#cityM").val(cityM).trigger("change");
+			$("#countyM").val(countyM).trigger("change");
+			$("select#districtM").val(districtM);
+			$("select#deptM").val(deptM);
+						
+			// 쿠키 삭제
+			deleteCookie("isFromMain");
+			deleteCookie("cityM");
+			deleteCookie("countyM");
+			deleteCookie("districtM");
+			deleteCookie("deptM");
+		}
+		
+		
 		//지도
 		var mapContainer = document.getElementById('map');		
 
@@ -415,7 +438,6 @@
 	function printMap(locPosition, mapobj){
 
 		mapobj.panTo(locPosition);   
-		
 
 		$.ajax({ 
 			url: "/socdoc/mapHospital.sd",
@@ -544,6 +566,7 @@
 		 var latitude0="";
 		 var longitude0="";
 		 var locPosition0="";
+		 
 			
 		 $.ajax({ 
 				url: "/socdoc/mapHospitalList.sd",
