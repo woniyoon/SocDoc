@@ -27,6 +27,7 @@
 					<td id="weekdaySchedule" rowspan="5">
 						<c:forEach var="map" items="${openingHours }" varStatus="status">
 							<div>
+							<c:if test="${status.index != 5 }">
 							<c:choose>
 						         <c:when test = "${status.index == 0}">
 						            월요일
@@ -43,11 +44,12 @@
 						         <c:when test = "${status.index == 4}">
 						            금요일
 						         </c:when>
-						         <c:when test = "${status.index == 5}">
+						         <%-- <c:when test = "${status.index == 5}">
 						            토요일
-						         </c:when>
+						         </c:when> --%>
 						      </c:choose>
 							&emsp;<span>${map.open}</span> ~ <span>${map.close}</span></div>
+							</c:if>
 						</c:forEach>
 					</td>
 					</c:if>

@@ -16,7 +16,7 @@
 		<li><a href="<%=ctxPath%>/hpPanel/reservationInfo.sd">예약관리</a></li>
 		<li><a href="<%=ctxPath%>/hpPanel/visitorsMng.sd">방문고객관리</a></li>
 		<li><a href="<%=ctxPath%>/hpPanel/hpReviews.sd">후기보기</a></li>
-		<li><a href="<%=ctxPath%>/hpPanel/hpStats.sd">통계보기</a></li>
+<%-- 		<li><a href="<%=ctxPath%>/hpPanel/hpStats.sd">통계보기</a></li> --%>
 		<li><a href="<%=ctxPath%>/hpPanel/verifyPwd.sd">계정관리</a></li>
 	</ul>
 </div>
